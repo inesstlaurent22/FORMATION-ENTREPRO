@@ -120,10 +120,10 @@ html, body {
 
 /* Placement des pirates */
 .pirate1-button { left: 141px; top: 564px; width: 138px; height: 255px; }
-.pirate2-button { left: 870px; top: 717px; width: 186px; height: 178px; }
+.pirate2-button { left: 850px; top: 737px; width: 186px; height: 178px; }
 .pirate3-button { left: 736px; top: 363px; width: 133px; height: 217px; }
-.pirate4-button { left: 900px; top: 112px; width: 163px; height: 235px; }
-.pirate5-button { left: 110px; top: 130px; width: 143px; height: 187px; }
+.pirate4-button { left: 900px; top: 142px; width: 163px; height: 235px; }
+.pirate5-button { left: 110px; top: 180px; width: 143px; height: 187px; }
 
 /* Effets hover (facteur commun) */
 .pirate1-button:hover img,
