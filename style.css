@@ -35,7 +35,7 @@ html, body {
 /* === Trésor === */
 .tresor-button {
   position: absolute;
-  top: 30%;   /* Centré verticalement */
+  top: 300px;   /* Centré verticalement */
   left: 50%;  /* Centré horizontalement */
   transform: translate(-50%, -50%);
   cursor: pointer;
