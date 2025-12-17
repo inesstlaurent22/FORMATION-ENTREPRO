@@ -35,8 +35,8 @@ html, body {
 /* === Trésor === */
 .tresor-button {
   position: absolute;
-  left: 701px;
-  top: 541px;
+  left: 601px;
+  top: 341px;
   cursor: pointer;
   z-index: 10;
   overflow: visible;
