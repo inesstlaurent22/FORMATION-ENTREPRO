@@ -167,3 +167,103 @@ html, body {
   color: white;
   cursor: pointer;
 }
+
+/* ===================== */
+/*  PAGE PIRATE */
+/* ===================== */
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.buttons-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.buttons-container div {
+  position: absolute;
+}
+
+.buttons-container img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Placement des pirates */
+.pirate1-button { left: 141px; top: 564px; width: 138px; height: 255px; }
+.pirate2-button { left: 850px; top: 737px; width: 186px; height: 178px; }
+.pirate3-button { left: 736px; top: 363px; width: 133px; height: 217px; }
+.pirate4-button { left: 900px; top: 142px; width: 163px; height: 235px; }
+.pirate5-button { left: 110px; top: 180px; width: 143px; height: 187px; }
+
+/* Effets hover (facteur commun) */
+.pirate1-button:hover img,
+.pirate2-button:hover img,
+.pirate3-button:hover img,
+.pirate4-button:hover img,
+.pirate5-button:hover img {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 0 10px #00ff7f)
+          drop-shadow(0 0 20px #32cd32)
+          drop-shadow(0 0 35px #7fff00);
+}
+
+/* Animation optionnelle */
+@keyframes pulse {
+  from { transform: scale(1.15); }
+  to   { transform: scale(1.25); }
+}
+
+/* === Responsive === */
+@media (max-width: 1200px) {
+  .tresor-img { width: 220px; }
+}
+
+@media (max-width: 768px) {
+  .tresor-img { width: 160px; }
+}
+
+@media (max-width: 480px) {
+  .tresor-img { width: 120px; }
+}
+
+/* Conteneur vidéo 1 */
+#videoContainer1 {
+  display: none; /* caché par défaut */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  z-index: 9999;
+}
+
+/* Vidéo plein écran */
+#FinVideo {
+  max-width: 90%;
+  max-height: 90%;
+  border: 3px solid #fff;
+  border-radius: 8px;
+}
+
+/* Bouton fermer */
+#closeVideo1 {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+} 
