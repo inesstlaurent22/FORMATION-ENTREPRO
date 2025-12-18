@@ -35,16 +35,16 @@ html, body {
 /* === Trésor === */
 .tresor-button {
   position: absolute;
-  left: 601px;
-  top: 341px;
-  width: 250px;
+  left: 606px;
+  top: 363px;
+  width: 450px;
   cursor: pointer;
   z-index: 10;
 }
 
 /* Images superposées */
 .tresor-img {
-  width: 250px;
+  width: 450px;
   height: auto;
   display: block;
   position: absolute;
