@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <!-- VIDÉO -->
+    <!-- 🎬 VIDÉO -->
     <div id="videoContainer">
       <video id="mainVideo" controls playsinline></video>
       <button id="closeVideo">✕</button>
@@ -60,16 +60,13 @@
       triggerExplosion();
       tresor.classList.add('active');
 
-      // Vidéo
-      mainVideo.src = 'video/Video1.MOV';
+      // 🎥 VIDÉO (CHEMIN CORRIGÉ)
+      mainVideo.src = 'video/video1.MOV';
       videoContainer.style.display = 'flex';
 
-      const playPromise = mainVideo.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          console.log('Lecture bloquée — interaction utilisateur requise');
-        });
-      }
+      mainVideo.play().catch(() => {
+        console.log('Lecture bloquée — interaction requise');
+      });
     });
 
     mainVideo.addEventListener('ended', goToMenu);
