@@ -9,6 +9,9 @@
 
 <body>
 
+  <!-- CANVAS PARTICULES (PIERRES PRÉCIEUSES) -->
+  <canvas id="gemCanvas"></canvas>
+
   <!-- CONTENEUR GLOBAL -->
   <div class="Fondindex">
 
@@ -18,9 +21,6 @@
     <!-- COFFRE -->
     <div class="buttons-container">
       <div class="tresor-button" id="tresor">
-
-        <!-- Particules -->
-        <div class="gold-particles"></div>
 
         <!-- Coffre fermé -->
         <img src="images/Tresorfermer.png"
@@ -45,6 +45,9 @@
 
   <!-- SCRIPT -->
   <script>
+    /* ===================== */
+    /* VIDÉO */
+    /* ===================== */
     const tresor = document.getElementById('tresor');
     const videoContainer = document.getElementById('videoContainer');
     const mainVideo = document.getElementById('mainVideo');
@@ -72,6 +75,97 @@
       videoContainer.style.display = 'none';
       window.location.href = 'menu.html';
     }
+
+    /* ===================== */
+    /* 💥 PARTICULES PHYSIQUES */
+    /* ===================== */
+    const canvas = document.getElementById('gemCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let gems = [];
+    const gravity = 0.45;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Gem {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.vx = (Math.random() - 0.5) * 12;
+        this.vy = Math.random() * -14 - 6;
+        this.size = Math.random() * 6 + 4;
+        this.rotation = Math.random() * Math.PI;
+        this.spin = (Math.random() - 0.5) * 0.25;
+        this.life = 1;
+
+        this.color = [
+          '#00e5ff',
+          '#ff4081',
+          '#7c4dff',
+          '#00e676',
+          '#ffd600'
+        ][Math.floor(Math.random() * 5)];
+      }
+
+      update() {
+        this.vy += gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rotation += this.spin;
+        this.life -= 0.015;
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.globalAlpha = this.life;
+        ctx.fillStyle = this.color;
+
+        ctx.beginPath();
+        ctx.moveTo(0, -this.size);
+        ctx.lineTo(this.size, 0);
+        ctx.lineTo(0, this.size);
+        ctx.lineTo(-this.size, 0);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.restore();
+      }
+    }
+
+    function explode(x, y) {
+      for (let i = 0; i < 60; i++) {
+        gems.push(new Gem(x, y));
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      gems = gems.filter(g => g.life > 0);
+      gems.forEach(g => {
+        g.update();
+        g.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    function triggerExplosion() {
+      const rect = tresor.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      explode(x, y);
+      tresor.classList.add('active');
+    }
+
+    tresor.addEventListener('click', triggerExplosion);
+    tresor.addEventListener('touchstart', triggerExplosion, { passive: true });
   </script>
 
 </body>
