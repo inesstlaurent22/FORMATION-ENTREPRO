@@ -17,7 +17,8 @@ html, body {
 /* ===================== */
 /* CONTENEUR GLOBAL */
 /* ===================== */
-.Fondindex {
+.Fondindex,
+.scene {
   position: relative;
   width: 100%;
   height: 100vh;
@@ -26,7 +27,8 @@ html, body {
 /* ===================== */
 /* FOND */
 /* ===================== */
-.fondindex {
+.fondindex,
+.background {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -36,9 +38,10 @@ html, body {
 }
 
 /* ===================== */
-/* CONTENEUR COFFRE */
+/* CONTENEURS */
 /* ===================== */
-.buttons-container {
+.buttons-container,
+.pirates-container {
   position: absolute;
   inset: 0;
   z-index: 10;
@@ -108,17 +111,12 @@ html, body {
 }
 
 /* ===================== */
-/* 🏴‍☠️ PIRATES RESPONSIVE */
+/* 🏴‍☠️ PIRATES */
 /* ===================== */
-.pirates-container {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-}
-
 .pirate {
   position: absolute;
   width: clamp(80px, 7vw, 160px);
+  cursor: pointer;
 }
 
 .pirate1 { left: 10%; top: 72%; }
@@ -132,9 +130,68 @@ html, body {
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.pirate:hover img {
+/* Hover uniquement si débloqué */
+.pirate.unlocked:hover img {
   transform: scale(1.1) rotate(5deg);
-  filter: drop-shadow(0 0 15px #00ff7f);
+  filter: drop-shadow(0 0 15px gold);
+}
+
+/* ===================== */
+/* 🔐 ÉTATS PIRATES */
+/* ===================== */
+.pirate.locked {
+  opacity: 0.35;
+  filter: grayscale(100%) blur(1px);
+  pointer-events: none;
+}
+
+.pirate.unlocked {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pirate.unlocked img {
+  animation: unlockGlow 1s ease;
+}
+
+@keyframes unlockGlow {
+  0%   { filter: drop-shadow(0 0 0 gold); }
+  50%  { filter: drop-shadow(0 0 25px gold); }
+  100% { filter: drop-shadow(0 0 0 gold); }
+}
+
+/* ===================== */
+/* 💬 BULLE INFO (PIRATE 2) */
+/* ===================== */
+#infoBubble {
+  position: fixed;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f5e6c8;
+  border: 2px solid #c9a24d;
+  padding: 20px;
+  border-radius: 14px;
+  width: 340px;
+  text-align: center;
+  display: none;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+#infoBubble p {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+#infoBubble button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: #c9a24d;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 /* ===================== */
