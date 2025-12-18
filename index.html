@@ -46,7 +46,7 @@
   <!-- SCRIPT -->
   <script>
     /* ===================== */
-    /* VIDÉO */
+    /* 🎬 VIDÉO COFFRE */
     /* ===================== */
     const tresor = document.getElementById('tresor');
     const videoContainer = document.getElementById('videoContainer');
@@ -59,17 +59,14 @@
       mainVideo.play();
     });
 
-    closeVideo.addEventListener('click', closeVideoHandler);
+    mainVideo.addEventListener('ended', goToMenu);
+    closeVideo.addEventListener('click', goToMenu);
 
     videoContainer.addEventListener('click', (e) => {
-      if (e.target === videoContainer) closeVideoHandler();
+      if (e.target === videoContainer) goToMenu();
     });
 
-    mainVideo.addEventListener('ended', () => {
-      window.location.href = 'menu.html';
-    });
-
-    function closeVideoHandler() {
+    function goToMenu() {
       mainVideo.pause();
       mainVideo.src = '';
       videoContainer.style.display = 'none';
@@ -77,7 +74,7 @@
     }
 
     /* ===================== */
-    /* 💥 PARTICULES PHYSIQUES */
+    /* 💥 PARTICULES COFFRE */
     /* ===================== */
     const canvas = document.getElementById('gemCanvas');
     const ctx = canvas.getContext('2d');
