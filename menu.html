@@ -3,105 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIT IN - Crée ton entreprise (cas pratique)</title>
+  <title>KIT IN - Menu Pirates</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <div class="scene">
-    <img src="images/fondindex.PNG" alt="Image de fond de la page" class="background">
-    
-    <div class="buttons-container">
-      <div class="pirate1-button">
-        <img src="images/Pirate1.png" alt="Bouton Pirate1" data-page="marketing.html" data-video="video/FinVideo1.mp4">
-      </div>
+<div class="scene">
+  <img src="images/fondindex.PNG" alt="Fond" class="background">
 
-      <div class="pirate2-button">
-        <img src="images/Pirate2.png" alt="Bouton Pirate2" data-page="commerce.html" data-video="video/FinVideo1.mp4">
-      </div>
+  <!-- PIRATES -->
+  <div class="pirates-container">
 
-      <div class="pirate3-button">
-        <img src="images/Pirate3.png" alt="Bouton Pirate3" data-page="communication.html" data-video="video/FinVideo1.mp4">
-      </div>
-
-      <div class="pirate4-button">
-        <img src="images/Pirate4.png" alt="Bouton Pirate4" data-page="legal.html" data-video="video/FinVideo1.mp4">
-      </div>
-
-      <div class="pirate5-button">
-        <img src="images/Pirate5.png" alt="Bouton Pirate5" data-page="finance.html" data-video="video/FinVideo1.mp4">
-      </div>
+    <!-- PIRATE 1 -->
+    <div class="pirate pirate1 unlocked" id="pirate1" data-page="marketing.html">
+      <img src="images/Pirate1.png" alt="Pirate 1">
     </div>
 
-    <!-- Conteneur vidéo masqué -->
-    <div id="videoContainer1" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
-      <div style="position: relative; max-width: 80%; max-height: 80%;">
-        <video id="video/FinVideo.mov" controls style="width: 100%; height: auto;">
-          Votre navigateur ne supporte pas la lecture de vidéos.
-        </video>
-        <button id="closeVideo" style="position: absolute; top: -40px; right: 0; background: #fff; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; font-size: 16px;">✕</button>
-      </div>
+    <!-- PIRATE 2 (TUTO) -->
+    <div class="pirate pirate2 unlocked" id="pirate2">
+      <img src="images/Pirate2.png" alt="Pirate 2">
+    </div>
+
+    <!-- PIRATE 3 -->
+    <div class="pirate pirate3 locked" id="pirate3" data-page="communication.html">
+      <img src="images/Pirate3.png" alt="Pirate 3">
+    </div>
+
+    <!-- PIRATE 5 -->
+    <div class="pirate pirate5 locked" id="pirate5" data-page="finance.html">
+      <img src="images/Pirate5.png" alt="Pirate 5">
+    </div>
+
+    <!-- PIRATE 4 -->
+    <div class="pirate pirate4 locked" id="pirate4" data-page="legal.html">
+      <img src="images/Pirate4.png" alt="Pirate 4">
+    </div>
+
+  </div>
+
+  <!-- BULLE INFO PIRATE 2 -->
+  <div id="infoBubble">
+    <p>
+      🏴‍☠️ Bienvenue moussaillon !<br><br>
+      Chaque mission terminée débloque un nouveau pirate.<br>
+      Clique sur un pirate actif pour commencer.
+    </p>
+    <button id="closeBubble">Compris !</button>
+  </div>
+
+  <!-- VIDÉO DE FIN (OPTIONNELLE PAR PIRATE) -->
+  <div id="videoContainer1" style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    z-index:1000;
+    justify-content:center;
+    align-items:center;
+  ">
+    <div style="position:relative;max-width:80%;max-height:80%;">
+      <video id="finVideo" controls style="width:100%;height:auto;"></video>
+      <button id="closeVideo" style="
+        position:absolute;
+        top:-40px;
+        right:0;
+        background:#fff;
+        border:none;
+        padding:10px 15px;
+        cursor:pointer;
+        border-radius:6px;
+        font-size:16px;
+      ">✕</button>
     </div>
   </div>
 
-  <script>
-    // Récupération des éléments
-    const videoContainer1 = document.getElementById('videoContainer1');
-    const FinVideo = document.getElementById('FinVideo');
-    const closeVideo = document.getElementById('closeVideo');
-    const buttons-container = document.querySelectorAll('[data-page]');
+</div>
 
-    let currentPage = '';
-
-    // Ajout des événements de clic sur tous les boutons pirates
-    buttons-container.forEach(button => {
-      button.addEventListener('click', () => {
-        const videoSrc = button.getAttribute('data-video');
-        const pageDest = button.getAttribute('data-page');
-        
-        // Stockage de la page de destination
-        currentPage = pageDest;
-        
-        // Configuration et affichage de la vidéo
-        FinVideo.src = videoSrc;
-        FinVideo.currentTime = 0;
-        videoContainer1.style.display = 'flex';
-        FinVideo.play();
-      });
-    });
-
-    // Fermeture de la vidéo avec le bouton X
-    closeVideo.addEventListener('click', () => {
-      FinVideo.pause();
-      videoContainer1.style.display = 'none';
-      FinVideo.src = '';
-    });
-
-    // Fermeture de la vidéo en cliquant sur l'arrière-plan
-    videoContainer1.addEventListener('click', (e) => {
-      if (e.target === videoContainer) {
-        FinVideo.pause();
-        videoContainer1.style.display = 'none';
-        FinVideo.src = '';
-      }
-    });
-
-    // Redirection après la fin de la vidéo
-    FinVideo.addEventListener('ended', () => {
-      if (currentPage) {
-        window.location.href = currentPage;
-      }
-    });
-
-    // Gestion de l'échappement avec la touche Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && videoContainer1.style.display === 'flex') {
-        FinVideo.pause();
-        videoContainer1.style.display = 'none';
-        FinVideo.src = '';
-      }
-    });
-  </script>
-    
+<script src="menu.js"></script>
 </body>
 </html>
