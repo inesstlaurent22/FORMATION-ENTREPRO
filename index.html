@@ -9,7 +9,7 @@
 
 <body>
 
-  <!-- CANVAS PARTICULES (PIERRES PRÉCIEUSES) -->
+  <!-- CANVAS PARTICULES -->
   <canvas id="gemCanvas"></canvas>
 
   <!-- CONTENEUR GLOBAL -->
@@ -22,12 +22,10 @@
     <div class="buttons-container">
       <div class="tresor-button" id="tresor">
 
-        <!-- Coffre fermé -->
         <img src="images/Tresorfermer.png"
              alt="Coffre fermé"
              class="tresor-img coffre-ferme">
 
-        <!-- Coffre ouvert -->
         <img src="images/Tresorouvert.png"
              alt="Coffre ouvert"
              class="tresor-img coffre-ouvert">
@@ -37,26 +35,41 @@
 
     <!-- VIDÉO -->
     <div id="videoContainer">
-      <video id="mainVideo" controls></video>
+      <video id="mainVideo" controls playsinline></video>
       <button id="closeVideo">✕</button>
     </div>
 
   </div>
 
-  <!-- SCRIPT -->
   <script>
     /* ===================== */
-    /* 🎬 VIDÉO COFFRE */
+    /* 🎬 COFFRE → VIDÉO */
     /* ===================== */
     const tresor = document.getElementById('tresor');
     const videoContainer = document.getElementById('videoContainer');
     const mainVideo = document.getElementById('mainVideo');
     const closeVideo = document.getElementById('closeVideo');
 
+    let alreadyClicked = false;
+
     tresor.addEventListener('click', () => {
+      if (alreadyClicked) return;
+      alreadyClicked = true;
+
+      // Explosion
+      triggerExplosion();
+      tresor.classList.add('active');
+
+      // Vidéo
       mainVideo.src = 'video/Video1.MOV';
       videoContainer.style.display = 'flex';
-      mainVideo.play();
+
+      const playPromise = mainVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          console.log('Lecture bloquée — interaction utilisateur requise');
+        });
+      }
     });
 
     mainVideo.addEventListener('ended', goToMenu);
@@ -74,11 +87,10 @@
     }
 
     /* ===================== */
-    /* 💥 PARTICULES COFFRE */
+    /* 💥 PARTICULES */
     /* ===================== */
     const canvas = document.getElementById('gemCanvas');
     const ctx = canvas.getContext('2d');
-
     let gems = [];
     const gravity = 0.45;
 
@@ -99,14 +111,8 @@
         this.rotation = Math.random() * Math.PI;
         this.spin = (Math.random() - 0.5) * 0.25;
         this.life = 1;
-
-        this.color = [
-          '#00e5ff',
-          '#ff4081',
-          '#7c4dff',
-          '#00e676',
-          '#ffd600'
-        ][Math.floor(Math.random() * 5)];
+        this.color = ['#00e5ff','#ff4081','#7c4dff','#00e676','#ffd600']
+          [Math.floor(Math.random() * 5)];
       }
 
       update() {
@@ -131,7 +137,6 @@
         ctx.lineTo(-this.size, 0);
         ctx.closePath();
         ctx.fill();
-
         ctx.restore();
       }
     }
@@ -155,14 +160,8 @@
 
     function triggerExplosion() {
       const rect = tresor.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-      explode(x, y);
-      tresor.classList.add('active');
+      explode(rect.left + rect.width / 2, rect.top + rect.height / 2);
     }
-
-    tresor.addEventListener('click', triggerExplosion);
-    tresor.addEventListener('touchstart', triggerExplosion, { passive: true });
   </script>
 
 </body>
