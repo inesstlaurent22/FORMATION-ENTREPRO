@@ -3,89 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIT IN - Crée ton entreprise (cas pratique)</title>
+  <title>KIT IN - Crée ton entreprise</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+  <!-- CONTENEUR GLOBAL -->
   <div class="Fondindex">
-    <img src="images/Fond1.PNG"
-         alt="Image de fond de la page1"
-         class="fondindex">
 
-<div class="buttons-container">
-  <div class="tresor-button">
-    <img src="images/Tresorfermer.png"
-         alt="Coffre fermé"
-         class="tresor-img coffre-ferme">
+    <!-- IMAGE DE FOND -->
+    <img src="images/Fond1.PNG" alt="Fond" class="fondindex">
 
-    <img src="images/Tresorouvert.png"
-         alt="Coffre ouvert"
-         class="tresor-img coffre-ouvert">
-  </div>
-</div>
+    <!-- COFFRE -->
+    <div class="buttons-container">
+      <div class="tresor-button" id="tresor">
 
-    <!-- Conteneur vidéo masqué -->
-    <div id="videoContainer" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
-      <div style="position: relative; max-width: 80%; max-height: 80%;">
-        <video id="mainVideo" controls style="width: 100%; height: auto;">
-          Votre navigateur ne supporte pas la lecture de vidéos.
-        </video>
-        <button id="closeVideo" style="position: absolute; top: -40px; right: 0; background: #fff; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; font-size: 16px;">✕</button>
+        <!-- Particules -->
+        <div class="gold-particles"></div>
+
+        <!-- Coffre fermé -->
+        <img src="images/Tresorfermer.png"
+             alt="Coffre fermé"
+             class="tresor-img coffre-ferme">
+
+        <!-- Coffre ouvert -->
+        <img src="images/Tresorouvert.png"
+             alt="Coffre ouvert"
+             class="tresor-img coffre-ouvert">
+
       </div>
     </div>
+
+    <!-- VIDÉO -->
+    <div id="videoContainer">
+      <video id="mainVideo" controls></video>
+      <button id="closeVideo">✕</button>
+    </div>
+
   </div>
 
+  <!-- SCRIPT -->
   <script>
-    // Récupération des éléments
+    const tresor = document.getElementById('tresor');
     const videoContainer = document.getElementById('videoContainer');
     const mainVideo = document.getElementById('mainVideo');
     const closeVideo = document.getElementById('closeVideo');
-    const tresorButton = document.querySelector('.tresor-button img');
 
-    // Événement de clic sur le bouton trésor
-    tresorButton.addEventListener('click', () => {
-      // Configuration et affichage de la vidéo
+    tresor.addEventListener('click', () => {
       mainVideo.src = 'video/Video1.MOV';
-      mainVideo.currentTime = 0;
       videoContainer.style.display = 'flex';
       mainVideo.play();
     });
 
-    // Fermeture de la vidéo avec le bouton X - redirection vers menu.html
-    closeVideo.addEventListener('click', () => {
-      mainVideo.pause();
-      videoContainer.style.display = 'none';
-      mainVideo.src = '';
-      window.location.href = 'menu.html';
-    });
+    closeVideo.addEventListener('click', closeVideoHandler);
 
-    // Fermeture de la vidéo en cliquant sur l'arrière-plan - redirection vers menu.html
     videoContainer.addEventListener('click', (e) => {
-      if (e.target === videoContainer) {
-        mainVideo.pause();
-        videoContainer.style.display = 'none';
-        mainVideo.src = '';
-        window.location.href = 'menu.html';
-      }
+      if (e.target === videoContainer) closeVideoHandler();
     });
 
-    // Redirection après la fin de la vidéo vers menu.html
     mainVideo.addEventListener('ended', () => {
       window.location.href = 'menu.html';
     });
 
-    // Gestion de l'échappement avec la touche Escape - redirection vers menu.html
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && videoContainer.style.display === 'flex') {
-        mainVideo.pause();
-        videoContainer.style.display = 'none';
-        mainVideo.src = '';
-        window.location.href = 'menu.html';
-      }
-    });
+    function closeVideoHandler() {
+      mainVideo.pause();
+      mainVideo.src = '';
+      videoContainer.style.display = 'none';
+      window.location.href = 'menu.html';
+    }
   </script>
-    
+
 </body>
 </html>
