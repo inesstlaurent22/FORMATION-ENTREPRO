@@ -11,24 +11,22 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: Arial, sans-serif;
-  touch-action: manipulation;
 }
 
 /* ===================== */
 /* CONTENEUR GLOBAL */
 /* ===================== */
-.Fondindex,
-.scene {
+.Fondindex {
   position: relative;
   width: 100%;
   height: 100vh;
+  transform-origin: center;
 }
 
 /* ===================== */
 /* FOND */
 /* ===================== */
-.fondindex,
-.background {
+.fondindex {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -38,17 +36,7 @@ html, body {
 }
 
 /* ===================== */
-/* CONTENEURS */
-/* ===================== */
-.buttons-container,
-.pirates-container {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-}
-
-/* ===================== */
-/* 🏆 COFFRE TRÉSOR */
+/* COFFRE */
 /* ===================== */
 .tresor-button {
   position: absolute;
@@ -61,141 +49,15 @@ html, body {
   z-index: 20;
 }
 
-/* Images coffre */
 .tresor-img {
   position: absolute;
   inset: 0;
   width: 100%;
-  transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
-  filter: drop-shadow(0 0 8px rgba(255,200,0,0.4));
-  z-index: 10;
-}
-
-/* Coffre ouvert caché */
-.coffre-ouvert {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-/* Hover + activation */
-.tresor-button:hover .coffre-ferme,
-.tresor-button.active .coffre-ferme {
-  opacity: 0;
-}
-
-.tresor-button:hover .coffre-ouvert,
-.tresor-button.active .coffre-ouvert {
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-.tresor-button:hover .tresor-img,
-.tresor-button.active .tresor-img {
-  filter:
-    drop-shadow(0 0 18px rgba(255,165,0,1))
-    drop-shadow(0 0 32px rgba(255,215,0,0.9))
-    drop-shadow(0 0 48px rgba(255,241,118,0.85));
+  transition: opacity 0.3s, transform 0.3s, filter 0.3s;
 }
 
 /* ===================== */
-/* HALO COFFRE IDLE */
-/* ===================== */
-@keyframes haloPulse {
-  0% { filter: drop-shadow(0 0 6px rgba(255,200,0,0.4)); }
-  50% { filter: drop-shadow(0 0 18px rgba(255,215,0,0.8)); }
-  100% { filter: drop-shadow(0 0 6px rgba(255,200,0,0.4)); }
-}
-
-.coffre-ferme {
-  animation: haloPulse 2.4s infinite ease-in-out;
-}
-
-/* ===================== */
-/* 🏴‍☠️ PIRATES */
-/* ===================== */
-.pirate {
-  position: absolute;
-  width: clamp(80px, 7vw, 160px);
-  cursor: pointer;
-}
-
-.pirate1 { left: 10%; top: 72%; }
-.pirate2 { left: 60%; top: 86%; }
-.pirate3 { left: 55%; top: 46%; }
-.pirate4 { left: 75%; top: 20%; }
-.pirate5 { left: 12%; top: 25%; }
-
-.pirate img {
-  width: 100%;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-/* Hover seulement si débloqué */
-.pirate.unlocked:hover img {
-  transform: scale(1.1) rotate(5deg);
-  filter: drop-shadow(0 0 15px gold);
-}
-
-/* ===================== */
-/* 🔐 ÉTATS PIRATES */
-/* ===================== */
-.pirate.locked {
-  opacity: 0.35;
-  filter: grayscale(100%) blur(1px);
-  pointer-events: none;
-}
-
-.pirate.unlocked {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.pirate.unlocked img {
-  animation: unlockGlow 1s ease;
-}
-
-@keyframes unlockGlow {
-  0%   { filter: drop-shadow(0 0 0 gold); }
-  50%  { filter: drop-shadow(0 0 25px gold); }
-  100% { filter: drop-shadow(0 0 0 gold); }
-}
-
-/* ===================== */
-/* 💬 BULLE INFO (PIRATE 2) */
-/* ===================== */
-#infoBubble {
-  position: fixed;
-  bottom: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #f5e6c8;
-  border: 2px solid #c9a24d;
-  padding: 20px;
-  border-radius: 14px;
-  width: 340px;
-  text-align: center;
-  display: none;
-  z-index: 1000;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-}
-
-#infoBubble p {
-  font-size: 15px;
-  line-height: 1.4;
-}
-
-#infoBubble button {
-  margin-top: 12px;
-  padding: 8px 16px;
-  background: #c9a24d;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* ===================== */
-/* 🎬 VIDÉO COFFRE */
+/* VIDÉO */
 /* ===================== */
 #videoContainer {
   position: fixed;
@@ -203,7 +65,7 @@ html, body {
   display: none;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.9);
   z-index: 9999;
 }
 
@@ -211,27 +73,52 @@ html, body {
   width: 80%;
   max-width: 900px;
   border-radius: 14px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
 }
 
 #closeVideo {
   position: absolute;
   top: 30px;
   right: 30px;
-  background: #ffffff;
-  border: none;
-  padding: 10px 14px;
-  font-size: 18px;
-  cursor: pointer;
-  border-radius: 6px;
 }
 
 /* ===================== */
-/* CANVAS PARTICULES */
+/* PARTICULES */
 /* ===================== */
 #gemCanvas {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 999;
+}
+
+/* ===================== */
+/* 🎬 CINÉMATIQUE */
+/* ===================== */
+#cinematicOverlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,215,0,0.3), rgba(0,0,0,0.95));
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5000;
+  transition: opacity 1.5s ease;
+}
+
+#cinematicOverlay.active {
+  opacity: 1;
+}
+
+.cinematic {
+  animation: cinematicZoom 1.8s ease forwards;
+}
+
+@keyframes cinematicZoom {
+  from {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  to {
+    transform: scale(1.1);
+    filter: brightness(1.25);
+  }
 }
