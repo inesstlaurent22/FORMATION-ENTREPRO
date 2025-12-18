@@ -56,17 +56,19 @@
       if (alreadyClicked) return;
       alreadyClicked = true;
 
-      // Explosion
+      // 💥 Explosion immédiate
       triggerExplosion();
       tresor.classList.add('active');
 
-      // 🎥 VIDÉO (CHEMIN CORRIGÉ)
-      mainVideo.src = 'video/video1.mp4';
-      videoContainer.style.display = 'flex';
+      // ⏱️ Attente de 5 secondes avant la vidéo
+      setTimeout(() => {
+        mainVideo.src = 'video/video1.mp4';
+        videoContainer.style.display = 'flex';
 
-      mainVideo.play().catch(() => {
-        console.log('Lecture bloquée — interaction requise');
-      });
+        mainVideo.play().catch(() => {
+          console.log('Lecture bloquée — interaction requise');
+        });
+      }, 5000); // 5 secondes
     });
 
     mainVideo.addEventListener('ended', goToMenu);
