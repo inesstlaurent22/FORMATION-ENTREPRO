@@ -10,20 +10,10 @@ const soundButton = document.getElementById('soundButton');
 let alreadyTriggered = false;
 
 /* ===================== */
-/* 🎥 AUTOPLAY SAFE */
-/* ===================== */
-mainVideo.src = 'video/Video1.mp4';
-mainVideo.muted = true;          // OBLIGATOIRE
-mainVideo.playsInline = true;
-mainVideo.preload = 'auto';
-mainVideo.load();
-
-/* ===================== */
 /* 🎬 CLICK COFFRE */
 /* ===================== */
 tresor.addEventListener('click', () => {
 
-  // 💥 Explosion à chaque clic
   triggerExplosion();
 
   if (alreadyTriggered) return;
@@ -34,21 +24,32 @@ tresor.addEventListener('click', () => {
   setTimeout(() => {
     fond.classList.add('cinematic');
     overlay.classList.add('active');
-  }, 1000);
+  }, 800);
 
   setTimeout(() => {
     loaderScreen.style.display = 'flex';
 
-    mainVideo.oncanplaythrough = () => {
+    // AFFICHAGE VIDEO
+    videoContainer.style.display = 'flex';
+    soundButton.style.display = 'flex';
+
+    mainVideo.muted = true;
+
+    const playPromise = mainVideo.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          loaderScreen.style.display = 'none';
+        })
+        .catch(() => {
+          loaderScreen.style.display = 'none';
+        });
+    } else {
       loaderScreen.style.display = 'none';
-      videoContainer.style.display = 'flex';
-      soundButton.style.display = 'block';
+    }
 
-      // AUTOPLAY MUET AUTORISÉ
-      mainVideo.play().catch(() => {});
-    };
-
-  }, 3000);
+  }, 2000);
 });
 
 /* 🔊 ACTIVER LE SON */
