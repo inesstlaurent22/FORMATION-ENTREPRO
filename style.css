@@ -134,19 +134,26 @@ html, body {
 .loader-content {
   color: white;
   text-align: center;
+  font-size: 18px;
 }
 
+/* 🔶 GEM AVEC 🏴‍☠️ */
 .loader-gem {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 20px;
-  background: linear-gradient(45deg, gold, #ffd700);
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  background: linear-gradient(45deg, gold, #ffb700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border-radius: 6px;
   transform: rotate(45deg);
   animation: spin 1.6s infinite ease-in-out;
 }
 
 @keyframes spin {
-  0% { transform: rotate(45deg); }
-  50% { transform: rotate(225deg) scale(1.15); }
+  0%   { transform: rotate(45deg); }
+  50%  { transform: rotate(225deg) scale(1.15); }
   100% { transform: rotate(405deg); }
 }
