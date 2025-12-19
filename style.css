@@ -24,13 +24,13 @@ html, body {
   z-index: 1;
 }
 
-/* COFFRE MODIFIÉ */
+/* COFFRE  */
 .tresor-button {
   position: absolute;
-  left: 45%;       /* 10% plus à gauche (au lieu de 55%) */
-  top: 70%;        /* un peu plus bas (au lieu de 65%) */
+  left: 45%;       /* 10% plus à gauche */
+  top: 70%;        /* 5% plus bas que l'original */
   transform: translate(-50%, -50%);
-  width: clamp(320px, 36vw, 720px); /* doublé par rapport à l'ancien clamp */
+  width: clamp(288px, 32.4vw, 648px); /* 10% plus petit que l'ancien clamp de 320px-720px */
   aspect-ratio: 1;
   cursor: pointer;
   z-index: 20;
