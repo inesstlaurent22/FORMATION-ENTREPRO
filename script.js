@@ -11,7 +11,7 @@ let alreadyTriggered = false;
 /* ===================== */
 /* 🎥 PRÉCHARGEMENT VIDÉO */
 /* ===================== */
-mainVideo.src = 'video/video1.mp4';
+mainVideo.src = 'video/Video1.mp4';
 mainVideo.preload = 'auto';
 mainVideo.load();
 
