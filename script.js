@@ -4,13 +4,14 @@ const mainVideo = document.getElementById('mainVideo');
 const closeVideo = document.getElementById('closeVideo');
 const overlay = document.getElementById('cinematicOverlay');
 const fond = document.querySelector('.Fondindex');
+const loaderScreen = document.getElementById('loaderScreen');
 
 let alreadyTriggered = false;
 
 /* ===================== */
 /* 🎥 PRÉCHARGEMENT VIDÉO */
 /* ===================== */
-mainVideo.src = 'video/video1.MOV';
+mainVideo.src = 'video/video1.mp4';
 mainVideo.preload = 'auto';
 mainVideo.load();
 
@@ -19,26 +20,32 @@ mainVideo.load();
 /* ===================== */
 tresor.addEventListener('click', () => {
 
-  // 💥 Explosion À CHAQUE CLIC
+  // 💥 Explosion à CHAQUE clic
   triggerExplosion();
 
-  // Animation coffre + cinéma UNE SEULE FOIS
+  // Séquence principale UNE SEULE FOIS
   if (alreadyTriggered) return;
   alreadyTriggered = true;
 
   tresor.classList.add('active');
 
-  // Cinématique après 1s
+  // Cinématique
   setTimeout(() => {
     fond.classList.add('cinematic');
     overlay.classList.add('active');
   }, 1000);
 
-  // Vidéo après 3s
+  // Loader + vidéo
   setTimeout(() => {
-    videoContainer.style.display = 'flex';
-    mainVideo.currentTime = 0;
-    mainVideo.play().catch(() => {});
+    loaderScreen.style.display = 'flex';
+
+    mainVideo.oncanplaythrough = () => {
+      loaderScreen.style.display = 'none';
+      videoContainer.style.display = 'flex';
+      mainVideo.currentTime = 0;
+      mainVideo.play().catch(() => {});
+    };
+
   }, 3000);
 });
 
