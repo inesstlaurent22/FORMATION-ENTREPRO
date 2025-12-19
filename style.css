@@ -53,7 +53,29 @@ html, body {
   position: absolute;
   inset: 0;
   width: 100%;
-  transition: opacity 0.3s, transform 0.3s, filter 0.3s;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* ÉTATS */
+.coffre-ferme {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.coffre-ouvert {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* AU CLIC */
+.tresor-button.active .coffre-ferme {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.tresor-button.active .coffre-ouvert {
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 /* ===================== */
@@ -65,20 +87,31 @@ html, body {
   display: none;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0.95);
   z-index: 9999;
 }
 
 #videoContainer video {
   width: 80%;
   max-width: 900px;
-  border-radius: 14px;
+  border-radius: 16px;
+  object-fit: contain;
 }
 
+/* BOUTON FERMER */
 #closeVideo {
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: 25px;
+  right: 25px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.9);
+  color: #000;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 10000;
 }
 
 /* ===================== */
@@ -92,16 +125,16 @@ html, body {
 }
 
 /* ===================== */
-/* 🎬 CINÉMATIQUE */
+/* CINÉMATIQUE */
 /* ===================== */
 #cinematicOverlay {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle, rgba(255,215,0,0.3), rgba(0,0,0,0.95));
+  background: radial-gradient(circle, rgba(255,215,0,0.35), rgba(0,0,0,0.95));
   opacity: 0;
   pointer-events: none;
   z-index: 5000;
-  transition: opacity 1.5s ease;
+  transition: opacity 1.2s ease;
 }
 
 #cinematicOverlay.active {
@@ -109,7 +142,7 @@ html, body {
 }
 
 .cinematic {
-  animation: cinematicZoom 1.8s ease forwards;
+  animation: cinematicZoom 1.5s ease forwards;
 }
 
 @keyframes cinematicZoom {
