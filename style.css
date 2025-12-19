@@ -1,21 +1,12 @@
-/* ===================== */
 /* RESET */
-/* ===================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
 html, body {
   height: 100%;
   overflow: hidden;
   font-family: Arial, sans-serif;
 }
 
-/* ===================== */
-/* CONTENEUR GLOBAL */
-/* ===================== */
+/* CONTENEUR */
 .Fondindex {
   position: relative;
   width: 100%;
@@ -23,9 +14,7 @@ html, body {
   transform-origin: center;
 }
 
-/* ===================== */
 /* FOND */
-/* ===================== */
 .fondindex {
   position: absolute;
   inset: 0;
@@ -35,16 +24,14 @@ html, body {
   z-index: 1;
 }
 
-/* ===================== */
 /* COFFRE */
-/* ===================== */
 .tresor-button {
   position: absolute;
   left: 55%;
   top: 65%;
   transform: translate(-50%, -50%);
   width: clamp(160px, 18vw, 360px);
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1;
   cursor: pointer;
   z-index: 20;
 }
@@ -56,31 +43,16 @@ html, body {
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* États */
-.coffre-ferme {
-  opacity: 1;
-  transform: scale(1);
-}
+.coffre-ferme { opacity: 1; }
+.coffre-ouvert { opacity: 0; transform: scale(0.9); }
 
-.coffre-ouvert {
-  opacity: 0;
-  transform: scale(0.9);
-}
-
-/* Ouverture */
-.tresor-button.active .coffre-ferme {
-  opacity: 0;
-  transform: scale(0.9);
-}
-
+.tresor-button.active .coffre-ferme { opacity: 0; }
 .tresor-button.active .coffre-ouvert {
   opacity: 1;
   transform: scale(1.05);
 }
 
-/* ===================== */
 /* VIDÉO */
-/* ===================== */
 #videoContainer {
   position: fixed;
   inset: 0;
@@ -95,9 +67,9 @@ html, body {
   width: 80%;
   max-width: 900px;
   border-radius: 16px;
-  object-fit: contain;
 }
 
+/* CROIX */
 #closeVideo {
   position: absolute;
   top: 25px;
@@ -107,15 +79,28 @@ html, body {
   border-radius: 50%;
   border: none;
   background: rgba(255,255,255,0.9);
-  color: #000;
   font-size: 22px;
   cursor: pointer;
   z-index: 10000;
 }
 
-/* ===================== */
+/* 🔊 SON */
+#soundButton {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.9);
+  display: none;
+  z-index: 10000;
+}
+
 /* PARTICULES */
-/* ===================== */
 #gemCanvas {
   position: fixed;
   inset: 0;
@@ -123,9 +108,7 @@ html, body {
   z-index: 999;
 }
 
-/* ===================== */
 /* CINÉMATIQUE */
-/* ===================== */
 #cinematicOverlay {
   position: fixed;
   inset: 0;
@@ -135,29 +118,9 @@ html, body {
   z-index: 5000;
   transition: opacity 1.2s ease;
 }
+#cinematicOverlay.active { opacity: 1; }
 
-#cinematicOverlay.active {
-  opacity: 1;
-}
-
-.cinematic {
-  animation: cinematicZoom 1.5s ease forwards;
-}
-
-@keyframes cinematicZoom {
-  from {
-    transform: scale(1);
-    filter: brightness(1);
-  }
-  to {
-    transform: scale(1.1);
-    filter: brightness(1.25);
-  }
-}
-
-/* ===================== */
-/* ⏳ LOADER */
-/* ===================== */
+/* LOADER */
 #loaderScreen {
   position: fixed;
   inset: 0;
@@ -169,22 +132,21 @@ html, body {
 }
 
 .loader-content {
+  color: white;
   text-align: center;
-  color: #fff;
-  font-size: 18px;
 }
 
 .loader-gem {
   width: 60px;
   height: 60px;
-  margin: 0 auto 20px;
+  margin-bottom: 20px;
   background: linear-gradient(45deg, gold, #ffd700);
   transform: rotate(45deg);
-  animation: gemSpin 1.6s infinite ease-in-out;
+  animation: spin 1.6s infinite ease-in-out;
 }
 
-@keyframes gemSpin {
-  0%   { transform: rotate(45deg) scale(1); }
-  50%  { transform: rotate(225deg) scale(1.15); }
-  100% { transform: rotate(405deg) scale(1); }
+@keyframes spin {
+  0% { transform: rotate(45deg); }
+  50% { transform: rotate(225deg) scale(1.15); }
+  100% { transform: rotate(405deg); }
 }
