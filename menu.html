@@ -10,39 +10,36 @@
 <body>
 
 <div class="scene">
+
+  <!-- FOND -->
   <img src="images/fondindex.PNG" alt="Fond" class="background">
 
   <!-- PIRATES -->
   <div class="pirates-container">
 
-    <!-- PIRATE 1 -->
     <div class="pirate pirate1 unlocked" id="pirate1" data-page="marketing.html">
       <img src="images/Pirate1.png" alt="Pirate 1">
     </div>
 
-    <!-- PIRATE 2 (TUTO) -->
     <div class="pirate pirate2 unlocked" id="pirate2">
       <img src="images/Pirate2.png" alt="Pirate 2">
     </div>
 
-    <!-- PIRATE 3 -->
     <div class="pirate pirate3 locked" id="pirate3" data-page="communication.html">
       <img src="images/Pirate3.png" alt="Pirate 3">
     </div>
 
-    <!-- PIRATE 5 -->
     <div class="pirate pirate5 locked" id="pirate5" data-page="finance.html">
       <img src="images/Pirate5.png" alt="Pirate 5">
     </div>
 
-    <!-- PIRATE 4 -->
     <div class="pirate pirate4 locked" id="pirate4" data-page="legal.html">
       <img src="images/Pirate4.png" alt="Pirate 4">
     </div>
 
   </div>
 
-  <!-- BULLE INFO PIRATE 2 -->
+  <!-- BULLE INFO -->
   <div id="infoBubble">
     <p>
       🏴‍☠️ Bienvenue moussaillon !<br><br>
@@ -50,32 +47,6 @@
       Clique sur un pirate actif pour commencer.
     </p>
     <button id="closeBubble">Compris !</button>
-  </div>
-
-  <!-- VIDÉO DE FIN (OPTIONNELLE PAR PIRATE) -->
-  <div id="videoContainer1" style="
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.85);
-    z-index:1000;
-    justify-content:center;
-    align-items:center;
-  ">
-    <div style="position:relative;max-width:80%;max-height:80%;">
-      <video id="finVideo" controls style="width:100%;height:auto;"></video>
-      <button id="closeVideo" style="
-        position:absolute;
-        top:-40px;
-        right:0;
-        background:#fff;
-        border:none;
-        padding:10px 15px;
-        cursor:pointer;
-        border-radius:6px;
-        font-size:16px;
-      ">✕</button>
-    </div>
   </div>
 
 </div>
