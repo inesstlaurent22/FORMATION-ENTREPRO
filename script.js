@@ -12,7 +12,7 @@ let alreadyTriggered = false;
 /* ===================== */
 /* 🎥 AUTOPLAY SAFE */
 /* ===================== */
-mainVideo.src = 'video/Video1.MOV';
+mainVideo.src = 'video/Video1.mp4';
 mainVideo.muted = true;          // OBLIGATOIRE
 mainVideo.playsInline = true;
 mainVideo.preload = 'auto';
