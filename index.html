@@ -9,7 +9,7 @@
 
 <body>
 
-  <!-- CANVAS PARTICULES -->
+  <!-- PARTICULES -->
   <canvas id="gemCanvas"></canvas>
 
   <!-- OVERLAY CINÉMATIQUE -->
@@ -23,29 +23,29 @@
     </div>
   </div>
 
-  <!-- CONTENEUR GLOBAL -->
+  <!-- CONTENEUR -->
   <div class="Fondindex">
 
-    <!-- IMAGE DE FOND -->
-    <img src="images/Fond1.PNG" alt="Fond" class="fondindex">
+    <img src="images/Fond1.PNG" class="fondindex" alt="Fond">
 
     <!-- COFFRE -->
     <div class="tresor-button" id="tresor">
-
-      <img src="images/Tresorfermer.png"
-           alt="Coffre fermé"
-           class="tresor-img coffre-ferme">
-
-      <img src="images/Tresorouvert.png"
-           alt="Coffre ouvert"
-           class="tresor-img coffre-ouvert">
-
+      <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme">
+      <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert">
     </div>
 
     <!-- VIDÉO -->
     <div id="videoContainer">
       <button id="closeVideo">✕</button>
-      <video id="mainVideo" playsinline preload="auto"></video>
+      <button id="soundButton" aria-label="Activer le son">🔊</button>
+
+      <!-- AUTOPLAY CONFORME -->
+      <video
+        id="mainVideo"
+        playsinline
+        muted
+        preload="auto">
+      </video>
     </div>
 
   </div>
