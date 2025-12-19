@@ -3,73 +3,74 @@ const videoContainer = document.getElementById('videoContainer');
 const mainVideo = document.getElementById('mainVideo');
 const closeVideo = document.getElementById('closeVideo');
 const overlay = document.getElementById('cinematicOverlay');
-const fond = document.querySelector('.Fondindex');
 const loaderScreen = document.getElementById('loaderScreen');
 const soundButton = document.getElementById('soundButton');
 
 let alreadyTriggered = false;
 
-/* ===================== */
 /* 🎬 CLICK COFFRE */
-/* ===================== */
 tresor.addEventListener('click', () => {
-
-  triggerExplosion();
 
   if (alreadyTriggered) return;
   alreadyTriggered = true;
 
-  tresor.classList.add('active');
+  triggerExplosion();
+
+  overlay.classList.add('active');
+
+  loaderScreen.style.display = 'flex';
 
   setTimeout(() => {
-    fond.classList.add('cinematic');
-    overlay.classList.add('active');
-  }, 800);
-
-  setTimeout(() => {
-    loaderScreen.style.display = 'flex';
-
-    // AFFICHAGE VIDEO
+    loaderScreen.style.display = 'none';
     videoContainer.style.display = 'flex';
+    requestAnimationFrame(() => {
+      videoContainer.classList.add('show');
+    });
+
     soundButton.style.display = 'flex';
 
+    mainVideo.volume = 0;
     mainVideo.muted = true;
+    mainVideo.play();
 
-    const playPromise = mainVideo.play();
-
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          loaderScreen.style.display = 'none';
-        })
-        .catch(() => {
-          loaderScreen.style.display = 'none';
-        });
-    } else {
-      loaderScreen.style.display = 'none';
-    }
-
-  }, 2000);
+  }, 1800);
 });
 
-/* 🔊 ACTIVER LE SON */
+/* 🔊 SON PROGRESSIF */
 soundButton.addEventListener('click', () => {
   mainVideo.muted = false;
+  let volume = 0;
+  const fadeAudio = setInterval(() => {
+    volume += 0.05;
+    if (volume >= 1) {
+      volume = 1;
+      clearInterval(fadeAudio);
+    }
+    mainVideo.volume = volume;
+  }, 100);
+
   soundButton.style.display = 'none';
 });
 
-/* SORTIE */
-mainVideo.addEventListener('ended', goToMenu);
-closeVideo.addEventListener('click', goToMenu);
+/* 🎬 FIN VIDÉO */
+mainVideo.addEventListener('ended', fadeOutAndExit);
+closeVideo.addEventListener('click', fadeOutAndExit);
 
-function goToMenu() {
-  mainVideo.pause();
-  window.location.href = 'menu.html';
+function fadeOutAndExit() {
+  videoContainer.classList.add('fade-out');
+
+  let volume = mainVideo.volume;
+  const fadeAudio = setInterval(() => {
+    volume -= 0.05;
+    if (volume <= 0) {
+      clearInterval(fadeAudio);
+      window.location.href = 'menu.html';
+    }
+    mainVideo.volume = volume;
+  }, 80);
 }
 
-/* ===================== */
 /* 💥 PARTICULES */
-/* ===================== */
 const canvas = document.getElementById('gemCanvas');
 const ctx = canvas.getContext('2d');
 let gems = [];
@@ -90,8 +91,7 @@ class Gem {
     this.vy = Math.random() * -14 - 6;
     this.size = Math.random() * 6 + 4;
     this.life = 1;
-    this.color = ['#00e5ff','#ff4081','#7c4dff','#00e676','#ffd600']
-      [Math.floor(Math.random() * 5)];
+    this.color = ['#00e5ff','#ff4081','#7c4dff','#00e676','#ffd600'][Math.floor(Math.random() * 5)];
   }
   update() {
     this.vy += gravity;
@@ -107,9 +107,7 @@ class Gem {
 }
 
 function explode(x, y) {
-  for (let i = 0; i < 60; i++) {
-    gems.push(new Gem(x, y));
-  }
+  for (let i = 0; i < 60; i++) gems.push(new Gem(x, y));
 }
 
 function animate() {
