@@ -1,6 +1,3 @@
-/* ===================== */
-/* 🎬 COFFRE → CINÉMA */
-/* ===================== */
 const tresor = document.getElementById('tresor');
 const videoContainer = document.getElementById('videoContainer');
 const mainVideo = document.getElementById('mainVideo');
@@ -8,41 +5,49 @@ const closeVideo = document.getElementById('closeVideo');
 const overlay = document.getElementById('cinematicOverlay');
 const fond = document.querySelector('.Fondindex');
 
-let alreadyClicked = false;
+let alreadyTriggered = false;
 
+/* ===================== */
+/* 🎥 PRÉCHARGEMENT VIDÉO */
+/* ===================== */
+mainVideo.src = 'video/video1.mp4';
+mainVideo.preload = 'auto';
+mainVideo.load();
+
+/* ===================== */
+/* 🎬 CLICK COFFRE */
+/* ===================== */
 tresor.addEventListener('click', () => {
-  if (alreadyClicked) return;
-  alreadyClicked = true;
 
-  // 💥 Explosion immédiate
+  // 💥 Explosion À CHAQUE CLIC
   triggerExplosion();
+
+  // Animation coffre + cinéma UNE SEULE FOIS
+  if (alreadyTriggered) return;
+  alreadyTriggered = true;
+
   tresor.classList.add('active');
 
-  // ⏱️ ATTENTE STRICTE DE 5 SECONDES
+  // Cinématique après 1s
   setTimeout(() => {
     fond.classList.add('cinematic');
     overlay.classList.add('active');
-  }, 5000);
+  }, 1000);
 
-  // 🎥 Vidéo après la transition
+  // Vidéo après 3s
   setTimeout(() => {
-    mainVideo.src = 'video/video1.mp4';
     videoContainer.style.display = 'flex';
+    mainVideo.currentTime = 0;
     mainVideo.play().catch(() => {});
-  }, 6500);
+  }, 3000);
 });
 
+// Fin vidéo ou fermeture
 mainVideo.addEventListener('ended', goToMenu);
 closeVideo.addEventListener('click', goToMenu);
 
-videoContainer.addEventListener('click', (e) => {
-  if (e.target === videoContainer) goToMenu();
-});
-
 function goToMenu() {
   mainVideo.pause();
-  mainVideo.src = '';
-  videoContainer.style.display = 'none';
   window.location.href = 'menu.html';
 }
 
@@ -120,5 +125,8 @@ animate();
 
 function triggerExplosion() {
   const rect = tresor.getBoundingClientRect();
-  explode(rect.left + rect.width / 2, rect.top + rect.height / 2);
+  explode(
+    rect.left + rect.width / 2,
+    rect.top + rect.height / 2
+  );
 }
