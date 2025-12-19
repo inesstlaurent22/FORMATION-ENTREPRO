@@ -10,7 +10,7 @@ let alreadyTriggered = false;
 /* ===================== */
 /* 🎥 PRÉCHARGEMENT VIDÉO */
 /* ===================== */
-mainVideo.src = 'video/video1.mp4';
+mainVideo.src = 'video/video1.MOV';
 mainVideo.preload = 'auto';
 mainVideo.load();
 
