@@ -11,7 +11,6 @@ html, body {
   position: relative;
   width: 100%;
   height: 100vh;
-  transform-origin: center;
 }
 
 /* FOND */
@@ -24,13 +23,13 @@ html, body {
   z-index: 1;
 }
 
-/* COFFRE  */
+/* COFFRE */
 .tresor-button {
   position: absolute;
-  left: 45%;       /* 10% plus à gauche */
-  top: 70%;        /* 5% plus bas que l'original */
+  left: 45%;
+  top: 80%; /* ⬅️ 10% plus bas */
   transform: translate(-50%, -50%);
-  width: clamp(288px, 32.4vw, 648px); /* 10% plus petit que l'ancien clamp de 320px-720px */
+  width: clamp(288px, 32vw, 648px);
   aspect-ratio: 1;
   cursor: pointer;
   z-index: 20;
@@ -40,14 +39,15 @@ html, body {
   position: absolute;
   inset: 0;
   width: 100%;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .coffre-ferme { opacity: 1; }
-.coffre-ouvert { opacity: 0; transform: scale(0.9); }
+.coffre-ouvert { opacity: 0; transform: scale(0.95); }
 
-.tresor-button.active .coffre-ferme { opacity: 0; }
-.tresor-button.active .coffre-ouvert {
+/* OUVERTURE AU SURVOL */
+.tresor-button:hover .coffre-ferme { opacity: 0; }
+.tresor-button:hover .coffre-ouvert {
   opacity: 1;
   transform: scale(1.05);
 }
@@ -56,16 +56,28 @@ html, body {
 #videoContainer {
   position: fixed;
   inset: 0;
+  background: rgba(0,0,0,0.95);
   display: none;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.95);
+  opacity: 0;
+  transition: opacity 1s ease;
   z-index: 9999;
+}
+
+#videoContainer.show {
+  opacity: 1;
+}
+
+#videoContainer.fade-out {
+  opacity: 0;
 }
 
 #videoContainer video {
   width: 80%;
   max-width: 900px;
+  max-height: 80vh;
+  object-fit: contain;
   border-radius: 16px;
 }
 
@@ -78,26 +90,35 @@ html, body {
   height: 44px;
   border-radius: 50%;
   border: none;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.95);
   font-size: 22px;
   cursor: pointer;
-  z-index: 10000;
+  z-index: 10001;
 }
 
-/* 🔊 SON */
+/* 🔊 SON — CENTRÉ + GLOW */
 #soundButton {
   position: absolute;
   bottom: 30px;
   right: 30px;
-  width: 54px;
-  height: 54px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   border: none;
-  font-size: 26px;
+  font-size: 30px;
   cursor: pointer;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.95);
   display: none;
-  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px gold;
+  animation: glow 1.8s infinite alternate;
+  z-index: 10001;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 10px gold; }
+  to   { box-shadow: 0 0 25px gold; }
 }
 
 /* PARTICULES */
@@ -108,17 +129,20 @@ html, body {
   z-index: 999;
 }
 
-/* CINÉMATIQUE */
+/* OVERLAY */
 #cinematicOverlay {
   position: fixed;
   inset: 0;
   background: radial-gradient(circle, rgba(255,215,0,0.35), rgba(0,0,0,0.95));
   opacity: 0;
   pointer-events: none;
-  z-index: 5000;
   transition: opacity 1.2s ease;
+  z-index: 5000;
 }
-#cinematicOverlay.active { opacity: 1; }
+
+#cinematicOverlay.active {
+  opacity: 1;
+}
 
 /* LOADER */
 #loaderScreen {
@@ -134,10 +158,8 @@ html, body {
 .loader-content {
   color: white;
   text-align: center;
-  font-size: 18px;
 }
 
-/* 🔶 GEM AVEC 🏴‍☠️ */
 .loader-gem {
   width: 64px;
   height: 64px;
@@ -153,7 +175,6 @@ html, body {
 }
 
 @keyframes spin {
-  0%   { transform: rotate(45deg); }
-  50%  { transform: rotate(225deg) scale(1.15); }
+  0% { transform: rotate(45deg); }
   100% { transform: rotate(405deg); }
 }
