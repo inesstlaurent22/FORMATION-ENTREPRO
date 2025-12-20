@@ -233,17 +233,64 @@ html, body {
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
+/* Taille par défaut (sécurité) */
 .pirate img {
-  width: clamp(84px, 8.4vw, 140px); /* -30% */
   height: auto;
 }
 
-/* POSITIONS (COORDONNÉES PIXELS VALIDÉES) */
-.pirate1 { left: 125px; top: 658px; }
-.pirate2 { left: 888px; top: 696px; }
-.pirate3 { left: 736px; top: 363px; }
-.pirate4 { left: 902px; top: 256px; }
-.pirate5 { left: 240px; top: 200px; }
+/* ================================================= */
+/* 📍 POSITIONS + DIMENSIONS PAR PIRATE */
+/* ================================================= */
+
+/* Pirate 1 — 138 x 250 */
+.pirate1 {
+  left: 125px;
+  top: 658px;
+}
+.pirate1 img {
+  width: 138px;
+  height: 250px;
+}
+
+/* Pirate 2 — 186 x 178 */
+.pirate2 {
+  left: 888px;
+  top: 696px;
+}
+.pirate2 img {
+  width: 186px;
+  height: 178px;
+}
+
+/* Pirate 3 — 133 x 217 */
+.pirate3 {
+  left: 736px;
+  top: 363px;
+}
+.pirate3 img {
+  width: 133px;
+  height: 217px;
+}
+
+/* Pirate 4 — 143 x 187 */
+.pirate4 {
+  left: 902px;
+  top: 256px;
+}
+.pirate4 img {
+  width: 143px;
+  height: 187px;
+}
+
+/* Pirate 5 — 163 x 235 */
+.pirate5 {
+  left: 240px;
+  top: 200px;
+}
+.pirate5 img {
+  width: 163px;
+  height: 235px;
+}
 
 /* LOCK / UNLOCK */
 .pirate.locked {
