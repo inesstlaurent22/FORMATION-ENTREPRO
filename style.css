@@ -41,7 +41,7 @@ html, body {
 .tresor-button {
   position: absolute;
   left: 45%;
-  top: 80%; /* 10% plus bas */
+  top: 80%;
   transform: translate(-50%, -50%);
   width: clamp(288px, 32vw, 648px);
   aspect-ratio: 1;
@@ -59,7 +59,6 @@ html, body {
 .coffre-ferme { opacity: 1; }
 .coffre-ouvert { opacity: 0; transform: scale(0.95); }
 
-/* OUVERTURE AU SURVOL */
 .tresor-button:hover .coffre-ferme { opacity: 0; }
 .tresor-button:hover .coffre-ouvert {
   opacity: 1;
@@ -91,111 +90,6 @@ html, body {
   max-height: 80vh;
   object-fit: contain;
   border-radius: 16px;
-}
-
-/* CROIX */
-#closeVideo {
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255,255,255,0.95);
-  font-size: 22px;
-  cursor: pointer;
-  z-index: 10001;
-}
-
-/* 🔊 SON */
-#soundButton {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: none;
-  font-size: 30px;
-  background: rgba(255,255,255,0.95);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 0 15px gold;
-  animation: glow 1.8s infinite alternate;
-  z-index: 10001;
-}
-
-@keyframes glow {
-  from { box-shadow: 0 0 10px gold; }
-  to   { box-shadow: 0 0 25px gold; }
-}
-
-/* ================================================= */
-/* 💥 PARTICULES */
-/* ================================================= */
-
-#gemCanvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
-}
-
-/* ================================================= */
-/* 🎭 OVERLAY CINÉMATIQUE */
-/* ================================================= */
-
-#cinematicOverlay {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, rgba(255,215,0,0.35), rgba(0,0,0,0.95));
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.2s ease;
-  z-index: 5000;
-}
-
-#cinematicOverlay.active { opacity: 1; }
-
-/* ================================================= */
-/* ⏳ LOADER */
-/* ================================================= */
-
-#loaderScreen {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, rgba(255,215,0,0.25), rgba(0,0,0,0.95));
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9000;
-}
-
-.loader-content {
-  color: white;
-  text-align: center;
-}
-
-.loader-gem {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 20px;
-  background: linear-gradient(45deg, gold, #ffb700);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  border-radius: 6px;
-  transform: rotate(45deg);
-  animation: spin 1.6s infinite ease-in-out;
-}
-
-@keyframes spin {
-  0% { transform: rotate(45deg); }
-  100% { transform: rotate(405deg); }
 }
 
 /* ================================================= */
@@ -238,14 +132,44 @@ html, body {
   height: auto;
 }
 
-/* POSITIONS (BATEAU VISIBLE) */
-.pirate1 { left: 18%; top: 58%; }
-.pirate2 { left: 32%; top: 48%; }
-.pirate3 { left: 50%; top: 52%; }
-.pirate5 { left: 64%; top: 60%; }
-.pirate4 { left: 78%; top: 50%; }
+/* ================================================= */
+/* 📍 POSITIONS EXACTES DES PIRATES (PX) */
+/* ================================================= */
 
-/* LOCK / UNLOCK */
+/* Pirate 1 */
+.pirate1 {
+  left: 125px;
+  top: 658px;
+}
+
+/* Pirate 2 */
+.pirate2 {
+  left: 888px;
+  top: 696px;
+}
+
+/* Pirate 3 */
+.pirate3 {
+  left: 736px;
+  top: 363px;
+}
+
+/* Pirate 4 */
+.pirate4 {
+  left: 902px;
+  top: 256px;
+}
+
+/* Pirate 5 */
+.pirate5 {
+  left: 240px;
+  top: 200px;
+}
+
+/* ================================================= */
+/* 🔒 LOCK / UNLOCK */
+/* ================================================= */
+
 .pirate.locked {
   filter: grayscale(1) brightness(0.6);
   pointer-events: none;
