@@ -234,16 +234,16 @@ html, body {
 }
 
 .pirate img {
-  width: clamp(120px, 12vw, 200px);
+  width: clamp(84px, 8.4vw, 140px); /* -30% */
   height: auto;
 }
 
-/* POSITIONS (BATEAU VISIBLE) */
-.pirate1 { left: 18%; top: 58%; }
-.pirate2 { left: 32%; top: 48%; }
-.pirate3 { left: 50%; top: 52%; }
-.pirate5 { left: 64%; top: 60%; }
-.pirate4 { left: 78%; top: 50%; }
+/* POSITIONS (COORDONNÉES PIXELS VALIDÉES) */
+.pirate1 { left: 125px; top: 658px; }
+.pirate2 { left: 888px; top: 696px; }
+.pirate3 { left: 736px; top: 363px; }
+.pirate4 { left: 902px; top: 256px; }
+.pirate5 { left: 240px; top: 200px; }
 
 /* LOCK / UNLOCK */
 .pirate.locked {
