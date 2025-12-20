@@ -1,4 +1,4 @@
-/* ================================================= */
+ /* ================================================= */
 /* 🔧 RESET GLOBAL */
 /* ================================================= */
 * {
@@ -41,7 +41,7 @@ html, body {
 .tresor-button {
   position: absolute;
   left: 45%;
-  top: 80%;
+  top: 80%; /* 10% plus bas */
   transform: translate(-50%, -50%);
   width: clamp(288px, 32vw, 648px);
   aspect-ratio: 1;
@@ -59,6 +59,7 @@ html, body {
 .coffre-ferme { opacity: 1; }
 .coffre-ouvert { opacity: 0; transform: scale(0.95); }
 
+/* OUVERTURE AU SURVOL */
 .tresor-button:hover .coffre-ferme { opacity: 0; }
 .tresor-button:hover .coffre-ouvert {
   opacity: 1;
@@ -237,12 +238,12 @@ html, body {
   height: auto;
 }
 
-/* POSITIONS (COORDONNÉES PIXELS) */
-.pirate1 { left: 125px; top: 658px; }
-.pirate2 { left: 888px; top: 696px; }
-.pirate3 { left: 736px; top: 363px; }
-.pirate5 { left: 240px; top: 200px; }
-.pirate4 { left: 902px; top: 256px; }
+/* POSITIONS (BATEAU VISIBLE) */
+.pirate1 { left: 18%; top: 58%; }
+.pirate2 { left: 32%; top: 48%; }
+.pirate3 { left: 50%; top: 52%; }
+.pirate5 { left: 64%; top: 60%; }
+.pirate4 { left: 78%; top: 50%; }
 
 /* LOCK / UNLOCK */
 .pirate.locked {
@@ -280,4 +281,4 @@ html, body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-}
+} 
