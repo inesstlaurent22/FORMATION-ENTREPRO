@@ -1,36 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  const pirate1 = document.getElementById('pirate1');
-  const pirate2 = document.getElementById('pirate2');
-  const bubble = document.getElementById('infoBubble');
-  const closeBubble = document.getElementById('closeBubble');
-  const notification = document.getElementById('notification');
+  /* ===================== */
+  /* 🔒 ÉTAT INITIAL */
+  /* ===================== */
 
-  /* 🔁 RESTAURATION ÉTAT */
+  // Pirate 2 toujours débloqué
+  const pirate2 = document.getElementById('pirate2');
+  pirate2.classList.add('unlocked');
+  pirate2.classList.remove('locked');
+
+  // Pirate 1 bloqué au départ
+  const pirate1 = document.getElementById('pirate1');
+
   if (localStorage.getItem('pirate1') === 'unlocked') {
-    pirate1.classList.remove('locked');
-    pirate1.classList.add('unlocked');
+    unlockPirate(pirate1, false);
+  } else {
+    pirate1.classList.add('locked');
+    pirate1.classList.remove('unlocked');
   }
 
-  /* 👉 CLIC PIRATE 1 */
-  pirate1.addEventListener('click', () => {
+  /* ===================== */
+  /* 💬 BULLE INFO */
+  /* ===================== */
 
-    if (localStorage.getItem('pirate1') !== 'unlocked') {
+  const bubble = document.getElementById('infoBubble');
+  const closeBubble = document.getElementById('closeBubble');
 
-      // 🔓 Déblocage
-      pirate1.classList.remove('locked');
-      pirate1.classList.add('unlocked', 'unlock-anim');
+  pirate2.addEventListener('click', () => {
+
+    // Afficher la bulle
+    bubble.style.display = 'block';
+
+    // Débloquer pirate 1 si pas encore fait
+    if (!localStorage.getItem('pirate1')) {
       localStorage.setItem('pirate1', 'unlocked');
-
-      // 💬 Bulle
-      bubble.style.display = 'block';
-
-      // 🔔 Notification
-      notification.classList.add('show');
-      setTimeout(() => notification.classList.remove('show'), 2500);
-
-      // Nettoyage animation
-      setTimeout(() => pirate1.classList.remove('unlock-anim'), 1200);
+      unlockPirate(pirate1, true);
+      showNotification('🏴‍☠️ Nouveau pirate débloqué !');
     }
   });
 
@@ -38,4 +43,48 @@ document.addEventListener('DOMContentLoaded', () => {
     bubble.style.display = 'none';
   });
 
+  /* ===================== */
+  /* 🚀 PIRATES AVEC MISSIONS */
+  /* ===================== */
+
+  document.querySelectorAll('.pirate[data-page]').forEach(pirate => {
+    pirate.addEventListener('click', () => {
+      if (pirate.classList.contains('locked')) return;
+      window.location.href = pirate.dataset.page;
+    });
+  });
+
 });
+
+/* ===================== */
+/* ✨ FONCTIONS */
+  /* ===================== */
+
+function unlockPirate(pirate, animate = true) {
+  pirate.classList.remove('locked');
+  pirate.classList.add('unlocked');
+
+  if (animate) {
+    pirate.classList.add('unlock-anim');
+    setTimeout(() => {
+      pirate.classList.remove('unlock-anim');
+    }, 1200);
+  }
+}
+
+function showNotification(text) {
+  let notif = document.getElementById('notification');
+
+  if (!notif) {
+    notif = document.createElement('div');
+    notif.id = 'notification';
+    document.body.appendChild(notif);
+  }
+
+  notif.textContent = text;
+  notif.classList.add('show');
+
+  setTimeout(() => {
+    notif.classList.remove('show');
+  }, 2500);
+}
