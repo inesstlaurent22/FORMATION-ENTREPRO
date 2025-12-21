@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const videoContainer = document.getElementById("videoContainercom");
 
   /* --- LANCEMENT CINÉMATIQUE --- */
-  video.muted = true;
-  video.play().catch(() => {});
+  videocom.muted = true;
+  videocom.play().catch(() => {});
 
   // Fade-out de l'overlay noir
   setTimeout(() => {
@@ -16,13 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* --- BOUTON SON --- */
   soundButtoncom.addEventListener("click", () => {
-    video.muted = !video.muted;
+    videocom.muted = !video.muted;
     soundButtoncom.textContent = video.muted ? "🔇" : "🔊";
   });
 
   /* --- FERMER LA VIDÉO --- */
   closeVideocom.addEventListener("click", () => {
-    video.pause();
+    videocom.pause();
     videoContainercom.classList.add("hidden");
   });
 });
