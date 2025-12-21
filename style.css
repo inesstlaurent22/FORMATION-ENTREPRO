@@ -385,3 +385,82 @@ html, body {
 .pirate.already-unlocked {
   animation: none !important;
 }
+
+/* =========================
+   PAGE COMMERCE
+========================= */
+#cinematicOverlaycom {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(0,0,0,0.6),
+    rgba(0,0,0,0.95)
+  );
+  z-index: 9;
+  opacity: 1;
+  transition: opacity 2s ease;
+  pointer-events: none;
+}
+
+#cinematicOverlaycom.fade-out {
+  opacity: 0;
+}
+
+/* =========================
+   CONTENEUR VIDÉO
+========================= */
+#videoContainercom {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Vidéo */
+#comVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.1) saturate(1.15);
+}
+
+/* =========================
+   BOUTONS STYLE PIRATE
+========================= */
+#closeVideocom,
+#soundButtoncom {
+  position: absolute;
+  top: 20px;
+  background: rgba(0,0,0,0.6);
+  color: #f5d27a;
+  border: 1px solid #b08d57;
+  font-size: 20px;
+  padding: 8px 12px;
+  cursor: pointer;
+  z-index: 11;
+  transition: transform 0.2s, background 0.3s;
+}
+
+#closeVideocom {
+  right: 20px;
+}
+
+#soundButtoncom {
+  left: 20px;
+}
+
+#closeVideocom:hover,
+#soundButtoncom:hover {
+  background: rgba(0,0,0,0.85);
+  transform: scale(1.1);
+}
+
+/* =========================
+   CACHER LA VIDÉO
+========================= */
+.hidden {
+  display: none;
+}
