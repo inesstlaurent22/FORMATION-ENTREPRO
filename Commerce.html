@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pirate1:Commerce</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="Fondindex">
+
+  <img src="images/Commercefond.PNG" class="fondindex" alt="Fond">
+
+
+  <!-- VIDÉO -->
+  <div id="videoContainer">
+    <button id="closeVideo">✕</button>
+    <button id="soundButton">🔊</button>
+
+    <video id="mainVideo" playsinline muted preload="auto">
+      <source src="video/Video1.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- PARTICULES -->
+  <canvas id="gemCanvas"></canvas>
+
+  <!-- OVERLAY -->
+  <div id="cinematicOverlay"></div>
+
+  <!-- LOADER -->
+  <div id="loaderScreen">
+    <div class="loader-content">
+      <div class="loader-gem">🏴‍☠️</div>
+      <p>Chargement du contenu…</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
