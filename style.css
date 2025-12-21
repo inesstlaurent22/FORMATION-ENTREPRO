@@ -244,7 +244,7 @@ html, body {
 
 /* Pirate 1 — 138 x 250 */
 .pirate1 {
-  left: 125px;
+  left: 110px;
   top: 618px;
 }
 .pirate1 img {
@@ -254,7 +254,7 @@ html, body {
 
 /* Pirate 2 — 186 x 178 */
 .pirate2 {
-  left: 888px;
+  left: 848px;
   top: 696px;
 }
 .pirate2 img {
@@ -285,7 +285,7 @@ html, body {
 /* Pirate 5 — 163 x 235 */
 .pirate5 {
   left: 240px;
-  top: 120px;
+  top: 100px;
 }
 .pirate5 img {
   width: 163px;
