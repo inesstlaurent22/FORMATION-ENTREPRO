@@ -1,90 +1,92 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
+
+  const pirates = [
+    { id: "pirate1", unlockAfter: "pirate2" },
+    { id: "pirate3", unlockAfter: "pirate2" },
+    { id: "pirate4", unlockAfter: "pirate3" },
+    { id: "pirate5", unlockAfter: "pirate4" }
+  ];
+
+  const pirate2 = document.getElementById("pirate2");
+  const bubble = document.getElementById("infoBubble");
+  const closeBubble = document.getElementById("closeBubble");
 
   /* ===================== */
-  /* 🔒 ÉTAT INITIAL */
+  /* 🔁 RESTAURATION ÉTAT */
   /* ===================== */
 
-  // Pirate 2 toujours débloqué
-  const pirate2 = document.getElementById('pirate2');
-  pirate2.classList.add('unlocked');
-  pirate2.classList.remove('locked');
-
-  // Pirate 1 bloqué au départ
-  const pirate1 = document.getElementById('pirate1');
-
-  if (localStorage.getItem('pirate1') === 'unlocked') {
-    unlockPirate(pirate1, false);
-  } else {
-    pirate1.classList.add('locked');
-    pirate1.classList.remove('unlocked');
-  }
-
-  /* ===================== */
-  /* 💬 BULLE INFO */
-  /* ===================== */
-
-  const bubble = document.getElementById('infoBubble');
-  const closeBubble = document.getElementById('closeBubble');
-
-  pirate2.addEventListener('click', () => {
-
-    // Afficher la bulle
-    bubble.style.display = 'block';
-
-    // Débloquer pirate 1 si pas encore fait
-    if (!localStorage.getItem('pirate1')) {
-      localStorage.setItem('pirate1', 'unlocked');
-      unlockPirate(pirate1, true);
-      showNotification('🏴‍☠️ Nouveau pirate débloqué !');
+  document.querySelectorAll(".pirate").forEach(pirate => {
+    const id = pirate.id;
+    if (localStorage.getItem(id) === "unlocked") {
+      pirate.classList.remove("locked");
+      pirate.classList.add("unlocked");
     }
   });
 
-  closeBubble.addEventListener('click', () => {
-    bubble.style.display = 'none';
+  /* ===================== */
+  /* 💬 BULLE PIRATE 2 */
+  /* ===================== */
+
+  pirate2.addEventListener("click", () => {
+    bubble.style.display = "block";
+  });
+
+  closeBubble.addEventListener("click", () => {
+    bubble.style.display = "none";
   });
 
   /* ===================== */
-  /* 🚀 PIRATES AVEC MISSIONS */
+  /* 🚀 LOGIQUE PRINCIPALE */
   /* ===================== */
 
-  document.querySelectorAll('.pirate[data-page]').forEach(pirate => {
-    pirate.addEventListener('click', () => {
-      if (pirate.classList.contains('locked')) return;
-      window.location.href = pirate.dataset.page;
+  document.querySelectorAll(".pirate").forEach(pirate => {
+    pirate.addEventListener("click", () => {
+
+      if (pirate.classList.contains("locked")) return;
+
+      const page = pirate.dataset.page;
+      const pirateId = pirate.id;
+
+      // Ouvrir la page dans un nouvel onglet
+      window.open(page, "_blank");
+
+      // Débloquer le pirate suivant
+      unlockNextPirate(pirateId);
+
+      // Recharger le menu
+      setTimeout(() => {
+        location.reload();
+      }, 300);
     });
   });
 
 });
 
 /* ===================== */
-/* ✨ FONCTIONS */
-  /* ===================== */
+/* 🔓 DÉBLOCAGE */
+ /* ===================== */
 
-function unlockPirate(pirate, animate = true) {
-  pirate.classList.remove('locked');
-  pirate.classList.add('unlocked');
+function unlockNextPirate(currentId) {
+  const order = ["pirate2", "pirate3", "pirate4", "pirate5"];
 
-  if (animate) {
-    pirate.classList.add('unlock-anim');
-    setTimeout(() => {
-      pirate.classList.remove('unlock-anim');
-    }, 1200);
-  }
+  const index = order.indexOf(currentId);
+  if (index === -1 || index === order.length - 1) return;
+
+  const nextId = order[index + 1];
+  localStorage.setItem(nextId, "unlocked");
+  showNotification("🏴‍☠️ Nouveau pirate débloqué !");
 }
 
+/* ===================== */
+/* 🔔 NOTIFICATION */
+ /* ===================== */
+
 function showNotification(text) {
-  let notif = document.getElementById('notification');
-
-  if (!notif) {
-    notif = document.createElement('div');
-    notif.id = 'notification';
-    document.body.appendChild(notif);
-  }
-
+  const notif = document.getElementById("notification");
   notif.textContent = text;
-  notif.classList.add('show');
+  notif.classList.add("show");
 
   setTimeout(() => {
-    notif.classList.remove('show');
+    notif.classList.remove("show");
   }, 2500);
 }
