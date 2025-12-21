@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const video = document.getElementById("coVideo");
-  const overlay = document.getElementById("cinematicOverlay");
-  const soundButton = document.getElementById("soundButton");
-  const closeVideo = document.getElementById("closeVideo");
-  const videoContainer = document.getElementById("videoContainer");
+  const video = document.getElementById("comVideo");
+  const overlay = document.getElementById("cinematicOverlaycom");
+  const soundButton = document.getElementById("soundButtoncom");
+  const closeVideo = document.getElementById("closeVideocom");
+  const videoContainer = document.getElementById("videoContainercom");
 
   /* --- LANCEMENT CINÉMATIQUE --- */
   video.muted = true;
@@ -15,14 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 500);
 
   /* --- BOUTON SON --- */
-  soundButton.addEventListener("click", () => {
+  soundButtoncom.addEventListener("click", () => {
     video.muted = !video.muted;
-    soundButton.textContent = video.muted ? "🔇" : "🔊";
+    soundButtoncom.textContent = video.muted ? "🔇" : "🔊";
   });
 
   /* --- FERMER LA VIDÉO --- */
-  closeVideo.addEventListener("click", () => {
+  closeVideocom.addEventListener("click", () => {
     video.pause();
-    videoContainer.classList.add("hidden");
+    videoContainercom.classList.add("hidden");
   });
 });
