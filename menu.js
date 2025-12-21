@@ -1,44 +1,36 @@
-/* ===================== */
-/* 🧠 PROGRESSION */
-/* ===================== */
-const unlockMap = {
-  pirate1: 'pirate3',
-  pirate3: 'pirate5',
-  pirate5: 'pirate4'
-};
-
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ===================== */
-  /* 🔁 APPLIQUER L'ÉTAT SAUVEGARDÉ */
-  /* ===================== */
-  Object.values(unlockMap).forEach(id => {
-    if (localStorage.getItem(id) === 'unlocked') {
-      const el = document.getElementById(id);
-      if (el) {
-        el.classList.remove('locked');
-        el.classList.add('unlocked');
-      }
-    }
-  });
-
-  /* ===================== */
-  /* 💬 PIRATE 2 = INFO + DÉBLOCAGE PIRATE 1 */
-  /* ===================== */
-  const pirate2 = document.getElementById('pirate2');
   const pirate1 = document.getElementById('pirate1');
+  const pirate2 = document.getElementById('pirate2');
   const bubble = document.getElementById('infoBubble');
   const closeBubble = document.getElementById('closeBubble');
+  const notification = document.getElementById('notification');
 
-  pirate2.addEventListener('click', () => {
-    // Afficher la bulle
-    bubble.style.display = 'block';
+  /* 🔁 RESTAURATION ÉTAT */
+  if (localStorage.getItem('pirate1') === 'unlocked') {
+    pirate1.classList.remove('locked');
+    pirate1.classList.add('unlocked');
+  }
 
-    // 🔓 Débloquer le pirate 1 (une seule fois)
+  /* 👉 CLIC PIRATE 1 */
+  pirate1.addEventListener('click', () => {
+
     if (localStorage.getItem('pirate1') !== 'unlocked') {
+
+      // 🔓 Déblocage
       pirate1.classList.remove('locked');
-      pirate1.classList.add('unlocked');
+      pirate1.classList.add('unlocked', 'unlock-anim');
       localStorage.setItem('pirate1', 'unlocked');
+
+      // 💬 Bulle
+      bubble.style.display = 'block';
+
+      // 🔔 Notification
+      notification.classList.add('show');
+      setTimeout(() => notification.classList.remove('show'), 2500);
+
+      // Nettoyage animation
+      setTimeout(() => pirate1.classList.remove('unlock-anim'), 1200);
     }
   });
 
@@ -46,29 +38,4 @@ document.addEventListener('DOMContentLoaded', () => {
     bubble.style.display = 'none';
   });
 
-  /* ===================== */
-  /* 🚀 PIRATES MISSIONS */
-  /* ===================== */
-  document.querySelectorAll('.pirate[data-page]').forEach(pirate => {
-    pirate.addEventListener('click', () => {
-      const pirateId = pirate.id;
-      localStorage.setItem('lastPirate', pirateId);
-      window.location.href = pirate.dataset.page;
-    });
-  });
-
 });
-
-/* ===================== */
-/* 🔓 À APPELER À LA FIN DES PAGES MISSIONS */
-/* ===================== */
-function unlockNextPirate() {
-  const lastPirate = localStorage.getItem('lastPirate');
-  const next = unlockMap[lastPirate];
-
-  if (next) {
-    localStorage.setItem(next, 'unlocked');
-  }
-
-  window.location.href = 'menu.html';
-}
