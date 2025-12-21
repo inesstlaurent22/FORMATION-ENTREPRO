@@ -9,42 +9,32 @@
 
 <body>
 
+<!-- 🔔 NOTIFICATION -->
+<div id="notification">🏴‍☠️ Nouveau pirate débloqué !</div>
+
 <div class="scene">
 
-  <!-- FOND -->
-  <img src="images/fondindex.PNG" alt="Fond" class="background">
+  <img src="images/fondindex.PNG" class="background" alt="Fond">
 
-  <!-- PIRATES -->
   <div class="pirates-container">
 
-    <div class="pirate pirate1 unlocked" id="pirate1" data-page="marketing.html">
+    <!-- Pirate 1 (LOCK AU DÉPART) -->
+    <div class="pirate pirate1 locked" id="pirate1">
       <img src="images/Pirate1.png" alt="Pirate 1">
     </div>
 
+    <!-- Pirate 2 (TOUJOURS UNLOCK) -->
     <div class="pirate pirate2 unlocked" id="pirate2">
       <img src="images/Pirate2.png" alt="Pirate 2">
     </div>
 
-    <div class="pirate pirate3 locked" id="pirate3" data-page="communication.html">
-      <img src="images/Pirate3.png" alt="Pirate 3">
-    </div>
-
-    <div class="pirate pirate5 locked" id="pirate5" data-page="finance.html">
-      <img src="images/Pirate5.png" alt="Pirate 5">
-    </div>
-
-    <div class="pirate pirate4 locked" id="pirate4" data-page="legal.html">
-      <img src="images/Pirate4.png" alt="Pirate 4">
-    </div>
-
   </div>
 
-  <!-- BULLE INFO -->
+  <!-- BULLE -->
   <div id="infoBubble">
     <p>
-      🏴‍☠️ Bienvenue moussaillon !<br><br>
-      Chaque mission terminée débloque un nouveau pirate.<br>
-      Clique sur un pirate actif pour commencer.
+      🏴‍☠️ Bravo moussaillon !<br><br>
+      Tu viens de débloquer un nouveau pirate.
     </p>
     <button id="closeBubble">Compris !</button>
   </div>
