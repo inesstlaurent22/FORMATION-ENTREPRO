@@ -1,42 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const pirates = [
-    { id: "pirate1", unlockAfter: "pirate2" },
-    { id: "pirate3", unlockAfter: "pirate2" },
-    { id: "pirate4", unlockAfter: "pirate3" },
-    { id: "pirate5", unlockAfter: "pirate4" }
-  ];
+  const order = ["pirate2", "pirate1", "pirate3", "pirate4", "pirate5"];
 
-  const pirate2 = document.getElementById("pirate2");
   const bubble = document.getElementById("infoBubble");
   const closeBubble = document.getElementById("closeBubble");
+  const resetBtn = document.getElementById("resetAdventure");
+  const unlockSound = document.getElementById("unlockSound");
 
   /* ===================== */
   /* 🔁 RESTAURATION ÉTAT */
   /* ===================== */
 
-  document.querySelectorAll(".pirate").forEach(pirate => {
-    const id = pirate.id;
-    if (localStorage.getItem(id) === "unlocked") {
-      pirate.classList.remove("locked");
+  order.forEach(id => {
+    const pirate = document.getElementById(id);
+    if (id === "pirate2" || localStorage.getItem(id) === "unlocked") {
       pirate.classList.add("unlocked");
+      pirate.classList.remove("locked");
+    } else {
+      pirate.classList.add("locked");
+      pirate.classList.remove("unlocked");
     }
   });
 
   /* ===================== */
-  /* 💬 BULLE PIRATE 2 */
-  /* ===================== */
-
-  pirate2.addEventListener("click", () => {
-    bubble.style.display = "block";
-  });
-
-  closeBubble.addEventListener("click", () => {
-    bubble.style.display = "none";
-  });
-
-  /* ===================== */
-  /* 🚀 LOGIQUE PRINCIPALE */
+  /* 🏴‍☠️ CLIC PIRATES */
   /* ===================== */
 
   document.querySelectorAll(".pirate").forEach(pirate => {
@@ -44,38 +31,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (pirate.classList.contains("locked")) return;
 
+      const id = pirate.id;
+      const index = order.indexOf(id);
       const page = pirate.dataset.page;
-      const pirateId = pirate.id;
 
-      // Ouvrir la page dans un nouvel onglet
-      window.open(page, "_blank");
+      // PIRATE 2 → débloque pirate 1 + bulle
+      if (id === "pirate2") {
+        localStorage.setItem("pirate1", "unlocked");
+        playUnlockSound();
+        bubble.style.display = "block";
 
-      // Débloquer le pirate suivant
-      unlockNextPirate(pirateId);
+        setTimeout(() => location.reload(), 300);
+        return;
+      }
 
-      // Recharger le menu
-      setTimeout(() => {
-        location.reload();
-      }, 300);
+      // OUVERTURE PAGE
+      if (page) {
+        window.open(page, "_blank");
+      }
+
+      // DÉBLOCAGE SUIVANT
+      if (index < order.length - 1) {
+        localStorage.setItem(order[index + 1], "unlocked");
+        playUnlockSound();
+        showNotification("🏴‍☠️ Nouveau pirate débloqué !");
+      }
+
+      setTimeout(() => location.reload(), 300);
     });
   });
 
+  closeBubble.addEventListener("click", () => {
+    bubble.style.display = "none";
+  });
+
+  /* ===================== */
+  /* 🔄 RESET AVENTURE */
+  /* ===================== */
+
+  resetBtn.addEventListener("click", () => {
+    if (!confirm("Réinitialiser toute l’aventure ?")) return;
+
+    localStorage.clear();
+    location.reload();
+  });
+
+  /* ===================== */
+  /* 🔊 SON */
+  /* ===================== */
+
+  function playUnlockSound() {
+    unlockSound.currentTime = 0;
+    unlockSound.play().catch(() => {});
+  }
+
 });
-
-/* ===================== */
-/* 🔓 DÉBLOCAGE */
- /* ===================== */
-
-function unlockNextPirate(currentId) {
-  const order = ["pirate2", "pirate3", "pirate4", "pirate5"];
-
-  const index = order.indexOf(currentId);
-  if (index === -1 || index === order.length - 1) return;
-
-  const nextId = order[index + 1];
-  localStorage.setItem(nextId, "unlocked");
-  showNotification("🏴‍☠️ Nouveau pirate débloqué !");
-}
 
 /* ===================== */
 /* 🔔 NOTIFICATION */
