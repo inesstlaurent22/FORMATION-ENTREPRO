@@ -385,6 +385,23 @@ html, body {
 .pirate.already-unlocked {
   animation: none !important;
 }
+/* ================================================= */
+/* 🔒 LOCK / UNLOCK (SÉCURITÉ) */
+/* ================================================= */
+
+.pirate.locked {
+  filter: grayscale(1) brightness(0.5);
+  pointer-events: none;
+}
+
+.pirate.unlocked {
+  pointer-events: auto;
+}
+
+.pirate.unlocked:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 15px gold);
+}
 
 /* =========================
    PAGE COMMERCE
