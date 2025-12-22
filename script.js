@@ -112,9 +112,15 @@ slots.forEach(s => {
 })
 
 function checkWin() {
-  if (document.querySelectorAll(".slot img").length === 3) {
+  const placed = document.querySelectorAll(".slot img").length
+
+  if (placed === 3) {
     mapGame.style.display = "none"
-    startVideo()
+
+    // sécurité transition
+    setTimeout(() => {
+      startVideo()
+    }, 500)
   }
 }
 
