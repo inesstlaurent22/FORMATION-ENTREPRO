@@ -50,9 +50,13 @@ animateFX()
 /* COFFRE → MINI JEU */
 /* ============================= */
 
+let opened = false
+
 tresor.onclick = () => {
+  if (opened) return
+  opened = true
   tresor.classList.add("open")
-  mapGame.style.display = "flex"
+  mapGame.classList.add("active")
 }
 
 /* ============================= */
@@ -67,7 +71,6 @@ pieces.forEach(p => {
 
 slots.forEach(slot => {
   slot.ondragover = e => e.preventDefault()
-
   slot.ondrop = () => {
     if (!dragged) return
     slot.innerHTML = ""
@@ -80,11 +83,8 @@ function checkWin() {
   let win = true
   slots.forEach(slot => {
     const piece = slot.querySelector(".piece")
-    if (!piece || piece.dataset.id !== slot.dataset.id) {
-      win = false
-    }
+    if (!piece || piece.dataset.id !== slot.dataset.id) win = false
   })
-
   if (win) success()
 }
 
@@ -93,7 +93,7 @@ function checkWin() {
 /* ============================= */
 
 function success() {
-  mapGame.style.display = "none"
+  mapGame.classList.remove("active")
 
   const rect = tresor.getBoundingClientRect()
   spawnGems(rect.left + rect.width / 2, rect.top)
