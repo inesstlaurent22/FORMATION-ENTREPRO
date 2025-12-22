@@ -93,49 +93,12 @@ html, body {
   z-index: 40;
 }
 
-/* FX */
-#fxCanvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 20;
-}
-
-/* FADE */
-#fade {
-  position: fixed;
-  inset: 0;
-  background: black;
-  opacity: 0;
-  transition: opacity 1s;
-  z-index: 50;
-}
-
-#fade.show { opacity: 1; }
-
-/* LOADER */
-#videoLoader {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background: black;
-  color: white;
-  z-index: 55;
-}
-
-/* VIDEO */
-#videoContainer {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: black;
-  z-index: 60;
-}
+/* FXCanvas / FADE */
+#fxCanvas { z-index: 20; }
+.tresor-button { z-index: 30; }
+#fade { z-index: 40; }
+#videoLoader { z-index: 45; }
+#videoContainer { z-index: 60; }
 
 .cinemaBtn {
   position: absolute;
