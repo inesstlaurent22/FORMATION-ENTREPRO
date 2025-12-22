@@ -1,102 +1,76 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const order = ["pirate2", "pirate1", "pirate3", "pirate4", "pirate5"];
-
+  const pirate1 = document.getElementById("pirate1");
+  const pirate2 = document.getElementById("pirate2");
   const bubble = document.getElementById("infoBubble");
-  const closeBubble = document.getElementById("closeBubble");
+  const notif = document.getElementById("notification");
+  const sound = document.getElementById("unlockSound");
   const resetBtn = document.getElementById("resetAdventure");
-  const unlockSound = document.getElementById("unlockSound");
 
-  /* ===================== */
-  /* 🔁 RESTAURATION ÉTAT */
-  /* ===================== */
+  /* ========================= */
+  /* ÉTAT INITIAL */
+  /* ========================= */
 
-  order.forEach(id => {
-    const pirate = document.getElementById(id);
-    if (id === "pirate2" || localStorage.getItem(id) === "unlocked") {
-      pirate.classList.add("unlocked");
-      pirate.classList.remove("locked");
-    } else {
-      pirate.classList.add("locked");
-      pirate.classList.remove("unlocked");
+  const pirate1Unlocked = localStorage.getItem("pirate1Unlocked");
+
+  if (pirate1Unlocked === "true") {
+    pirate1.classList.remove("locked");
+    pirate1.classList.add("unlocked");
+    bubble.style.display = "block";
+  } else {
+    pirate1.classList.add("locked");
+    pirate1.classList.remove("unlocked");
+    bubble.style.display = "none";
+  }
+
+  /* ========================= */
+  /* PIRATE 2 → DÉBLOQUE PIRATE 1 */
+  /* ========================= */
+
+  pirate2.addEventListener("click", () => {
+    if (!localStorage.getItem("pirate1Unlocked")) {
+      localStorage.setItem("pirate1Unlocked", "true");
+
+      // Son + notification
+      sound.currentTime = 0;
+      sound.play();
+      showNotification();
+
+      setTimeout(() => {
+        location.reload();
+      }, 600);
     }
   });
 
-  /* ===================== */
-  /* 🏴‍☠️ CLIC PIRATES */
-  /* ===================== */
+  /* ========================= */
+  /* PIRATE 1 → COMMERCE */
+  /* ========================= */
 
-  document.querySelectorAll(".pirate").forEach(pirate => {
-    pirate.addEventListener("click", () => {
+  pirate1.addEventListener("click", () => {
+    if (pirate1.classList.contains("locked")) return;
 
-      if (pirate.classList.contains("locked")) return;
-
-      const id = pirate.id;
-      const index = order.indexOf(id);
-      const page = pirate.dataset.page;
-
-      // PIRATE 2 → débloque pirate 1 + bulle
-      if (id === "pirate2") {
-        localStorage.setItem("pirate1", "unlocked");
-        playUnlockSound();
-        bubble.style.display = "block";
-
-        setTimeout(() => location.reload(), 300);
-        return;
-      }
-
-      // OUVERTURE PAGE
-      if (page) {
-        window.open(page, "_blank");
-      }
-
-      // DÉBLOCAGE SUIVANT
-      if (index < order.length - 1) {
-        localStorage.setItem(order[index + 1], "unlocked");
-        playUnlockSound();
-        showNotification("🏴‍☠️ Nouveau pirate débloqué !");
-      }
-
-      setTimeout(() => location.reload(), 300);
-    });
-  });
-
-  closeBubble.addEventListener("click", () => {
     bubble.style.display = "none";
+    window.open("commerce.html", "_blank");
   });
 
-  /* ===================== */
-  /* 🔄 RESET AVENTURE */
-  /* ===================== */
+  /* ========================= */
+  /* RESET AVENTURE */
+  /* ========================= */
 
   resetBtn.addEventListener("click", () => {
-    if (!confirm("Réinitialiser toute l’aventure ?")) return;
-
     localStorage.clear();
     location.reload();
   });
 
-  /* ===================== */
-  /* 🔊 SON */
-  /* ===================== */
+  /* ========================= */
+  /* NOTIFICATION */
+  /* ========================= */
 
-  function playUnlockSound() {
-    unlockSound.currentTime = 0;
-    unlockSound.play().catch(() => {});
+  function showNotification() {
+    notif.classList.add("show");
+    setTimeout(() => {
+      notif.classList.remove("show");
+    }, 2500);
   }
 
 });
-
-/* ===================== */
-/* 🔔 NOTIFICATION */
- /* ===================== */
-
-function showNotification(text) {
-  const notif = document.getElementById("notification");
-  notif.textContent = text;
-  notif.classList.add("show");
-
-  setTimeout(() => {
-    notif.classList.remove("show");
-  }, 2500);
-}
