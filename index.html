@@ -12,13 +12,13 @@
 <div class="Fondindex">
 
   <!-- FOND -->
-  <img src="images/Fond1.PNG" class="fondindex fond-desktop">
-  <img src="images/Fond1mobile.PNG" class="fondindex fond-mobile">
+  <img src="images/Fond1.PNG" class="fondindex fond-desktop" alt="">
+  <img src="images/Fond1mobile.PNG" class="fondindex fond-mobile" alt="">
 
   <!-- COFFRE -->
   <div id="tresor" class="tresor-button">
-    <img src="images/Tresorfermer.png" class="tresor-img ferme">
-    <img src="images/Tresorouvert.png" class="tresor-img ouvert">
+    <img src="images/Tresorfermer.png" class="tresor-img ferme" alt="">
+    <img src="images/Tresorouvert.png" class="tresor-img ouvert" alt="">
   </div>
 
   <!-- MINI JEU -->
@@ -33,26 +33,33 @@
       </div>
 
       <div class="map-pieces">
-        <img src="images/Carteminigauche.png" class="piece" data-id="0">
-        <img src="images/Carteminijeuxmilieu.png" class="piece" data-id="1">
-        <img src="images/Carteminijeuxdroite.png" class="piece" data-id="2">
+        <img src="images/Carteminigauche.png" class="piece" data-id="0" alt="">
+        <img src="images/Carteminijeuxmilieu.png" class="piece" data-id="1" alt="">
+        <img src="images/Carteminijeuxdroite.png" class="piece" data-id="2" alt="">
       </div>
     </div>
   </div>
 
+  <!-- FX -->
   <canvas id="fxCanvas"></canvas>
+
+  <!-- FADE -->
   <div id="fade"></div>
 
+  <!-- LOADER -->
   <div id="videoLoader">
     <div class="loader-icon">🏴‍☠️</div>
-    <p>Ouverture du trésor…</p>
+    <p>On ouvre le coffre…</p>
   </div>
 
+  <!-- VIDEO -->
   <div id="videoContainer">
     <button id="soundButton" class="cinemaBtn">🔊</button>
-    <button id="menuButton" class="cinemaBtn">✕</button>
+    <button id="menuButton" class="cinemaBtn" onclick="location.href='menu.html'">✕</button>
+
     <video id="mainVideo" playsinline>
       <source src="video/Video1.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la vidéo.
     </video>
   </div>
 
