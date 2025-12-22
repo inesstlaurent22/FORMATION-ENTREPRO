@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIT IN - Crée ton entreprise</title>
+  <title>KIT IN</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,29 +11,36 @@
 
 <div class="Fondindex">
 
-  <!-- IMAGE DE FOND -->
-  <img src="images/Fond1.PNG" class="fondindex" alt="Fond principal">
+  <!-- FONDS -->
+  <img src="images/Fond1.PNG" class="fondindex fond-desktop" alt="">
+  <img src="images/Fond1mobile.PNG" class="fondindex fond-mobile" alt="">
 
   <!-- COFFRE -->
   <div class="tresor-button" id="tresor">
-    <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme" alt="">
-    <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert" alt="">
+    <img src="images/Tresorfermer.png" class="tresor-img ferme">
+    <img src="images/Tresorouvert.png" class="tresor-img ouvert">
+  </div>
+
+  <!-- LOADER -->
+  <div id="videoLoader">
+    <div class="loader-icon">🏴‍☠️</div>
+    <p>Ouverture du trésor…</p>
   </div>
 
   <!-- VIDÉO -->
   <div id="videoContainer">
-    <button id="closeVideo">✕</button>
     <button id="soundButton">🔊</button>
+    <button id="closeVideo">✕</button>
 
     <video id="mainVideo" playsinline muted preload="auto">
       <source src="video/Video1.mp4" type="video/mp4">
     </video>
   </div>
 
-  <!-- GEMS -->
-  <canvas id="gemCanvas"></canvas>
+  <!-- 💎 DIAMANTS SVG -->
+  <svg id="diamondLayer"></svg>
 
-  <!-- OVERLAY CINÉMATIQUE -->
+  <!-- OVERLAY -->
   <div id="cinematicOverlay"></div>
 
 </div>
