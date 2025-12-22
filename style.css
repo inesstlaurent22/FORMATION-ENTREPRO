@@ -46,17 +46,22 @@ html, body {
 
 /* ===== COFFRE ===== */
 .tresor-button {
-  position:absolute;
-  bottom:10%;
-  left:50%;
-  transform:translateX(-50%);
-  cursor:pointer;
-  z-index:10;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  z-index: 10;
+  width: 520px;
+  height: auto;
 }
 
 .tresor-img {
-  width:520px;
-  display:none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: auto;
+  display: none;
 }
 
 .tresor-img.ferme { display:block }
