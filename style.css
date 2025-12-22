@@ -17,24 +17,33 @@ html, body {
 /* ================================================= */
 /* PAGE INTRO */
 /* ================================================= */
-
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui}
 
 .Fondindex{position:relative;width:100vw;height:100vh}
 
 .fondindex{
-  position:absolute;inset:0;width:100%;height:100%;
+  position:absolute;inset:0;
+  width:100%;height:100%;
   object-fit:cover;z-index:1
 }
 .fond-mobile{display:none}
 
 /* COFFRE */
 .tresor-button{
-  position:absolute;bottom:10%;left:50%;
+  position:absolute;
+  bottom:10%;left:50%;
   transform:translateX(-50%);
-  z-index:20;cursor:pointer
+  z-index:10;
+  cursor:pointer;
+  transition:transform .3s;
 }
+
+.tresor-button:hover{
+  transform:translateX(-50%) scale(1.08);
+  filter:drop-shadow(0 0 30px gold);
+}
+
 .tresor-img{width:520px;display:none}
 .tresor-img.ferme{display:block}
 .tresor-button.open .ferme{display:none}
@@ -43,11 +52,11 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui}
 /* MINI JEU */
 #miniGame{
   position:fixed;inset:0;
-  background:rgba(0,0,0,.85);
   display:none;
   justify-content:center;
   align-items:center;
-  z-index:30;
+  background:rgba(0,0,0,.85);
+  z-index:20;
 }
 
 .scroll{
@@ -56,42 +65,34 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui}
   border-radius:18px;
   text-align:center;
   width:320px;
-  box-shadow:0 0 40px rgba(0,0,0,.6);
 }
-
-.symbols{
-  display:flex;
-  justify-content:space-around;
-  margin:20px 0;
-}
-
-.symbols button{
-  font-size:38px;
-  background:none;
-  border:none;
-  cursor:pointer;
-  transition:transform .2s;
-}
-.symbols button:hover{transform:scale(1.2)}
-
-#gameMessage{margin-top:10px;font-weight:bold}
 
 /* CANVAS */
 #fxCanvas{
-  position:fixed;
-  inset:0;
+  position:fixed;inset:0;
   pointer-events:none;
-  z-index:25;
+  z-index:15;
 }
+
+/* FADE */
+#fade{
+  position:fixed;inset:0;
+  background:black;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1s;
+  z-index:50;
+}
+#fade.show{opacity:1}
 
 /* LOADER */
 #videoLoader{
   position:fixed;inset:0;
-  background:black;
   display:none;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
+  background:black;
   color:white;
   z-index:40;
 }
@@ -103,13 +104,32 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui}
   justify-content:center;
   align-items:center;
   background:black;
-  z-index:50;
+  z-index:60;
 }
 
 #videoContainer video{
   max-width:90%;
   max-height:90%;
 }
+
+/* BOUTONS CINÉMA */
+.cinemaBtn{
+  position:absolute;
+  top:20px;
+  width:54px;height:54px;
+  border-radius:50%;
+  border:none;
+  font-size:22px;
+  background:rgba(0,0,0,.7);
+  color:white;
+  cursor:pointer;
+  box-shadow:
+    0 0 20px gold,
+    0 0 60px rgba(255,215,0,.4);
+}
+
+#soundButton{left:20px}
+#menuButton{right:20px}
 
 /* MOBILE */
 @media(max-width:768px){
