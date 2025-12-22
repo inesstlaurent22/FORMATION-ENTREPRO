@@ -11,12 +11,11 @@
 
 <div class="Fondindex">
 
-  <!-- FONDS -->
   <img src="images/Fond1.PNG" class="fondindex fond-desktop">
   <img src="images/Fond1mobile.PNG" class="fondindex fond-mobile">
 
   <!-- COFFRE -->
-  <div class="tresor-button" id="tresor">
+  <div id="tresor" class="tresor-button">
     <img src="images/Tresorfermer.png" class="tresor-img ferme">
     <img src="images/Tresorouvert.png" class="tresor-img ouvert">
   </div>
@@ -35,8 +34,11 @@
     </div>
   </div>
 
-  <!-- CANVAS PARTICULES -->
+  <!-- CANVAS FX -->
   <canvas id="fxCanvas"></canvas>
+
+  <!-- FADE -->
+  <div id="fade"></div>
 
   <!-- LOADER -->
   <div id="videoLoader">
@@ -44,16 +46,14 @@
     <p>Ouverture du trésor…</p>
   </div>
 
-  <!-- VIDÉO -->
+  <!-- VIDEO -->
   <div id="videoContainer">
-    <button id="soundButton">🔊</button>
-    <button id="closeVideo">✕</button>
+    <button id="soundButton" class="cinemaBtn">🔊</button>
+    <button id="menuButton" class="cinemaBtn">🧭</button>
     <video id="mainVideo" muted playsinline>
       <source src="video/Video1.mp4" type="video/mp4">
     </video>
   </div>
-
-  <div id="cinematicOverlay"></div>
 
 </div>
 
