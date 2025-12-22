@@ -32,7 +32,10 @@ html, body {
 
 .fond-mobile { display: none; }
 
-/* COFFRE */
+/* ============================= */
+/* COFFRE – HOVER & CLICK */
+/* ============================= */
+
 .tresor-button {
   position: absolute;
   bottom: 10%;
@@ -41,21 +44,44 @@ html, body {
   width: 520px;
   aspect-ratio: 3 / 2;
   cursor: pointer;
-  z-index: 30; /* 🔥 AU-DESSUS DU FOND */
+  z-index: 30;
 }
 
+/* images */
 .tresor-img {
   position: absolute;
   inset: 0;
   width: 100%;
-  display: block;
+  transition: opacity .25s ease, transform .25s ease;
 }
 
-.tresor-img.ouvert { display: none; }
+/* états */
+.tresor-img.ferme {
+  opacity: 1;
+}
 
-.tresor-button.open .ferme { display: none; }
-.tresor-button.open .ouvert { display: block; }
+.tresor-img.ouvert {
+  opacity: 0;
+  transform: scale(1.02);
+}
 
+/* HOVER = OUVERTURE */
+.tresor-button:hover .ferme {
+  opacity: 0;
+}
+
+.tresor-button:hover .ouvert {
+  opacity: 1;
+}
+
+/* CLICK = OUVERT DEFINITIF */
+.tresor-button.open .ferme {
+  opacity: 0;
+}
+
+.tresor-button.open .ouvert {
+  opacity: 1;
+}
 /* MINI JEU */
 #mapGame {
   position: fixed;
