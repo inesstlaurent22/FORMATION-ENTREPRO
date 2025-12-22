@@ -17,38 +17,71 @@ html, body {
 /* ================================================= */
 /* PAGE INTRO */
 /* ================================================= */
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui}
-
-.Fondindex{position:relative;width:100vw;height:100vh}
-
-.fondindex{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  object-fit:cover;z-index:1
+/* ===== RESET ===== */
+* { margin:0; padding:0; box-sizing:border-box }
+html, body {
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:system-ui, sans-serif;
 }
-.fond-mobile{display:none}
 
-/* ===== COFFRE 3D ===== */
-#chestCanvas{
+/* ===== SCÈNE ===== */
+.Fondindex {
+  position:relative;
+  width:100vw;
+  height:100vh;
+}
+
+.fondindex {
   position:absolute;
   inset:0;
-  z-index:10;
-  cursor:pointer;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:1;
 }
 
+.fond-mobile { display:none }
+
+/* ===== COFFRE ===== */
+.tresor-button {
+  position:absolute;
+  bottom:10%;
+  left:50%;
+  transform:translateX(-50%);
+  cursor:pointer;
+  z-index:10;
+}
+
+.tresor-img {
+  width:520px;
+  display:none;
+}
+
+.tresor-img.ferme { display:block }
+
+/* hover */
+.tresor-button:hover .ferme { display:none }
+.tresor-button:hover .ouvert { display:block }
+
+/* clic */
+.tresor-button.open .ferme { display:none }
+.tresor-button.open .ouvert { display:block }
+
 /* ===== MINI JEU ===== */
-#mapGame{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.85);
+#mapGame {
+  position:fixed;
+  inset:0;
   display:none;
   justify-content:center;
   align-items:center;
+  background:rgba(0,0,0,.85);
   z-index:20;
 }
 
-/* parchemin (déjà amélioré) */
-.map-container{
+/* parchemin */
+.map-container {
   position:relative;
   background:#c9a86a;
   padding:24px;
@@ -60,49 +93,55 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui}
     inset 0 0 30px rgba(0,0,0,.35);
 }
 
-/* slots */
-.map-slots,.map-pieces{
+.map-slots, .map-pieces {
   display:flex;
   justify-content:center;
   gap:12px;
   margin:12px 0;
 }
-.slot{
-  width:90px;height:140px;
+
+.slot {
+  width:90px;
+  height:140px;
   border:2px dashed rgba(0,0,0,.5);
   border-radius:6px;
 }
-.piece{
+
+.piece {
   width:90px;
   cursor:pointer;
   border-radius:6px;
   transition:.25s;
 }
-.piece.selected{
+
+.piece.selected {
   transform:scale(1.12);
   box-shadow:0 0 20px gold;
 }
 
-/* FX */
-#fxCanvas{
-  position:fixed;inset:0;
+/* ===== CANVAS FX ===== */
+#fxCanvas {
+  position:fixed;
+  inset:0;
   pointer-events:none;
   z-index:15;
 }
 
-/* FADE */
-#fade{
-  position:fixed;inset:0;
+/* ===== FADE ===== */
+#fade {
+  position:fixed;
+  inset:0;
   background:black;
   opacity:0;
   transition:opacity 1s;
   z-index:40;
 }
-#fade.show{opacity:1}
+#fade.show { opacity:1 }
 
-/* LOADER */
-#videoLoader{
-  position:fixed;inset:0;
+/* ===== LOADER ===== */
+#videoLoader {
+  position:fixed;
+  inset:0;
   display:none;
   justify-content:center;
   align-items:center;
@@ -112,36 +151,56 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui}
   z-index:45;
 }
 
-/* VIDEO */
-#videoContainer{
-  position:fixed;inset:0;
+.loader-icon {
+  font-size:72px;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0%{transform:scale(1);opacity:.6}
+  50%{transform:scale(1.3);opacity:1}
+  100%{transform:scale(1);opacity:.6}
+}
+
+/* ===== VIDEO ===== */
+#videoContainer {
+  position:fixed;
+  inset:0;
   display:none;
   justify-content:center;
   align-items:center;
   background:black;
   z-index:60;
 }
-#videoContainer video{
+
+#videoContainer video {
   max-width:90%;
   max-height:90%;
 }
-.cinemaBtn{
+
+.cinemaBtn {
   position:absolute;
   top:20px;
-  width:54px;height:54px;
+  width:54px;
+  height:54px;
   border-radius:50%;
   border:none;
   background:rgba(0,0,0,.75);
   color:white;
   font-size:22px;
-  box-shadow:0 0 20px gold,0 0 60px rgba(255,215,0,.4);
+  box-shadow:
+    0 0 20px gold,
+    0 0 60px rgba(255,215,0,.4);
 }
-#soundButton{left:20px}
-#menuButton{right:20px}
 
+#soundButton { left:20px }
+#menuButton { right:20px }
+
+/* ===== MOBILE ===== */
 @media(max-width:768px){
   .fond-desktop{display:none}
   .fond-mobile{display:block}
+  .tresor-img{width:280px}
 }
 /* ================================================= */
 /* PAGE MENU */
