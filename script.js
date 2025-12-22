@@ -72,15 +72,20 @@ tresor.addEventListener("click", () => {
   if (opened) return
   opened = true
 
+  // animation ouverture
   tresor.classList.add("open")
 
+  // FX gemmes
   const r = tresor.getBoundingClientRect()
   spawnGems(
     r.left + r.width / 2,
     r.top + r.height / 2
   )
 
-  mapGame.style.display = "flex"
+  // sécurité : affichage forcé du mini-jeu
+  setTimeout(() => {
+    mapGame.style.display = "flex"
+  }, 600)
 })
 
 /* ===== MINI JEU ===== */
