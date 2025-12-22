@@ -2,48 +2,43 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <title>Menu – L’aventure pirate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIT IN - Menu Pirates</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- 🔔 NOTIFICATION -->
-<div id="notification">🏴‍☠️ Nouveau pirate débloqué !</div>
-
-<!-- 🔄 RESET -->
-<button id="resetAdventure">🔄 Reset aventure</button>
-
-<!-- 🔊 AUDIO -->
-<audio id="unlockSound" src="audio/unlock.mp3" preload="auto"></audio>
-
 <div class="scene">
 
-  <img src="images/fondindex.PNG" class="background" alt="Fond">
+  <img src="images/Fondmenu.PNG" class="menu-bg">
 
+  <!-- CINEMATIQUE -->
+  <div id="cinematic">
+    <div class="cinematic-text">Nouveau pirate débloqué…</div>
+  </div>
+
+  <!-- Notification -->
+  <div id="notification">Vous avez débloqué un nouveau pirate</div>
+
+  <!-- Bulle -->
+  <div id="bubble">
+    Bravo Moussaillon 🏴‍☠️<br>
+    L’aventure commence, clique sur chaque pirate pour débloquer le suivant.<br>
+    Bon courage 💎
+  </div>
+
+  <!-- Pirates -->
   <div class="pirates-container">
-
-    <!-- PIRATE 1 -->
-    <div class="pirate pirate1 locked" id="pirate1">
-      <img src="images/Pirate1.png" alt="Pirate 1">
-    </div>
-
-    <!-- PIRATE 2 (UNLOCK AU DÉPART) -->
-    <div class="pirate pirate2 unlocked" id="pirate2">
-      <img src="images/Pirate2.png" alt="Pirate 2">
-    </div>
-
+    <div class="pirate" data-id="1"><img src="images/pirate1.png"></div>
+    <div class="pirate" data-id="2"><img src="images/pirate2.png"></div>
+    <div class="pirate" data-id="3"><img src="images/pirate3.png"></div>
+    <div class="pirate" data-id="4"><img src="images/pirate4.png"></div>
+    <div class="pirate" data-id="5"><img src="images/pirate5.png"></div>
   </div>
 
-  <!-- BULLE -->
-  <div id="infoBubble">
-    <p>
-      🏴‍☠️ Bravo moussaillon !<br><br>
-      Une nouvelle quête est disponible.
-      Clique sur le pirate libéré pour commencer.
-    </p>
-  </div>
+  <!-- Reset -->
+  <button id="resetAdventure">🔄 Recommencer l’aventure</button>
 
 </div>
 
