@@ -65,29 +65,24 @@ function animateGems() {
 }
 animateGems()
 
-/* ===== COFFRE ===== */
-let opened = false
+/* ===== COFFRE + FLOW ===== */
+
+let coffreOuvert = false
 
 tresor.addEventListener("click", () => {
-  if (opened) return
-  opened = true
 
-  // animation ouverture
-  tresor.classList.add("open")
-
-  // FX gemmes
+  // 💎 explosion À CHAQUE clic
   const r = tresor.getBoundingClientRect()
   spawnGems(
     r.left + r.width / 2,
     r.top + r.height / 2
   )
 
-  // sécurité : affichage forcé du mini-jeu
-  setTimeout(() => {
-    mapGame.style.display = "flex"
-  }, 600)
-})
+  // si déjà ouvert → juste les gems
+  if (coffreOuvert) return
 
+  coffreOuvert = true
+  tresor.classList.add("open")
 /* ===== MINI JEU ===== */
 let selected = null
 
@@ -124,34 +119,31 @@ function checkWin() {
   }
 }
 
-/* ===== VIDEO ===== */
-async function startVideo() {
+
+  // fade noir
   fade.classList.add("show")
-  await wait(1000)
 
-  loader.style.display = "flex"
-  fade.classList.remove("show")
-  await wait(1500)
+  setTimeout(() => {
+    fade.classList.remove("show")
 
-  loader.style.display = "none"
-  videoContainer.style.display = "flex"
+    // loader visible
+    loader.style.display = "flex"
+    loader.querySelector("p").textContent = "On ouvre le coffre… 🏴‍☠️"
 
-  video.muted = false
-  video.play().catch(() => {
-    video.muted = true
-    video.play()
-  })
-}
+    // lancement vidéo après chargement
+    setTimeout(() => {
+      loader.style.display = "none"
+      videoContainer.style.display = "flex"
 
-soundButton.onclick = () => {
-  video.muted = !video.muted
-  soundButton.textContent = video.muted ? "🔇" : "🔊"
-}
+      video.currentTime = 0
+      video.muted = false
 
-menuButton.onclick = async () => {
-  fade.classList.add("show")
-  await wait(800)
-  location.href = "menu.html"
-}
+      video.play().catch(() => {
+        video.muted = true
+        video.play()
+      })
 
-video.onended = () => fade.classList.add("show")
+    }, 2000)
+
+  }, 800)
+})
