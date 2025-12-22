@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   const tresor = document.getElementById("tresor");
   const videoContainer = document.getElementById("videoContainer");
   const video = document.getElementById("mainVideo");
@@ -8,22 +9,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const gemCanvas = document.getElementById("gemCanvas");
 
   /* =========================
-     💎 GEM EFFECT
+     💎 GEM EFFECT MULTICOLOR
   ========================= */
   const ctx = gemCanvas.getContext("2d");
-  gemCanvas.width = window.innerWidth;
-  gemCanvas.height = window.innerHeight;
+
+  function resizeCanvas() {
+    gemCanvas.width = window.innerWidth;
+    gemCanvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  const gemColors = [
+    "#FFD700",
+    "#00FFFF",
+    "#FF00FF",
+    "#00FF00",
+    "#1E90FF",
+    "#FF4500",
+    "#8A2BE2"
+  ];
 
   let gems = [];
 
   function spawnGems(x, y) {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 40; i++) {
       gems.push({
         x,
         y,
-        vx: (Math.random() - 0.5) * 6,
-        vy: Math.random() * -8 - 2,
-        life: 60
+        vx: (Math.random() - 0.5) * 8,
+        vy: Math.random() * -10 - 4,
+        life: 80,
+        size: Math.random() * 6 + 4,
+        color: gemColors[Math.floor(Math.random() * gemColors.length)]
       });
     }
   }
@@ -31,16 +49,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function animateGems() {
     ctx.clearRect(0, 0, gemCanvas.width, gemCanvas.height);
 
-    gems.forEach((g, i) => {
+    gems = gems.filter(g => g.life > 0);
+
+    gems.forEach(g => {
       g.x += g.vx;
       g.y += g.vy;
-      g.vy += 0.25;
+      g.vy += 0.35;
       g.life--;
 
-      ctx.fillStyle = "gold";
-      ctx.fillRect(g.x, g.y, 6, 6);
-
-      if (g.life <= 0) gems.splice(i, 1);
+      ctx.fillStyle = g.color;
+      ctx.fillRect(g.x, g.y, g.size, g.size);
     });
 
     requestAnimationFrame(animateGems);
@@ -51,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
      🧰 CLIC TRÉSOR
   ========================= */
   tresor.addEventListener("click", (e) => {
+
     spawnGems(e.clientX, e.clientY);
 
     videoContainer.style.display = "flex";
@@ -68,16 +87,23 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =========================
-     ❌ FERMER VIDÉO
+     🎬 FIN VIDÉO → MENU
+  ========================= */
+  video.addEventListener("ended", () => {
+    window.location.href = "menu.html";
+  });
+
+  /* =========================
+     ❌ FERMER VIDÉO → MENU
   ========================= */
   closeVideo.addEventListener("click", () => {
     video.pause();
-    videoContainer.classList.remove("show");
     overlay.classList.remove("active");
+    videoContainer.classList.remove("show");
 
     setTimeout(() => {
-      videoContainer.style.display = "none";
-    }, 800);
+      window.location.href = "menu.html";
+    }, 500);
   });
 
   /* =========================
@@ -87,4 +113,5 @@ document.addEventListener("DOMContentLoaded", () => {
     video.muted = !video.muted;
     soundButton.textContent = video.muted ? "🔊" : "🔇";
   });
+
 });
