@@ -1,131 +1,87 @@
-const wait = ms => new Promise(r => setTimeout(r, ms))
-
-/* ===== ELEMENTS ===== */
 const tresor = document.getElementById("tresor")
-const mapGame = document.getElementById("mapGame")
-const fade = document.getElementById("fade")
+const canvas = document.getElementById("fxCanvas")
+const ctx = canvas.getContext("2d")
 const loader = document.getElementById("videoLoader")
 const videoContainer = document.getElementById("videoContainer")
 const video = document.getElementById("mainVideo")
+const fade = document.getElementById("fade")
 
-/* ===== FX CANVAS ===== */
-const canvas = document.getElementById("fxCanvas")
-const ctx = canvas.getContext("2d")
-canvas.width = innerWidth
-canvas.height = innerHeight
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
 
-window.addEventListener("resize", () => {
-  canvas.width = innerWidth
-  canvas.height = innerHeight
-})
+/* ============================= */
+/* GEMMES FX */
+/* ============================= */
 
-let gems = []
+let particles = []
 
 function spawnGems(x, y) {
   for (let i = 0; i < 80; i++) {
-    gems.push({
-      x, y,
+    particles.push({
+      x,
+      y,
       vx: (Math.random() - 0.5) * 10,
-      vy: (Math.random() - 1) * 12,
-      r: Math.random() * 7 + 6,
-      rot: Math.random() * Math.PI,
-      col: `hsl(${Math.random() * 360},90%,60%)`,
-      life: 1
+      vy: Math.random() * -12,
+      life: 100
     })
   }
 }
 
-function animateGems() {
+function animateFX() {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-  gems.forEach(g => {
-    g.x += g.vx
-    g.y += g.vy
-    g.vy += 0.4
-    g.rot += 0.1
-    g.life -= 0.015
 
-    ctx.save()
-    ctx.translate(g.x, g.y)
-    ctx.rotate(g.rot)
-    ctx.fillStyle = g.col
+  particles.forEach(p => {
+    p.x += p.vx
+    p.y += p.vy
+    p.vy += 0.3
+    p.life--
+
+    ctx.fillStyle = "rgba(0,255,255,0.8)"
     ctx.beginPath()
-    ctx.moveTo(0, -g.r)
-    ctx.lineTo(g.r, g.r)
-    ctx.lineTo(-g.r, g.r)
-    ctx.closePath()
+    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2)
     ctx.fill()
-    ctx.restore()
   })
 
-  gems = gems.filter(g => g.life > 0)
-  requestAnimationFrame(animateGems)
+  particles = particles.filter(p => p.life > 0)
+  requestAnimationFrame(animateFX)
 }
-animateGems()
 
-/* ===== COFFRE ===== */
+animateFX()
 
-let coffreOuvert = false
+/* ============================= */
+/* COFFRE CLICK */
+/* ============================= */
 
-tresor.addEventListener("click", async () => {
+let opened = false
 
-  const r = tresor.getBoundingClientRect()
-  spawnGems(r.left + r.width / 2, r.top + r.height / 2)
+tresor.onclick = () => {
+  if (opened) return
+  opened = true
 
-  if (coffreOuvert) return
-  coffreOuvert = true
   tresor.classList.add("open")
 
-  fade.classList.add("show")
-  await wait(800)
-  fade.classList.remove("show")
+  const rect = tresor.getBoundingClientRect()
+  spawnGems(rect.left + rect.width / 2, rect.top)
 
-  loader.style.display = "flex"
-  loader.querySelector("p").textContent = "On ouvre le coffre… 🏴‍☠️"
-
-  await wait(1500)
-  loader.style.display = "none"
-
-  // affichage mini-jeu
-  mapGame.style.display = "flex"
-})
-
-/* ===== MINI JEU ===== */
-
-const pieces = document.querySelectorAll(".piece")
-const slots = document.querySelectorAll(".slot")
-let selected = null
-
-pieces.forEach(p => {
-  p.onclick = () => {
-    pieces.forEach(x => x.classList.remove("selected"))
-    selected = p
-    p.classList.add("selected")
-  }
-})
-
-slots.forEach(s => {
-  s.onclick = () => {
-    if (!selected) return
-    if (s.dataset.id === selected.dataset.id) {
-      s.appendChild(selected)
-      selected.classList.remove("selected")
-      selected = null
-      checkWin()
-    }
-  }
-})
-
-function checkWin() {
-  const placed = document.querySelectorAll(".slot img").length
-  if (placed !== 3) return
-
-  mapGame.style.display = "none"
-
-  fade.classList.add("show")
   setTimeout(() => {
-    fade.classList.remove("show")
+    fade.classList.add("show")
+  }, 600)
+
+  setTimeout(() => {
+    loader.style.display = "flex"
+  }, 1400)
+
+  setTimeout(() => {
+    loader.style.display = "none"
     videoContainer.style.display = "flex"
-    video.currentTime = 0
     video.play()
-  }, 800)
+  }, 2600)
+}
+
+/* ============================= */
+/* SON */
+/* ============================= */
+
+document.getElementById("soundButton").onclick = () => {
+  video.muted = !video.muted
 }
