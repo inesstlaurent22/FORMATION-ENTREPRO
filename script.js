@@ -1,113 +1,153 @@
-const canvas=document.getElementById("fxCanvas")
-const ctx=canvas.getContext("2d")
-canvas.width=innerWidth
-canvas.height=innerHeight
+/* ================= THREE.JS COFFRE ================= */
+const chestCanvas = document.getElementById("chestCanvas")
+const renderer = new THREE.WebGLRenderer({ canvas: chestCanvas, alpha: true })
+renderer.setSize(innerWidth, innerHeight)
 
-const tresor=document.getElementById("tresor")
-const puzzle=document.getElementById("puzzleGame")
-const fade=document.getElementById("fade")
-const loader=document.getElementById("videoLoader")
-const videoContainer=document.getElementById("videoContainer")
-const video=document.getElementById("mainVideo")
-const soundButton=document.getElementById("soundButton")
-const menuButton=document.getElementById("menuButton")
+const scene = new THREE.Scene()
+const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 100)
+camera.position.set(0, 2.5, 6)
 
-let particles=[]
+const light = new THREE.DirectionalLight(0xffffff, 1.2)
+light.position.set(5,5,5)
+scene.add(light)
+scene.add(new THREE.AmbientLight(0xffffff,0.5))
 
-/* GEMMES */
+/* Coffre */
+const base = new THREE.Mesh(
+  new THREE.BoxGeometry(3,1.5,2),
+  new THREE.MeshStandardMaterial({ color: 0x6b3e1e })
+)
+scene.add(base)
+
+const lid = new THREE.Mesh(
+  new THREE.BoxGeometry(3,0.6,2),
+  new THREE.MeshStandardMaterial({ color: 0x8b5a2b })
+)
+lid.position.y = 1.05
+lid.rotation.x = 0
+scene.add(lid)
+
+let opened = false
+let hover = false
+
+/* Animation */
+function animateChest(){
+  requestAnimationFrame(animateChest)
+
+  base.rotation.y += hover ? 0.003 : 0.001
+  lid.rotation.x += opened ? (-Math.PI/2 - lid.rotation.x)*0.08 : (0 - lid.rotation.x)*0.08
+
+  renderer.render(scene, camera)
+}
+animateChest()
+
+/* Hover / Click */
+chestCanvas.addEventListener("mousemove",()=>hover=true)
+chestCanvas.addEventListener("mouseleave",()=>hover=false)
+
+chestCanvas.addEventListener("click",()=>{
+  if(opened) return
+  opened = true
+  spawnGems(innerWidth/2, innerHeight/2)
+  document.getElementById("mapGame").style.display="flex"
+})
+
+/* ================= GEMMES CANVAS ================= */
+const fxCanvas = document.getElementById("fxCanvas")
+const ctx = fxCanvas.getContext("2d")
+fxCanvas.width = innerWidth
+fxCanvas.height = innerHeight
+
+let gems=[]
+
 function spawnGems(x,y){
-  for(let i=0;i<120;i++){
-    particles.push({
-      x,y,
-      vx:(Math.random()-.5)*14,
-      vy:(Math.random()-.7)*14,
-      r:Math.random()*6+4,
-      rot:Math.random()*360,
-      color:`hsl(${Math.random()*360},100%,60%)`
-    })
-  }
-}
-
-/* FUMÉE */
-function smoke(x,y){
   for(let i=0;i<80;i++){
-    particles.push({
+    gems.push({
       x,y,
-      vx:(Math.random()-.5)*3,
-      vy:(Math.random()-.8)*3,
-      r:Math.random()*20+10,
-      alpha:1,
-      smoke:true
+      vx:(Math.random()-0.5)*10,
+      vy:(Math.random()-1)*12,
+      r:Math.random()*6+6,
+      rot:Math.random()*Math.PI,
+      col:`hsl(${Math.random()*360},90%,60%)`,
+      life:1
     })
   }
 }
 
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height)
-  particles.forEach(p=>{
-    p.x+=p.vx
-    p.y+=p.vy
-    p.vy+=p.smoke?0.05:0.3
+function animateGems(){
+  ctx.clearRect(0,0,fxCanvas.width,fxCanvas.height)
+  gems.forEach(g=>{
+    g.x+=g.vx
+    g.y+=g.vy
+    g.vy+=0.4
+    g.rot+=0.1
+    g.life-=0.01
+
     ctx.save()
-    ctx.globalAlpha=p.alpha||1
-    ctx.fillStyle=p.smoke?"#aaa":p.color
+    ctx.translate(g.x,g.y)
+    ctx.rotate(g.rot)
+    ctx.fillStyle=g.col
     ctx.beginPath()
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+    ctx.moveTo(0,-g.r)
+    ctx.lineTo(g.r,g.r)
+    ctx.lineTo(-g.r,g.r)
+    ctx.closePath()
     ctx.fill()
     ctx.restore()
-    if(p.smoke) p.alpha-=0.01
   })
-  particles=particles.filter(p=>(p.alpha===undefined||p.alpha>0)&&p.y<innerHeight+50)
-  requestAnimationFrame(animate)
+  gems=gems.filter(g=>g.life>0)
+  requestAnimationFrame(animateGems)
 }
-animate()
+animateGems()
 
-/* CLIC COFFRE */
-tresor.onclick=()=>{
-  const r=tresor.getBoundingClientRect()
-  spawnGems(r.left+r.width/2,r.top)
-  puzzle.style.display="block"
-}
+/* ================= MINI-JEU ================= */
+let selected=null
+const pieces=document.querySelectorAll(".piece")
+const slots=document.querySelectorAll(".slot")
 
-/* PUZZLE */
-let dragged=null
-document.querySelectorAll(".piece").forEach(p=>{
-  p.ondragstart=()=>dragged=p
+pieces.forEach(p=>{
+  p.onclick=()=>{
+    pieces.forEach(x=>x.classList.remove("selected"))
+    selected=p
+    p.classList.add("selected")
+  }
 })
-document.querySelectorAll(".slot").forEach(slot=>{
-  slot.ondragover=e=>e.preventDefault()
-  slot.ondrop=()=>{
-    if(dragged.dataset.slot===slot.dataset.slot){
-      slot.appendChild(dragged)
-      dragged.draggable=false
-      checkPuzzle()
+
+slots.forEach(s=>{
+  s.onclick=()=>{
+    if(!selected) return
+    if(s.dataset.id===selected.dataset.id){
+      s.appendChild(selected)
+      selected.classList.remove("selected")
+      selected=null
+      checkWin()
     }
   }
 })
 
-function checkPuzzle(){
+function checkWin(){
   if(document.querySelectorAll(".slot img").length===3){
-    puzzle.style.display="none"
-    const r=tresor.getBoundingClientRect()
-    smoke(r.left+r.width/2,r.top)
+    document.getElementById("mapGame").style.display="none"
     startVideo()
   }
 }
 
-/* VIDEO */
-function startVideo(){
+/* ================= VIDÉO ================= */
+const fade=document.getElementById("fade")
+const loader=document.getElementById("videoLoader")
+const videoContainer=document.getElementById("videoContainer")
+const video=document.getElementById("mainVideo")
+
+async function startVideo(){
   fade.classList.add("show")
-  setTimeout(()=>{
-    loader.style.display="flex"
-    fade.classList.remove("show")
-    setTimeout(()=>{
-      loader.style.display="none"
-      videoContainer.style.display="flex"
-      video.play()
-    },1500)
-  },1000)
+  await new Promise(r=>setTimeout(r,1000))
+  loader.style.display="flex"
+  fade.classList.remove("show")
+  await new Promise(r=>setTimeout(r,1500))
+  loader.style.display="none"
+  videoContainer.style.display="flex"
+  video.play()
 }
 
-menuButton.onclick=()=>location.href="menu.html"
-soundButton.onclick=()=>video.muted=!video.muted
-video.onended=()=>fade.classList.add("show")
+document.getElementById("menuButton").onclick=()=>location.href="menu.html"
+document.getElementById("soundButton").onclick=()=>video.muted=!video.muted
