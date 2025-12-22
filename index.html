@@ -21,17 +21,28 @@
     <img src="images/Tresorouvert.png" class="tresor-img ouvert">
   </div>
 
-  <!-- MINI JEU PUZZLE -->
-  <div id="puzzleGame">
-    <div class="puzzle-board">
-      <img src="images/cartejeux1.jpg" class="piece" draggable="true" data-slot="0">
-      <img src="images/cartejeux2.jpg" class="piece" draggable="true" data-slot="1">
-      <img src="images/cartejeux3.jpg" class="piece" draggable="true" data-slot="2">
-    </div>
-    <div class="puzzle-slots">
-      <div class="slot" data-slot="0"></div>
-      <div class="slot" data-slot="1"></div>
-      <div class="slot" data-slot="2"></div>
+  <!-- MINI JEU CARTE -->
+  <div id="mapGame">
+    <div class="map-container">
+
+      <h2>🗺️ Recompose la carte du trésor</h2>
+
+      <!-- EMPLACEMENTS -->
+      <div class="map-slots">
+        <div class="slot" data-id="0"></div>
+        <div class="slot" data-id="1"></div>
+        <div class="slot" data-id="2"></div>
+      </div>
+
+      <!-- PIÈCES -->
+      <div class="map-pieces">
+        <img src="images/cartejeux1.jpg" class="piece" data-id="1">
+        <img src="images/cartejeux2.jpg" class="piece" data-id="2">
+        <img src="images/cartejeux3.jpg" class="piece" data-id="0">
+      </div>
+
+      <p id="mapMessage"></p>
+
     </div>
   </div>
 
