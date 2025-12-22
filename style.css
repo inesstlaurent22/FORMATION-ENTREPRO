@@ -137,6 +137,33 @@ html, body {
     transform: translate(-50%, 50%);
   }
 }
+/* ============================= */
+/* ANIMATION COFFRE */
+/* ============================= */
+
+.tresor-button {
+  transition: transform .3s ease;
+}
+
+.tresor-button:hover {
+  transform: translateX(-50%) scale(1.08);
+}
+
+/* effet flottant */
+@keyframes float {
+  0% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-12px); }
+  100% { transform: translateX(-50%) translateY(0); }
+}
+
+.tresor-button {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* arrêt de l'animation quand ouvert */
+.tresor-button.open {
+  animation: none;
+}
 
 /* ================================================= */
 /* PAGE MENU */
