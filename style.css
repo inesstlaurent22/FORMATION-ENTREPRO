@@ -232,17 +232,36 @@ html, body {
 }
 
 /* ================================================= */
-/* =========================
-   PAGE COMMERCE
-========================= */
+/* 🟤 PAGE COMMERCE */
+/* ================================================= */
 
+.Fondcom {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.fondcom {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* OVERLAY CINÉMATIQUE */
 #cinematicOverlaycom {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle, rgba(0,0,0,0.6), rgba(0,0,0,0.95));
+  background: radial-gradient(
+    circle at center,
+    rgba(0,0,0,0.6),
+    rgba(0,0,0,0.95)
+  );
   z-index: 9;
   opacity: 1;
-  transition: opacity 2s ease;
+  transition: opacity 1.5s ease;
   pointer-events: none;
 }
 
@@ -250,6 +269,7 @@ html, body {
   opacity: 0;
 }
 
+/* CONTENEUR VIDÉO */
 #videoContainercom {
   position: fixed;
   inset: 0;
@@ -259,6 +279,7 @@ html, body {
   justify-content: center;
 }
 
+/* VIDÉO */
 #comVideo {
   width: 100%;
   height: 100%;
@@ -266,29 +287,54 @@ html, body {
   filter: contrast(1.1) saturate(1.15);
 }
 
-#closeVideocom,
-#soundButtoncom {
+/* BOUTON FERMER */
+#closeVideocom {
   position: absolute;
+  right: 20px;
   top: 20px;
-  background: rgba(0,0,0,0.6);
-  color: #f5d27a;
-  border: 1px solid #b08d57;
-  font-size: 20px;
-  padding: 8px 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  font-size: 22px;
+  background: rgba(0,0,0,0.85);
+  color: gold;
   cursor: pointer;
   z-index: 11;
-  transition: transform 0.2s, background 0.3s;
+  transition: transform 0.2s;
 }
 
-#closeVideocom { right: 20px; }
-#soundButtoncom { left: 20px; }
-
-#closeVideocom:hover,
-#soundButtoncom:hover {
-  background: rgba(0,0,0,0.85);
+#closeVideocom:hover {
   transform: scale(1.1);
 }
 
+/* 🔊 SOUND BUTTON UNIQUE + GLOW */
+#soundButtoncom {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  font-size: 30px;
+  background: rgba(0,0,0,0.85);
+  color: gold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 11;
+  box-shadow: 0 0 15px gold;
+  animation: glowcom 1.8s infinite alternate;
+}
+
+@keyframes glowcom {
+  from { box-shadow: 0 0 10px gold; }
+  to   { box-shadow: 0 0 28px gold; }
+}
+
+/* UTILITAIRE */
 .hidden {
   display: none;
 }
