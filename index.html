@@ -11,6 +11,7 @@
 
 <div class="Fondindex">
 
+  <!-- FOND -->
   <img src="images/Fond1.PNG" class="fondindex fond-desktop">
   <img src="images/Fond1mobile.PNG" class="fondindex fond-mobile">
 
@@ -20,17 +21,17 @@
     <img src="images/Tresorouvert.png" class="tresor-img ouvert">
   </div>
 
-  <!-- MINI JEU -->
-  <div id="miniGame">
-    <div class="scroll">
-      <h2>⚓ LE SERMENT DU PIRATE ⚓</h2>
-      <p>Mémorise l’ordre sacré</p>
-      <div class="symbols">
-        <button data-id="0">☠️</button>
-        <button data-id="1">⚓</button>
-        <button data-id="2">🗺️</button>
-      </div>
-      <p id="gameMessage"></p>
+  <!-- MINI JEU PUZZLE -->
+  <div id="puzzleGame">
+    <div class="puzzle-board">
+      <img src="images/cartejeux1.jpg" class="piece" draggable="true" data-slot="0">
+      <img src="images/cartejeux2.jpg" class="piece" draggable="true" data-slot="1">
+      <img src="images/cartejeux3.jpg" class="piece" draggable="true" data-slot="2">
+    </div>
+    <div class="puzzle-slots">
+      <div class="slot" data-slot="0"></div>
+      <div class="slot" data-slot="1"></div>
+      <div class="slot" data-slot="2"></div>
     </div>
   </div>
 
@@ -49,7 +50,7 @@
   <!-- VIDEO -->
   <div id="videoContainer">
     <button id="soundButton" class="cinemaBtn">🔊</button>
-    <button id="menuButton" class="cinemaBtn">🧭</button>
+    <button id="menuButton" class="cinemaBtn">✕</button>
     <video id="mainVideo" muted playsinline>
       <source src="video/Video1.mp4" type="video/mp4">
     </video>
