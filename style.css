@@ -1,4 +1,4 @@
- /* ================================================= */
+/* ================================================= */
 /* 🔧 RESET GLOBAL */
 /* ================================================= */
 * {
@@ -24,7 +24,6 @@ html, body {
   height: 100vh;
 }
 
-/* FOND */
 .fondindex {
   position: absolute;
   inset: 0;
@@ -41,7 +40,7 @@ html, body {
 .tresor-button {
   position: absolute;
   left: 45%;
-  top: 80%; /* 10% plus bas */
+  top: 80%;
   transform: translate(-50%, -50%);
   width: clamp(288px, 32vw, 648px);
   aspect-ratio: 1;
@@ -59,143 +58,10 @@ html, body {
 .coffre-ferme { opacity: 1; }
 .coffre-ouvert { opacity: 0; transform: scale(0.95); }
 
-/* OUVERTURE AU SURVOL */
 .tresor-button:hover .coffre-ferme { opacity: 0; }
 .tresor-button:hover .coffre-ouvert {
   opacity: 1;
   transform: scale(1.05);
-}
-
-/* ================================================= */
-/* 🎬 VIDÉO CINÉMATIQUE */
-/* ================================================= */
-
-#videoContainer {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 1s ease;
-  z-index: 9999;
-}
-
-#videoContainer.show { opacity: 1; }
-#videoContainer.fade-out { opacity: 0; }
-
-#videoContainer video {
-  width: 80%;
-  max-width: 900px;
-  max-height: 80vh;
-  object-fit: contain;
-  border-radius: 16px;
-}
-
-/* CROIX */
-#closeVideo {
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255,255,255,0.95);
-  font-size: 22px;
-  cursor: pointer;
-  z-index: 10001;
-}
-
-/* 🔊 SON */
-#soundButton {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: none;
-  font-size: 30px;
-  background: rgba(255,255,255,0.95);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 0 15px gold;
-  animation: glow 1.8s infinite alternate;
-  z-index: 10001;
-}
-
-@keyframes glow {
-  from { box-shadow: 0 0 10px gold; }
-  to   { box-shadow: 0 0 25px gold; }
-}
-
-/* ================================================= */
-/* 💥 PARTICULES */
-/* ================================================= */
-
-#gemCanvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
-}
-
-/* ================================================= */
-/* 🎭 OVERLAY CINÉMATIQUE */
-/* ================================================= */
-
-#cinematicOverlay {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, rgba(255,215,0,0.35), rgba(0,0,0,0.95));
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.2s ease;
-  z-index: 5000;
-}
-
-#cinematicOverlay.active { opacity: 1; }
-
-/* ================================================= */
-/* ⏳ LOADER */
-/* ================================================= */
-
-#loaderScreen {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, rgba(255,215,0,0.25), rgba(0,0,0,0.95));
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9000;
-}
-
-.loader-content {
-  color: white;
-  text-align: center;
-}
-
-.loader-gem {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 20px;
-  background: linear-gradient(45deg, gold, #ffb700);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  border-radius: 6px;
-  transform: rotate(45deg);
-  animation: spin 1.6s infinite ease-in-out;
-}
-
-@keyframes spin {
-  0% { transform: rotate(45deg); }
-  100% { transform: rotate(405deg); }
 }
 
 /* ================================================= */
@@ -209,7 +75,6 @@ html, body {
   overflow: hidden;
 }
 
-/* FOND MENU */
 .scene .background {
   position: absolute;
   inset: 0;
@@ -219,88 +84,57 @@ html, body {
   z-index: 1;
 }
 
-/* CONTENEUR PIRATES */
 .pirates-container {
   position: absolute;
   inset: 0;
   z-index: 5;
 }
 
-/* PIRATES */
 .pirate {
   position: absolute;
   cursor: pointer;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Taille par défaut (sécurité) */
 .pirate img {
   height: auto;
 }
 
 /* ================================================= */
-/* 📍 POSITIONS + DIMENSIONS PAR PIRATE */
+/* 📍 POSITIONS PIRATES */
 /* ================================================= */
 
-/* Pirate 1 — 138 x 250 */
-.pirate1 {
-  left: 110px;
-  top: 618px;
-}
-.pirate1 img {
-  width: 138px;
-  height: 250px;
-}
+.pirate1 { left: 110px; top: 618px; }
+.pirate1 img { width: 138px; height: 250px; }
 
-/* Pirate 2 — 186 x 178 */
-.pirate2 {
-  left: 848px;
-  top: 696px;
-}
-.pirate2 img {
-  width: 186px;
-  height: 178px;
-}
+.pirate2 { left: 848px; top: 696px; }
+.pirate2 img { width: 186px; height: 178px; }
 
-/* Pirate 3 — 133 x 217 */
-.pirate3 {
-  left: 716px;
-  top: 363px;
-}
-.pirate3 img {
-  width: 133px;
-  height: 217px;
-}
+.pirate3 { left: 716px; top: 363px; }
+.pirate3 img { width: 133px; height: 217px; }
 
-/* Pirate 4 — 143 x 187 */
-.pirate4 {
-  left: 902px;
-  top: 206px;
-}
-.pirate4 img {
-  width: 143px;
-  height: 187px;
-}
+.pirate4 { left: 902px; top: 206px; }
+.pirate4 img { width: 143px; height: 187px; }
 
-/* Pirate 5 — 163 x 235 */
-.pirate5 {
-  left: 240px;
-  top: 100px;
-}
-.pirate5 img {
-  width: 163px;
-  height: 235px;
-}
+.pirate5 { left: 240px; top: 100px; }
+.pirate5 img { width: 163px; height: 235px; }
 
-/* LOCK / UNLOCK */
+/* ================================================= */
+/* 🔒 LOCK / UNLOCK */
+/* ================================================= */
+
 .pirate.locked {
-  filter: grayscale(1) brightness(0.6);
+  filter: grayscale(1) brightness(0.5);
   pointer-events: none;
+}
+
+.pirate.unlocked {
+  pointer-events: auto;
 }
 
 .pirate.unlocked:hover {
   transform: scale(1.08);
-  filter: drop-shadow(0 0 12px gold);
+  filter: drop-shadow(0 0 15px gold);
 }
 
 /* ================================================= */
@@ -322,15 +156,8 @@ html, body {
   text-align: center;
 }
 
-#infoBubble button {
-  margin-top: 12px;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-} 
 /* ================================================= */
-/* ✨ ANIMATION DÉBLOCAGE PIRATE */
+/* ✨ ANIMATION DÉBLOCAGE */
 /* ================================================= */
 
 .pirate.unlock-anim {
@@ -355,8 +182,9 @@ html, body {
     opacity: 1;
   }
 }
+
 /* ================================================= */
-/* 🔔 NOTIFICATION DÉBLOCAGE */
+/* 🔔 NOTIFICATION */
 /* ================================================= */
 
 #notification {
@@ -378,30 +206,7 @@ html, body {
 #notification.show {
   top: 20px;
 }
-/* ================================================= */
-/* 🧠 SÉCURITÉ ANIMATION */
-/* ================================================= */
 
-.pirate.already-unlocked {
-  animation: none !important;
-}
-/* ================================================= */
-/* 🔒 LOCK / UNLOCK (SÉCURITÉ) */
-/* ================================================= */
-
-.pirate.locked {
-  filter: grayscale(1) brightness(0.5);
-  pointer-events: none;
-}
-
-.pirate.unlocked {
-  pointer-events: auto;
-}
-
-.pirate.unlocked:hover {
-  transform: scale(1.08);
-  filter: drop-shadow(0 0 15px gold);
-}
 /* ================================================= */
 /* 🔄 RESET AVENTURE */
 /* ================================================= */
@@ -426,6 +231,7 @@ html, body {
   transform: scale(1.05);
 }
 
+/* ================================================= */
 /* =========================
    PAGE COMMERCE
 ========================= */
@@ -433,11 +239,7 @@ html, body {
 #cinematicOverlaycom {
   position: fixed;
   inset: 0;
-  background: radial-gradient(
-    circle at center,
-    rgba(0,0,0,0.6),
-    rgba(0,0,0,0.95)
-  );
+  background: radial-gradient(circle, rgba(0,0,0,0.6), rgba(0,0,0,0.95));
   z-index: 9;
   opacity: 1;
   transition: opacity 2s ease;
@@ -448,10 +250,6 @@ html, body {
   opacity: 0;
 }
 
-/* =========================
-   CONTENEUR VIDÉO
-========================= */
-
 #videoContainercom {
   position: fixed;
   inset: 0;
@@ -461,17 +259,12 @@ html, body {
   justify-content: center;
 }
 
-/* 🎥 VIDÉO */
 #comVideo {
   width: 100%;
   height: 100%;
   object-fit: cover;
   filter: contrast(1.1) saturate(1.15);
 }
-
-/* =========================
-   BOUTONS PIRATE
-========================= */
 
 #closeVideocom,
 #soundButtoncom {
@@ -495,10 +288,6 @@ html, body {
   background: rgba(0,0,0,0.85);
   transform: scale(1.1);
 }
-
-/* =========================
-   MASQUER VIDÉO
-========================= */
 
 .hidden {
   display: none;
