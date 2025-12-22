@@ -1,5 +1,5 @@
 /* ================================================= */
-/* 🔧 RESET GLOBAL */
+/* RESET GLOBAL */
 /* ================================================= */
 * {
   margin: 0;
@@ -11,43 +11,43 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: Arial, sans-serif;
+  font-family: system-ui, sans-serif;
 }
-/* ===== RESET ===== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { overflow: hidden; font-family: system-ui, sans-serif; }
 
 /* ================================================= */
-/* 🔧 PAGE INTRO */
+/* PAGE INTRO */
 /* ================================================= */
 
-/* ===== STRUCTURE ===== */
 .Fondindex {
   position: relative;
   width: 100vw;
   height: 100vh;
 }
 
-/* ===== FONDS ===== */
-.fondindex {
+.fondindex,
+.scene .background,
+.fondcom {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1;
 }
 
+.fondindex { z-index: 1; }
 .fond-mobile { display: none; }
 
-/* ===== COFFRE ===== */
+/* ================================================= */
+/* COFFRE */
+/* ================================================= */
+
 .tresor-button {
   position: absolute;
   bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
   cursor: pointer;
-  z-index: 5;
+  z-index: 50;
 }
 
 .tresor-img {
@@ -59,7 +59,10 @@ body { overflow: hidden; font-family: system-ui, sans-serif; }
 .tresor-button.open .ferme { display: none; }
 .tresor-button.open .ouvert { display: block; }
 
-/* ===== LOADER ===== */
+/* ================================================= */
+/* LOADER */
+/* ================================================= */
+
 #videoLoader {
   position: fixed;
   inset: 0;
@@ -71,24 +74,24 @@ body { overflow: hidden; font-family: system-ui, sans-serif; }
   opacity: 0;
   pointer-events: none;
   transition: opacity .6s ease;
-  z-index: 20;
+  z-index: 60;
   color: white;
 }
 
-#videoLoader.show { opacity: 1; pointer-events: auto; }
+#videoLoader.show {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 .loader-icon {
   font-size: 72px;
   animation: pulse 1.2s infinite;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); opacity: .6; }
-  50% { transform: scale(1.25); opacity: 1; }
-  100% { transform: scale(1); opacity: .6; }
-}
+/* ================================================= */
+/* VIDÉO */
+/* ================================================= */
 
-/* ===== VIDÉO ===== */
 #videoContainer {
   position: fixed;
   inset: 0;
@@ -98,7 +101,7 @@ body { overflow: hidden; font-family: system-ui, sans-serif; }
   align-items: center;
   opacity: 0;
   transition: opacity .8s ease;
-  z-index: 30;
+  z-index: 70;
 }
 
 #videoContainer.show { opacity: 1; }
@@ -108,7 +111,10 @@ body { overflow: hidden; font-family: system-ui, sans-serif; }
   max-height: 90%;
 }
 
-/* ===== BOUTONS ===== */
+/* ================================================= */
+/* BOUTONS VIDÉO */
+/* ================================================= */
+
 #soundButton,
 #closeVideo {
   position: absolute;
@@ -121,25 +127,40 @@ body { overflow: hidden; font-family: system-ui, sans-serif; }
   background: rgba(0,0,0,.75);
   color: white;
   cursor: pointer;
+}
+
+#soundButton {
+  left: 18px;
+  box-shadow:
+    0 0 30px gold,
+    0 0 60px rgba(255,223,0,.4),
+    0 0 90px rgba(255,223,0,.2);
+}
+
+#closeVideo {
+  right: 18px;
   box-shadow: 0 0 20px gold;
 }
 
-#soundButton { left: 18px; }
-#closeVideo { right: 18px; }
+/* ================================================= */
+/* OVERLAY CINÉMATIQUE */
+/* ================================================= */
 
-/* ===== OVERLAY ===== */
 #cinematicOverlay {
   position: fixed;
   inset: 0;
   background: black;
   opacity: 0;
   transition: opacity .8s ease;
-  z-index: 15;
+  z-index: 55;
 }
 
 #cinematicOverlay.active { opacity: .65; }
 
-/* ===== 💎 DIAMANTS SVG ===== */
+/* ================================================= */
+/* EFFETS */
+/* ================================================= */
+
 #diamondLayer {
   position: fixed;
   inset: 0;
@@ -147,9 +168,93 @@ body { overflow: hidden; font-family: system-ui, sans-serif; }
   z-index: 40;
 }
 
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
+@keyframes pulse {
+  0%   { transform: scale(1); opacity: .6; }
+  50%  { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(1); opacity: .6; }
+}
 
+/* ================================================= */
+/* SCÈNE PIRATES */
+/* ================================================= */
+
+.scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.pirates-container {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+.pirate {
+  position: absolute;
+  cursor: pointer;
+  transition: transform .3s ease, filter .3s ease;
+}
+
+.pirate img {
+  width: 100%;
+  height: auto;
+}
+
+/* Positions */
+.pirate1 { left:110px; top:618px; width:138px; }
+.pirate2 { left:848px; top:696px; width:186px; }
+.pirate3 { left:716px; top:363px; width:133px; }
+.pirate4 { left:902px; top:206px; width:143px; }
+.pirate5 { left:240px; top:100px; width:163px; }
+
+/* États */
+.pirate.locked {
+  filter: grayscale(1) brightness(.5);
+  pointer-events: none;
+}
+
+.pirate.unlocked:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 15px gold);
+}
+
+.pirate.unlock-anim {
+  animation: pirateUnlock 1.2s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes pirateUnlock {
+  0%   { transform: scale(.6); opacity: 0; filter: grayscale(1) brightness(.4); }
+  50%  { transform: scale(1.25); filter: drop-shadow(0 0 25px gold); }
+  100% { transform: scale(1); opacity: 1; filter: none; }
+}
+
+/* ================================================= */
+/* UI */
+/* ================================================= */
+
+#infoBubble {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 420px;
+  padding: 20px 24px;
+  background: rgba(0,0,0,.85);
+  color: white;
+  border-radius: 14px;
+  text-align: center;
+  z-index: 10;
+  display: none;
+}
+
+/* ================================================= */
+/* RESPONSIVE */
+/* ================================================= */
+
+@media (max-width: 768px) {
   .fond-desktop { display: none; }
   .fond-mobile { display: block; }
 
@@ -166,296 +271,5 @@ body { overflow: hidden; font-family: system-ui, sans-serif; }
     width: 46px;
     height: 46px;
     font-size: 18px;
-  }
-}
-
-/* ================================================= */
-/* 🏴‍☠️ PAGE MENU – SCÈNE PIRATES */
-/* ================================================= */
-
-.scene {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* FOND */
-.scene .background {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-/* CONTENEUR PIRATES */
-.pirates-container {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-}
-
-/* PIRATE GLOBAL */
-.pirate {
-  position: absolute;
-  cursor: pointer;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.pirate img {
-  width: 100%;
-  height: auto;
-}
-
-/* ================================================= */
-/* 📍 POSITIONS PIRATES */
-/* ================================================= */
-
-.pirate1 { left: 110px; top: 618px; width: 138px; }
-.pirate2 { left: 848px; top: 696px; width: 186px; }
-.pirate3 { left: 716px; top: 363px; width: 133px; }
-.pirate4 { left: 902px; top: 206px; width: 143px; }
-.pirate5 { left: 240px; top: 100px; width: 163px; }
-
-/* ================================================= */
-/* 🔒 LOCK / UNLOCK */
-/* ================================================= */
-
-.pirate.locked {
-  filter: grayscale(1) brightness(0.5);
-  pointer-events: none;
-}
-
-.pirate.unlocked {
-  pointer-events: auto;
-}
-
-.pirate.unlocked:hover {
-  transform: scale(1.08);
-  filter: drop-shadow(0 0 15px gold);
-}
-
-/* ================================================= */
-/* ✨ ANIMATION DÉBLOCAGE */
-/* ================================================= */
-
-.pirate.unlock-anim {
-  animation: pirateUnlock 1.2s ease forwards;
-  pointer-events: none;
-}
-
-@keyframes pirateUnlock {
-  0% {
-    transform: scale(0.6);
-    filter: grayscale(1) brightness(0.4);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.25);
-    filter: drop-shadow(0 0 25px gold);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    filter: none;
-    opacity: 1;
-  }
-}
-
-/* ================================================= */
-/* 💬 BULLE DE TEXTE */
-/* ================================================= */
-
-#infoBubble {
-  position: absolute;
-  bottom: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.85);
-  color: white;
-  padding: 20px 24px;
-  border-radius: 14px;
-  max-width: 420px;
-  text-align: center;
-  z-index: 10;
-  display: none;
-}
-
-/* ================================================= */
-/* 🔔 NOTIFICATION */
-/* ================================================= */
-
-#notification {
-  position: fixed;
-  top: -80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(45deg, gold, #ffcc00);
-  color: black;
-  padding: 14px 28px;
-  border-radius: 30px;
-  font-weight: bold;
-  font-size: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-  z-index: 10000;
-  transition: top 0.6s ease;
-}
-
-#notification.show {
-  top: 20px;
-}
-
-/* ================================================= */
-/* 🔄 RESET AVENTURE */
-/* ================================================= */
-
-#resetAdventure {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  background: rgba(0,0,0,0.85);
-  color: gold;
-  border: 1px solid gold;
-  padding: 10px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  cursor: pointer;
-  z-index: 10000;
-  transition: transform 0.2s ease, background 0.3s ease;
-}
-
-#resetAdventure:hover {
-  background: rgba(0,0,0,1);
-  transform: scale(1.05);
-}
-/* ================================================= */
-/* 🟤 PAGE COMMERCE */
-/* ================================================= */
-
-.Fondcom {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* FOND */
-.fondcom {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-/* ================================================= */
-/* 🎥 OVERLAY CINÉMATIQUE */
-/* ================================================= */
-
-#cinematicOverlaycom {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(
-    circle at center,
-    rgba(0,0,0,0.6),
-    rgba(0,0,0,0.95)
-  );
-  z-index: 9;
-  opacity: 1;
-  transition: opacity 1.5s ease;
-  pointer-events: none;
-}
-
-#cinematicOverlaycom.fade-out {
-  opacity: 0;
-}
-
-/* ================================================= */
-/* 🎬 CONTENEUR VIDÉO */
-/* ================================================= */
-
-#videoContainercom {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* VIDÉO */
-#comVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: contrast(1.1) saturate(1.15);
-}
-
-/* IMPORTANT : PAS D’OBSCURCISSEMENT AU SURVOL */
-#comVideo:hover {
-  filter: contrast(1.1) saturate(1.15);
-}
-
-/* ================================================= */
-/* ❌ BOUTON FERMER */
-/* ================================================= */
-
-#closeVideocom {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  font-size: 22px;
-  background: rgba(0,0,0,0.85);
-  color: gold;
-  cursor: pointer;
-  z-index: 11;
-  transition: transform 0.2s ease;
-}
-
-#closeVideocom:hover {
-  transform: scale(1.1);
-}
-
-/* ================================================= */
-/* 🔊 SOUND BUTTON UNIQUE + FAISCEAU LUMINEUX */
-/* ================================================= */
-
-#soundButtoncom {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: none;
-  font-size: 30px;
-  background: rgba(0,0,0,0.85);
-  color: gold;
-  cursor: pointer;
-  z-index: 11;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: glowcom 1.8s infinite alternate;
-}
-
-/* FAISCEAU */
-@keyframes glowcom {
-  from {
-    box-shadow:
-      0 0 10px gold,
-      0 0 30px rgba(255,215,0,0.6);
-  }
-  to {
-    box-shadow:
-      0 0 25px gold,
-      0 0 60px rgba(255,215,0,0.9);
   }
 }
