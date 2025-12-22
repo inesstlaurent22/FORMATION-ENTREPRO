@@ -1,76 +1,73 @@
-document.addEventListener("DOMContentLoaded", () => {
+const pirates = document.querySelectorAll(".pirate")
+const notif = document.getElementById("notification")
+const bubble = document.getElementById("bubble")
+const cinematic = document.getElementById("cinematic")
+const resetBtn = document.getElementById("resetAdventure")
 
-  const pirate1 = document.getElementById("pirate1");
-  const pirate2 = document.getElementById("pirate2");
-  const bubble = document.getElementById("infoBubble");
-  const notif = document.getElementById("notification");
-  const sound = document.getElementById("unlockSound");
-  const resetBtn = document.getElementById("resetAdventure");
+let unlocked = 2
 
-  /* ========================= */
-  /* ÉTAT INITIAL */
-  /* ========================= */
+/* === CHARGEMENT SERVEUR === */
+fetch("save_progress.php")
+  .then(r => r.json())
+  .then(d => unlocked = d.unlocked || 2)
+  .catch(() => unlocked = Number(localStorage.getItem("unlocked")) || 2)
+  .finally(updateUI)
 
-  const pirate1Unlocked = localStorage.getItem("pirate1Unlocked");
+function saveProgress(val) {
+  localStorage.setItem("unlocked", val)
+  fetch("save_progress.php", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ unlocked: val })
+  })
+}
 
-  if (pirate1Unlocked === "true") {
-    pirate1.classList.remove("locked");
-    pirate1.classList.add("unlocked");
-    bubble.style.display = "block";
-  } else {
-    pirate1.classList.add("locked");
-    pirate1.classList.remove("unlocked");
-    bubble.style.display = "none";
+function updateUI() {
+  pirates.forEach(p => {
+    const id = Number(p.dataset.id)
+    p.className = "pirate " + (id <= unlocked ? "unlocked" : "locked")
+  })
+
+  if (unlocked === 2) {
+    const p2 = document.querySelector('[data-id="2"]')
+    bubble.style.display = "block"
+    bubble.style.left = p2.offsetLeft + "px"
+    bubble.style.top = (p2.offsetTop - 140) + "px"
   }
+}
 
-  /* ========================= */
-  /* PIRATE 2 → DÉBLOQUE PIRATE 1 */
-  /* ========================= */
+pirates.forEach(p => {
+  p.onclick = () => {
+    const id = Number(p.dataset.id)
+    if (id !== unlocked) return
 
-  pirate2.addEventListener("click", () => {
-    if (!localStorage.getItem("pirate1Unlocked")) {
-      localStorage.setItem("pirate1Unlocked", "true");
+    cinematic.style.display = "flex"
 
-      // Son + notification
-      sound.currentTime = 0;
-      sound.play();
-      showNotification();
-
-      setTimeout(() => {
-        location.reload();
-      }, 600);
-    }
-  });
-
-  /* ========================= */
-  /* PIRATE 1 → COMMERCE */
-  /* ========================= */
-
-  pirate1.addEventListener("click", () => {
-    if (pirate1.classList.contains("locked")) return;
-
-    bubble.style.display = "none";
-    window.open("commerce.html", "_blank");
-  });
-
-  /* ========================= */
-  /* RESET AVENTURE */
-  /* ========================= */
-
-  resetBtn.addEventListener("click", () => {
-    localStorage.clear();
-    location.reload();
-  });
-
-  /* ========================= */
-  /* NOTIFICATION */
-  /* ========================= */
-
-  function showNotification() {
-    notif.classList.add("show");
     setTimeout(() => {
-      notif.classList.remove("show");
-    }, 2500);
-  }
+      cinematic.style.display = "none"
+      unlocked++
+      saveProgress(unlocked)
 
-});
+      notif.style.display = "block"
+      setTimeout(() => notif.style.display = "none", 2000)
+
+      const next = document.querySelector(`[data-id="${unlocked}"]`)
+      if (next) next.classList.add("unlock-anim")
+
+      const pages = {
+        1:"commerce.html",
+        3:"marketing.html",
+        4:"finance.html",
+        5:"legal.html"
+      }
+      if (pages[id]) window.open(pages[id], "_blank")
+
+      setTimeout(() => location.reload(), 1200)
+    }, 1800)
+  }
+})
+
+resetBtn.onclick = () => {
+  saveProgress(2)
+  location.reload()
+}
