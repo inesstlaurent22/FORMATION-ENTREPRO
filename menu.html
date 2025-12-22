@@ -12,13 +12,11 @@
 <!-- 🔔 NOTIFICATION -->
 <div id="notification">🏴‍☠️ Nouveau pirate débloqué !</div>
 
-<!-- 🔄 RESET AVENTURE -->
-<button id="resetAdventure">🔄 Réinitialiser l’aventure</button>
+<!-- 🔄 RESET -->
+<button id="resetAdventure">🔄 Reset aventure</button>
 
-<!-- 🔊 AUDIO FEEDBACK -->
-<audio id="unlockSound" preload="auto">
-  <source src="audio/unlock.mp3" type="audio/mpeg">
-</audio>
+<!-- 🔊 AUDIO -->
+<audio id="unlockSound" src="audio/unlock.mp3" preload="auto"></audio>
 
 <div class="scene">
 
@@ -26,37 +24,25 @@
 
   <div class="pirates-container">
 
-    <div class="pirate pirate1 locked" id="pirate1" data-page="commerce.html">
+    <!-- PIRATE 1 -->
+    <div class="pirate pirate1 locked" id="pirate1">
       <img src="images/Pirate1.png" alt="Pirate 1">
     </div>
 
+    <!-- PIRATE 2 (UNLOCK AU DÉPART) -->
     <div class="pirate pirate2 unlocked" id="pirate2">
       <img src="images/Pirate2.png" alt="Pirate 2">
     </div>
 
-    <div class="pirate pirate3 locked" id="pirate3" data-page="marketing.html">
-      <img src="images/Pirate3.png" alt="Pirate 3">
-    </div>
-
-    <div class="pirate pirate4 locked" id="pirate4" data-page="finance.html">
-      <img src="images/Pirate4.png" alt="Pirate 4">
-    </div>
-
-    <div class="pirate pirate5 locked" id="pirate5" data-page="legal.html">
-      <img src="images/Pirate5.png" alt="Pirate 5">
-    </div>
-
   </div>
 
-  <!-- 💬 BULLE -->
+  <!-- BULLE -->
   <div id="infoBubble">
     <p>
-     🏴‍☠️ Bravo moussaillon !<br><br>
-      Termine chaque mission pour débloquer
-      le pirate suivant.<br>
-      L’aventure commence maintenant !
+      🏴‍☠️ Bravo moussaillon !<br><br>
+      Une nouvelle quête est disponible.
+      Clique sur le pirate libéré pour commencer.
     </p>
-    <button id="closeBubble">Compris !</button>
   </div>
 
 </div>
