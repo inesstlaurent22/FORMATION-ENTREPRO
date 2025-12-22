@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KIT IN</title>
 <link rel="stylesheet" href="style.css">
+
+<!-- THREE.JS -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 </head>
 
 <body>
@@ -15,38 +18,31 @@
   <img src="images/Fond1.PNG" class="fondindex fond-desktop">
   <img src="images/Fond1mobile.PNG" class="fondindex fond-mobile">
 
-  <!-- COFFRE -->
-  <div id="tresor" class="tresor-button">
-    <img src="images/Tresorfermer.png" class="tresor-img ferme">
-    <img src="images/Tresorouvert.png" class="tresor-img ouvert">
-  </div>
+  <!-- COFFRE 3D -->
+  <canvas id="chestCanvas"></canvas>
 
-  <!-- MINI JEU CARTE -->
+  <!-- MINI JEU -->
   <div id="mapGame">
     <div class="map-container">
+      <h2>🗺️ Recompose la carte</h2>
 
-      <h2>🗺️ Recompose la carte du trésor</h2>
-
-      <!-- EMPLACEMENTS -->
       <div class="map-slots">
         <div class="slot" data-id="0"></div>
         <div class="slot" data-id="1"></div>
         <div class="slot" data-id="2"></div>
       </div>
 
-      <!-- PIÈCES -->
       <div class="map-pieces">
-        <img src="images/Carteminigauche.png" class="piece" data-id="1">
-        <img src="images/Carteminijeuxmillieu.png" class="piece" data-id="2">
-        <img src="images/Carteminijeuxdroite.png" class="piece" data-id="0">
+        <img src="images/carte_piece_1.png" class="piece" data-id="0">
+        <img src="images/carte_piece_2.png" class="piece" data-id="1">
+        <img src="images/carte_piece_3.png" class="piece" data-id="2">
       </div>
 
       <p id="mapMessage"></p>
-
     </div>
   </div>
 
-  <!-- CANVAS FX -->
+  <!-- FX -->
   <canvas id="fxCanvas"></canvas>
 
   <!-- FADE -->
