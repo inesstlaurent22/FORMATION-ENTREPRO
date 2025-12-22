@@ -1,72 +1,30 @@
-const tresor=document.getElementById("tresor")
-const miniGame=document.getElementById("miniGame")
-const symbols=document.querySelectorAll(".symbols button")
-const msg=document.getElementById("gameMessage")
 const canvas=document.getElementById("fxCanvas")
 const ctx=canvas.getContext("2d")
+canvas.width=innerWidth
+canvas.height=innerHeight
 
+const tresor=document.getElementById("tresor")
+const miniGame=document.getElementById("miniGame")
+const fade=document.getElementById("fade")
 const loader=document.getElementById("videoLoader")
 const videoContainer=document.getElementById("videoContainer")
 const video=document.getElementById("mainVideo")
 const soundButton=document.getElementById("soundButton")
-const closeVideo=document.getElementById("closeVideo")
+const menuButton=document.getElementById("menuButton")
 
-canvas.width=innerWidth
-canvas.height=innerHeight
-
-let order=[2,0,1]
-let player=[]
 let particles=[]
+const gems=["#FFD700","#00FFFF","#FF00FF","#1E90FF","#00FF7F"]
 
-tresor.onclick=()=>{
-  miniGame.style.display="flex"
-  player=[]
-  msg.textContent=""
-}
-
-symbols.forEach(btn=>{
-  btn.onclick=()=>{
-    player.push(+btn.dataset.id)
-    if(player.length===order.length){
-      checkOrder()
-    }
-  }
-})
-
-function checkOrder(){
-  if(player.every((v,i)=>v===order[i])){
-    msg.textContent="✔ Serment validé"
-    explode()
-    setTimeout(openTreasure,1000)
-  }else{
-    msg.textContent="✖ Mauvais ordre"
-    shake()
-    player=[]
-  }
-}
-
-function openTreasure(){
-  miniGame.style.display="none"
-  tresor.classList.add("open")
-  loader.style.display="flex"
-
-  setTimeout(()=>{
-    loader.style.display="none"
-    videoContainer.style.display="flex"
-    video.play()
-  },1500)
-}
-
-/* PARTICULES CANVAS */
-function explode(){
-  for(let i=0;i<80;i++){
+/* PARTICULES GEMMES */
+function spawnGems(x,y){
+  for(let i=0;i<120;i++){
     particles.push({
-      x:innerWidth/2,
-      y:innerHeight/2,
-      vx:(Math.random()-.5)*12,
-      vy:(Math.random()-.8)*12,
-      r:Math.random()*4+3,
-      color:`hsl(${Math.random()*360},100%,60%)`
+      x,y,
+      vx:(Math.random()-.5)*14,
+      vy:(Math.random()-.7)*14,
+      r:Math.random()*6+4,
+      rot:Math.random()*360,
+      color:gems[Math.floor(Math.random()*gems.length)]
     })
   }
 }
@@ -76,27 +34,57 @@ function animate(){
   particles.forEach(p=>{
     p.x+=p.vx
     p.y+=p.vy
-    p.vy+=0.25
+    p.vy+=0.3
+    p.rot+=4
+    ctx.save()
+    ctx.translate(p.x,p.y)
+    ctx.rotate(p.rot*Math.PI/180)
     ctx.fillStyle=p.color
-    ctx.beginPath()
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
-    ctx.fill()
+    ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r)
+    ctx.restore()
   })
   particles=particles.filter(p=>p.y<innerHeight+50)
   requestAnimationFrame(animate)
 }
 animate()
 
-function shake(){
-  miniGame.querySelector(".scroll").animate([
-    {transform:"translateX(0)"},
-    {transform:"translateX(-10px)"},
-    {transform:"translateX(10px)"},
-    {transform:"translateX(0)"}
-  ],{duration:400})
+/* FLOW */
+tresor.onclick=()=>{
+  const r=tresor.getBoundingClientRect()
+  spawnGems(r.left+r.width/2,r.top)
+  miniGame.style.display="flex"
 }
 
-closeVideo.onclick=()=>location.href="menu.html"
-soundButton.onclick=()=>{
-  video.muted=!video.muted
+/* MINI JEU SIMPLE */
+let order=[2,0,1],player=[]
+document.querySelectorAll(".symbols button").forEach(btn=>{
+  btn.onclick=()=>{
+    player.push(+btn.dataset.id)
+    if(player.length===order.length){
+      if(player.every((v,i)=>v===order[i])){
+        miniGame.style.display="none"
+        startVideo()
+      }else{
+        player=[]
+      }
+    }
+  }
+})
+
+function startVideo(){
+  tresor.classList.add("open")
+  fade.classList.add("show")
+  setTimeout(()=>{
+    loader.style.display="flex"
+    fade.classList.remove("show")
+    setTimeout(()=>{
+      loader.style.display="none"
+      videoContainer.style.display="flex"
+      video.play()
+    },1500)
+  },1000)
 }
+
+menuButton.onclick=()=>location.href="menu.html"
+soundButton.onclick=()=>video.muted=!video.muted
+video.onended=()=>fade.classList.add("show")
