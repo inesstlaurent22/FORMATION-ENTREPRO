@@ -2,49 +2,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const video = document.getElementById("comVideo");
   const overlay = document.getElementById("cinematicOverlaycom");
-  const soundButton = document.getElementById("soundButtoncom");
-  const closeVideo = document.getElementById("closeVideocom");
-  const videoContainer = document.getElementById("videoContainercom");
+  const soundBtn = document.getElementById("soundButtoncom");
+  const closeBtn = document.getElementById("closeVideocom");
 
-  /* ========================= */
-  /* 🎬 ÉTAT VIDÉO */
-  /* ========================= */
-
-  const skipVideo = sessionStorage.getItem("skipCommerceVideo");
-
-  if (skipVideo === "true") {
-    videoContainer.classList.add("hidden");
-    overlay.classList.add("fade-out");
-    return;
-  }
-
-  /* ========================= */
-  /* 🎥 LANCEMENT CINÉMATIQUE */
-  /* ========================= */
-
-  video.muted = true;
-  video.play().catch(() => {});
-
+  /* =========================
+     🎬 LANCEMENT CINÉMATIQUE
+  ========================= */
   setTimeout(() => {
     overlay.classList.add("fade-out");
-  }, 500);
+  }, 1200);
 
-  /* ========================= */
-  /* 🔊 BOUTON SON */
-  /* ========================= */
-
-  soundButton.addEventListener("click", () => {
-    video.muted = !video.muted;
-    soundButton.textContent = video.muted ? "🔇" : "🔊";
+  /* =========================
+     🖱️ PAS D’OBSCURITÉ AU SURVOL
+  ========================= */
+  video.addEventListener("mouseenter", () => {
+    overlay.style.opacity = "0";
   });
 
-  /* ========================= */
-  /* ❌ FERMER LA VIDÉO */
-  /* ========================= */
+  video.addEventListener("mouseleave", () => {
+    overlay.style.opacity = "1";
+  });
 
-  closeVideo.addEventListener("click", () => {
-    sessionStorage.setItem("skipCommerceVideo", "true");
-    video.pause();
+  /* =========================
+     🔊 SON ON / OFF
+  ========================= */
+  soundBtn.addEventListener("click", () => {
+    video.muted = !video.muted;
+    soundBtn.textContent = video.muted ? "🔇" : "🔊";
+  });
+
+  /* =========================
+     ❌ FERMER → RECHARGER PAGE
+  ========================= */
+  closeBtn.addEventListener("click", () => {
     location.reload();
   });
 
