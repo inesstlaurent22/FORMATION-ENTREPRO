@@ -1,117 +1,110 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const tresor = document.getElementById("tresor");
-  const videoContainer = document.getElementById("videoContainer");
   const video = document.getElementById("mainVideo");
-  const closeVideo = document.getElementById("closeVideo");
-  const soundButton = document.getElementById("soundButton");
+  const videoContainer = document.getElementById("videoContainer");
+  const loader = document.getElementById("videoLoader");
   const overlay = document.getElementById("cinematicOverlay");
-  const gemCanvas = document.getElementById("gemCanvas");
+  const soundButton = document.getElementById("soundButton");
+  const closeVideo = document.getElementById("closeVideo");
+  const diamondLayer = document.getElementById("diamondLayer");
 
-  /* =========================
-     💎 GEM EFFECT MULTICOLOR
-  ========================= */
-  const ctx = gemCanvas.getContext("2d");
-
-  function resizeCanvas() {
-    gemCanvas.width = window.innerWidth;
-    gemCanvas.height = window.innerHeight;
+  /* ===== INTRO SKIP ===== */
+  if (localStorage.getItem("introSeen")) {
+    window.location.href = "menu.html";
   }
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
 
-  const gemColors = [
-    "#FFD700",
-    "#00FFFF",
-    "#FF00FF",
-    "#00FF00",
-    "#1E90FF",
-    "#FF4500",
-    "#8A2BE2"
+  /* ===== DIAMANTS ===== */
+  const colors = [
+    "#FFD700", // or
+    "#00FFFF", // diamant
+    "#FF00FF", // améthyste
+    "#00FF7F", // émeraude
+    "#1E90FF", // saphir
+    "#FF4500", // rubis
+    "#DA70D6"  // rose gem
   ];
 
-  let gems = [];
+  function createDiamond(x, y) {
+    const size = Math.random() * 12 + 10;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const diamond = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 
-  function spawnGems(x, y) {
-    for (let i = 0; i < 40; i++) {
-      gems.push({
-        x,
-        y,
-        vx: (Math.random() - 0.5) * 8,
-        vy: Math.random() * -10 - 4,
-        life: 80,
-        size: Math.random() * 6 + 4,
-        color: gemColors[Math.floor(Math.random() * gemColors.length)]
-      });
+    diamond.setAttribute("points", `
+      ${size} 0,
+      ${size * 2} ${size},
+      ${size} ${size * 2},
+      0 ${size}
+    `);
+
+    diamond.setAttribute("fill", color);
+    diamond.setAttribute("opacity", "0.9");
+
+    diamond.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random() * 360}deg)`;
+    diamond.style.transition = "transform 1.6s ease-out, opacity 1.6s";
+
+    diamondLayer.appendChild(diamond);
+
+    requestAnimationFrame(() => {
+      const dx = (Math.random() - 0.5) * 400;
+      const dy = Math.random() * 400 + 200;
+      diamond.style.transform =
+        `translate(${x + dx}px, ${y + dy}px) rotate(${Math.random() * 720}deg)`;
+      diamond.style.opacity = "0";
+    });
+
+    setTimeout(() => diamond.remove(), 1600);
+  }
+
+  function spawnDiamonds(x, y) {
+    for (let i = 0; i < 35; i++) {
+      createDiamond(x, y);
     }
   }
 
-  function animateGems() {
-    ctx.clearRect(0, 0, gemCanvas.width, gemCanvas.height);
+  /* ===== CLIC COFFRE ===== */
+  tresor.addEventListener("click", e => {
 
-    gems = gems.filter(g => g.life > 0);
-
-    gems.forEach(g => {
-      g.x += g.vx;
-      g.y += g.vy;
-      g.vy += 0.35;
-      g.life--;
-
-      ctx.fillStyle = g.color;
-      ctx.fillRect(g.x, g.y, g.size, g.size);
-    });
-
-    requestAnimationFrame(animateGems);
-  }
-  animateGems();
-
-  /* =========================
-     🧰 CLIC TRÉSOR
-  ========================= */
-  tresor.addEventListener("click", (e) => {
-
-    spawnGems(e.clientX, e.clientY);
-
-    videoContainer.style.display = "flex";
-    requestAnimationFrame(() => {
-      videoContainer.classList.add("show");
-    });
-
+    tresor.classList.add("open");
     overlay.classList.add("active");
 
-    video.currentTime = 0;
-    video.muted = true;
-    video.play().catch(() => {});
+    const x = e.clientX || window.innerWidth / 2;
+    const y = e.clientY || window.innerHeight / 2;
 
-    soundButton.style.display = "flex";
+    spawnDiamonds(x, y);
+
+    if (navigator.vibrate) navigator.vibrate(80);
+
+    setTimeout(() => {
+      loader.classList.add("show");
+
+      setTimeout(() => {
+        loader.classList.remove("show");
+        videoContainer.style.display = "flex";
+        requestAnimationFrame(() => videoContainer.classList.add("show"));
+        video.play().catch(() => {});
+      }, 1500);
+
+    }, 2000);
   });
 
-  /* =========================
-     🎬 FIN VIDÉO → MENU
-  ========================= */
-  video.addEventListener("ended", () => {
-    window.location.href = "menu.html";
-  });
-
-  /* =========================
-     ❌ FERMER VIDÉO → MENU
-  ========================= */
-  closeVideo.addEventListener("click", () => {
-    video.pause();
-    overlay.classList.remove("active");
+  /* ===== FIN ===== */
+  function finishIntro() {
+    localStorage.setItem("introSeen", "true");
     videoContainer.classList.remove("show");
+    overlay.classList.remove("active");
 
     setTimeout(() => {
       window.location.href = "menu.html";
-    }, 500);
-  });
+    }, 800);
+  }
 
-  /* =========================
-     🔊 SON
-  ========================= */
-  soundButton.addEventListener("click", () => {
+  video.addEventListener("ended", finishIntro);
+  closeVideo.addEventListener("click", finishIntro);
+
+  soundButton.onclick = () => {
     video.muted = !video.muted;
     soundButton.textContent = video.muted ? "🔊" : "🔇";
-  });
+  };
 
 });
