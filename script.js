@@ -12,11 +12,16 @@ const video = document.getElementById("mainVideo")
 const soundButton = document.getElementById("soundButton")
 const menuButton = document.getElementById("menuButton")
 
-/* ===== GEMMES CANVAS ===== */
+/* ===== FX CANVAS ===== */
 const canvas = document.getElementById("fxCanvas")
 const ctx = canvas.getContext("2d")
 canvas.width = innerWidth
 canvas.height = innerHeight
+
+window.addEventListener("resize", () => {
+  canvas.width = innerWidth
+  canvas.height = innerHeight
+})
 
 let gems = []
 
@@ -61,11 +66,19 @@ function animateGems() {
 animateGems()
 
 /* ===== COFFRE ===== */
-tresor.addEventListener("click", e => {
+let opened = false
+
+tresor.addEventListener("click", () => {
+  if (opened) return
+  opened = true
+
   tresor.classList.add("open")
 
   const r = tresor.getBoundingClientRect()
-  spawnGems(r.left + r.width/2, r.top)
+  spawnGems(
+    r.left + r.width / 2,
+    r.top + r.height / 2
+  )
 
   mapGame.style.display = "flex"
 })
@@ -111,9 +124,23 @@ async function startVideo() {
 
   loader.style.display = "none"
   videoContainer.style.display = "flex"
-  video.play()
+
+  video.muted = false
+  video.play().catch(() => {
+    video.muted = true
+    video.play()
+  })
 }
 
-soundButton.onclick = () => video.muted = !video.muted
-menuButton.onclick = () => location.href = "menu.html"
+soundButton.onclick = () => {
+  video.muted = !video.muted
+  soundButton.textContent = video.muted ? "🔇" : "🔊"
+}
+
+menuButton.onclick = async () => {
+  fade.classList.add("show")
+  await wait(800)
+  location.href = "menu.html"
+}
+
 video.onended = () => fade.classList.add("show")
