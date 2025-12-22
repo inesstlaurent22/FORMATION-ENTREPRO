@@ -1,79 +1,102 @@
-document.addEventListener("DOMContentLoaded", () => {
+const tresor=document.getElementById("tresor")
+const miniGame=document.getElementById("miniGame")
+const symbols=document.querySelectorAll(".symbols button")
+const msg=document.getElementById("gameMessage")
+const canvas=document.getElementById("fxCanvas")
+const ctx=canvas.getContext("2d")
 
-  const tresor = document.getElementById("tresor");
-  const video = document.getElementById("mainVideo");
-  const videoContainer = document.getElementById("videoContainer");
-  const loader = document.getElementById("videoLoader");
-  const overlay = document.getElementById("cinematicOverlay");
-  const soundButton = document.getElementById("soundButton");
-  const closeVideo = document.getElementById("closeVideo");
-  const diamondLayer = document.getElementById("diamondLayer");
+const loader=document.getElementById("videoLoader")
+const videoContainer=document.getElementById("videoContainer")
+const video=document.getElementById("mainVideo")
+const soundButton=document.getElementById("soundButton")
+const closeVideo=document.getElementById("closeVideo")
 
-  const colors = ["#FFD700","#00FFFF","#FF00FF","#00FF7F","#1E90FF","#FF4500"];
-  
-  function spawnDiamonds(x, y) {
-    for (let i = 0; i < 35; i++) {
-      const size = Math.random() * 12 + 10;
-      const diamond = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-      diamond.setAttribute("points", `${size} 0, ${size*2} ${size}, ${size} ${size*2}, 0 ${size}`);
-      diamond.setAttribute("fill", colors[Math.floor(Math.random()*colors.length)]);
-      diamond.style.transform = `translate(${x}px, ${y}px) rotate(0deg)`;
-      diamond.style.transition = "transform 1.6s ease-out, opacity 1.6s";
-      diamondLayer.appendChild(diamond);
-      requestAnimationFrame(() => {
-        const dx = (Math.random()-0.5)*400;
-        const dy = Math.random()*300 + 200;
-        diamond.style.transform = `translate(${x+dx}px, ${y+dy}px) rotate(${Math.random()*720}deg)`;
-        diamond.style.opacity = "0";
-      });
-      setTimeout(() => diamond.remove(), 1600);
+canvas.width=innerWidth
+canvas.height=innerHeight
+
+let order=[2,0,1]
+let player=[]
+let particles=[]
+
+tresor.onclick=()=>{
+  miniGame.style.display="flex"
+  player=[]
+  msg.textContent=""
+}
+
+symbols.forEach(btn=>{
+  btn.onclick=()=>{
+    player.push(+btn.dataset.id)
+    if(player.length===order.length){
+      checkOrder()
     }
   }
+})
 
-  async function handleTresorClick(e) {
-    // explosion gems
-    const x = e.clientX || window.innerWidth/2;
-    const y = e.clientY || window.innerHeight/2;
-    spawnDiamonds(x, y);
-
-    // animation coffre
-    tresor.classList.add("open");
-    overlay.classList.add("active");
-    if (navigator.vibrate) navigator.vibrate(80);
-
-    // attente 2s
-    await wait(2000);
-
-    // loader
-    loader.classList.add("show");
-    await wait(1500);
-    loader.classList.remove("show");
-
-    // vidéo
-    videoContainer.style.display = "flex";
-    requestAnimationFrame(() => videoContainer.classList.add("show"));
-    video.currentTime = 0;
-    video.muted = true;
-    video.play().catch(() => {});
+function checkOrder(){
+  if(player.every((v,i)=>v===order[i])){
+    msg.textContent="✔ Serment validé"
+    explode()
+    setTimeout(openTreasure,1000)
+  }else{
+    msg.textContent="✖ Mauvais ordre"
+    shake()
+    player=[]
   }
+}
 
-  tresor.addEventListener("click", handleTresorClick);
+function openTreasure(){
+  miniGame.style.display="none"
+  tresor.classList.add("open")
+  loader.style.display="flex"
 
-  function finish() {
-    video.pause();
-    videoContainer.classList.remove("show");
-    overlay.classList.remove("active");
-    setTimeout(() => window.location.href = "menu.html", 800);
+  setTimeout(()=>{
+    loader.style.display="none"
+    videoContainer.style.display="flex"
+    video.play()
+  },1500)
+}
+
+/* PARTICULES CANVAS */
+function explode(){
+  for(let i=0;i<80;i++){
+    particles.push({
+      x:innerWidth/2,
+      y:innerHeight/2,
+      vx:(Math.random()-.5)*12,
+      vy:(Math.random()-.8)*12,
+      r:Math.random()*4+3,
+      color:`hsl(${Math.random()*360},100%,60%)`
+    })
   }
+}
 
-  video.addEventListener("ended", finish);
-  closeVideo.addEventListener("click", finish);
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height)
+  particles.forEach(p=>{
+    p.x+=p.vx
+    p.y+=p.vy
+    p.vy+=0.25
+    ctx.fillStyle=p.color
+    ctx.beginPath()
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+    ctx.fill()
+  })
+  particles=particles.filter(p=>p.y<innerHeight+50)
+  requestAnimationFrame(animate)
+}
+animate()
 
-  soundButton.addEventListener("click", () => {
-    video.muted = !video.muted;
-    soundButton.textContent = video.muted ? "🔊" : "🔇";
-  });
+function shake(){
+  miniGame.querySelector(".scroll").animate([
+    {transform:"translateX(0)"},
+    {transform:"translateX(-10px)"},
+    {transform:"translateX(10px)"},
+    {transform:"translateX(0)"}
+  ],{duration:400})
+}
 
-});
-
-function wait(ms){return new Promise(res=>setTimeout(res,ms))}
+closeVideo.onclick=()=>location.href="menu.html"
+soundButton.onclick=()=>{
+  video.muted=!video.muted
+}
