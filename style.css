@@ -13,7 +13,6 @@ html, body {
   overflow: hidden;
   font-family: Arial, sans-serif;
 }
-
 /* ================================================= */
 /* 🌍 PAGE INDEX – SCÈNE PRINCIPALE */
 /* ================================================= */
@@ -32,11 +31,6 @@ html, body {
   object-fit: cover;
   z-index: 1;
 }
-
-/* ================================================= */
-/* 🧰 COFFRE */
-/* ================================================= */
-
 .tresor-button {
   position: absolute;
   left: 45%;
@@ -63,7 +57,84 @@ html, body {
   opacity: 1;
   transform: scale(1.05);
 }
+#gemCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 900;
+}
+#videoContainer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 9999;
+}
 
+#videoContainer.show {
+  opacity: 1;
+}
+
+#videoContainer video {
+  width: 80%;
+  max-width: 900px;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 16px;
+}
+#closeVideo {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.95);
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 10001;
+}
+#soundButton {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  font-size: 30px;
+  background: rgba(255,255,255,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 15px gold;
+  animation: glow 1.8s infinite alternate;
+  z-index: 10001;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 10px gold; }
+  to   { box-shadow: 0 0 25px gold; }
+}
+#cinematicOverlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,215,0,0.35), rgba(0,0,0,0.95));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+  z-index: 5000;
+}
+
+#cinematicOverlay.active {
+  opacity: 1;
+}
 /* ================================================= */
 /* 🏴‍☠️ PAGE MENU – SCÈNE PIRATES */
 /* ================================================= */
@@ -75,6 +146,7 @@ html, body {
   overflow: hidden;
 }
 
+/* FOND */
 .scene .background {
   position: absolute;
   inset: 0;
@@ -84,12 +156,14 @@ html, body {
   z-index: 1;
 }
 
+/* CONTENEUR PIRATES */
 .pirates-container {
   position: absolute;
   inset: 0;
   z-index: 5;
 }
 
+/* PIRATE GLOBAL */
 .pirate {
   position: absolute;
   cursor: pointer;
@@ -97,6 +171,7 @@ html, body {
 }
 
 .pirate img {
+  width: 100%;
   height: auto;
 }
 
@@ -104,20 +179,11 @@ html, body {
 /* 📍 POSITIONS PIRATES */
 /* ================================================= */
 
-.pirate1 { left: 110px; top: 618px; }
-.pirate1 img { width: 138px; height: 250px; }
-
-.pirate2 { left: 848px; top: 696px; }
-.pirate2 img { width: 186px; height: 178px; }
-
-.pirate3 { left: 716px; top: 363px; }
-.pirate3 img { width: 133px; height: 217px; }
-
-.pirate4 { left: 902px; top: 206px; }
-.pirate4 img { width: 143px; height: 187px; }
-
-.pirate5 { left: 240px; top: 100px; }
-.pirate5 img { width: 163px; height: 235px; }
+.pirate1 { left: 110px; top: 618px; width: 138px; }
+.pirate2 { left: 848px; top: 696px; width: 186px; }
+.pirate3 { left: 716px; top: 363px; width: 133px; }
+.pirate4 { left: 902px; top: 206px; width: 143px; }
+.pirate5 { left: 240px; top: 100px; width: 163px; }
 
 /* ================================================= */
 /* 🔒 LOCK / UNLOCK */
@@ -135,25 +201,6 @@ html, body {
 .pirate.unlocked:hover {
   transform: scale(1.08);
   filter: drop-shadow(0 0 15px gold);
-}
-
-/* ================================================= */
-/* 💬 BULLE INFO */
-/* ================================================= */
-
-#infoBubble {
-  position: absolute;
-  bottom: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.85);
-  color: white;
-  padding: 20px 24px;
-  border-radius: 14px;
-  max-width: 420px;
-  display: none;
-  z-index: 10;
-  text-align: center;
 }
 
 /* ================================================= */
@@ -181,6 +228,25 @@ html, body {
     filter: none;
     opacity: 1;
   }
+}
+
+/* ================================================= */
+/* 💬 BULLE DE TEXTE */
+/* ================================================= */
+
+#infoBubble {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 20px 24px;
+  border-radius: 14px;
+  max-width: 420px;
+  text-align: center;
+  z-index: 10;
+  display: none;
 }
 
 /* ================================================= */
@@ -223,14 +289,13 @@ html, body {
   font-size: 14px;
   cursor: pointer;
   z-index: 10000;
-  transition: transform 0.2s, background 0.3s;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
 #resetAdventure:hover {
   background: rgba(0,0,0,1);
   transform: scale(1.05);
 }
-
 /* ================================================= */
 /* 🟤 PAGE COMMERCE */
 /* ================================================= */
@@ -239,8 +304,10 @@ html, body {
   position: relative;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
+/* FOND */
 .fondcom {
   position: absolute;
   inset: 0;
@@ -250,7 +317,10 @@ html, body {
   z-index: 1;
 }
 
-/* OVERLAY CINÉMATIQUE */
+/* ================================================= */
+/* 🎥 OVERLAY CINÉMATIQUE */
+/* ================================================= */
+
 #cinematicOverlaycom {
   position: fixed;
   inset: 0;
@@ -269,7 +339,10 @@ html, body {
   opacity: 0;
 }
 
-/* CONTENEUR VIDÉO */
+/* ================================================= */
+/* 🎬 CONTENEUR VIDÉO */
+/* ================================================= */
+
 #videoContainercom {
   position: fixed;
   inset: 0;
@@ -287,11 +360,19 @@ html, body {
   filter: contrast(1.1) saturate(1.15);
 }
 
-/* BOUTON FERMER */
+/* IMPORTANT : PAS D’OBSCURCISSEMENT AU SURVOL */
+#comVideo:hover {
+  filter: contrast(1.1) saturate(1.15);
+}
+
+/* ================================================= */
+/* ❌ BOUTON FERMER */
+/* ================================================= */
+
 #closeVideocom {
   position: absolute;
-  right: 20px;
   top: 20px;
+  right: 20px;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -301,18 +382,21 @@ html, body {
   color: gold;
   cursor: pointer;
   z-index: 11;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease;
 }
 
 #closeVideocom:hover {
   transform: scale(1.1);
 }
 
-/* 🔊 SOUND BUTTON UNIQUE + GLOW */
+/* ================================================= */
+/* 🔊 SOUND BUTTON UNIQUE + FAISCEAU LUMINEUX */
+/* ================================================= */
+
 #soundButtoncom {
   position: absolute;
-  left: 20px;
   top: 20px;
+  left: 20px;
   width: 64px;
   height: 64px;
   border-radius: 50%;
@@ -321,20 +405,23 @@ html, body {
   background: rgba(0,0,0,0.85);
   color: gold;
   cursor: pointer;
+  z-index: 11;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 11;
-  box-shadow: 0 0 15px gold;
   animation: glowcom 1.8s infinite alternate;
 }
 
+/* FAISCEAU */
 @keyframes glowcom {
-  from { box-shadow: 0 0 10px gold; }
-  to   { box-shadow: 0 0 28px gold; }
-}
-
-/* UTILITAIRE */
-.hidden {
-  display: none;
+  from {
+    box-shadow:
+      0 0 10px gold,
+      0 0 30px rgba(255,215,0,0.6);
+  }
+  to {
+    box-shadow:
+      0 0 25px gold,
+      0 0 60px rgba(255,215,0,0.9);
+  }
 }
