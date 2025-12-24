@@ -2,54 +2,52 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KIT IN - Crée ton entreprise</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- CONTENEUR -->
-  <div class="Fondindex">
+<div class="Fondindex">
 
-    <img src="images/Fond1.PNG" class="fondindex" alt="Fond">
+  <img src="images/Fond1.PNG" class="fondindex">
 
-    <!-- COFFRE -->
-    <div class="tresor-button" id="tresor">
-      <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme" alt="">
-      <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert" alt="">
-    </div>
-
-    <!-- VIDÉO -->
-    <div id="videoContainer">
-      <button id="closeVideo" aria-label="Fermer la vidéo">✕</button>
-      <button id="soundButton" aria-label="Activer le son">🔊</button>
-
-      <video
-        id="mainVideo"
-        playsinline
-        muted
-        preload="auto">
-        <source src="video/Video1.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <!-- PARTICULES -->
-    <canvas id="gemCanvas"></canvas>
-
-    <!-- OVERLAY CINÉMATIQUE -->
-    <div id="cinematicOverlay"></div>
-
-    <!-- LOADER -->
-    <div id="loaderScreen">
-      <div class="loader-content">
-        <div class="loader-gem">🏴‍☠️</div>
-        <p>Chargement du contenu…</p>
-      </div>
-    </div>
-
+  <!-- COFFRE -->
+  <div class="tresor-button" id="tresor">
+    <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme">
+    <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert">
   </div>
 
-  <script src="script.js"></script>
+  <!-- MINI JEU -->
+  <div id="mapGame">
+    <div id="mapPieces"></div>
+  </div>
+
+  <!-- LOADER -->
+  <div id="loaderScreen">
+    <div class="loader-content">
+      <div class="loader-gem">💎</div>
+      <p id="loaderText">Le coffre s’ouvre…</p>
+    </div>
+  </div>
+
+  <!-- VIDÉO -->
+  <div id="videoContainer">
+    <button id="closeVideo">✕</button>
+    <video id="mainVideo" muted playsinline>
+      <source src="video/Video1.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- CANVAS -->
+  <canvas id="gemCanvas"></canvas>
+
+  <!-- SONS -->
+  <audio id="clickSound" src="sounds/click.mp3"></audio>
+  <audio id="errorSound" src="sounds/error.mp3"></audio>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
