@@ -78,18 +78,33 @@ function checkResult() {
   mapGame.style.display = "none";
 
   if (JSON.stringify(selectedOrder) === JSON.stringify(correctOrder)) {
-    loaderText.textContent = "Bravo ! L’aventure commence…";
-    loaderScreen.style.display = "flex";
+
+    const victoryScreen = document.getElementById("victoryScreen");
+    victoryScreen.style.display = "flex";
+
+    setTimeout(() => {
+      victoryScreen.style.display = "none";
+      loaderText.textContent = "L’aventure commence…";
+      loaderScreen.style.display = "flex";
+    }, 3000);
 
     setTimeout(() => {
       loaderScreen.style.display = "none";
       videoContainer.style.display = "flex";
       mainVideo.play();
-    }, 2000);
+    }, 4500);
+
   } else {
     errorSound.play();
     loaderText.textContent = "Mauvais ordre… réessaie !";
     loaderScreen.style.display = "flex";
+
+    setTimeout(() => {
+      loaderScreen.style.display = "none";
+      startMiniGame();
+    }, 2000);
+  }
+}
 
     setTimeout(() => {
       loaderScreen.style.display = "none";
