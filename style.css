@@ -16,12 +16,6 @@ html, body {
 /* 🌍 SCÈNE INDEX */
 /* ========================= */
 
-.Fondindex {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
-
 /* FOND */
 .fondindex {
   position: absolute;
