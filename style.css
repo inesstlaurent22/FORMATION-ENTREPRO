@@ -1,289 +1,135 @@
-/* ================================================= */
-/* 🔧 RESET GLOBAL */
-/* ================================================= */
-* {
+body {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+  background: black;
   font-family: Arial, sans-serif;
+  overflow: hidden;
+  color: white;
 }
 
-/* ================================================= */
-/* 🌍 PAGE INDEX – SCÈNE PRINCIPALE */
-/* ================================================= */
-
-.Fondindex {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
-
-/* FOND */
-.fondindex {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-/* ================================================= */
-/* 🧰 COFFRE */
-/* ================================================= */
-
-.tresor-button {
-  position: absolute;
-  left: 45%;
-  top: 80%;
-  transform: translate(-50%, -50%);
-  width: clamp(288px, 32vw, 648px);
-  aspect-ratio: 1;
-  cursor: pointer;
-  z-index: 20;
-}
-
-.tresor-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-.coffre-ferme { opacity: 1; }
-.coffre-ouvert { opacity: 0; transform: scale(0.95); }
-
-.tresor-button:hover .coffre-ferme { opacity: 0; }
-.tresor-button:hover .coffre-ouvert {
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-/* ================================================= */
-/* 🗺 MINI-JEU */
-/* ================================================= */
-
-#mapGame {
+/* LOADER */
+#loaderScreen {
   position: fixed;
   inset: 0;
+  background: rgba(0,0,0,0.85);
   display: none;
-  justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.85);
-  z-index: 8000;
+  justify-content: center;
+  z-index: 100;
+}
+
+#loaderText {
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+/* MINI JEU */
+#mapGame {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+#gameInstruction {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 #mapPieces {
   display: flex;
-  gap: 40px;
+  gap: 20px;
 }
 
 .map-piece {
-  width: 180px;
+  width: 150px;
   cursor: pointer;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  position: relative;
 }
 
-.map-piece:hover {
-  transform: scale(1.1);
-}
-
-.map-piece.selected {
-  opacity: 0.4;
-}
-
-/* ================================================= */
-/* 🎬 VIDÉO CINÉMATIQUE */
-/* ================================================= */
-
-#videoContainer {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 1s ease;
-  z-index: 9999;
-}
-
-#videoContainer video {
-  width: 80%;
-  max-width: 900px;
-  max-height: 80vh;
-  object-fit: contain;
-  border-radius: 16px;
-}
-
-#closeVideo {
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255,255,255,0.95);
-  font-size: 22px;
-  cursor: pointer;
-  z-index: 10001;
-}
-
-/* ================================================= */
-/* 💥 PARTICULES */
-/* ================================================= */
-
-#gemCanvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
-}
-
-/* ================================================= */
-/* 🎭 OVERLAY CINÉMATIQUE */
-/* ================================================= */
-
-#cinematicOverlay {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, rgba(255,215,0,0.35), rgba(0,0,0,0.95));
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.2s ease;
-  z-index: 5000;
-}
-
-#cinematicOverlay.active {
-  opacity: 1;
-}
-
-/* ================================================= */
-/* ⏳ LOADER */
-/* ================================================= */
-
-#loaderScreen {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, rgba(255,215,0,0.25), rgba(0,0,0,0.95));
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9000;
-}
-
-.loader-content {
-  color: white;
-  text-align: center;
-}
-
-.loader-gem {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 20px;
-  background: linear-gradient(45deg, gold, #ffb700);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  border-radius: 6px;
-  transform: rotate(45deg);
-  animation: spin 1.6s infinite ease-in-out;
-}
-
-#loaderText {
-  margin-top: 20px;
-  font-size: 18px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-@keyframes spin {
-  0% { transform: rotate(45deg); }
-  100% { transform: rotate(405deg); }
-}
-
-/* ================================================= */
-/* 🔢 NUMÉRO SUR LES CARTES */
-/* ================================================= */
-
+/* NUMÉRO FLASH */
 .order-number {
   position: absolute;
-  top: -12px;
-  right: -12px;
-  width: 32px;
-  height: 32px;
-  background: gold;
-  color: black;
-  font-weight: bold;
-  border-radius: 50%;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 15px gold;
-  animation: pop 0.3s ease;
+  font-size: 4rem;
+  color: white;
+  text-shadow: 0 0 20px gold, 0 0 40px gold;
+  animation: flash 0.8s ease;
 }
 
-@keyframes pop {
-  from { transform: scale(0); }
-  to { transform: scale(1); }
+@keyframes flash {
+  0% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
-/* ================================================= */
-/* 🎉 ÉCRAN DE VICTOIRE */
-/* ================================================= */
-
+/* VICTOIRE */
 #victoryScreen {
+  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: none;
+  background: rgba(0,0,0,0.9);
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  z-index: 8500;
-  animation: fadeIn 1.2s ease forwards;
+  justify-content: center;
+  gap: 20px;
+  z-index: 90;
 }
 
-#victoryScreen h2 {
-  color: gold;
-  font-size: 28px;
-  margin-bottom: 30px;
-  text-align: center;
-  text-shadow: 0 0 20px gold;
+.full-map {
+  width: 300px;
+  box-shadow: 0 0 40px white;
 }
 
-#victoryScreen img {
-  width: 320px;
-  animation: glowFlash 1.8s infinite alternate;
+/* VIDÉO */
+#videoContainer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 95;
 }
 
-/* ✨ FLASH LUMINEUX */
-@keyframes glowFlash {
-  from {
-    box-shadow: 0 0 20px gold, 0 0 40px gold;
-  }
-  to {
-    box-shadow: 0 0 40px #fff, 0 0 80px gold;
-  }
+#mainVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
+/* BOUTON SON */
+#soundToggle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 0 15px white;
+  z-index: 10;
+}
+
+#soundToggle:hover {
+  box-shadow: 0 0 30px white;
+}
+
+/* FADE */
 .fade-in {
   animation: fadeIn 1.5s ease forwards;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; }
-  to   { opacity: 1; }
+  to { opacity: 1; }
 }
-
 /* ================================================= */
 /* 🏴‍☠️ PAGE MENU – SCÈNE PIRATES */
 /* ================================================= */
