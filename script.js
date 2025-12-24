@@ -14,7 +14,7 @@ let selectedOrder = [];
 const correctOrder = ["piece1", "piece2", "piece3"];
 
 /* ===============================
-   COFFRE
+   COFFRE → LOADER AVANT MINI JEU
 ================================ */
 tresorButton.addEventListener("click", () => {
   clickSound.play();
@@ -22,13 +22,13 @@ tresorButton.addEventListener("click", () => {
   const rect = tresorButton.getBoundingClientRect();
   explode(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
-  loaderText.textContent = "Le coffre s’ouvre…";
+  loaderText.textContent = "Gagne ce mini jeux pour commencer ta quête 🥳";
   loaderScreen.style.display = "flex";
 
   setTimeout(() => {
     loaderScreen.style.display = "none";
     startMiniGame();
-  }, 2000);
+  }, 2500);
 });
 
 /* ===============================
@@ -79,21 +79,7 @@ function checkResult() {
   mapGame.style.display = "none";
 
   if (JSON.stringify(selectedOrder) === JSON.stringify(correctOrder)) {
-
-    victoryScreen.style.display = "flex";
-
-    setTimeout(() => {
-      victoryScreen.style.display = "none";
-      loaderText.textContent = "L’aventure commence…";
-      loaderScreen.style.display = "flex";
-    }, 3000);
-
-    setTimeout(() => {
-      loaderScreen.style.display = "none";
-      videoContainer.style.display = "flex";
-      mainVideo.play();
-    }, 4500);
-
+    showVictory();
   } else {
     errorSound.play();
     loaderText.textContent = "Mauvais ordre… réessaie !";
@@ -107,7 +93,36 @@ function checkResult() {
 }
 
 /* ===============================
-   VIDÉO
+   VICTOIRE → CARTE ENTIÈRE
+================================ */
+function showVictory() {
+  victoryScreen.style.display = "flex";
+  victoryScreen.classList.add("fade-in");
+
+  setTimeout(() => {
+    victoryScreen.style.display = "none";
+    launchVideo();
+  }, 3500);
+}
+
+/* ===============================
+   FADE + VIDÉO
+================================ */
+function launchVideo() {
+  loaderText.textContent = "L’aventure commence…";
+  loaderScreen.style.display = "flex";
+  loaderScreen.classList.add("fade-in");
+
+  setTimeout(() => {
+    loaderScreen.style.display = "none";
+    videoContainer.style.display = "flex";
+    videoContainer.classList.add("fade-in");
+    mainVideo.play();
+  }, 2000);
+}
+
+/* ===============================
+   FERMETURE VIDÉO
 ================================ */
 document.getElementById("closeVideo").onclick = () => {
   mainVideo.pause();
@@ -115,7 +130,7 @@ document.getElementById("closeVideo").onclick = () => {
 };
 
 /* ===============================
-   GEMS
+   GEMS FX
 ================================ */
 const canvas = document.getElementById("gemCanvas");
 const ctx = canvas.getContext("2d");
