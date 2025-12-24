@@ -1,224 +1,139 @@
-/* ================================================= */
-/* 🔧 ÉLÉMENTS DOM */
-/* ================================================= */
+const tresorButton = document.getElementById("tresorButton");
+const fadeScreen = document.getElementById("fadeScreen");
+const loaderScreen = document.getElementById("loaderScreen");
+const loaderText = document.getElementById("loaderText");
+const mapGame = document.getElementById("mapGame");
+const mapPiecesContainer = document.getElementById("mapPieces");
+const videoContainer = document.getElementById("videoContainer");
+const finalVideo = document.getElementById("finalVideo");
 
-const tresor = document.getElementById('tresor');
-const overlay = document.getElementById('cinematicOverlay');
-const fond = document.querySelector('.Fondindex');
+const clickSound = document.getElementById("clickSound");
+const errorSound = document.getElementById("errorSound");
 
-const mapGame = document.getElementById('mapGame');
-const mapPiecesContainer = document.querySelector('.map-pieces');
-const mapPieces = Array.from(document.querySelectorAll('.map-piece'));
-const mapMessage = document.getElementById('mapMessage');
-
-const loaderScreen = document.getElementById('loaderScreen');
-const loaderText = loaderScreen.querySelector('p');
-
-const videoContainer = document.getElementById('videoContainer');
-const mainVideo = document.getElementById('mainVideo');
-const closeVideo = document.getElementById('closeVideo');
-const soundButton = document.getElementById('soundButton');
-
-/* SONS */
-const clickSound = new Audio('sounds/Clic.mp3');
-const errorSound = new Audio('sounds/Erreur.mp3');
-
-let alreadyTriggered = false;
-let currentNumber = 1;
+const correctOrder = ["piece1", "piece2", "piece3"];
 let selectedOrder = [];
 
-/* ================================================= */
-/* 💥 GEMS */
-/* ================================================= */
+/* ===============================
+   🧰 LANCEMENT DU JEU
+================================ */
 
-const canvas = document.getElementById('gemCanvas');
-const ctx = canvas.getContext('2d');
-let gems = [];
-const gravity = 0.45;
+tresorButton.addEventListener("click", () => {
+  clickSound.play();
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-class Gem {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.vx = (Math.random() - 0.5) * 12;
-    this.vy = Math.random() * -14 - 6;
-    this.size = Math.random() * 6 + 4;
-    this.life = 1;
-    this.color = ['#ffd600', '#ff4081', '#00e5ff']
-      [Math.floor(Math.random() * 3)];
-  }
-  update() {
-    this.vy += gravity;
-    this.x += this.vx;
-    this.y += this.vy;
-    this.life -= 0.02;
-  }
-  draw() {
-    ctx.globalAlpha = this.life;
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.size, this.size);
-  }
-}
-
-function explode(x, y) {
-  for (let i = 0; i < 60; i++) {
-    gems.push(new Gem(x, y));
-  }
-}
-
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  gems = gems.filter(g => g.life > 0);
-  gems.forEach(g => { g.update(); g.draw(); });
-  requestAnimationFrame(animate);
-}
-animate();
-
-function triggerExplosion() {
-  const rect = tresor.getBoundingClientRect();
-  explode(rect.left + rect.width / 2, rect.top + rect.height / 2);
-}
-
-/* ================================================= */
-/* 🎬 CLICK COFFRE */
-/* ================================================= */
-
-tresor.addEventListener('click', () => {
-  if (alreadyTriggered) return;
-  alreadyTriggered = true;
-
-  triggerExplosion();
+  fadeScreen.classList.add("active");
 
   setTimeout(() => {
-    overlay.classList.add('active');
+    loaderText.textContent = "Gagne ce mini jeu pour commencer l’aventure";
+    loaderScreen.style.display = "flex";
   }, 600);
 
   setTimeout(() => {
-    showLoader(
-      '🏴‍☠️',
-      'Gagne ce mini-jeu pour commencer l’aventure'
-    );
-  }, 1400);
-
-  setTimeout(startMiniGame, 2800);
+    loaderScreen.style.display = "none";
+    fadeScreen.classList.remove("active");
+    startMiniGame();
+  }, 2400);
 });
 
-/* ================================================= */
-/* ⏳ LOADER */
-/* ================================================= */
-
-function showLoader(icon, text) {
-  loaderScreen.style.display = 'flex';
-  loaderScreen.querySelector('.loader-gem').textContent = icon;
-  loaderText.textContent = text;
-}
-
-function hideLoader() {
-  loaderScreen.style.display = 'none';
-}
-
-/* ================================================= */
-/* 🗺️ MINI-JEU */
-/* ================================================= */
+/* ===============================
+   🧩 MINI JEU
+================================ */
 
 function startMiniGame() {
-  hideLoader();
-  mapGame.style.display = 'flex';
-  resetGame();
-}
-
-function resetGame() {
-  currentNumber = 1;
+  mapGame.style.display = "flex";
+  mapPiecesContainer.innerHTML = "";
   selectedOrder = [];
-  mapMessage.textContent = 'Clique les morceaux dans le bon ordre';
 
-  mapPieces.forEach(p => {
-    p.classList.remove('selected');
-    p.querySelector('.order-number')?.remove();
+  const pieces = [
+    { id: "piece1", img: "img/map1.png" },
+    { id: "piece2", img: "img/map2.png" },
+    { id: "piece3", img: "img/map3.png" }
+  ];
+
+  shuffleArray(pieces);
+
+  pieces.forEach(piece => {
+    const img = document.createElement("img");
+    img.src = piece.img;
+    img.classList.add("map-piece");
+    img.dataset.id = piece.id;
+
+    img.addEventListener("click", () => selectPiece(img));
+
+    mapPiecesContainer.appendChild(img);
   });
-
-  shufflePieces();
 }
 
-function shufflePieces() {
-  mapPiecesContainer.innerHTML = '';
-  mapPieces
-    .sort(() => Math.random() - 0.5)
-    .forEach(p => mapPiecesContainer.appendChild(p));
-}
+/* ===============================
+   🖱️ SÉLECTION DES PIÈCES
+================================ */
 
-mapPieces.forEach(piece => {
-  piece.addEventListener('click', () => {
-    if (piece.classList.contains('selected')) return;
+function selectPiece(piece) {
+  if (piece.classList.contains("selected")) return;
 
-    clickSound.currentTime = 0;
-    clickSound.play();
+  clickSound.play();
 
-    piece.classList.add('selected');
-    selectedOrder.push(piece.dataset.order);
+  selectedOrder.push(piece.dataset.id);
+  piece.classList.add("selected");
 
-    const badge = document.createElement('div');
-    badge.className = 'order-number';
-    badge.textContent = currentNumber;
-    piece.appendChild(badge);
+  const number = document.createElement("div");
+  number.classList.add("order-number");
+  number.textContent = selectedOrder.length;
+  piece.appendChild(number);
 
-    currentNumber++;
-
-    if (currentNumber > 3) {
-      checkResult();
-    }
-  });
-});
-
-function checkResult() {
-  const success = selectedOrder.join('') === '123';
-
-  if (success) {
-    mapMessage.textContent = '🎉 Bravo !';
-    setTimeout(startVideoSequence, 1200);
-  } else {
-    errorSound.currentTime = 0;
-    errorSound.play();
-
-    mapGame.style.display = 'none';
-    showLoader('❌', 'Tu as échoué, réessaye !');
-
-    setTimeout(startMiniGame, 2000);
+  if (selectedOrder.length === correctOrder.length) {
+    checkResult();
   }
 }
 
-/* ================================================= */
-/* 🎥 VIDÉO */
-/* ================================================= */
+/* ===============================
+   ✅ / ❌ VÉRIFICATION
+================================ */
 
-function startVideoSequence() {
-  mapGame.style.display = 'none';
-  showLoader('🏴‍☠️', 'Chargement du trésor…');
+function checkResult() {
+  mapGame.style.display = "none";
 
-  setTimeout(() => {
-    hideLoader();
-    videoContainer.style.display = 'flex';
-    soundButton.style.display = 'flex';
-    mainVideo.muted = true;
-    mainVideo.play();
-  }, 1500);
+  if (JSON.stringify(selectedOrder) === JSON.stringify(correctOrder)) {
+    loaderText.textContent = "Bravo ! L’aventure commence...";
+    loaderScreen.style.display = "flex";
+
+    setTimeout(() => {
+      loaderScreen.style.display = "none";
+      showVideo();
+    }, 2000);
+
+  } else {
+    errorSound.play();
+    loaderText.textContent = "Tu as échoué, réessaye !";
+    loaderScreen.style.display = "flex";
+
+    setTimeout(() => {
+      loaderScreen.style.display = "none";
+      startMiniGame();
+    }, 2000);
+  }
 }
 
-soundButton.addEventListener('click', () => {
-  mainVideo.muted = false;
-  soundButton.style.display = 'none';
+/* ===============================
+   🎬 VIDÉO
+================================ */
+
+function showVideo() {
+  videoContainer.style.display = "flex";
+  finalVideo.play();
+}
+
+document.getElementById("closeVideo").addEventListener("click", () => {
+  finalVideo.pause();
+  videoContainer.style.display = "none";
 });
 
-mainVideo.addEventListener('ended', () => {
-  window.location.href = 'menu.html';
-});
-closeVideo.addEventListener('click', () => {
-  window.location.href = 'menu.html';
-});
+/* ===============================
+   🔀 MÉLANGE
+================================ */
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
