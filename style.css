@@ -61,10 +61,8 @@ html, body {
 }
 
 .tresor-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  transition: opacity .25s ease;
+  pointer-events: none; /* 🔥 ESSENTIEL */
+  user-select: none;
 }
 
 .tresor-img.ferme { opacity: 1; }
