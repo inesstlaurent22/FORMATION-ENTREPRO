@@ -5,21 +5,24 @@ const loaderText = document.getElementById("loaderText");
 const mapGame = document.getElementById("mapGame");
 const mapPiecesContainer = document.getElementById("mapPieces");
 const videoContainer = document.getElementById("videoContainer");
-const finalVideo = document.getElementById("finalVideo");
+const mainVideo = document.getElementById("mainVideo");
 
 const clickSound = document.getElementById("clickSound");
 const errorSound = document.getElementById("errorSound");
 
-const correctOrder = ["piece1", "piece2", "piece3"];
+let gameStarted = false;
 let selectedOrder = [];
 
+const correctOrder = ["piece1", "piece2", "piece3"];
+
 /* ===============================
-   🧰 LANCEMENT DU JEU
+   COFFRE
 ================================ */
-
 tresorButton.addEventListener("click", () => {
-  clickSound.play();
+  if (gameStarted) return;
+  gameStarted = true;
 
+  clickSound.play();
   fadeScreen.classList.add("active");
 
   setTimeout(() => {
@@ -35,48 +38,44 @@ tresorButton.addEventListener("click", () => {
 });
 
 /* ===============================
-   🧩 MINI JEU
+   MINI JEU
 ================================ */
-
 function startMiniGame() {
+  selectedOrder = [];
   mapGame.style.display = "flex";
   mapPiecesContainer.innerHTML = "";
-  selectedOrder = [];
 
   const pieces = [
-    { id: "piece1", img: "img/map1.png" },
-    { id: "piece2", img: "img/map2.png" },
-    { id: "piece3", img: "img/map3.png" }
+    { id: "piece1", img: "images/Carteminigauche.png" },
+    { id: "piece2", img: "images/Carteminimilieu.png" },
+    { id: "piece3", img: "images/Carteminidroite.png" }
   ];
 
   shuffleArray(pieces);
 
-  pieces.forEach(piece => {
+  pieces.forEach(p => {
     const img = document.createElement("img");
-    img.src = piece.img;
-    img.classList.add("map-piece");
-    img.dataset.id = piece.id;
+    img.src = p.img;
+    img.className = "map-piece";
+    img.dataset.id = p.id;
 
     img.addEventListener("click", () => selectPiece(img));
-
     mapPiecesContainer.appendChild(img);
   });
 }
 
 /* ===============================
-   🖱️ SÉLECTION DES PIÈCES
+   SÉLECTION
 ================================ */
-
 function selectPiece(piece) {
   if (piece.classList.contains("selected")) return;
 
   clickSound.play();
-
   selectedOrder.push(piece.dataset.id);
   piece.classList.add("selected");
 
   const number = document.createElement("div");
-  number.classList.add("order-number");
+  number.className = "order-number";
   number.textContent = selectedOrder.length;
   piece.appendChild(number);
 
@@ -86,9 +85,8 @@ function selectPiece(piece) {
 }
 
 /* ===============================
-   ✅ / ❌ VÉRIFICATION
+   RÉSULTAT
 ================================ */
-
 function checkResult() {
   mapGame.style.display = "none";
 
@@ -98,9 +96,9 @@ function checkResult() {
 
     setTimeout(() => {
       loaderScreen.style.display = "none";
-      showVideo();
+      videoContainer.style.display = "flex";
+      mainVideo.play();
     }, 2000);
-
   } else {
     errorSound.play();
     loaderText.textContent = "Tu as échoué, réessaye !";
@@ -114,23 +112,16 @@ function checkResult() {
 }
 
 /* ===============================
-   🎬 VIDÉO
+   VIDÉO
 ================================ */
-
-function showVideo() {
-  videoContainer.style.display = "flex";
-  finalVideo.play();
-}
-
 document.getElementById("closeVideo").addEventListener("click", () => {
-  finalVideo.pause();
+  mainVideo.pause();
   videoContainer.style.display = "none";
 });
 
 /* ===============================
-   🔀 MÉLANGE
+   UTILS
 ================================ */
-
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
