@@ -3,69 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIT IN</title>
+  <title>KIT IN - Crée ton entreprise</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="Fondindex">
+  <!-- CONTENEUR -->
+  <div class="Fondindex">
 
-  <!-- FOND -->
-  <img src="images/Fond1.PNG" class="fondindex fond-desktop" alt="">
-  <img src="images/Fond1mobile.PNG" class="fondindex fond-mobile" alt="">
+    <img src="images/Fond1.PNG" class="fondindex" alt="Fond">
 
-  <!-- COFFRE -->
-  <div id="tresor" class="tresor-button">
-    <div class="tresor-inner">
-      <img src="images/Tresorfermer.png" class="tresor-img ferme" alt="">
-      <img src="images/Tresorouvert.png" class="tresor-img ouvert" alt="">
+    <!-- COFFRE -->
+    <div class="tresor-button" id="tresor">
+      <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme" alt="">
+      <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert" alt="">
     </div>
-  </div>
 
-  <!-- MINI JEU -->
-  <div id="mapGame">
-    <div class="map-container">
-      <h2>🗺️ Recompose la carte</h2>
+    <!-- VIDÉO -->
+    <div id="videoContainer">
+      <button id="closeVideo" aria-label="Fermer la vidéo">✕</button>
+      <button id="soundButton" aria-label="Activer le son">🔊</button>
 
-      <div class="map-slots">
-        <div class="slot" data-id="0"></div>
-        <div class="slot" data-id="1"></div>
-        <div class="slot" data-id="2"></div>
-      </div>
+      <video
+        id="mainVideo"
+        playsinline
+        muted
+        preload="auto">
+        <source src="video/Video1.mp4" type="video/mp4">
+      </video>
+    </div>
 
-      <div class="map-pieces">
-        <img src="images/Carteminigauche.png" class="piece" draggable="true" data-id="0">
-        <img src="images/Carteminijeuxmilieu.png" class="piece" draggable="true" data-id="1">
-        <img src="images/Carteminijeuxdroite.png" class="piece" draggable="true" data-id="2">
+    <!-- PARTICULES -->
+    <canvas id="gemCanvas"></canvas>
+
+    <!-- OVERLAY CINÉMATIQUE -->
+    <div id="cinematicOverlay"></div>
+
+    <!-- LOADER -->
+    <div id="loaderScreen">
+      <div class="loader-content">
+        <div class="loader-gem">🏴‍☠️</div>
+        <p>Chargement du contenu…</p>
       </div>
     </div>
+
   </div>
 
-  <!-- FX -->
-  <canvas id="fxCanvas"></canvas>
-
-  <!-- FADE -->
-  <div id="fade"></div>
-
-  <!-- LOADER -->
-  <div id="videoLoader">
-    <div class="loader-icon">🏴‍☠️</div>
-    <p>On ouvre le coffre…</p>
-  </div>
-
-  <!-- VIDEO -->
-  <div id="videoContainer">
-    <button id="soundButton" class="cinemaBtn">🔊</button>
-    <button id="menuButton" class="cinemaBtn" onclick="location.href='menu.html'">✕</button>
-
-    <video id="mainVideo" playsinline>
-      <source src="video/Video1.mp4" type="video/mp4">
-    </video>
-  </div>
-
-</div>
-
-<script src="index.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
