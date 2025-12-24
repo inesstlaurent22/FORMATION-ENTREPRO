@@ -1,117 +1,115 @@
-const tresor = document.getElementById("tresor")
-const mapGame = document.getElementById("mapGame")
-const slots = document.querySelectorAll(".slot")
-const pieces = document.querySelectorAll(".piece")
-const canvas = document.getElementById("fxCanvas")
-const ctx = canvas.getContext("2d")
-const loader = document.getElementById("videoLoader")
-const videoContainer = document.getElementById("videoContainer")
-const video = document.getElementById("mainVideo")
-const fade = document.getElementById("fade")
+document.addEventListener("DOMContentLoaded", () => {
 
-canvas.width = innerWidth
-canvas.height = innerHeight
+  const tresor = document.getElementById("tresor")
+  const mapGame = document.getElementById("mapGame")
+  const slots = document.querySelectorAll(".slot")
+  const pieces = document.querySelectorAll(".piece")
+  const canvas = document.getElementById("fxCanvas")
+  const ctx = canvas.getContext("2d")
+  const loader = document.getElementById("videoLoader")
+  const videoContainer = document.getElementById("videoContainer")
+  const video = document.getElementById("mainVideo")
+  const fade = document.getElementById("fade")
 
-/* ============================= */
-/* GEMMES */
-/* ============================= */
+  canvas.width = innerWidth
+  canvas.height = innerHeight
 
-let particles = []
+  /* ============================= */
+  /* COFFRE */
+  /* ============================= */
 
-function spawnGems(x, y) {
-  for (let i = 0; i < 80; i++) {
-    particles.push({
-      x, y,
-      vx: (Math.random() - 0.5) * 10,
-      vy: Math.random() * -12,
-      life: 100
-    })
-  }
-}
+  let opened = false
 
-function animateFX() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  particles.forEach(p => {
-    p.x += p.vx
-    p.y += p.vy
-    p.vy += 0.3
-    p.life--
-    ctx.fillStyle = "rgba(0,255,255,.8)"
-    ctx.beginPath()
-    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2)
-    ctx.fill()
+  tresor.addEventListener("click", () => {
+    console.log("💰 Coffre cliqué") // DEBUG
+    if (opened) return
+    opened = true
+    tresor.classList.add("open")
+    mapGame.classList.add("active")
   })
-  particles = particles.filter(p => p.life > 0)
-  requestAnimationFrame(animateFX)
-}
-animateFX()
 
-/* ============================= */
-/* COFFRE → MINI JEU */
-/* ============================= */
+  /* ============================= */
+  /* MINI JEU */
+  /* ============================= */
 
-let opened = false
+  let dragged = null
 
-tresor.onclick = () => {
-  if (opened) return
-  opened = true
-  tresor.classList.add("open")
-  mapGame.classList.add("active")
-}
+  pieces.forEach(p => {
+    p.draggable = true
+    p.addEventListener("dragstart", () => dragged = p)
+  })
 
-/* ============================= */
-/* MINI JEU */
-/* ============================= */
-
-let dragged = null
-
-pieces.forEach(p => {
-  p.ondragstart = () => dragged = p
-})
-
-slots.forEach(slot => {
-  slot.ondragover = e => e.preventDefault()
-  slot.ondrop = () => {
-    if (!dragged) return
-    slot.innerHTML = ""
-    slot.appendChild(dragged)
-    checkWin()
-  }
-})
-
-function checkWin() {
-  let win = true
   slots.forEach(slot => {
-    const piece = slot.querySelector(".piece")
-    if (!piece || piece.dataset.id !== slot.dataset.id) win = false
+    slot.addEventListener("dragover", e => e.preventDefault())
+    slot.addEventListener("drop", () => {
+      if (!dragged) return
+      slot.innerHTML = ""
+      slot.appendChild(dragged)
+      checkWin()
+    })
   })
-  if (win) success()
-}
 
-/* ============================= */
-/* SUCCÈS */
-/* ============================= */
+  function checkWin() {
+    let win = true
+    slots.forEach(slot => {
+      const piece = slot.querySelector(".piece")
+      if (!piece || piece.dataset.id !== slot.dataset.id) win = false
+    })
+    if (win) success()
+  }
 
-function success() {
-  mapGame.classList.remove("active")
+  /* ============================= */
+  /* SUCCÈS */
+  /* ============================= */
 
-  const rect = tresor.getBoundingClientRect()
-  spawnGems(rect.left + rect.width / 2, rect.top)
+  let particles = []
 
-  setTimeout(() => fade.classList.add("show"), 600)
-  setTimeout(() => loader.style.display = "flex", 1400)
+  function spawnGems(x, y) {
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x, y,
+        vx: (Math.random() - 0.5) * 10,
+        vy: Math.random() * -12,
+        life: 100
+      })
+    }
+  }
 
-  setTimeout(() => {
-    loader.style.display = "none"
-    videoContainer.style.display = "flex"
-    video.play()
-  }, 2600)
-}
+  function animateFX() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    particles.forEach(p => {
+      p.x += p.vx
+      p.y += p.vy
+      p.vy += 0.3
+      p.life--
+      ctx.fillStyle = "rgba(0,255,255,.8)"
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, 4, 0, Math.PI * 2)
+      ctx.fill()
+    })
+    particles = particles.filter(p => p.life > 0)
+    requestAnimationFrame(animateFX)
+  }
+  animateFX()
 
-/* ============================= */
-/* SON */
-/* ============================= */
+  function success() {
+    mapGame.classList.remove("active")
 
-document.getElementById("soundButton").onclick = () => {
-  video.muted = !video.muted
-}
+    const rect = tresor.getBoundingClientRect()
+    spawnGems(rect.left + rect.width / 2, rect.top)
+
+    setTimeout(() => fade.classList.add("show"), 600)
+    setTimeout(() => loader.style.display = "flex", 1400)
+
+    setTimeout(() => {
+      loader.style.display = "none"
+      videoContainer.style.display = "flex"
+      video.play()
+    }, 2600)
+  }
+
+  document.getElementById("soundButton").onclick = () => {
+    video.muted = !video.muted
+  }
+
+})
