@@ -2,57 +2,45 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>KIT IN - Crée ton entreprise</title>
+  <title>Coffre – Quête</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="Fondindex">
+<canvas id="gemCanvas"></canvas>
 
-  <img src="images/Fond1.PNG" class="fondindex">
+<!-- COFFRE -->
+<img id="tresor" src="images/coffre.png" alt="coffre">
 
-  <!-- COFFRE -->
-  <div class="tresor-button" id="tresor">
-    <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme">
-    <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert">
-  </div>
+<!-- LOADER -->
+<div id="loaderScreen">
+  <p id="loaderText"></p>
+</div>
 
-  <!-- MINI JEU -->
-  <div id="mapGame">
-    <div id="mapPieces"></div>
-  </div>
+<!-- MINI JEU -->
+<div id="mapGame">
+  <h2 id="gameInstruction">
+    cliques sur les images pour reconstituer la carte entière
+  </h2>
+  <div id="mapPieces"></div>
+</div>
 
-  <!-- ÉCRAN DE VICTOIRE -->
+<!-- VICTOIRE -->
 <div id="victoryScreen">
-  <h2>Bravo tu as réussi à ouvrir le coffre 🎁</h2>
-  <img src="images/Carteminientier.jpg" alt="Carte complète">
+  <h1>Bravo tu as réussi à ouvrir le coffre 🎁</h1>
+  <img src="images/carteminientier.jpg" class="full-map">
 </div>
 
-  <!-- LOADER -->
-  <div id="loaderScreen">
-    <div class="loader-content">
-      <div class="loader-gem">💎</div>
-      <p id="loaderText">Le coffre s’ouvre…</p>
-    </div>
-  </div>
-
-  <!-- VIDÉO -->
-  <div id="videoContainer">
-    <button id="closeVideo">✕</button>
-    <video id="mainVideo" muted playsinline>
-      <source src="video/Video1.MOV" type="video/mp4">
-    </video>
-  </div>
-
-  <!-- CANVAS -->
-  <canvas id="gemCanvas"></canvas>
-
-  <!-- SONS -->
-  <audio id="clickSound" src="sounds/click.mp3"></audio>
-  <audio id="errorSound" src="sounds/error.mp3"></audio>
-
+<!-- VIDÉO -->
+<div id="videoContainer">
+  <div id="soundToggle">🔊</div>
+  <video id="mainVideo" src="videos/video.mp4"></video>
+  <button id="closeVideo">✖</button>
 </div>
+
+<!-- SONS -->
+<audio id="clickSound" src="sounds/click.mp3"></audio>
+<audio id="errorSound" src="sounds/error.mp3"></audio>
 
 <script src="script.js"></script>
 </body>
