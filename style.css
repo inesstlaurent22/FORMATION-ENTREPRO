@@ -245,6 +245,26 @@ html, body {
   cursor: pointer;
   z-index: 10001;
 }
+.map-piece {
+  position: relative;
+}
+
+.order-number {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #ffd600;
+  color: black;
+  font-weight: bold;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px gold;
+  font-size: 18px;
+}
 
 /* ================================================= */
 /* 🏴‍☠️ PAGE MENU – SCÈNE PIRATES */
