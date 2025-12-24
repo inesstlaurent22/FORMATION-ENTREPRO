@@ -23,18 +23,22 @@ tresorButton.addEventListener("click", () => {
   gameStarted = true;
 
   clickSound.play();
-  fadeScreen.classList.add("active");
+
+  const rect = tresorButton.getBoundingClientRect();
+  explode(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+  setTimeout(() => fadeScreen.classList.add("active"), 300);
 
   setTimeout(() => {
     loaderText.textContent = "Gagne ce mini jeu pour commencer l’aventure";
     loaderScreen.style.display = "flex";
-  }, 600);
+  }, 900);
 
   setTimeout(() => {
     loaderScreen.style.display = "none";
     fadeScreen.classList.remove("active");
     startMiniGame();
-  }, 2400);
+  }, 2500);
 });
 
 /* ===============================
@@ -64,9 +68,6 @@ function startMiniGame() {
   });
 }
 
-/* ===============================
-   SÉLECTION
-================================ */
 function selectPiece(piece) {
   if (piece.classList.contains("selected")) return;
 
@@ -74,19 +75,16 @@ function selectPiece(piece) {
   selectedOrder.push(piece.dataset.id);
   piece.classList.add("selected");
 
-  const number = document.createElement("div");
-  number.className = "order-number";
-  number.textContent = selectedOrder.length;
-  piece.appendChild(number);
+  const badge = document.createElement("div");
+  badge.className = "order-number";
+  badge.textContent = selectedOrder.length;
+  piece.appendChild(badge);
 
   if (selectedOrder.length === correctOrder.length) {
     checkResult();
   }
 }
 
-/* ===============================
-   RÉSULTAT
-================================ */
 function checkResult() {
   mapGame.style.display = "none";
 
@@ -111,20 +109,73 @@ function checkResult() {
   }
 }
 
-/* ===============================
-   VIDÉO
-================================ */
 document.getElementById("closeVideo").addEventListener("click", () => {
   mainVideo.pause();
   videoContainer.style.display = "none";
 });
 
 /* ===============================
-   UTILS
+   GEMS
 ================================ */
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
+const canvas = document.getElementById("gemCanvas");
+const ctx = canvas.getContext("2d");
+let gems = [];
+const gravity = 0.4;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+class Gem {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.vx = (Math.random() - 0.5) * 10;
+    this.vy = Math.random() * -12 - 6;
+    this.size = Math.random() * 6 + 4;
+    this.life = 1;
+    this.color = ["#ffd700", "#00e5ff", "#ff4081", "#7c4dff"]
+      [Math.floor(Math.random() * 4)];
+  }
+
+  update() {
+    this.vy += gravity;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life -= 0.02;
+  }
+
+  draw() {
+    ctx.globalAlpha = this.life;
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.size, this.size);
+    ctx.globalAlpha = 1;
+  }
+}
+
+function explode(x, y) {
+  for (let i = 0; i < 60; i++) {
+    gems.push(new Gem(x, y));
+  }
+}
+
+function animateGems() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  gems = gems.filter(g => g.life > 0);
+  gems.forEach(g => {
+    g.update();
+    g.draw();
+  });
+  requestAnimationFrame(animateGems);
+}
+animateGems();
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 }
