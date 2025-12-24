@@ -1,115 +1,126 @@
-document.addEventListener("DOMContentLoaded", () => {
+const tresor = document.getElementById('tresor');
+const videoContainer = document.getElementById('videoContainer');
+const mainVideo = document.getElementById('mainVideo');
+const closeVideo = document.getElementById('closeVideo');
+const overlay = document.getElementById('cinematicOverlay');
+const fond = document.querySelector('.Fondindex');
+const loaderScreen = document.getElementById('loaderScreen');
+const soundButton = document.getElementById('soundButton');
 
-  const tresor = document.getElementById("tresor")
-  const mapGame = document.getElementById("mapGame")
-  const slots = document.querySelectorAll(".slot")
-  const pieces = document.querySelectorAll(".piece")
-  const canvas = document.getElementById("fxCanvas")
-  const ctx = canvas.getContext("2d")
-  const loader = document.getElementById("videoLoader")
-  const videoContainer = document.getElementById("videoContainer")
-  const video = document.getElementById("mainVideo")
-  const fade = document.getElementById("fade")
+let alreadyTriggered = false;
 
-  canvas.width = innerWidth
-  canvas.height = innerHeight
+/* ===================== */
+/* 🎬 CLICK COFFRE */
+/* ===================== */
+tresor.addEventListener('click', () => {
 
-  /* ============================= */
-  /* COFFRE */
-  /* ============================= */
+  triggerExplosion();
 
-  let opened = false
+  if (alreadyTriggered) return;
+  alreadyTriggered = true;
 
-  tresor.addEventListener("click", () => {
-    console.log("💰 Coffre cliqué") // DEBUG
-    if (opened) return
-    opened = true
-    tresor.classList.add("open")
-    mapGame.classList.add("active")
-  })
+  tresor.classList.add('active');
 
-  /* ============================= */
-  /* MINI JEU */
-  /* ============================= */
+  setTimeout(() => {
+    fond.classList.add('cinematic');
+    overlay.classList.add('active');
+  }, 800);
 
-  let dragged = null
+  setTimeout(() => {
+    loaderScreen.style.display = 'flex';
 
-  pieces.forEach(p => {
-    p.draggable = true
-    p.addEventListener("dragstart", () => dragged = p)
-  })
+    // AFFICHAGE VIDEO
+    videoContainer.style.display = 'flex';
+    soundButton.style.display = 'flex';
 
-  slots.forEach(slot => {
-    slot.addEventListener("dragover", e => e.preventDefault())
-    slot.addEventListener("drop", () => {
-      if (!dragged) return
-      slot.innerHTML = ""
-      slot.appendChild(dragged)
-      checkWin()
-    })
-  })
+    mainVideo.muted = true;
 
-  function checkWin() {
-    let win = true
-    slots.forEach(slot => {
-      const piece = slot.querySelector(".piece")
-      if (!piece || piece.dataset.id !== slot.dataset.id) win = false
-    })
-    if (win) success()
-  }
+    const playPromise = mainVideo.play();
 
-  /* ============================= */
-  /* SUCCÈS */
-  /* ============================= */
-
-  let particles = []
-
-  function spawnGems(x, y) {
-    for (let i = 0; i < 80; i++) {
-      particles.push({
-        x, y,
-        vx: (Math.random() - 0.5) * 10,
-        vy: Math.random() * -12,
-        life: 100
-      })
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          loaderScreen.style.display = 'none';
+        })
+        .catch(() => {
+          loaderScreen.style.display = 'none';
+        });
+    } else {
+      loaderScreen.style.display = 'none';
     }
+
+  }, 2000);
+});
+
+/* 🔊 ACTIVER LE SON */
+soundButton.addEventListener('click', () => {
+  mainVideo.muted = false;
+  soundButton.style.display = 'none';
+});
+
+/* SORTIE */
+mainVideo.addEventListener('ended', goToMenu);
+closeVideo.addEventListener('click', goToMenu);
+
+function goToMenu() {
+  mainVideo.pause();
+  window.location.href = 'menu.html';
+}
+
+/* ===================== */
+/* 💥 PARTICULES */
+/* ===================== */
+const canvas = document.getElementById('gemCanvas');
+const ctx = canvas.getContext('2d');
+let gems = [];
+const gravity = 0.45;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Gem {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.vx = (Math.random() - 0.5) * 12;
+    this.vy = Math.random() * -14 - 6;
+    this.size = Math.random() * 6 + 4;
+    this.life = 1;
+    this.color = ['#00e5ff','#ff4081','#7c4dff','#00e676','#ffd600']
+      [Math.floor(Math.random() * 5)];
   }
-
-  function animateFX() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    particles.forEach(p => {
-      p.x += p.vx
-      p.y += p.vy
-      p.vy += 0.3
-      p.life--
-      ctx.fillStyle = "rgba(0,255,255,.8)"
-      ctx.beginPath()
-      ctx.arc(p.x, p.y, 4, 0, Math.PI * 2)
-      ctx.fill()
-    })
-    particles = particles.filter(p => p.life > 0)
-    requestAnimationFrame(animateFX)
+  update() {
+    this.vy += gravity;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life -= 0.015;
   }
-  animateFX()
-
-  function success() {
-    mapGame.classList.remove("active")
-
-    const rect = tresor.getBoundingClientRect()
-    spawnGems(rect.left + rect.width / 2, rect.top)
-
-    setTimeout(() => fade.classList.add("show"), 600)
-    setTimeout(() => loader.style.display = "flex", 1400)
-
-    setTimeout(() => {
-      loader.style.display = "none"
-      videoContainer.style.display = "flex"
-      video.play()
-    }, 2600)
+  draw() {
+    ctx.globalAlpha = this.life;
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.size, this.size);
   }
+}
 
-  document.getElementById("soundButton").onclick = () => {
-    video.muted = !video.muted
+function explode(x, y) {
+  for (let i = 0; i < 60; i++) {
+    gems.push(new Gem(x, y));
   }
+}
 
-})
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  gems = gems.filter(g => g.life > 0);
+  gems.forEach(g => { g.update(); g.draw(); });
+  requestAnimationFrame(animate);
+}
+animate();
+
+function triggerExplosion() {
+  const rect = tresor.getBoundingClientRect();
+  explode(rect.left + rect.width / 2, rect.top + rect.height / 2);
+}
