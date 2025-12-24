@@ -9,60 +9,59 @@
 
 <body>
 
-  <!-- CONTENEUR -->
-  <div class="Fondindex">
+<div class="Fondindex">
 
-    <img src="images/Fond1.PNG" class="fondindex" alt="Fond">
+  <img src="images/Fond1.PNG" class="fondindex" alt="Fond">
 
-    <!-- COFFRE -->
-    <div class="tresor-button" id="tresor">
-      <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme" alt="">
-      <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert" alt="">
-    </div>
-
-    <!-- VIDÉO -->
-    <div id="videoContainer">
-      <button id="closeVideo" aria-label="Fermer la vidéo">✕</button>
-      <button id="soundButton" aria-label="Activer le son">🔊</button>
-
-      <video
-        id="mainVideo"
-        playsinline
-        muted
-        preload="auto">
-        <source src="video/Video1.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <!-- PARTICULES -->
-    <canvas id="gemCanvas"></canvas>
-
-    <!-- OVERLAY CINÉMATIQUE -->
-    <div id="cinematicOverlay"></div>
-
-    <!-- 🗺️ MINI JEU CARTE AU TRÉSOR -->
-<div id="mapGame">
-  <h2>🗺️ Reconstitue la carte au trésor</h2>
-
-  <div class="map-pieces">
-    <img src="images/Carteminigauche.png" class="map-piece" data-order="1">
-    <img src="images/Carteminimilieu.png" class="map-piece" data-order="2">
-    <img src="images/Carteminidroite.png" class="map-piece" data-order="3">
+  <!-- COFFRE -->
+  <div class="tresor-button" id="tresor">
+    <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme" alt="">
+    <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert" alt="">
   </div>
 
-  <p id="mapMessage">Clique les morceaux dans le bon ordre</p>
+  <!-- VIDÉO -->
+  <div id="videoContainer">
+    <button id="closeVideo">✕</button>
+    <button id="soundButton">🔊</button>
+
+    <video id="mainVideo" playsinline muted preload="auto">
+      <source src="video/Video1.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- PARTICULES -->
+  <canvas id="gemCanvas"></canvas>
+
+  <!-- OVERLAY -->
+  <div id="cinematicOverlay"></div>
+
+  <!-- 🗺️ MINI JEU -->
+  <div id="mapGame">
+    <h2>🗺️ Reconstitue la carte au trésor</h2>
+
+    <div class="map-zone">
+      <img src="images/Carteminigauche.png" class="map-piece" data-order="1">
+      <img src="images/Carteminimilieu.png" class="map-piece" data-order="2">
+      <img src="images/Carteminidroite.png" class="map-piece" data-order="3">
+    </div>
+
+    <div id="mapFinal">
+      <img src="images/Carteminientiere.jpg" alt="Carte complète">
+    </div>
+
+    <p id="mapMessage">Clique les morceaux dans le bon ordre</p>
+  </div>
+
+  <!-- LOADER -->
+  <div id="loaderScreen">
+    <div class="loader-content">
+      <div class="loader-gem">🏴‍☠️</div>
+      <p>Chargement du trésor…</p>
+    </div>
+  </div>
+
 </div>
 
-    <!-- LOADER -->
-    <div id="loaderScreen">
-      <div class="loader-content">
-        <div class="loader-gem">🏴‍☠️</div>
-        <p>Chargement du trésor…</p>
-      </div>
-    </div>
-
-  </div>
-
-  <script src="index.js"></script>
+<script src="index.js"></script>
 </body>
 </html>
