@@ -2,48 +2,53 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Aventure Pirate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIT IN – Aventure Pirate</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
+<!-- CONTENEUR PRINCIPAL -->
 <div class="Fondindex">
-  <img src="img/fond.jpg" class="fondindex">
+  <img src="images/Fond1.PNG" class="fondindex" alt="Fond">
 
-  <!-- Bouton Trésor -->
+  <!-- COFFRE -->
   <div class="tresor-button" id="tresorButton">
-    <img src="img/coffre-ferme.png" class="tresor-img coffre-ferme">
-    <img src="img/coffre-ouvert.png" class="tresor-img coffre-ouvert">
+    <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme" alt="">
+    <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert" alt="">
   </div>
 </div>
 
-<!-- Fade -->
+<!-- FADE NOIR -->
 <div id="fadeScreen"></div>
 
-<!-- Loader -->
+<!-- LOADER -->
 <div id="loaderScreen">
   <div class="loader-content">
-    <div class="loader-logo">🏴‍☠️</div>
+    <div class="loader-gem">🏴‍☠️</div>
     <p id="loaderText">Gagne ce mini jeu pour commencer l’aventure</p>
   </div>
 </div>
 
-<!-- Mini Jeu -->
+<!-- MINI JEU -->
 <div id="mapGame">
-  <h2>Remets la carte dans le bon ordre</h2>
+  <h2>🗺️ Reconstitue la carte au trésor</h2>
   <div class="map-pieces" id="mapPieces"></div>
 </div>
 
-<!-- Vidéo -->
+<!-- VIDÉO -->
 <div id="videoContainer">
   <button id="closeVideo">✕</button>
-  <video id="finalVideo" src="video/intro.mp4" controls></video>
+  <video id="mainVideo" playsinline muted preload="auto">
+    <source src="video/Video1.mp4" type="video/mp4">
+  </video>
 </div>
 
-<!-- Sons -->
+<!-- SONS -->
 <audio id="clickSound" src="sons/Clic.mp3"></audio>
 <audio id="errorSound" src="sons/Erreur.mp3"></audio>
 
-<script src="script.js"></script>
+<script src="index.js"></script>
 </body>
 </html>
