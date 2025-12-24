@@ -15,41 +15,27 @@
 
   <!-- COFFRE -->
   <div class="tresor-button" id="tresor">
-    <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme" alt="">
-    <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert" alt="">
+    <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme">
+    <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert">
   </div>
 
-  <!-- VIDÉO -->
-  <div id="videoContainer">
-    <button id="closeVideo">✕</button>
-    <button id="soundButton">🔊</button>
-
-    <video id="mainVideo" playsinline muted preload="auto">
-      <source src="video/Video1.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <!-- PARTICULES -->
-  <canvas id="gemCanvas"></canvas>
-
-  <!-- OVERLAY -->
-  <div id="cinematicOverlay"></div>
-
-  <!-- 🗺️ MINI JEU -->
+  <!-- MINI JEU -->
   <div id="mapGame">
-    <h2>🗺️ Reconstitue la carte au trésor</h2>
+    <h2>🗺️ Reconstitue la carte</h2>
 
-    <div class="map-zone">
-      <img src="images/Carteminigauche.png" class="map-piece" data-order="1">
-      <img src="images/Carteminimilieu.png" class="map-piece" data-order="2">
-      <img src="images/Carteminidroite.png" class="map-piece" data-order="3">
+    <div class="map-slots">
+      <div class="slot" data-slot="1"></div>
+      <div class="slot" data-slot="2"></div>
+      <div class="slot" data-slot="3"></div>
     </div>
 
-    <div id="mapFinal">
-      <img src="images/Carteminientiere.jpg" alt="Carte complète">
+    <div class="map-pieces" id="piecesContainer">
+      <img src="images/Carteminigauche.png" class="map-piece" draggable="true" data-order="1">
+      <img src="images/Carteminimilieu.png" class="map-piece" draggable="true" data-order="2">
+      <img src="images/Carteminidroite.png" class="map-piece" draggable="true" data-order="3">
     </div>
 
-    <p id="mapMessage">Clique les morceaux dans le bon ordre</p>
+    <p id="mapMessage"></p>
   </div>
 
   <!-- LOADER -->
@@ -59,6 +45,18 @@
       <p>Chargement du trésor…</p>
     </div>
   </div>
+
+  <!-- VIDÉO -->
+  <div id="videoContainer">
+    <button id="closeVideo">✕</button>
+    <video id="mainVideo" muted>
+      <source src="video/Video1.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- SONS -->
+  <audio id="clickSound" src="sounds/Clic.mp3"></audio>
+  <audio id="errorSound" src="sounds/Erreur.mp3"></audio>
 
 </div>
 
