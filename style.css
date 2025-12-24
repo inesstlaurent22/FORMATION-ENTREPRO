@@ -147,9 +147,13 @@ html, body {
   opacity: 0;
   transition: opacity 1s;
   z-index: 45;
+  pointer-events: none; /* 🔥 IMPORTANT */
 }
 
-#fade.show { opacity: 1; }
+#fade.show {
+  opacity: 1;
+  pointer-events: auto; /* clics actifs uniquement quand visible */
+}
 
 #videoLoader {
   position: fixed;
