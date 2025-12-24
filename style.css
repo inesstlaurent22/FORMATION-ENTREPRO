@@ -1,6 +1,4 @@
-/* ================================================= */
-/* 🔧 RESET GLOBAL */
-/* ================================================= */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -14,10 +12,7 @@ html, body {
   font-family: Arial, sans-serif;
 }
 
-/* ================================================= */
-/* 🌍 SCÈNE PRINCIPALE */
-/* ================================================= */
-
+/* SCÈNE */
 .Fondindex {
   position: relative;
   width: 100vw;
@@ -30,13 +25,9 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1;
 }
 
-/* ================================================= */
-/* 🧰 BOUTON TRÉSOR */
-/* ================================================= */
-
+/* COFFRE */
 .tresor-button {
   position: absolute;
   left: 50%;
@@ -64,29 +55,22 @@ html, body {
   transform: scale(1.05);
 }
 
-/* ================================================= */
-/* 🌫️ FADE IN AVANT MINI-JEU */
-/* ================================================= */
-
+/* FADE */
 #fadeScreen {
   position: fixed;
   inset: 0;
   background: black;
   opacity: 0;
   pointer-events: none;
+  transition: opacity 0.8s ease;
   z-index: 7000;
-  transition: opacity 0.6s ease;
 }
-
 #fadeScreen.active {
   opacity: 1;
   pointer-events: all;
 }
 
-/* ================================================= */
-/* ⏳ LOADER PIRATE */
-/* ================================================= */
-
+/* LOADER */
 #loaderScreen {
   position: fixed;
   inset: 0;
@@ -94,7 +78,7 @@ html, body {
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 8000;
+  z-index: 9000;
 }
 
 .loader-content {
@@ -102,34 +86,35 @@ html, body {
   text-align: center;
 }
 
-.loader-logo {
-  font-size: 64px;
-  margin-bottom: 20px;
-  animation: bounce 1.2s infinite;
+.loader-gem {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  background: linear-gradient(45deg, gold, #ffb700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border-radius: 6px;
+  transform: rotate(45deg);
+  animation: spin 1.6s infinite ease-in-out;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+@keyframes spin {
+  from { transform: rotate(45deg); }
+  to { transform: rotate(405deg); }
 }
 
-.loader-content p {
-  font-size: clamp(16px, 4vw, 22px);
-}
-
-/* ================================================= */
-/* 🗺️ MINI-JEU – CARTE AU TRÉSOR */
-/* ================================================= */
-
+/* MINI JEU */
 #mapGame {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle, rgba(255,215,0,0.15), rgba(0,0,0,0.95));
+  background: rgba(0,0,0,0.92);
   display: none;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  z-index: 9000;
+  align-items: center;
+  z-index: 8000;
   color: white;
   text-align: center;
   padding: 20px;
@@ -140,42 +125,31 @@ html, body {
   font-size: clamp(20px, 4vw, 28px);
 }
 
-/* ================================================= */
-/* 🧩 PIÈCES DE LA CARTE */
-/* ================================================= */
-
 .map-pieces {
   display: flex;
-  gap: clamp(10px, 3vw, 20px);
+  gap: 20px;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .map-piece {
   width: clamp(90px, 22vw, 160px);
-  border-radius: 8px;
   cursor: pointer;
   position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  border-radius: 8px;
 }
 
 .map-piece:hover {
   transform: scale(1.05);
+  filter: drop-shadow(0 0 10px gold);
 }
 
-/* ✨ PIÈCE SÉLECTIONNÉE */
-.map-piece.selected {
-  box-shadow:
-    0 0 15px gold,
-    0 0 30px rgba(255,215,0,0.8);
-  transform: scale(1.07);
-}
-
-/* 🔢 NUMÉRO D’ORDRE */
+/* NUMÉRO */
 .order-number {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 6px;
+  right: 6px;
   background: #ffd600;
   color: black;
   font-weight: bold;
@@ -186,13 +160,9 @@ html, body {
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 12px gold;
-  font-size: 18px;
 }
 
-/* ================================================= */
-/* 🎬 VIDÉO */
-/* ================================================= */
-
+/* VIDÉO */
 #videoContainer {
   position: fixed;
   inset: 0;
@@ -200,14 +170,13 @@ html, body {
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 10000;
+  z-index: 9999;
 }
 
 #videoContainer video {
   width: 90%;
   max-width: 900px;
   max-height: 80vh;
-  object-fit: contain;
   border-radius: 16px;
 }
 
@@ -219,10 +188,9 @@ html, body {
   height: 44px;
   border-radius: 50%;
   border: none;
-  background: rgba(255,255,255,0.95);
+  background: white;
   font-size: 22px;
   cursor: pointer;
-  z-index: 10001;
 }
 
 /* ================================================= */
