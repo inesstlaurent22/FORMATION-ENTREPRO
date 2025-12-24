@@ -8,11 +8,15 @@ const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("mainVideo");
 const soundToggle = document.getElementById("soundToggle");
 
+const clickSound = document.getElementById("clickSound");
+const errorSound = document.getElementById("errorSound");
+
 let order = [];
 const correct = ["piece1","piece2","piece3"];
 
 /* COFFRE */
-tresor.onclick = () => {
+tresor.addEventListener("click", () => {
+  clickSound.play();
   loaderText.textContent = "Gagne ce mini jeux pour commencer ta quête 🥳";
   loader.style.display = "flex";
 
@@ -20,7 +24,7 @@ tresor.onclick = () => {
     loader.style.display = "none";
     startGame();
   }, 2500);
-};
+});
 
 /* MINI JEU */
 function startGame() {
@@ -44,22 +48,21 @@ function startGame() {
 
     img.onclick = () => {
       if (img.querySelector(".order-number")) return;
-
       order.push(p.id);
 
-      const num = document.createElement("div");
-      num.className = "order-number";
-      num.textContent = order.length;
-      img.appendChild(num);
+      const badge = document.createElement("div");
+      badge.className = "order-number";
+      badge.textContent = order.length;
+      img.appendChild(badge);
 
-      if (order.length === 3) check();
+      if (order.length === 3) checkResult();
     };
 
     mapPieces.appendChild(img);
   });
 }
 
-function check() {
+function checkResult() {
   mapGame.style.display = "none";
 
   if (JSON.stringify(order) === JSON.stringify(correct)) {
@@ -70,6 +73,7 @@ function check() {
       launchVideo();
     }, 3500);
   } else {
+    errorSound.play();
     loaderText.textContent = "Mauvais ordre… réessaie !";
     loader.style.display = "flex";
 
@@ -87,7 +91,7 @@ function launchVideo() {
 
   setTimeout(() => {
     loader.style.display = "none";
-    videoContainer.style.display = "block";
+    videoContainer.style.display = "flex";
     video.play();
   }, 2000);
 }
