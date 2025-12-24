@@ -2,45 +2,58 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Coffre – Quête</title>
+  <title>KIT IN – Quête du coffre</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<canvas id="gemCanvas"></canvas>
+<div class="Fondindex">
 
-<!-- COFFRE -->
-<img id="tresor" src="images/coffre.png" alt="coffre">
+  <!-- FOND -->
+  <img src="images/Fond1.PNG" class="fondindex" alt="fond">
 
-<!-- LOADER -->
-<div id="loaderScreen">
-  <p id="loaderText"></p>
+  <!-- COFFRE -->
+  <div class="tresor-button" id="tresor">
+    <img src="images/Tresorfermer.png" class="tresor-img coffre-ferme">
+    <img src="images/Tresorouvert.png" class="tresor-img coffre-ouvert">
+  </div>
+
+  <!-- LOADER -->
+  <div id="loaderScreen">
+    <p id="loaderText"></p>
+  </div>
+
+  <!-- MINI JEU -->
+  <div id="mapGame">
+    <h2 id="gameInstruction">
+      cliques sur les images pour reconstituer la carte entière
+    </h2>
+    <div id="mapPieces"></div>
+  </div>
+
+  <!-- VICTOIRE -->
+  <div id="victoryScreen">
+    <h1>Bravo tu as réussi à ouvrir le coffre 🎁</h1>
+    <img src="images/carteminientier.jpg" class="full-map">
+  </div>
+
+  <!-- VIDÉO -->
+  <div id="videoContainer">
+    <div id="soundToggle">🔊</div>
+    <button id="closeVideo">✕</button>
+    <video id="mainVideo" playsinline>
+      <source src="video/Video1.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- CANVAS GEMS -->
+  <canvas id="gemCanvas"></canvas>
+
+  <!-- SONS -->
+  <audio id="clickSound" src="sounds/click.mp3"></audio>
+  <audio id="errorSound" src="sounds/error.mp3"></audio>
+
 </div>
-
-<!-- MINI JEU -->
-<div id="mapGame">
-  <h2 id="gameInstruction">
-    cliques sur les images pour reconstituer la carte entière
-  </h2>
-  <div id="mapPieces"></div>
-</div>
-
-<!-- VICTOIRE -->
-<div id="victoryScreen">
-  <h1>Bravo tu as réussi à ouvrir le coffre 🎁</h1>
-  <img src="images/carteminientier.jpg" class="full-map">
-</div>
-
-<!-- VIDÉO -->
-<div id="videoContainer">
-  <div id="soundToggle">🔊</div>
-  <video id="mainVideo" src="videos/video.mp4"></video>
-  <button id="closeVideo">✖</button>
-</div>
-
-<!-- SONS -->
-<audio id="clickSound" src="sounds/click.mp3"></audio>
-<audio id="errorSound" src="sounds/error.mp3"></audio>
 
 <script src="script.js"></script>
 </body>
