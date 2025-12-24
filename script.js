@@ -57,9 +57,17 @@ function startMiniGame() {
 }
 
 function selectPiece(piece) {
+  if (piece.classList.contains("selected")) return;
+
   clickSound.play();
   selectedOrder.push(piece.dataset.id);
-  piece.style.opacity = 0.5;
+  piece.classList.add("selected");
+  piece.style.position = "relative";
+
+  const badge = document.createElement("div");
+  badge.className = "order-number";
+  badge.textContent = selectedOrder.length;
+  piece.appendChild(badge);
 
   if (selectedOrder.length === correctOrder.length) {
     checkResult();
