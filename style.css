@@ -1,9 +1,4 @@
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
   width: 100%;
@@ -50,9 +45,14 @@ html, body {
 .coffre-ouvert { opacity: 0; transform: scale(0.95); }
 
 .tresor-button:hover .coffre-ferme { opacity: 0; }
-.tresor-button:hover .coffre-ouvert {
-  opacity: 1;
-  transform: scale(1.05);
+.tresor-button:hover .coffre-ouvert { opacity: 1; transform: scale(1.05); }
+
+/* GEMS */
+#gemCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6000;
 }
 
 /* FADE */
@@ -61,14 +61,10 @@ html, body {
   inset: 0;
   background: black;
   opacity: 0;
-  pointer-events: none;
   transition: opacity 0.8s ease;
   z-index: 7000;
 }
-#fadeScreen.active {
-  opacity: 1;
-  pointer-events: all;
-}
+#fadeScreen.active { opacity: 1; }
 
 /* LOADER */
 #loaderScreen {
@@ -116,46 +112,29 @@ html, body {
   align-items: center;
   z-index: 8000;
   color: white;
-  text-align: center;
-  padding: 20px;
-}
-
-#mapGame h2 {
-  margin-bottom: 20px;
-  font-size: clamp(20px, 4vw, 28px);
 }
 
 .map-pieces {
   display: flex;
   gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 
 .map-piece {
   width: clamp(90px, 22vw, 160px);
   cursor: pointer;
   position: relative;
-  transition: transform 0.3s ease, filter 0.3s ease;
-  border-radius: 8px;
 }
 
-.map-piece:hover {
-  transform: scale(1.05);
-  filter: drop-shadow(0 0 10px gold);
-}
-
-/* NUMÉRO */
 .order-number {
   position: absolute;
   top: 6px;
   right: 6px;
   background: #ffd600;
   color: black;
-  font-weight: bold;
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,8 +155,6 @@ html, body {
 #videoContainer video {
   width: 90%;
   max-width: 900px;
-  max-height: 80vh;
-  border-radius: 16px;
 }
 
 #closeVideo {
@@ -188,7 +165,6 @@ html, body {
   height: 44px;
   border-radius: 50%;
   border: none;
-  background: white;
   font-size: 22px;
   cursor: pointer;
 }
