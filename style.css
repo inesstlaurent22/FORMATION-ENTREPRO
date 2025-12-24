@@ -1,12 +1,81 @@
-body {
+/* RESET */
+* {
   margin: 0;
-  background: black;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
-  color: white;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* LOADER */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* ========================= */
+/* 🌍 SCÈNE INDEX */
+/* ========================= */
+
+.Fondindex {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* FOND */
+.fondindex {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* ========================= */
+/* 🧰 COFFRE */
+/* ========================= */
+
+.tresor-button {
+  position: absolute;
+  left: 50%;
+  top: 80%;
+  transform: translate(-50%, -50%);
+  width: clamp(220px, 30vw, 420px);
+  aspect-ratio: 1;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.tresor-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.coffre-ferme {
+  opacity: 1;
+}
+
+.coffre-ouvert {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.tresor-button:hover .coffre-ferme {
+  opacity: 0;
+}
+
+.tresor-button:hover .coffre-ouvert {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* ========================= */
+/* ⏳ LOADER */
+/* ========================= */
+
 #loaderScreen {
   position: fixed;
   inset: 0;
@@ -18,31 +87,40 @@ body {
 }
 
 #loaderText {
-  font-size: 1.6rem;
+  color: white;
+  font-size: 1.4rem;
   text-align: center;
 }
 
-/* MINI JEU */
+/* ========================= */
+/* 🗺 MINI JEU */
+/* ========================= */
+
 #mapGame {
+  position: fixed;
+  inset: 0;
   display: none;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 25px;
+  background: rgba(0,0,0,0.9);
+  z-index: 200;
 }
 
 #gameInstruction {
-  font-size: 1.2rem;
+  color: white;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 #mapPieces {
   display: flex;
-  gap: 20px;
+  gap: 30px;
 }
 
 .map-piece {
-  width: 150px;
+  width: 160px;
   cursor: pointer;
   position: relative;
 }
@@ -61,203 +139,101 @@ body {
 }
 
 @keyframes flash {
-  0% { opacity: 0; transform: scale(0.5); }
+  0% { opacity: 0; transform: scale(0.4); }
   50% { opacity: 1; transform: scale(1.2); }
-  100% { opacity: 1; transform: scale(1); }
+  100% { transform: scale(1); }
 }
 
-/* VICTOIRE */
+/* ========================= */
+/* 🎉 VICTOIRE */
+/* ========================= */
+
 #victoryScreen {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0.95);
+  display: none;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 20px;
-  z-index: 90;
+  align-items: center;
+  gap: 30px;
+  z-index: 300;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+#victoryScreen h1 {
+  color: gold;
+  text-shadow: 0 0 20px gold;
 }
 
 .full-map {
-  width: 300px;
-  box-shadow: 0 0 40px white;
+  width: 320px;
+  box-shadow: 0 0 40px gold;
 }
 
-/* VIDÉO */
+/* ========================= */
+/* 🎬 VIDÉO */
+/* ========================= */
+
 #videoContainer {
-  display: none;
   position: fixed;
   inset: 0;
   background: black;
-  z-index: 95;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 400;
+  animation: fadeIn 1.5s ease forwards;
 }
 
-#mainVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+#videoContainer video {
+  width: 80%;
+  max-width: 900px;
+  border-radius: 16px;
 }
 
-/* BOUTON SON */
+#closeVideo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 22px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+}
+
+/* SON */
 #soundToggle {
   position: absolute;
   top: 20px;
   left: 20px;
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 22px;
   cursor: pointer;
-  box-shadow: 0 0 15px white;
-  z-index: 10;
+  box-shadow: 0 0 15px gold;
 }
 
-#soundToggle:hover {
-  box-shadow: 0 0 30px white;
-}
+/* ========================= */
+/* 💥 CANVAS */
+/* ========================= */
 
-/* FADE */
-.fade-in {
-  animation: fadeIn 1.5s ease forwards;
+#gemCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-/* ================================================= */
-/* 🏴‍☠️ PAGE MENU – SCÈNE PIRATES */
-/* ================================================= */
-
-.scene {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* FOND MENU */
-.scene .background {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-/* CONTENEUR PIRATES */
-.pirates-container {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-}
-
-/* PIRATES */
-.pirate {
-  position: absolute;
-  cursor: pointer;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-/* Taille par défaut (sécurité) */
-.pirate img {
-  height: auto;
-}
-
-/* ================================================= */
-/* 📍 POSITIONS + DIMENSIONS PAR PIRATE */
-/* ================================================= */
-
-/* Pirate 1 — 138 x 250 */
-.pirate1 {
-  left: 110px;
-  top: 618px;
-}
-.pirate1 img {
-  width: 138px;
-  height: 250px;
-}
-
-/* Pirate 2 — 186 x 178 */
-.pirate2 {
-  left: 848px;
-  top: 696px;
-}
-.pirate2 img {
-  width: 186px;
-  height: 178px;
-}
-
-/* Pirate 3 — 133 x 217 */
-.pirate3 {
-  left: 716px;
-  top: 363px;
-}
-.pirate3 img {
-  width: 133px;
-  height: 217px;
-}
-
-/* Pirate 4 — 143 x 187 */
-.pirate4 {
-  left: 902px;
-  top: 206px;
-}
-.pirate4 img {
-  width: 143px;
-  height: 187px;
-}
-
-/* Pirate 5 — 163 x 235 */
-.pirate5 {
-  left: 240px;
-  top: 100px;
-}
-.pirate5 img {
-  width: 163px;
-  height: 235px;
-}
-
-/* LOCK / UNLOCK */
-.pirate.locked {
-  filter: grayscale(1) brightness(0.6);
-  pointer-events: none;
-}
-
-.pirate.unlocked:hover {
-  transform: scale(1.08);
-  filter: drop-shadow(0 0 12px gold);
-}
-
-/* ================================================= */
-/* 💬 BULLE INFO */
-/* ================================================= */
-
-#infoBubble {
-  position: absolute;
-  bottom: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.85);
-  color: white;
-  padding: 20px 24px;
-  border-radius: 14px;
-  max-width: 420px;
-  display: none;
-  z-index: 10;
-  text-align: center;
-}
-
-#infoBubble button {
-  margin-top: 12px;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-} 
