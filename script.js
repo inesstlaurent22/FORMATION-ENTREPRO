@@ -5,6 +5,7 @@ const mapGame = document.getElementById("mapGame");
 const mapPiecesContainer = document.getElementById("mapPieces");
 const videoContainer = document.getElementById("videoContainer");
 const mainVideo = document.getElementById("mainVideo");
+const victoryScreen = document.getElementById("victoryScreen");
 
 const clickSound = document.getElementById("clickSound");
 const errorSound = document.getElementById("errorSound");
@@ -79,7 +80,6 @@ function checkResult() {
 
   if (JSON.stringify(selectedOrder) === JSON.stringify(correctOrder)) {
 
-    const victoryScreen = document.getElementById("victoryScreen");
     victoryScreen.style.display = "flex";
 
     setTimeout(() => {
@@ -106,13 +106,9 @@ function checkResult() {
   }
 }
 
-    setTimeout(() => {
-      loaderScreen.style.display = "none";
-      startMiniGame();
-    }, 2000);
-  }
-}
-
+/* ===============================
+   VIDÉO
+================================ */
 document.getElementById("closeVideo").onclick = () => {
   mainVideo.pause();
   videoContainer.style.display = "none";
@@ -153,13 +149,18 @@ class Gem {
 }
 
 function explode(x, y) {
-  for (let i = 0; i < 80; i++) gems.push(new Gem(x, y));
+  for (let i = 0; i < 80; i++) {
+    gems.push(new Gem(x, y));
+  }
 }
 
 function animate() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   gems = gems.filter(g => g.life > 0);
-  gems.forEach(g => { g.update(); g.draw(); });
+  gems.forEach(g => {
+    g.update();
+    g.draw();
+  });
   requestAnimationFrame(animate);
 }
 animate();
