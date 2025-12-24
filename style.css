@@ -161,6 +161,67 @@ html, body {
 #cinematicOverlay.active { opacity: 1; }
 
 /* ================================================= */
+/* 🗺️ MINI JEU CARTE */
+/* ================================================= */
+
+#mapGame {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 8000;
+  color: white;
+  text-align: center;
+}
+
+.map-zone {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.map-piece {
+  width: 160px;
+  cursor: pointer;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  border-radius: 8px;
+}
+
+.map-piece.used {
+  opacity: 0;
+  transform: scale(0.5);
+  pointer-events: none;
+}
+
+/* CARTE FINALE */
+#mapFinal {
+  position: absolute;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+#mapFinal.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#mapFinal img {
+  width: 520px;
+  max-width: 90vw;
+  border-radius: 12px;
+  box-shadow: 0 0 40px gold;
+}
+
+#mapMessage {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+/* ================================================= */
 /* ⏳ LOADER */
 /* ================================================= */
 
@@ -197,55 +258,7 @@ html, body {
   0% { transform: rotate(45deg); }
   100% { transform: rotate(405deg); }
 }
-/* ================================================= */
-/* 🗺️ MINI JEU CARTE */
-/* ================================================= */
 
-#mapGame {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.92);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 8000;
-  color: white;
-  text-align: center;
-}
-
-#mapGame h2 {
-  margin-bottom: 20px;
-  font-size: 28px;
-}
-
-.map-pieces {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.map-piece {
-  width: 160px;
-  cursor: pointer;
-  transition: transform 0.3s ease, filter 0.3s ease;
-  border-radius: 8px;
-}
-
-.map-piece:hover {
-  transform: scale(1.05);
-  filter: drop-shadow(0 0 10px gold);
-}
-
-.map-piece.used {
-  pointer-events: none;
-  opacity: 0.4;
-}
-
-#mapMessage {
-  margin-top: 10px;
-  font-size: 18px;
-}
 /* ================================================= */
 /* 🏴‍☠️ PAGE MENU – SCÈNE PIRATES */
 /* ================================================= */
