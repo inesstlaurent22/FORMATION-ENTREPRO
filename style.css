@@ -1,4 +1,4 @@
- /* ================================================= */
+/* ================================================= */
 /* 🔧 RESET GLOBAL */
 /* ================================================= */
 * {
@@ -41,7 +41,7 @@ html, body {
 .tresor-button {
   position: absolute;
   left: 45%;
-  top: 80%; /* 10% plus bas */
+  top: 80%;
   transform: translate(-50%, -50%);
   width: clamp(288px, 32vw, 648px);
   aspect-ratio: 1;
@@ -59,11 +59,43 @@ html, body {
 .coffre-ferme { opacity: 1; }
 .coffre-ouvert { opacity: 0; transform: scale(0.95); }
 
-/* OUVERTURE AU SURVOL */
 .tresor-button:hover .coffre-ferme { opacity: 0; }
 .tresor-button:hover .coffre-ouvert {
   opacity: 1;
   transform: scale(1.05);
+}
+
+/* ================================================= */
+/* 🗺 MINI-JEU */
+/* ================================================= */
+
+#mapGame {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 8000;
+}
+
+#mapPieces {
+  display: flex;
+  gap: 40px;
+}
+
+.map-piece {
+  width: 180px;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.map-piece:hover {
+  transform: scale(1.1);
+}
+
+.map-piece.selected {
+  opacity: 0.4;
 }
 
 /* ================================================= */
@@ -82,9 +114,6 @@ html, body {
   z-index: 9999;
 }
 
-#videoContainer.show { opacity: 1; }
-#videoContainer.fade-out { opacity: 0; }
-
 #videoContainer video {
   width: 80%;
   max-width: 900px;
@@ -93,7 +122,6 @@ html, body {
   border-radius: 16px;
 }
 
-/* CROIX */
 #closeVideo {
   position: absolute;
   top: 25px;
@@ -106,31 +134,6 @@ html, body {
   font-size: 22px;
   cursor: pointer;
   z-index: 10001;
-}
-
-/* 🔊 SON */
-#soundButton {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: none;
-  font-size: 30px;
-  background: rgba(255,255,255,0.95);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 0 15px gold;
-  animation: glow 1.8s infinite alternate;
-  z-index: 10001;
-}
-
-@keyframes glow {
-  from { box-shadow: 0 0 10px gold; }
-  to   { box-shadow: 0 0 25px gold; }
 }
 
 /* ================================================= */
@@ -158,7 +161,9 @@ html, body {
   z-index: 5000;
 }
 
-#cinematicOverlay.active { opacity: 1; }
+#cinematicOverlay.active {
+  opacity: 1;
+}
 
 /* ================================================= */
 /* ⏳ LOADER */
@@ -191,6 +196,13 @@ html, body {
   border-radius: 6px;
   transform: rotate(45deg);
   animation: spin 1.6s infinite ease-in-out;
+}
+
+#loaderText {
+  margin-top: 20px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 @keyframes spin {
