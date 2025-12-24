@@ -1,99 +1,224 @@
-/* ========================= */
-/* 🔧 ÉLÉMENTS */
-/* ========================= */
+/* ================================================= */
+/* 🔧 ÉLÉMENTS DOM */
+/* ================================================= */
 
 const tresor = document.getElementById('tresor');
+const overlay = document.getElementById('cinematicOverlay');
+const fond = document.querySelector('.Fondindex');
+
 const mapGame = document.getElementById('mapGame');
-const pieces = document.querySelectorAll('.map-piece');
-const slots = document.querySelectorAll('.slot');
-const message = document.getElementById('mapMessage');
-const loader = document.getElementById('loaderScreen');
+const mapPiecesContainer = document.querySelector('.map-pieces');
+const mapPieces = Array.from(document.querySelectorAll('.map-piece'));
+const mapMessage = document.getElementById('mapMessage');
+
+const loaderScreen = document.getElementById('loaderScreen');
+const loaderText = loaderScreen.querySelector('p');
+
 const videoContainer = document.getElementById('videoContainer');
-const video = document.getElementById('mainVideo');
+const mainVideo = document.getElementById('mainVideo');
+const closeVideo = document.getElementById('closeVideo');
+const soundButton = document.getElementById('soundButton');
 
-const clickSound = document.getElementById('clickSound');
-const errorSound = document.getElementById('errorSound');
+/* SONS */
+const clickSound = new Audio('sounds/Clic.mp3');
+const errorSound = new Audio('sounds/Erreur.mp3');
 
-let placedCount = 0;
+let alreadyTriggered = false;
+let currentNumber = 1;
+let selectedOrder = [];
 
-/* ========================= */
-/* 💥 OUVERTURE COFFRE */
-/* ========================= */
+/* ================================================= */
+/* 💥 GEMS */
+/* ================================================= */
 
-tresor.addEventListener('click', () => {
-  mapGame.style.display = 'flex';
-  shufflePieces();
-});
+const canvas = document.getElementById('gemCanvas');
+const ctx = canvas.getContext('2d');
+let gems = [];
+const gravity = 0.45;
 
-/* ========================= */
-/* 🔀 MÉLANGE */
-/* ========================= */
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-function shufflePieces() {
-  const container = document.getElementById('piecesContainer');
-  [...pieces].sort(() => Math.random() - 0.5)
-    .forEach(p => container.appendChild(p));
+class Gem {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.vx = (Math.random() - 0.5) * 12;
+    this.vy = Math.random() * -14 - 6;
+    this.size = Math.random() * 6 + 4;
+    this.life = 1;
+    this.color = ['#ffd600', '#ff4081', '#00e5ff']
+      [Math.floor(Math.random() * 3)];
+  }
+  update() {
+    this.vy += gravity;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life -= 0.02;
+  }
+  draw() {
+    ctx.globalAlpha = this.life;
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.size, this.size);
+  }
 }
 
-/* ========================= */
-/* 🎯 DRAG & DROP */
-/* ========================= */
+function explode(x, y) {
+  for (let i = 0; i < 60; i++) {
+    gems.push(new Gem(x, y));
+  }
+}
 
-pieces.forEach(piece => {
-  piece.addEventListener('dragstart', e => {
-    clickSound.play();
-    e.dataTransfer.setData('order', piece.dataset.order);
-  });
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  gems = gems.filter(g => g.life > 0);
+  gems.forEach(g => { g.update(); g.draw(); });
+  requestAnimationFrame(animate);
+}
+animate();
+
+function triggerExplosion() {
+  const rect = tresor.getBoundingClientRect();
+  explode(rect.left + rect.width / 2, rect.top + rect.height / 2);
+}
+
+/* ================================================= */
+/* 🎬 CLICK COFFRE */
+/* ================================================= */
+
+tresor.addEventListener('click', () => {
+  if (alreadyTriggered) return;
+  alreadyTriggered = true;
+
+  triggerExplosion();
+
+  setTimeout(() => {
+    overlay.classList.add('active');
+  }, 600);
+
+  setTimeout(() => {
+    showLoader(
+      '🏴‍☠️',
+      'Gagne ce mini-jeu pour commencer l’aventure'
+    );
+  }, 1400);
+
+  setTimeout(startMiniGame, 2800);
 });
 
-slots.forEach(slot => {
-  slot.addEventListener('dragover', e => e.preventDefault());
+/* ================================================= */
+/* ⏳ LOADER */
+/* ================================================= */
 
-  slot.addEventListener('drop', e => {
-    e.preventDefault();
-    const order = e.dataTransfer.getData('order');
+function showLoader(icon, text) {
+  loaderScreen.style.display = 'flex';
+  loaderScreen.querySelector('.loader-gem').textContent = icon;
+  loaderText.textContent = text;
+}
+
+function hideLoader() {
+  loaderScreen.style.display = 'none';
+}
+
+/* ================================================= */
+/* 🗺️ MINI-JEU */
+/* ================================================= */
+
+function startMiniGame() {
+  hideLoader();
+  mapGame.style.display = 'flex';
+  resetGame();
+}
+
+function resetGame() {
+  currentNumber = 1;
+  selectedOrder = [];
+  mapMessage.textContent = 'Clique les morceaux dans le bon ordre';
+
+  mapPieces.forEach(p => {
+    p.classList.remove('selected');
+    p.querySelector('.order-number')?.remove();
+  });
+
+  shufflePieces();
+}
+
+function shufflePieces() {
+  mapPiecesContainer.innerHTML = '';
+  mapPieces
+    .sort(() => Math.random() - 0.5)
+    .forEach(p => mapPiecesContainer.appendChild(p));
+}
+
+mapPieces.forEach(piece => {
+  piece.addEventListener('click', () => {
+    if (piece.classList.contains('selected')) return;
+
+    clickSound.currentTime = 0;
     clickSound.play();
 
-    if (slot.dataset.slot === order && !slot.hasChildNodes()) {
-      const piece = document.querySelector(`.map-piece[data-order="${order}"]`);
-      slot.appendChild(piece);
-      piece.classList.add('placed');
-      placedCount++;
+    piece.classList.add('selected');
+    selectedOrder.push(piece.dataset.order);
 
-      if (placedCount === 3) {
-        successGame();
-      }
-    } else {
-      errorSound.play();
-      message.textContent = "❌ Mauvais emplacement !";
+    const badge = document.createElement('div');
+    badge.className = 'order-number';
+    badge.textContent = currentNumber;
+    piece.appendChild(badge);
+
+    currentNumber++;
+
+    if (currentNumber > 3) {
+      checkResult();
     }
   });
 });
 
-/* ========================= */
-/* 🏆 SUCCÈS */
-/* ========================= */
+function checkResult() {
+  const success = selectedOrder.join('') === '123';
 
-function successGame() {
-  message.textContent = "🎉 Carte complétée !";
+  if (success) {
+    mapMessage.textContent = '🎉 Bravo !';
+    setTimeout(startVideoSequence, 1200);
+  } else {
+    errorSound.currentTime = 0;
+    errorSound.play();
 
-  setTimeout(() => {
     mapGame.style.display = 'none';
-    loader.style.display = 'flex';
+    showLoader('❌', 'Tu as échoué, réessaye !');
 
-    setTimeout(() => {
-      loader.style.display = 'none';
-      videoContainer.style.display = 'flex';
-      video.play();
-    }, 1500);
-
-  }, 800);
+    setTimeout(startMiniGame, 2000);
+  }
 }
 
-/* ========================= */
-/* ❌ SORTIE VIDÉO */
-/* ========================= */
+/* ================================================= */
+/* 🎥 VIDÉO */
+/* ================================================= */
 
-video.addEventListener('ended', () => {
+function startVideoSequence() {
+  mapGame.style.display = 'none';
+  showLoader('🏴‍☠️', 'Chargement du trésor…');
+
+  setTimeout(() => {
+    hideLoader();
+    videoContainer.style.display = 'flex';
+    soundButton.style.display = 'flex';
+    mainVideo.muted = true;
+    mainVideo.play();
+  }, 1500);
+}
+
+soundButton.addEventListener('click', () => {
+  mainVideo.muted = false;
+  soundButton.style.display = 'none';
+});
+
+mainVideo.addEventListener('ended', () => {
+  window.location.href = 'menu.html';
+});
+closeVideo.addEventListener('click', () => {
   window.location.href = 'menu.html';
 });
