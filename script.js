@@ -236,6 +236,15 @@ soundToggle.onclick = () => {
   }
 };
 
+  if (video.muted) {
+    soundToggle.textContent = "🔇";
+    soundToggle.classList.add("muted");
+  } else {
+    soundToggle.textContent = "🔉";
+    soundToggle.classList.remove("muted");
+  }
+};
+
 video.onended = goToMenu;
 closeVideo.onclick = goToMenu;
 
