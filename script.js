@@ -22,6 +22,7 @@ const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+canvas.style.background = "transparent";
 
 let particles = [];
 
@@ -33,8 +34,7 @@ function explodeTreasure(x, y) {
 function createGem(x, y) {
   return {
     type: "gem",
-    x,
-    y,
+    x, y,
     vx: (Math.random() - 0.5) * 14,
     vy: (Math.random() - 0.5) * 14,
     size: Math.random() * 8 + 6,
@@ -48,8 +48,7 @@ function createGem(x, y) {
 function createCoin(x, y) {
   return {
     type: "coin",
-    x,
-    y,
+    x, y,
     vx: (Math.random() - 0.5) * 12,
     vy: (Math.random() - 0.5) * 12,
     size: Math.random() * 10 + 8,
@@ -80,6 +79,7 @@ function drawParticle(p) {
     ctx.shadowColor = "gold";
     ctx.shadowBlur = 20;
     ctx.fillStyle = "gold";
+
     ctx.beginPath();
     ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
     ctx.fill();
@@ -103,6 +103,7 @@ function animateParticles() {
 
   requestAnimationFrame(animateParticles);
 }
+
 animateParticles();
 
 window.addEventListener("resize", () => {
@@ -213,12 +214,20 @@ function launchVideo() {
   video.play();
 }
 
+/* bouton son */
 soundToggle.onclick = () => {
   video.muted = !video.muted;
-  soundToggle.textContent = video.muted ? "🔇" : "🔉";
-  soundToggle.classList.toggle("muted", video.muted);
+
+  if (video.muted) {
+    soundToggle.textContent = "🔇";
+    soundToggle.classList.add("muted");
+  } else {
+    soundToggle.textContent = "🔉";
+    soundToggle.classList.remove("muted");
+  }
 };
 
+/* fermeture & fin vidéo => menu */
 video.onended = goToMenu;
 closeVideo.onclick = goToMenu;
 
@@ -236,6 +245,6 @@ function goToMenu() {
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+    [arr[i], arr[j]] = [arr[j]];
   }
 }
