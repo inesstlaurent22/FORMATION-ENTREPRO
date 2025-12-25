@@ -1,190 +1,115 @@
 const tresor = document.getElementById("tresor");
 const loader = document.getElementById("loaderScreen");
 const loaderText = document.getElementById("loaderText");
-
 const mapGame = document.getElementById("mapGame");
 const mapPieces = document.getElementById("mapPieces");
-
 const victory = document.getElementById("victoryScreen");
-
 const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("mainVideo");
 const soundToggle = document.getElementById("soundToggle");
 const closeVideo = document.getElementById("closeVideo");
+const cinematicFade = document.getElementById("cinematicFade");
 
 const clickSound = document.getElementById("clickSound");
 const errorSound = document.getElementById("errorSound");
 
-const canvas = document.getElementById("gemCanvas");
-const ctx = canvas.getContext("2d");
+let order=[];
+const correct=["piece1","piece2","piece3"];
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let gems = [];
-let order = [];
-const correct = ["piece1","piece2","piece3"];
-
-/* 💎 GEMS – FORMES DIAMANT */
-function explodeGems(x, y) {
-  const colors = ["#ff4d4d", "#4dd2ff", "#b84dff", "#4dff88", "#ffd24d"];
-
-  for (let i = 0; i < 30; i++) {
-    gems.push({
-      x,
-      y,
-      size: Math.random() * 10 + 8,
-      dx: (Math.random() - 0.5) * 7,
-      dy: (Math.random() - 0.5) * 7,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      life: 70
-    });
-  }
-}
-
-function drawGem(g) {
-  ctx.save();
-  ctx.translate(g.x, g.y);
-  ctx.rotate(Math.random());
-
-  ctx.beginPath();
-  ctx.moveTo(0, -g.size);
-  ctx.lineTo(g.size, 0);
-  ctx.lineTo(0, g.size);
-  ctx.lineTo(-g.size, 0);
-  ctx.closePath();
-
-  ctx.fillStyle = g.color;
-  ctx.shadowColor = g.color;
-  ctx.shadowBlur = 20;
-  ctx.fill();
-  ctx.restore();
-}
-
-function animateGems() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  gems.forEach((g, i) => {
-    g.x += g.dx;
-    g.y += g.dy;
-    g.life--;
-
-    drawGem(g);
-    if (g.life <= 0) gems.splice(i,1);
-  });
-
-  requestAnimationFrame(animateGems);
-}
-animateGems();
-
-/* 🧰 COFFRE */
-tresor.addEventListener("click", (e) => {
+/* COFFRE */
+tresor.onclick=()=>{
   clickSound.play();
-  explodeGems(e.clientX, e.clientY);
 
-  /* ⏳ 3 secondes avant le loader */
-  setTimeout(() => {
-    loaderText.textContent = "✨ Gagne ce mini jeux pour commencer ta quête ✨";
-    loader.style.display = "flex";
+  setTimeout(()=>{
+    loaderText.textContent="Gagne ce mini jeux pour commencer ta quête 🥳";
+    loader.style.display="flex";
+  },2000);
 
-    setTimeout(() => {
-      loader.style.display = "none";
-      startGame();
-    }, 2500);
+  setTimeout(()=>{
+    loader.style.display="none";
+    startGame();
+  },4200);
+};
 
-  }, 3000);
-});
+/* MINI JEU */
+function startGame(){
+  tresor.classList.add("hide");
+  order=[];
+  mapPieces.innerHTML="";
+  mapGame.style.display="flex";
 
-/* 🗺 MINI JEU */
-function startGame() {
-  order = [];
-  mapPieces.innerHTML = "";
-  mapGame.style.display = "flex";
-
-  const pieces = [
-    {id:"piece1", img:"images/Carteminigauche.png"},
-    {id:"piece2", img:"images/Carteminimilieu.png"},
-    {id:"piece3", img:"images/Carteminidroite.png"}
+  const pieces=[
+    {id:"piece1",img:"images/Carteminigauche.png"},
+    {id:"piece2",img:"images/Carteminimilieu.png"},
+    {id:"piece3",img:"images/Carteminidroite.png"}
   ];
 
   shuffle(pieces);
 
-  pieces.forEach(p => {
-    const wrapper = document.createElement("div");
-    wrapper.className = "piece-wrapper";
+  pieces.forEach(p=>{
+    const img=document.createElement("img");
+    img.src=p.img;
+    img.className="map-piece";
+    img.dataset.id=p.id;
 
-    const img = document.createElement("img");
-    img.src = p.img;
-    img.className = "map-piece";
-
-    img.onclick = () => {
-      if (img.classList.contains("selected")) return;
-
-      img.classList.add("selected");
+    img.onclick=()=>{
+      if(img.querySelector(".order-number"))return;
       order.push(p.id);
 
-      const number = document.createElement("div");
-      number.className = "order-number";
-      number.textContent = order.length;
-      wrapper.appendChild(number);
+      const num=document.createElement("div");
+      num.className="order-number";
+      num.textContent=order.length;
+      img.appendChild(num);
 
-      if (order.length === 3) checkResult();
+      if(order.length===3)checkResult();
     };
 
-    wrapper.appendChild(img);
-    mapPieces.appendChild(wrapper);
+    mapPieces.appendChild(img);
   });
 }
 
-function checkResult() {
-  setTimeout(() => {
-    mapGame.style.display = "none";
+function checkResult(){
+  mapGame.style.display="none";
 
-    if (JSON.stringify(order) === JSON.stringify(correct)) {
-      victory.style.display = "flex";
-
-      setTimeout(() => {
-        victory.style.display = "none";
-        launchVideo();
-      }, 3500);
-
-    } else {
-      errorSound.play();
-      loaderText.textContent = "❌ Mauvais ordre… réessaie !";
-      loader.style.display = "flex";
-
-      setTimeout(() => {
-        loader.style.display = "none";
-        startGame();
-      }, 2000);
-    }
-  }, 700);
+  if(JSON.stringify(order)===JSON.stringify(correct)){
+    victory.style.display="flex";
+    setTimeout(()=>{
+      victory.style.display="none";
+      launchVideo();
+    },3000);
+  }else{
+    errorSound.play();
+    loaderText.textContent="Mauvais ordre… réessaie !";
+    loader.style.display="flex";
+    setTimeout(()=>{
+      loader.style.display="none";
+      startGame();
+    },2000);
+  }
 }
 
-/* 🎬 VIDÉO */
-function launchVideo() {
-  loaderText.textContent = "🌊 L’aventure commence…";
-  loader.style.display = "flex";
-
-  setTimeout(() => {
-    loader.style.display = "none";
-    videoContainer.style.display = "flex";
-
-    video.muted = false;
-    video.currentTime = 0;
-    video.play();
-  }, 2000);
+/* VIDÉO */
+function launchVideo(){
+  videoContainer.style.display="flex";
+  video.currentTime=0;
+  video.play();
 }
 
-/* 🔊 SON */
-soundToggle.onclick = () => {
-  video.muted = !video.muted;
-  soundToggle.textContent = video.muted ? "🔈" : "🔊";
-};
+/* FIN VIDÉO → MENU */
+video.onended=cinematicToMenu;
+closeVideo.onclick=cinematicToMenu;
 
-/* ❌ FERMETURE */
-closeVideo.onclick = () => {
-  window.open("menu.html", "_blank");
+function cinematicToMenu(){
+  cinematicFade.classList.add("active");
+  setTimeout(()=>{
+    window.location.href="menu.html";
+  },1200);
+}
+
+/* SON */
+soundToggle.onclick=()=>{
+  video.muted=!video.muted;
+  soundToggle.textContent=video.muted?"🔈":"🔊";
 };
 
 /* UTILS */
