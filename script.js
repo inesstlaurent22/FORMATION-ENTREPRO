@@ -25,38 +25,54 @@ let gems = [];
 let order = [];
 const correct = ["piece1","piece2","piece3"];
 
-/* 💎 GEMS MULTICOLORES */
+/* 💎 GEMS – FORMES DIAMANT */
 function explodeGems(x, y) {
   const colors = ["#ff4d4d", "#4dd2ff", "#b84dff", "#4dff88", "#ffd24d"];
-  for (let i = 0; i < 25; i++) {
+
+  for (let i = 0; i < 30; i++) {
     gems.push({
       x,
       y,
-      r: Math.random() * 6 + 4,
-      dx: (Math.random() - 0.5) * 6,
-      dy: (Math.random() - 0.5) * 6,
+      size: Math.random() * 10 + 8,
+      dx: (Math.random() - 0.5) * 7,
+      dy: (Math.random() - 0.5) * 7,
       color: colors[Math.floor(Math.random() * colors.length)],
-      life: 60
+      life: 70
     });
   }
 }
 
+function drawGem(g) {
+  ctx.save();
+  ctx.translate(g.x, g.y);
+  ctx.rotate(Math.random());
+
+  ctx.beginPath();
+  ctx.moveTo(0, -g.size);
+  ctx.lineTo(g.size, 0);
+  ctx.lineTo(0, g.size);
+  ctx.lineTo(-g.size, 0);
+  ctx.closePath();
+
+  ctx.fillStyle = g.color;
+  ctx.shadowColor = g.color;
+  ctx.shadowBlur = 20;
+  ctx.fill();
+  ctx.restore();
+}
+
 function animateGems() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
+
   gems.forEach((g, i) => {
     g.x += g.dx;
     g.y += g.dy;
     g.life--;
 
-    ctx.beginPath();
-    ctx.fillStyle = g.color;
-    ctx.shadowColor = g.color;
-    ctx.shadowBlur = 15;
-    ctx.arc(g.x, g.y, g.r, 0, Math.PI * 2);
-    ctx.fill();
-
+    drawGem(g);
     if (g.life <= 0) gems.splice(i,1);
   });
+
   requestAnimationFrame(animateGems);
 }
 animateGems();
@@ -66,13 +82,17 @@ tresor.addEventListener("click", (e) => {
   clickSound.play();
   explodeGems(e.clientX, e.clientY);
 
-  loaderText.textContent = "✨ Gagne ce mini jeux pour commencer ta quête ✨";
-  loader.style.display = "flex";
-
+  /* ⏳ 3 secondes avant le loader */
   setTimeout(() => {
-    loader.style.display = "none";
-    startGame();
-  }, 2500);
+    loaderText.textContent = "✨ Gagne ce mini jeux pour commencer ta quête ✨";
+    loader.style.display = "flex";
+
+    setTimeout(() => {
+      loader.style.display = "none";
+      startGame();
+    }, 2500);
+
+  }, 3000);
 });
 
 /* 🗺 MINI JEU */
@@ -96,7 +116,6 @@ function startGame() {
     const img = document.createElement("img");
     img.src = p.img;
     img.className = "map-piece";
-    img.dataset.id = p.id;
 
     img.onclick = () => {
       if (img.classList.contains("selected")) return;
@@ -139,7 +158,7 @@ function checkResult() {
         startGame();
       }, 2000);
     }
-  }, 600);
+  }, 700);
 }
 
 /* 🎬 VIDÉO */
@@ -150,6 +169,9 @@ function launchVideo() {
   setTimeout(() => {
     loader.style.display = "none";
     videoContainer.style.display = "flex";
+
+    video.muted = false;
+    video.currentTime = 0;
     video.play();
   }, 2000);
 }
