@@ -1,34 +1,81 @@
 const tresor = document.getElementById("tresor");
 const loader = document.getElementById("loaderScreen");
-const fade = document.getElementById("fadeScreen");
+const loaderText = document.getElementById("loaderText");
+
 const mapGame = document.getElementById("mapGame");
 const mapPieces = document.getElementById("mapPieces");
+
 const victory = document.getElementById("victoryScreen");
+
 const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("mainVideo");
 const soundToggle = document.getElementById("soundToggle");
-const exitVideo = document.getElementById("exitVideo");
+const closeVideo = document.getElementById("closeVideo");
 
+const clickSound = document.getElementById("clickSound");
+const errorSound = document.getElementById("errorSound");
+
+const canvas = document.getElementById("gemCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let gems = [];
 let order = [];
 const correct = ["piece1","piece2","piece3"];
 
-/* COFFRE CLICK */
-tresor.onclick = () => {
-  explodeCenter(tresor);
-  fade.classList.add("active");
+/* 💎 GEMS MULTICOLORES */
+function explodeGems(x, y) {
+  const colors = ["#ff4d4d", "#4dd2ff", "#b84dff", "#4dff88", "#ffd24d"];
+  for (let i = 0; i < 25; i++) {
+    gems.push({
+      x,
+      y,
+      r: Math.random() * 6 + 4,
+      dx: (Math.random() - 0.5) * 6,
+      dy: (Math.random() - 0.5) * 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      life: 60
+    });
+  }
+}
 
-  setTimeout(() => {
-    loader.style.display = "flex";
-  }, 800);
+function animateGems() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  gems.forEach((g, i) => {
+    g.x += g.dx;
+    g.y += g.dy;
+    g.life--;
+
+    ctx.beginPath();
+    ctx.fillStyle = g.color;
+    ctx.shadowColor = g.color;
+    ctx.shadowBlur = 15;
+    ctx.arc(g.x, g.y, g.r, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (g.life <= 0) gems.splice(i,1);
+  });
+  requestAnimationFrame(animateGems);
+}
+animateGems();
+
+/* 🧰 COFFRE */
+tresor.addEventListener("click", (e) => {
+  clickSound.play();
+  explodeGems(e.clientX, e.clientY);
+
+  loaderText.textContent = "✨ Gagne ce mini jeux pour commencer ta quête ✨";
+  loader.style.display = "flex";
 
   setTimeout(() => {
     loader.style.display = "none";
-    fade.classList.remove("active");
     startGame();
-  }, 2800);
-};
+  }, 2500);
+});
 
-/* MINI JEU */
+/* 🗺 MINI JEU */
 function startGame() {
   order = [];
   mapPieces.innerHTML = "";
@@ -43,6 +90,9 @@ function startGame() {
   shuffle(pieces);
 
   pieces.forEach(p => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "piece-wrapper";
+
     const img = document.createElement("img");
     img.src = p.img;
     img.className = "map-piece";
@@ -50,95 +100,72 @@ function startGame() {
 
     img.onclick = () => {
       if (img.classList.contains("selected")) return;
+
       img.classList.add("selected");
       order.push(p.id);
 
-      const badge = document.createElement("div");
-      badge.className = "order-number";
-      badge.textContent = order.length;
-      img.appendChild(badge);
+      const number = document.createElement("div");
+      number.className = "order-number";
+      number.textContent = order.length;
+      wrapper.appendChild(number);
 
       if (order.length === 3) checkResult();
     };
 
-    mapPieces.appendChild(img);
+    wrapper.appendChild(img);
+    mapPieces.appendChild(wrapper);
   });
 }
 
 function checkResult() {
-  mapGame.style.display = "none";
+  setTimeout(() => {
+    mapGame.style.display = "none";
 
-  if (JSON.stringify(order) === JSON.stringify(correct)) {
-    victory.style.display = "flex";
+    if (JSON.stringify(order) === JSON.stringify(correct)) {
+      victory.style.display = "flex";
 
-    setTimeout(() => {
-      victory.style.display = "none";
-      fade.classList.add("active");
-    }, 2500);
+      setTimeout(() => {
+        victory.style.display = "none";
+        launchVideo();
+      }, 3500);
 
-    setTimeout(() => {
-      fade.classList.remove("active");
-      videoContainer.style.display = "flex";
-      video.play();
-    }, 4000);
-  } else {
-    startGame();
-  }
+    } else {
+      errorSound.play();
+      loaderText.textContent = "❌ Mauvais ordre… réessaie !";
+      loader.style.display = "flex";
+
+      setTimeout(() => {
+        loader.style.display = "none";
+        startGame();
+      }, 2000);
+    }
+  }, 600);
 }
 
-/* VIDEO CONTROLS */
+/* 🎬 VIDÉO */
+function launchVideo() {
+  loaderText.textContent = "🌊 L’aventure commence…";
+  loader.style.display = "flex";
+
+  setTimeout(() => {
+    loader.style.display = "none";
+    videoContainer.style.display = "flex";
+    video.play();
+  }, 2000);
+}
+
+/* 🔊 SON */
 soundToggle.onclick = () => {
   video.muted = !video.muted;
   soundToggle.textContent = video.muted ? "🔈" : "🔊";
 };
 
-exitVideo.onclick = () => {
+/* ❌ FERMETURE */
+closeVideo.onclick = () => {
   window.open("menu.html", "_blank");
 };
 
-/* GEMS */
-const canvas = document.getElementById("gemCanvas");
-const ctx = canvas.getContext("2d");
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-let gems = [];
-
-class Gem {
-  constructor(x,y){
-    this.x=x; this.y=y;
-    this.vx=(Math.random()-0.5)*10;
-    this.vy=Math.random()*-12;
-    this.life=1;
-  }
-  update(){
-    this.vy+=0.4;
-    this.x+=this.vx;
-    this.y+=this.vy;
-    this.life-=0.02;
-  }
-  draw(){
-    ctx.globalAlpha=this.life;
-    ctx.fillStyle="gold";
-    ctx.fillRect(this.x,this.y,6,6);
-    ctx.globalAlpha=1;
-  }
-}
-
-function explodeCenter(el){
-  const r=el.getBoundingClientRect();
-  for(let i=0;i<80;i++){
-    gems.push(new Gem(r.left+r.width/2,r.top+r.height/2));
-  }
-}
-
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  gems=gems.filter(g=>g.life>0);
-  gems.forEach(g=>{g.update();g.draw();});
-  requestAnimationFrame(animate);
-}
-animate();
-
+/* UTILS */
 function shuffle(arr){
   for(let i=arr.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
