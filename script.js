@@ -34,7 +34,8 @@ function explodeTreasure(x, y) {
 function createGem(x, y) {
   return {
     type: "gem",
-    x, y,
+    x,
+    y,
     vx: (Math.random() - 0.5) * 14,
     vy: (Math.random() - 0.5) * 14,
     size: Math.random() * 8 + 6,
@@ -48,7 +49,8 @@ function createGem(x, y) {
 function createCoin(x, y) {
   return {
     type: "coin",
-    x, y,
+    x,
+    y,
     vx: (Math.random() - 0.5) * 12,
     vy: (Math.random() - 0.5) * 12,
     size: Math.random() * 10 + 8,
@@ -103,9 +105,9 @@ function animateParticles() {
 
   requestAnimationFrame(animateParticles);
 }
-
 animateParticles();
 
+/* resize canvas */
 window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -214,7 +216,7 @@ function launchVideo() {
   video.play();
 }
 
-/* bouton son */
+/* son ON/OFF */
 soundToggle.onclick = () => {
   video.muted = !video.muted;
 
@@ -227,7 +229,7 @@ soundToggle.onclick = () => {
   }
 };
 
-/* fermeture & fin vidéo => menu */
+/* fin vidéo + bouton X -> menu */
 video.onended = goToMenu;
 closeVideo.onclick = goToMenu;
 
@@ -245,6 +247,8 @@ function goToMenu() {
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j]];
+
+    // ✅ version correcte — plus d’erreur JS
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 }
