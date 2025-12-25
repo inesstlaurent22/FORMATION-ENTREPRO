@@ -1,30 +1,32 @@
 const tresor = document.getElementById("tresor");
 const loader = document.getElementById("loaderScreen");
-const loaderText = document.getElementById("loaderText");
+const fade = document.getElementById("fadeScreen");
 const mapGame = document.getElementById("mapGame");
 const mapPieces = document.getElementById("mapPieces");
 const victory = document.getElementById("victoryScreen");
 const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("mainVideo");
 const soundToggle = document.getElementById("soundToggle");
-
-const clickSound = document.getElementById("clickSound");
-const errorSound = document.getElementById("errorSound");
+const exitVideo = document.getElementById("exitVideo");
 
 let order = [];
 const correct = ["piece1","piece2","piece3"];
 
-/* COFFRE */
-tresor.addEventListener("click", () => {
-  clickSound.play();
-  loaderText.textContent = "Gagne ce mini jeux pour commencer ta quête 🥳";
-  loader.style.display = "flex";
+/* COFFRE CLICK */
+tresor.onclick = () => {
+  explodeCenter(tresor);
+  fade.classList.add("active");
+
+  setTimeout(() => {
+    loader.style.display = "flex";
+  }, 800);
 
   setTimeout(() => {
     loader.style.display = "none";
+    fade.classList.remove("active");
     startGame();
-  }, 2500);
-});
+  }, 2800);
+};
 
 /* MINI JEU */
 function startGame() {
@@ -47,7 +49,8 @@ function startGame() {
     img.dataset.id = p.id;
 
     img.onclick = () => {
-      if (img.querySelector(".order-number")) return;
+      if (img.classList.contains("selected")) return;
+      img.classList.add("selected");
       order.push(p.id);
 
       const badge = document.createElement("div");
@@ -70,39 +73,72 @@ function checkResult() {
 
     setTimeout(() => {
       victory.style.display = "none";
-      launchVideo();
-    }, 3500);
-  } else {
-    errorSound.play();
-    loaderText.textContent = "Mauvais ordre… réessaie !";
-    loader.style.display = "flex";
+      fade.classList.add("active");
+    }, 2500);
 
     setTimeout(() => {
-      loader.style.display = "none";
-      startGame();
-    }, 2000);
+      fade.classList.remove("active");
+      videoContainer.style.display = "flex";
+      video.play();
+    }, 4000);
+  } else {
+    startGame();
   }
 }
 
-/* VIDÉO */
-function launchVideo() {
-  loaderText.textContent = "L’aventure commence…";
-  loader.style.display = "flex";
-
-  setTimeout(() => {
-    loader.style.display = "none";
-    videoContainer.style.display = "flex";
-    video.play();
-  }, 2000);
-}
-
-/* SON */
+/* VIDEO CONTROLS */
 soundToggle.onclick = () => {
   video.muted = !video.muted;
   soundToggle.textContent = video.muted ? "🔈" : "🔊";
 };
 
-/* UTILS */
+exitVideo.onclick = () => {
+  window.open("menu.html", "_blank");
+};
+
+/* GEMS */
+const canvas = document.getElementById("gemCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+let gems = [];
+
+class Gem {
+  constructor(x,y){
+    this.x=x; this.y=y;
+    this.vx=(Math.random()-0.5)*10;
+    this.vy=Math.random()*-12;
+    this.life=1;
+  }
+  update(){
+    this.vy+=0.4;
+    this.x+=this.vx;
+    this.y+=this.vy;
+    this.life-=0.02;
+  }
+  draw(){
+    ctx.globalAlpha=this.life;
+    ctx.fillStyle="gold";
+    ctx.fillRect(this.x,this.y,6,6);
+    ctx.globalAlpha=1;
+  }
+}
+
+function explodeCenter(el){
+  const r=el.getBoundingClientRect();
+  for(let i=0;i<80;i++){
+    gems.push(new Gem(r.left+r.width/2,r.top+r.height/2));
+  }
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  gems=gems.filter(g=>g.life>0);
+  gems.forEach(g=>{g.update();g.draw();});
+  requestAnimationFrame(animate);
+}
+animate();
+
 function shuffle(arr){
   for(let i=arr.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
