@@ -22,17 +22,12 @@ const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-canvas.style.background = "transparent";
 
 let particles = [];
 
 function explodeTreasure(x, y) {
-  for (let i = 0; i < 30; i++) {
-    particles.push(createGem(x, y));
-  }
-  for (let i = 0; i < 20; i++) {
-    particles.push(createCoin(x, y));
-  }
+  for (let i = 0; i < 30; i++) particles.push(createGem(x, y));
+  for (let i = 0; i < 20; i++) particles.push(createCoin(x, y));
 }
 
 function createGem(x, y) {
@@ -85,7 +80,6 @@ function drawParticle(p) {
     ctx.shadowColor = "gold";
     ctx.shadowBlur = 20;
     ctx.fillStyle = "gold";
-
     ctx.beginPath();
     ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
     ctx.fill();
@@ -104,13 +98,11 @@ function animateParticles() {
     p.vy += 0.35;
     p.rotation += p.spin;
     p.life--;
-
     if (p.life <= 0) particles.splice(i, 1);
   });
 
   requestAnimationFrame(animateParticles);
 }
-
 animateParticles();
 
 window.addEventListener("resize", () => {
@@ -126,10 +118,7 @@ tresor.onclick = () => {
   clickSound.play();
 
   const rect = tresor.getBoundingClientRect();
-  explodeTreasure(
-    rect.left + rect.width / 2,
-    rect.top + rect.height / 2
-  );
+  explodeTreasure(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
   setTimeout(() => {
     loader.style.display = "flex";
@@ -226,23 +215,8 @@ function launchVideo() {
 
 soundToggle.onclick = () => {
   video.muted = !video.muted;
-
-  if (video.muted) {
-    soundToggle.textContent = "🔇";
-    soundToggle.classList.add("muted");
-  } else {
-    soundToggle.textContent = "🔉";
-    soundToggle.classList.remove("muted");
-  }
-};
-
-  if (video.muted) {
-    soundToggle.textContent = "🔇";
-    soundToggle.classList.add("muted");
-  } else {
-    soundToggle.textContent = "🔉";
-    soundToggle.classList.remove("muted");
-  }
+  soundToggle.textContent = video.muted ? "🔇" : "🔉";
+  soundToggle.classList.toggle("muted", video.muted);
 };
 
 video.onended = goToMenu;
