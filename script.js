@@ -25,37 +25,54 @@ canvas.height = window.innerHeight;
 let gems = [];
 
 function explodeGems(x, y) {
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 35; i++) {
     gems.push({
       x,
       y,
-      vx: (Math.random() - 0.5) * 10,
-      vy: (Math.random() - 0.5) * 10,
-      size: Math.random() * 6 + 4,
-      color: `hsl(${Math.random() * 360},100%,60%)`,
-      life: 60
+      vx: (Math.random() - 0.5) * 12,
+      vy: (Math.random() - 0.5) * 12,
+      size: Math.random() * 8 + 6,
+      rotation: Math.random() * Math.PI,
+      spin: (Math.random() - 0.5) * 0.2,
+      color: `hsl(${Math.random() * 360},90%,65%)`,
+      life: 80
     });
   }
 }
 
+function drawGem(g) {
+  ctx.save();
+  ctx.translate(g.x, g.y);
+  ctx.rotate(g.rotation);
+
+  ctx.beginPath();
+  ctx.moveTo(0, -g.size);
+  ctx.lineTo(g.size * 0.8, 0);
+  ctx.lineTo(0, g.size);
+  ctx.lineTo(-g.size * 0.8, 0);
+  ctx.closePath();
+
+  ctx.fillStyle = g.color;
+  ctx.shadowColor = g.color;
+  ctx.shadowBlur = 20;
+  ctx.fill();
+
+  ctx.restore();
+}
+
 function animateGems() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  gems.forEach((g, i) => {
-    ctx.fillStyle = g.color;
-    ctx.beginPath();
-    ctx.moveTo(g.x, g.y);
-    ctx.lineTo(g.x + g.size, g.y + g.size);
-    ctx.lineTo(g.x - g.size, g.y + g.size);
-    ctx.closePath();
-    ctx.fill();
 
+  gems.forEach((g, i) => {
+    drawGem(g);
     g.x += g.vx;
     g.y += g.vy;
-    g.vy += 0.2;
+    g.vy += 0.25;
+    g.rotation += g.spin;
     g.life--;
-
     if (g.life <= 0) gems.splice(i, 1);
   });
+
   requestAnimationFrame(animateGems);
 }
 animateGems();
@@ -69,16 +86,16 @@ tresor.onclick = (e) => {
   explodeGems(e.clientX, e.clientY);
 
   setTimeout(() => {
-    loader.classList.add("active");
     loader.style.display = "flex";
-    loaderText.textContent = "Gagne ce mini jeux pour commencer ta quête 🥳";
+    loader.classList.add("active");
+    loaderText.textContent = "Gagne ce mini-jeu pour commencer ta quête 🏴‍☠️";
   }, 1200);
 
   setTimeout(() => {
-    loader.classList.remove("active");
     loader.style.display = "none";
+    loader.classList.remove("active");
     startGame();
-  }, 2500);
+  }, 2600);
 };
 
 /* ===================== */
@@ -86,7 +103,7 @@ tresor.onclick = (e) => {
 /* ===================== */
 
 let order = [];
-const correct = ["piece1","piece2","piece3"];
+const correct = ["piece1", "piece2", "piece3"];
 
 function startGame() {
   tresor.classList.add("hide");
@@ -95,32 +112,38 @@ function startGame() {
   mapGame.style.display = "flex";
 
   const pieces = [
-    { id:"piece1", img:"images/Carteminigauche.png" },
-    { id:"piece2", img:"images/Carteminimilieu.png" },
-    { id:"piece3", img:"images/Carteminidroite.png" }
+    { id: "piece1", img: "images/Carteminigauche.png" },
+    { id: "piece2", img: "images/Carteminimilieu.png" },
+    { id: "piece3", img: "images/Carteminidroite.png" }
   ];
 
   shuffle(pieces);
 
   pieces.forEach(p => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "map-piece-wrapper";
+    wrapper.dataset.id = p.id;
+
     const img = document.createElement("img");
     img.src = p.img;
     img.className = "map-piece";
-    img.dataset.id = p.id;
 
-    img.onclick = () => {
-      if (img.querySelector(".order-number")) return;
+    wrapper.onclick = () => {
+      if (wrapper.querySelector(".order-number")) return;
+
+      clickSound.play();
       order.push(p.id);
 
       const num = document.createElement("div");
       num.className = "order-number";
       num.textContent = order.length;
-      img.appendChild(num);
+      wrapper.appendChild(num);
 
       if (order.length === 3) checkResult();
     };
 
-    mapPieces.appendChild(img);
+    wrapper.appendChild(img);
+    mapPieces.appendChild(wrapper);
   });
 }
 
@@ -135,13 +158,13 @@ function checkResult() {
     }, 2500);
   } else {
     errorSound.play();
-    loader.classList.add("active");
     loader.style.display = "flex";
+    loader.classList.add("active");
     loaderText.textContent = "Mauvais ordre… réessaie !";
 
     setTimeout(() => {
-      loader.classList.remove("active");
       loader.style.display = "none";
+      loader.classList.remove("active");
       startGame();
     }, 1800);
   }
