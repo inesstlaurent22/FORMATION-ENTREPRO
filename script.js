@@ -14,25 +14,7 @@ const clickSound = document.getElementById("clickSound");
 const errorSound = document.getElementById("errorSound");
 
 /* ===================== */
-/* 🧰 COFFRE */
-/* ===================== */
-
-tresor.onclick = (e) => {
-  clickSound.play();
-
-  setTimeout(() => {
-    loader.style.display = "flex";
-    loaderText.textContent = "Gagne ce mini-jeu pour commencer ta quête 🏴‍☠️";
-  }, 800);
-
-  setTimeout(() => {
-    loader.style.display = "none";
-    startGame();
-  }, 2000);
-};
-
-/* ===================== */
-/* 💎 GEMS */
+/* 💎 GEMS + 🪙 OR */
 /* ===================== */
 
 const canvas = document.getElementById("gemCanvas");
@@ -42,65 +24,126 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 canvas.style.background = "transparent";
 
-let gems = [];
+let particles = [];
 
-function explodeGems(x, y) {
-  for (let i = 0; i < 40; i++) {
-    gems.push({
-      x,
-      y,
-      vx: (Math.random() - 0.5) * 14,
-      vy: (Math.random() - 0.5) * 14,
-      size: Math.random() * 10 + 6,
-      rotation: Math.random() * Math.PI,
-      spin: (Math.random() - 0.5) * 0.3,
-      color: `hsl(${Math.random() * 360},100%,65%)`,
-      life: 90
-    });
+function explodeTreasure(x, y) {
+  for (let i = 0; i < 30; i++) {
+    particles.push(createGem(x, y));
+  }
+  for (let i = 0; i < 20; i++) {
+    particles.push(createCoin(x, y));
   }
 }
 
-function drawGem(g) {
+function createGem(x, y) {
+  return {
+    type: "gem",
+    x,
+    y,
+    vx: (Math.random() - 0.5) * 14,
+    vy: (Math.random() - 0.5) * 14,
+    size: Math.random() * 8 + 6,
+    rotation: Math.random() * Math.PI,
+    spin: (Math.random() - 0.5) * 0.3,
+    color: `hsl(${Math.random() * 360},100%,65%)`,
+    life: 90
+  };
+}
+
+function createCoin(x, y) {
+  return {
+    type: "coin",
+    x,
+    y,
+    vx: (Math.random() - 0.5) * 12,
+    vy: (Math.random() - 0.5) * 12,
+    size: Math.random() * 10 + 8,
+    rotation: Math.random() * Math.PI,
+    spin: (Math.random() - 0.5) * 0.25,
+    life: 80
+  };
+}
+
+function drawParticle(p) {
   ctx.save();
-  ctx.translate(g.x, g.y);
-  ctx.rotate(g.rotation);
+  ctx.translate(p.x, p.y);
+  ctx.rotate(p.rotation);
 
-  ctx.shadowColor = g.color;
-  ctx.shadowBlur = 30;
+  if (p.type === "gem") {
+    ctx.shadowColor = p.color;
+    ctx.shadowBlur = 30;
+    ctx.fillStyle = p.color;
 
-  ctx.beginPath();
-  ctx.moveTo(0, -g.size);
-  ctx.lineTo(g.size * 0.8, 0);
-  ctx.lineTo(0, g.size);
-  ctx.lineTo(-g.size * 0.8, 0);
-  ctx.closePath();
+    ctx.beginPath();
+    ctx.moveTo(0, -p.size);
+    ctx.lineTo(p.size * 0.8, 0);
+    ctx.lineTo(0, p.size);
+    ctx.lineTo(-p.size * 0.8, 0);
+    ctx.closePath();
+    ctx.fill();
+  } else {
+    ctx.shadowColor = "gold";
+    ctx.shadowBlur = 20;
+    ctx.fillStyle = "gold";
 
-  ctx.fillStyle = g.color;
-  ctx.fill();
+    ctx.beginPath();
+    ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
   ctx.restore();
 }
 
-function animateGems() {
+function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  gems.forEach((g, i) => {
-    drawGem(g);
-    g.x += g.vx;
-    g.y += g.vy;
-    g.vy += 0.35;
-    g.rotation += g.spin;
-    g.life--;
+  particles.forEach((p, i) => {
+    drawParticle(p);
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.35;
+    p.rotation += p.spin;
+    p.life--;
 
-    if (g.life <= 0) gems.splice(i, 1);
+    if (p.life <= 0) particles.splice(i, 1);
   });
 
-  requestAnimationFrame(animateGems);
+  requestAnimationFrame(animateParticles);
 }
 
-animateGems();
+animateParticles();
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
 
 /* ===================== */
-/* 🗺 MINI JEU */
+/* 🧰 COFFRE */
+/* ===================== */
+
+tresor.onclick = () => {
+  clickSound.play();
+
+  const rect = tresor.getBoundingClientRect();
+  explodeTreasure(
+    rect.left + rect.width / 2,
+    rect.top + rect.height / 2
+  );
+
+  setTimeout(() => {
+    loader.style.display = "flex";
+    loaderText.textContent = "Gagne ce mini-jeu pour commencer ta quête 🏴‍☠️";
+  }, 700);
+
+  setTimeout(() => {
+    loader.style.display = "none";
+    startGame();
+  }, 1900);
+};
+
+/* ===================== */
+/* 🗺 MINI-JEU */
 /* ===================== */
 
 let order = [];
@@ -123,7 +166,6 @@ function startGame() {
   pieces.forEach(p => {
     const wrapper = document.createElement("div");
     wrapper.className = "map-piece-wrapper";
-    wrapper.dataset.id = p.id;
 
     const img = document.createElement("img");
     img.src = p.img;
@@ -159,7 +201,7 @@ function checkResult() {
     setTimeout(() => {
       victory.style.display = "none";
       launchVideo();
-    }, 2500);
+    }, 2200);
   } else {
     errorSound.play();
     loader.style.display = "flex";
@@ -168,7 +210,7 @@ function checkResult() {
     setTimeout(() => {
       loader.style.display = "none";
       startGame();
-    }, 1800);
+    }, 1600);
   }
 }
 
