@@ -1,233 +1,171 @@
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; overflow:hidden; font-family:Arial; }
+
+.Fondindex {
+  position:relative;
+  width:100vw;
+  height:100vh;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-}
-
-/* ========================= */
-/* 🌍 SCÈNE INDEX */
-/* ========================= */
-
-/* FOND */
 .fondindex {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:1;
 }
 
-/* ========================= */
-/* 🧰 COFFRE */
-/* ========================= */
-
+/* COFFRE */
 .tresor-button {
-  position: absolute;
-  left: 50%;
-  top: 80%;
-  transform: translate(-50%, -50%);
-  width: clamp(220px, 30vw, 420px);
-  aspect-ratio: 1;
-  cursor: pointer;
-  z-index: 10;
+  position:absolute;
+  left:50%;
+  top:80%;
+  transform:translate(-50%,-50%);
+  width:360px;
+  aspect-ratio:1;
+  cursor:pointer;
+  z-index:10;
 }
+.tresor-img { position:absolute; inset:0; width:100%; transition:0.4s; }
+.coffre-ferme { opacity:1; }
+.coffre-ouvert { opacity:0; transform:scale(0.95); }
+.tresor-button:hover .coffre-ferme { opacity:0; }
+.tresor-button:hover .coffre-ouvert { opacity:1; transform:scale(1.05); }
 
-.tresor-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+/* FADE */
+#fadeScreen {
+  position:fixed;
+  inset:0;
+  background:black;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1s;
+  z-index:50;
 }
+#fadeScreen.active { opacity:1; }
 
-.coffre-ferme {
-  opacity: 1;
-}
-
-.coffre-ouvert {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-.tresor-button:hover .coffre-ferme {
-  opacity: 0;
-}
-
-.tresor-button:hover .coffre-ouvert {
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-/* ========================= */
-/* ⏳ LOADER */
-/* ========================= */
-
+/* LOADER */
 #loaderScreen {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.85);
+  z-index:100;
 }
-
 #loaderText {
-  color: white;
-  font-size: 1.4rem;
-  text-align: center;
+  color:gold;
+  font-size:1.6rem;
+  text-align:center;
+  animation: blink 1.2s infinite;
+  text-shadow:0 0 20px gold;
+}
+@keyframes blink {
+  0%,100% { opacity:1; }
+  50% { opacity:0.4; }
 }
 
-/* ========================= */
-/* 🗺 MINI JEU */
-/* ========================= */
-
+/* MINI JEU */
 #mapGame {
-  position: fixed;
-  inset: 0;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  background: rgba(0,0,0,0.9);
-  z-index: 200;
+  position:fixed;
+  inset:0;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.9);
+  gap:30px;
+  z-index:200;
 }
-
-#gameInstruction {
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-#mapPieces {
-  display: flex;
-  gap: 30px;
-}
+#gameInstruction { color:white; }
+#mapPieces { display:flex; gap:30px; }
 
 .map-piece {
-  width: 160px;
-  cursor: pointer;
-  position: relative;
+  width:160px;
+  cursor:pointer;
+  position:relative;
+  transition:0.3s;
+}
+.map-piece.selected {
+  box-shadow:0 0 30px gold;
 }
 
-/* NUMÉRO FLASH */
 .order-number {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
-  color: white;
-  text-shadow: 0 0 20px gold, 0 0 40px gold;
-  animation: flash 0.8s ease;
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:4rem;
+  color:white;
+  text-shadow:0 0 25px gold;
+  animation:flash 0.8s;
 }
-
 @keyframes flash {
-  0% { opacity: 0; transform: scale(0.4); }
-  50% { opacity: 1; transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0%{opacity:0;transform:scale(0.4);}
+  50%{opacity:1;transform:scale(1.3);}
+  100%{transform:scale(1);}
 }
 
-/* ========================= */
-/* 🎉 VICTOIRE */
-/* ========================= */
-
+/* VICTOIRE */
 #victoryScreen {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
-  z-index: 300;
-  animation: fadeIn 1.2s ease forwards;
+  position:fixed;
+  inset:0;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.95);
+  z-index:300;
 }
-
 #victoryScreen h1 {
-  color: gold;
-  text-shadow: 0 0 20px gold;
+  color:gold;
+  text-shadow:0 0 25px gold;
 }
-
 .full-map {
-  width: 320px;
-  box-shadow: 0 0 40px gold;
+  width:320px;
+  box-shadow:0 0 60px gold;
 }
 
-/* ========================= */
-/* 🎬 VIDÉO */
-/* ========================= */
-
+/* VIDÉO */
 #videoContainer {
-  position: fixed;
-  inset: 0;
-  background: black;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 400;
-  animation: fadeIn 1.5s ease forwards;
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:black;
+  z-index:400;
 }
-
 #videoContainer video {
-  width: 80%;
-  max-width: 900px;
-  border-radius: 16px;
+  width:80%;
+  max-width:900px;
+  border-radius:16px;
 }
 
-#closeVideo {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 22px;
-  background: white;
-  border: none;
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  cursor: pointer;
+.circle-btn {
+  position:absolute;
+  top:20px;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 0 20px gold;
 }
+#soundToggle { left:20px; }
+#exitVideo { right:20px; }
 
-/* SON */
-#soundToggle {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow: 0 0 15px gold;
-}
-
-/* ========================= */
-/* 💥 CANVAS */
-/* ========================= */
-
+/* GEMS */
 #gemCanvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 50;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:20;
 }
