@@ -15,7 +15,7 @@ html, body {
 }
 
 /* ===================== */
-/* CONTENEUR */
+/* CONTENEUR PRINCIPAL */
 /* ===================== */
 .Fondindex {
   position: relative;
@@ -36,14 +36,14 @@ html, body {
 }
 
 /* ===================== */
-/* COFFRE (+10%) */
+/* COFFRE */
 /* ===================== */
 .tresor-button {
   position: absolute;
   left: 50%;
   top: 78%;
-  transform: translate(-50%, -50%) scale(1.1);
-  width: clamp(210px, 28vw, 370px);
+  transform: translate(-50%, -50%);
+  width: clamp(230px, 31vw, 400px); /* +10% */
   aspect-ratio: 1;
   cursor: pointer;
   z-index: 10;
@@ -60,17 +60,26 @@ html, body {
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.coffre-ferme { opacity: 1; }
-.coffre-ouvert { opacity: 0; transform: scale(0.95); }
+.coffre-ferme {
+  opacity: 1;
+}
 
-.tresor-button:hover .coffre-ferme { opacity: 0; }
+.coffre-ouvert {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.tresor-button:hover .coffre-ferme {
+  opacity: 0;
+}
+
 .tresor-button:hover .coffre-ouvert {
   opacity: 1;
   transform: scale(1.05);
 }
 
 /* ===================== */
-/* LOADER (TRANSPARENT POUR GEMS) */
+/* LOADER */
 /* ===================== */
 #loaderScreen {
   position: fixed;
@@ -84,14 +93,14 @@ html, body {
 
 #loaderText {
   color: gold;
-  font-size: 1.6rem;
+  font-size: 1.2rem; /* réduit */
   text-align: center;
-  text-shadow: 0 0 15px gold;
+  text-shadow: 0 0 12px gold;
   animation: blink 1.2s infinite;
 }
 
 /* ===================== */
-/* MINI JEU */
+/* MINI-JEU */
 /* ===================== */
 #mapGame {
   position: fixed;
@@ -107,7 +116,8 @@ html, body {
 
 #gameInstruction {
   color: white;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  text-align: center;
   text-shadow: 0 0 15px gold;
 }
 
@@ -123,16 +133,15 @@ html, body {
 
 .map-piece {
   width: 160px;
-  transition: filter 0.4s ease, transform 0.4s ease;
+  transition: all 0.3s ease;
 }
 
 .map-piece.inactive {
-  filter: brightness(0.25) grayscale(1);
+  filter: brightness(0.4) grayscale(100%);
 }
 
 .map-piece-wrapper.active .map-piece {
-  filter: brightness(1) drop-shadow(0 0 20px gold);
-  transform: scale(1.05);
+  filter: brightness(1.2) drop-shadow(0 0 15px gold);
 }
 
 .order-number {
@@ -145,6 +154,7 @@ html, body {
   color: white;
   text-shadow: 0 0 20px gold, 0 0 40px gold;
   animation: flash 0.8s ease;
+  pointer-events: none;
 }
 
 /* ===================== */
@@ -158,22 +168,24 @@ html, body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 25px;
   z-index: 300;
 }
 
 #victoryScreen h1 {
   color: white;
-  font-size: 2rem;
+  text-align: center;
   text-shadow: 0 0 20px gold;
+  font-size: 1.6rem;
 }
 
-/* 🗺️ CARTE FINALE (TAILLE + FLASH) */
+/* CARTE FINALE */
 .full-map {
-  width: 320px;
-  max-width: 80vw;
-  animation: mapFlash 1.6s ease;
-  filter: drop-shadow(0 0 30px gold);
+  width: fit-content;
+  max-width: 420px;
+  margin: auto;
+  animation: mapFlash 1.5s ease;
+  filter: drop-shadow(0 0 25px gold);
 }
 
 /* ===================== */
@@ -195,45 +207,42 @@ html, body {
   border-radius: 16px;
 }
 
-/* ===================== */
-/* BOUTONS VIDÉO */
-/* ===================== */
+/* BOUTON X (haut centré) */
 #closeVideo {
   position: absolute;
-  top: 20px;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: white;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SON 🔉 (bas droite) */
+#soundToggle {
+  position: absolute;
+  bottom: 20px;
   right: 20px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
   background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 22px;
   cursor: pointer;
-}
-
-#soundToggle {
-  position: absolute;
-  bottom: 25px;
-  right: 25px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
-  cursor: pointer;
-  box-shadow:
-    0 0 20px rgba(255,255,255,0.9),
-    0 0 40px rgba(255,215,0,0.9);
-  animation: pulseLight 1.8s infinite;
+  box-shadow: 0 0 25px gold;
 }
 
 /* ===================== */
-/* FADE */
+/* FADE CINÉMATIQUE */
 /* ===================== */
 #cinematicFade {
   position: fixed;
@@ -250,13 +259,13 @@ html, body {
 }
 
 /* ===================== */
-/* GEMS (AU-DESSUS DE TOUT) */
+/* GEMS & OR */
 /* ===================== */
 #gemCanvas {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 999;
+  z-index: 600;
 }
 
 /* ===================== */
@@ -281,17 +290,11 @@ html, body {
   }
   50% {
     opacity: 1;
-    transform: scale(1.15);
+    transform: scale(1.1);
     filter: brightness(2);
   }
   100% {
     transform: scale(1);
     filter: brightness(1);
   }
-}
-
-@keyframes pulseLight {
-  0% { box-shadow: 0 0 15px white; }
-  50% { box-shadow: 0 0 40px gold; }
-  100% { box-shadow: 0 0 15px white; }
 }
