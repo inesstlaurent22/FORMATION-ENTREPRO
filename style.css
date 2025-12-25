@@ -70,12 +70,12 @@ html, body {
 }
 
 /* ===================== */
-/* LOADER */
+/* LOADER (TRANSPARENT POUR GEMS) */
 /* ===================== */
 #loaderScreen {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.7);
   display: none;
   align-items: center;
   justify-content: center;
@@ -101,7 +101,7 @@ html, body {
   justify-content: center;
   align-items: center;
   gap: 30px;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0.7);
   z-index: 200;
 }
 
@@ -127,7 +127,7 @@ html, body {
 }
 
 .map-piece.inactive {
-  filter: brightness(0.3) grayscale(1);
+  filter: brightness(0.25) grayscale(1);
 }
 
 .map-piece-wrapper.active .map-piece {
@@ -153,7 +153,7 @@ html, body {
 #victoryScreen {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.95);
+  background: rgba(0,0,0,0.7);
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -166,6 +166,14 @@ html, body {
   color: white;
   font-size: 2rem;
   text-shadow: 0 0 20px gold;
+}
+
+/* 🗺️ CARTE FINALE (TAILLE + FLASH) */
+.full-map {
+  width: 320px;
+  max-width: 80vw;
+  animation: mapFlash 1.6s ease;
+  filter: drop-shadow(0 0 30px gold);
 }
 
 /* ===================== */
@@ -219,13 +227,13 @@ html, body {
   font-size: 26px;
   cursor: pointer;
   box-shadow:
-    0 0 15px rgba(255,255,255,0.9),
-    0 0 30px rgba(255,215,0,0.8);
+    0 0 20px rgba(255,255,255,0.9),
+    0 0 40px rgba(255,215,0,0.9);
   animation: pulseLight 1.8s infinite;
 }
 
 /* ===================== */
-/* FADE CINÉ */
+/* FADE */
 /* ===================== */
 #cinematicFade {
   position: fixed;
@@ -242,13 +250,13 @@ html, body {
 }
 
 /* ===================== */
-/* GEMS */
+/* GEMS (AU-DESSUS DE TOUT) */
 /* ===================== */
 #gemCanvas {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 600; /* AU-DESSUS DE TOUT */
+  z-index: 999;
 }
 
 /* ===================== */
@@ -265,8 +273,25 @@ html, body {
   100% { transform: scale(1); }
 }
 
+@keyframes mapFlash {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+    filter: brightness(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+    filter: brightness(2);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
 @keyframes pulseLight {
-  0% { box-shadow: 0 0 10px white; }
-  50% { box-shadow: 0 0 30px gold; }
-  100% { box-shadow: 0 0 10px white; }
+  0% { box-shadow: 0 0 15px white; }
+  50% { box-shadow: 0 0 40px gold; }
+  100% { box-shadow: 0 0 15px white; }
 }
