@@ -93,21 +93,25 @@ function drawParticle(p) {
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  particles.forEach((p, i) => {
+  // 🔥 boucle SAFE (corrige le blocage)
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+
     drawParticle(p);
+
     p.x += p.vx;
     p.y += p.vy;
     p.vy += 0.35;
     p.rotation += p.spin;
     p.life--;
+
     if (p.life <= 0) particles.splice(i, 1);
-  });
+  }
 
   requestAnimationFrame(animateParticles);
 }
 animateParticles();
 
-/* resize canvas */
 window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -126,12 +130,12 @@ tresor.onclick = () => {
   setTimeout(() => {
     loader.style.display = "flex";
     loaderText.textContent = "Gagne ce mini-jeu pour commencer ta quête 🏴‍☠️";
-  }, 700);
+  }, 500);
 
   setTimeout(() => {
     loader.style.display = "none";
     startGame();
-  }, 1900);
+  }, 1500);
 };
 
 /* ===================== */
@@ -190,6 +194,7 @@ function checkResult() {
 
   if (JSON.stringify(order) === JSON.stringify(correct)) {
     victory.style.display = "flex";
+
     setTimeout(() => {
       victory.style.display = "none";
       launchVideo();
@@ -202,7 +207,7 @@ function checkResult() {
     setTimeout(() => {
       loader.style.display = "none";
       startGame();
-    }, 1600);
+    }, 1500);
   }
 }
 
@@ -213,23 +218,14 @@ function checkResult() {
 function launchVideo() {
   videoContainer.style.display = "flex";
   video.currentTime = 0;
-  video.play();
+  video.play().catch(() => {});
 }
 
-/* son ON/OFF */
 soundToggle.onclick = () => {
   video.muted = !video.muted;
-
-  if (video.muted) {
-    soundToggle.textContent = "🔇";
-    soundToggle.classList.add("muted");
-  } else {
-    soundToggle.textContent = "🔉";
-    soundToggle.classList.remove("muted");
-  }
+  soundToggle.textContent = video.muted ? "🔇" : "🔉";
 };
 
-/* fin vidéo + bouton X -> menu */
 video.onended = goToMenu;
 closeVideo.onclick = goToMenu;
 
@@ -243,12 +239,9 @@ function goToMenu() {
 /* ===================== */
 /* UTILS */
 /* ===================== */
-
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-
-    // ✅ version correcte — plus d’erreur JS
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 }
