@@ -32,6 +32,74 @@ tresor.onclick = (e) => {
 };
 
 /* ===================== */
+/* 💎 GEMS */
+/* ===================== */
+
+const canvas = document.getElementById("gemCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+canvas.style.background = "transparent";
+
+let gems = [];
+
+function explodeGems(x, y) {
+  for (let i = 0; i < 40; i++) {
+    gems.push({
+      x,
+      y,
+      vx: (Math.random() - 0.5) * 14,
+      vy: (Math.random() - 0.5) * 14,
+      size: Math.random() * 10 + 6,
+      rotation: Math.random() * Math.PI,
+      spin: (Math.random() - 0.5) * 0.3,
+      color: `hsl(${Math.random() * 360},100%,65%)`,
+      life: 90
+    });
+  }
+}
+
+function drawGem(g) {
+  ctx.save();
+  ctx.translate(g.x, g.y);
+  ctx.rotate(g.rotation);
+
+  ctx.shadowColor = g.color;
+  ctx.shadowBlur = 30;
+
+  ctx.beginPath();
+  ctx.moveTo(0, -g.size);
+  ctx.lineTo(g.size * 0.8, 0);
+  ctx.lineTo(0, g.size);
+  ctx.lineTo(-g.size * 0.8, 0);
+  ctx.closePath();
+
+  ctx.fillStyle = g.color;
+  ctx.fill();
+  ctx.restore();
+}
+
+function animateGems() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  gems.forEach((g, i) => {
+    drawGem(g);
+    g.x += g.vx;
+    g.y += g.vy;
+    g.vy += 0.35;
+    g.rotation += g.spin;
+    g.life--;
+
+    if (g.life <= 0) gems.splice(i, 1);
+  });
+
+  requestAnimationFrame(animateGems);
+}
+
+animateGems();
+
+/* ===================== */
 /* 🗺 MINI JEU */
 /* ===================== */
 
