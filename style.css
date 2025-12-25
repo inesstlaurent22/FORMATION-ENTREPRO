@@ -1,166 +1,194 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
 }
 
-/* 🌍 FOND */
-.fondindex {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* FOND */
+.fondindex{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:1;
 }
 
-/* 🧰 COFFRE – PLUS GRAND & PLUS HAUT */
-.tresor-button {
-  position: absolute;
-  left: 50%;
-  top: 60%; /* 20% plus haut */
-  transform: translate(-50%, -50%);
-  width: 600px; /* x2 */
-  cursor: pointer;
-  z-index: 10;
+/* COFFRE */
+.tresor-button{
+  position:absolute;
+  left:50%;
+  top:60%;
+  transform:translate(-50%,-50%);
+  width:clamp(260px,33vw,520px);
+  aspect-ratio:1;
+  cursor:pointer;
+  z-index:10;
+  transition:opacity .6s, transform .6s;
+}
+.tresor-button.hide{
+  opacity:0;
+  pointer-events:none;
+  transform:translate(-50%,-60%) scale(.8);
+}
+.tresor-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  transition:.4s;
+}
+.coffre-ferme{opacity:1;}
+.coffre-ouvert{opacity:0;transform:scale(.95);}
+.tresor-button:hover .coffre-ferme{opacity:0;}
+.tresor-button:hover .coffre-ouvert{opacity:1;transform:scale(1.05);}
+
+/* LOADER */
+#loaderScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+}
+#loaderText{
+  color:gold;
+  font-size:1.5rem;
+  text-align:center;
+  text-shadow:0 0 20px gold;
+  animation:blink 1.2s infinite;
+}
+@keyframes blink{
+  50%{opacity:.4}
 }
 
-.tresor-img {
-  position: absolute;
-  width: 100%;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+/* MINI JEU */
+#mapGame{
+  position:fixed;
+  inset:0;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:30px;
+  background:rgba(0,0,0,.95);
+  z-index:200;
+}
+#gameInstruction{
+  color:gold;
+  text-align:center;
+  font-size:1.2rem;
+  text-shadow:0 0 15px gold;
+}
+#mapPieces{
+  display:flex;
+  gap:30px;
+}
+.map-piece{
+  width:160px;
+  cursor:pointer;
+  position:relative;
+  transition:.3s;
+}
+.map-piece:hover{
+  filter:drop-shadow(0 0 15px gold);
+  transform:scale(1.05);
+}
+.order-number{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:4rem;
+  color:white;
+  text-shadow:0 0 25px gold;
+  animation:flash .8s;
+}
+@keyframes flash{
+  from{opacity:0;transform:scale(.4)}
+  to{opacity:1;transform:scale(1)}
 }
 
-.coffre-ferme { opacity: 1; }
-.coffre-ouvert { opacity: 0; }
-
-.tresor-button:hover .coffre-ferme { opacity: 0; }
-.tresor-button:hover .coffre-ouvert { opacity: 1; }
-
-/* ⏳ LOADER */
-#loaderScreen {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  align-items: center;
-  justify-content: center;
+/* VICTOIRE */
+#victoryScreen{
+  position:fixed;
+  inset:0;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:30px;
+  background:rgba(0,0,0,.95);
+  z-index:300;
+}
+#victoryScreen h1{
+  color:gold;
+  text-shadow:0 0 25px gold;
+}
+.full-map{
+  width:320px;
+  box-shadow:0 0 40px gold;
 }
 
-#loaderText {
-  color: gold;
-  font-size: 1.5rem;
-  animation: blink 1s infinite;
+/* VIDÉO */
+#videoContainer{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:black;
+  z-index:400;
+}
+#videoContainer video{
+  width:80%;
+  max-width:900px;
+  border-radius:16px;
+}
+#closeVideo,#soundToggle{
+  position:absolute;
+  top:20px;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 0 15px gold;
+}
+#closeVideo{right:20px;}
+#soundToggle{left:20px;}
+
+/* FADE CINÉMATIQUE */
+#cinematicFade{
+  position:fixed;
+  inset:0;
+  background:black;
+  opacity:0;
+  pointer-events:none;
+  z-index:500;
+  transition:opacity 1.2s ease;
+}
+#cinematicFade.active{
+  opacity:1;
 }
 
-@keyframes blink {
-  0%,100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-/* 🗺 MINI JEU */
-#mapGame {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-}
-
-#mapPieces {
-  display: flex;
-  gap: 30px;
-}
-
-.piece-wrapper {
-  position: relative;
-}
-
-.map-piece {
-  width: 160px;
-  cursor: pointer;
-}
-
-.map-piece.selected {
-  filter: drop-shadow(0 0 20px gold);
-}
-
-/* 🔢 NUMÉRO */
-.order-number {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
-  color: white;
-  text-shadow: 0 0 20px gold, 0 0 40px gold;
-}
-
-/* 🎉 VICTOIRE */
-#victoryScreen {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.full-map {
-  width: 320px;
-  box-shadow: 0 0 50px gold;
-}
-
-/* 🎬 VIDÉO */
-#videoContainer {
-  position: fixed;
-  inset: 0;
-  background: black;
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-#videoContainer video {
-  width: 80%;
-  max-width: 900px;
-  border-radius: 16px;
-}
-
-/* 🔊 ❌ BOUTONS VIDÉO */
-#soundToggle,
-#closeVideo {
-  position: absolute;
-  top: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  box-shadow: 0 0 20px gold;
-  cursor: pointer;
-}
-
-#soundToggle { left: 20px; }
-#closeVideo { right: 20px; }
-
-/* 💎 CANVAS */
-#gemCanvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
+/* CANVAS */
+#gemCanvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:50;
 }
