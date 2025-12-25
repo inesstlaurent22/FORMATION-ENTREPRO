@@ -43,7 +43,7 @@ html, body {
   left: 50%;
   top: 78%;
   transform: translate(-50%, -50%);
-  width: clamp(230px, 31vw, 400px); /* +10% */
+  width: clamp(230px, 31vw, 400px);
   aspect-ratio: 1;
   cursor: pointer;
   z-index: 10;
@@ -60,19 +60,10 @@ html, body {
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.coffre-ferme {
-  opacity: 1;
-}
+.coffre-ferme { opacity: 1; }
+.coffre-ouvert { opacity: 0; transform: scale(0.95); }
 
-.coffre-ouvert {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-.tresor-button:hover .coffre-ferme {
-  opacity: 0;
-}
-
+.tresor-button:hover .coffre-ferme { opacity: 0; }
 .tresor-button:hover .coffre-ouvert {
   opacity: 1;
   transform: scale(1.05);
@@ -93,7 +84,7 @@ html, body {
 
 #loaderText {
   color: gold;
-  font-size: 1.2rem; /* réduit */
+  font-size: 1.2rem;
   text-align: center;
   text-shadow: 0 0 12px gold;
   animation: blink 1.2s infinite;
@@ -107,10 +98,10 @@ html, body {
   inset: 0;
   display: none;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* 🔥 IMPORTANT */
   align-items: center;
-  padding-top: 120px; /* ↓ descend tout le contenu */
-  gap: 30px;
+  padding-top: 180px;          /* position globale */
+  gap: 25px;
   background: rgba(0,0,0,0.7);
   z-index: 200;
 }
@@ -120,6 +111,7 @@ html, body {
   font-size: 1.4rem;
   text-align: center;
   text-shadow: 0 0 15px gold;
+  margin-bottom: 10px; /* juste au-dessus des images */
 }
 
 #mapPieces {
@@ -182,9 +174,8 @@ html, body {
 
 /* CARTE FINALE */
 .full-map {
-  width: fit-content;
   max-width: 420px;
-  margin: auto;
+  width: auto;
   animation: mapFlash 1.5s ease;
   filter: drop-shadow(0 0 25px gold);
 }
@@ -208,7 +199,7 @@ html, body {
   border-radius: 16px;
 }
 
-/* BOUTON X (haut centré) */
+/* BOUTON X */
 #closeVideo {
   position: absolute;
   top: 12px;
@@ -225,7 +216,7 @@ html, body {
   justify-content: center;
 }
 
-/* SON 🔉 (bas droite) */
+/* SON 🔉 */
 #soundToggle {
   position: absolute;
   bottom: 20px;
@@ -241,9 +232,6 @@ html, body {
   justify-content: center;
   box-shadow: 0 0 25px gold;
 }
-#soundToggle.muted {
-  position: relative;
-}
 
 #soundToggle.muted::after {
   content: "";
@@ -256,7 +244,7 @@ html, body {
 }
 
 /* ===================== */
-/* FADE CINÉMATIQUE */
+/* FADE */
 /* ===================== */
 #cinematicFade {
   position: fixed;
@@ -273,7 +261,7 @@ html, body {
 }
 
 /* ===================== */
-/* GEMS & OR */
+/* GEMS */
 /* ===================== */
 #gemCanvas {
   position: fixed;
@@ -297,18 +285,7 @@ html, body {
 }
 
 @keyframes mapFlash {
-  0% {
-    opacity: 0;
-    transform: scale(0.6);
-    filter: brightness(0);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.1);
-    filter: brightness(2);
-  }
-  100% {
-    transform: scale(1);
-    filter: brightness(1);
-  }
+  0% { opacity: 0; transform: scale(0.6); filter: brightness(0); }
+  50% { opacity: 1; transform: scale(1.1); filter: brightness(2); }
+  100% { transform: scale(1); filter: brightness(1); }
 }
