@@ -109,6 +109,7 @@ html, body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 120px; /* ↓ descend tout le contenu */
   gap: 30px;
   background: rgba(0,0,0,0.7);
   z-index: 200;
