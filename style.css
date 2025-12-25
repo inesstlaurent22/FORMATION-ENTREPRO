@@ -33,9 +33,9 @@ html, body {
 .tresor-button {
   position: absolute;
   left: 50%;
-  top: 60%;
+  top: 78%;
   transform: translate(-50%, -50%);
-  width: clamp(180px, 24vw, 320px);
+  width: clamp(210px, 28vw, 370px);
   aspect-ratio: 1;
   cursor: pointer;
   z-index: 10;
@@ -70,11 +70,6 @@ html, body {
   align-items: center;
   justify-content: center;
   z-index: 100;
-  pointer-events: none;
-}
-
-#loaderScreen.active {
-  pointer-events: auto;
 }
 
 #loaderText {
@@ -83,11 +78,6 @@ html, body {
   text-align: center;
   text-shadow: 0 0 15px gold;
   animation: blink 1.2s infinite;
-}
-
-@keyframes blink {
-  0%,100% { opacity: 1; }
-  50% { opacity: 0.4; }
 }
 
 /* MINI JEU */
@@ -103,31 +93,21 @@ html, body {
   z-index: 200;
 }
 
-#gameInstruction {
-  color: white;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  text-align: center;
-}
-
 #mapPieces {
   display: flex;
   gap: 30px;
 }
 
+.map-piece-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
 .map-piece {
   width: 160px;
-  cursor: pointer;
-  position: relative;
   filter: drop-shadow(0 0 10px gold);
-  transition: transform 0.3s;
 }
 
-.map-piece:hover {
-  transform: scale(1.05);
-}
-
-/* NUMÉRO */
 .order-number {
   position: absolute;
   inset: 0;
@@ -138,12 +118,6 @@ html, body {
   color: white;
   text-shadow: 0 0 20px gold, 0 0 40px gold;
   animation: flash 0.8s ease;
-}
-
-@keyframes flash {
-  0% { opacity: 0; transform: scale(0.3); }
-  60% { opacity: 1; transform: scale(1.3); }
-  100% { transform: scale(1); }
 }
 
 /* VICTOIRE */
@@ -157,17 +131,6 @@ html, body {
   align-items: center;
   gap: 30px;
   z-index: 300;
-  animation: fadeIn 1.2s ease forwards;
-}
-
-#victoryScreen h1 {
-  color: gold;
-  text-shadow: 0 0 25px gold;
-}
-
-.full-map {
-  width: 320px;
-  box-shadow: 0 0 40px gold;
 }
 
 /* VIDÉO */
@@ -179,7 +142,6 @@ html, body {
   justify-content: center;
   align-items: center;
   z-index: 400;
-  animation: fadeIn 1.5s ease forwards;
 }
 
 #videoContainer video {
@@ -202,11 +164,7 @@ html, body {
   justify-content: center;
   font-size: 22px;
   cursor: pointer;
-  box-shadow: 0 0 15px gold;
 }
-
-#closeVideo { right: 20px; }
-#soundToggle { left: 20px; }
 
 /* FADE */
 #cinematicFade {
@@ -231,7 +189,13 @@ html, body {
   z-index: 50;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes flash {
+  0% { opacity: 0; transform: scale(0.3); }
+  60% { opacity: 1; transform: scale(1.3); }
+  100% { transform: scale(1); }
 }
