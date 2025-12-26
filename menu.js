@@ -6,17 +6,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const notification = document.getElementById("notification");
   const bubble = document.getElementById("bubble");
 
-  if (!p1 || !p2){
+  if(!p1 || !p2){
     console.error("Pirates introuvables");
     return;
   }
 
-  /* ======= PREMIÈRE VISITE ======= */
-  if (!localStorage.getItem("visitedMenu")) {
+  /* ===== PREMIÈRE ARRIVÉE ===== */
+  if(!localStorage.getItem("visitedMenu")){
 
     localStorage.setItem("visitedMenu","yes");
 
-    // P2 débloqué au début
+    // p2 débloqué par défaut
     localStorage.setItem("p2_unlocked","yes");
     localStorage.removeItem("p1_unlocked");
 
@@ -24,12 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
     unlock(p2);
   }
 
-  /* ======= RETOUR ======= */
-  else {
+  /* ===== RETOUR SUR LA PAGE ===== */
+  else{
 
-    // si pirate 1 déjà débloqué
-    if (localStorage.getItem("p1_unlocked") === "yes") {
-
+    if(localStorage.getItem("p1_unlocked") === "yes"){
       unlock(p1);
       unlock(p2);
 
@@ -40,28 +38,26 @@ document.addEventListener("DOMContentLoaded", () => {
       },600);
 
     } else {
-
       lock(p1);
       unlock(p2);
     }
   }
 
-  /* ======= CLIC SUR PIRATE 2 ======= */
-  p2.addEventListener("click", () => {
+  /* ===== CLIC SUR PIRATE 2 ===== */
+  p2.addEventListener("click", ()=>{
 
+    // on débloque pirate 1
     localStorage.setItem("p1_unlocked","yes");
 
-    unlock(p2);
-
+    // recharge propre
     setTimeout(()=>{
       location.reload();
-    },300);
+    },400);
   });
 
 });
 
-/* ======= HELPERS ======= */
-
+/* ===== HELPERS ===== */
 function lock(el){
   el.classList.add("locked");
   el.classList.remove("unlocked");
