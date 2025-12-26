@@ -9,59 +9,45 @@
 
 <body>
 
-<div class="menuScene">
+<div class="scene">
 
   <!-- FOND -->
   <img src="images/Fondmenu.PNG" class="menu-bg" alt="fond pirate">
 
-  <!-- CINÉMATIQUE -->
-  <div id="cinematic">
-    <div class="cinematic-text">Nouveau pirate débloqué…</div>
-  </div>
-
   <!-- NOTIFICATION -->
-  <div id="notification">
-    🎉 Nouveau pirate débloqué !
-  </div>
+  <div id="notification">Un nouveau pirate est débloqué 💎</div>
 
-  <!-- BULLE D'INFO -->
+  <!-- BULLE AU DESSUS DU PIRATE 2 -->
   <div id="bubble">
     Bravo Moussaillon 🏴‍☠️<br><br>
-    Clique sur chaque pirate pour débloquer le suivant.<br>
-    Bon courage 💎
-    <br><br>
-    <button id="closeBubble">OK</button>
+    L’aventure commence…<br>
+    Un nouveau pirate est débloqué !
   </div>
 
   <!-- PIRATES -->
   <div class="pirates-container">
 
-    <div class="pirate unlocked" id="pirate1" data-id="1" data-page="mission1.html">
-      <img src="images/Pirate1.png">
+    <div class="pirate locked" id="pirate1" data-id="1">
+      <img src="images/pirate1.png">
     </div>
 
-    <div class="pirate locked" id="pirate2" data-id="2">
-      <img src="images/Pirate2.png">
+    <div class="pirate unlocked" id="pirate2" data-id="2">
+      <img src="images/pirate2.png">
     </div>
 
-    <div class="pirate locked" id="pirate3" data-id="3" data-page="mission3.html">
-      <img src="images/Pirate3.png">
+    <div class="pirate locked" id="pirate3" data-id="3">
+      <img src="images/pirate3.png">
     </div>
 
-    <div class="pirate locked" id="pirate4" data-id="4" data-page="mission4.html">
-      <img src="images/Pirate4.png">
+    <div class="pirate locked" id="pirate4" data-id="4">
+      <img src="images/pirate4.png">
     </div>
 
-    <div class="pirate locked" id="pirate5" data-id="5" data-page="mission5.html">
-      <img src="images/Pirate5.png">
+    <div class="pirate locked" id="pirate5" data-id="5">
+      <img src="images/pirate5.png">
     </div>
 
   </div>
-
-  <!-- RESET -->
-  <button id="resetAdventure">
-    🔄 Recommencer l’aventure
-  </button>
 
 </div>
 
