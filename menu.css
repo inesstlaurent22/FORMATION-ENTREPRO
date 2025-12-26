@@ -1,166 +1,96 @@
-/* ========================= */
-/* FOND MENU */
-/* ========================= */
-#background {
-  position: absolute;
-  inset: 0;
-  background-image: url("images/Fondmenu.PNG");
-  background-size: cover;
-  background-position: center;
-  z-index: 1;
+/* ===== FOND ===== */
+#background{
+  position:absolute;
+  inset:0;
+  background-image:url("images/Fondmenu.PNG");
+  background-size:cover;
+  background-position:center;
+  z-index:1;
 }
 
-/* ========================= */
-/* PIRATES */
-/* ========================= */
-.pirate {
-  position: absolute;
-  z-index: 5;
+/* ===== PIRATES ===== */
+.pirate{
+  position:absolute;
+  z-index:5;
+  cursor:pointer;
   transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  border-radius: 50%; /* pour que le faisceau lumineux suive la forme */
+  border-radius: 0%; /* Faisceau suit la forme */
 }
 
-.pirate img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 50%;
+/* Hover effet faisceau lumineux et agrandissement */
+.pirate.unlocked:hover{
+  transform: scale(1.1);
+  box-shadow: 0 0 30px 5px rgba(255, 223, 0, 0.7); /* lumière jaune autour de la forme */
 }
 
-/* ---- LOCKED / UNLOCKED ---- */
-.locked {
+/* Bloqué */
+.locked{
   filter: grayscale(100%) brightness(0.6);
-  pointer-events: none;
+  pointer-events:none;
 }
 
-.unlocked {
-  filter: none;
-  pointer-events: auto;
+/* Débloqué */
+.unlocked{
+  filter:none;
 }
 
-.unlocked:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 25px 5px yellow; /* faisceau lumineux autour du pirate */
+/* ===== POSITIONS PIRATES ===== */
+#pirate1{ left:125px; top:calc(658px - 3%); width:138px; height:255px; }
+#pirate2{ left:calc(916px - 1%); top:calc(697px - 0.2%); width:186px; height:178px; }
+#pirate3{ left:736px; top:calc(363px - 0); width:135px; height:217px; } /* +2% */
+#pirate4{ left:240px; top:calc(200px - 2%); width:155px; height:224px; } /* -5% */
+#pirate5{ left:calc(1139px - 1.5%); top:28px; width:188px; height:247px; }
+
+/* ===== NOTIFICATION ===== */
+#notification{
+  position:fixed;
+  top:-60px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#ff8c00;
+  color:white;
+  padding:12px 20px;
+  border-radius:12px;
+  font-weight:bold;
+  display:none;
+  z-index:20;
+  transition: top 0.6s ease;
 }
 
-/* ========================= */
-/* POSITIONS DES PIRATES AJUSTÉES */
-/* ========================= */
-#pirate1 {
-  left: 125px;
-  top: calc(658px - 5% - 3%); /* 3% plus haut */
-  width: 138px;
-  height: 255px;
+/* Classe pour glisser la notification */
+#notification.slide-down{
+  top:10%;
 }
 
-#pirate2 {
-  left: calc(916px - 2% - 1%); /* 1% plus à gauche */
-  top: calc(697px - 1% - 0.2%); /* 0,2% plus haut */
-  width: 186px;
-  height: 178px;
+/* ===== BULLE ===== */
+#bubble{
+  position:fixed;
+  bottom:calc(100px + 10%);
+  left:50%;
+  transform:translateX(-50%);
+  background:#f4e3c7; /* marron clair */
+  padding:15px;
+  border-radius:5px; /* carré avec coins arrondis */
+  display:none;
+  z-index:20;
+  max-width:300px;
+  text-align:center;
+  border:2px solid #8b5a2b; /* contour marron foncé */
 }
 
-#pirate3 {
-  left: 736px;
-  top: calc(363px - 1%);
-  width: calc(133px * 1.02);
-  height: calc(217px * 1.02);
+/* Bouton dans la bulle */
+#bubbleButton{
+  margin-top:12px;
+  padding:8px 15px;
+  border:none;
+  border-radius:5px;
+  background:#8b5a2b;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  transition: transform 0.1s ease;
 }
 
-#pirate4 {
-  left: 1139px;
-  top: calc(28px + 200px - 2%); /* 2% plus haut */
-  width: calc(188px * 0.95);
-  height: calc(247px * 0.95);
-}
-
-#pirate5 {
-  left: calc(240px + 1.5%); /* 1,5% plus à gauche */
-  top: 200px;
-  width: 188px;
-  height: 247px;
-}
-
-/* ========================= */
-/* NOTIFICATION */
-/* ========================= */
-#notification {
-  position: fixed;
-  top: -60px; /* départ hors écran */
-  left: 50%;
-  transform: translateX(-50%);
-  background: orange;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 12px;
-  font-weight: bold;
-  font-size: 1rem;
-  display: none;
-  z-index: 20;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  transition: top 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-}
-
-/* notification descend à 10% plus bas */
-#notification.show {
-  top: 10%;
-}
-
-/* BOUTON FERMETURE NOTIF */
-#notification button {
-  position: absolute;
-  top: 4px;
-  right: 6px;
-  background: transparent;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  color: white;
-}
-
-/* ========================= */
-/* BULLE TEXTE */
-/* ========================= */
-#bubble {
-  position: absolute; /* sera placé dynamiquement au-dessus du pirate2 */
-  background: white;
-  border: 3px solid #8B4513; /* cadran marron */
-  padding: 15px;
-  border-radius: 6px; /* forme carrée légèrement arrondie */
-  display: none;
-  z-index: 25; /* au-dessus des pirates */
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  width: 320px;
-  font-size: 0.95rem;
-  line-height: 1.3rem;
-}
-
-/* BOUTON FERMETURE BULLE */
-#bubble button {
-  position: absolute;
-  top: 4px;
-  right: 6px;
-  background: transparent;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  color: black;
-}
-
-/* ========================= */
-/* RESPONSIVE (bulle suit pirate2) */
-/* ========================= */
-@media (max-width: 1440px) {
-  #bubble {
-    width: 280px;
-  }
-}
-
-@media (max-width: 1024px) {
-  #bubble {
-    width: 240px;
-  }
+#bubbleButton:active{
+  transform: scale(0.95); /* effet clic réel */
 }
