@@ -80,5 +80,4 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => notification.style.display = "none", 600);
     });
   }
-
 });
