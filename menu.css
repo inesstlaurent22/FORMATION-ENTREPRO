@@ -47,54 +47,47 @@
   object-fit: contain; /* ajuste l’image pour ne pas couper les pieds */
 }
 
-/* ===== NOTIFICATION ===== */
-#notification{
-  position:fixed;
-  top:-60px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#ff8c00;
-  color:white;
-  padding:12px 20px;
-  border-radius:12px;
-  font-weight:bold;
-  display:none;
-  z-index:20;
+/* Notification descend du haut */
+#notification {
+  position: fixed;
+  top: -60px; /* départ hors écran */
+  left: 50%;
+  transform: translateX(-50%);
+  background: orange;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  display: none;
+  z-index: 50;
   transition: top 0.6s ease;
 }
 
-#notification.slide-down{
-  top:10%;
+#notification.slide-down {
+  top: 10%; /* position finale */
 }
 
-/* ===== BULLE ===== */
-#bubble{
-  position:fixed;
-  bottom:calc(100px + 10%);
-  left:50%;
-  transform:translateX(-50%);
-  background:#f4e3c7;
-  padding:15px;
-  border-radius:5px;
-  display:none;
-  z-index:20;
-  max-width:300px;
-  text-align:center;
-  border:2px solid #8b5a2b;
+/* Bulle au dessus du pirate2 */
+#bubble {
+  position: absolute;
+  width: 300px;
+  background: #8B4513; /* marron */
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  display: none;
+  z-index: 60;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-#bubbleButton{
-  margin-top:12px;
-  padding:8px 15px;
-  border:none;
-  border-radius:5px;
-  background:#8b5a2b;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-  transition: transform 0.1s ease;
+#bubble.fade-in {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-#bubbleButton:active{
-  transform: scale(0.95);
+/* Animation hover des pirates */
+.pirate.unlocked:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 20px yellow);
+  transition: transform 0.3s, filter 0.3s;
 }
