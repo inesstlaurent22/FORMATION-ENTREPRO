@@ -9,10 +9,10 @@
 
 <body>
 
-<div class="scene">
+<div class="menuScene">
 
   <!-- FOND -->
-  <img src="images/Fondmenu.PNG" class="menu-bg" alt="">
+  <img src="images/Fondmenu.PNG" class="menu-bg" alt="fond pirate">
 
   <!-- CINÉMATIQUE -->
   <div id="cinematic">
@@ -21,37 +21,41 @@
 
   <!-- NOTIFICATION -->
   <div id="notification">
-    Vous avez débloqué un nouveau pirate
+    🎉 Nouveau pirate débloqué !
   </div>
 
-  <!-- BULLE DE TEXTE -->
+  <!-- BULLE D'INFO -->
   <div id="bubble">
     Bravo Moussaillon 🏴‍☠️<br><br>
-    L’aventure commence, clique sur chaque pirate pour débloquer le suivant.<br>
+    Clique sur chaque pirate pour débloquer le suivant.<br>
     Bon courage 💎
+    <br><br>
+    <button id="closeBubble">OK</button>
   </div>
 
   <!-- PIRATES -->
   <div class="pirates-container">
-    <div class="pirate" data-id="1">
-      <img src="images/pirate1.png" alt="">
+
+    <div class="pirate unlocked" id="pirate1" data-id="1" data-page="mission1.html">
+      <img src="images/pirate1.png">
     </div>
 
-    <div class="pirate" data-id="2">
-      <img src="images/pirate2.png" alt="">
+    <div class="pirate locked" id="pirate2" data-id="2">
+      <img src="images/pirate2.png">
     </div>
 
-    <div class="pirate" data-id="3">
-      <img src="images/pirate3.png" alt="">
+    <div class="pirate locked" id="pirate3" data-id="3" data-page="mission3.html">
+      <img src="images/pirate3.png">
     </div>
 
-    <div class="pirate" data-id="4">
-      <img src="images/pirate4.png" alt="">
+    <div class="pirate locked" id="pirate4" data-id="4" data-page="mission4.html">
+      <img src="images/pirate4.png">
     </div>
 
-    <div class="pirate" data-id="5">
-      <img src="images/pirate5.png" alt="">
+    <div class="pirate locked" id="pirate5" data-id="5" data-page="mission5.html">
+      <img src="images/pirate5.png">
     </div>
+
   </div>
 
   <!-- RESET -->
