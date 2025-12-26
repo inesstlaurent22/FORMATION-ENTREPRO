@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     lock(pirate5);
     unlock(pirate2);
   } else {
+    // Après reload ou clic précédent
     if (localStorage.getItem("p2_clicked") === "yes") {
       unlock(pirate1);
       unlock(pirate2);
@@ -58,10 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------- Clic sur pirate2 ----------
   pirate2.addEventListener("click", () => {
     if (localStorage.getItem("p2_clicked") === "no") {
+      // Déjà cliqué ?
       localStorage.setItem("p2_clicked", "yes");
-      unlock(pirate1);
-      showNotification();
-      showBubble();
+
+      // Recharge la page pour déclencher le déblocage et la notification
+      setTimeout(() => {
+        location.reload();
+      }, 100); // délai très court pour donner le temps à localStorage de se sauvegarder
     }
   });
 
