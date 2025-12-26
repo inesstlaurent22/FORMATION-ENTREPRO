@@ -294,119 +294,102 @@ html, body {
 /* ========================= */
 /* 🏴‍☠️ FOND MENU */
 /* ========================= */
-#background {
-  position: absolute;
-  inset: 0;
-  background-image: url("images/Fondmenu.PNG");
-  background-size: cover;
-  background-position: center;
-  z-index: 1;
+
+#background{
+  position:absolute;
+  inset:0;
+  background-image:url("images/Fondmenu.PNG");
+  background-size:cover;
+  background-position:center;
+  z-index:1;
 }
 
-/* ========================= */
-/* PIRATES */
-/* ========================= */
-.pirate {
-  position: absolute;
-  z-index: 5;
-  cursor: pointer;
-  transition: transform .2s ease, filter .2s ease, opacity .2s ease;
+/* ===== PIRATES ===== */
+.pirate{
+  position:absolute;
+  z-index:5;
+  transition:transform .2s ease, filter .2s ease;
+  cursor:pointer;
 }
 
-/* gris + non cliquable */
-.locked {
-  filter: grayscale(100%) brightness(0.6);
-  opacity: 0.6;
-  pointer-events: none;
+/* bloqué en gris */
+.locked{
+  filter:grayscale(100%) brightness(0.6);
+  pointer-events:none;
 }
 
-/* normal cliquable */
-.unlocked {
-  filter: none;
-  opacity: 1;
+/* débloqué normal */
+.unlocked{
+  filter:none;
+  pointer-events:auto;
 }
 
-.unlocked:hover {
-  transform: scale(1.06);
+/* ===== NOTIFICATION ===== */
+#notification{
+  position:fixed;
+  top:-80px;                  /* sort de l’écran au début */
+  left:50%;
+  transform:translateX(-50%);
+  background:orange;
+  color:white;
+  padding:14px 24px;
+  border-radius:12px;
+  font-weight:bold;
+  z-index:50;
+  transition:top .6s ease;
+  display:none;
 }
 
-/* ========================= */
-/* POSITIONS CORRIGÉES */
-/* ========================= */
-
-/* Pirate 1 → 5% plus haut = on baisse de 5% de l'écran */
-#pirate1 {
-  left: 125px;
-  top: calc(658px - 5vh);
-  width: 138px;
-  height: 255px;
+/* ===== BULLE CARRÉE ===== */
+#bubble{
+  position:absolute;
+  background:white;
+  border-radius:8px;          /* carré arrondi léger */
+  padding:12px 15px;
+  border:2px solid black;
+  display:none;
+  z-index:40;
+  width:260px;
 }
 
-/* Pirate 2 → 1% haut et 2% gauche */
-#pirate2 {
-  left: calc(916px - 2vw);
-  top: calc(697px - 1vh);
-  width: 186px;
-  height: 178px;
+/* ===== POSITIONS ===== */
+
+/* Pirate 1 */
+#pirate1{
+  left:125px;
+  top: calc(658px - 5%);
+  width:138px;
+  height:255px;
 }
 
-/* Pirate 3 → 1% plus haut */
-#pirate3 {
-  left: 736px;
-  top: calc(363px - 1vh);
-  width: 133px;
-  height: 217px;
+/* Pirate 2 */
+#pirate2{
+  left: calc(916px - 2%);
+  top: calc(697px - 1%);
+  width:186px;
+  height:178px;
 }
 
-/* Pirate 4 prend dimensions de l’ancien pirate 5 */
-#pirate4 {
-  left: 240px;
-  top: 200px;
-  width: 163px;
-  height: 235px;
+/* Pirate 3 */
+#pirate3{
+  left:736px;
+  top: calc(363px - 1%);
+  width:133px;
+  height:217px;
 }
 
-/* Pirate 5 → +15% taille */
-#pirate5 {
-  left: 1139px;
-  top: 28px;
-  width: 187px * 1.15;
-  height: 235px * 1.15;
-  width: 215px;
-  height: 270px;
+/* Pirate 4 */
+#pirate4{
+  left:240px;
+  top:200px;
+  width:163px;
+  height:235px;
 }
 
-/* ========================= */
-/* NOTIFICATION SLIDE DU HAUT */
-/* ========================= */
-#notification {
-  position: fixed;
-  top: -100px;                /* cachée au départ */
-  left: 50%;
-  transform: translateX(-50%);
-  background: orange;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 12px;
-  font-weight: bold;
-  z-index: 50;
-  transition: top .6s ease;
-}
-
-/* visible */
-#notification.show {
-  top: 20px;
-}
-
-/* ========================= */
-/* BULLE PIRATE 2 */
-/* ========================= */
-#bubble {
-  position: absolute;
-  background: white;
-  padding: 12px 15px;
-  border-radius: 15px;
-  width: 300px;
-  z-index: 60;
-  display: none;
+/* Pirate 5 */
+#pirate5{
+  left:1139px;
+  top:28px;
+  width: calc(187px * 1.15);
+  height: calc(235px * 1.15);
 }
