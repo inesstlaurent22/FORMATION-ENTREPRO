@@ -1,78 +1,72 @@
-/* ============================= */
-/* 🎯 LOGIQUE DE DEBLOCAGE */
-/* ============================= */
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const p1 = document.getElementById("pirate1");
   const p2 = document.getElementById("pirate2");
 
-  const notif = document.getElementById("notification");
+  const notification = document.getElementById("notification");
   const bubble = document.getElementById("bubble");
 
-  /* ---------- ÉTAT INITIAL ---------- */
+  /* sécurité anti-bug */
+  if (!p1 || !p2) {
+    console.error("Pirates non trouvés");
+    return;
+  }
+
+  /* ========= PREMIÈRE ARRIVÉE ========= */
   if (!localStorage.getItem("visitedMenu")) {
 
-    // première arrivée
-    localStorage.setItem("visitedMenu", "yes");
-    localStorage.setItem("p2_unlocked", "yes");
+    localStorage.setItem("visitedMenu","yes");
+    localStorage.setItem("p2_unlocked","yes");
     localStorage.removeItem("p1_unlocked");
 
-    setLocked(p1);
-    setUnlocked(p2);
+    lock(p1);
+    unlock(p2);
+  }
 
-  } else {
+  /* ========= DEUXIÈME ARRIVÉE ========= */
+  else {
 
-    // si pirate1 vient d'être débloqué
     if (localStorage.getItem("p1_unlocked") === "yes") {
 
-      setUnlocked(p1);
-      setUnlocked(p2);
+      unlock(p1);
+      unlock(p2);
 
-      notif.style.display = "block";
+      notification.style.display = "block";
 
-      setTimeout(() => {
+      setTimeout(()=>{
         bubble.style.display = "block";
-      }, 800);
+      },600);
 
     } else {
-      setLocked(p1);
-      setUnlocked(p2);
+
+      lock(p1);
+      unlock(p2);
     }
   }
 
-  /* ---------- CLIQUE SUR PIRATE 2 ---------- */
+  /* ========= CLIC SUR PIRATE 2 ========= */
   p2.addEventListener("click", () => {
 
-    // débloquer pirate 1
-    localStorage.setItem("p1_unlocked", "yes");
+    unlock(p2);
 
-    // recharger page
-    location.reload();
+    localStorage.setItem("p1_unlocked","yes");
+
+    /* recharge propre */
+    setTimeout(()=>{
+      location.reload();
+    },200);
   });
 
 });
 
-/* ============================= */
-/* Helpers */
-/* ============================= */
+/* ---------- HELPERS ---------- */
 
-function setLocked(el) {
+function lock(el){
   el.classList.add("locked");
   el.classList.remove("unlocked");
 }
 
-function setUnlocked(el) {
+function unlock(el){
   el.classList.add("unlocked");
   el.classList.remove("locked");
 }
-
-  /* ===================== */
-  /* 🔄 RESET AVENTURE */
-  /* ===================== */
-  document.getElementById("resetAdventure").onclick = () => {
-    localStorage.clear();
-    window.location.reload();
-  };
-});
-
