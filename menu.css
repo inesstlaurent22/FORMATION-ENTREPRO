@@ -14,13 +14,12 @@
   z-index:5;
   cursor:pointer;
   transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 0%; /* Faisceau suit la forme */
 }
 
 /* Hover effet faisceau lumineux et agrandissement */
 .pirate.unlocked:hover{
   transform: scale(1.1);
-  box-shadow: 0 0 30px 5px rgba(255, 223, 0, 0.7); /* lumière jaune autour de la forme */
+  filter: drop-shadow(0 0 25px rgba(255, 223, 0, 0.8));
 }
 
 /* Bloqué */
@@ -32,14 +31,21 @@
 /* Débloqué */
 .unlocked{
   filter:none;
+  pointer-events:auto;
 }
 
 /* ===== POSITIONS PIRATES ===== */
-#pirate1{ left:125px; top:calc(658px - 3%); width:138px; height:255px; }
-#pirate2{ left:calc(916px - 1%); top:calc(697px - 0.2%); width:186px; height:178px; }
-#pirate3{ left:736px; top:calc(363px - 0); width:135px; height:217px; } /* +2% */
-#pirate4{ left:240px; top:calc(200px - 2%); width:155px; height:224px; } /* -5% */
-#pirate5{ left:calc(1139px - 1.5%); top:28px; width:188px; height:247px; }
+#pirate1{ left:125px; top:calc(658px - 3%); width:auto; height:255px; }
+#pirate2{ left:calc(916px - 1%); top:calc(697px - 0.2%); width:auto; height:178px; }
+#pirate3{ left:736px; top:calc(363px); width:auto; height:217px; }
+#pirate4{ left:240px; top:calc(200px - 2%); width:auto; height:224px; }
+#pirate5{ left:calc(1139px - 1.5%); top:28px; width:auto; height:247px; }
+
+.pirate img{
+  width:100%;
+  height:100%;
+  object-fit: contain; /* ajuste l’image pour ne pas couper les pieds */
+}
 
 /* ===== NOTIFICATION ===== */
 #notification{
@@ -57,7 +63,6 @@
   transition: top 0.6s ease;
 }
 
-/* Classe pour glisser la notification */
 #notification.slide-down{
   top:10%;
 }
@@ -68,17 +73,16 @@
   bottom:calc(100px + 10%);
   left:50%;
   transform:translateX(-50%);
-  background:#f4e3c7; /* marron clair */
+  background:#f4e3c7;
   padding:15px;
-  border-radius:5px; /* carré avec coins arrondis */
+  border-radius:5px;
   display:none;
   z-index:20;
   max-width:300px;
   text-align:center;
-  border:2px solid #8b5a2b; /* contour marron foncé */
+  border:2px solid #8b5a2b;
 }
 
-/* Bouton dans la bulle */
 #bubbleButton{
   margin-top:12px;
   padding:8px 15px;
@@ -92,5 +96,5 @@
 }
 
 #bubbleButton:active{
-  transform: scale(0.95); /* effet clic réel */
+  transform: scale(0.95);
 }
