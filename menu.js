@@ -6,26 +6,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const notification = document.getElementById("notification");
   const bubble = document.getElementById("bubble");
 
-  if (!p1 || !p2) {
-    console.error("❌ Pirates non trouvés dans la page");
+  if (!p1 || !p2){
+    console.error("Pirates introuvables");
     return;
   }
 
-  /* ========= PREMIÈRE ARRIVÉE ========= */
+  /* ======= PREMIÈRE VISITE ======= */
   if (!localStorage.getItem("visitedMenu")) {
 
-    localStorage.setItem("visitedMenu", "yes");
+    localStorage.setItem("visitedMenu","yes");
 
-    localStorage.setItem("p2_unlocked", "yes");
+    // P2 débloqué au début
+    localStorage.setItem("p2_unlocked","yes");
     localStorage.removeItem("p1_unlocked");
 
     lock(p1);
     unlock(p2);
   }
 
-  /* ========= ARRIVÉE APRÈS CLIC ========= */
+  /* ======= RETOUR ======= */
   else {
 
+    // si pirate 1 déjà débloqué
     if (localStorage.getItem("p1_unlocked") === "yes") {
 
       unlock(p1);
@@ -33,9 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       notification.style.display = "block";
 
-      setTimeout(() => {
+      setTimeout(()=>{
         bubble.style.display = "block";
-      }, 600);
+      },600);
 
     } else {
 
@@ -44,30 +46,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* ========= CLIC SUR PIRATE 2 ========= */
+  /* ======= CLIC SUR PIRATE 2 ======= */
   p2.addEventListener("click", () => {
 
-    console.log("✔️ Pirate 2 cliqué");
+    localStorage.setItem("p1_unlocked","yes");
 
     unlock(p2);
 
-    localStorage.setItem("p1_unlocked", "yes");
-
-    setTimeout(() => {
-      window.location.reload();
-    }, 200);
+    setTimeout(()=>{
+      location.reload();
+    },300);
   });
 
 });
 
-/* ---------- HELPERS ---------- */
+/* ======= HELPERS ======= */
 
-function lock(el) {
+function lock(el){
   el.classList.add("locked");
   el.classList.remove("unlocked");
 }
 
-function unlock(el) {
+function unlock(el){
   el.classList.add("unlocked");
   el.classList.remove("locked");
 }
