@@ -47,6 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
       unlock(pirate2);
       showNotification();
       showBubble();
+    } else {
+      lock(pirate1);
+      lock(pirate3);
+      lock(pirate4);
+      lock(pirate5);
+      unlock(pirate2);
     }
   }
 
