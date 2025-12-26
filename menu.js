@@ -18,12 +18,13 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(highlight);
 
   function moveHighlightOn(element) {
-    const rect = element.getBoundingClientRect();
-    highlight.style.left = rect.left + "px";
-    highlight.style.top = rect.top + "px";
-    highlight.style.width = rect.width + "px";
-    highlight.style.height = rect.height + "px";
-  }
+  const rect = element.getBoundingClientRect();
+
+  highlight.style.left = (rect.left - rect.width * 0.05) + "px";
+  highlight.style.top = (rect.top - rect.height * 0.05) + "px";
+  highlight.style.width = rect.width * 1.1 + "px";
+  highlight.style.height = rect.height * 1.15 + "px";
+}
 
   /* ------------------ NOTIFICATION ------------------ */
   function showNotification() {
