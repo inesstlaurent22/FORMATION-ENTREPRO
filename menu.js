@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= PREMIÈRE ARRIVÉE ========= */
   if (!localStorage.getItem("visitedMenu")) {
 
-    localStorage.setItem("visitedMenu","yes");
+    localStorage.setItem("visitedMenu", "yes");
 
-    localStorage.setItem("p2_unlocked","yes");
+    localStorage.setItem("p2_unlocked", "yes");
     localStorage.removeItem("p1_unlocked");
 
     lock(p1);
@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       notification.style.display = "block";
 
-      setTimeout(()=>{
+      setTimeout(() => {
         bubble.style.display = "block";
-      },600);
+      }, 600);
 
     } else {
 
@@ -51,25 +51,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     unlock(p2);
 
-    /* déblocage pirate 1 */
-    localStorage.setItem("p1_unlocked","yes");
+    localStorage.setItem("p1_unlocked", "yes");
 
-    /* recharge */
-    setTimeout(()=>{
+    setTimeout(() => {
       window.location.reload();
-    },200);
+    }, 200);
   });
 
 });
 
 /* ---------- HELPERS ---------- */
 
-function lock(el){
+function lock(el) {
   el.classList.add("locked");
   el.classList.remove("unlocked");
 }
 
-function unlock(el){
+function unlock(el) {
   el.classList.add("unlocked");
   el.classList.remove("locked");
 }
