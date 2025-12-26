@@ -1,17 +1,30 @@
-const pirate1 = document.getElementById("pirate1");
-const pirate2 = document.getElementById("pirate2");
+document.addEventListener("DOMContentLoaded", () => {
 
-const bubble = document.getElementById("bubble");
-const notification = document.getElementById("notification");
-const bubbleButton = document.getElementById("bubbleButton");
+  const pirate1 = document.getElementById("pirate1");
+  const pirate2 = document.getElementById("pirate2");
+  const notification = document.getElementById("notification");
+  const bubble = document.getElementById("bubble");
+  const bubbleButton = document.getElementById("bubbleButton");
 
-/* état de départ */
-pirate1.classList.add("locked");
-pirate2.classList.add("unlocked");
-pirate2.classList.add("glow");
+  // Initialisation
+  if (!localStorage.getItem("menu_visited")) {
+    localStorage.setItem("menu_visited","yes");
+    localStorage.setItem("pirate2_clicked","no");
+    pirate1.classList.add("locked");
+    pirate2.classList.add("unlocked");
+    pirate3.classList.add("locked");
+    pirate4.classList.add("locked");
+    pirate5.classList.add("locked");
+  }
 
-/* 🌟 CLICK PIRATE 2 */
-pirate2.addEventListener("click", () => {
+  // Clic sur pirate2
+  pirate2.addEventListener("click", () => {
+
+    if(localStorage.getItem("pirate2_clicked")==="no"){
+      localStorage.setItem("pirate2_clicked","yes");
+
+      // Débloquer pirate1
+      pirate1.classList.remove("locked");
 
   // affiche bulle au-dessus du pirate 2
   bubble.style.display = "block";
