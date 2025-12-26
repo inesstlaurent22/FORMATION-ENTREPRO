@@ -18,12 +18,14 @@
   z-index: 5;
   transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  border-radius: 50%; /* pour que le faisceau lumineux suive la forme */
 }
 
 .pirate img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  border-radius: 50%;
 }
 
 /* ---- LOCKED / UNLOCKED ---- */
@@ -39,22 +41,22 @@
 
 .unlocked:hover {
   transform: scale(1.15);
-  box-shadow: 0 0 25px 5px yellow;
+  box-shadow: 0 0 25px 5px yellow; /* faisceau lumineux autour du pirate */
 }
 
 /* ========================= */
-/* POSITIONS DES PIRATES */
+/* POSITIONS DES PIRATES AJUSTÉES */
 /* ========================= */
 #pirate1 {
   left: 125px;
-  top: calc(658px - 5%);
+  top: calc(658px - 5% - 3%); /* 3% plus haut */
   width: 138px;
   height: 255px;
 }
 
 #pirate2 {
-  left: calc(916px - 2%);
-  top: calc(697px - 1%);
+  left: calc(916px - 2% - 1%); /* 1% plus à gauche */
+  top: calc(697px - 1% - 0.2%); /* 0,2% plus haut */
   width: 186px;
   height: 178px;
 }
@@ -68,13 +70,13 @@
 
 #pirate4 {
   left: 1139px;
-  top: 28px;
+  top: calc(28px + 200px - 2%); /* 2% plus haut */
   width: calc(188px * 0.95);
   height: calc(247px * 0.95);
 }
 
 #pirate5 {
-  left: 240px;
+  left: calc(240px + 1.5%); /* 1,5% plus à gauche */
   top: 200px;
   width: 188px;
   height: 247px;
@@ -100,6 +102,11 @@
   transition: top 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
+/* notification descend à 10% plus bas */
+#notification.show {
+  top: 10%;
+}
+
 /* BOUTON FERMETURE NOTIF */
 #notification button {
   position: absolute;
@@ -117,12 +124,13 @@
 /* BULLE TEXTE */
 /* ========================= */
 #bubble {
-  position: absolute; /* position dynamique au-dessus du pirate2 */
+  position: absolute; /* sera placé dynamiquement au-dessus du pirate2 */
   background: white;
+  border: 3px solid #8B4513; /* cadran marron */
   padding: 15px;
-  border-radius: 6px; /* carré légèrement arrondi */
+  border-radius: 6px; /* forme carrée légèrement arrondie */
   display: none;
-  z-index: 20;
+  z-index: 25; /* au-dessus des pirates */
   box-shadow: 0 0 15px rgba(0,0,0,0.3);
   width: 320px;
   font-size: 0.95rem;
