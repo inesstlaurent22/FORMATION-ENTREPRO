@@ -13,17 +13,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ------------------ FAISCEAU ------------------ */
-  let highlight = document.createElement("div");
-  highlight.classList.add("highlight");
-  document.body.appendChild(highlight);
+ /* faisceau lumineux sur la forme du pirate */
+function placeHighlightOn(img){
 
-  function moveHighlightOn(element) {
-  const rect = element.getBoundingClientRect();
+  // on enlève les anciens halos
+  document.querySelectorAll(".glow").forEach(el=>{
+    el.classList.remove("glow");
+  });
 
-  highlight.style.left = (rect.left - rect.width * 0.05) + "px";
-  highlight.style.top = (rect.top - rect.height * 0.05) + "px";
-  highlight.style.width = rect.width * 1.1 + "px";
-  highlight.style.height = rect.height * 1.15 + "px";
+  // on applique le halo QUI SUIVRA LA FORME
+  img.classList.add("glow");
 }
 
   /* ------------------ NOTIFICATION ------------------ */
