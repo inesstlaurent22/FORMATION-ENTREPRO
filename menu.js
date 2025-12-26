@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
     lock(pirate5);
     unlock(pirate2);
   } else {
-    // Si pirate2 a déjà été cliqué, on montre la notification, bulle et débloque pirate1
     if (localStorage.getItem("p2_clicked") === "yes") {
       unlock(pirate1);
       unlock(pirate2);
@@ -60,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
   pirate2.addEventListener("click", () => {
     if (localStorage.getItem("p2_clicked") === "no") {
       localStorage.setItem("p2_clicked", "yes");
-
       unlock(pirate1);
       showNotification();
       showBubble();
