@@ -290,136 +290,99 @@ html, body {
   100% { transform: scale(1); filter: brightness(1); }
 }
 
-/* ========================= */
-/* PAGE MENU */
-/* ========================= */
-
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background: black;
-  font-family: Arial, sans-serif;
+/* ======= FOND ======= */
+#background{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:1;
 }
 
-/* SCENE */
-
-.scene {
-  position: relative;
-  width: 100%;
-  height: 100%;
+/* ======= PIRATES ======= */
+.pirate{
+  position:absolute;
+  z-index:5;
+  transition:0.3s ease;
+  cursor:pointer;
 }
 
-.menu-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
+/* gris = bloqué */
+.locked{
+  filter:grayscale(100%) opacity(0.5);
+  pointer-events:none;
 }
 
-/* PIRATES */
-
-.pirates-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 20;
+/* actif */
+.unlocked{
+  filter:none;
+  pointer-events:all;
 }
 
-.pirate {
-  position: absolute;
-  cursor: pointer;
-  transition: transform .2s, filter .2s, opacity .2s;
+/* ===== POSITIONS DEMANDÉES (avec tes modifs %) ===== */
+
+/* Pirate 1 : 5% plus haut */
+#pirate1{
+  left:125px;
+  top: calc(658px - 5%);
+  width:138px;
+  height:255px;
 }
 
-.pirate img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+/* Pirate 2 : 1% plus haut, 2% plus à gauche */
+#pirate2{
+  left: calc(916px - 2%);
+  top: calc(697px - 1%);
+  width:186px;
+  height:178px;
 }
 
-/* ---- POSITIONS DEMANDÉES ---- */
-
-#pirate1 {
-  left: 125px;
-  top: 625px;   /* 5% plus haut */
-  width: 138px;
-  height: 255px;
+/* Pirate 3 : 1% plus haut */
+#pirate3{
+  left:736px;
+  top: calc(363px - 1%);
+  width:133px;
+  height:217px;
 }
 
-#pirate2 {
-  left: 898px;  /* 2% plus à gauche */
-  top: 690px;   /* 1% plus haut */
-  width: 186px;
-  height: 178px;
+/* Pirate 4 ⇄ Pirate 5 dimensions échangées */
+#pirate4{
+  left:240px;
+  top:200px;
+  width:163px;
+  height:235px;
 }
 
-#pirate3 {
-  left: 736px;
-  top: 359px;   /* 1% plus haut */
-  width: 133px;
-  height: 217px;
+/* Pirate 5 + 15% taille en plus */
+#pirate5{
+  left:1139px;
+  top:28px;
+  width: calc(143px * 1.15);
+  height: calc(187px * 1.15);
 }
 
-#pirate4 {
-  left: 240px;
-  top: 200px;
-  width: 163px;   /* échangé */
-  height: 235px;
+/* ===== NOTIFICATION ===== */
+#notification{
+  position:fixed;
+  top:15px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:12px 20px;
+  background:#ffd700;
+  font-weight:bold;
+  border-radius:10px;
+  display:none;
+  z-index:10;
 }
 
-#pirate5 {
-  left: 1139px;
-  top: 28px;
-  width: 188px;   /* +15% */
-  height: 247px;  /* +15% */
-}
-
-/* ---- LOCK SYSTEM ---- */
-
-.locked {
-  filter: grayscale(100%);
-  opacity: .45;
-  pointer-events: none;
-}
-
-.unlocked {
-  filter: none;
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.unlocked:hover {
-  transform: scale(1.06);
-}
-
-/* UI */
-
-#notification {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, .75);
-  color: white;
-  padding: 10px 18px;
-  border-radius: 10px;
-  z-index: 50;
-  display: none;
-}
-
-#bubble {
-  position: absolute;
-  top: 560px;
-  left: 820px;
-  width: 260px;
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  z-index: 60;
-  display: none;
+/* ===== BULLE ===== */
+#bubble{
+  position:absolute;
+  top:520px;
+  left:850px;
+  padding:10px 15px;
+  background:white;
+  border-radius:15px;
+  display:none;
+  z-index:10;
 }
