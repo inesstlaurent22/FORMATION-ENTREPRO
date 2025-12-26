@@ -8,12 +8,10 @@ const bubbleButton = document.getElementById("bubbleButton");
 /* état de départ */
 pirate1.classList.add("locked");
 pirate2.classList.add("unlocked");
+pirate2.classList.add("glow");
 
 /* 🌟 CLICK PIRATE 2 */
 pirate2.addEventListener("click", () => {
-
-  // halo sur pirate2
-  pirate2.classList.add("glow");
 
   // affiche bulle au-dessus du pirate 2
   bubble.style.display = "block";
