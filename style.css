@@ -290,38 +290,53 @@ html, body {
   100% { transform: scale(1); filter: brightness(1); }
 }
 
-/* ======= FOND ======= */
+/* ===== RESET ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#06111c;
+}
+
+/* ===== FOND ===== */
 #background{
   position:absolute;
-  width:100%;
-  height:100%;
-  object-fit:cover;
+  inset:0;
+  background-image:url("Fondmenu1.JPG");
+  background-size:cover;
+  background-position:center;
   z-index:1;
 }
 
-/* ======= PIRATES ======= */
+/* ===== PIRATES ===== */
 .pirate{
   position:absolute;
   z-index:5;
-  transition:0.3s ease;
+  transition:transform .2s ease, filter .2s ease;
   cursor:pointer;
 }
 
-/* gris = bloqué */
+/* bloqué en gris */
 .locked{
-  filter:grayscale(100%) opacity(0.5);
+  filter:grayscale(100%) brightness(0.6);
   pointer-events:none;
 }
 
-/* actif */
+/* débloqué normal */
 .unlocked{
   filter:none;
-  pointer-events:all;
 }
 
-/* ===== POSITIONS DEMANDÉES (avec tes modifs %) ===== */
+/* ===== POSITIONS DEMANDÉES CORRIGÉES ===== */
 
-/* Pirate 1 : 5% plus haut */
+/* Pirate 1: +5% plus haut */
 #pirate1{
   left:125px;
   top: calc(658px - 5%);
@@ -329,7 +344,7 @@ html, body {
   height:255px;
 }
 
-/* Pirate 2 : 1% plus haut, 2% plus à gauche */
+/* Pirate 2: +1% plus haut / 2% plus à gauche */
 #pirate2{
   left: calc(916px - 2%);
   top: calc(697px - 1%);
@@ -337,7 +352,7 @@ html, body {
   height:178px;
 }
 
-/* Pirate 3 : 1% plus haut */
+/* Pirate 3: +1% plus haut */
 #pirate3{
   left:736px;
   top: calc(363px - 1%);
@@ -345,7 +360,7 @@ html, body {
   height:217px;
 }
 
-/* Pirate 4 ⇄ Pirate 5 dimensions échangées */
+/* Pirate 4 prend dimensions de P5 */
 #pirate4{
   left:240px;
   top:200px;
@@ -353,12 +368,12 @@ html, body {
   height:235px;
 }
 
-/* Pirate 5 + 15% taille en plus */
+/* Pirate 5 15% plus grand */
 #pirate5{
   left:1139px;
   top:28px;
-  width: calc(143px * 1.15);
-  height: calc(187px * 1.15);
+  width: calc(187px * 1.15);
+  height: calc(235px * 1.15);
 }
 
 /* ===== NOTIFICATION ===== */
@@ -367,22 +382,23 @@ html, body {
   top:15px;
   left:50%;
   transform:translateX(-50%);
-  padding:12px 20px;
   background:#ffd700;
+  padding:12px 20px;
+  border-radius:12px;
   font-weight:bold;
-  border-radius:10px;
   display:none;
-  z-index:10;
+  z-index:20;
 }
 
 /* ===== BULLE ===== */
 #bubble{
-  position:absolute;
-  top:520px;
-  left:850px;
-  padding:10px 15px;
+  position:fixed;
+  bottom:50px;
+  left:50%;
+  transform:translateX(-50%);
   background:white;
+  padding:12px 15px;
   border-radius:15px;
   display:none;
-  z-index:10;
+  z-index:20;
 }
