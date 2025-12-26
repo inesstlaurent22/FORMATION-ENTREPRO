@@ -295,7 +295,7 @@ html, body {
 #background {
   position:absolute;
   inset:0;
-  background-image:url("images/Fondmenu.PNG");
+  background-image:url("images/Fondmenu.JPG");
   background-size:cover;
   background-position:center;
   z-index:1;
