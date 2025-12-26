@@ -37,15 +37,15 @@
 /* Pirate1 +3% plus haut */
 #pirate1{
   left:125px;
-  top: calc(658px - 3%);
+  top:620px;
   width:138px;
   height:255px;
 }
 
 /* Pirate2 +0.2% haut / 1% gauche */
 #pirate2{
-  left: calc(916px - 1%);
-  top: calc(697px - 0.2%);
+  left:910px;
+  top:692px;
   width:186px;
   height:178px;
 }
@@ -53,7 +53,7 @@
 /* Pirate3 +2% taille */
 #pirate3{
   left:736px;
-  top:363px;
+  top:360px;
   width: calc(133px * 1.02);
   height: calc(217px * 1.02);
 }
@@ -61,14 +61,14 @@
 /* Pirate4 prend position Pirate5 et dimension réduite de 5% */
 #pirate4{
   left:1139px;
-  top:28px;
+  top:22px;
   width: calc(188px * 0.95);
   height: calc(247px * 0.95);
 }
 
 /* Pirate5 prend position Pirate4 et dimension originale de pirate4 */
 #pirate5{
-  left:240px;
+  left:300px;
   top:200px;
   width:163px;
   height:235px;
