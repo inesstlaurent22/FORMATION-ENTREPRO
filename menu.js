@@ -6,9 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const notification = document.getElementById("notification");
   const bubble = document.getElementById("bubble");
 
-  /* sécurité anti-bug */
   if (!p1 || !p2) {
-    console.error("Pirates non trouvés");
+    console.error("❌ Pirates non trouvés dans la page");
     return;
   }
 
@@ -16,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!localStorage.getItem("visitedMenu")) {
 
     localStorage.setItem("visitedMenu","yes");
+
     localStorage.setItem("p2_unlocked","yes");
     localStorage.removeItem("p1_unlocked");
 
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     unlock(p2);
   }
 
-  /* ========= DEUXIÈME ARRIVÉE ========= */
+  /* ========= ARRIVÉE APRÈS CLIC ========= */
   else {
 
     if (localStorage.getItem("p1_unlocked") === "yes") {
@@ -47,13 +47,16 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= CLIC SUR PIRATE 2 ========= */
   p2.addEventListener("click", () => {
 
+    console.log("✔️ Pirate 2 cliqué");
+
     unlock(p2);
 
+    /* déblocage pirate 1 */
     localStorage.setItem("p1_unlocked","yes");
 
-    /* recharge propre */
+    /* recharge */
     setTimeout(()=>{
-      location.reload();
+      window.location.reload();
     },200);
   });
 
