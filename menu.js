@@ -10,75 +10,68 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const notification = document.getElementById("notification");
   const bubble = document.getElementById("bubble");
+  const bubbleButton = document.getElementById("bubbleButton");
 
-  /* Boutons de fermeture */
-  const notifCloseBtn = document.createElement("button");
-  notifCloseBtn.textContent = "✕";
-  notification.appendChild(notifCloseBtn);
-
-  const bubbleCloseBtn = document.createElement("button");
-  bubbleCloseBtn.textContent = "✕";
-  bubble.appendChild(bubbleCloseBtn);
-
-  notifCloseBtn.addEventListener("click", () => {
-    notification.style.display = "none";
-  });
-
-  bubbleCloseBtn.addEventListener("click", () => {
-    bubble.style.display = "none";
-  });
-
-  // ========= PREMIÈRE ARRIVÉE =========
-  if (!localStorage.getItem("menuVisited")) {
-    localStorage.setItem("menuVisited", "yes");
-    localStorage.setItem("p2Clicked", "no");
-    localStorage.setItem("p1Unlocked", "no");
+  // Initialisation des pirates au premier chargement
+  if (!localStorage.getItem("visitedMenu")) {
+    localStorage.setItem("visitedMenu", "yes");
+    localStorage.setItem("p2Unlocked", "yes");
+    localStorage.removeItem("p1Unlocked");
 
     lock(pirates.p1);
+    unlock(pirates.p2);
     lock(pirates.p3);
     lock(pirates.p4);
     lock(pirates.p5);
-    unlock(pirates.p2);
+  } else {
+    if (localStorage.getItem("p1Unlocked") === "yes") {
+      unlock(pirates.p1);
+      unlock(pirates.p2);
+      notification.style.display = "block";
+      notification.classList.add("slide-down");
+      bubble.style.display = "block";
+    } else {
+      lock(pirates.p1);
+      unlock(pirates.p2);
+      lock(pirates.p3);
+      lock(pirates.p4);
+      lock(pirates.p5);
+    }
   }
 
-  // ========= CLIQUE PIRATE2 =========
-  if (!localStorage.getItem("p2Clicked") || localStorage.getItem("p2Clicked") === "no") {
-    pirates.p2.addEventListener("click", () => {
-
-      // Débloquer pirate1
-      unlock(pirates.p1);
-
-      // Notification et bulle
-      notification.style.display = "block";
-      notification.classList.add("show");
-
-      const rect = pirates.p2.getBoundingClientRect();
-      bubble.style.display = "block";
-      bubble.style.left = rect.left + rect.width / 2 - bubble.offsetWidth / 2 + "px";
-      bubble.style.top = rect.top - bubble.offsetHeight - 10 + "px";
-
-      // Sauvegarde du clic pour ne pas répéter
+  // Clic sur pirate2
+  pirates.p2.addEventListener("click", () => {
+    if (!localStorage.getItem("p2Clicked")) {
       localStorage.setItem("p2Clicked", "yes");
       localStorage.setItem("p1Unlocked", "yes");
-    });
-  }
+      setTimeout(()=> location.reload(), 200);
+    }
+  });
 
-  // ========= CLIQUE PIRATE1 =========
+  // Clic sur pirate1 -> ouvre commerce.html
   if (localStorage.getItem("p1Unlocked") === "yes") {
     pirates.p1.addEventListener("click", () => {
-      window.open("commerce.html", "_blank");
+      window.open("commerce.html", "_blank"); // <<<--- ouvre dans un nouvel onglet
     });
   }
 
-  // ========= HELPERS =========
-  function lock(el) {
-    el.classList.add("locked");
-    el.classList.remove("unlocked");
-  }
-
-  function unlock(el) {
-    el.classList.add("unlocked");
-    el.classList.remove("locked");
+  // Clic sur bouton OK dans la bulle
+  if (bubbleButton) {
+    bubbleButton.addEventListener("click", () => {
+      bubble.style.display = "none";
+      notification.style.display = "none";
+    });
   }
 
 });
+
+// Helpers
+function lock(el){
+  el.classList.add("locked");
+  el.classList.remove("unlocked");
+}
+
+function unlock(el){
+  el.classList.add("unlocked");
+  el.classList.remove("locked");
+}
