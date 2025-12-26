@@ -1,62 +1,50 @@
-document.addEventListener("DOMContentLoaded", () => {
+const pirate1 = document.getElementById("pirate1");
+const pirate2 = document.getElementById("pirate2");
 
-  const pirate1 = document.getElementById("pirate1");
-  const pirate2 = document.getElementById("pirate2");
+const bubble = document.getElementById("bubble");
+const notification = document.getElementById("notification");
+const bubbleButton = document.getElementById("bubbleButton");
 
-  const notification = document.getElementById("notification");
-  const bubble = document.getElementById("bubble");
-  const bubbleButton = document.getElementById("bubbleButton");
+/* état de départ */
+pirate1.classList.add("locked");
+pirate2.classList.add("unlocked");
 
-  if (!pirate2) {
-    console.error("⚠️ pirate2 introuvable dans le HTML");
-    return;
-  }
+/* 🌟 CLICK PIRATE 2 */
+pirate2.addEventListener("click", () => {
 
-  /* ------------------ FAISCEAU ------------------ */
- /* faisceau lumineux sur la forme du pirate */
-function placeHighlightOn(img){
+  // halo sur pirate2
+  pirate2.classList.add("glow");
 
-  // on enlève les anciens halos
-  document.querySelectorAll(".glow").forEach(el=>{
-    el.classList.remove("glow");
-  });
+  // affiche bulle au-dessus du pirate 2
+  bubble.style.display = "block";
+  bubble.style.left = (pirate2.offsetLeft - 40) + "px";
+  bubble.style.top = (pirate2.offsetTop - 140) + "px";
+});
 
-  // on applique le halo QUI SUIVRA LA FORME
-  img.classList.add("glow");
-}
+/* 👉 bouton OK dans la bulle */
+bubbleButton.addEventListener("click", () => {
 
-  /* ------------------ NOTIFICATION ------------------ */
-  function showNotification() {
-    notification.classList.add("show");
-    setTimeout(() => notification.classList.remove("show"), 4000);
-  }
+  // fermer bulle
+  bubble.style.display = "none";
 
-  /* ------------------ BULLE ------------------ */
-  function showBubbleAbove(element) {
-    const rect = element.getBoundingClientRect();
-    bubble.style.left = rect.left + "px";
-    bubble.style.top = (rect.top - 140) + "px";
-    bubble.classList.add("show");
-  }
+  // 🔓 débloquer pirate 1
+  pirate1.classList.remove("locked");
+  pirate1.classList.add("unlocked", "glow");
 
-  /* ------------------ ACTION CLIQUE SUR PIRATE 2 ------------------ */
-  pirate2.addEventListener("click", () => {
+  // 🔔 notification
+  notification.classList.add("show");
 
-    console.log("👉 Pirate 2 cliqué"); // test visible en console
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 2500);
+});
 
-    moveHighlightOn(pirate2);
-    showNotification();
-    showBubbleAbove(pirate2);
+/* 🛒 CLICK SUR PIRATE 1 ➜ OUVRIR commerce.html */
+pirate1.addEventListener("click", () => {
 
-    if (pirate1) {
-      pirate1.classList.remove("locked");
-      pirate1.classList.add("unlocked");
-    }
-  });
+  // si pirate1 encore verrouillé → rien
+  if (pirate1.classList.contains("locked")) return;
 
-  /* ------------------ BOUTON OK ------------------ */
-  bubbleButton.addEventListener("click", () => {
-    bubble.classList.remove("show");
-  });
-
+  // ouvrir dans un nouvel onglet
+  window.open("commerce.html", "_blank");
 });
