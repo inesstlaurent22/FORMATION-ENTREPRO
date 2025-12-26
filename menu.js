@@ -1,68 +1,62 @@
-const pirate1 = document.getElementById("pirate1");
-const pirate2 = document.getElementById("pirate2");
+document.addEventListener("DOMContentLoaded", () => {
 
-const notification = document.getElementById("notification");
-const bubble = document.getElementById("bubble");
-const bubbleButton = document.getElementById("bubbleButton");
+  const pirate1 = document.getElementById("pirate1");
+  const pirate2 = document.getElementById("pirate2");
 
-/* =============================
-   FAISCEAU ANIME AUTOUR DU PIRATE
-==============================*/
+  const notification = document.getElementById("notification");
+  const bubble = document.getElementById("bubble");
+  const bubbleButton = document.getElementById("bubbleButton");
 
-let highlight = document.createElement("div");
-highlight.classList.add("highlight");
-document.body.appendChild(highlight);
+  if (!pirate2) {
+    console.error("⚠️ pirate2 introuvable dans le HTML");
+    return;
+  }
 
-function moveHighlightOn(element) {
-  const rect = element.getBoundingClientRect();
+  /* ------------------ FAISCEAU ------------------ */
+  let highlight = document.createElement("div");
+  highlight.classList.add("highlight");
+  document.body.appendChild(highlight);
 
-  highlight.style.left = rect.left + window.scrollX + "px";
-  highlight.style.top = rect.top + window.scrollY + "px";
-  highlight.style.width = rect.width + "px";
-  highlight.style.height = rect.height + "px";
-}
+  function moveHighlightOn(element) {
+    const rect = element.getBoundingClientRect();
+    highlight.style.left = rect.left + "px";
+    highlight.style.top = rect.top + "px";
+    highlight.style.width = rect.width + "px";
+    highlight.style.height = rect.height + "px";
+  }
 
-/* =============================
-   NOTIFICATION + BULLE
-==============================*/
+  /* ------------------ NOTIFICATION ------------------ */
+  function showNotification() {
+    notification.classList.add("show");
+    setTimeout(() => notification.classList.remove("show"), 4000);
+  }
 
-function showNotification() {
-  notification.classList.add("show");
-  setTimeout(() => notification.classList.remove("show"), 4000);
-}
+  /* ------------------ BULLE ------------------ */
+  function showBubbleAbove(element) {
+    const rect = element.getBoundingClientRect();
+    bubble.style.left = rect.left + "px";
+    bubble.style.top = (rect.top - 140) + "px";
+    bubble.classList.add("show");
+  }
 
-function showBubbleAbove(element) {
-  const rect = element.getBoundingClientRect();
-  bubble.style.left = rect.left + "px";
-  bubble.style.top = (rect.top - 140) + "px";
+  /* ------------------ ACTION CLIQUE SUR PIRATE 2 ------------------ */
+  pirate2.addEventListener("click", () => {
 
-  bubble.classList.add("show");
-}
+    console.log("👉 Pirate 2 cliqué"); // test visible en console
 
-/* =============================
-   DEBLOCAGE PIRATE 1 QUAND ON CLIQUE PIRATE 2
-==============================*/
+    moveHighlightOn(pirate2);
+    showNotification();
+    showBubbleAbove(pirate2);
 
-pirate2.addEventListener("click", () => {
+    if (pirate1) {
+      pirate1.classList.remove("locked");
+      pirate1.classList.add("unlocked");
+    }
+  });
 
-  // highlight
-  moveHighlightOn(pirate2);
+  /* ------------------ BOUTON OK ------------------ */
+  bubbleButton.addEventListener("click", () => {
+    bubble.classList.remove("show");
+  });
 
-  // notification
-  showNotification();
-
-  // bulle positionnée au-dessus
-  showBubbleAbove(pirate2);
-
-  // débloquer pirate 1
-  pirate1.classList.remove("locked");
-  pirate1.classList.add("unlocked");
-
-});
-
-/* =============================
-   BOUTON OK J'AI COMPRIS
-==============================*/
-bubbleButton.addEventListener("click", () => {
-  bubble.classList.remove("show");
 });
