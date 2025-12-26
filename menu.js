@@ -6,58 +6,77 @@ document.addEventListener("DOMContentLoaded", () => {
   const notification = document.getElementById("notification");
   const bubble = document.getElementById("bubble");
 
-  if(!p1 || !p2){
-    console.error("Pirates introuvables");
+  // sécurité anti-erreur
+  if (!p1 || !p2) {
+    console.error("❌ Pirates manquants dans le HTML");
     return;
   }
 
-  /* ===== PREMIÈRE ARRIVÉE ===== */
-  if(!localStorage.getItem("visitedMenu")){
+  // ========= PREMIÈRE ARRIVÉE APRÈS LA VIDÉO =========
+  if (!localStorage.getItem("menu_started")) {
 
-    localStorage.setItem("visitedMenu","yes");
+    // on marque que le menu a déjà été visité
+    localStorage.setItem("menu_started", "yes");
 
-    // p2 débloqué par défaut
-    localStorage.setItem("p2_unlocked","yes");
-    localStorage.removeItem("p1_unlocked");
+    // pirate 2 débloqué par défaut
+    localStorage.setItem("pirate2_unlocked", "yes");
+
+    // pirate 1 toujours verrouillé
+    localStorage.removeItem("pirate1_unlocked");
 
     lock(p1);
     unlock(p2);
   }
 
-  /* ===== RETOUR SUR LA PAGE ===== */
-  else{
+  // ========= ARRIVÉE APRÈS CLIQUER SUR PIRATE 2 =========
+  else {
 
-    if(localStorage.getItem("p1_unlocked") === "yes"){
+    if (localStorage.getItem("pirate1_unlocked") === "yes") {
+
       unlock(p1);
       unlock(p2);
 
-      notification.style.display = "block";
+      // notification animée
+      notification.classList.add("show");
 
-      setTimeout(()=>{
+      // bulle au-dessus du pirate 2
+      setTimeout(() => {
         bubble.style.display = "block";
-      },600);
+      }, 800);
 
     } else {
+
       lock(p1);
       unlock(p2);
     }
   }
 
-  /* ===== CLIC SUR PIRATE 2 ===== */
-  p2.addEventListener("click", ()=>{
+  // ========= CLIC SUR PIRATE 2 =========
+  p2.addEventListener("click", () => {
 
-    // on débloque pirate 1
-    localStorage.setItem("p1_unlocked","yes");
+    // CAS 1 — première fois → débloque pirate 1
+    if (!localStorage.getItem("pirate1_unlocked")) {
 
-    // recharge propre
-    setTimeout(()=>{
-      location.reload();
-    },400);
+      localStorage.setItem("pirate1_unlocked", "yes");
+
+      setTimeout(() => {
+        location.reload();
+      }, 250);
+
+    }
+
+    // CAS 2 — déjà débloqué → ouvre commerce.html
+    else {
+
+      window.open("commerce.html", "_blank");
+    }
+
   });
 
 });
 
-/* ===== HELPERS ===== */
+/* ---------- LOCK SYSTEM ---------- */
+
 function lock(el){
   el.classList.add("locked");
   el.classList.remove("unlocked");
