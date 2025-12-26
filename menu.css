@@ -1,11 +1,4 @@
-/* ===== RESET ===== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-/* ===== FOND ===== */
+/* FOND */
 #background{
   position:fixed;
   inset:0;
@@ -15,91 +8,76 @@
   z-index:1;
 }
 
-/* ===== PIRATES ===== */
+/* PIRATES */
 .pirate{
   position:absolute;
-  z-index:5;
   cursor:pointer;
+  z-index:5;
+  object-fit:contain;
   transition: transform .25s ease, filter .25s ease;
 }
 
-/* suit la FORME du pirate (pas carré) */
-.pirate.glow{
-  filter:
-    drop-shadow(0 0 8px yellow)
-    drop-shadow(0 0 18px yellow)
-    drop-shadow(0 0 28px orange);
-}
-
-/* image taille correcte */
-.pirate{
-  object-fit:contain;
-}
-
-/* ===== LOCK SYSTEM ===== */
+/* déblocage / verrouillage */
 .locked{
   filter:grayscale(100%) brightness(.6);
-  pointer-events:none;
   opacity:.6;
+  pointer-events:none;
 }
 
 .unlocked{
   filter:none;
-  pointer-events:auto;
   opacity:1;
+  pointer-events:auto;
 }
 
-/* hover animation */
+/* zoom léger */
 .unlocked:hover{
   transform:scale(1.08);
 }
 
-/* ===== POSITIONS ===== */
+/* 🌟 HALO QUI SUIT LA FORME DU PNG */
+.glow{
+  filter:
+    drop-shadow(0 0 5px #ffef5a)
+    drop-shadow(0 0 12px #ffd200)
+    drop-shadow(0 0 22px #ff9f1c);
+}
 
-/* Pirate 1 : +3% plus haut */
+/* ===== POSITIONS ===== */
 #pirate1{
   left:125px;
-  top: calc(658px - 3%);
+  top:620px;
   width:138px;
-  height:255px;
 }
 
-/* Pirate 2 : +0.2% haut / 1% gauche */
 #pirate2{
-  left: calc(916px - 1%);
-  top: calc(697px - 0.2%);
+  left:880px;
+  top:680px;
   width:186px;
-  height:178px;
 }
 
-/* Pirate 3 : +2% taille */
 #pirate3{
   left:736px;
   top:363px;
-  width: calc(133px * 1.02);
-  height: calc(217px * 1.02);
+  width:136px;
 }
 
-/* Pirate 4 ↔ Pirate 5 position échangée et -5% taille */
 #pirate4{
   left:1139px;
   top:28px;
-  width: calc(163px * 0.95);
-  height: calc(235px * 0.95);
+  width:155px;
 }
 
-/* Pirate 5 prend position de 4 + ancienne taille */
 #pirate5{
   left:240px;
   top:200px;
   width:163px;
-  height:235px;
 }
 
-/* ===== NOTIFICATION ANIMATION iPHONE ===== */
+/* 🔔 notification style iPhone */
 #notification{
   position:fixed;
-  top:-140px;                     /* démarre hors cadre */
+  top:-140px;
   left:50%;
   transform:translateX(-50%);
   background:#ff9f1c;
@@ -108,52 +86,49 @@
   border-radius:18px;
   font-size:17px;
   font-weight:bold;
-  z-index:200;
   box-shadow:0 6px 18px rgba(0,0,0,.35);
-  transition: top 1s ease;        /* descente plus lente */
+  z-index:200;
+  transition: top 1s ease;
 }
 
-/* descend à l'affichage */
 #notification.show{
   top:10%;
 }
 
-/* ===== BULLE AU-DESSUS DU PIRATE 2 ===== */
+/* 💬 BULLE DU PIRATE 2 */
 #bubble{
   position:absolute;
-  max-width:460px;
+  display:none;
+  max-width:480px;
   padding:18px 20px;
   background:white;
-  border:4px solid #77431b;   /* marron */
+  border:4px solid #77431b;
   border-radius:14px;
-  z-index:150;
-  font-weight:bold;           /* texte gras */
+  font-weight:bold;
   line-height:1.45;
-  display:none;
-  animation: bubblePop .45s ease-out forwards;
+  z-index:150;
+  animation:bubblePop .4s ease-out forwards;
 }
 
-/* animation apparition */
+/* apparition bulle */
 @keyframes bubblePop{
-  from{ transform:scale(.6); opacity:0; }
-  to{ transform:scale(1); opacity:1; }
+  from{transform:scale(.6);opacity:0;}
+  to{transform:scale(1);opacity:1;}
 }
 
-/* ===== BOUTON DANS LA BULLE (STYLE iPHONE) ===== */
+/* bouton iPhone */
 #bubbleButton{
   margin-top:12px;
-  padding:10px 14px;
   width:100%;
+  padding:10px 14px;
   border-radius:12px;
   border:2px solid #77431b;
   background:#e6d2b3;
   font-weight:bold;
-  font-size:15px;
   cursor:pointer;
   transition:transform .12s ease, background .2s ease;
 }
 
-/* clic animation */
 #bubbleButton:active{
   transform:scale(.92);
   background:#c9b092;
