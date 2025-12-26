@@ -293,121 +293,133 @@ html, body {
 /* ========================= */
 /* PAGE MENU */
 /* ========================= */
-/* SCENE */
-.scene{
-  position:relative;
-  width:100%;
-  height:100%;
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: black;
+  font-family: Arial, sans-serif;
 }
 
-.menu-bg{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:1;
+/* SCENE */
+
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.menu-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
 }
 
 /* PIRATES */
 
-.pirates-container{
-  position:relative;
-  width:100%;
-  height:100%;
-  z-index:20;
+.pirates-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
 }
 
-.pirate{
-  position:absolute;
-  cursor:pointer;
-  transition:transform .2s, filter .2s, opacity .2s;
+.pirate {
+  position: absolute;
+  cursor: pointer;
+  transition: transform .2s, filter .2s, opacity .2s;
 }
 
-.pirate img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
+.pirate img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 /* ---- POSITIONS DEMANDÉES ---- */
 
-#pirate1{
-  left:125px;
-  top:625px;          /* 5% plus haut */
-  width:138px;
-  height:255px;
+#pirate1 {
+  left: 125px;
+  top: 625px;   /* 5% plus haut */
+  width: 138px;
+  height: 255px;
 }
 
-#pirate2{
-  left:898px;         /* 2% plus à gauche */
-  top:690px;          /* 1% plus haut */
-  width:186px;
-  height:178px;
+#pirate2 {
+  left: 898px;  /* 2% plus à gauche */
+  top: 690px;   /* 1% plus haut */
+  width: 186px;
+  height: 178px;
 }
 
-#pirate3{
-  left:736px;
-  top:359px;          /* 1% plus haut */
-  width:133px;
-  height:217px;
+#pirate3 {
+  left: 736px;
+  top: 359px;   /* 1% plus haut */
+  width: 133px;
+  height: 217px;
 }
 
-#pirate4{
-  left:240px;
-  top:200px;
-  width:163px;        /* échangé */
-  height:235px;
+#pirate4 {
+  left: 240px;
+  top: 200px;
+  width: 163px;   /* échangé */
+  height: 235px;
 }
 
-#pirate5{
-  left:1139px;
-  top:28px;
-  width:188px;        /* +15% */
-  height:247px;       /* +15% */
+#pirate5 {
+  left: 1139px;
+  top: 28px;
+  width: 188px;   /* +15% */
+  height: 247px;  /* +15% */
 }
 
 /* ---- LOCK SYSTEM ---- */
 
-.locked{
-  filter:grayscale(100%);
-  opacity:.45;
-  pointer-events:none;
+.locked {
+  filter: grayscale(100%);
+  opacity: .45;
+  pointer-events: none;
 }
 
-.unlocked{
-  filter:none;
-  opacity:1;
-  pointer-events:auto;
+.unlocked {
+  filter: none;
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.unlocked:hover{
-  transform:scale(1.06);
+.unlocked:hover {
+  transform: scale(1.06);
 }
 
 /* UI */
 
-#notification{
-  position:absolute;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(0,0,0,.75);
-  color:white;
-  padding:10px 18px;
-  border-radius:10px;
-  z-index:50;
-  display:none;
+#notification {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, .75);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 10px;
+  z-index: 50;
+  display: none;
 }
 
-#bubble{
-  position:absolute;
-  top:560px;
-  left:820px;
-  width:260px;
-  background:white;
-  padding:15px;
-  border-radius:12px;
-  z-index:60;
-  display:none;
+#bubble {
+  position: absolute;
+  top: 560px;
+  left: 820px;
+  width: 260px;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  z-index: 60;
+  display: none;
 }
