@@ -1,60 +1,89 @@
 /* ===================== */
-/* 🧠 PROGRESSION */
+/* 🧠 LOGIQUE DE DÉBLOCAGE */
 /* ===================== */
+
 const unlockMap = {
-  pirate1: 'pirate3',
-  pirate3: 'pirate5',
-  pirate5: 'pirate4'
+  pirate1: "pirate2",
+  pirate2: "pirate3",
+  pirate3: "pirate5",
+  pirate5: "pirate4"
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-  // Appliquer l'état sauvegardé
-  Object.values(unlockMap).forEach(id => {
-    if (localStorage.getItem(id) === 'unlocked') {
-      document.getElementById(id).classList.remove('locked');
-      document.getElementById(id).classList.add('unlocked');
+  const pirates = document.querySelectorAll(".pirate");
+  const bubble = document.getElementById("bubble");
+  const closeBubble = document.getElementById("closeBubble");
+  const notification = document.getElementById("notification");
+
+  /* ===================== */
+  /* 🎬 CINÉMATIQUE ARRIVÉE */
+  /* ===================== */
+  setTimeout(() => {
+    document.getElementById("cinematic").classList.add("hide");
+    bubble.style.display = "block";
+  }, 900);
+
+  closeBubble.onclick = () => bubble.style.display = "none";
+
+  /* ===================== */
+  /* 🔓 LOAD SAUVEGARDE */
+  /* ===================== */
+  pirates.forEach(p => {
+    const id = p.id;
+    if (localStorage.getItem(id) === "unlocked") {
+      p.classList.remove("locked");
+      p.classList.add("unlocked");
     }
   });
 
   /* ===================== */
-  /* 💬 PIRATE 2 = INFO */
+  /* 🖱 CLICK SUR PIRATE */
   /* ===================== */
-  const pirate2 = document.getElementById('pirate2');
-  const bubble = document.getElementById('infoBubble');
-  const closeBubble = document.getElementById('closeBubble');
+  pirates.forEach(pirate => {
 
-  pirate2.addEventListener('click', () => {
-    bubble.style.display = 'block';
-  });
+    pirate.addEventListener("click", () => {
 
-  closeBubble.addEventListener('click', () => {
-    bubble.style.display = 'none';
-  });
+      if (pirate.classList.contains("locked")) return;
 
-  /* ===================== */
-  /* 🚀 PIRATES MISSIONS */
-  /* ===================== */
-  document.querySelectorAll('.pirate[data-page]').forEach(pirate => {
-    pirate.addEventListener('click', () => {
-      const pirateId = pirate.id;
-      localStorage.setItem('lastPirate', pirateId);
-      window.location.href = pirate.dataset.page;
+      const id = pirate.id;
+      const next = unlockMap[id];
+
+      if (next) {
+        localStorage.setItem(next, "unlocked");
+        notification.classList.add("show");
+
+        setTimeout(() => notification.classList.remove("show"), 1500);
+      }
+
+      localStorage.setItem("lastPirate", id);
+
+      if (pirate.dataset.page) {
+        window.location.href = pirate.dataset.page;
+      }
     });
   });
 
+  /* ===================== */
+  /* 🔄 RESET AVENTURE */
+  /* ===================== */
+  document.getElementById("resetAdventure").onclick = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
 });
 
+
 /* ===================== */
-/* 🔓 À APPELER À LA FIN DES PAGES MISSIONS */
+/* 🌟 FONCTION À APPELER APRÈS UNE MISSION */
 /* ===================== */
 function unlockNextPirate() {
-  const lastPirate = localStorage.getItem('lastPirate');
-  const next = unlockMap[lastPirate];
+  const last = localStorage.getItem("lastPirate");
+  const next = unlockMap[last];
 
   if (next) {
-    localStorage.setItem(next, 'unlocked');
+    localStorage.setItem(next, "unlocked");
   }
 
-  window.location.href = 'menu.html';
+  window.location.href = "menu.html";
 }
