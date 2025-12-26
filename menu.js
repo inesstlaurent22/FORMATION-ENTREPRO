@@ -20,39 +20,48 @@ document.addEventListener("DOMContentLoaded", () => {
     el.classList.remove("locked");
   }
 
-  // ---------- Première arrivée ----------
+  function showNotification() {
+    notification.style.display = "block";
+    setTimeout(() => notification.classList.add("slide-down"), 50);
+  }
+
+  function showBubble() {
+    bubble.style.display = "block";
+    bubble.classList.add("fade-in");
+  }
+
+  // ---------- Initialisation ----------
   if (!localStorage.getItem("visitedMenu")) {
     localStorage.setItem("visitedMenu", "yes");
     localStorage.setItem("p2_clicked", "no");
+
     lock(pirate1);
     lock(pirate3);
     lock(pirate4);
     lock(pirate5);
     unlock(pirate2);
+  } else {
+    // Si pirate2 a déjà été cliqué, on montre la notification, bulle et débloque pirate1
+    if (localStorage.getItem("p2_clicked") === "yes") {
+      unlock(pirate1);
+      unlock(pirate2);
+      showNotification();
+      showBubble();
+    }
   }
 
-  // ---------- Après clic sur pirate2 ----------
-  if (localStorage.getItem("p2_clicked") === "yes") {
-    unlock(pirate1);
-    unlock(pirate2);
-
-    // Affichage notification
-    notification.style.display = "block";
-    setTimeout(() => notification.classList.add("slide-down"), 50);
-
-    // Affichage bulle
-    bubble.style.display = "block";
-  }
-
-  // ---------- Clic pirate2 ----------
+  // ---------- Clic sur pirate2 ----------
   pirate2.addEventListener("click", () => {
     if (localStorage.getItem("p2_clicked") === "no") {
       localStorage.setItem("p2_clicked", "yes");
-      setTimeout(() => location.reload(), 200);
+
+      unlock(pirate1);
+      showNotification();
+      showBubble();
     }
   });
 
-  // ---------- Clic pirate1 ----------
+  // ---------- Clic sur pirate1 ouvre commerce.html ----------
   pirate1.addEventListener("click", () => {
     window.open("commerce.html", "_blank");
   });
@@ -60,7 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------- Fermeture bulle ----------
   if (bubbleButton) {
     bubbleButton.addEventListener("click", () => {
+      bubble.classList.remove("fade-in");
       bubble.style.display = "none";
+
       notification.classList.remove("slide-down");
       setTimeout(() => notification.style.display = "none", 600);
     });
