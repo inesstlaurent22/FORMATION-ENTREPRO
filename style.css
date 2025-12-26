@@ -290,145 +290,151 @@ html, body {
   100% { transform: scale(1); filter: brightness(1); }
 }
 
-/* ===================== */
-/* 🌊 SCÈNE MENU */
-/* ===================== */
-
-.menuScene {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+/* ========================= */
+/* RESET */
+/* ========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* ===== fond responsive PC + iPad ===== */
-.menu-bg {
-  position: absolute;
-  inset: 0;
+html, body {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: black;
+}
+
+/* ========================= */
+/* SCENE */
+/* ========================= */
+.scene {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* ========================= */
+/* BACKGROUND */
+/* ========================= */
+.menu-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* iPad + PC OK */
+  top: 0;
+  left: 0;
   z-index: 1;
 }
 
-/* ===================== */
-/* 🎬 CINÉMATIQUE */
-/* ===================== */
+/* ========================= */
+/* PIRATES */
+/* ========================= */
 
-#cinematic {
-  position: absolute;
-  inset: 0;
-  background: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  transition: opacity 1s ease;
+.pirates-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
 }
 
-#cinematic.hide {
-  opacity: 0;
+.pirate {
+  position: absolute;
+  cursor: pointer;
+  transition: transform .2s, filter .3s, opacity .3s;
+}
+
+.pirate img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ------ POSITIONS EXACTES ------ */
+
+#pirate1 {
+  left: 125px;
+  top: 658px;
+  width: 138px;
+  height: 255px;
+}
+
+#pirate2 {
+  left: 916px;
+  top: 697px;
+  width: 186px;
+  height: 178px;
+}
+
+#pirate3 {
+  left: 736px;
+  top: 363px;
+  width: 133px;
+  height: 217px;
+}
+
+#pirate4 {
+  left: 240px;
+  top: 200px;
+  width: 143px;
+  height: 187px;
+}
+
+#pirate5 {
+  left: 1139px;
+  top: 28px;
+  width: 163px;
+  height: 235px;
+}
+
+/* ------ LOCKED / UNLOCKED ------ */
+
+.locked {
+  filter: grayscale(100%);
+  opacity: 0.5;
   pointer-events: none;
 }
 
-.cinematic-text {
-  color: white;
-  font-size: 1.8rem;
-  text-shadow: 0 0 20px gold;
+.unlocked {
+  filter: none;
+  opacity: 1;
+  pointer-events: auto;
 }
 
-/* ===================== */
-/* 🔔 NOTIFICATION */
-/* ===================== */
+.unlocked:hover {
+  transform: scale(1.05);
+}
 
+/* ========================= */
+/* NOTIFICATION */
+/* ========================= */
 #notification {
   position: absolute;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 12px 18px;
   background: rgba(0,0,0,0.7);
-  color: gold;
-  border: 2px solid gold;
-  border-radius: 12px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  z-index: 10;
   display: none;
-  z-index: 20;
 }
 
-#notification.show {
-  display: block;
-}
-
-/* ===================== */
-/* 💬 BULLE */
-/* ===================== */
-
+/* ========================= */
+/* BUBBLE */
+/* ========================= */
 #bubble {
   position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 600px;
-  padding: 18px;
-  background: rgba(0,0,0,0.8);
-  color: white;
-  border: 2px solid gold;
-  border-radius: 16px;
-  z-index: 30;
-  display: none;
-  text-align: center;
-}
-
-#bubble button {
-  margin-top: 8px;
-  padding: 8px 15px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-/* ===================== */
-/* 🏴‍☠️ PIRATES */
-/* ===================== */
-
-.pirates-container {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(15px, 3vw, 45px);
-  z-index: 5;
-}
-
-.pirate img {
-  width: clamp(90px, 13vw, 180px);
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.pirate.locked img {
-  filter: grayscale(100%) brightness(0.4);
-}
-
-.pirate.unlocked img {
-  filter: drop-shadow(0 0 12px gold);
-}
-
-.pirate.unlocked:hover img {
-  transform: scale(1.1);
-}
-
-/* ===================== */
-/* 🔄 RESET */
-/* ===================== */
-
-#resetAdventure {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 10px 16px;
+  top: 600px;
+  left: 850px;
+  width: 260px;
+  padding: 15px;
+  background: white;
   border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  z-index: 40;
+  z-index: 12;
+  display: none;
 }
