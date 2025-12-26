@@ -47,10 +47,9 @@
   object-fit: contain; /* ajuste l’image pour ne pas couper les pieds */
 }
 
-/* Notification descend du haut */
 #notification {
   position: fixed;
-  top: -60px; /* départ hors écran */
+  top: -60px;
   left: 50%;
   transform: translateX(-50%);
   background: orange;
@@ -62,16 +61,14 @@
   z-index: 50;
   transition: top 0.6s ease;
 }
-
 #notification.slide-down {
-  top: 10%; /* position finale */
+  top: 10%;
 }
 
-/* Bulle au dessus du pirate2 */
 #bubble {
   position: absolute;
   width: 300px;
-  background: #8B4513; /* marron */
+  background: #8B4513;
   color: white;
   padding: 12px;
   border-radius: 8px;
@@ -79,15 +76,7 @@
   z-index: 60;
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
-
 #bubble.fade-in {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* Animation hover des pirates */
-.pirate.unlocked:hover {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 20px yellow);
-  transition: transform 0.3s, filter 0.3s;
 }
