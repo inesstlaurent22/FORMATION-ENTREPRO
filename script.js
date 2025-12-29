@@ -1,42 +1,60 @@
-document.addEventListener("DOMContentLoaded", () => {
+// =========================
+// VARIABLES
+// =========================
+const tresor = document.getElementById("tresor");
+const loaderScreen = document.getElementById("loaderScreen");
+const loaderText = document.getElementById("loaderText");
+const mapGame = document.getElementById("mapGame");
+const mapPiecesContainer = document.getElementById("mapPieces");
+const errorMessage = document.getElementById("errorMessage");
+const victoryScreen = document.getElementById("victoryScreen");
 
-  const tresor = document.getElementById("tresor");
-  const loaderScreen = document.getElementById("loaderScreen");
-  const loaderText = document.getElementById("loaderText");
+const videoContainer = document.getElementById("videoContainer");
+const mainVideo = document.getElementById("mainVideo");
+const closeVideo = document.getElementById("closeVideo");
+const soundToggle = document.getElementById("soundToggle");
 
-  const correctPieces = ["gauche", "milieu", "droite"];
-  const mapGame = document.getElementById("mapGame");
-  const mapPiecesContainer = document.getElementById("mapPieces");
+const cinematicFade = document.getElementById("cinematicFade");
+const gemCanvas = document.getElementById("gemCanvas");
+const ctx = gemCanvas.getContext("2d");
 
-  const victoryScreen = document.getElementById("victoryScreen");
+let foundPieces = [];
+const correctOrder = ["gauche", "milieu", "droite"];
 
-  const errorMessage = document.getElementById("errorMessage");
-  const errorSound = document.getElementById("errorSound");
-  const clickSound = document.getElementById("clickSound");
+// =========================
+// COFFRE → MINI JEU
+// =========================
+tresor.addEventListener("click", () => {
+  tresor.classList.add("hide");
 
-  const videoContainer = document.getElementById("videoContainer");
-  const mainVideo = document.getElementById("mainVideo");
-  const closeVideo = document.getElementById("closeVideo");
+  loaderScreen.style.display = "flex";
 
-  const correctPieces = ["1","2","3","4"];
+  let messages = [
+    "Ouverture du coffre…",
+    "Chargement de la carte…",
+    "Prépare-toi…"
+  ];
 
-  let foundPieces = [];
+  let i = 0;
+  loaderText.textContent = messages[i];
 
-  /* 📌 affichage mini jeu après coffre */
-  tresor.addEventListener("click", () => {
-
-    clickSound.play();
-
-    loaderScreen.style.display = "flex";
-    loaderText.innerText = "Ouverture du coffre...";
-
-    setTimeout(() => {
+  let interval = setInterval(() => {
+    i++;
+    if (i >= messages.length) {
+      clearInterval(interval);
       loaderScreen.style.display = "none";
-      mapGame.style.display = "block";
-      generatePieces();
-    }, 1200);
-  });
+      mapGame.style.display = "flex";
+    } else {
+      loaderText.textContent = messages[i];
+    }
+  }, 1200);
 
+  generatePieces();
+});
+
+// =========================
+// MINI-JEU — GÉNÉRATION DES PIÈCES
+// =========================
 function generatePieces() {
 
   mapPiecesContainer.innerHTML = "";
@@ -49,63 +67,151 @@ function generatePieces() {
   ];
 
   pieces.forEach(p => {
-    const piece = document.createElement("img");
-    piece.src = p.src;
-    piece.dataset.id = p.id;
-    piece.classList.add("mapPiece");
+    const img = document.createElement("img");
+    img.src = p.src;
+    img.dataset.id = p.id;
+    img.classList.add("map-piece");
 
-    piece.addEventListener("click", () => handlePieceClick(piece));
+    img.addEventListener("click", () => handlePiece(img));
 
-    mapPiecesContainer.appendChild(piece);
+    mapPiecesContainer.appendChild(img);
   });
 }
 
-  /* 🎯 gestion clic pièce */
-  function handlePieceClick(piece) {
+// =========================
+// GESTION DES CLICS
+// =========================
+function handlePiece(img) {
 
-    const id = piece.dataset.id;
+  const expected = correctOrder[foundPieces.length];
 
-    // bonne pièce
-    if (correctPieces.includes(id) && !foundPieces.includes(id)) {
-      foundPieces.push(id);
-      piece.style.opacity = "0.4";
-
-      if (foundPieces.length === correctPieces.length) {
-        showVictory();
-      }
-      return;
-    }
-
-    // ❌ MAUVAISE PIÈCE
-    errorSound.play();
-
-    // texte clignotant
-    errorMessage.style.display = "block";
-    errorMessage.classList.remove("error-blink");
-    void errorMessage.offsetWidth;
-    errorMessage.classList.add("error-blink");
-
-    // pièce secouée
-    piece.classList.remove("shake");
-    void piece.offsetWidth;
-    piece.classList.add("shake");
+  // ❌ MAUVAISE
+  if (img.dataset.id !== expected) {
+    errorFeedback(img);
+    return;
   }
 
-  /* 🏆 VICTOIRE */
-  function showVictory() {
-    mapGame.style.display = "none";
-    victoryScreen.style.display = "flex";
+  // ✅ BONNE PIECE
+  img.classList.add("active");
+  foundPieces.push(img.dataset.id);
 
-    setTimeout(() => {
-      videoContainer.style.display = "block";
-      mainVideo.play();
-    }, 1500);
+  if (foundPieces.length === correctOrder.length) {
+    setTimeout(showVictory, 500);
+  }
+}
+
+// =========================
+// FEEDBACK ERREUR
+// =========================
+function errorFeedback(img) {
+
+  // clignotement message
+  errorMessage.style.display = "block";
+  errorMessage.style.animation = "blink 0.4s 3";
+
+  // son si tu en as mis un
+  const errorSound = document.getElementById("errorSound");
+  if (errorSound) errorSound.play();
+
+  // vibration pièce
+  img.style.animation = "shake 0.4s";
+  setTimeout(() => img.style.animation = "", 400);
+
+  setTimeout(() => errorMessage.style.display = "none", 800);
+}
+
+// =========================
+// VICTOIRE
+// =========================
+function showVictory() {
+
+  mapGame.style.display = "none";
+  victoryScreen.style.display = "flex";
+
+  startGemExplosion();
+
+  setTimeout(() => {
+    victoryScreen.style.display = "none";
+    playVideo();
+  }, 2500);
+}
+
+// =========================
+// VIDÉO
+// =========================
+function playVideo() {
+  videoContainer.style.display = "flex";
+  mainVideo.currentTime = 0;
+  mainVideo.play();
+}
+
+closeVideo.addEventListener("click", () => {
+  mainVideo.pause();
+  cinematicTransition();
+});
+
+soundToggle.addEventListener("click", () => {
+  mainVideo.muted = !mainVideo.muted;
+  soundToggle.classList.toggle("muted");
+});
+
+// =========================
+// TRANSITION CINÉMATIQUE
+// =========================
+function cinematicTransition() {
+  cinematicFade.classList.add("active");
+  setTimeout(() => window.location.href = "menu.html", 1200);
+}
+
+// =========================
+// 💎 GEMS EXPLOSION
+// =========================
+
+let gems = [];
+
+function startGemExplosion() {
+  resizeCanvas();
+
+  gems = [];
+
+  for (let i = 0; i < 120; i++) {
+    gems.push({
+      x: gemCanvas.width / 2,
+      y: gemCanvas.height / 2,
+      vx: (Math.random() - 0.5) * 14,
+      vy: (Math.random() - 0.5) * 14,
+      size: Math.random() * 6 + 4,
+      life: 1
+    });
   }
 
-  /* 🎥 fermeture vidéo → fin cinématique */
-  closeVideo.addEventListener("click", () => {
-    mainVideo.pause();
-    videoContainer.style.display = "none";
+  requestAnimationFrame(updateGems);
+}
+
+function resizeCanvas() {
+  gemCanvas.width = window.innerWidth;
+  gemCanvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+function updateGems() {
+  ctx.clearRect(0, 0, gemCanvas.width, gemCanvas.height);
+
+  gems.forEach(g => {
+    g.x += g.vx;
+    g.y += g.vy;
+    g.vy += 0.2;
+    g.life -= 0.01;
+
+    ctx.globalAlpha = g.life;
+    ctx.beginPath();
+    ctx.arc(g.x, g.y, g.size, 0, Math.PI * 2);
+    ctx.fillStyle = "cyan";
+    ctx.fill();
   });
 
-});
+  gems = gems.filter(g => g.life > 0);
+
+  if (gems.length > 0) requestAnimationFrame(updateGems);
+}
