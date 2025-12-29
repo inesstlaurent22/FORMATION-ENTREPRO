@@ -149,30 +149,45 @@ html, body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   z-index: 300;
   text-align: center;
+  padding: 0 10px;
 }
 
 #victoryScreen h1 {
   color: white;
-  font-size: 1.2rem;
-  line-height: 1.4;
+  font-size: clamp(1rem, 4vw, 1.2rem);
+  line-height: 1.3;
   text-shadow: 0 0 25px gold, 0 0 50px gold;
   max-width: 90%;
 }
 
-/* ===================== IMAGE CARTE MINI ENTIERE ===================== */
+/* IMAGE CARTE MINI ENTIERE */
 .carteminientier {
-  width: 99.5%;  /* 0,5% plus petite que la vidéo */
-  max-width: 99.5%;
-  height: 99.5%;
-  max-height: 99.5%;
-  object-fit: contain;
   display: block;
   margin: 0 auto;
-  position: relative;
-  z-index: 301;
+  object-fit: contain;
+  width: 100%;
+  max-width: clamp(90px, 26vw, 150px); /* même largeur que les mini pièces */
+  height: auto;
+}
+
+@media screen and (min-width: 1024px) {
+  /* Largeur fixe pour ordinateur */
+  .carteminientier {
+    max-width: 150px; /* largeur identique aux mini pièces */
+    width: 150px;
+    height: auto;
+  }
+}
+
+/* Centrage vertical de la carte avec le texte */
+#victoryScreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* ===================== VIDÉO ===================== */
@@ -194,7 +209,7 @@ html, body {
   border-radius: 12px;
 }
 
-/* bouton fermer */
+/* BOUTON FERMER */
 #closeVideo {
   position: absolute;
   top: 14px;
@@ -207,7 +222,7 @@ html, body {
   cursor: pointer;
 }
 
-/* SON */
+/* BOUTON SON */
 #soundToggle {
   position: absolute;
   bottom: 16px;
@@ -218,6 +233,14 @@ html, body {
   background: white;
   font-size: 20px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#soundToggle span {
+  display: inline-block;
+  transform: translateY(-1px); /* centre le symbole 🔉 */
 }
 
 /* ===================== FADE ===================== */
