@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loaderScreen = document.getElementById("loaderScreen");
   const loaderText = document.getElementById("loaderText");
 
+  const correctPieces = ["gauche", "milieu", "droite"];
   const mapGame = document.getElementById("mapGame");
   const mapPiecesContainer = document.getElementById("mapPieces");
 
