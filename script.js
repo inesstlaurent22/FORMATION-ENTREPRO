@@ -14,8 +14,130 @@ const cinematicFade = document.getElementById("cinematicFade");
 const clickSound = document.getElementById("clickSound");
 const errorSound = document.getElementById("errorSound");
 
-/* === GEMS (inchangé) === */
-/* … ton code gemmes identique ici … */
+/* ===================== */
+/* 💎 GEMS + 🪙 OR */
+/* ===================== */
+
+const canvas = document.getElementById("gemCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+canvas.style.background = "transparent";
+
+let particles = [];
+
+function explodeTreasure(x, y) {
+  for (let i = 0; i < 30; i++) particles.push(createGem(x, y));
+  for (let i = 0; i < 20; i++) particles.push(createCoin(x, y));
+}
+
+function createGem(x, y) {
+  return {
+    type: "gem",
+    x,
+    y,
+    vx: (Math.random() - 0.5) * 14,
+    vy: (Math.random() - 0.5) * 14,
+    size: Math.random() * 8 + 6,
+    rotation: Math.random() * Math.PI,
+    spin: (Math.random() - 0.5) * 0.3,
+    color: `hsl(${Math.random() * 360},100%,65%)`,
+    life: 90
+  };
+}
+
+function createCoin(x, y) {
+  return {
+    type: "coin",
+    x,
+    y,
+    vx: (Math.random() - 0.5) * 12,
+    vy: (Math.random() - 0.5) * 12,
+    size: Math.random() * 10 + 8,
+    rotation: Math.random() * Math.PI,
+    spin: (Math.random() - 0.5) * 0.25,
+    life: 80
+  };
+}
+
+function drawParticle(p) {
+  ctx.save();
+  ctx.translate(p.x, p.y);
+  ctx.rotate(p.rotation);
+
+  if (p.type === "gem") {
+    ctx.shadowColor = p.color;
+    ctx.shadowBlur = 30;
+    ctx.fillStyle = p.color;
+
+    ctx.beginPath();
+    ctx.moveTo(0, -p.size);
+    ctx.lineTo(p.size * 0.8, 0);
+    ctx.lineTo(0, p.size);
+    ctx.lineTo(-p.size * 0.8, 0);
+    ctx.closePath();
+    ctx.fill();
+  } else {
+    ctx.shadowColor = "gold";
+    ctx.shadowBlur = 20;
+    ctx.fillStyle = "gold";
+
+    ctx.beginPath();
+    ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // 🔥 boucle SAFE (corrige le blocage)
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+
+    drawParticle(p);
+
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.35;
+    p.rotation += p.spin;
+    p.life--;
+
+    if (p.life <= 0) particles.splice(i, 1);
+  }
+
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+/* ===================== */
+/* 🧰 COFFRE */
+/* ===================== */
+
+tresor.onclick = () => {
+  clickSound.play();
+
+  const rect = tresor.getBoundingClientRect();
+  explodeTreasure(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+  setTimeout(() => {
+    loader.style.display = "flex";
+    loaderText.textContent = "Gagne ce mini-jeu pour commencer ta quête 🏴‍☠️";
+  }, 500);
+
+  setTimeout(() => {
+    loader.style.display = "none";
+    startGame();
+  }, 1500);
+};
 
 /* ===================== MINI-JEU ===================== */
 /* inchangé sauf responsive images */
