@@ -146,50 +146,47 @@ html, body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 15px;
   z-index: 300;
 }
 
-/* conteneur commun image + texte */
-.victory-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-/* 🗺️ image de carte entière */
-.full-map {
-  max-width: 90%;
-  max-height: 50vh;
-}
-
-/* ✨ texte Bravo Moussaillon */
-.victory-text {
+/* ✨ texte bravo lumineux + taille adaptée */
+#victoryScreen h1 {
   color: white;
   text-align: center;
-  font-size: 15px;
-  line-height: 1.3;
-  width: 100%;
-  max-width: 100%;
-
-  /* lumineux */
-  text-shadow:
-    0 0 6px rgba(255,255,255,0.9),
-    0 0 12px rgba(255,255,255,0.7),
-    0 0 18px rgba(255,255,255,0.5);
+  font-size: clamp(0.9rem, 2.2vw, 1.4rem);
+  text-shadow: 0 0 14px rgba(255,255,255,0.9),
+               0 0 28px rgba(255,215,0,0.7);
+  max-width: 95vw;
 }
 
-/* 🖥️ ORDINATEUR */
-@media (min-width: 900px) {
+/* ===== IMAGE VICTOIRE — ordinateur ===== */
+.full-map {
+  width: 635px;
+  height: 339px;
+  object-fit: contain;
+
+  /* position demandée PC */
+  position: relative;
+  left: 439px;
+  top: 322px;
+
+  filter: drop-shadow(0 0 25px gold);
+}
+
+/* ===== VERSION MOBILE ===== */
+@media (max-width: 900px) {
 
   .full-map {
-    width: 35%;         /* image BEAUCOUP plus petite */
-    max-width: 320px;
+    position: static;
+    width: 92vw;
+    height: auto;
+    left: 0;
+    top: 0;
   }
 
-  .victory-text {
-    max-width: 35%;     /* même largeur que l'image */
-    font-size: 13px;    /* plus petit encore sur PC */
+  #victoryScreen h1 {
+    max-width: 95vw;
   }
 }
 
