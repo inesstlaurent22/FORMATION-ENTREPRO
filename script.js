@@ -13,6 +13,8 @@ const cinematicFade = document.getElementById("cinematicFade");
 const clickSound = document.getElementById("clickSound");
 const errorSound = document.getElementById("errorSound");
 
+const errorMessage = document.getElementById("errorMessage");
+
 /* ===================== */
 /* 💎 GEMS & COINS */
 /* ===================== */
@@ -144,6 +146,7 @@ function startGame() {
   order = [];
   mapPieces.innerHTML = "";
   mapGame.style.display = "flex";
+  errorMessage.classList.add("hidden");
 
   const pieces = [
     { id: "piece1", img: "images/Carteminigauche.png" },
@@ -183,7 +186,7 @@ function startGame() {
   });
 }
 
-/* ✅💥 CHECK RESULT – CORRIGE LE BUG */
+/* ===================== CHECK RESULT ===================== */
 
 function checkResult() {
 
@@ -191,6 +194,15 @@ function checkResult() {
 
   if (!win) {
     errorSound.play();
+
+    // 🔴 affiche erreur
+    errorMessage.classList.remove("hidden");
+
+    // ⏳ disparaît après 1.5s
+    setTimeout(() => {
+      errorMessage.classList.add("hidden");
+    }, 1500);
+
     order = [];
     mapPieces.querySelectorAll(".map-piece-wrapper").forEach(w => {
       w.classList.remove("active");
@@ -219,13 +231,11 @@ function launchVideo() {
   video.play().catch(() => {});
 }
 
-/* mute / unmute */
 soundToggle.onclick = () => {
   video.muted = !video.muted;
   soundToggle.textContent = video.muted ? "🔇" : "🔉";
 };
 
-/* fullscreen */
 video.addEventListener("click", async () => {
   if (!document.fullscreenElement) {
     if (video.requestFullscreen) await video.requestFullscreen();
@@ -244,7 +254,8 @@ function goToMenu() {
   }, 1200);
 }
 
-/* shuffle */
+/* ===================== SHUFFLE ===================== */
+
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
