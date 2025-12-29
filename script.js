@@ -36,24 +36,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1200);
   });
 
-  /* 🧩 génération des pièces */
-  function generatePieces() {
+function generatePieces() {
 
-    mapPiecesContainer.innerHTML = "";
-    foundPieces = [];
+  mapPiecesContainer.innerHTML = "";
+  foundPieces = [];
 
-    for (let i = 1; i <= 6; i++) {
+  const pieces = [
+    { id: "gauche", src: "images/Carteminigauche.png" },
+    { id: "milieu", src: "images/Carteminimilieu.png" },
+    { id: "droite", src: "images/Carteminidroite.png" }
+  ];
 
-      const piece = document.createElement("img");
-      piece.src = `images/piece${i}.png`;
-      piece.dataset.id = i;
-      piece.classList.add("mapPiece");
+  pieces.forEach(p => {
+    const piece = document.createElement("img");
+    piece.src = p.src;
+    piece.dataset.id = p.id;
+    piece.classList.add("mapPiece");
 
-      piece.addEventListener("click", () => handlePieceClick(piece));
+    piece.addEventListener("click", () => handlePieceClick(piece));
 
-      mapPiecesContainer.appendChild(piece);
-    }
-  }
+    mapPiecesContainer.appendChild(piece);
+  });
+}
 
   /* 🎯 gestion clic pièce */
   function handlePieceClick(piece) {
