@@ -98,9 +98,9 @@ html, body {
   inset: 0;
   display: none;
   flex-direction: column;
-  justify-content: flex-start; /* 🔥 IMPORTANT */
+  justify-content: flex-start;
   align-items: center;
-  padding-top: 180px;          /* position globale */
+  padding-top: 180px;
   gap: 25px;
   background: rgba(0,0,0,0.7);
   z-index: 200;
@@ -111,7 +111,29 @@ html, body {
   font-size: 1.4rem;
   text-align: center;
   text-shadow: 0 0 15px gold;
-  margin-bottom: 10px; /* juste au-dessus des images */
+  margin-bottom: 10px;
+}
+
+/* 🔴 MESSAGE D’ERREUR MINI-JEU */
+#errorMessage {
+  color: #ff4d4d;
+  font-weight: 900;
+  font-size: 1.2rem;
+  text-align: center;
+  text-shadow: 0 0 10px black;
+  animation: shake 0.4s;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-6px); }
+  50%  { transform: translateX(6px); }
+  75%  { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
 }
 
 #mapPieces {
@@ -172,7 +194,9 @@ html, body {
   font-size: 1.6rem;
 }
 
+/* ===================== */
 /* CARTE FINALE */
+/* ===================== */
 .full-map {
   max-width: 420px;
   width: auto;
@@ -180,7 +204,7 @@ html, body {
   filter: drop-shadow(0 0 25px gold);
 
   transform-origin: center;
-  transform: scaleY(1); /* 👉 hauteur x2, largeur identique */
+  transform: scaleY(2);   /* ✅ hauteur x2 — largeur identique */
 }
 
 /* ===================== */
