@@ -133,3 +133,13 @@
   transform:scale(.92);
   background:#c9b092;
 }
+
+/* Zoom et halo au survol pour pirate débloqué */
+.pirate.unlocked:hover {
+  transform: scale(1.08);
+  filter:
+    drop-shadow(0 0 5px #ffef5a)
+    drop-shadow(0 0 12px #ffd200)
+    drop-shadow(0 0 22px #ff9f1c);
+  transition: transform .25s ease, filter .25s ease;
+}
