@@ -1,6 +1,4 @@
-/* ===================== */
-/* RESET */
-/* ===================== */
+/* ===================== RESET ===================== */
 * {
   margin: 0;
   padding: 0;
@@ -14,18 +12,14 @@ html, body {
   font-family: Arial, sans-serif;
 }
 
-/* ===================== */
-/* CONTENEUR PRINCIPAL */
-/* ===================== */
+/* ===================== CONTENEUR PRINCIPAL ===================== */
 .Fondindex {
   position: relative;
   width: 100vw;
   height: 100vh;
 }
 
-/* ===================== */
-/* FOND */
-/* ===================== */
+/* ===================== FOND ===================== */
 .fondindex {
   position: absolute;
   inset: 0;
@@ -35,23 +29,19 @@ html, body {
   z-index: 1;
 }
 
-/* ===================== */
-/* COFFRE */
-/* ===================== */
+/* ===================== COFFRE ===================== */
 .tresor-button {
   position: absolute;
   left: 50%;
   top: 78%;
   transform: translate(-50%, -50%);
-  width: clamp(230px, 31vw, 400px);
+  width: clamp(180px, 35vw, 420px);
   aspect-ratio: 1;
   cursor: pointer;
   z-index: 10;
 }
 
-.tresor-button.hide {
-  display: none;
-}
+.tresor-button.hide { display: none; }
 
 .tresor-img {
   position: absolute;
@@ -69,9 +59,7 @@ html, body {
   transform: scale(1.05);
 }
 
-/* ===================== */
-/* LOADER */
-/* ===================== */
+/* ===================== LOADER ===================== */
 #loaderScreen {
   position: fixed;
   inset: 0;
@@ -90,33 +78,34 @@ html, body {
   animation: blink 1.2s infinite;
 }
 
-/* ===================== */
-/* MINI-JEU */
-/* ===================== */
+/* ===================== MINI-JEU ===================== */
 #mapGame {
   position: fixed;
   inset: 0;
   display: none;
   flex-direction: column;
-  justify-content: flex-start; /* 🔥 IMPORTANT */
   align-items: center;
-  padding-top: 180px;          /* position globale */
-  gap: 25px;
-  background: rgba(0,0,0,0.7);
+  padding-top: 120px;
+  gap: 15px;
+  background: rgba(0,0,0,0.75);
   z-index: 200;
 }
 
 #gameInstruction {
   color: white;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   text-align: center;
-  text-shadow: 0 0 15px gold;
-  margin-bottom: 10px; /* juste au-dessus des images */
+  padding: 0 15px;
 }
 
+/* 👉 ADAPTATION MOBILE */
 #mapPieces {
   display: flex;
-  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px;
+  max-width: 100%;
 }
 
 .map-piece-wrapper {
@@ -125,7 +114,7 @@ html, body {
 }
 
 .map-piece {
-  width: 160px;
+  width: clamp(90px, 26vw, 150px);
   transition: all 0.3s ease;
 }
 
@@ -143,16 +132,12 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 4rem;
+  font-size: 3rem;
   color: white;
-  text-shadow: 0 0 20px gold, 0 0 40px gold;
-  animation: flash 0.8s ease;
-  pointer-events: none;
+  text-shadow: 0 0 20px gold;
 }
 
-/* ===================== */
-/* VICTOIRE */
-/* ===================== */
+/* ===================== VICTOIRE ===================== */
 #victoryScreen {
   position: fixed;
   inset: 0;
@@ -161,28 +146,16 @@ html, body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 25px;
+  gap: 15px;
   z-index: 300;
 }
 
-#victoryScreen h1 {
-  color: white;
-  text-align: center;
-  text-shadow: 0 0 20px gold;
-  font-size: 1.6rem;
-}
-
-/* CARTE FINALE */
 .full-map {
-  max-width: 420px;
-  width: auto;
-  animation: mapFlash 1.5s ease;
-  filter: drop-shadow(0 0 25px gold);
+  max-width: 90%;
+  max-height: 70vh;
 }
 
-/* ===================== */
-/* VIDÉO */
-/* ===================== */
+/* ===================== VIDÉO ===================== */
 #videoContainer {
   position: fixed;
   inset: 0;
@@ -193,59 +166,42 @@ html, body {
   z-index: 400;
 }
 
+/* 👉 vidéo toujours visible à l'écran */
 #videoContainer video {
-  width: 80%;
+  width: 100%;
   max-width: 900px;
-  border-radius: 16px;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 12px;
 }
 
-/* BOUTON X */
+/* bouton fermer */
 #closeVideo {
   position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 14px;
+  right: 16px;
   width: 44px;
   height: 44px;
   border-radius: 50%;
   background: white;
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* SON 🔉 */
+/* SON */
 #soundToggle {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
+  bottom: 16px;
+  left: 16px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
   background: white;
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 25px gold;
 }
 
-#soundToggle.muted::after {
-  content: "";
-  position: absolute;
-  width: 36px;
-  height: 3px;
-  background: red;
-  transform: rotate(-45deg);
-  border-radius: 2px;
-}
-
-/* ===================== */
-/* FADE */
-/* ===================== */
+/* ===================== FADE ===================== */
 #cinematicFade {
   position: fixed;
   inset: 0;
@@ -256,13 +212,9 @@ html, body {
   transition: opacity 1.2s ease;
 }
 
-#cinematicFade.active {
-  opacity: 1;
-}
+#cinematicFade.active { opacity: 1; }
 
-/* ===================== */
-/* GEMS */
-/* ===================== */
+/* ===================== GEMS ===================== */
 #gemCanvas {
   position: fixed;
   inset: 0;
@@ -270,22 +222,8 @@ html, body {
   z-index: 600;
 }
 
-/* ===================== */
-/* ANIMATIONS */
-/* ===================== */
+/* ===================== ANIMATIONS ===================== */
 @keyframes blink {
   0%,100% { opacity: 1; }
   50% { opacity: 0.4; }
-}
-
-@keyframes flash {
-  0% { opacity: 0; transform: scale(0.3); }
-  60% { opacity: 1; transform: scale(1.3); }
-  100% { transform: scale(1); }
-}
-
-@keyframes mapFlash {
-  0% { opacity: 0; transform: scale(0.6); filter: brightness(0); }
-  50% { opacity: 1; transform: scale(1.1); filter: brightness(2); }
-  100% { transform: scale(1); filter: brightness(1); }
 }
