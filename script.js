@@ -1,264 +1,106 @@
-const tresor = document.getElementById("tresor");
-const loader = document.getElementById("loaderScreen");
-const loaderText = document.getElementById("loaderText");
-const mapGame = document.getElementById("mapGame");
-const mapPieces = document.getElementById("mapPieces");
-const victory = document.getElementById("victoryScreen");
-const videoContainer = document.getElementById("videoContainer");
-const video = document.getElementById("mainVideo");
-const soundToggle = document.getElementById("soundToggle");
-const closeVideo = document.getElementById("closeVideo");
-const cinematicFade = document.getElementById("cinematicFade");
+document.addEventListener("DOMContentLoaded", () => {
 
-const clickSound = document.getElementById("clickSound");
-const errorSound = document.getElementById("errorSound");
+  const tresor = document.getElementById("tresor");
+  const loaderScreen = document.getElementById("loaderScreen");
+  const loaderText = document.getElementById("loaderText");
 
-const errorMessage = document.getElementById("errorMessage");
+  const mapGame = document.getElementById("mapGame");
+  const mapPiecesContainer = document.getElementById("mapPieces");
 
-/* ===================== */
-/* 💎 GEMS & COINS */
-/* ===================== */
+  const victoryScreen = document.getElementById("victoryScreen");
 
-const canvas = document.getElementById("gemCanvas");
-const ctx = canvas.getContext("2d");
+  const errorMessage = document.getElementById("errorMessage");
+  const errorSound = document.getElementById("errorSound");
+  const clickSound = document.getElementById("clickSound");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+  const videoContainer = document.getElementById("videoContainer");
+  const mainVideo = document.getElementById("mainVideo");
+  const closeVideo = document.getElementById("closeVideo");
 
-let particles = [];
+  const correctPieces = ["1","2","3","4"];
 
-function explodeTreasure(x, y) {
-  for (let i = 0; i < 30; i++) particles.push(createGem(x, y));
-  for (let i = 0; i < 20; i++) particles.push(createCoin(x, y));
-}
+  let foundPieces = [];
 
-function createGem(x, y) {
-  return {
-    type: "gem",
-    x,
-    y,
-    vx: (Math.random() - 0.5) * 14,
-    vy: (Math.random() - 0.5) * 14,
-    size: Math.random() * 8 + 6,
-    rotation: Math.random() * Math.PI,
-    spin: (Math.random() - 0.5) * 0.3,
-    color: `hsl(${Math.random() * 360},100%,65%)`,
-    life: 90
-  };
-}
+  /* 📌 affichage mini jeu après coffre */
+  tresor.addEventListener("click", () => {
 
-function createCoin(x, y) {
-  return {
-    type: "coin",
-    x,
-    y,
-    vx: (Math.random() - 0.5) * 12,
-    vy: (Math.random() - 0.5) * 12,
-    size: Math.random() * 10 + 8,
-    rotation: Math.random() * Math.PI,
-    spin: (Math.random() - 0.5) * 0.25,
-    life: 80
-  };
-}
+    clickSound.play();
 
-function drawParticle(p) {
-  ctx.save();
-  ctx.translate(p.x, p.y);
-  ctx.rotate(p.rotation);
+    loaderScreen.style.display = "flex";
+    loaderText.innerText = "Ouverture du coffre...";
 
-  if (p.type === "gem") {
-    ctx.shadowColor = p.color;
-    ctx.shadowBlur = 30;
-    ctx.fillStyle = p.color;
-
-    ctx.beginPath();
-    ctx.moveTo(0, -p.size);
-    ctx.lineTo(p.size * 0.8, 0);
-    ctx.lineTo(0, p.size);
-    ctx.lineTo(-p.size * 0.8, 0);
-    ctx.closePath();
-    ctx.fill();
-  } else {
-    ctx.shadowColor = "gold";
-    ctx.shadowBlur = 20;
-    ctx.fillStyle = "gold";
-    ctx.beginPath();
-    ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  ctx.restore();
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  for (let i = particles.length - 1; i >= 0; i--) {
-    const p = particles[i];
-
-    drawParticle(p);
-
-    p.x += p.vx;
-    p.y += p.vy;
-    p.vy += 0.35;
-    p.rotation += p.spin;
-    p.life--;
-
-    if (p.life <= 0) particles.splice(i, 1);
-  }
-
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-/* resize canvas */
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-/* ===================== COFFRE ===================== */
-
-tresor.onclick = () => {
-  clickSound.play();
-
-  const rect = tresor.getBoundingClientRect();
-  explodeTreasure(rect.left + rect.width / 2, rect.top + rect.height / 2);
-
-  setTimeout(() => {
-    loader.style.display = "flex";
-    loaderText.textContent = "Gagne ce mini-jeu pour commencer ta quête 🏴‍☠️";
-  }, 400);
-
-  setTimeout(() => {
-    loader.style.display = "none";
-    startGame();
-  }, 1400);
-};
-
-/* ===================== MINI JEU ===================== */
-
-let order = [];
-const correct = ["piece1", "piece2", "piece3"];
-
-function startGame() {
-  tresor.classList.add("hide");
-  order = [];
-  mapPieces.innerHTML = "";
-  mapGame.style.display = "flex";
-  errorMessage.classList.add("hidden");
-
-  const pieces = [
-    { id: "piece1", img: "images/Carteminigauche.png" },
-    { id: "piece2", img: "images/Carteminimilieu.png" },
-    { id: "piece3", img: "images/Carteminidroite.png" }
-  ];
-
-  shuffle(pieces);
-
-  pieces.forEach(p => {
-    const wrapper = document.createElement("div");
-    wrapper.className = "map-piece-wrapper";
-
-    const img = document.createElement("img");
-    img.src = p.img;
-    img.className = "map-piece inactive";
-
-    wrapper.onclick = () => {
-      if (wrapper.classList.contains("active")) return;
-
-      clickSound.play();
-      wrapper.classList.add("active");
-      img.classList.remove("inactive");
-
-      order.push(p.id);
-
-      const num = document.createElement("div");
-      num.className = "order-number";
-      num.textContent = order.length;
-      wrapper.appendChild(num);
-
-      if (order.length === 3) checkResult();
-    };
-
-    wrapper.appendChild(img);
-    mapPieces.appendChild(wrapper);
+    setTimeout(() => {
+      loaderScreen.style.display = "none";
+      mapGame.style.display = "block";
+      generatePieces();
+    }, 1200);
   });
-}
 
-/* ===================== CHECK RESULT ===================== */
+  /* 🧩 génération des pièces */
+  function generatePieces() {
 
-function checkResult() {
+    mapPiecesContainer.innerHTML = "";
+    foundPieces = [];
 
-  const win = order.every((v, i) => v === correct[i]);
+    for (let i = 1; i <= 6; i++) {
 
-  if (!win) {
+      const piece = document.createElement("img");
+      piece.src = `images/piece${i}.png`;
+      piece.dataset.id = i;
+      piece.classList.add("mapPiece");
+
+      piece.addEventListener("click", () => handlePieceClick(piece));
+
+      mapPiecesContainer.appendChild(piece);
+    }
+  }
+
+  /* 🎯 gestion clic pièce */
+  function handlePieceClick(piece) {
+
+    const id = piece.dataset.id;
+
+    // bonne pièce
+    if (correctPieces.includes(id) && !foundPieces.includes(id)) {
+      foundPieces.push(id);
+      piece.style.opacity = "0.4";
+
+      if (foundPieces.length === correctPieces.length) {
+        showVictory();
+      }
+      return;
+    }
+
+    // ❌ MAUVAISE PIÈCE
     errorSound.play();
 
-    // 🔴 affiche erreur
-    errorMessage.classList.remove("hidden");
+    // texte clignotant
+    errorMessage.style.display = "block";
+    errorMessage.classList.remove("error-blink");
+    void errorMessage.offsetWidth;
+    errorMessage.classList.add("error-blink");
 
-    // ⏳ disparaît après 1.5s
+    // pièce secouée
+    piece.classList.remove("shake");
+    void piece.offsetWidth;
+    piece.classList.add("shake");
+  }
+
+  /* 🏆 VICTOIRE */
+  function showVictory() {
+    mapGame.style.display = "none";
+    victoryScreen.style.display = "flex";
+
     setTimeout(() => {
-      errorMessage.classList.add("hidden");
+      videoContainer.style.display = "block";
+      mainVideo.play();
     }, 1500);
-
-    order = [];
-    mapPieces.querySelectorAll(".map-piece-wrapper").forEach(w => {
-      w.classList.remove("active");
-      w.querySelector(".map-piece").classList.add("inactive");
-      const num = w.querySelector(".order-number");
-      if (num) num.remove();
-    });
-    return;
   }
 
-  // 🎉 victoire
-  mapGame.style.display = "none";
-  victory.style.display = "flex";
+  /* 🎥 fermeture vidéo → fin cinématique */
+  closeVideo.addEventListener("click", () => {
+    mainVideo.pause();
+    videoContainer.style.display = "none";
+  });
 
-  setTimeout(() => {
-    victory.style.display = "none";
-    launchVideo();
-  }, 2000);
-}
-
-/* ===================== VIDÉO ===================== */
-
-function launchVideo() {
-  videoContainer.style.display = "flex";
-  video.currentTime = 0;
-  video.play().catch(() => {});
-}
-
-soundToggle.onclick = () => {
-  video.muted = !video.muted;
-  soundToggle.textContent = video.muted ? "🔇" : "🔉";
-};
-
-video.addEventListener("click", async () => {
-  if (!document.fullscreenElement) {
-    if (video.requestFullscreen) await video.requestFullscreen();
-  } else {
-    if (document.exitFullscreen) await document.exitFullscreen();
-  }
 });
-
-video.onended = goToMenu;
-closeVideo.onclick = goToMenu;
-
-function goToMenu() {
-  cinematicFade.classList.add("active");
-  setTimeout(() => {
-    window.location.href = "menu.html";
-  }, 1200);
-}
-
-/* ===================== SHUFFLE ===================== */
-
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-}
