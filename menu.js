@@ -24,10 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
     pirate1.classList.add("unlocked", "glow");
 
     // Affichage notification
-    notification.classList.add("show");
-    setTimeout(() => {
-      notification.classList.remove("show");
-    }, 2500);
+notification.classList.add("show"); // descend grâce au CSS
+
+// Remonte après 2,5 secondes
+setTimeout(() => {
+    notification.classList.remove("show"); // retour hors écran
+}, 2500);
 
     // Affichage bulle
     bubble.style.display = "block";
