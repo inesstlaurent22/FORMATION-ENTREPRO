@@ -178,6 +178,9 @@ html, body {
   width: auto;
   animation: mapFlash 1.5s ease;
   filter: drop-shadow(0 0 25px gold);
+
+  transform-origin: center;
+  transform: scaleY(1); /* 👉 hauteur x2, largeur identique */
 }
 
 /* ===================== */
