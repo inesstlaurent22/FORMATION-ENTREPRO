@@ -1,145 +1,192 @@
-/* FOND */
-#background{
-  position:fixed;
-  inset:0;
-  background-image:url("images/Fondmenu.PNG");
-  background-size:cover;
-  background-position:center;
-  z-index:1;
+/* ================================================= */
+/* 🎨 FOND MENU */
+/* ================================================= */
+#background {
+  position: fixed;
+  inset: 0;
+  background-image: url("images/Fondmenu.PNG");
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
 }
 
-/* PIRATES */
-.pirate{
-  position:absolute;
-  cursor:pointer;
-  z-index:5;
-  object-fit:contain;
+/* ================================================= */
+/* 🏴‍☠️ PIRATES */
+/* ================================================= */
+.pirate {
+  position: absolute;
+  cursor: pointer;
+  z-index: 5;
+  object-fit: contain;
+}
+
+/* Pirates bloqués */
+.pirate.locked {
+  filter: grayscale(100%) brightness(0.6);
+  opacity: 0.6;
+  pointer-events: none;
+  transition: none; /* pas d'animation au survol */
+}
+
+/* Pirates débloqués */
+.pirate.unlocked {
+  filter: none;
+  opacity: 1;
+  pointer-events: auto;
   transition: transform .25s ease, filter .25s ease;
 }
 
-/* déblocage / verrouillage */
-.locked{
-  filter:grayscale(100%) brightness(.6);
-  opacity:.6;
-  pointer-events:none;
-}
-
-.unlocked{
-  filter:none;
-  opacity:1;
-  pointer-events:auto;
-}
-
-/* zoom léger */
-.unlocked:hover{
-  transform:scale(1.08);
-}
-
-/* 🌟 HALO QUI SUIT LA FORME DU PNG */
-.glow{
-  filter:
-    drop-shadow(0 0 5px #ffef5a)
-    drop-shadow(0 0 12px #ffd200)
-    drop-shadow(0 0 22px #ff9f1c);
-}
-
-/* ===== POSITIONS ===== */
-#pirate1{
-  left:125px;
-  top:620px;
-  width:138px;
-}
-
-#pirate2{
-  left:880px;
-  top:680px;
-  width:186px;
-}
-
-#pirate3{
-  left:736px;
-  top:363px;
-  width:136px;
-}
-
-#pirate4{
-  left:1139px;
-  top:28px;
-  width:155px;
-}
-
-#pirate5{
-  left:240px;
-  top:200px;
-  width:163px;
-}
-
-/* 🔔 notification style iPhone */
-#notification{
-  position:fixed;
-  top:-140px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#ff9f1c;
-  color:white;
-  padding:14px 22px;
-  border-radius:18px;
-  font-size:17px;
-  font-weight:bold;
-  box-shadow:0 6px 18px rgba(0,0,0,.35);
-  z-index:200;
-  transition: top 1s ease;
-}
-
-#notification.show{
-  top:10%;
-}
-
-/* 💬 BULLE DU PIRATE 2 */
-#bubble{
-  position:absolute;
-  display:none;
-  max-width:480px;
-  padding:18px 20px;
-  background:white;
-  border:4px solid #77431b;
-  border-radius:14px;
-  font-weight:bold;
-  line-height:1.45;
-  z-index:150;
-  animation:bubblePop .4s ease-out forwards;
-}
-
-/* apparition bulle */
-@keyframes bubblePop{
-  from{transform:scale(.6);opacity:0;}
-  to{transform:scale(1);opacity:1;}
-}
-
-/* bouton iPhone */
-#bubbleButton{
-  margin-top:12px;
-  width:100%;
-  padding:10px 14px;
-  border-radius:12px;
-  border:2px solid #77431b;
-  background:#e6d2b3;
-  font-weight:bold;
-  cursor:pointer;
-  transition:transform .12s ease, background .2s ease;
-}
-
-#bubbleButton:active{
-  transform:scale(.92);
-  background:#c9b092;
-}
-
-/* Zoom et halo au survol pour pirate débloqué */
+/* Zoom et halo au survol pour pirates débloqués */
 .pirate.unlocked:hover {
   transform: scale(1.08);
   filter:
     drop-shadow(0 0 5px #ffef5a)
     drop-shadow(0 0 12px #ffd200)
     drop-shadow(0 0 22px #ff9f1c);
-  transition: transform .25s ease, filter .25s ease;
+}
+
+/* Glow permanent appliqué via JS */
+.glow {
+  filter:
+    drop-shadow(0 0 5px #ffef5a)
+    drop-shadow(0 0 12px #ffd200)
+    drop-shadow(0 0 22px #ff9f1c);
+}
+
+/* ================================================= */
+/* 📍 POSITIONS DES PIRATES */
+/* ================================================= */
+#pirate1 {
+  left: 125px;
+  top: 620px;
+  width: 138px;
+}
+
+#pirate2 {
+  left: 880px;
+  top: 680px;
+  width: 186px;
+}
+
+#pirate3 {
+  left: 736px;
+  top: 363px;
+  width: 136px;
+}
+
+#pirate4 {
+  left: 1139px;
+  top: 28px;
+  width: 155px;
+}
+
+#pirate5 {
+  left: 240px;
+  top: 200px;
+  width: 163px;
+}
+
+/* ================================================= */
+/* 🔔 NOTIFICATION STYLE IPHONE */
+/* ================================================= */
+#notification {
+  position: fixed;
+  top: -140px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff9f1c;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 18px;
+  font-size: 17px;
+  font-weight: bold;
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  z-index: 200;
+  transition: top 1s ease;
+}
+
+#notification.show {
+  top: 10%;
+}
+
+/* ================================================= */
+/* 💬 BULLE PIRATE 2 */
+/* ================================================= */
+#bubble {
+  position: absolute;
+  display: none;
+  max-width: 480px;
+  padding: 18px 20px;
+  background: white;
+  border: 4px solid #77431b;
+  border-radius: 14px;
+  font-weight: bold;
+  line-height: 1.45;
+  z-index: 150;
+  animation: bubblePop .4s ease-out forwards;
+}
+
+/* Animation apparition bulle */
+@keyframes bubblePop {
+  from { transform: scale(.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Bouton OK bulle */
+#bubbleButton {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 2px solid #77431b;
+  background: #e6d2b3;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform .12s ease, background .2s ease;
+}
+
+#bubbleButton:active {
+  transform: scale(.92);
+  background: #c9b092;
+}
+
+/* ================================================= */
+/* 📱 VERSION MOBILE */
+/* ================================================= */
+@media (max-width: 768px) {
+
+  #mapPieces {
+    gap: 12px;
+  }
+
+  .map-piece {
+    width: 80px; /* moitié de 160px */
+  }
+
+  #gameInstruction {
+    font-size: 1.1rem;
+  }
+
+  #attemptCounter {
+    font-size: 1rem;
+  }
+
+  /* Ajustement position pirates sur mobile si nécessaire */
+  #pirate1 { left: 80px; top: 550px; width: 110px; }
+  #pirate2 { left: 600px; top: 600px; width: 150px; }
+  #pirate3 { left: 500px; top: 300px; width: 110px; }
+  #pirate4 { left: 900px; top: 20px; width: 130px; }
+  #pirate5 { left: 150px; top: 150px; width: 120px; }
+
+  /* Notification mobile */
+  #notification {
+    font-size: 15px;
+    padding: 12px 18px;
+  }
+
+  /* Bulle mobile */
+  #bubble {
+    max-width: 320px;
+    padding: 14px 16px;
+  }
 }
