@@ -331,3 +331,22 @@ html, body {
   50% { opacity: 1; transform: scale(1.1); filter: brightness(2); }
   100% { transform: scale(1); filter: brightness(1); }
 }
+/* 📱 VERSION MOBILE — pièces mini-jeu plus petites */
+@media (max-width: 768px) {
+
+  #mapPieces {
+    gap: 12px;
+  }
+
+  .map-piece {
+    width: 80px; /* moitié de 160px */
+  }
+
+  #gameInstruction {
+    font-size: 1.1rem;
+  }
+
+  #attemptCounter {
+    font-size: 1rem;
+  }
+}
