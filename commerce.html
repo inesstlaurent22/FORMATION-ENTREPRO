@@ -2,45 +2,33 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <title>Vidéo Quête</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QUÊTE 1 : COMMERCE</title>
   <link rel="stylesheet" href="commerce.css">
 </head>
-
 <body>
 
-<div class="Fondcom">
+  <!-- Fond -->
+  <div id="background"></div>
 
-  <!-- FOND COLORÉ -->
-  <img src="images/Commercefond.PNG" class="fondcom" alt="Fond">
-
-  <!-- OVERLAY CINÉMATIQUE FADE-OUT -->
-  <div id="cinematicFadecom"></div>
-
-  <!-- OVERLAY GRISÉ NOIR PENDANT LA VIDÉO -->
-  <div id="grayOverlay"></div>
-
-  <!-- VIDÉO -->
-  <div id="videoContainercom">
-    <button id="closeVideocom">✕</button>
-    <button id="soundButtoncom">🔇</button>
-
-    <video
-      id="comVideo"
-      playsinline
-      muted
-      preload="auto"
-    >
-      <source src="video/Commercevideo.MOV" type="video/mp4">
+  <!-- Vidéo -->
+  <div id="videoContainer">
+    <video id="questVideo" preload="auto">
+      <source src="video/quest.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la vidéo.
     </video>
+    <div id="videoControls">
+      <button id="toggleSound">🔊</button>
+      <button id="closeVideo">✖</button>
+    </div>
   </div>
 
-  <!-- BOUTONS APRÈS LA VIDÉO -->
-  <button id="validateBtn">TERMINER LA QUÊTE</button>
-  <button id="replayBtn">Revoir la vidéo</button>
+  <!-- Boutons après vidéo -->
+  <div id="buttonsContainer">
+    <button id="replayVideo">Revoir la vidéo</button>
+    <button id="finishQuest">Terminer la quête</button>
+  </div>
 
-</div>
-
-<script src="commerce.js"></script>
+  <script src="commerce.js"></script>
 </body>
 </html>
