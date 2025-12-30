@@ -1,7 +1,3 @@
-/* ============================
-   🎯 COMMERCE – LOGIQUE DE QUÊTE
-   ============================ */
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const video = document.getElementById("comVideo");
@@ -10,14 +6,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const validateBtn = document.getElementById("validateBtn");
   const videoContainer = document.getElementById("videoContainercom");
   const cinematicFade = document.getElementById("cinematicFadecom");
+  const grayOverlay = document.getElementById("grayOverlay");
+
+  // si la vidéo a déjà été vue, montrer bouton directement
+  if (localStorage.getItem("commerce_video_seen") === "true") {
+    grayOverlay.style.opacity = 0;
+    validateBtn.style.display = "block";
+    return;
+  }
 
   if (!video) {
     console.error("⚠️ Video introuvable");
     return;
   }
 
-  /* ========= FADE-IN VIDÉO ========= */
+  /* ========= FADE-IN VIDÉO + grisage fond ========= */
   function showVideo() {
+    grayOverlay.style.opacity = 1; // griser le fond
     videoContainer.style.display = "flex";
     videoContainer.style.opacity = 0;
     video.currentTime = 0;
@@ -31,11 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 30);
   }
 
-  /* ========= FADE-OUT + RETOUR MENU ========= */
-  function goToMenu() {
+  /* ========= FADE-OUT + RECHARGE PAGE ========= */
+  function endVideo() {
+    localStorage.setItem("commerce_video_seen", "true");
+
     cinematicFade.classList.add("active");
     setTimeout(() => {
-      window.location.href = "menu.html";
+      window.location.reload(); // recharge la page pour montrer le fond coloré et bouton
     }, 1200);
   }
 
@@ -46,19 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ========= FERMER VIDÉO ========= */
-  closeBtn?.addEventListener("click", goToMenu);
+  closeBtn?.addEventListener("click", endVideo);
+
+  /* ========= FIN VIDÉO ========= */
+  video.addEventListener("ended", endVideo);
 
   /* ========= VALIDATION QUÊTE ========= */
-  function validateCommerceQuest() {
+  validateBtn?.addEventListener("click", () => {
     localStorage.setItem("task_commerce_done", "true");
-    goToMenu();
-  }
+    window.location.href = "menu.html";
+  });
 
-  validateBtn?.addEventListener("click", validateCommerceQuest);
-
-  /* ========= AUTO VALIDATION À FIN VIDÉO ========= */
-  video.addEventListener("ended", validateCommerceQuest);
-
-  /* ========= LANCER VIDÉO AVEC FADE-IN ========= */
+  /* ========= LANCER VIDÉO ========= */
   showVideo();
 });
