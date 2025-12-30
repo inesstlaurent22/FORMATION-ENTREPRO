@@ -124,25 +124,6 @@
   z-index: 250;
 }
 
-/* CRÂNES ET OS décoratifs */
-#bubble::before {
-  content: "☠ ☠ ☠";
-  position: absolute;
-  top: -22px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 20px;
-}
-
-#bubble::after {
-  content: "⚔ ⚔";
-  position: absolute;
-  bottom: -22px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 18px;
-}
-
 /* Pointe */
 #bubble > .tail {
   position: absolute;
