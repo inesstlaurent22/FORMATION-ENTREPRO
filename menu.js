@@ -18,52 +18,45 @@ document.addEventListener("DOMContentLoaded", () => {
     p.style.pointerEvents = "none";
   });
 
-  // --- Vérifier si le clic vient de se produire ---
+  // --- Vérifier si le clic sur pirate2 vient de se produire ---
   if (sessionStorage.getItem("showBubble") === "yes") {
 
-    // pirate 1 devient débloqué
+    // Débloquer pirate1
     pirate1.classList.remove("locked");
     pirate1.classList.add("unlocked", "glow");
 
     // --- Notification ---
-    notification.textContent = "Un nouveau pirate est débloqué";
-    notification.classList.add("show");
+    notification.classList.add("show"); // descend
 
-    // remonter après 2,5 secondes
     setTimeout(() => {
-      notification.classList.remove("show");
+      notification.classList.remove("show"); // remonte après 2,5s
     }, 2500);
 
-// --- Affichage bulle centrée au-dessus du pirate2 ---
-bubble.style.display = "block"; // on rend la bulle visible
+    // --- Affichage bulle centrée sur pirate2 ---
+    bubble.style.display = "block";
 
-// Utiliser setTimeout 0 pour laisser le navigateur calculer le rendu et la taille
-setTimeout(() => {
-  const pirateRect = pirate2.getBoundingClientRect();
-  const bubbleRect = bubble.getBoundingClientRect();
+    setTimeout(() => {
+      const pirateRect = pirate2.getBoundingClientRect();
+      const bubbleRect = bubble.getBoundingClientRect();
 
-  // centrer horizontalement par rapport au pirate2
-  bubble.style.left = (pirateRect.left + pirateRect.width / 2 + window.scrollX) + "px";
+      bubble.style.left = (pirateRect.left + pirateRect.width / 2 + window.scrollX) + "px";
+      bubble.style.top = (pirateRect.top - bubbleRect.height - 20 + window.scrollY) + "px";
+      bubble.style.transform = "translate(-50%, 0)";
 
-  // placer juste au-dessus du pirate
-  bubble.style.top = (pirateRect.top - bubbleRect.height - 20 + window.scrollY) + "px";
+      // relancer animation machine à écrire
+      const bubbleText = document.getElementById("bubbleText");
+      if(bubbleText){
+        bubbleText.style.width = "0";
+        bubbleText.offsetWidth; // force recalcul
+        bubbleText.style.animation = "typing 4s steps(50, end), blink-caret .75s step-end infinite";
+      }
 
-  // centrer avec transform
-  bubble.style.transform = "translate(-50%, 0)";
-  
-  // lancer l'animation machine à écrire si elle existe
-  const bubbleText = document.getElementById("bubbleText");
-  if(bubbleText){
-    bubbleText.style.width = "0"; // reset au cas où
-    bubbleText.offsetWidth; // force recalcul
-    bubbleText.style.animation = "typing 4s steps(50, end), blink-caret .75s step-end infinite";
+    }, 0);
+
+    // nettoyage session
+    sessionStorage.removeItem("showBubble");
   }
 
-}, 0);
-
-// nettoyage session
-sessionStorage.removeItem("showBubble");
-    
   // --- Clic sur pirate2 ---
   pirate2.addEventListener("click", () => {
     sessionStorage.setItem("showBubble", "yes");
