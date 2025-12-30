@@ -16,47 +16,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const bubbleContainer = document.getElementById("bubbleContainer");
 
-  /* ========================= */
-  /* AU CHARGEMENT : vidéo */
-  /* ========================= */
+ /* ========================================================
+      1️⃣ AU CHARGEMENT : ON MONTRE LA VIDÉO
+  ======================================================== */
+  pirate2bis.style.display = "none";
+  pirate5bis.style.display = "none";
+  replayVideo.style.display = "none";
+  finishQuest.style.display = "none";
+
+  questVideo.muted = true;
+  questVideo.currentTime = 0;
 
   setTimeout(() => {
     videoContainer.classList.add("show");
-    questVideo.play();
-  }, 150);
-
-  function showScene() {
-    videoContainer.style.display = "none";
-
-    buttonsContainer.style.display = "flex";
-
-    background.classList.add("show");
-  }
-
-  questVideo.addEventListener("ended", showScene);
-
-  closeVideo.addEventListener("click", () => {
-    questVideo.pause();
-    showScene();
-  });
-
-  toggleSound.addEventListener("click", () => {
-    questVideo.muted = !questVideo.muted;
-    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  });
-
-  replayVideo.addEventListener("click", () => {
-    videoContainer.style.display = "flex";
-    background.classList.remove("show");
-    buttonsContainer.style.display = "none";
-    questVideo.currentTime = 0;
-    questVideo.play();
-    setTimeout(() => videoContainer.classList.add("show"), 50);
-  });
-
-  finishQuest.addEventListener("click", () => {
-    alert("Quête terminée !");
-  });
+    questVideo.play().catch(()=>{});
+  }, 50);
 
   /* ========================= */
   /* SYSTEME BULLES DIALOGUES */
