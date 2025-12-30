@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Clic pirate1 ---
   pirate1.addEventListener("click", () => {
     if(pirate1.classList.contains("locked")) return;
-    window.open("commerce.html", "_blank");
+    window.location.href = "commerce.html"; // charge sur le même onglet
   });
 
 });
