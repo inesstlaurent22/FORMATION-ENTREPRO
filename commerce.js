@@ -38,13 +38,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 30);
   }
 
-  /* ========= FADE-OUT + RECHARGE PAGE ========= */
+  /* ========= FADE-OUT + AFFICHAGE BOUTONS ========= */
   function endVideo() {
     localStorage.setItem("commerce_video_seen", "true");
 
     cinematicFade.classList.add("active");
     setTimeout(() => {
-      window.location.reload();
+      videoContainer.style.display = "none";
+      grayOverlay.style.opacity = 0;
+      cinematicFade.classList.remove("active");
+      validateBtn.style.display = "block";
+      replayBtn.style.display = "block";
     }, 1200);
   }
 
@@ -68,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ========= REVOIR LA VIDÉO ========= */
   replayBtn?.addEventListener("click", () => {
-    localStorage.removeItem("commerce_video_seen");
     showVideo();
     validateBtn.style.display = "none";
     replayBtn.style.display = "none";
