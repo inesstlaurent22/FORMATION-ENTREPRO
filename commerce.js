@@ -112,9 +112,14 @@ document.addEventListener("DOMContentLoaded", () => {
     questVideo.play();
   });
 
-  finishQuest.addEventListener("click", () => {
-    alert("Quête terminée !");
-  });
+finishQuest.addEventListener("click", () => {
+
+  // ➕ on enregistre que la quête est finie
+  localStorage.setItem("pirate3_unlocked", "true");
+
+  // ➡️ on va vers le menu
+  window.location.href = "menu.html";
+});
 
   /* ========================================================
         4️⃣ DIALOGUES PIRATES
