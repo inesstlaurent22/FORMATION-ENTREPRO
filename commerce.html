@@ -8,30 +8,29 @@
 </head>
 <body>
 
-  <!-- Fond -->
+  <!-- 🌌 Fond (masqué au début) -->
   <div id="background"></div>
 
-  <!-- Pirates -->
-  <img id="pirate2bis" class="pirate locked" src="images/Pirate2.png" alt="">
-  <img id="pirate5bis" class="pirate locked" src="images/Pirate5.png" alt="">
+  <!-- 🏴‍☠️ Pirates -->
+  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
+  <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
 
-  <!-- Vidéo -->
+  <!-- 🎬 Vidéo au lancement -->
   <div id="videoContainer">
     <video id="questVideo" preload="auto">
       <source src="video/Commercevideo.MOV" type="video/mp4">
       Votre navigateur ne supporte pas la vidéo.
     </video>
+
     <div id="videoControls">
       <button id="toggleSound">🔊</button>
       <button id="closeVideo">✖</button>
     </div>
   </div>
 
-  <!-- Boutons après vidéo -->
-  <div id="buttonsContainer">
-    <button id="replayVideo">Revoir la vidéo</button>
-    <button id="finishQuest">Terminer la quête</button>
-  </div>
+  <!-- 🎛 Boutons après vidéo -->
+  <button id="replayVideo" class="topLeft">Revoir la vidéo</button>
+  <button id="finishQuest" class="topRight">Terminer la quête</button>
 
   <script src="commerce.js"></script>
 </body>
