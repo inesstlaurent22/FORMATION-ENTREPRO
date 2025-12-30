@@ -113,7 +113,7 @@ body {
 #pirate5bis {
   left: 786px;
   top: 360px;
-  width: 180px;   /* 🔼 augmenté */
+  width: 180px;
   height: 180px;
 }
 
@@ -205,4 +205,18 @@ body {
 .pirate-button:active {
   transform: translateY(2px);
   box-shadow: 0 1px 0 #3b1b00;
+}
+
+/* ========================= */
+/* BOUTONS PIRATES SPÉCIFIQUES (TAILLE AJUSTÉE) */
+/* ========================= */
+
+#pirate2bis .pirate-button {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+#pirate5bis .pirate-button {
+  padding: 6px 10px;
+  font-size: 14px;
 }
