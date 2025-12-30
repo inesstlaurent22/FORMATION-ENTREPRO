@@ -9,46 +9,56 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.getElementById("closeVideocom");
   const validateBtn = document.getElementById("validateBtn");
   const videoContainer = document.getElementById("videoContainercom");
+  const cinematicFade = document.getElementById("cinematicFadecom");
 
-  /* ========= SECURITÉ ========= */
   if (!video) {
     console.error("⚠️ Video introuvable");
     return;
   }
 
+  /* ========= FADE-IN VIDÉO ========= */
+  function showVideo() {
+    videoContainer.style.display = "flex";
+    videoContainer.style.opacity = 0;
+    video.currentTime = 0;
+    video.play().catch(() => {});
+
+    let opacity = 0;
+    const fadeInInterval = setInterval(() => {
+      opacity += 0.05;
+      videoContainer.style.opacity = opacity;
+      if (opacity >= 1) clearInterval(fadeInInterval);
+    }, 30);
+  }
+
+  /* ========= FADE-OUT + RETOUR MENU ========= */
+  function goToMenu() {
+    cinematicFade.classList.add("active");
+    setTimeout(() => {
+      window.location.href = "menu.html";
+    }, 1200);
+  }
+
   /* ========= SON ON/OFF ========= */
   soundBtn?.addEventListener("click", () => {
-
     video.muted = !video.muted;
-
-    if (video.muted) {
-      soundBtn.textContent = "🔇";
-    } else {
-      soundBtn.textContent = "🔊";
-    }
+    soundBtn.textContent = video.muted ? "🔇" : "🔊";
   });
 
-  /* ========= FERMER VIDÉO VISUELLEMENT ========= */
-  closeBtn?.addEventListener("click", () => {
-    videoContainer.style.display = "none";
-  });
+  /* ========= FERMER VIDÉO ========= */
+  closeBtn?.addEventListener("click", goToMenu);
 
   /* ========= VALIDATION QUÊTE ========= */
   function validateCommerceQuest() {
-
-    // sauvegarde progression
     localStorage.setItem("task_commerce_done", "true");
-
-    // retour au menu
-    window.location.href = "menu.html";
+    goToMenu();
   }
 
-  /* ========= BOUTON "TERMINER LA QUÊTE" ========= */
   validateBtn?.addEventListener("click", validateCommerceQuest);
 
   /* ========= AUTO VALIDATION À FIN VIDÉO ========= */
-  video.addEventListener("ended", () => {
-    validateCommerceQuest();
-  });
+  video.addEventListener("ended", validateCommerceQuest);
 
+  /* ========= LANCER VIDÉO AVEC FADE-IN ========= */
+  showVideo();
 });
