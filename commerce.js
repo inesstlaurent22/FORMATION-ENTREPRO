@@ -143,4 +143,18 @@ document.addEventListener("DOMContentLoaded", () => {
     createBubble(dialogues[0]);
   });
 
+  // montrer les pirates et boutons
+pirate2bis.style.display = "block";
+pirate5bis.style.display = "block";
+replayVideo.style.display = "block";
+finishQuest.style.display = "block";
+
+// 🔹 Ajustement des tailles
+pirate2bis.style.transform = "scale(2)";    // double taille pour pirate2bis
+pirate5bis.style.transform = "scale(1.5)";  // 1,5 fois pour pirate5bis
+
+// 🔹 Centrer la transformation
+pirate2bis.style.transformOrigin = "center center";
+pirate5bis.style.transformOrigin = "center center";
+
 });
