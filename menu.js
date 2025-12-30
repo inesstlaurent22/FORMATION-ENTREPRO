@@ -34,22 +34,36 @@ document.addEventListener("DOMContentLoaded", () => {
       notification.classList.remove("show");
     }, 2500);
 
-    // --- Affichage bulle au-dessus du pirate2 ---
-    bubble.style.display = "block";
+// --- Affichage bulle centrée au-dessus du pirate2 ---
+bubble.style.display = "block"; // on rend la bulle visible
 
-    // calculer position centrée
-    const pirateRect = pirate2.getBoundingClientRect();
-    const bubbleRect = bubble.getBoundingClientRect();
+// Utiliser setTimeout 0 pour laisser le navigateur calculer le rendu et la taille
+setTimeout(() => {
+  const pirateRect = pirate2.getBoundingClientRect();
+  const bubbleRect = bubble.getBoundingClientRect();
 
-    bubble.style.left = (pirateRect.left + pirateRect.width / 2) + "px";
-    bubble.style.top = (pirateRect.top - bubbleRect.height - 20 + window.scrollY) + "px";
+  // centrer horizontalement par rapport au pirate2
+  bubble.style.left = (pirateRect.left + pirateRect.width / 2 + window.scrollX) + "px";
 
-    // transform pour centrer parfaitement
-    bubble.style.transform = "translate(-50%, 0)";
+  // placer juste au-dessus du pirate
+  bubble.style.top = (pirateRect.top - bubbleRect.height - 20 + window.scrollY) + "px";
 
-    sessionStorage.removeItem("showBubble");
+  // centrer avec transform
+  bubble.style.transform = "translate(-50%, 0)";
+  
+  // lancer l'animation machine à écrire si elle existe
+  const bubbleText = document.getElementById("bubbleText");
+  if(bubbleText){
+    bubbleText.style.width = "0"; // reset au cas où
+    bubbleText.offsetWidth; // force recalcul
+    bubbleText.style.animation = "typing 4s steps(50, end), blink-caret .75s step-end infinite";
   }
 
+}, 0);
+
+// nettoyage session
+sessionStorage.removeItem("showBubble");
+    
   // --- Clic sur pirate2 ---
   pirate2.addEventListener("click", () => {
     sessionStorage.setItem("showBubble", "yes");
