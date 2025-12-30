@@ -56,11 +56,11 @@
 /* ================================================= */
 /* 📍 POSITIONS DES PIRATES */
 /* ================================================= */
-#pirate1 { left: 180px; top: 500px; width: 163px; height: 235px; }
-#pirate2 { left: 896px; top: 682px; width: 186px; height: 178px; }
+#pirate1 { left: 190px; top: 500px; width: 163px; height: 235px; }   /* +10px droite */
+#pirate2 { left: 886px; top: 672px; width: 186px; height: 178px; }   /* -10px gauche, -10px haut */
 #pirate3 { left: 736px; top: 355px; width: 133px; height: 217px; }
-#pirate5 { left: 240px; top: 195px; width: 163px; height: 235px; }
-#pirate4 { left: 1025px; top: 28px; width: 163px; height: 235px; }
+#pirate5 { left: 240px; top: 190px; width: 163px; height: 235px; }  /* -5px haut */
+#pirate4 { left: 1025px; top: 23px; width: 163px; height: 235px; }  /* -5px haut */
 
 /* ================================================= */
 /* 🔔 NOTIFICATION STYLE IPHONE */
