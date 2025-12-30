@@ -18,26 +18,39 @@ document.addEventListener("DOMContentLoaded", () => {
     p.style.pointerEvents = "none";
   });
 
-  // --- Vérifier si le clic vient de se produire ---
-  if(sessionStorage.getItem("showBubble") === "yes") {
-    pirate1.classList.remove("locked");
-    pirate1.classList.add("unlocked", "glow");
+// --- Vérifier si le clic vient de se produire ---
+if (sessionStorage.getItem("showBubble") === "yes") {
 
-    // Affichage notification
-notification.classList.add("show"); // descend grâce au CSS
+  // pirate 1 devient débloqué
+  pirate1.classList.remove("locked");
+  pirate1.classList.add("unlocked", "glow");
 
-// Remonte après 2,5 secondes
-setTimeout(() => {
-    notification.classList.remove("show"); // retour hors écran
-}, 2500);
+  // --- Notification ---
+  notification.classList.add("show");
 
-    // Affichage bulle
-    bubble.style.display = "block";
-    bubble.style.left = (pirate2.offsetLeft - 40) + "px";
-    bubble.style.top = (pirate2.offsetTop - 140) + "px";
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 2500);
 
-    sessionStorage.removeItem("showBubble");
-  }
+  // --- Affichage bulle au-dessus du pirate 2 ---
+  bubble.style.display = "block";
+
+  // Oblige le navigateur à calculer la taille de la bulle
+  const pirateRect = pirate2.getBoundingClientRect();
+  const bubbleRect = bubble.getBoundingClientRect();
+
+  // centrer horizontalement
+  bubble.style.left = (pirateRect.left + pirateRect.width / 2) + "px";
+
+  // placer juste au-dessus
+  bubble.style.top = (pirateRect.top - bubbleRect.height - 20 + window.scrollY) + "px";
+
+  // recentrage avec transform utilisé en CSS
+  bubble.style.transform = "translate(-50%, 0)";
+
+  // nettoyage session
+  sessionStorage.removeItem("showBubble");
+}
 
   // --- Clic sur pirate2 ---
   pirate2.addEventListener("click", () => {
