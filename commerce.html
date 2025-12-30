@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Commerce Quête</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="commerce.css">
+  <meta charset="UTF-8" />
+  <title>Quête Commerce</title>
+  <link rel="stylesheet" href="commerce.css" />
 </head>
+
 <body>
 
-  <!-- 🌌 Fond (masqué au début) -->
-  <div id="background"></div>
+<div id="videoContainer" class="hidden">
+  <video id="questVideo" src="videos/commerce.mp4"></video>
 
-  <!-- 🏴‍☠️ Pirates -->
-  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
-  <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
-
-  <!-- 🎬 Vidéo au lancement -->
-  <div id="videoContainer">
-    <video id="questVideo" preload="auto">
-      <source src="video/Commercevideo.MOV" type="video/mp4">
-      Votre navigateur ne supporte pas la vidéo.
-    </video>
-
-    <div id="videoControls">
-      <button id="toggleSound">🔊</button>
-      <button id="closeVideo">✖</button>
-    </div>
+  <div id="videoControls">
+    <button id="toggleSound">🔊</button>
+    <button id="closeVideo">✖</button>
   </div>
+</div>
 
-  <!-- 🎛 Boutons après vidéo -->
-  <button id="replayVideo" class="topLeft">Revoir la vidéo</button>
-  <button id="finishQuest" class="topRight">Terminer la quête</button>
+<!-- BOUTONS -->
+<div id="buttonsContainer" class="hiddenButtons">
+  <button id="replayVideo" class="topLeft">⟲ Revoir la vidéo</button>
+  <button id="finishQuest" class="topRight">🚩 Terminer la quête</button>
+</div>
 
-  <script src="commerce.js"></script>
+<!-- FOND -->
+<div id="background">
+  <img src="images/Commercefond.PNG" class="fondImage">
+
+  <!-- PIRATES -->
+  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
+  <img id="pirate5bis" class="pirate glow" src="images/Pirate5.png">
+
+</div>
+
+<!-- BULLES -->
+<div id="bubbleContainer"></div>
+
+<script src="commerce.js"></script>
+
 </body>
 </html>
