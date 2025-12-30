@@ -4,14 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const soundBtn = document.getElementById("soundButtoncom");
   const closeBtn = document.getElementById("closeVideocom");
   const validateBtn = document.getElementById("validateBtn");
+  const replayBtn = document.getElementById("replayBtn");
   const videoContainer = document.getElementById("videoContainercom");
   const cinematicFade = document.getElementById("cinematicFadecom");
   const grayOverlay = document.getElementById("grayOverlay");
 
-  // si la vidéo a déjà été vue, montrer bouton directement
+  /* ========= SI VIDÉO DÉJÀ VUE ========= */
   if (localStorage.getItem("commerce_video_seen") === "true") {
     grayOverlay.style.opacity = 0;
     validateBtn.style.display = "block";
+    replayBtn.style.display = "block";
     return;
   }
 
@@ -20,9 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  /* ========= FADE-IN VIDÉO + grisage fond ========= */
+  /* ========= FADE-IN VIDÉO ET GRISAGE ========= */
   function showVideo() {
-    grayOverlay.style.opacity = 1; // griser le fond
+    grayOverlay.style.opacity = 1;
     videoContainer.style.display = "flex";
     videoContainer.style.opacity = 0;
     video.currentTime = 0;
@@ -42,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cinematicFade.classList.add("active");
     setTimeout(() => {
-      window.location.reload(); // recharge la page pour montrer le fond coloré et bouton
+      window.location.reload();
     }, 1200);
   }
 
@@ -62,6 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
   validateBtn?.addEventListener("click", () => {
     localStorage.setItem("task_commerce_done", "true");
     window.location.href = "menu.html";
+  });
+
+  /* ========= REVOIR LA VIDÉO ========= */
+  replayBtn?.addEventListener("click", () => {
+    localStorage.removeItem("commerce_video_seen");
+    showVideo();
+    validateBtn.style.display = "none";
+    replayBtn.style.display = "none";
   });
 
   /* ========= LANCER VIDÉO ========= */
