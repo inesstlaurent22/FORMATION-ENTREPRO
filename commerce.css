@@ -1,42 +1,108 @@
-/* =============================================== */
-/* GLOBAL : pas de scroll */
-html, body {
+/* ========================= */
+/* PAGE */
+/* ========================= */
+
+body {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   background: black;
-  font-family: Arial, sans-serif;
+  font-family: "Trebuchet MS", Arial, sans-serif;
 }
 
-/* =============================================== */
-/* 🌌 Fond */
-#background {
+/* ========================= */
+/* VIDEO */
+/* ========================= */
+
+#videoContainer {
   position: fixed;
   inset: 0;
-  background-image: url("images/Commercefond.PNG");
-  background-size: cover;
-  background-position: center;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
-  transition: opacity 1s ease;
-  z-index: 1;
+  transition: opacity .6s;
+  z-index: 1000;
+}
+
+#videoContainer.show {
+  opacity: 1;
+}
+
+#questVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#videoControls {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+#videoControls button {
+  font-size: 22px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* ========================= */
+/* FOND */
+/* ========================= */
+
+#background {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  transition: opacity .8s ease;
 }
 
 #background.show {
   opacity: 1;
 }
 
-/* =============================================== */
-/* 🏴‍☠️ Pirates */
-.pirate {
-  position: absolute;
-  display: none; /* cachés tant que vidéo pas finie */
-  z-index: 5;
-  object-fit: contain;
+.fondImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* positions demandées */
+/* ========================= */
+/* BOUTONS */
+/* ========================= */
+
+#buttonsContainer {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  display: none;
+  justify-content: space-between;
+  z-index: 900;
+}
+
+.topLeft {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.topRight {
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+/* ========================= */
+/* PIRATES */
+/* ========================= */
+
+.pirate {
+  position: absolute;
+  cursor: pointer;
+  z-index: 20;
+}
+
+/* tailles + positions demandées */
 #pirate2bis {
   left: 517px;
   top: 406px;
@@ -46,69 +112,71 @@ html, body {
 
 #pirate5bis {
   left: 786px;
-  top: 397px;
-  width: 143px;
-  height: 143px;
+  top: 360px;
+  width: 180px;   /* 🔼 augmenté */
+  height: 180px;
 }
 
-/* =============================================== */
-/* 🎬 Vidéo au début */
-#videoContainer {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,.9);
-  opacity: 0;
-  transition: opacity 1s ease;
-  z-index: 200;
+/* ========================= */
+/* ✨ HALO LUMINEUX */
+/* ========================= */
+
+.glow {
+  animation: haloPulse 1.6s infinite ease-in-out;
+  filter: drop-shadow(0 0 0px rgba(255, 255, 0, 0.0));
 }
 
-#videoContainer.show {
-  opacity: 1;
+@keyframes haloPulse {
+  0% {
+    filter: drop-shadow(0 0 0px rgba(255,255,0,0.0));
+  }
+  50% {
+    filter: drop-shadow(0 0 25px rgba(255,255,120,0.9));
+  }
+  100% {
+    filter: drop-shadow(0 0 0px rgba(255,255,0,0.0));
+  }
 }
 
-#questVideo {
-  max-width: 92%;
-  max-height: 92%;
-  border-radius: 14px;
-  border: 4px solid #5a3b15;
-}
+/* ========================= */
+/* BULLES */
+/* ========================= */
 
-/* =============================================== */
-/* 🔊 / ✖ contrôles vidéo */
-#videoControls {
+.bubble {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 12px;
+  max-width: 360px;
+  background: white;
+  border-radius: 18px;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.35;
+  box-shadow: 0 4px 14px rgba(0,0,0,.3);
+  animation: pop .25s ease;
 }
 
-#videoControls button {
-  font-size: 20px;
-  padding: 8px 12px;
-  border-radius: 12px;
-  border: 2px solid #5a3b15;
-  background: #e6d2b3;
+@keyframes pop {
+  from { transform: scale(.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.bubble .name {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.bubble button {
+  display: block;
+  margin-top: 8px;
   cursor: pointer;
 }
 
-/* =============================================== */
-/* 🎛 Boutons après vidéo */
-#replayVideo,
-#finishQuest {
-  position: fixed;
-  display: none;
-  padding: 8px 14px;
-  border-radius: 12px;
-  border: 2px solid #5a3b15;
-  background: #e6d2b3;
-  z-index: 20;
-  font-size: 14px;
-  cursor: pointer;
+/* petites flèches triangle */
+.bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -14px;
+  left: 25px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
 }
-
-.topLeft { top: 15px; left: 15px; }
-.topRight { top: 15px; right: 15px; }
