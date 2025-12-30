@@ -10,61 +10,92 @@ document.addEventListener("DOMContentLoaded", () => {
   const bubble = document.getElementById("bubble");
   const bubbleButton = document.getElementById("bubbleButton");
 
-  // --- Initialisation : pirates bloqués/débloqués ---
+  /* ==========================================================
+      1️⃣ ÉTAT PAR DÉFAUT DES PIRATES
+  ========================================================== */
+
   pirate1.classList.add("locked");
   pirate2.classList.add("unlocked");
+
+  // pirates 3–5 verrouillés par défaut
   [pirate3, pirate4, pirate5].forEach(p => {
     p.classList.add("locked");
     p.style.pointerEvents = "none";
   });
 
-  // --- Vérifier si le clic vient de se produire ---
+  /* ==========================================================
+      2️⃣ DÉBLOCAGE PIRATE 1 APRÈS CLIC SUR PIRATE 2
+  ========================================================== */
+
   if (sessionStorage.getItem("showBubble") === "yes") {
 
-    // pirate 1 devient débloqué
     pirate1.classList.remove("locked");
     pirate1.classList.add("unlocked", "glow");
 
-    // --- Notification ---
     notification.textContent = "Un nouveau pirate est débloqué";
     notification.classList.add("show");
 
-    // remonter après 2,5 secondes
     setTimeout(() => {
       notification.classList.remove("show");
     }, 2500);
 
-    // --- Affichage bulle au-dessus du pirate2 ---
+    // bulle placée au-dessus du pirate 2
     bubble.style.display = "block";
 
-    // calculer position centrée
     const pirateRect = pirate2.getBoundingClientRect();
     const bubbleRect = bubble.getBoundingClientRect();
 
     bubble.style.left = (pirateRect.left + pirateRect.width / 2) + "px";
     bubble.style.top = (pirateRect.top - bubbleRect.height - 20 + window.scrollY) + "px";
-
-    // transform pour centrer parfaitement
     bubble.style.transform = "translate(-50%, 0)";
 
     sessionStorage.removeItem("showBubble");
   }
 
-  // --- Clic sur pirate2 ---
   pirate2.addEventListener("click", () => {
     sessionStorage.setItem("showBubble", "yes");
     window.location.reload();
   });
 
-  // --- Bouton OK bulle ---
   bubbleButton.addEventListener("click", () => {
     bubble.style.display = "none";
   });
 
-  // --- Clic pirate1 ---
+  /* ==========================================================
+      3️⃣ DÉBLOCAGE PIRATE 3 APRÈS QUÊTE COMMERCE
+          (défini dans commerce.js via localStorage)
+  ========================================================== */
+
+  if (localStorage.getItem("pirate3_unlocked") === "true") {
+
+    pirate3.classList.remove("locked");
+    pirate3.classList.add("unlocked", "glow");
+    pirate3.style.pointerEvents = "auto";
+
+    // petite notification sympa
+    notification.textContent = "Pirate 3 est maintenant débloqué !";
+    notification.classList.add("show");
+
+    setTimeout(() => {
+      notification.classList.remove("show");
+    }, 2500);
+  }
+
+  /* ==========================================================
+      4️⃣ NAVIGATION VERS LES QUÊTES
+  ========================================================== */
+
+  // clic pirate 1 → commerce.html
   pirate1.addEventListener("click", () => {
-    if(pirate1.classList.contains("locked")) return;
-    window.location.href = "commerce.html"; // charge sur le même onglet
+    if (pirate1.classList.contains("locked")) return;
+    window.location.href = "commerce.html";
+  });
+
+  // futur : pirate3 clique → autre quête
+  pirate3.addEventListener("click", () => {
+    if (pirate3.classList.contains("locked")) return;
+    // 👉 mets ici ta prochaine page si déjà prévue
+    // window.location.href = "strategie.html";
   });
 
 });
