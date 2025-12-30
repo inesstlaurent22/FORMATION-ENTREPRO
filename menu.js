@@ -50,12 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
     pirate1.classList.remove("locked");
     pirate1.classList.add("unlocked", "glow");
 
-    // notification slide
-    notification.classList.add("show");
+      // --- Notification ---
+  notification.classList.add("show");
 
-    setTimeout(() => {
-      notification.classList.remove("show");
-    }, 2500);
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 2500);
 
     placeBubbleAbovePirate2();
 
