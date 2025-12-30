@@ -56,4 +56,24 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("Quête terminée !");
   });
 
+  /* ================================================= */
+/* 🏴‍☠️ Pirates commerce */
+.pirate {
+  position: absolute;
+  cursor: pointer;
+  z-index: 50; /* au-dessus du fond mais sous la vidéo et boutons */
+  object-fit: contain;
+}
+
+.pirate.locked {
+  filter: grayscale(100%) brightness(0.6);
+  opacity: 0.6;
+  pointer-events: none;
+  transition: none;
+}
+
+/* Positions des nouveaux pirates */
+#pirate2bis { left: 517px; top: 406px; width: 186px; height: 178px; }
+#pirate5bis { left: 786px; top: 397px; width: 143px; height: 143px; }
+
 });
