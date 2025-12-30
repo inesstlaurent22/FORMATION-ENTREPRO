@@ -10,40 +10,52 @@ document.addEventListener("DOMContentLoaded", () => {
   const replayVideo = document.getElementById("replayVideo");
   const finishQuest = document.getElementById("finishQuest");
 
-  // --- Fade in du container vidéo ---
+  /* =======================================================
+      🎬 AU CHARGEMENT : on montre la vidéo en fade-in
+  ======================================================= */
+  questVideo.muted = true; // iPhone autoplay
+  questVideo.currentTime = 0;
+
   setTimeout(() => {
+    videoContainer.style.display = "flex";
     videoContainer.classList.add("show");
-    questVideo.play();
+    questVideo.play().catch(() => {
+      // si l’autoplay est bloqué, on affiche juste l’écran vidéo
+    });
   }, 100);
 
-  // --- Bouton son ---
+  /* =======================================================
+      🔊 Bouton son
+  ======================================================= */
   toggleSound.addEventListener("click", () => {
     questVideo.muted = !questVideo.muted;
     toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
   });
 
-  // --- Fin ou fermeture de la vidéo ---
+  /* =======================================================
+      ⛔ Quand la vidéo se termine OU bouton X
+  ======================================================= */
   function endVideo() {
     videoContainer.classList.remove("show");
+
     setTimeout(() => {
+      questVideo.pause();
       videoContainer.style.display = "none";
       buttonsContainer.style.display = "flex";
     }, 500);
   }
 
-  closeVideo.addEventListener("click", () => {
-    questVideo.pause();
-    endVideo();
-  });
+  closeVideo.addEventListener("click", endVideo);
+  questVideo.addEventListener("ended", endVideo);
 
-  questVideo.addEventListener("ended", () => {
-    endVideo();
-  });
-
-  // --- Rejouer la vidéo ---
+  /* =======================================================
+      🔁 Revoir la vidéo
+  ======================================================= */
   replayVideo.addEventListener("click", () => {
     buttonsContainer.style.display = "none";
+
     videoContainer.style.display = "flex";
+
     setTimeout(() => {
       videoContainer.classList.add("show");
       questVideo.currentTime = 0;
@@ -51,29 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 50);
   });
 
-  // --- Terminer la quête ---
+  /* =======================================================
+      🏁 Terminer la quête
+  ======================================================= */
   finishQuest.addEventListener("click", () => {
-    alert("Quête terminée !");
+    window.location.href = "menu.html"; // change si autre page
   });
-
-  /* ================================================= */
-/* 🏴‍☠️ Pirates commerce */
-.pirate {
-  position: absolute;
-  cursor: pointer;
-  z-index: 50; /* au-dessus du fond mais sous la vidéo et boutons */
-  object-fit: contain;
-}
-
-.pirate.locked {
-  filter: grayscale(100%) brightness(0.6);
-  opacity: 0.6;
-  pointer-events: none;
-  transition: none;
-}
-
-/* Positions des nouveaux pirates */
-#pirate2bis { left: 517px; top: 406px; width: 186px; height: 178px; }
-#pirate5bis { left: 786px; top: 397px; width: 143px; height: 143px; }
 
 });
