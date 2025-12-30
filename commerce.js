@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Fade in du container vidéo ---
   setTimeout(() => {
     videoContainer.classList.add("show");
+    questVideo.play();
   }, 100);
 
   // --- Bouton son ---
