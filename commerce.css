@@ -1,119 +1,114 @@
-/* ================================================= */
-/* 🌌 FOND */
+/* =============================================== */
+/* GLOBAL : pas de scroll */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+  font-family: Arial, sans-serif;
+}
+
+/* =============================================== */
+/* 🌌 Fond */
 #background {
   position: fixed;
   inset: 0;
   background-image: url("images/Commercefond.PNG");
   background-size: cover;
   background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease;
   z-index: 1;
 }
 
-/* ================================================= */
-/* 🚫 Bloquer scroll et fullscreen */
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
+#background.show {
+  opacity: 1;
 }
 
-/* ================================================= */
-/* 🎬 Vidéo container */
+/* =============================================== */
+/* 🏴‍☠️ Pirates */
+.pirate {
+  position: absolute;
+  display: none; /* cachés tant que vidéo pas finie */
+  z-index: 5;
+  object-fit: contain;
+}
+
+/* positions demandées */
+#pirate2bis {
+  left: 517px;
+  top: 406px;
+  width: 186px;
+  height: 178px;
+}
+
+#pirate5bis {
+  left: 786px;
+  top: 397px;
+  width: 143px;
+  height: 143px;
+}
+
+/* =============================================== */
+/* 🎬 Vidéo au début */
 #videoContainer {
   position: fixed;
   inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,.9);
   opacity: 0;
   transition: opacity 1s ease;
-  z-index: 100; /* doit être > #background */
+  z-index: 200;
 }
+
 #videoContainer.show {
   opacity: 1;
 }
+
 #questVideo {
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 92%;
+  max-height: 92%;
+  border-radius: 14px;
   border: 4px solid #5a3b15;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.5);
 }
 
-/* ================================================= */
-/* 🔊 / ✖ Boutons vidéo */
+/* =============================================== */
+/* 🔊 / ✖ contrôles vidéo */
 #videoControls {
   position: absolute;
   top: 20px;
   right: 20px;
   display: flex;
   gap: 12px;
-  z-index: 101;
 }
 
 #videoControls button {
   font-size: 20px;
-  background: #e6d2b3;
-  border: 2px solid #5a3b15;
-  border-radius: 12px;
   padding: 8px 12px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,.25);
-  transition: transform .12s ease, background .2s ease;
-}
-
-#videoControls button:active {
-  transform: scale(.92);
-  background: #c9b092;
-}
-
-/* ================================================= */
-/* 🎛 Boutons après vidéo */
-#buttonsContainer {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  display: none;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 50;
-}
-
-#buttonsContainer button {
-  font-size: 14px;
-  padding: 6px 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 2px solid #5a3b15;
   background: #e6d2b3;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,.25);
-  transition: transform .12s ease, background .2s ease;
 }
 
-#buttonsContainer button:active {
-  transform: scale(.92);
-  background: #c9b092;
-}
-
-/* ================================================= */
-/* 🏴‍☠️ Pirates commerce */
-.pirate {
-  position: absolute;
+/* =============================================== */
+/* 🎛 Boutons après vidéo */
+#replayVideo,
+#finishQuest {
+  position: fixed;
+  display: none;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 2px solid #5a3b15;
+  background: #e6d2b3;
+  z-index: 20;
+  font-size: 14px;
   cursor: pointer;
-  z-index: 50; /* au-dessus du fond mais sous la vidéo et boutons */
-  object-fit: contain;
 }
 
-.pirate.locked {
-  filter: grayscale(100%) brightness(0.6);
-  opacity: 0.6;
-  pointer-events: none;
-  transition: none;
-}
-
-/* Positions des nouveaux pirates */
-#pirate2bis { left: 517px; top: 406px; width: 186px; height: 178px; }
-#pirate5bis { left: 786px; top: 397px; width: 143px; height: 143px; }
+.topLeft { top: 15px; left: 15px; }
+.topRight { top: 15px; right: 15px; }
