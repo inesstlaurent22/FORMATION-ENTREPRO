@@ -2,12 +2,13 @@
 /* 🎬 COMMERCE - STYLE VIDÉO */
 /* ========================= */
 
-body, html {
+html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
   background: black; /* fond derrière l’image */
+  overflow: hidden; /* empêche le scroll */
 }
 
 .Fondcom {
@@ -26,7 +27,7 @@ body, html {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* couvre tout l’écran sans bandes blanches */
+  object-fit: cover; /* couvre tout l’écran */
   z-index: 0;
 }
 
