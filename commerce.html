@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QUÊTE 1 : COMMERCE</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="commerce.css">
 </head>
 
 <body>
@@ -14,8 +14,8 @@
   <!-- FOND -->
   <img src="images/Commercefond.PNG" class="fondcom" alt="Fond">
 
-  <!-- OVERLAY CINÉMATIQUE -->
-  <div id="cinematicOverlaycom"></div>
+  <!-- OVERLAY CINÉMATIQUE (fade-out vers menu) -->
+  <div id="cinematicFadecom"></div>
 
   <!-- VIDÉO -->
   <div id="videoContainercom">
@@ -28,7 +28,6 @@
       id="comVideo"
       playsinline
       muted
-      autoplay
       preload="auto"
       controls
     >
@@ -36,8 +35,11 @@
     </video>
   </div>
 
+  <!-- BOUTON VALIDATION QUÊTE -->
+  <button id="validateBtn">TERMINER LA QUÊTE</button>
+
 </div>
 
-<script src="script.js"></script>
+<script src="commerce.js"></script>
 </body>
 </html>
