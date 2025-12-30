@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const bubble = document.getElementById("bubble");
   const bubbleButton = document.getElementById("bubbleButton");
 
-  // --- Initialisation : pirates bloqués/débloqués ---
+  // ---- état initial ----
   pirate1.classList.add("locked");
   pirate2.classList.add("unlocked");
   [pirate3, pirate4, pirate5].forEach(p => {
@@ -18,55 +18,72 @@ document.addEventListener("DOMContentLoaded", () => {
     p.style.pointerEvents = "none";
   });
 
-// --- Vérifier si le clic vient de se produire ---
-if (sessionStorage.getItem("showBubble") === "yes") {
+  // -------- FONCTION : place la bulle au-dessus du pirate 2 --------
+  function placeBubbleAbovePirate2() {
 
-  // pirate 1 devient débloqué
-  pirate1.classList.remove("locked");
-  pirate1.classList.add("unlocked", "glow");
+    bubble.style.display = "block";
+    bubble.style.visibility = "hidden"; // éviter clignotement
 
-  // --- Notification ---
-  notification.classList.add("show");
+    requestAnimationFrame(() => {
 
-  setTimeout(() => {
-    notification.classList.remove("show");
-  }, 2500);
+      const pirateRect = pirate2.getBoundingClientRect();
+      const bubbleRect = bubble.getBoundingClientRect();
 
-  // --- Affichage bulle au-dessus du pirate 2 ---
-  bubble.style.display = "block";
+      // centré horizontalement
+      bubble.style.left = window.scrollX + pirateRect.left + pirateRect.width / 2 + "px";
 
-  // Oblige le navigateur à calculer la taille de la bulle
-  const pirateRect = pirate2.getBoundingClientRect();
-  const bubbleRect = bubble.getBoundingClientRect();
+      // au-dessus avec marge
+      bubble.style.top =
+        window.scrollY + pirateRect.top - bubbleRect.height - 18 + "px";
 
-  // centrer horizontalement
-  bubble.style.left = (pirateRect.left + pirateRect.width / 2) + "px";
+      // recentrage avec transform
+      bubble.style.transform = "translate(-50%, 0)";
 
-  // placer juste au-dessus
-  bubble.style.top = (pirateRect.top - bubbleRect.height - 20 + window.scrollY) + "px";
+      bubble.style.visibility = "visible";
+    });
+  }
 
-  // recentrage avec transform utilisé en CSS
-  bubble.style.transform = "translate(-50%, 0)";
+  // ----------- afficher bulle + notification après quête -----------
 
-  // nettoyage session
-  sessionStorage.removeItem("showBubble");
-}
+  if (sessionStorage.getItem("showBubble") === "yes") {
 
-  // --- Clic sur pirate2 ---
+    pirate1.classList.remove("locked");
+    pirate1.classList.add("unlocked", "glow");
+
+    // notification slide
+    notification.classList.add("show");
+
+    setTimeout(() => {
+      notification.classList.remove("show");
+    }, 2500);
+
+    placeBubbleAbovePirate2();
+
+    sessionStorage.removeItem("showBubble");
+  }
+
+  // -------- clic pirate 2 -> montrer bulle --------
   pirate2.addEventListener("click", () => {
     sessionStorage.setItem("showBubble", "yes");
-    window.location.reload();
+    placeBubbleAbovePirate2();
   });
 
-  // --- Bouton OK bulle ---
+  // -------- bouton OK --------
   bubbleButton.addEventListener("click", () => {
     bubble.style.display = "none";
   });
 
-  // --- Clic pirate1 ---
+  // -------- clic pirate 1 vers page --------
   pirate1.addEventListener("click", () => {
-    if(pirate1.classList.contains("locked")) return;
-    window.open("commerce.html", "_blank");
+    if (pirate1.classList.contains("locked")) return;
+    window.location.href = "commerce.html";
+  });
+
+  // repositionner si écran change
+  window.addEventListener("resize", () => {
+    if (bubble.style.display === "block") {
+      placeBubbleAbovePirate2();
+    }
   });
 
 });
