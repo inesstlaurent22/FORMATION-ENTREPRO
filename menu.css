@@ -25,7 +25,6 @@
   filter: grayscale(100%) brightness(0.6);
   opacity: 0.6;
   pointer-events: none;
-  transition: none;
 }
 
 /* Pirates débloqués */
@@ -36,38 +35,38 @@
   transition: transform .25s ease, filter .25s ease;
 }
 
-/* Zoom et halo au survol pour pirates débloqués */
 .pirate.unlocked:hover {
   transform: scale(1.08);
-  filter:
-    drop-shadow(0 0 5px #ffef5a)
-    drop-shadow(0 0 12px #ffd200)
-    drop-shadow(0 0 22px #ff9f1c);
-}
-
-/* Glow permanent appliqué via JS */
-.glow {
-  filter:
-    drop-shadow(0 0 5px #ffef5a)
-    drop-shadow(0 0 12px #ffd200)
-    drop-shadow(0 0 22px #ff9f1c);
 }
 
 /* ================================================= */
-/* 📍 POSITIONS DES PIRATES */
+/* 📍 POSITIONS (fixes et respectées) */
 /* ================================================= */
-#pirate1 { left: 190px; top: 500px; width: 163px; height: 235px; }   /* +10px droite */
-#pirate2 { left: 886px; top: 672px; width: 186px; height: 178px; }   /* -10px gauche, -10px haut */
-#pirate3 { left: 736px; top: 355px; width: 133px; height: 217px; }
-#pirate5 { left: 240px; top: 190px; width: 163px; height: 235px; }  /* -5px haut */
-#pirate4 { left: 1025px; top: 23px; width: 163px; height: 235px; }  /* -5px haut */
+
+#pirate1 { left: 173px; top: 516px; width: 163px; height: 235px; }
+#pirate2 { left: 921px; top: 702px; width: 186px; height: 178px; }
+#pirate3 { left: 736px; top: 363px; width: 133px; height: 217px; }
+#pirate4 { left: 240px; top: 200px; width: 163px; height: 235px; }
+#pirate5 { left: 1139px; top: 28px; width: 163px; height: 235px; }
+
+/* empêche mobile d'écraser ces positions */
+@media (max-width: 768px) {
+  #pirate1,
+  #pirate2,
+  #pirate3,
+  #pirate4,
+  #pirate5 {
+    position: absolute !important;
+  }
+}
 
 /* ================================================= */
 /* 🔔 NOTIFICATION STYLE IPHONE */
 /* ================================================= */
+
 #notification {
   position: fixed;
-  top: -140px; /* départ hors écran */
+  top: -140px;
   left: 50%;
   transform: translateX(-50%);
   background: #ff9f1c;
@@ -77,160 +76,101 @@
   font-size: 17px;
   font-weight: bold;
   box-shadow: 0 6px 18px rgba(0,0,0,.35);
-  z-index: 200;
+  z-index: 300;
   transition: top 1s ease;
 }
 
 #notification.show {
-  top: 10%; /* descend quand .show ajouté */
+  top: 10%;
 }
 
 /* ================================================= */
-/* 💬 BULLE PIRATE 2 */
+/* 💬 BULLE PIRATE AVEC BRÛLURES + CRÂNES */
 /* ================================================= */
+
 #bubble {
   position: absolute;
   display: none;
 
   max-width: 360px;
   min-height: 140px;
-  padding: 22px 22px 28px 22px;
 
-  /* 🎨 couleur parchemin */
-  background: #f3e2b8;
+  padding: 22px 22px 30px 22px;
 
-  /* 🧭 contour pirate sombre */
-  border: 4px solid #5a3b15;
+  background: #f4dfb3;
 
-  /* bords irréguliers style vieux papier */
-  border-radius: 18px 22px 16px 20px;
+  border: 4px solid #4a2c12;
+  border-radius: 18px;
 
-  font-family: "Georgia", "Times New Roman", serif;
+  color: #2b1a0b;
+  font-family: "Georgia", serif;
   font-weight: bold;
-  color: #3b260d;
+
   line-height: 1.45;
 
-  /* texture papier */
+  /* texture parchemin + brûlé */
   background-image:
-    radial-gradient(rgba(0,0,0,.08) 1px, transparent 1px);
-  background-size: 4px 4px;
+    radial-gradient(circle at 10% 10%, rgba(0,0,0,.15), transparent 25%),
+    radial-gradient(circle at 90% 8%, rgba(0,0,0,.18), transparent 25%),
+    radial-gradient(circle at 50% 100%, rgba(0,0,0,.20), transparent 30%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,.04) 0 2px, transparent 2px 4px);
 
-  /* ombre dramatique pirate */
   box-shadow:
-    0 8px 20px rgba(0, 0, 0, .35),
-    inset 0 0 30px rgba(0,0,0,.15);
+    0 10px 25px rgba(0,0,0,.45),
+    inset 0 0 35px rgba(0,0,0,.25);
 
-  z-index: 150;
+  transform: translate(-50%, -100%);
 
-  /* animation apparition */
-  animation: bubblePop .4s ease-out forwards;
-
-  /* centrage (géré par JS ensuite) */
-  transform: translate(-50%, -100%) scale(.9);
-
-  transition: transform .25s ease, opacity .25s ease;
+  z-index: 250;
 }
 
-/* =============================== */
-/* ✨ Animation apparition         */
-/* =============================== */
-
-@keyframes bubblePop {
-  0%   { transform: scale(.6); opacity: 0; }
-  70%  { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* =============================== */
-/* 🔻 Pointe de la bulle           */
-/* =============================== */
-
-/* contour sombre */
-#bubble::after {
-  content: "";
+/* CRÂNES ET OS décoratifs */
+#bubble::before {
+  content: "☠ ☠ ☠";
   position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+}
 
+#bubble::after {
+  content: "⚔ ⚔";
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+}
+
+/* Pointe */
+#bubble > .tail {
+  position: absolute;
   bottom: -18px;
   left: 50%;
-  transform: translateX(-50%);
-
   width: 0;
   height: 0;
-
-  border-width: 18px 14px 0 14px;
-  border-style: solid;
-  border-color: #5a3b15 transparent transparent transparent;
-}
-
-/* intérieur clair parchemin */
-#bubble::before {
-  content: "";
-  position: absolute;
-
-  bottom: -14px;
-  left: 50%;
   transform: translateX(-50%);
-
-  width: 0;
-  height: 0;
-
-  border-width: 16px 12px 0 12px;
-  border-style: solid;
-  border-color: #f3e2b8 transparent transparent transparent;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 18px solid #4a2c12;
 }
 
-/* =============================== */
-/* 🏴‍☠️ Bouton OK                 */
-/* =============================== */
+/* ================================================= */
+/* 🏴‍☠️ Bouton */
+/* ================================================= */
 
 #bubbleButton {
   margin-top: 14px;
   width: 100%;
-
   padding: 10px 14px;
-
-  border-radius: 12px;
-  border: 3px solid #5a3b15;
-
-  background: #e6d2b3;
-
-  font-family: "Georgia", serif;
+  border: 3px solid #4a2c12;
+  border-radius: 14px;
+  background: #dfc79b;
   font-weight: bold;
-  color: #3b260d;
-
   cursor: pointer;
-
-  box-shadow: 0 4px 10px rgba(0,0,0,.25);
-
-  transition: transform .12s ease, background .2s ease;
 }
 
 #bubbleButton:active {
   transform: scale(.92);
-  background: #c9b092;
-}
-/* ================================================= */
-/* 📱 VERSION MOBILE */
-/* ================================================= */
-@media (max-width: 768px) {
-
-  /* Notification mobile */
-  #notification {
-    font-size: 15px;
-    padding: 12px 18px;
-  }
-
-  /* Bulle mobile */
-  #bubble {
-    max-width: 280px;
-    min-height: 120px;
-    padding: 16px;
-  }
-
-  /* Ajustement pirates sur mobile */
-  #pirate1 { left: 120px; top: 435px; width: 130px; height: 190px; }
-  #pirate2 { left: 690px; top: 590px; width: 140px; height: 200px; }
-  #pirate3 { left: 560px; top: 290px; width: 130px; height: 190px; }
-  #pirate5 { left: 180px; top: 145px; width: 130px; height: 190px; }
-  #pirate4 { left: 830px; top: 20px; width: 140px; height: 200px; }
 }
