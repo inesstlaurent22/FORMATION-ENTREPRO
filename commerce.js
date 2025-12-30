@@ -1,82 +1,58 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const video = document.getElementById("comVideo");
-  const soundBtn = document.getElementById("soundButtoncom");
-  const closeBtn = document.getElementById("closeVideocom");
-  const validateBtn = document.getElementById("validateBtn");
-  const replayBtn = document.getElementById("replayBtn");
-  const videoContainer = document.getElementById("videoContainercom");
-  const cinematicFade = document.getElementById("cinematicFadecom");
-  const grayOverlay = document.getElementById("grayOverlay");
+  const videoContainer = document.getElementById("videoContainer");
+  const questVideo = document.getElementById("questVideo");
+  const videoControls = document.getElementById("videoControls");
+  const toggleSound = document.getElementById("toggleSound");
+  const closeVideo = document.getElementById("closeVideo");
 
-  /* ========= SI VIDÉO DÉJÀ VUE ========= */
-  if (localStorage.getItem("commerce_video_seen") === "true") {
-    grayOverlay.style.opacity = 0;
-    validateBtn.style.display = "block";
-    replayBtn.style.display = "block";
-    return;
-  }
+  const buttonsContainer = document.getElementById("buttonsContainer");
+  const replayVideo = document.getElementById("replayVideo");
+  const finishQuest = document.getElementById("finishQuest");
 
-  if (!video) {
-    console.error("⚠️ Video introuvable");
-    return;
-  }
+  // --- Fade in du container vidéo ---
+  setTimeout(() => {
+    videoContainer.classList.add("show");
+  }, 100);
 
-  /* ========= FADE-IN VIDÉO ET GRISAGE ========= */
-  function showVideo() {
-    grayOverlay.style.opacity = 1;
-    videoContainer.style.display = "flex";
-    videoContainer.style.opacity = 0;
-    video.currentTime = 0;
-    video.play().catch(() => {});
+  // --- Bouton son ---
+  toggleSound.addEventListener("click", () => {
+    questVideo.muted = !questVideo.muted;
+    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  });
 
-    let opacity = 0;
-    const fadeInInterval = setInterval(() => {
-      opacity += 0.05;
-      videoContainer.style.opacity = opacity;
-      if (opacity >= 1) clearInterval(fadeInInterval);
-    }, 30);
-  }
-
-  /* ========= FADE-OUT + AFFICHAGE BOUTONS ========= */
+  // --- Fin ou fermeture de la vidéo ---
   function endVideo() {
-    localStorage.setItem("commerce_video_seen", "true");
-
-    cinematicFade.classList.add("active");
+    videoContainer.classList.remove("show");
     setTimeout(() => {
       videoContainer.style.display = "none";
-      grayOverlay.style.opacity = 0;
-      cinematicFade.classList.remove("active");
-      validateBtn.style.display = "block";
-      replayBtn.style.display = "block";
-    }, 1200);
+      buttonsContainer.style.display = "flex";
+    }, 500);
   }
 
-  /* ========= SON ON/OFF ========= */
-  soundBtn?.addEventListener("click", () => {
-    video.muted = !video.muted;
-    soundBtn.textContent = video.muted ? "🔇" : "🔊";
+  closeVideo.addEventListener("click", () => {
+    questVideo.pause();
+    endVideo();
   });
 
-  /* ========= FERMER VIDÉO ========= */
-  closeBtn?.addEventListener("click", endVideo);
-
-  /* ========= FIN VIDÉO ========= */
-  video.addEventListener("ended", endVideo);
-
-  /* ========= VALIDATION QUÊTE ========= */
-  validateBtn?.addEventListener("click", () => {
-    localStorage.setItem("task_commerce_done", "true");
-    window.location.href = "menu.html";
+  questVideo.addEventListener("ended", () => {
+    endVideo();
   });
 
-  /* ========= REVOIR LA VIDÉO ========= */
-  replayBtn?.addEventListener("click", () => {
-    showVideo();
-    validateBtn.style.display = "none";
-    replayBtn.style.display = "none";
+  // --- Rejouer la vidéo ---
+  replayVideo.addEventListener("click", () => {
+    buttonsContainer.style.display = "none";
+    videoContainer.style.display = "flex";
+    setTimeout(() => {
+      videoContainer.classList.add("show");
+      questVideo.currentTime = 0;
+      questVideo.play();
+    }, 50);
   });
 
-  /* ========= LANCER VIDÉO ========= */
-  showVideo();
+  // --- Terminer la quête ---
+  finishQuest.addEventListener("click", () => {
+    alert("Quête terminée !");
+  });
+
 });
