@@ -2,57 +2,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const videoContainer = document.getElementById("videoContainer");
   const questVideo = document.getElementById("questVideo");
-  const videoControls = document.getElementById("videoControls");
+  const background = document.getElementById("background");
+
+  const pirate2bis = document.getElementById("pirate2bis");
+  const pirate5bis = document.getElementById("pirate5bis");
+
   const toggleSound = document.getElementById("toggleSound");
   const closeVideo = document.getElementById("closeVideo");
 
-  const buttonsContainer = document.getElementById("buttonsContainer");
   const replayVideo = document.getElementById("replayVideo");
   const finishQuest = document.getElementById("finishQuest");
 
-  /* =======================================================
-      🎬 AU CHARGEMENT : on montre la vidéo en fade-in
-  ======================================================= */
-  questVideo.muted = true; // iPhone autoplay
+  /* ========================================================
+      1️⃣ AU CHARGEMENT : ON MONTRE LA VIDÉO
+  ======================================================== */
+  pirate2bis.style.display = "none";
+  pirate5bis.style.display = "none";
+  replayVideo.style.display = "none";
+  finishQuest.style.display = "none";
+
+  questVideo.muted = true;
   questVideo.currentTime = 0;
 
   setTimeout(() => {
-    videoContainer.style.display = "flex";
     videoContainer.classList.add("show");
-    questVideo.play().catch(() => {
-      // si l’autoplay est bloqué, on affiche juste l’écran vidéo
-    });
-  }, 100);
+    questVideo.play().catch(()=>{});
+  }, 50);
 
-  /* =======================================================
-      🔊 Bouton son
-  ======================================================= */
+  /* ========================================================
+      🔊 SON
+  ======================================================== */
   toggleSound.addEventListener("click", () => {
     questVideo.muted = !questVideo.muted;
     toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
   });
 
-  /* =======================================================
-      ⛔ Quand la vidéo se termine OU bouton X
-  ======================================================= */
-  function endVideo() {
+  /* ========================================================
+      2️⃣ FIN OU FERMETURE VIDÉO
+  ======================================================== */
+  function revealBackgroundAndPirates() {
+
     videoContainer.classList.remove("show");
 
     setTimeout(() => {
-      questVideo.pause();
       videoContainer.style.display = "none";
-      buttonsContainer.style.display = "flex";
-    }, 500);
+
+      // montrer fond
+      background.classList.add("show");
+
+      // montrer pirates
+      pirate2bis.style.display = "block";
+      pirate5bis.style.display = "block";
+
+      // montrer boutons
+      replayVideo.style.display = "block";
+      finishQuest.style.display = "block";
+
+    }, 600);
   }
 
-  closeVideo.addEventListener("click", endVideo);
-  questVideo.addEventListener("ended", endVideo);
+  questVideo.addEventListener("ended", revealBackgroundAndPirates);
+  closeVideo.addEventListener("click", () => {
+    questVideo.pause();
+    revealBackgroundAndPirates();
+  });
 
-  /* =======================================================
-      🔁 Revoir la vidéo
-  ======================================================= */
+  /* ========================================================
+      🔁 REVOIR LA VIDÉO
+  ======================================================== */
   replayVideo.addEventListener("click", () => {
-    buttonsContainer.style.display = "none";
+
+    background.classList.remove("show");
+    pirate2bis.style.display = "none";
+    pirate5bis.style.display = "none";
+    replayVideo.style.display = "none";
+    finishQuest.style.display = "none";
 
     videoContainer.style.display = "flex";
 
@@ -60,14 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
       videoContainer.classList.add("show");
       questVideo.currentTime = 0;
       questVideo.play();
-    }, 50);
+    }, 80);
   });
 
-  /* =======================================================
-      🏁 Terminer la quête
-  ======================================================= */
+  /* ========================================================
+      🏁 TERMINER LA QUÊTE
+  ======================================================== */
   finishQuest.addEventListener("click", () => {
-    window.location.href = "menu.html"; // change si autre page
+    window.location.href = "menu.html";
   });
 
 });
