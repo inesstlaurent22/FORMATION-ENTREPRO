@@ -1,7 +1,6 @@
 /* ========================= */
 /* PAGE */
 /* ========================= */
-
 body {
   margin: 0;
   overflow: hidden;
@@ -12,7 +11,6 @@ body {
 /* ========================= */
 /* VIDEO */
 /* ========================= */
-
 #videoContainer {
   position: fixed;
   inset: 0;
@@ -50,7 +48,6 @@ body {
 /* ========================= */
 /* FOND */
 /* ========================= */
-
 #background {
   position: relative;
   width: 100vw;
@@ -70,32 +67,42 @@ body {
 }
 
 /* ========================= */
-/* BOUTONS */
-/* ========================= */
-
+/* BOUTONS REPLAY / FIN */
 #buttonsContainer {
   position: fixed;
   width: 100%;
   top: 0;
   display: none;
   justify-content: space-between;
+  padding: 15px;
   z-index: 900;
 }
 
-.topLeft {
-  margin-left: 20px;
-  margin-top: 10px;
+#buttonsContainer button {
+  font-size: 1.2rem;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f39c12, #d35400);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 5px 0 #b03e00;
+  transition: transform .2s, box-shadow .2s;
 }
 
-.topRight {
-  margin-right: 20px;
-  margin-top: 10px;
+#buttonsContainer button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #b03e00;
+}
+
+#buttonsContainer button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #b03e00;
 }
 
 /* ========================= */
 /* PIRATES */
-/* ========================= */
-
 .pirate {
   position: absolute;
   cursor: pointer;
@@ -103,65 +110,49 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* empêche le bouton de dépasser */
+  overflow: visible;
 }
 
-/* ========================= */
-/* PIRATES ADAPTATIFS */
-/* ========================= */
-
-#pirate2bis {
-  left: 30vw;       /* position horizontale proportionnelle */
-  top: 50vh;        /* position verticale proportionnelle */
-  width: 8vw;       /* largeur relative à l’écran */
-  height: auto;     /* hauteur automatique pour garder les proportions */
-}
-
-#pirate5bis {
-  left: 50vw;
-  top: 45vh;
-  width: 9vw;
+/* PIRATES ADAPTATIFS + halo */
+#pirate2bis, #pirate5bis {
+  width: 12vw;
   height: auto;
-}
-
-/* boutons pirates remplissent la zone du pirate */
-#pirate2bis .pirate-button,
-#pirate5bis .pirate-button {
-  padding: 0;
-  font-size: 0.8vw;  /* taille du texte relative */
-  width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
 }
 
-/* ========================= */
-/* ✨ HALO LUMINEUX ORANGE */
-/* ========================= */
+#pirate2bis::before, #pirate5bis::before {
+  content: '';
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(255, 200, 50, 0.5) 0%, rgba(255, 200, 50, 0) 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(20px);
+}
 
+/* position pirate */
+#pirate2bis { left: 28vw; top: 50vh; }
+#pirate5bis { left: 50vw; top: 45vh; }
+
+/* BOUTONS PIRATES */
 .pirate {
-  animation: haloPulse 1.6s infinite ease-in-out;
-  filter: drop-shadow(0 0 0px rgba(255, 140, 0, 0.0));
-}
-
-@keyframes haloPulse {
-  0% {
-    filter: drop-shadow(0 0 0px rgba(255,140,0,0.0));
-  }
-  50% {
-    filter: drop-shadow(0 0 35px rgba(255,165,0,1)); /* halo orange vif */
-  }
-  100% {
-    filter: drop-shadow(0 0 0px rgba(255,140,0,0.0));
-  }
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 3px solid #3b1b00;
+  background: linear-gradient(#c89b58, #8a5a20);
+  color: #fff5d6;
+  text-shadow: 1px 1px 2px #000;
+  box-shadow: 0 4px 0 #3b1b00;
+  cursor: pointer;
 }
 
 /* ========================= */
 /* BULLES */
-/* ========================= */
-
 .bubble {
   position: absolute;
   max-width: 360px;
@@ -173,72 +164,4 @@ body {
   box-shadow: 0 4px 14px rgba(0,0,0,.3);
   animation: pop .25s ease;
 }
-
-@keyframes pop {
-  from { transform: scale(.7); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-.bubble .name {
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-
-.bubble button {
-  display: block;
-  margin-top: 8px;
-  cursor: pointer;
-}
-
-/* petites flèches triangle */
-.bubble::after {
-  content: "";
-  position: absolute;
-  bottom: -14px;
-  left: 25px;
-  border-width: 8px;
-  border-style: solid;
-  border-color: white transparent transparent transparent;
-}
-
-/* ========================= */
-/* BOUTONS PIRATES */
-/* ========================= */
-
-.pirate {
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  padding: 10px 18px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: 3px solid #3b1b00;
-  background: linear-gradient(#c89b58, #8a5a20);
-  color: #fff5d6;
-  text-shadow: 1px 1px 2px #000;
-  box-shadow: 0 4px 0 #3b1b00;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box; /* inclut la bordure dans la taille */
-}
-
-.pirate:hover {
-  transform: translateY(-2px);
-}
-
-.pirate:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 #3b1b00;
-}
-
-/* ========================= */
-/* BOUTONS PIRATES SPÉCIFIQUES (TAILLE AJUSTÉE) */
-/* ========================= */
-
-#pirate2bis .pirate,
-#pirate5bis .pirate {
-  padding: 0;
-  font-size: 14px;
-}
+@keyframes pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
