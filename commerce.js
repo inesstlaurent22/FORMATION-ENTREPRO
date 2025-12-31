@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
       anchor: pirate2bis
     },
     { who: "maitre",
-      text: "Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• boîtes en bois luxe<br>• grande boutique visible<br>• aller chez les clients",
+      text: "Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• avoir des boîtes en bois luxe<br>• une grande boutique visible<br>• aller chez les clients directement",
       anchor: pirate5bis
     },
     { who: "apprenti",
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
       anchor: pirate2bis
     },
     { who: "maitre",
-      text: "Exactement ! Observe, teste, et deviens le pirate que tout le monde veut rencontrer.",
+      text: "Exactement, selon tes clients et tes concurrents ! Observe le marché, teste, et deviens le pirate que tout le monde veut rencontrer.",
       anchor: pirate5bis
     },
     { who: "apprenti",
