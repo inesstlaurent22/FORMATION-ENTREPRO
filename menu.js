@@ -10,36 +10,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const bubble = document.getElementById("bubble");
   const bubbleButton = document.getElementById("bubbleButton");
 
-  // ================================
-  // 0️⃣ Tout verrouiller d'abord
-  // ================================
+  const resetButton = document.getElementById("resetButton");
+
+  // ==========================================================
+  // 0️⃣ TOUT VERROUILLER AU DÉPART (sécurité maximale)
+  // ==========================================================
   [pirate1, pirate2, pirate3, pirate4, pirate5].forEach(p => {
     p.classList.add("locked");
     p.classList.remove("unlocked", "glow");
     p.style.pointerEvents = "none";
   });
 
-  // ================================
+  // ==========================================================
   // 1️⃣ Pirate 2 débloqué par défaut
-  // ================================
+  // ==========================================================
   pirate2.classList.remove("locked");
   pirate2.classList.add("unlocked");
   pirate2.style.pointerEvents = "auto";
 
-  // ================================
-  // 2️⃣ Réactivation selon progression
-  // ================================
+  // ==========================================================
+  // 2️⃣ Réactivation selon progression SAUVEGARDÉE
+  // ==========================================================
   if (localStorage.getItem("pirate1_unlocked") === "true") {
     pirate1.classList.remove("locked");
     pirate1.classList.add("unlocked", "glow");
     pirate1.style.pointerEvents = "auto";
   }
 
-  // ⛔ sécurité : pirate3 ne se débloque QUE par commerce.html
+  // 🚨 pirate3 uniquement si VRAIMENT marqué dans localStorage
   if (localStorage.getItem("pirate3_unlocked") === "true") {
     pirate3.classList.remove("locked");
     pirate3.classList.add("unlocked", "glow");
     pirate3.style.pointerEvents = "auto";
+  } else {
+    // sécurité supplémentaire contre le bug pirate3 débloqué
+    pirate3.classList.add("locked");
+    pirate3.classList.remove("unlocked", "glow");
+    pirate3.style.pointerEvents = "none";
   }
 
   if (localStorage.getItem("pirate4_unlocked") === "true") {
@@ -54,9 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
     pirate5.style.pointerEvents = "auto";
   }
 
-  // ================================
-  // 3️⃣ Clique pirate2 → débloque pirate1
-  // ================================
+  // ==========================================================
+  // 3️⃣ Clic pirate2 → débloque pirate1
+  // ==========================================================
   pirate2.addEventListener("click", () => {
 
     localStorage.setItem("pirate1_unlocked", "true");
@@ -65,9 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.reload();
   });
 
-  // ================================
+  // ==========================================================
   // 4️⃣ Afficher bulle après reload
-  // ================================
+  // ==========================================================
   if (sessionStorage.getItem("showBubbleAfterReload") === "yes") {
 
     notification.textContent = "Un nouveau pirate est débloqué !";
@@ -91,9 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   bubbleButton.addEventListener("click", () => bubble.style.display = "none");
 
-  // ================================
-  // 5️⃣ Navigation
-  // ================================
+  // ==========================================================
+  // 5️⃣ Navigation entre pages
+  // ==========================================================
   pirate1.addEventListener("click", () => {
     if (!pirate1.classList.contains("locked")) window.location.href = "commerce.html";
   });
@@ -109,5 +116,20 @@ document.addEventListener("DOMContentLoaded", () => {
   pirate5.addEventListener("click", () => {
     if (!pirate5.classList.contains("locked")) window.location.href = "legal.html";
   });
+
+  // ==========================================================
+  // 6️⃣ BOUTON RESET — présent dès le 1er chargement
+  // ==========================================================
+  if (resetButton) {
+    resetButton.addEventListener("click", () => {
+
+      // supprime totalement la progression
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // recharge proprement
+      location.reload();
+    });
+  }
 
 });
