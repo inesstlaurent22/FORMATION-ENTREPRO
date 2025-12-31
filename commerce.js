@@ -13,9 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate2bis = document.getElementById("pirate2bis");
   const pirate5bis = document.getElementById("pirate5bis");
 
-  // état initial
-  videoContainer.style.display = "flex";
-  questVideo.muted = true; // obligatoire autoplay iOS
+  // ✅ état initial
+  if (videoContainer) {
+    videoContainer.style.display = "flex";
+    videoContainer.style.opacity = "1"; // visible dès le départ
+  }
+  questVideo.muted = true; // nécessaire pour autoplay iOS
 
   if (background) background.classList.remove("show");
   if (buttonsContainer) buttonsContainer.style.display = "none";
@@ -24,11 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (replayVideo) replayVideo.style.display = "none";
   if (finishQuest) finishQuest.style.display = "none";
 
-  // autoplay direct
+  // 🔹 autoplay immédiat
   questVideo.play().catch(() => {
     console.warn("⛔ autoplay bloqué");
   });
 
+  // 🔹 fin de vidéo → scène jeu
   questVideo.addEventListener("ended", () => {
     videoContainer.style.display = "none";
     if (background) background.classList.add("show");
@@ -39,18 +43,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (finishQuest) finishQuest.style.display = "flex";
   });
 
+  // 🔹 bouton fermer vidéo
   closeVideo.addEventListener("click", () => {
     questVideo.pause();
     questVideo.dispatchEvent(new Event('ended'));
   });
 
+  // 🔹 bouton son
   toggleSound.addEventListener("click", () => {
     questVideo.muted = !questVideo.muted;
     toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
   });
 
+  // 🔹 bouton replay
   replayVideo.addEventListener("click", () => {
     videoContainer.style.display = "flex";
+    videoContainer.style.opacity = "1";
     if (background) background.classList.remove("show");
     if (buttonsContainer) buttonsContainer.style.display = "none";
     questVideo.currentTime = 0;
