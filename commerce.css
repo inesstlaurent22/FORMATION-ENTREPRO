@@ -67,11 +67,16 @@ body {
 /* ========================= */
 /* BOUTONS REPLAY / FIN / LANCER VIDÉO */
 /* ========================= */
-/* BOUTONS - STYLE COMMUN */
+/* ========================= */
+/* BOUTON LANCER LA VIDÉO - CENTRÉ */
 #launchButton {
+  position: fixed;            /* reste visible à l’écran */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-family: "Trebuchet MS", Arial, sans-serif;
   font-size: 1.5rem;
-  padding: 20px 40px;           /* bouton central plus grand */
+  padding: 20px 40px;
   border-radius: 12px;
   border: 3px solid #3b1b00;
   background: linear-gradient(#8a5a20, #c89b58);
@@ -79,15 +84,46 @@ body {
   text-shadow: 1px 1px 2px #000;
   box-shadow: 0 5px 0 #3b1b00;
   cursor: pointer;
+  z-index: 1100;             /* au-dessus de la vidéo */
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 #launchButton:hover {
-  transform: translateY(-2px);
+  transform: translate(-50%, -50%) translateY(-2px);
   box-shadow: 0 7px 0 #3b1b00;
 }
 
 #launchButton:active {
+  transform: translate(-50%, -50%) translateY(2px);
+  box-shadow: 0 2px 0 #3b1b00;
+}
+
+/* ========================= */
+/* BOUTON TERMINER LA QUÊTE - HAUT DROITE */
+#finishQuest {
+  position: fixed;            /* reste visible à l’écran */
+  top: 15px;
+  right: 15px;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 3px solid #3b1b00;
+  background: linear-gradient(#8a5a20, #c89b58);
+  color: #fff5d6;
+  text-shadow: 1px 1px 2px #000;
+  box-shadow: 0 4px 0 #3b1b00;
+  cursor: pointer;
+  z-index: 950;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#finishQuest:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #3b1b00;
+}
+
+#finishQuest:active {
   transform: translateY(2px);
   box-shadow: 0 2px 0 #3b1b00;
 }
