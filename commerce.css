@@ -65,38 +65,43 @@ body {
 }
 
 /* ========================= */
-/* BOUTONS REPLAY / FIN */
+/* BOUTONS REPLAY / FIN / LANCER VIDÉO */
+#buttonsContainer button,
+#launchButton {
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 1.5rem;
+  padding: 20px 40px;
+  border-radius: 12px;
+  border: 3px solid #3b1b00;
+  background: linear-gradient(#8a5a20, #c89b58);
+  color: #fff5d6;
+  text-shadow: 1px 1px 2px #000;
+  box-shadow: 0 5px 0 #3b1b00;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#buttonsContainer button:hover,
+#launchButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #3b1b00;
+}
+
+#buttonsContainer button:active,
+#launchButton:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #3b1b00;
+}
+
+/* Position des boutons dans le container */
 #buttonsContainer {
   position: fixed;
   width: 100%;
   top: 0;
   display: none;
   justify-content: space-between;
-  padding: 15px;
+  padding: 15px 50px; /* plus d'espace pour les boutons */
   z-index: 900;
-}
-
-#buttonsContainer button {
-  font-size: 1.2rem;
-  padding: 12px 22px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(135deg, #f39c12, #d35400);
-  color: white;
-  font-weight: bold;
-  box-shadow: 0 5px 0 #b03e00;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-#buttonsContainer button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 7px 0 #b03e00;
-}
-
-#buttonsContainer button:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #b03e00;
 }
 
 /* ========================= */
@@ -108,21 +113,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* 🔹 plus de fond ni bordure ni ombre */
   background: none;
   border: none;
   box-shadow: none;
   padding: 0;
   font-size: 1rem;
-  color: white; /* si tu veux du texte visible */
+  color: white;
   text-shadow: 1px 1px 2px #000;
 }
 
-/* PIRATES ADAPTATIFS + HALO LUMINEUX */
+/* PIRATES + HALO LUMINEUX */
 #pirate2bis, #pirate5bis {
-  width: 12vw;
-  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,16 +134,27 @@ body {
   position: absolute;
   width: 120%;
   height: 120%;
-  background: radial-gradient(circle, rgba(255, 200, 50, 0.5) 0%, rgba(255, 200, 50, 0) 70%);
+  background: radial-gradient(circle, rgba(255,200,50,0.5) 0%, rgba(255,200,50,0) 70%);
   border-radius: 50%;
   z-index: -1;
   filter: blur(25px);
   animation: pulseHalo 1.6s infinite ease-in-out;
 }
 
-/* POSITION DES PIRATES */
-#pirate2bis { left: 28vw; top: 50vh; }
-#pirate5bis { left: 50vw; top: 45vh; }
+/* Position et taille mise à jour des pirates */
+#pirate2bis {
+  left: 25vw;      /* un peu plus à gauche */
+  top: 40vh;       /* plus haut */
+  width: 24vw;     /* x2 largeur */
+  height: auto;
+}
+
+#pirate5bis {
+  left: 55vw;      /* plus à droite */
+  top: 35vh;       /* plus haut */
+  width: 12vw;
+  height: auto;
+}
 
 /* Animation halo pulsant */
 @keyframes pulseHalo {
