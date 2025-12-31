@@ -108,6 +108,8 @@ body {
 /* ========================= */
 /* ========================= */
 /* PIRATES */
+/* ========================= */
+/* PIRATES GÉNÉRAL */
 .pirate {
   position: absolute;
   cursor: pointer;
@@ -125,40 +127,54 @@ body {
 }
 
 /* ========================= */
-/* PIRATES + HALO LUMINEUX */
-#pirate2bis, #pirate5bis {
+/* PIRATE 2BIS */
+#pirate2bis {
+  width: 20vw;      /* double taille */
+  height: auto;
+  left: 25vw;
+  top: 30vh;        /* légèrement plus haut */
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 10vw;   /* taille identique et réduite pour les deux */
-  height: auto;  /* conserve les proportions */
   position: absolute;
 }
 
-#pirate2bis::before, #pirate5bis::before {
+#pirate2bis::before {
   content: '';
   position: absolute;
   width: 130%;
   height: 130%;
   background: radial-gradient(circle, rgba(255,200,50,0.5) 0%, rgba(255,200,50,0) 70%);
   border-radius: 50%;
-  z-index: -1;  /* derrière le pirate */
+  z-index: -1;
   filter: blur(25px);
   animation: pulseHalo 1.6s infinite ease-in-out;
 }
 
 /* ========================= */
-/* POSITION DES PIRATES */
-#pirate2bis {
-  left: 25vw;
-  top: 40vh;
-}
-
+/* PIRATE 5BIS */
 #pirate5bis {
-  left: 55vw;
-  top: 35vh;
+  width: 15vw;      /* 50% plus grand */
+  height: auto;
+  left: 60vw;       /* un peu plus à droite */
+  top: 25vh;        /* un peu plus haut */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 }
 
+#pirate5bis::before {
+  content: '';
+  position: absolute;
+  width: 130%;
+  height: 130%;
+  background: radial-gradient(circle, rgba(255,200,50,0.5) 0%, rgba(255,200,50,0) 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(25px);
+  animation: pulseHalo 1.6s infinite ease-in-out;
+}
 /* ========================= */
 /* BULLES */
 .bubble {
