@@ -3,14 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <title>Quête Commerce</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="commerce.css" />
+  <style>
+    /* ==== CSS MINIMAL POUR TEST VIDEO ==== */
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+
+    #videoContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: black;
+      z-index: 1000;
+    }
+
+    #questVideo {
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    #videoControls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 10px;
+      z-index: 1010;
+    }
+
+    .hiddenButtons {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      gap: 20px;
+      z-index: 900;
+    }
+
+    #background {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+      display: none; /* caché au départ */
+    }
+
+    #background.show {
+      display: block;
+    }
+
+    .fondImage {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pirate {
+      position: absolute;
+      cursor: pointer;
+    }
+
+    .glow {
+      box-shadow: 0 0 15px yellow;
+    }
+
+    #bubbleContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2000;
+    }
+
+    .pirate-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="videoContainer" class="hidden">
-  <video id="questVideo" src="video/Commercevideo.MOV"></video>
-
+<!-- VIDEO CONTAINER -->
+<div id="videoContainer">
+  <video id="questVideo" src="video/Commercevideo.mp4" playsinline webkit-playsinline muted></video>
   <div id="videoControls">
     <button id="toggleSound">🔊</button>
     <button id="closeVideo">✖</button>
@@ -23,19 +112,18 @@
   <button id="backMenu" class="pirate-button">🚩 Terminer la quête</button>
 </div>
 
-<!-- FOND -->
+<!-- FOND ET PIRATES -->
 <div id="background">
   <img src="images/Commercefond.PNG" class="fondImage">
 
-  <!-- PIRATES -->
-  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
-  <img id="pirate5bis" class="pirate glow" src="images/Pirate5.png">
-
+  <img id="pirate2bis" class="pirate" src="images/Pirate2.png" style="top:50%; left:30%;">
+  <img id="pirate5bis" class="pirate glow" src="images/Pirate5.png" style="top:50%; left:60%;">
 </div>
 
 <!-- BULLES -->
 <div id="bubbleContainer"></div>
 
+<!-- SCRIPT -->
 <script src="commerce.js"></script>
 
 </body>
