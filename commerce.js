@@ -13,12 +13,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate2bis = document.getElementById("pirate2bis");
   const pirate5bis = document.getElementById("pirate5bis");
 
-  // ✅ état initial
+  // 🔹 état initial
   if (videoContainer) {
     videoContainer.style.display = "flex";
-    videoContainer.style.opacity = "1"; // visible dès le départ
+    videoContainer.style.opacity = "1";
+    videoContainer.style.visibility = "visible";
   }
-  questVideo.muted = true; // nécessaire pour autoplay iOS
+
+  questVideo.muted = true;        // obligatoire pour autoplay sur iOS
+  questVideo.setAttribute("playsinline", "");
+  questVideo.setAttribute("webkit-playsinline", "");
 
   if (background) background.classList.remove("show");
   if (buttonsContainer) buttonsContainer.style.display = "none";
@@ -27,9 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (replayVideo) replayVideo.style.display = "none";
   if (finishQuest) finishQuest.style.display = "none";
 
-  // 🔹 autoplay immédiat
-  questVideo.play().catch(() => {
-    console.warn("⛔ autoplay bloqué");
+  // 🔹 autoplay après que le DOM soit rendu
+  window.requestAnimationFrame(() => {
+    questVideo.play().catch(() => {
+      console.warn("⛔ autoplay bloqué, la vidéo restera visible mais silencieuse");
+    });
   });
 
   // 🔹 fin de vidéo → scène jeu
