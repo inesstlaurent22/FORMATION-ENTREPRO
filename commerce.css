@@ -66,11 +66,12 @@ body {
 
 /* ========================= */
 /* BOUTONS REPLAY / FIN / LANCER VIDÉO */
-#buttonsContainer button,
+/* ========================= */
+/* BOUTONS - STYLE COMMUN */
 #launchButton {
   font-family: "Trebuchet MS", Arial, sans-serif;
   font-size: 1.5rem;
-  padding: 20px 40px;
+  padding: 20px 40px;           /* bouton central plus grand */
   border-radius: 12px;
   border: 3px solid #3b1b00;
   background: linear-gradient(#8a5a20, #c89b58);
@@ -81,14 +82,38 @@ body {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-#buttonsContainer button:hover,
 #launchButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 7px 0 #3b1b00;
 }
 
-#buttonsContainer button:active,
 #launchButton:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #3b1b00;
+}
+
+/* ========================= */
+/* BOUTONS CONTAINER - Revoir / Terminer */
+#buttonsContainer button {
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 1rem;               /* texte plus petit */
+  padding: 10px 20px;            /* padding réduit */
+  border-radius: 12px;
+  border: 3px solid #3b1b00;
+  background: linear-gradient(#8a5a20, #c89b58);
+  color: #fff5d6;
+  text-shadow: 1px 1px 2px #000;
+  box-shadow: 0 4px 0 #3b1b00;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#buttonsContainer button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #3b1b00;
+}
+
+#buttonsContainer button:active {
   transform: translateY(2px);
   box-shadow: 0 2px 0 #3b1b00;
 }
@@ -100,12 +125,10 @@ body {
   top: 0;
   display: none;
   justify-content: space-between;
-  padding: 15px 50px; /* plus d'espace pour les boutons */
+  padding: 15px 50px;
   z-index: 900;
 }
 
-/* ========================= */
-/* ========================= */
 /* ========================= */
 /* PIRATES */
 /* ========================= */
