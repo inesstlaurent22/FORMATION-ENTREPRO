@@ -109,43 +109,43 @@ document.addEventListener("DOMContentLoaded", () => {
   let step = 0;
 
   const dialogues = [
-    { who: "maitre",
+    { who: "Maitre Pirate",
       text: "Moussaillon ! Bienvenue sur le marché des trésors ! Ici, plein de pirates vendent des pierres précieuses… mais pour toi, qui débutes, faudra suivre mes conseils !",
       anchor: pirate5bis
     },
-    { who: "apprenti",
+    { who: "Moussaillon",
       text: "J’suis prêt, capitaine !",
       anchor: pirate2bis
     },
-    { who: "maitre",
+    { who: "Maitre Pirate",
       text: "Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates… parle comme eux, montre que tu connais tes pierres. Ensuite… sois plus malin et plus rapide qu’eux ! Faut que tous les clients viennent chez toi !",
       anchor: pirate5bis
     },
-    { who: "apprenti",
+    { who: "Moussaillon",
       text: "Mais comment je fais ça ?",
       anchor: pirate2bis
     },
-    { who: "maitre",
+    { who: "Maitre Pirate",
       text: "Regarde bien : la plupart ont une petite échoppe et vendent leurs pierres dans des petits sachets en velours. Les clients adorent ça ! Donc toi aussi, il te faudra une échoppe et des sachets. Mais attention… tes pierres ressemblent à celles des autres ! Faut que tu te démarques !",
       anchor: pirate5bis
     },
-    { who: "apprenti",
+    { who: "Moussaillon",
       text: "Me démarquer… c’est-à-dire ?",
       anchor: pirate2bis
     },
-    { who: "maitre",
+    { who: "Maitre Pirate",
       text: "Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• avoir des boîtes en bois luxe<br>• une grande boutique visible<br>• aller chez les clients directement",
       anchor: pirate5bis
     },
-    { who: "apprenti",
+    { who: "Moussaillon",
       text: "Ahhh… donc je choisis la meilleure stratégie selon mes clients !",
       anchor: pirate2bis
     },
-    { who: "maitre",
+    { who: "Maitre Pirate",
       text: "Exactement, selon tes clients et tes concurrents ! Observe le marché, teste, et deviens le pirate que tout le monde veut rencontrer.",
       anchor: pirate5bis
     },
-    { who: "apprenti",
+    { who: "Moussaillon",
       text: "MERCI capitaine !",
       anchor: pirate2bis
     }
