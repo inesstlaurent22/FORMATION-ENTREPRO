@@ -105,11 +105,12 @@ body {
 }
 
 /* ========================= */
+/* ========================= */
 /* PIRATES */
 .pirate {
   position: absolute;
   cursor: pointer;
-  z-index: 20;
+  z-index: 20; /* pirates sous les bulles */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -127,6 +128,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 12vw;  /* même taille pour les deux */
+  height: auto;
 }
 
 #pirate2bis::before, #pirate5bis::before {
@@ -141,19 +144,35 @@ body {
   animation: pulseHalo 1.6s infinite ease-in-out;
 }
 
-/* Position et taille mise à jour des pirates */
+/* Position des pirates */
 #pirate2bis {
-  left: 25vw;      /* un peu plus à gauche */
-  top: 40vh;       /* plus haut */
-  width: 24vw;     /* x2 largeur */
-  height: auto;
+  left: 25vw;
+  top: 40vh;
 }
 
 #pirate5bis {
-  left: 55vw;      /* plus à droite */
-  top: 35vh;       /* plus haut */
-  width: 12vw;
-  height: auto;
+  left: 55vw;
+  top: 35vh;
+}
+
+/* ========================= */
+/* BULLES */
+.bubble {
+  position: absolute;
+  z-index: 30; /* bulles au-dessus des pirates */
+  max-width: 360px;
+  background: white;
+  border-radius: 18px;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.35;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop { 
+  from { transform: scale(0.7); opacity: 0; } 
+  to { transform: scale(1); opacity: 1; } 
 }
 
 /* Animation halo pulsant */
