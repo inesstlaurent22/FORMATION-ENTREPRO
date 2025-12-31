@@ -122,4 +122,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // ================================
+// 🔄 Bouton réinitialiser progression
+// ================================
+const resetBtn = document.getElementById("resetProgress");
+
+resetBtn.addEventListener("click", () => {
+
+  // on efface toute la progression
+  localStorage.clear();
+  sessionStorage.clear();
+
+  // petite notification
+  alert("Progression réinitialisée. Retour au début !");
+
+  // recharger menu
+  window.location.reload();
+});
+
 });
