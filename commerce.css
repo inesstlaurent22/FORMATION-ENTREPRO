@@ -188,7 +188,7 @@ body {
 /* ========================= */
 /* PIRATE 2BIS */
 #pirate2bis {
-  width: 25vw;      /* double taille */
+  width: 15vw;      /* double taille */
   height: auto;
   left: 25vw;
   top: 30vh;        /* légèrement plus haut */
@@ -213,7 +213,7 @@ body {
 /* ========================= */
 /* PIRATE 5BIS */
 #pirate5bis {
-  width: 18vw;      /* 50% plus grand */
+  width: 10vw;      /* 50% plus grand */
   height: auto;
   left: 60vw;       /* un peu plus à droite */
   top: 25vh;        /* un peu plus haut */
