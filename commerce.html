@@ -1,130 +1,207 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <title>Quête Commerce</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="commerce.css" />
-  <style>
-    /* ==== CSS MINIMAL POUR TEST VIDEO ==== */
-    body, html {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      font-family: sans-serif;
-      overflow: hidden;
+document.addEventListener("DOMContentLoaded", () => {
+
+  const videoContainer = document.getElementById("videoContainer");
+  const questVideo = document.getElementById("questVideo");
+  const toggleSound = document.getElementById("toggleSound");
+  const closeVideo = document.getElementById("closeVideo");
+
+  const background = document.getElementById("background");
+
+  const buttonsContainer = document.getElementById("buttonsContainer");
+  const replayVideo = document.getElementById("replayVideo");
+  const finishQuest = document.getElementById("finishQuest");
+
+  const pirate2bis = document.getElementById("pirate2bis");
+  const pirate5bis = document.getElementById("pirate5bis");
+
+  const bubbleContainer = document.getElementById("bubbleContainer");
+
+  /* ========================================================
+        1️⃣ RÉGLAGE SÉCURITÉ AUTOPLAY
+  ======================================================== */
+
+  // Obligatoire iOS
+  questVideo.setAttribute("playsinline", "");
+  questVideo.setAttribute("webkit-playsinline", "");
+
+  // Autoplay autorisé uniquement en muet
+  questVideo.muted = true;
+
+  // cacher éléments du jeu au début
+  pirate2bis.style.display = "none";
+  pirate5bis.style.display = "none";
+  replayVideo.style.display = "none";
+  finishQuest.style.display = "none";
+
+  // montrer le conteneur vidéo
+  videoContainer.style.display = "flex";
+  background.classList.remove("show");
+
+  /* ========================================================
+        2️⃣ LANCEMENT VIDÉO APRÈS CHARGEMENT
+  ======================================================== */
+
+  function startVideo() {
+    videoContainer.classList.add("show");
+
+    questVideo.currentTime = 0;
+
+    const tryPlay = () => {
+      questVideo.play().catch(() => {
+        // si le navigateur bloque → on met un bouton fallback
+        toggleSound.textContent = "▶️";
+        toggleSound.onclick = () => {
+          questVideo.play();
+        };
+      });
+    };
+
+    // si déjà prête
+    if (questVideo.readyState >= 2) {
+      tryPlay();
+    } else {
+      // sinon attendre
+      questVideo.addEventListener("canplaythrough", tryPlay, { once: true });
+    }
+  }
+
+  setTimeout(startVideo, 80);
+
+  /* ========================================================
+        3️⃣ AFFICHER LA SCÈNE APRÈS VIDÉO
+  ======================================================== */
+
+  function showScene() {
+
+    videoContainer.classList.remove("show");
+
+    setTimeout(() => {
+      videoContainer.style.display = "none";
+
+      background.classList.add("show");
+
+      buttonsContainer.style.display = "flex";
+
+      pirate2bis.style.display = "block";
+      pirate5bis.style.display = "block";
+      replayVideo.style.display = "block";
+      finishQuest.style.display = "block";
+    }, 400);
+  }
+
+  questVideo.addEventListener("ended", showScene);
+
+  closeVideo.addEventListener("click", () => {
+    questVideo.pause();
+    showScene();
+  });
+
+  toggleSound.addEventListener("click", () => {
+    questVideo.muted = !questVideo.muted;
+    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  });
+
+  replayVideo.addEventListener("click", () => {
+    videoContainer.style.display = "flex";
+    videoContainer.classList.add("show");
+
+    background.classList.remove("show");
+    buttonsContainer.style.display = "none";
+
+    questVideo.currentTime = 0;
+    questVideo.play();
+  });
+
+  finishQuest.addEventListener("click", () => {
+    alert("Quête terminée !");
+  });
+
+  /* ========================================================
+        4️⃣ DIALOGUES PIRATES
+  ======================================================== */
+
+  let step = 0;
+
+  const dialogues = [
+    { who: "maitre",
+      text: "Moussaillon ! Bienvenue sur le marché des trésors ! Ici, plein de pirates vendent des pierres précieuses… mais pour toi, qui débutes, faudra suivre mes conseils !",
+      anchor: pirate5bis
+    },
+    { who: "apprenti",
+      text: "J’suis prêt, capitaine !",
+      anchor: pirate2bis
+    },
+    { who: "maitre",
+      text: "Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates… parle comme eux, montre que tu connais tes pierres. Ensuite… sois plus malin et plus rapide qu’eux ! Faut que tous les clients viennent chez toi !",
+      anchor: pirate5bis
+    },
+    { who: "apprenti",
+      text: "Mais comment je fais ça ?",
+      anchor: pirate2bis
+    },
+    { who: "maitre",
+      text: "Regarde bien : la plupart ont une petite échoppe et vendent leurs pierres dans des petits sachets en velours. Les clients adorent ça ! Donc toi aussi, il te faudra une échoppe et des sachets. Mais attention… tes pierres ressemblent à celles des autres ! Faut que tu te démarques !",
+      anchor: pirate5bis
+    },
+    { who: "apprenti",
+      text: "Me démarquer… c’est-à-dire ?",
+      anchor: pirate2bis
+    },
+    { who: "maitre",
+      text: "Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• boîtes en bois luxe<br>• grande boutique visible<br>• aller chez les clients",
+      anchor: pirate5bis
+    },
+    { who: "apprenti",
+      text: "Ahhh… donc je choisis la meilleure stratégie selon mes clients !",
+      anchor: pirate2bis
+    },
+    { who: "maitre",
+      text: "Exactement ! Observe, teste, et deviens le pirate que tout le monde veut rencontrer.",
+      anchor: pirate5bis
+    },
+    { who: "apprenti",
+      text: "MERCI capitaine !",
+      anchor: pirate2bis
+    }
+  ];
+
+  function createBubble(dialogue) {
+
+    bubbleContainer.innerHTML = "";
+
+    const rect = dialogue.anchor.getBoundingClientRect();
+
+    const div = document.createElement("div");
+    div.className = "bubble";
+
+    const title = dialogue.who === "maitre" ? "Maître pirate" : "Apprenti pirate";
+
+    div.innerHTML =
+      `<div class="name">${title}</div>
+       <div>${dialogue.text}</div>`;
+
+    if (step < dialogues.length - 1) {
+      const btn = document.createElement("button");
+      btn.textContent = "Suite";
+      btn.onclick = nextBubble;
+      div.appendChild(btn);
     }
 
-    #videoContainer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: black;
-      z-index: 1000;
-    }
+    bubbleContainer.appendChild(div);
 
-    #questVideo {
-      max-width: 90%;
-      max-height: 90%;
-    }
+    div.style.left = rect.left + rect.width / 2 - 150 + "px";
+    div.style.top = rect.top - 120 + "px";
+  }
 
-    #videoControls {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 10px;
-      z-index: 1010;
-    }
+  function nextBubble() {
+    step++;
+    if (step < dialogues.length) createBubble(dialogues[step]);
+    else bubbleContainer.innerHTML = "";
+  }
 
-    .hiddenButtons {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      gap: 20px;
-      z-index: 900;
-    }
+  pirate5bis.addEventListener("click", () => {
+    step = 0;
+    createBubble(dialogues[0]);
+  });
 
-    #background {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      z-index: 1;
-      display: none; /* caché au départ */
-    }
-
-    #background.show {
-      display: block;
-    }
-
-    .fondImage {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .pirate {
-      position: absolute;
-      cursor: pointer;
-    }
-
-    .glow {
-      box-shadow: 0 0 15px yellow;
-    }
-
-    #bubbleContainer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 2000;
-    }
-
-    .pirate-button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-
-<body>
-
-<!-- VIDEO CONTAINER -->
-<div id="videoContainer">
-  <video id="questVideo" src="video/Commercevideo.mp4" playsinline webkit-playsinline muted></video>
-  <div id="videoControls">
-    <button id="toggleSound">🔊</button>
-    <button id="closeVideo">✖</button>
-  </div>
-</div>
-
-<!-- BOUTONS -->
-<div id="buttonsContainer" class="hiddenButtons">
-  <button id="replayVideo" class="pirate-button">⟲ Revoir la vidéo</button>
-  <button id="backMenu" class="pirate-button">🚩 Terminer la quête</button>
-</div>
-
-<!-- FOND ET PIRATES -->
-<div id="background">
-  <img src="images/Commercefond.PNG" class="fondImage">
-
-  <img id="pirate2bis" class="pirate" src="images/Pirate2.png" style="top:50%; left:30%;">
-  <img id="pirate5bis" class="pirate glow" src="images/Pirate5.png" style="top:50%; left:60%;">
-</div>
-
-<!-- BULLES -->
-<div id="bubbleContainer"></div>
-
-<!-- SCRIPT -->
-<script src="commerce.js"></script>
-
-</body>
-</html>
+});
