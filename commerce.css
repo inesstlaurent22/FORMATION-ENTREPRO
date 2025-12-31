@@ -67,8 +67,6 @@ body {
 /* ========================= */
 /* BOUTONS REPLAY / FIN / LANCER VIDÉO */
 /* ========================= */
-/* ========================= */
-/* BOUTON LANCER LA VIDÉO - CENTRÉ */
 #launchButton {
   position: fixed;            /* reste visible à l’écran */
   top: 50%;
@@ -168,7 +166,6 @@ body {
 /* ========================= */
 /* PIRATES */
 /* ========================= */
-/* PIRATES GÉNÉRAL */
 .pirate {
   position: absolute;
   cursor: pointer;
@@ -201,8 +198,8 @@ body {
 #pirate2bis::before {
   content: '';
   position: absolute;
-  width: 130%;
-  height: 130%;
+  width: 80%;
+  height: 80%;
   background: radial-gradient(circle, rgba(255,200,50,0.5) 0%, rgba(255,200,50,0) 70%);
   border-radius: 50%;
   z-index: -1;
@@ -226,8 +223,8 @@ body {
 #pirate5bis::before {
   content: '';
   position: absolute;
-  width: 130%;
-  height: 130%;
+  width: 80%;
+  height: 80%;
   background: radial-gradient(circle, rgba(255,200,50,0.5) 0%, rgba(255,200,50,0) 70%);
   border-radius: 50%;
   z-index: -1;
