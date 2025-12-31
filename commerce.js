@@ -77,9 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(tryPlayVideo, 200);
 
   /* ========================================================
-        3️⃣ FIN VIDÉO → SCÈNE JEU + dialogues automatiques
+        3️⃣ FIN VIDÉO → SCÈNE JEU + dialogues
   ======================================================== */
-  questVideo.addEventListener("ended", () => {
+  function showScene() {
     videoContainer.style.display = "none";
     if (background) background.classList.add("show");
     if (buttonsContainer) buttonsContainer.style.display = "flex";
@@ -90,7 +90,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // lancer automatiquement les dialogues
     startPirateDialogues();
-  });
+  }
+
+  questVideo.addEventListener("ended", showScene);
 
   if (closeVideo) {
     closeVideo.addEventListener("click", () => {
@@ -128,46 +130,16 @@ document.addEventListener("DOMContentLoaded", () => {
   ======================================================== */
   let step = 0;
   const dialogues = [
-    { who: "maitre",
-      text: "Moussaillon ! Bienvenue sur le marché des trésors ! Ici, plein de pirates vendent des pierres précieuses… mais pour toi, qui débutes, faudra suivre mes conseils !",
-      anchor: pirate5bis
-    },
-    { who: "apprenti",
-      text: "J’suis prêt, capitaine !",
-      anchor: pirate2bis
-    },
-    { who: "maitre",
-      text: "Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates… parle comme eux, montre que tu connais tes pierres. Ensuite… sois plus malin et plus rapide qu’eux ! Faut que tous les clients viennent chez toi !",
-      anchor: pirate5bis
-    },
-    { who: "apprenti",
-      text: "Mais comment je fais ça ?",
-      anchor: pirate2bis
-    },
-    { who: "maitre",
-      text: "Regarde bien : la plupart ont une petite échoppe et vendent leurs pierres dans des petits sachets en velours. Les clients adorent ça ! Donc toi aussi, il te faudra une échoppe et des sachets. Mais attention… tes pierres ressemblent à celles des autres ! Faut que tu te démarques !",
-      anchor: pirate5bis
-    },
-    { who: "apprenti",
-      text: "Me démarquer… c’est-à-dire ?",
-      anchor: pirate2bis
-    },
-    { who: "maitre",
-      text: "Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• boîtes en bois luxe<br>• grande boutique visible<br>• aller chez les clients",
-      anchor: pirate5bis
-    },
-    { who: "apprenti",
-      text: "Ahhh… donc je choisis la meilleure stratégie selon mes clients !",
-      anchor: pirate2bis
-    },
-    { who: "maitre",
-      text: "Exactement ! Observe, teste, et deviens le pirate que tout le monde veut rencontrer.",
-      anchor: pirate5bis
-    },
-    { who: "apprenti",
-      text: "MERCI capitaine !",
-      anchor: pirate2bis
-    }
+    { who: "maitre", text: "Moussaillon ! Bienvenue sur le marché des trésors ! Ici, plein de pirates vendent des pierres précieuses… mais pour toi, qui débutes, faudra suivre mes conseils !", anchor: pirate5bis },
+    { who: "apprenti", text: "J’suis prêt, capitaine !", anchor: pirate2bis },
+    { who: "maitre", text: "Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates… parle comme eux, montre que tu connais tes pierres. Ensuite… sois plus malin et plus rapide qu’eux ! Faut que tous les clients viennent chez toi !", anchor: pirate5bis },
+    { who: "apprenti", text: "Mais comment je fais ça ?", anchor: pirate2bis },
+    { who: "maitre", text: "Regarde bien : la plupart ont une petite échoppe et vendent leurs pierres dans des petits sachets en velours. Les clients adorent ça ! Donc toi aussi, il te faudra une échoppe et des sachets. Mais attention… tes pierres ressemblent à celles des autres ! Faut que tu te démarques !", anchor: pirate5bis },
+    { who: "apprenti", text: "Me démarquer… c’est-à-dire ?", anchor: pirate2bis },
+    { who: "maitre", text: "Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• boîtes en bois luxe<br>• grande boutique visible<br>• aller chez les clients", anchor: pirate5bis },
+    { who: "apprenti", text: "Ahhh… donc je choisis la meilleure stratégie selon mes clients !", anchor: pirate2bis },
+    { who: "maitre", text: "Exactement ! Observe, teste, et deviens le pirate que tout le monde veut rencontrer.", anchor: pirate5bis },
+    { who: "apprenti", text: "MERCI capitaine !", anchor: pirate2bis }
   ];
 
   function createBubble(dialogue) {
@@ -177,9 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
     div.className = "bubble";
 
     const title = dialogue.who === "maitre" ? "Maître pirate" : "Apprenti pirate";
-    div.innerHTML =
-      `<div class="name">${title}</div>
-       <div>${dialogue.text}</div>`;
+    div.innerHTML = `<div class="name">${title}</div><div>${dialogue.text}</div>`;
 
     if (step < dialogues.length - 1) {
       const btn = document.createElement("button");
@@ -189,8 +159,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     bubbleContainer.appendChild(div);
-    div.style.left = rect.left + rect.width / 2 - 150 + "px";
-    div.style.top = rect.top - 120 + "px";
+
+    // 📌 Position de la bulle au-dessus du pirate et centrée
+    const bubbleWidth = div.offsetWidth;
+    const bubbleHeight = div.offsetHeight;
+    let leftPos = rect.left + rect.width / 2 - bubbleWidth / 2;
+    let topPos = rect.top - bubbleHeight - 20;
+    if (leftPos < 10) leftPos = 10;
+    if (leftPos + bubbleWidth > window.innerWidth - 10) leftPos = window.innerWidth - bubbleWidth - 10;
+    if (topPos < 10) topPos = 10;
+
+    div.style.left = leftPos + "px";
+    div.style.top = topPos + "px";
   }
 
   function nextBubble() {
@@ -204,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
     createBubble(dialogues[0]);
   }
 
-  // Optionnel : clic sur pirate5bis pour relancer dialogues
+  // clic sur pirate5bis pour relancer dialogues
   if (pirate5bis) {
     pirate5bis.addEventListener("click", startPirateDialogues);
   }
