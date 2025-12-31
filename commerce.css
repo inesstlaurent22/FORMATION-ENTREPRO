@@ -1,6 +1,5 @@
 /* ========================= */
 /* PAGE */
-/* ========================= */
 body {
   margin: 0;
   overflow: hidden;
@@ -10,7 +9,6 @@ body {
 
 /* ========================= */
 /* VIDEO */
-/* ========================= */
 #videoContainer {
   position: fixed;
   inset: 0;
@@ -19,7 +17,7 @@ body {
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity .6s;
+  transition: opacity 0.6s;
   z-index: 1000;
 }
 
@@ -37,6 +35,7 @@ body {
   position: absolute;
   top: 15px;
   right: 15px;
+  z-index: 1010;
 }
 
 #videoControls button {
@@ -47,13 +46,12 @@ body {
 
 /* ========================= */
 /* FOND */
-/* ========================= */
 #background {
   position: relative;
   width: 100vw;
   height: 100vh;
   opacity: 0;
-  transition: opacity .8s ease;
+  transition: opacity 0.8s ease;
 }
 
 #background.show {
@@ -88,7 +86,7 @@ body {
   color: white;
   font-weight: bold;
   box-shadow: 0 5px 0 #b03e00;
-  transition: transform .2s, box-shadow .2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 #buttonsContainer button:hover {
@@ -110,10 +108,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+
+  /* 🔹 plus de fond ni bordure ni ombre */
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  font-size: 1rem;
+  color: white; /* si tu veux du texte visible */
+  text-shadow: 1px 1px 2px #000;
 }
 
-/* PIRATES ADAPTATIFS + halo */
+/* PIRATES ADAPTATIFS + HALO LUMINEUX */
 #pirate2bis, #pirate5bis {
   width: 12vw;
   height: auto;
@@ -130,25 +136,18 @@ body {
   background: radial-gradient(circle, rgba(255, 200, 50, 0.5) 0%, rgba(255, 200, 50, 0) 70%);
   border-radius: 50%;
   z-index: -1;
-  filter: blur(20px);
+  filter: blur(25px);
+  animation: pulseHalo 1.6s infinite ease-in-out;
 }
 
-/* position pirate */
+/* POSITION DES PIRATES */
 #pirate2bis { left: 28vw; top: 50vh; }
 #pirate5bis { left: 50vw; top: 45vh; }
 
-/* BOUTONS PIRATES */
-.pirate {
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  padding: 12px 20px;
-  font-size: 1rem;
-  border-radius: 12px;
-  border: 3px solid #3b1b00;
-  background: linear-gradient(#c89b58, #8a5a20);
-  color: #fff5d6;
-  text-shadow: 1px 1px 2px #000;
-  box-shadow: 0 4px 0 #3b1b00;
-  cursor: pointer;
+/* Animation halo pulsant */
+@keyframes pulseHalo {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
 }
 
 /* ========================= */
@@ -161,7 +160,11 @@ body {
   padding: 14px 16px;
   font-size: 15px;
   line-height: 1.35;
-  box-shadow: 0 4px 14px rgba(0,0,0,.3);
-  animation: pop .25s ease;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  animation: pop 0.25s ease;
 }
-@keyframes pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+@keyframes pop { 
+  from { transform: scale(0.7); opacity: 0; } 
+  to { transform: scale(1); opacity: 1; } 
+}
