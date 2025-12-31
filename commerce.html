@@ -8,8 +8,9 @@
 
 <body>
 
-<div id="videoContainer" class="hidden">
-  <video id="questVideo" src="videos/commerce.mp4"></video>
+<!-- VIDÉO -->
+<div id="videoContainer">
+  <video id="questVideo" src="videos/commerce.mp4" preload="auto" playsinline webkit-playsinline></video>
 
   <div id="videoControls">
     <button id="toggleSound">🔊</button>
@@ -17,20 +18,18 @@
   </div>
 </div>
 
-<!-- BOUTONS -->
-<div id="buttonsContainer" class="hiddenButtons">
+<!-- BOUTONS APRÈS VIDÉO -->
+<div id="buttonsContainer">
   <button id="replayVideo" class="topLeft">⟲ Revoir la vidéo</button>
   <button id="finishQuest" class="topRight">🚩 Terminer la quête</button>
 </div>
 
-<!-- FOND -->
+<!-- FOND + PIRATES -->
 <div id="background">
   <img src="images/Commercefond.PNG" class="fondImage">
 
-  <!-- PIRATES -->
   <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
   <img id="pirate5bis" class="pirate glow" src="images/Pirate5.png">
-
 </div>
 
 <!-- BULLES -->
