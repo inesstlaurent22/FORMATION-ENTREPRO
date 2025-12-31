@@ -90,12 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========================================================
         4️⃣ FIN DE LA QUÊTE → DÉBLOCAGE PIRATE
   ======================================================== */
-  finishQuest.addEventListener("click", () => {
-    // Débloque le pirate 3
-    localStorage.setItem("pirate3_unlocked", "true");
-    // Retour au menu
-    window.location.href = "menu.html";
-  });
+document.getElementById("backMenu").addEventListener("click", () => {
+  localStorage.setItem("pirate3_unlocked", "true");
+  window.location.href = "menu.html";
+});
 
   /* ========================================================
         5️⃣ DIALOGUES PIRATES
