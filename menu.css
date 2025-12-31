@@ -159,17 +159,17 @@
 /* ================================================= */
 /*  Reset */
 /* ================================================= */
-
 #resetProgress {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 10px 18px;
+  position: fixed;        /* toujours visible à l'écran */
+  top: 15px;              /* haut */
+  left: 15px;             /* gauche */
+  padding: 10px 16px;
   font-size: 14px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  background: rgba(0,0,0,0.7);
+  z-index: 2000;          /* au-dessus des pirates et du fond */
+  background: rgba(0, 0, 0, 0.75);
   color: white;
 }
 
