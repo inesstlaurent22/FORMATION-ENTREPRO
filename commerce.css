@@ -141,7 +141,7 @@ body {
 /* ✨ HALO LUMINEUX ORANGE */
 /* ========================= */
 
-.glow {
+.pirate {
   animation: haloPulse 1.6s infinite ease-in-out;
   filter: drop-shadow(0 0 0px rgba(255, 140, 0, 0.0));
 }
@@ -205,7 +205,7 @@ body {
 /* BOUTONS PIRATES */
 /* ========================= */
 
-.pirate-button {
+.pirate {
   font-family: "Trebuchet MS", Arial, sans-serif;
   padding: 10px 18px;
   font-size: 16px;
@@ -224,11 +224,11 @@ body {
   box-sizing: border-box; /* inclut la bordure dans la taille */
 }
 
-.pirate-button:hover {
+.pirate:hover {
   transform: translateY(-2px);
 }
 
-.pirate-button:active {
+.pirate:active {
   transform: translateY(2px);
   box-shadow: 0 1px 0 #3b1b00;
 }
@@ -237,8 +237,8 @@ body {
 /* BOUTONS PIRATES SPÉCIFIQUES (TAILLE AJUSTÉE) */
 /* ========================= */
 
-#pirate2bis .pirate-button,
-#pirate5bis .pirate-button {
+#pirate2bis .pirate,
+#pirate5bis .pirate {
   padding: 0;
   font-size: 14px;
 }
