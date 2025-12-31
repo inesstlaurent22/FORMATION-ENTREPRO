@@ -120,8 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================================
   // 6️⃣ BOUTON RESET — présent dès le 1er chargement
   // ==========================================================
-  if (resetButton) {
-    resetButton.addEventListener("click", () => {
+  if (resetProgress) {
+    resetProgress.addEventListener("click", () => {
 
       // supprime totalement la progression
       localStorage.clear();
