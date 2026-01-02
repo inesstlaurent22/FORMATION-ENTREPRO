@@ -101,7 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const loaderText = document.getElementById("loaderText");
 
   function showLoader(){
-    loaderContainer.style.display="block";
+    loaderContainer.style.display="flex"; // fond noir complet
+    loaderText.style.opacity = 0;
     setTimeout(()=> loaderText.style.opacity=1,50);
     setTimeout(()=>{
       loaderText.style.opacity=0;
@@ -157,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================
-     🏆 VICTOIRE FADE IN + FAISCEAUX
+     🏆 VICTOIRE CENTRÉE + FAISCEAUX
   ============================ */
   const victoryScreen = document.getElementById("victoryScreen");
   const victoryBox = document.querySelector(".victoryBox");
@@ -171,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showVictory(){
     miniGameContainer.style.display="none";
     victoryBox.innerHTML = "🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <strong>5000 PO</strong> 💰";
+
     victoryScreen.style.display="flex";
     victoryScreen.style.opacity=0;
     setTimeout(()=> victoryScreen.style.opacity=1,50);
