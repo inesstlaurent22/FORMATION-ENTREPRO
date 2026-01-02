@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* ========================================================
+        ÉLÉMENTS DOM
+  ======================================================== */
   const videoContainer = document.getElementById("videoContainer");
   const questVideo = document.getElementById("questVideo");
   const toggleSound = document.getElementById("toggleSound");
@@ -19,7 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameAnswers = document.getElementById("gameAnswers");
   const gameFeedback = document.getElementById("gameFeedback");
 
-  // État initial
+  /* ========================================================
+        ÉTAT INITIAL
+  ======================================================== */
   questVideo.muted = true;
   questVideo.setAttribute("playsinline", "");
   questVideo.setAttribute("webkit-playsinline", "");
@@ -36,7 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
   overlayBlur.style.display = "none";
   victoryScreen.style.display = "none";
 
-  // Boutons vidéo
+  /* ========================================================
+        BOUTONS VIDEO
+  ======================================================== */
   if(toggleSound){
     toggleSound.addEventListener("click", ()=>{
       questVideo.muted = !questVideo.muted;
@@ -50,19 +57,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // FIN VIDEO
+  /* ========================================================
+        FIN VIDEO → FOND + PIRATES
+  ======================================================== */
   questVideo.addEventListener("ended", ()=>{
     videoContainer.style.opacity = 0;
     setTimeout(()=>{
       videoContainer.style.display = "none";
       background.style.display = "block";
-      setTimeout(()=> background.classList.add("show"), 50);
       pirate2bis.style.display = "flex";
       pirate5bis.style.display = "flex";
     }, 800);
   });
 
-  // BULLES PIRATES
+  /* ========================================================
+        DIALOGUES PIRATES (DERNIÈRE BULLE = BOUTON OK)
+  ======================================================== */
   let dialogueStep = 0;
   const dialogues = [
     { who:"maitre", text:"Moussaillon ! Bienvenue sur le marché des trésors !...", anchor: pirate5bis },
@@ -81,18 +91,25 @@ document.addEventListener("DOMContentLoaded", () => {
     bubbleContainer.innerHTML = "";
     const rect = dialogue.anchor.getBoundingClientRect();
     const div = document.createElement("div");
-    div.className="bubble";
-    const title = dialogue.who==="maitre" ? "Maître pirate":"Apprenti pirate";
-    div.innerHTML=`<div class="name">${title}</div><div>${dialogue.text}</div>`;
-    if(dialogueStep < dialogues.length-1){
+    div.className = "bubble";
+    const title = dialogue.who === "maitre" ? "Maître pirate" : "Apprenti pirate";
+    div.innerHTML = `<div class="name">${title}</div><div>${dialogue.text}</div>`;
+
+    // Dernière bulle : bouton "Ok, j'ai compris"
+    if(dialogueStep === dialogues.length - 1){
       const btn = document.createElement("button");
-      btn.textContent="Suite";
-      btn.onclick = nextBubble;
+      btn.textContent = "Ok, j'ai compris";
+      btn.onclick = () => {
+        bubbleContainer.innerHTML = "";
+        startMissionButton.style.opacity = 1;
+        startMissionButton.classList.add("show");
+      };
       div.appendChild(btn);
     }
+
     bubbleContainer.appendChild(div);
 
-    // Positionnement
+    // Positionnement bulle
     const bubbleWidth = div.offsetWidth;
     const bubbleHeight = div.offsetHeight;
     let leftPos = rect.left + rect.width/2 - bubbleWidth/2;
@@ -104,69 +121,59 @@ document.addEventListener("DOMContentLoaded", () => {
     div.style.top = topPos + "px";
   }
 
-  function nextBubble(){
-    dialogueStep++;
-    if(dialogueStep < dialogues.length){
-      createBubble(dialogues[dialogueStep]);
-    } else {
-      // DERNIÈRE BULLE : faire apparaître le bouton
-      bubbleContainer.innerHTML = "";
-      startMissionButton.style.opacity = 1;
-      startMissionButton.classList.add("show");
-    }
-  }
-
   pirate5bis.addEventListener("click", ()=>{
-    dialogueStep=0;
-    createBubble(dialogues[0]);
+    dialogueStep = 0;
+    createBubble(dialogues[dialogueStep]);
   });
 
-  // MINI-JEU
-  const steps=[
-    {question:"Où les pirates ont-ils trouvé leurs pierres ?", answers:["Dans un coffre","Au marché","La tante les a données"], correct:0},
-    {question:"Qui fait partie de l'équipage pirate ?", answers:["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"], correct:0},
+  /* ========================================================
+        MINI-JEU
+  ======================================================== */
+  const steps = [
+    { question:"Où les pirates ont-ils trouvé leurs pierres ?", answers:["Dans un coffre","Au marché","La tante les a données"], correct:0 },
+    { question:"Qui fait partie de l'équipage pirate ?", answers:["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"], correct:0 },
   ];
 
-  let currentStep=0;
+  let currentStep = 0;
 
   function showStep(){
-    if(currentStep<steps.length){
+    if(currentStep < steps.length){
       const stepObj = steps[currentStep];
       gameQuestion.textContent = stepObj.question;
-      gameAnswers.innerHTML="";
-      gameFeedback.textContent="";
+      gameAnswers.innerHTML = "";
+      gameFeedback.textContent = "";
       stepObj.answers.forEach((ans,i)=>{
-        const btn=document.createElement("button");
-        btn.textContent=ans;
+        const btn = document.createElement("button");
+        btn.textContent = ans;
         btn.addEventListener("click",()=>handleAnswer(i));
         gameAnswers.appendChild(btn);
       });
-    }else{
-      miniGameContainer.style.opacity=0;
+    } else {
+      miniGameContainer.style.opacity = 0;
       setTimeout(()=>{
-        miniGameContainer.style.display="none";
-        overlayBlur.style.opacity=0;
-        overlayBlur.style.display="none";
-        victoryScreen.style.display="flex";
+        miniGameContainer.style.display = "none";
+        overlayBlur.style.opacity = 0;
+        overlayBlur.style.display = "none";
+        victoryScreen.style.display = "flex";
       },500);
     }
   }
 
   function handleAnswer(i){
     const stepObj = steps[currentStep];
-    if(i===stepObj.correct){
-      gameFeedback.textContent="✅ Bonne réponse !";
+    if(i === stepObj.correct){
+      gameFeedback.textContent = "✅ Bonne réponse !";
       setTimeout(()=>{ currentStep++; showStep(); },700);
-    }else gameFeedback.textContent="❌ Essaie encore !";
+    } else gameFeedback.textContent = "❌ Essaie encore !";
   }
 
   startMissionButton.addEventListener("click", ()=>{
     startMissionButton.classList.remove("show");
-    overlayBlur.style.display="block";
-    overlayBlur.style.opacity=1;
-    miniGameContainer.style.display="flex";
-    miniGameContainer.style.opacity=1;
-    currentStep=0;
+    overlayBlur.style.display = "block";
+    overlayBlur.style.opacity = 1;
+    miniGameContainer.style.display = "flex";
+    miniGameContainer.style.opacity = 1;
+    currentStep = 0;
     showStep();
   });
 
