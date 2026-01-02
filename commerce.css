@@ -5,9 +5,6 @@ body {
 }
 
 /* =================== */
-/* VIDEO + FADES */
-/* =================== */
-/* =================== */
 /* VIDEO + FADES + BOUTONS */
 /* =================== */
 #videoContainer {
@@ -29,7 +26,6 @@ body {
   object-fit: cover;
 }
 
-/* Conteneur des boutons video */
 #videoControls {
   position: absolute;
   top: 20px;
@@ -40,12 +36,13 @@ body {
 }
 
 #videoControls button {
-  font-size: 24px;
+  font-size: 22px;
   padding: 8px 12px;
   border: none;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.7);
   cursor: pointer;
+  text-shadow: 1px 1px 2px #000;
   transition: transform 0.2s, background 0.2s;
 }
 
@@ -54,9 +51,10 @@ body {
   transform: scale(1.1);
 }
 
+/* =================== */
 /* BOUTON LANCER LA VIDÉO */
 #launchButton {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -83,9 +81,9 @@ body {
   transform: translate(-50%, -50%) translateY(2px);
   box-shadow: 0 2px 0 #3b1b00;
 }
+
 /* =================== */
 /* FOND + PIRATES */
-/* =================== */
 #background {
   position: relative;
   width: 100%;
@@ -104,7 +102,6 @@ body {
 
 /* =================== */
 /* BULLES DE DIALOGUE */
-/* =================== */
 #bubbleContainer .bubble {
   position: absolute;
   max-width: 250px;
@@ -117,7 +114,6 @@ body {
 
 /* =================== */
 /* BOUTON COMMENCER MINI JEU */
-/* =================== */
 #startMissionButton {
   position: fixed;
   bottom: 12%;
@@ -138,7 +134,6 @@ body {
 
 /* =================== */
 /* MINI JEU + OVERLAY */
-/* =================== */
 #overlayBlur {
   position: fixed;
   inset: 0;
@@ -158,34 +153,4 @@ body {
   background: white;
   padding: 30px;
   border-radius: 15px;
-  display: none;
-  opacity: 0;
-  z-index: 1600;
-}
-
-/* =================== */
-/* MINI JEU CONTENU */
-#gameQuestion { font-size: 20px; margin-bottom: 15px; }
-#gameAnswers button { margin: 5px; padding: 8px 12px; font-size: 18px; }
-#gameFeedback { margin-top: 10px; font-size: 18px; }
-
-/* =================== */
-/* VICTOIRE */
-/* =================== */
-#victoryScreen {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.7);
-  z-index: 1700;
-}
-
-#victoryScreen .victoryBox {
-  background: white;
-  padding: 25px 30px;
-  border-radius: 15px;
-  font-size: 28px;
-  text-align: center;
-}
+  display:
