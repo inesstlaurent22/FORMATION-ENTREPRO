@@ -38,44 +38,8 @@ html, body { width:100%; height:100%; overflow:hidden; font-family:'Trebuchet MS
 #miniGameContainer #gameAnswers button:active { transform:translateY(2px); box-shadow:0 2px 0 #3b1b00; }
 #miniGameContainer #gameFeedback { margin-top:12px; font-weight:bold; font-size:18px; color:#1b3b00; }
 
-/* --- FEU D'ARTIFICE DE PIÈCES --- */
-.coin-fireworks {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 5; /* 🔽 DERRIÈRE LE CADRAN */
-}
-
-/* pièce individuelle */
-.coin {
-  position: absolute;
-  font-size: 28px;
-  animation: fall 1.5s linear forwards;
-}
-
-/* animation chute + dispersion */
-@keyframes fall {
-  0% { transform: translateY(-30px) scale(1); opacity: 1; }
-  100% { transform: translateY(200px) scale(0.6); opacity: 0; }
-}
-
-/* --- CADRAN DE VICTOIRE --- */
-.win-panel {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.85);
-  color: white;
-  padding: 35px 55px;
-  border-radius: 18px;
-  font-size: 28px;
-  text-align: center;
-  border: 3px solid gold;
-  box-shadow: 0 0 25px gold;
-  z-index: 20; /* 🔼 DEVANT LES PIÈCES */
-}
+/* ÉCRAN DE VICTOIRE */
+#victoryScreen { position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.7); z-index:2500; }
+.victoryBox { text-align:center; color:#fff; font-size:32px; font-weight:bold; position:relative; }
+#fireworksCanvas { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+@keyframes blink { 0%,50%,100% { opacity:1; } 25%,75% { opacity:0.3; } }
