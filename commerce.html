@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="commerce.css">
 </head>
+
 <body>
 
 <!-- 🎬 CONTAINER VIDÉO -->
@@ -29,8 +30,8 @@
 <!-- 🌅 FOND + PIRATES -->
 <div id="background">
   <img src="images/Commercefond.PNG" class="fondImage">
-  <img id="pirate2bis" class="pirate" src="images/Pirate2.png" alt="Moussaillon">
-  <img id="pirate5bis" class="pirate" src="images/Pirate5.png" alt="Maître Pirate">
+  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
+  <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
 </div>
 
 <!-- 💬 BULLES -->
@@ -41,10 +42,10 @@
 
 <!-- ✨ LOADER -->
 <div id="loaderContainer">
-  <div id="loaderText">Termine ce mini-jeu pour continuer la quête</div>
+  <div id="loaderText">Termine ce mini-jeu pour poursuivre la quête</div>
 </div>
 
-<!-- 🎮 MINI-JEU -->
+<!-- 🎮 MINI JEU -->
 <div id="miniGameContainer">
   <div id="gameQuestion"></div>
   <div id="gameAnswers"></div>
@@ -53,7 +54,8 @@
 
 <!-- 🏆 VICTOIRE -->
 <div id="victoryScreen">
-  <div class="victoryBox"></div>
+  <canvas id="lightCanvas"></canvas>
+  <div class="victoryBox">🎉 Bravo moussaillon ! 🎉</div>
 </div>
 
 <script src="commerce.js"></script>
