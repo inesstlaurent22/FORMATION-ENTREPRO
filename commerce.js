@@ -1,39 +1,62 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ============================
-     🎬 VIDÉO
+     🎬 1) VIDEO
   ============================ */
-  const video = document.getElementById("questVideo");
   const videoContainer = document.getElementById("videoContainer");
+  const video = document.getElementById("questVideo");
   const closeVideo = document.getElementById("closeVideo");
   const toggleSound = document.getElementById("toggleSound");
 
+  // optimisation lancement
   video.preload = "auto";
+  video.muted = false;
+  video.play().catch(()=>{});
 
-  // lecture auto au chargement
-  video.play().catch(() => {});
-
-  // bouton mute
   toggleSound.addEventListener("click", () => {
     video.muted = !video.muted;
     toggleSound.textContent = video.muted ? "🔇" : "🔊";
   });
 
-  // fermeture vidéo = démarre dialogues
-  closeVideo.addEventListener("click", () => {
-    video.pause();
-    videoContainer.style.display = "none";
-    startDialogues();
-  });
+  // fermeture manuelle
+  closeVideo.addEventListener("click", endVideo);
 
-  // fin vidéo = démarre dialogues
-  video.addEventListener("ended", () => {
-    videoContainer.style.display = "none";
-    startDialogues();
-  });
+  // fin automatique
+  video.addEventListener("ended", endVideo);
+
+  function endVideo() {
+    video.pause();
+
+    // fade out
+    videoContainer.style.transition = "opacity 1s";
+    videoContainer.style.opacity = 0;
+
+    setTimeout(() => {
+      videoContainer.style.display = "none";
+      showBackgroundAndPirates();
+    }, 1000);
+  }
+
 
   /* ============================
-     🎭 PERSONNAGES
+     🏝️ 2) AFFICHER FOND + PIRATES
+  ============================ */
+  function showBackgroundAndPirates() {
+
+    const background = document.getElementById("background");
+    background.style.opacity = 0;
+    background.style.display = "block";
+
+    setTimeout(()=>{
+      background.style.transition = "opacity 1s";
+      background.style.opacity = 1;
+    },50);
+
+    startDialogues();
+  }
+
+  /* ============================
+     🎭 3) PIRATES POSITION
   ============================ */
   const pirate2bis = document.getElementById("pirate2bis");
   const pirate5bis = document.getElementById("pirate5bis");
@@ -46,23 +69,18 @@ document.addEventListener("DOMContentLoaded", () => {
   pirate5bis.style.left = "785px";
   pirate5bis.style.top = "397px";
 
+
   /* ============================
-     💬 DIALOGUES
+     💬 4) DIALOGUES
   ============================ */
   let dialogueStep = 0;
 
   const dialogues = [
-    { who:"maitre", text:"Moussaillon ! Bienvenue sur le marché des trésors !...", anchor: pirate5bis },
-    { who:"apprenti", text:"J’suis prêt, capitaine !", anchor: pirate2bis },
-    { who:"maitre", text:"Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates…", anchor: pirate5bis },
-    { who:"apprenti", text:"Mais comment je fais ça ?", anchor: pirate2bis },
-    { who:"maitre", text:"Regarde bien : la plupart ont une petite échoppe...", anchor: pirate5bis },
-    { who:"apprenti", text:"Me démarquer… c’est-à-dire ?", anchor: pirate2bis },
-    { who:"maitre", text:"Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• boîtes en bois luxe<br>• grande boutique visible<br>• aller chez les clients", anchor: pirate5bis },
-    { who:"apprenti", text:"Ahhh… donc je choisis la meilleure stratégie selon mes clients !", anchor: pirate2bis },
-    { who:"maitre", text:"Exactement ! Observe, teste, et deviens le pirate que tout le monde veut rencontrer.", anchor: pirate5bis },
-    { who:"apprenti", text:"MERCI capitaine !", anchor: pirate2bis },
-    { who:"maitre", text:"Tu es prêt ? Alors prouve-le maintenant !", anchor: pirate5bis, last:true }
+    { who:"maitre", text:"Bienvenue au marché des trésors !", anchor: pirate5bis },
+    { who:"apprenti", text:"Je suis prêt maître pirate !", anchor: pirate2bis },
+    { who:"maitre", text:"Observe, compare, et trouve ta stratégie…", anchor: pirate5bis },
+    { who:"apprenti", text:"Je vais tout donner capitaine !", anchor: pirate2bis },
+    { who:"maitre", text:"Alors montre-moi ce dont tu es capable !", anchor: pirate5bis, last:true }
   ];
 
   function startDialogues() {
@@ -72,8 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showDialogue() {
 
-    const oldBubble = document.querySelector(".dialogue-bubble");
-    if (oldBubble) oldBubble.remove();
+    const old = document.querySelector(".dialogue-bubble");
+    if (old) old.remove();
 
     if (dialogueStep >= dialogues.length) return;
 
@@ -84,38 +102,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const speaker =
       d.who === "maitre"
-        ? "<strong>Maître Pirate</strong><hr>"
-        : "<strong>Moussaillon</strong><hr>";
+      ? "<strong>Maître Pirate</strong><hr>"
+      : "<strong>Moussaillon</strong><hr>";
 
-    bubble.innerHTML = `${speaker}${d.text}`;
+    bubble.innerHTML = speaker + d.text;
 
     const rect = d.anchor.getBoundingClientRect();
+
     bubble.style.position = "absolute";
     bubble.style.left = rect.left + "px";
     bubble.style.top = (rect.top - 120) + "px";
-    bubble.style.maxWidth = "320px";
-    bubble.style.padding = "12px";
     bubble.style.background = "white";
+    bubble.style.padding = "12px";
     bubble.style.borderRadius = "14px";
-    bubble.style.zIndex = "50";
+    bubble.style.maxWidth = "320px";
+    bubble.style.zIndex = 10;
 
-    // dernière bulle = bouton
     if (d.last) {
       const btn = document.createElement("button");
       btn.textContent = "Ok, j’ai compris";
       btn.style.marginTop = "10px";
-      btn.style.padding = "8px 14px";
-      btn.style.fontWeight = "bold";
-      btn.style.borderRadius = "8px";
 
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", ()=>{
         bubble.remove();
-        launchLoaderThenMiniGame();
+        launchLoader();
       });
 
       bubble.appendChild(btn);
     } else {
-      bubble.addEventListener("click", () => {
+      bubble.addEventListener("click", ()=>{
         dialogueStep++;
         showDialogue();
       });
@@ -124,149 +139,142 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(bubble);
   }
 
+
   /* ============================
-     ⏳ LOADER
+     🌟 5) FADE IN + LOADER
   ============================ */
-  function launchLoaderThenMiniGame() {
+  function launchLoader() {
 
-    const overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.left = 0;
-    overlay.style.top = 0;
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.background = "black";
-    overlay.style.display = "flex";
-    overlay.style.alignItems = "center";
-    overlay.style.justifyContent = "center";
-    overlay.style.flexDirection = "column";
-    overlay.style.zIndex = 200;
+    const loader = document.createElement("div");
+    loader.id = "loaderScreen";
+    loader.style.position = "fixed";
+    loader.style.left = 0;
+    loader.style.top = 0;
+    loader.style.width = "100%";
+    loader.style.height = "100%";
+    loader.style.background = "black";
+    loader.style.color = "white";
+    loader.style.display = "flex";
+    loader.style.alignItems = "center";
+    loader.style.justifyContent = "center";
+    loader.style.fontSize = "28px";
+    loader.style.opacity = 0;
+    loader.style.transition = "opacity 1.2s";
 
-    const msg = document.createElement("div");
-    msg.innerHTML = "Gagne ce mini-jeu pour continuer ta quête";
-    msg.style.color = "white";
-    msg.style.fontSize = "28px";
-    msg.style.fontWeight = "bold";
+    loader.innerHTML = "Termine ce mini-jeu pour continuer la quête";
 
-    overlay.appendChild(msg);
-    document.body.appendChild(overlay);
+    document.body.appendChild(loader);
 
-    setTimeout(() => {
-      overlay.remove();
+    setTimeout(()=> loader.style.opacity = 1, 50);
+
+    setTimeout(()=>{
+      loader.remove();
       startMiniGame();
-    }, 2000);
+    }, 2500);
   }
 
+
   /* ============================
-     🎮 MINI-JEU
+     🎮 6) MINI JEU
   ============================ */
   const miniGameContainer = document.getElementById("miniGameContainer");
   const gameQuestion = document.getElementById("gameQuestion");
   const gameAnswers = document.getElementById("gameAnswers");
   const gameFeedback = document.getElementById("gameFeedback");
 
-  const steps = [
-    { question: "Où les pirates ont-ils trouvé leurs pierres ?", answers: ["Dans un coffre dans une grotte secrète","Ils les ont achetées au marché","La tante les leur a données"], correct: 0 },
-    { question: "Qui fait partie de l'équipage pirate ?", answers: ["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"], correct: 0 },
-    { question: "Quel est le but du projet des pirates ?", answers: ["Construire un bateau","Partir en vacances","Garder les pierres pour décorer la cale"], correct: 0 }
+  const questions = [
+    {q:"Pourquoi les pirates vendent leurs pierres ?",a:["Acheter un bateau","Décorer la cale","Les manger"],c:0},
+    {q:"Où ont-ils trouvé les pierres ?",a:["Grotte secrète","Supermarché","Internet"],c:0},
+    {q:"Que doivent-ils faire au marché ?",a:["Observer les concurrents","Dormir","Crier"],c:0}
   ];
 
-  let currentStep = 0;
+  let step = 0;
 
-  function startMiniGame() {
+  function startMiniGame(){
     miniGameContainer.style.display = "flex";
-    currentStep = 0;
+    step = 0;
     showStep();
   }
 
-  function showStep() {
-    if (currentStep >= steps.length) {
-      handleWinMiniGame();
+  function showStep(){
+    if(step >= questions.length){
+      showVictory();
       return;
     }
 
-    const s = steps[currentStep];
-
-    gameQuestion.textContent = s.question;
+    const q = questions[step];
+    gameQuestion.textContent = q.q;
     gameAnswers.innerHTML = "";
     gameFeedback.textContent = "";
 
-    s.answers.forEach((ans, i) => {
-      const btn = document.createElement("button");
-      btn.textContent = ans;
-      btn.addEventListener("click", () => handleAnswer(i));
-      gameAnswers.appendChild(btn);
+    q.a.forEach((ans,i)=>{
+      const b = document.createElement("button");
+      b.textContent = ans;
+      b.addEventListener("click", ()=> checkAnswer(i,q.c));
+      gameAnswers.appendChild(b);
     });
   }
 
-  function handleAnswer(i) {
-    if (i === steps[currentStep].correct) {
-      gameFeedback.textContent = "✅ Bonne réponse !";
-      setTimeout(() => {
-        currentStep++;
-        showStep();
-      }, 600);
+  function checkAnswer(i,correct){
+    if(i===correct){
+      gameFeedback.textContent="✅ Bravo moussaillon";
+      step++;
+      setTimeout(showStep,600);
     } else {
-      gameFeedback.textContent = "❌ Essaie encore !";
+      gameFeedback.textContent="❌ Essaie encore";
     }
   }
 
-  /* ============================
-     🏆 VICTOIRE
-  ============================ */
-  function handleWinMiniGame() {
 
-    miniGameContainer.style.display = "none";
+  /* ============================
+     🏆 7) VICTOIRE + PIÈCES
+  ============================ */
+  function showVictory(){
+
+    miniGameContainer.style.display="none";
 
     const panel = document.createElement("div");
-    panel.classList.add("win-panel");
+    panel.classList.add("victoryPanel");
+
     panel.innerHTML = `
       <div class="victoryBox">
-        <h2>🎉 Bravo !</h2>
-        <h3>Tu as gagné 5000 PO 💰</h3>
+        🎉 Bravo !<br>
+        Tu as gagné <strong>5000 PO</strong> 💰
       </div>
     `;
 
     document.body.appendChild(panel);
 
-    // feu d'artifice pièces DERRIÈRE le cadre
-    setTimeout(() => {
-      launchCoinFireworks(panel.querySelector(".victoryBox"));
-    }, 200);
+    launchCoins(panel.querySelector(".victoryBox"));
   }
 
-  /* ============================
-     🪙 FEU D’ARTIFICE OR DERRIÈRE LE TEXTE
-  ============================ */
-  function launchCoinFireworks(behindBox) {
+  function launchCoins(box){
 
     const container = document.createElement("div");
-    container.style.position = "absolute";
-    container.style.inset = "0";
-    container.style.zIndex = "0";
+    container.style.position="absolute";
+    container.style.inset=0;
+    container.style.zIndex=0;
 
-    behindBox.style.position = "relative";
-    behindBox.appendChild(container);
+    box.style.position="relative";
+    box.appendChild(container);
 
-    for (let i = 0; i < 40; i++) {
-      const coin = document.createElement("div");
-      coin.textContent = "🪙";
-      coin.style.position = "absolute";
-      coin.style.fontSize = "26px";
-      coin.style.left = Math.random() * 100 + "%";
-      coin.style.top = "60%";
-      coin.style.opacity = "0";
+    for(let i=0;i<40;i++){
+      const c=document.createElement("div");
+      c.textContent="🪙";
+      c.style.position="absolute";
+      c.style.left=Math.random()*100+"%";
+      c.style.top="60%";
+      c.style.opacity=0;
+      c.style.transition="transform 1.2s, opacity 1.2s";
 
-      coin.style.transition = "transform 1.2s linear, opacity 1.2s";
+      container.appendChild(c);
 
-      container.appendChild(coin);
+      setTimeout(()=>{
+        c.style.opacity=1;
+        c.style.transform=`translate(${Math.random()*200-100}px,-${Math.random()*200}px) scale(1.3)`;
+      },50);
 
-      setTimeout(() => {
-        coin.style.opacity = 1;
-        coin.style.transform = `translate(${(Math.random()*200-100)}px, -${Math.random()*200}px) scale(1.3)`;
-      }, 50);
-
-      setTimeout(() => coin.remove(), 1400);
+      setTimeout(()=>c.remove(),1400);
     }
   }
 
