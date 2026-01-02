@@ -85,9 +85,17 @@ document.addEventListener("DOMContentLoaded", () => {
   let dialogueStep = 0;
 
   const dialogues = [
-    { who:"maitre", text:"Bienvenue sur le marché des trésors !", anchor:pirate5bis },
-    { who:"apprenti", text:"J’suis prêt capitaine !", anchor:pirate2bis },
-    { who:"maitre", text:"Observe, teste et deviens le meilleur pirate commerçant.", anchor:pirate5bis }
+ { who:"maitre", text:"Moussaillon ! Bienvenue sur le marché des trésors ! Ici, plein de pirates vendent des pierres précieuses… mais pour toi, qui débutes, faudra suivre mes conseils !", anchor: pirate5bis },
+    { who:"apprenti", text:"J’suis prêt, capitaine !", anchor: pirate2bis },
+    { who:"maitre", text:"Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates : parle comme eux, et montre que tu connais tes pierres.", anchor: pirate5bis },
+    { who:"apprenti", text:"Mais comment je fais ça ?", anchor: pirate2bis },
+    { who:"maitre", text:"Regarde bien : la plupart ont une échoppe et des sachets en velours. Les clients adorent ça. Mais tes pierres ressemblent aux autres : il faut te démarquer.", anchor: pirate5bis },
+    { who:"apprenti", text:"Me démarquer… c’est-à-dire ?", anchor: pirate2bis },
+    { who:"maitre", text:"Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• boîtes en bois luxe<br>• grande boutique visible<br>• aller chez les clients", anchor: pirate5bis },
+    { who:"apprenti", text:"Ahhh… donc je choisis la meilleure stratégie selon mes clients !", anchor: pirate2bis },
+    { who:"maitre", text:"Exactement ! Observe, teste, et deviens le pirate que tout le monde veut rencontrer.", anchor: pirate5bis },
+    { who:"apprenti", text:"MERCI capitaine !", anchor: pirate2bis },
+    { who:"maitre", text:"Tu es prêt ? Alors prouve-le maintenant !", anchor: pirate5bis, last:true }
   ];
 
   function createBubble(dialogue, isLast = false) {
@@ -161,24 +169,15 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------------------- MINI JEU ---------------------- */
 
   const steps = [
-    {
-      question: "Où trouvent-ils les pierres ?",
-      answers: [
-        "Dans un coffre secret",
-        "Au marché",
-        "Offertes par la tante"
-      ],
-      correct: 0
-    },
-    {
-      question: "Qui fait partie de l'équipage ?",
-      answers: [
-        "Toi et deux moussaillons",
-        "Juste le capitaine",
-        "Toute la famille"
-      ],
-      correct: 0
-    }
+    { question: "Où les pirates ont-ils trouvé leurs pierres ?", answers: ["La tante les leur a données","Ils les ont achetées au marché","Dans un coffre"], correct: 2 },
+    { question: "Qui fait partie de l'équipage pirate ?", answers: ["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"], correct: 0 },
+    { question: "Quel est le but du projet des pirates ?", answers: ["Acheter un bateau de pirate","Partir en vacances","Garder les pierres pour décorer la cale"], correct: 0 },
+    { question: "Qu’est-ce que les pirates doivent observer sur le marché ?", answers: ["Les autres pierres","Les concurrents","Les clients"], correct: 0,1,2 },
+    { question: "Que doivent-ils décrire pour leurs pierres ?", answers: ["Couleur, nombre et prix, qualités et défauts","Seulement la couleur","Seulement la taille"], correct: 0,1,2 },
+    { question: "À quoi sert le modèle économique ?", answers: ["Savoir combien de pierres vendre pour acheter le bateau","Savoir qui fait la vaisselle","Compter les mouettes"], correct: 0 },
+    { question: "Quelle stratégie les différencie des autres ?", answers: ["Crier très fort au marché","Vendre les pierres dans des boîtes en bois","Vendre sans dire le prix"], correct: 1 }
+    { question: "Qu’est-ce que le plan financier ?", answers: ["Un document qui prévoit les dépenses et les gains","Une carte au trésor","Une chanson de pirates"], correct: 0 },
+    { question: "À quoi sert le statut juridique ?", answers: ["À choisir le nom du perroquet","À fabriquer des épées","À dire comment l’activité pirate est organisée légalement"], correct: 0 }
   ];
 
   let currentStep = 0;
