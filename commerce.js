@@ -42,10 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
   victoryScreen.style.display = "none";
 
   /* ========================================================
-        VIDEO AUTO-PLAY + BOUTON LANCER LA VIDÉO
+        VIDEO AUTO-PLAY
   ======================================================== */
   function createLaunchButton() {
-    if (document.getElementById("launchButton")) return;
     const btn = document.createElement("button");
     btn.id = "launchButton";
     btn.textContent = "⚓ Lancer la vidéo";
@@ -78,9 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setTimeout(tryPlayVideo, 200);
 
-  // Toujours créer le bouton si la vidéo est bloquée
-  if (questVideo.paused) createLaunchButton();
-
   /* ========================================================
         FIN VIDEO → FOND + PIRATES
   ======================================================== */
@@ -90,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       videoContainer.style.display = "none";
-      background.classList.add("show");
+      background.classList.add("show"); // Fade + display
       pirate2bis.style.display = "flex";
       pirate5bis.style.display = "flex";
     }, 800);
@@ -98,18 +94,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   questVideo.addEventListener("ended", showScene);
 
-  /* ========================================================
-        BOUTONS SON / FERMER
-  ======================================================== */
-  toggleSound.addEventListener("click", () => {
-    questVideo.muted = !questVideo.muted;
-    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  });
+  if (closeVideo) {
+    closeVideo.addEventListener("click", () => {
+      questVideo.pause();
+      questVideo.dispatchEvent(new Event('ended'));
+    });
+  }
 
-  closeVideo.addEventListener("click", () => {
-    questVideo.pause();
-    questVideo.dispatchEvent(new Event('ended'));
-  });
+  if (toggleSound) {
+    toggleSound.addEventListener("click", () => {
+      questVideo.muted = !questVideo.muted;
+      toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+    });
+  }
 
   /* ========================================================
         BULLES DE TEXTE DES PIRATES
@@ -163,11 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (step < dialogues.length) {
       createBubble(dialogues[step]);
     } else {
-      bubbleContainer.innerHTML = `
-        <div class="bubble">
-          <p>Merci Capitaine ! Grâce à toi, la tante pirate a tout compris !</p>
-        </div>
-      `;
+      bubbleContainer.innerHTML = `<div class="bubble"><p>Merci Capitaine ! Grâce à toi, la tante pirate a tout compris !</p></div>`;
       setTimeout(() => {
         startMissionButton.style.opacity = 1;
         startMissionButton.classList.add("show");
