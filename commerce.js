@@ -13,10 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate5bis = document.getElementById("pirate5bis");
   const bubbleContainer = document.getElementById("bubbleContainer");
 
-  const buttonsContainer = document.getElementById("buttonsContainer");
-  const replayVideo = document.getElementById("replayVideo");
-  const finishQuest = document.getElementById("finishQuest");
-
   const startMissionButton = document.getElementById("startMissionButton");
   const overlayBlur = document.getElementById("overlayBlur");
   const miniGameContainer = document.getElementById("miniGameContainer");
@@ -38,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
   videoContainer.style.opacity = "1";
 
   background.classList.remove("show");
-  buttonsContainer.style.display = "none";
   pirate2bis.style.display = "none";
   pirate5bis.style.display = "none";
   startMissionButton.style.opacity = 0;
@@ -47,30 +42,29 @@ document.addEventListener("DOMContentLoaded", () => {
   victoryScreen.style.display = "none";
 
   /* ========================================================
-        VIDEO AUTO-PLAY
+        VIDEO AUTO-PLAY + BOUTON LANCER LA VIDÉO
   ======================================================== */
-document.addEventListener("DOMContentLoaded", () => {
-
-  const videoContainer = document.getElementById("videoContainer");
-  const questVideo = document.getElementById("questVideo");
-  const toggleSound = document.getElementById("toggleSound");
-  const closeVideo = document.getElementById("closeVideo");
-
-  // État initial
-  questVideo.muted = true;
-  questVideo.loop = false;
-
-  videoContainer.style.display = "flex";
-  videoContainer.style.opacity = 1;
-
-  // =========================
-  // BOUTON LANCER LA VIDÉO SI AUTO-PLAY BLOQUÉ
-  // =========================
   function createLaunchButton() {
     if (document.getElementById("launchButton")) return;
     const btn = document.createElement("button");
     btn.id = "launchButton";
     btn.textContent = "⚓ Lancer la vidéo";
+    Object.assign(btn.style, {
+      position: "absolute",
+      left: "50%",
+      top: "50%",
+      transform: "translate(-50%, -50%)",
+      padding: "20px 40px",
+      fontSize: "1.5rem",
+      background: "linear-gradient(#8a5a20, #c89b58)",
+      color: "#fff5d6",
+      border: "3px solid #3b1b00",
+      borderRadius: "12px",
+      boxShadow: "0 5px 0 #3b1b00",
+      cursor: "pointer",
+      zIndex: "1100",
+      textShadow: "1px 1px 2px #000"
+    });
     videoContainer.appendChild(btn);
     btn.addEventListener("click", () => {
       questVideo.play();
@@ -78,41 +72,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Essayer de lancer la vidéo automatiquement
-  questVideo.play().catch(() => {
-    createLaunchButton();
-  });
+  function tryPlayVideo() {
+    questVideo.play().catch(() => createLaunchButton());
+  }
 
-  // =========================
-  // BOUTONS SON / FERMER
-  // =========================
-  toggleSound.addEventListener("click", () => {
-    questVideo.muted = !questVideo.muted;
-    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  });
+  setTimeout(tryPlayVideo, 200);
 
-  closeVideo.addEventListener("click", () => {
-    questVideo.pause();
-    questVideo.currentTime = 0;
-    videoContainer.style.display = "none";
-    videoContainer.style.opacity = 0;
-    // Ici tu peux lancer la suite : afficher le fond et les pirates
-    // showScene(); <-- si tu veux l'appeler
-  });
-
-  // =========================
-  // FIN VIDEO → FOND + PIRATES
-  // =========================
-  questVideo.addEventListener("ended", () => {
-    videoContainer.style.transition = "opacity 0.8s";
-    videoContainer.style.opacity = 0;
-    setTimeout(() => {
-      videoContainer.style.display = "none";
-      // afficher ton background et pirates ici
-    }, 800);
-  });
-
-});
+  // Toujours créer le bouton si la vidéo est bloquée
+  if (questVideo.paused) createLaunchButton();
 
   /* ========================================================
         FIN VIDEO → FOND + PIRATES
@@ -126,38 +93,23 @@ document.addEventListener("DOMContentLoaded", () => {
       background.classList.add("show");
       pirate2bis.style.display = "flex";
       pirate5bis.style.display = "flex";
-      buttonsContainer.style.display = "flex";
-      replayVideo.style.display = "flex";
-      finishQuest.style.display = "flex";
     }, 800);
   }
 
   questVideo.addEventListener("ended", showScene);
 
-  if (closeVideo) {
-    closeVideo.addEventListener("click", () => {
-      questVideo.pause();
-      questVideo.dispatchEvent(new Event('ended'));
-    });
-  }
+  /* ========================================================
+        BOUTONS SON / FERMER
+  ======================================================== */
+  toggleSound.addEventListener("click", () => {
+    questVideo.muted = !questVideo.muted;
+    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  });
 
-  if (toggleSound) {
-    toggleSound.addEventListener("click", () => {
-      questVideo.muted = !questVideo.muted;
-      toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-    });
-  }
-
-  if (replayVideo) {
-    replayVideo.addEventListener("click", () => {
-      videoContainer.style.display = "flex";
-      videoContainer.style.opacity = "1";
-      background.classList.remove("show");
-      buttonsContainer.style.display = "none";
-      questVideo.currentTime = 0;
-      questVideo.play();
-    });
-  }
+  closeVideo.addEventListener("click", () => {
+    questVideo.pause();
+    questVideo.dispatchEvent(new Event('ended'));
+  });
 
   /* ========================================================
         BULLES DE TEXTE DES PIRATES
@@ -216,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>Merci Capitaine ! Grâce à toi, la tante pirate a tout compris !</p>
         </div>
       `;
-      // AFFICHER LE BOUTON COMMENCER MINI-JEU APRES LA DERNIERE BULLE
       setTimeout(() => {
         startMissionButton.style.opacity = 1;
         startMissionButton.classList.add("show");
@@ -261,7 +212,6 @@ document.addEventListener("DOMContentLoaded", () => {
         gameAnswers.appendChild(btn);
       });
     } else {
-      // FIN MINI-JEU → écran victoire
       miniGameContainer.style.opacity = 0;
       setTimeout(() => {
         miniGameContainer.style.display = "none";
