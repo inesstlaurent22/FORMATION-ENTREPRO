@@ -1,90 +1,77 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Quête Commerce</title>
-  <link rel="stylesheet" href="commerce.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="commerce.css">
 </head>
 
 <body>
 
-<!-- ========================= -->
-<!-- 📽️ VIDÉO INTRO -->
-<!-- ========================= -->
+<!-- 🎬 CONTAINER VIDÉO -->
 <div id="videoContainer">
-  <video
-    id="questVideo"
-    src="videos/Commercevideo.MOV"
+  <video 
+    id="questVideo" 
+    autoplay 
+    muted 
+    playsinline 
     preload="auto"
-    playsinline
-    webkit-playsinline
-  ></video>
+  >
+    <source src="video.mp4" type="video/mp4">
+  </video>
 
-  <!-- contrôles -->
   <div id="videoControls">
-    <button id="toggleSound">🔊</button>
+    <button id="toggleSound">🔇</button>
     <button id="closeVideo">✖</button>
   </div>
 </div>
 
-<!-- ========================= -->
-<!-- 🏝️ FOND + PIRATES -->
-<!-- ========================= -->
+<!-- 🌅 FOND + PIRATES -->
 <div id="background">
-  <img src="images/Commercefond.PNG" class="fondImage" />
 
-  <!-- positions demandées -->
-  <img
-    id="pirate2bis"
-    class="pirate"
-    src="images/Pirate2.png"
-    style="left:516px; top:406px;"
-  />
+  <img src="images/Commercefond.PNG" class="fondImage">
 
-  <img
-    id="pirate5bis"
-    class="pirate"
-    src="images/Pirate5.png"
-    style="left:785px; top:397px;"
-  />
+  <img id="pirate2bis" class="pirate" src="images/pirate2.png">
+  <img id="pirate5bis" class="pirate" src="images/pirate5.png">
+
 </div>
 
-<!-- ========================= -->
-<!-- 💬 BULLES DE DIALOGUE -->
-<!-- ========================= -->
+<!-- 💬 BULLES -->
 <div id="bubbleContainer"></div>
 
-<!-- ========================= -->
-<!-- 🌫️ OVERLAY FLOU -->
-<!-- ========================= -->
+<!-- 🌫 OVERLAY FLOU -->
 <div id="overlayBlur"></div>
 
-<!-- ========================= -->
-<!-- ⏳ LOADER MINI-JEU -->
-<!-- ========================= -->
+<!-- ✨ LOADER -->
 <div id="loaderContainer">
-  <div id="loaderText">Gagne ce mini jeux pour continuer ta quête</div>
+  <div id="loaderText">Chargement…</div>
 </div>
 
-<!-- ========================= -->
-<!-- 🎯 MINI-JEU QUIZ -->
-<!-- ========================= -->
+<!-- 🎮 MINI JEU -->
 <div id="miniGameContainer">
+
   <div id="gameQuestion"></div>
+
   <div id="gameAnswers"></div>
-  <p id="gameFeedback"></p>
+
+  <div id="gameFeedback"></div>
+
 </div>
 
-<!-- ========================= -->
-<!-- 🏆 ÉCRAN DE VICTOIRE -->
-<!-- ========================= -->
+<!-- 🏆 VICTOIRE -->
 <div id="victoryScreen">
+  <canvas id="fireworksCanvas"></canvas>
+
   <div class="victoryBox">
-    <h2>Tu as gagné 5000 PO 💰</h2>
-    <canvas id="fireworksCanvas"></canvas>
+    🎉 Bravo moussaillon ! 🎉
+    <br>
+    Tu as réussi ta mission !
   </div>
 </div>
 
 <script src="commerce.js"></script>
+
 </body>
 </html>
