@@ -15,7 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleSound.textContent = video.muted ? "🔇" : "🔊";
   });
 
-  closeVideo.addEventListener("click", endVideo);
+  closeVideo.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    endVideo();
+  });
+
+  videoContainer.addEventListener("click", ()=>{
+    video.play().catch(()=>{});
+  });
+
   video.addEventListener("ended", endVideo);
 
   function endVideo(){
@@ -101,8 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const loaderText = document.getElementById("loaderText");
 
   function showLoader(){
-    loaderContainer.style.display="flex"; // fond noir complet
-    loaderText.style.opacity = 0;
+    loaderContainer.style.display="flex";
+    loaderContainer.style.background="black"; // fond noir
+    loaderText.style.opacity=0;
     setTimeout(()=> loaderText.style.opacity=1,50);
     setTimeout(()=>{
       loaderText.style.opacity=0;
@@ -158,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================
-     🏆 VICTOIRE CENTRÉE + FAISCEAUX
+     🏆 VICTOIRE FADE IN + FAISCEAUX
   ============================ */
   const victoryScreen = document.getElementById("victoryScreen");
   const victoryBox = document.querySelector(".victoryBox");
@@ -172,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function showVictory(){
     miniGameContainer.style.display="none";
     victoryBox.innerHTML = "🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <strong>5000 PO</strong> 💰";
-
     victoryScreen.style.display="flex";
     victoryScreen.style.opacity=0;
     setTimeout(()=> victoryScreen.style.opacity=1,50);
