@@ -5,23 +5,19 @@ body {
 }
 
 /* =================== */
-/* FADES OVERLAYS */
+/* VIDEO + FADES */
 /* =================== */
-
-.overlay {
+#videoContainer {
   position: fixed;
   inset: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background:black;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-  z-index: 20;
+  align-items: center;
+  background: black;
+  opacity: 1;
+  transition: opacity 0.8s;
+  z-index: 1000;
 }
-
-.overlay.visible { opacity: 1; }
-.overlay.hidden { opacity: 0; pointer-events: none; }
 
 video {
   width: 100%;
@@ -30,15 +26,13 @@ video {
 }
 
 /* =================== */
-/* SCENE */
+/* FOND + PIRATES */
 /* =================== */
-
-.hidden { display:none; }
-
-.background {
+#background {
+  position: relative;
   width: 100%;
   height: 100vh;
-  object-fit: cover;
+  display: none;
 }
 
 .pirate {
@@ -47,32 +41,27 @@ video {
   width: 220px;
 }
 
-/* placer pirates */
-#pirate1 { left: 10%; }
+#pirate2bis { left: 10%; }
 #pirate5bis { right: 10%; cursor:pointer; }
 
 /* =================== */
-/* BULLE DIALOGUE */
+/* BULLES DE DIALOGUE */
 /* =================== */
-
-.bubble {
+#bubbleContainer .bubble {
   position: absolute;
-  top: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 80%;
+  max-width: 250px;
   padding: 15px 20px;
   background: white;
   border-radius: 18px;
-  font-size: 20px;
+  font-size: 18px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 }
 
 /* =================== */
-/* BOUTON MINI JEU */
+/* BOUTON COMMENCER MINI JEU */
 /* =================== */
-
-#startMiniGameBtn {
-  position: absolute;
+#startMissionButton {
+  position: fixed;
   bottom: 12%;
   left: 50%;
   transform: translateX(-50%);
@@ -82,36 +71,63 @@ video {
   border-radius: 12px;
   background: gold;
   cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.5s;
+  z-index: 2000;
 }
 
-/* =================== */
-/* MINI JEU */
-/* =================== */
+#startMissionButton.show { opacity: 1; }
 
-.game-box {
+/* =================== */
+/* MINI JEU + OVERLAY */
+/* =================== */
+#overlayBlur {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.8);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:20px;
-  z-index:25;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+  z-index: 1500;
 }
 
-.coffre {
-  width:140px;
-  cursor:pointer;
+#miniGameContainer {
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  display: none;
+  opacity: 0;
+  z-index: 1600;
 }
 
 /* =================== */
-/* WIN MESSAGE */
-/* =================== */
+/* MINI JEU CONTENU */
+#gameQuestion { font-size: 20px; margin-bottom: 15px; }
+#gameAnswers button { margin: 5px; padding: 8px 12px; font-size: 18px; }
+#gameFeedback { margin-top: 10px; font-size: 18px; }
 
-.win-box {
-  background:white;
-  padding:20px 25px;
-  border-radius:15px;
-  font-size:28px;
+/* =================== */
+/* VICTOIRE */
+/* =================== */
+#victoryScreen {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+  z-index: 1700;
+}
+
+#victoryScreen .victoryBox {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 15px;
+  font-size: 28px;
+  text-align: center;
 }
