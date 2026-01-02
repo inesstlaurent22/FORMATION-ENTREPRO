@@ -210,10 +210,10 @@ body {
 /* ========================= */
 /* PIRATE 5BIS */
 #pirate5bis {
-  width: 10vw;      /* 50% plus grand */
+  width: 15vw;      /* 50% plus grand */
   height: auto;
   left: 60vw;       /* un peu plus à droite */
-  top: 25vh;        /* un peu plus haut */
+  top: 30vh;        /* un peu plus haut */
   display: flex;
   align-items: center;
   justify-content: center;
