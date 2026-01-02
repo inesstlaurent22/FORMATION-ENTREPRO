@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ========================================================
-        ÉLÉMENTS DOM
-  ======================================================== */
   const videoContainer = document.getElementById("videoContainer");
   const questVideo = document.getElementById("questVideo");
   const toggleSound = document.getElementById("toggleSound");
@@ -22,16 +19,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameAnswers = document.getElementById("gameAnswers");
   const gameFeedback = document.getElementById("gameFeedback");
 
-  /* ========================================================
-        ÉTAT INITIAL
-  ======================================================== */
+  // État initial
   questVideo.muted = true;
   questVideo.setAttribute("playsinline", "");
   questVideo.setAttribute("webkit-playsinline", "");
   questVideo.loop = false;
 
   videoContainer.style.display = "flex";
-  videoContainer.style.opacity = 1;
 
   background.style.display = "none";
   pirate2bis.style.display = "none";
@@ -41,38 +35,32 @@ document.addEventListener("DOMContentLoaded", () => {
   overlayBlur.style.display = "none";
   victoryScreen.style.display = "none";
 
-  /* ========================================================
-        BOUTONS VIDEO
-  ======================================================== */
-  if(toggleSound){
-    toggleSound.addEventListener("click", ()=>{
-      questVideo.muted = !questVideo.muted;
-      toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-    });
-  }
-  if(closeVideo){
-    closeVideo.addEventListener("click", ()=>{
-      questVideo.pause();
-      questVideo.dispatchEvent(new Event('ended'));
-    });
-  }
-
-  /* ========================================================
-        FIN VIDEO → FOND + PIRATES
-  ======================================================== */
-  questVideo.addEventListener("ended", ()=>{
-    videoContainer.style.opacity = 0;
-    setTimeout(()=>{
-      videoContainer.style.display = "none";
-      background.style.display = "block";
-      pirate2bis.style.display = "flex";
-      pirate5bis.style.display = "flex";
-    }, 800);
+  // Boutons vidéo
+  toggleSound.addEventListener("click", () => {
+    questVideo.muted = !questVideo.muted;
+    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  });
+  closeVideo.addEventListener("click", () => {
+    questVideo.pause();
+    questVideo.dispatchEvent(new Event('ended'));
   });
 
-  /* ========================================================
-        DIALOGUES PIRATES (DERNIÈRE BULLE = BOUTON OK)
-  ======================================================== */
+  // Auto-play vidéo
+  questVideo.play().catch(()=>{});
+
+  // FIN VIDEO
+  questVideo.addEventListener("ended", () => {
+    videoContainer.style.opacity = 0;
+    setTimeout(() => {
+      videoContainer.style.display = "none";
+      background.style.display = "block";
+      setTimeout(()=> background.classList.add("show"), 50);
+      pirate2bis.style.display = "flex";
+      pirate5bis.style.display = "flex";
+    }, 500);
+  });
+
+  // BULLES PIRATES
   let dialogueStep = 0;
   const dialogues = [
     { who:"maitre", text:"Moussaillon ! Bienvenue sur le marché des trésors !...", anchor: pirate5bis },
@@ -87,93 +75,101 @@ document.addEventListener("DOMContentLoaded", () => {
     { who:"apprenti", text:"MERCI capitaine !", anchor: pirate2bis }
   ];
 
-  function createBubble(dialogue){
+  function createBubble(dialogue, isLast=false){
     bubbleContainer.innerHTML = "";
     const rect = dialogue.anchor.getBoundingClientRect();
     const div = document.createElement("div");
     div.className = "bubble";
-    const title = dialogue.who === "maitre" ? "Maître pirate" : "Apprenti pirate";
+    const title = dialogue.who==="maitre" ? "Maître pirate":"Apprenti pirate";
     div.innerHTML = `<div class="name">${title}</div><div>${dialogue.text}</div>`;
-
-    // Dernière bulle : bouton "Ok, j'ai compris"
-    if(dialogueStep === dialogues.length - 1){
+    if(isLast){
       const btn = document.createElement("button");
       btn.textContent = "Ok, j'ai compris";
       btn.onclick = () => {
         bubbleContainer.innerHTML = "";
-        startMissionButton.style.opacity = 1;
         startMissionButton.classList.add("show");
       };
       div.appendChild(btn);
     }
-
     bubbleContainer.appendChild(div);
-
-    // Positionnement bulle
     const bubbleWidth = div.offsetWidth;
     const bubbleHeight = div.offsetHeight;
     let leftPos = rect.left + rect.width/2 - bubbleWidth/2;
     let topPos = rect.top - bubbleHeight - 20;
-    if(leftPos < 10) leftPos = 10;
-    if(leftPos + bubbleWidth > window.innerWidth - 10) leftPos = window.innerWidth - bubbleWidth - 10;
-    if(topPos < 10) topPos = 10;
+    if(leftPos<10) leftPos=10;
+    if(leftPos+bubbleWidth>window.innerWidth-10) leftPos=window.innerWidth-bubbleWidth-10;
+    if(topPos<10) topPos=10;
     div.style.left = leftPos + "px";
     div.style.top = topPos + "px";
   }
 
+  function nextDialogue(){
+    dialogueStep++;
+    if(dialogueStep < dialogues.length-1){
+      createBubble(dialogues[dialogueStep]);
+    } else {
+      createBubble(dialogues[dialogueStep], true); // dernier dialogue avec bouton
+    }
+  }
+
   pirate5bis.addEventListener("click", ()=>{
     dialogueStep = 0;
-    createBubble(dialogues[dialogueStep]);
+    createBubble(dialogues[0]);
+    // bouton suite
+    if(dialogues.length>1){
+      const btn = bubbleContainer.querySelector("button");
+      if(btn) btn.onclick = nextDialogue;
+    }
   });
 
-  /* ========================================================
-        MINI-JEU
-  ======================================================== */
-  const steps = [
-    { question:"Où les pirates ont-ils trouvé leurs pierres ?", answers:["Dans un coffre","Au marché","La tante les a données"], correct:0 },
-    { question:"Qui fait partie de l'équipage pirate ?", answers:["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"], correct:0 },
+  // MINI-JEU
+  const steps=[
+    {question:"Où les pirates ont-ils trouvé leurs pierres ?", answers:["Dans un coffre","Au marché","La tante les a données"], correct:0},
+    {question:"Qui fait partie de l'équipage pirate ?", answers:["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"], correct:0},
   ];
 
-  let currentStep = 0;
+  let currentStep=0;
 
   function showStep(){
-    if(currentStep < steps.length){
+    if(currentStep<steps.length){
       const stepObj = steps[currentStep];
       gameQuestion.textContent = stepObj.question;
-      gameAnswers.innerHTML = "";
-      gameFeedback.textContent = "";
+      gameAnswers.innerHTML="";
+      gameFeedback.textContent="";
       stepObj.answers.forEach((ans,i)=>{
         const btn = document.createElement("button");
         btn.textContent = ans;
-        btn.addEventListener("click",()=>handleAnswer(i));
+        btn.addEventListener("click",()=> handleAnswer(i));
         gameAnswers.appendChild(btn);
       });
     } else {
-      miniGameContainer.style.opacity = 0;
+      miniGameContainer.style.opacity=0;
       setTimeout(()=>{
-        miniGameContainer.style.display = "none";
-        overlayBlur.style.opacity = 0;
-        overlayBlur.style.display = "none";
-        victoryScreen.style.display = "flex";
+        miniGameContainer.style.display="none";
+        overlayBlur.style.opacity=0;
+        overlayBlur.style.display="none";
+        victoryScreen.style.display="flex";
       },500);
     }
   }
 
   function handleAnswer(i){
     const stepObj = steps[currentStep];
-    if(i === stepObj.correct){
-      gameFeedback.textContent = "✅ Bonne réponse !";
+    if(i===stepObj.correct){
+      gameFeedback.textContent="✅ Bonne réponse !";
       setTimeout(()=>{ currentStep++; showStep(); },700);
-    } else gameFeedback.textContent = "❌ Essaie encore !";
+    } else {
+      gameFeedback.textContent="❌ Essaie encore !";
+    }
   }
 
   startMissionButton.addEventListener("click", ()=>{
     startMissionButton.classList.remove("show");
-    overlayBlur.style.display = "block";
-    overlayBlur.style.opacity = 1;
-    miniGameContainer.style.display = "flex";
-    miniGameContainer.style.opacity = 1;
-    currentStep = 0;
+    overlayBlur.style.display="block";
+    overlayBlur.style.opacity=1;
+    miniGameContainer.style.display="flex";
+    miniGameContainer.style.opacity=1;
+    currentStep=0;
     showStep();
   });
 
