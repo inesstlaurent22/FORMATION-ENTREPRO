@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   /* ========================================================
         0️⃣ ÉLÉMENTS DOM
   ======================================================== */
@@ -16,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate2bis = document.getElementById("pirate2bis");
   const pirate5bis = document.getElementById("pirate5bis");
   const bubbleContainer = document.getElementById("bubbleContainer");
+
+  const startMissionButton = document.getElementById("startMissionButton");
 
   /* ========================================================
         1️⃣ ÉTAT INITIAL
@@ -34,9 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
   if (pirate5bis) pirate5bis.style.display = "none";
   if (replayVideo) replayVideo.style.display = "none";
   if (finishQuest) finishQuest.style.display = "none";
+  if (startMissionButton) startMissionButton.classList.remove("show");
 
   /* ========================================================
-        2️⃣ AUTOPLAY VIDÉO AVEC BOUTON SI BLOQUÉ
+        2️⃣ AUTOPLAY VIDÉO
   ======================================================== */
   function createLaunchButton() {
     const btn = document.createElement("button");
@@ -73,11 +75,17 @@ document.addEventListener("DOMContentLoaded", () => {
       createLaunchButton();
     });
   }
-
   setTimeout(tryPlayVideo, 200);
 
+  if (closeVideo) {
+    closeVideo.addEventListener("click", () => {
+      questVideo.pause();
+      questVideo.dispatchEvent(new Event('ended'));
+    });
+  }
+
   /* ========================================================
-        3️⃣ FIN VIDÉO → SCÈNE JEU + dialogues
+        3️⃣ FIN VIDÉO → FOND + PIRATES
   ======================================================== */
   function showScene() {
     videoContainer.style.display = "none";
@@ -87,19 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (pirate5bis) pirate5bis.style.display = "flex";
     if (replayVideo) replayVideo.style.display = "flex";
     if (finishQuest) finishQuest.style.display = "flex";
-
-    // lancer automatiquement les dialogues
-    startPirateDialogues();
   }
 
   questVideo.addEventListener("ended", showScene);
-
-  if (closeVideo) {
-    closeVideo.addEventListener("click", () => {
-      questVideo.pause();
-      questVideo.dispatchEvent(new Event('ended'));
-    });
-  }
 
   /* ========================================================
         4️⃣ SON
@@ -147,20 +145,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const rect = dialogue.anchor.getBoundingClientRect();
     const div = document.createElement("div");
     div.className = "bubble";
-
     const title = dialogue.who === "maitre" ? "Maître pirate" : "Apprenti pirate";
     div.innerHTML = `<div class="name">${title}</div><div>${dialogue.text}</div>`;
-
     if (step < dialogues.length - 1) {
       const btn = document.createElement("button");
       btn.textContent = "Suite";
       btn.onclick = nextBubble;
       div.appendChild(btn);
     }
-
     bubbleContainer.appendChild(div);
 
-    // 📌 Position de la bulle au-dessus du pirate et centrée
+    // centrer la bulle au-dessus du pirate
     const bubbleWidth = div.offsetWidth;
     const bubbleHeight = div.offsetHeight;
     let leftPos = rect.left + rect.width / 2 - bubbleWidth / 2;
@@ -168,9 +163,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (leftPos < 10) leftPos = 10;
     if (leftPos + bubbleWidth > window.innerWidth - 10) leftPos = window.innerWidth - bubbleWidth - 10;
     if (topPos < 10) topPos = 10;
-
     div.style.left = leftPos + "px";
     div.style.top = topPos + "px";
+
+    // si dernière bulle → afficher bouton mini-jeu
+    if (step === dialogues.length - 1 && startMissionButton) {
+      setTimeout(() => startMissionButton.classList.add("show"), 500);
+    }
   }
 
   function nextBubble() {
@@ -184,160 +183,146 @@ document.addEventListener("DOMContentLoaded", () => {
     createBubble(dialogues[0]);
   }
 
-  // clic sur pirate5bis pour relancer dialogues
   if (pirate5bis) {
     pirate5bis.addEventListener("click", startPirateDialogues);
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-
-  /* DOM */
-  const bubbleContainer = document.getElementById("bubbleContainer");
-  const pirate2bis = document.getElementById("pirate2bis");
-  const pirate5bis = document.getElementById("pirate5bis");
-
-  const overlay = document.getElementById("overlayBlur");
-  const miniGame = document.getElementById("miniGameContainer");
-  const victory = document.getElementById("victoryScreen");
-
-  const qText = document.getElementById("gameQuestion");
-  const qAnswers = document.getElementById("gameAnswers");
-  const qFeedback = document.getElementById("gameFeedback");
-
-  /* ===================== DIALOGUES ===================== */
-
-  let step = 0;
-
-  const dialogues = [
-    { who:"maitre", text:"Bienvenue au marché, moussaillon !", anchor:pirate5bis },
-    { who:"apprenti", text:"Je suis prêt capitaine !", anchor:pirate2bis },
-    { who:"maitre", text:"Observe les vendeurs et choisis ta stratégie.", anchor:pirate5bis },
-    { who:"apprenti", text:"Je ferai de mon mieux !", anchor:pirate2bis },
-    { who:"maitre", text:"Maintenant… la tante veut un exposé !", anchor:pirate5bis }
-  ];
-
-  function createBubble(dialogue) {
-
-    bubbleContainer.innerHTML = "";
-
-    const rect = dialogue.anchor.getBoundingClientRect();
-    const div = document.createElement("div");
-    div.className = "bubble";
-
-    div.innerHTML = `
-      <div class="name">${dialogue.who === "maitre" ? "Maître pirate" : "Apprenti pirate"}</div>
-      <div>${dialogue.text}</div>
-    `;
-
-    const btn = document.createElement("button");
-    btn.textContent = step < dialogues.length-1 ? "Suite" : "Commencer le mini-jeu";
-    btn.onclick = nextBubble;
-    div.appendChild(btn);
-
-    bubbleContainer.appendChild(div);
-
-    div.style.left = rect.left + "px";
-    div.style.top = (rect.top - 120) + "px";
-  }
-
-  function nextBubble() {
-    step++;
-    if (step < dialogues.length) createBubble(dialogues[step]);
-    else {
-      bubbleContainer.innerHTML = "";
-      launchMiniGame();
-    }
-  }
-
-  function startDialogues() {
-    step = 0;
-    createBubble(dialogues[0]);
-  }
-
-  startDialogues();
-
-  /* ===================== MINI-JEU ===================== */
-
-  const game = [
+  /* ========================================================
+        7️⃣ MINI-JEU INTERACTIF
+  ======================================================== */
+  const miniGameSteps = [
     {
-      q: "Comment les pirates ont-ils trouvé les pierres ?",
-      a: ["Dans un magasin","En explorant une île mystérieuse","Sous le lit"],
-      c: 1
+      text: "Étape 1 — Introduction : Comment avez-vous trouvé vos pierres précieuses ?",
+      question: "Où les pirates ont-ils trouvé leurs pierres ?",
+      answers: ["Dans un coffre dans une grotte secrète","Ils les ont achetées au marché","La tante les leur a données"],
+      correct: 0
     },
     {
-      q: "Qui fait partie de l’équipage pirate ?",
-      a: ["Seulement le capitaine","Toi et les deux moussaillons","Des sirènes"],
-      c: 1
+      text: "Étape 2 — Présentation de l’équipage",
+      question: "Qui fait partie de l'équipage pirate ?",
+      answers: ["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"],
+      correct: 0
     },
     {
-      q: "Quel est leur projet ?",
-      a: ["Construire un bateau","Manger","Dormir"],
-      c: 0
+      text: "Étape 3 — Quel est votre projet ?",
+      question: "Quel est le but du projet des pirates ?",
+      answers: ["Construire un bateau","Partir en vacances","Garder les pierres pour décorer la cale"],
+      correct: 0
     },
     {
-      q: "Sur quoi doivent-ils se renseigner ?",
-      a: ["Bonbons","Nos pierres","Chapeaux"],
-      c: 1
+      text: "Étape 4 — Étude du marché",
+      question: "Qu’est-ce que les pirates doivent observer sur le marché ?",
+      answers: ["Nos pierres","Les chapeaux des concurrents","La météo"],
+      correct: 0
+    },
+    {
+      text: "Étape 5 — Présentation des pierres",
+      question: "Que doivent-ils décrire pour leurs pierres ?",
+      answers: ["Caractéristiques, nombre, qualités et défauts","Seulement la couleur","Seulement la taille"],
+      correct: 0
+    },
+    {
+      text: "Étape 6 — Modèle économique",
+      question: "À quoi sert le modèle économique ?",
+      answers: ["Savoir combien de pierres vendre pour acheter le bateau","Savoir qui fait la vaisselle","Compter les mouettes"],
+      correct: 0
+    },
+    {
+      text: "Étape 7 — Stratégies commerciales",
+      question: "Quelle stratégie les différencie des autres ?",
+      answers: ["Vendre les pierres dans des boîtes en bois","Crier très fort au marché","Vendre sans dire le prix"],
+      correct: 0
+    },
+    {
+      text: "Étape 8 — Plan financier",
+      question: "Qu’est-ce que le plan financier ?",
+      answers: ["Un document qui prévoit les dépenses et les gains","Une carte au trésor","Une chanson de pirates"],
+      correct: 0
+    },
+    {
+      text: "Étape 9 — Statut juridique",
+      question: "À quoi sert le statut juridique ?",
+      answers: ["À dire comment l’activité pirate est organisée légalement","À choisir le nom du perroquet","À fabriquer des épées"],
+      correct: 0
     }
   ];
 
-  let gi = 0;
-  let score = 0;
-
-  function launchMiniGame() {
-    gi = 0;
-    score = 0;
-
-    overlay.style.opacity = "1";
-    overlay.style.pointerEvents = "auto";
-
-    miniGame.classList.add("show");
-
-    loadQuestion();
-  }
-
-  function loadQuestion() {
-    const q = game[gi];
-    qText.textContent = q.q;
-
-    qAnswers.innerHTML = "";
-    qFeedback.textContent = "";
-
-    q.a.forEach((ans,i)=>{
-      const b = document.createElement("button");
-      b.textContent = ans;
-      b.onclick = ()=>checkAnswer(i);
-      qAnswers.appendChild(b);
+  startMissionButton?.addEventListener("click", () => {
+    // fade in mini-jeu
+    const miniGameContainer = document.createElement("div");
+    miniGameContainer.id = "miniGame";
+    Object.assign(miniGameContainer.style, {
+      position: "fixed",
+      inset: "0",
+      background: "rgba(0,0,0,0.6)",
+      backdropFilter: "blur(5px)",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 2000,
+      opacity: 0,
+      transition: "opacity 0.6s",
+      padding: "20px",
+      color: "#fff"
     });
-  }
+    document.body.appendChild(miniGameContainer);
+    setTimeout(() => miniGameContainer.style.opacity = 1, 100);
 
-  function checkAnswer(i) {
+    let currentMiniStep = 0;
 
-    if (i === game[gi].c) {
-      score++;
-      qFeedback.textContent = "✔ Bonne réponse moussaillon !";
-    } else {
-      qFeedback.textContent = "❌ La tante fronce les sourcils…";
+    function showMiniStep() {
+      if (currentMiniStep >= miniGameSteps.length) {
+        // FIN DU JEU
+        miniGameContainer.style.opacity = 0;
+        setTimeout(() => {
+          miniGameContainer.remove();
+          const winMessage = document.createElement("div");
+          winMessage.id = "winMessage";
+          winMessage.innerHTML = "Bravo ! Tu as gagné 5000 PO 💰";
+          Object.assign(winMessage.style, {
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            fontSize: "2rem",
+            background: "#fff8c4",
+            padding: "20px 40px",
+            borderRadius: "12px",
+            boxShadow: "0 5px 0 #3b1b00",
+            zIndex: 3000,
+            opacity: 0,
+            transition: "opacity 0.6s",
+            textAlign: "center"
+          });
+          document.body.appendChild(winMessage);
+          setTimeout(() => winMessage.style.opacity = 1, 100);
+        }, 600);
+        return;
+      }
+
+      const step = miniGameSteps[currentMiniStep];
+      miniGameContainer.innerHTML = `
+        <div style="margin-bottom:15px;"><strong>${step.text}</strong></div>
+        <div style="margin-bottom:10px;">${step.question}</div>
+        <div class="answers">
+          ${step.answers.map((ans,i) => `<button class="answerBtn" data-index="${i}" style="margin:5px;padding:10px 20px;font-size:1rem;">${ans}</button>`).join("")}
+        </div>
+      `;
+
+      miniGameContainer.querySelectorAll(".answerBtn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if (parseInt(btn.dataset.index) === step.correct) {
+            currentMiniStep++;
+            showMiniStep();
+          } else {
+            alert("Essaie encore !");
+          }
+        });
+      });
     }
 
-    gi++;
-
-    if (gi < game.length) setTimeout(loadQuestion, 600);
-    else setTimeout(endGame, 600);
-  }
-
-  function endGame() {
-
-    miniGame.classList.remove("show");
-    overlay.style.opacity = "0";
-
-    if (score === game.length) {
-      victory.classList.add("show");
-    } else {
-      alert("La tante refuse, réessaie moussaillon !");
-    }
-  }
-
-});
+    showMiniStep();
+  });
 
 });
