@@ -10,27 +10,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   video.preload = "auto";
   video.muted = false;
-  video.play().catch(()=>{});
+
+  // Lancer la vidéo après un click sur le conteneur
+  function playVideo() {
+    video.play().catch(()=>{});
+    videoContainer.removeEventListener("click", playVideo);
+  }
+  videoContainer.addEventListener("click", playVideo);
 
   toggleSound.addEventListener("click", () => {
     video.muted = !video.muted;
     toggleSound.textContent = video.muted ? "🔇" : "🔊";
   });
 
-  closeVideo.addEventListener("click", endVideo);
-  video.addEventListener("ended", endVideo);
+  closeVideo.addEventListener("click", () => {
+    endVideo();
+  });
+
+  video.addEventListener("ended", () => {
+    endVideo();
+  });
 
   function endVideo() {
     video.pause();
     videoContainer.style.transition = "opacity 1s";
     videoContainer.style.opacity = 0;
-
     setTimeout(() => {
       videoContainer.style.display = "none";
       showBackgroundAndPirates();
     }, 1000);
   }
-
 
   /* ============================
      🏝️ FOND + PIRATES
@@ -50,19 +59,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function showBackgroundAndPirates() {
     background.style.opacity = 0;
     background.style.display = "block";
-
     setTimeout(() => {
       background.style.transition = "opacity 1s";
       background.style.opacity = 1;
-    },50);
+    }, 50);
 
     startDialogues();
   }
 
-
   /* ============================
      💬 DIALOGUES
   ============================ */
+  const bubbleContainer = document.getElementById("bubbleContainer");
   let dialogueStep = 0;
 
   const dialogues = [
@@ -99,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     bubble.style.padding = "12px";
     bubble.style.borderRadius = "14px";
     bubble.style.maxWidth = "320px";
-    bubble.style.zIndex = 10;
+    bubble.style.zIndex = 2000;
 
     if (d.last) {
       const btn = document.createElement("button");
@@ -119,7 +127,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.body.appendChild(bubble);
   }
-
 
   /* ============================
      🌟 LOADER
@@ -142,18 +149,15 @@ document.addEventListener("DOMContentLoaded", () => {
     loader.style.transition = "opacity 1.2s";
     loader.style.textAlign = "center";
     loader.style.textShadow = "0 0 15px yellow, 0 0 25px gold";
-
     loader.innerHTML = "Termine ce mini-jeu pour continuer la quête";
     document.body.appendChild(loader);
 
-    setTimeout(()=> loader.style.opacity = 1,50);
-
-    setTimeout(()=>{
+    setTimeout(() => loader.style.opacity = 1, 50);
+    setTimeout(() => {
       loader.remove();
       startMiniGame();
     }, 2500);
   }
-
 
   /* ============================
      🎮 MINI-JEU
@@ -186,7 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
     gameQuestion.textContent = q.q;
     gameAnswers.innerHTML = "";
     gameFeedback.textContent = "";
-
     q.a.forEach((ans,i)=>{
       const b = document.createElement("button");
       b.textContent = ans;
@@ -205,13 +208,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-
   /* ============================
      🏆 VICTOIRE + PIÈCES + RETOUR FOND
   ============================ */
   function showVictory(){
     miniGameContainer.style.display="none";
-
     const panel = document.createElement("div");
     panel.classList.add("victoryPanel");
     panel.innerHTML = `
@@ -221,10 +222,8 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
     document.body.appendChild(panel);
-
     launchCoins(panel.querySelector(".victoryBox"));
 
-    // après 3s, enlever panel et revenir sur le fond
     setTimeout(()=>{
       panel.remove();
       showBackgroundAndPirates();
