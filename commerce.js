@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     div.className = "bubble";
     const title = dialogue.who==="maitre" ? "Maître pirate":"Apprenti pirate";
     div.innerHTML = `<div class="name">${title}</div><div>${dialogue.text}</div>`;
+
     if(isLast){
       const btn = document.createElement("button");
       btn.textContent = "Ok, j'ai compris";
@@ -90,7 +91,13 @@ document.addEventListener("DOMContentLoaded", () => {
         startMissionButton.classList.add("show");
       };
       div.appendChild(btn);
+    } else {
+      const btn = document.createElement("button");
+      btn.textContent = "Suite";
+      btn.onclick = nextDialogue;
+      div.appendChild(btn);
     }
+
     bubbleContainer.appendChild(div);
     const bubbleWidth = div.offsetWidth;
     const bubbleHeight = div.offsetHeight;
@@ -105,21 +112,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function nextDialogue(){
     dialogueStep++;
-    if(dialogueStep < dialogues.length-1){
+    if(dialogueStep < dialogues.length - 1){
       createBubble(dialogues[dialogueStep]);
     } else {
-      createBubble(dialogues[dialogueStep], true); // dernier dialogue avec bouton
+      createBubble(dialogues[dialogueStep], true);
     }
   }
 
   pirate5bis.addEventListener("click", ()=>{
     dialogueStep = 0;
     createBubble(dialogues[0]);
-    // bouton suite
-    if(dialogues.length>1){
-      const btn = bubbleContainer.querySelector("button");
-      if(btn) btn.onclick = nextDialogue;
-    }
   });
 
   // MINI-JEU
