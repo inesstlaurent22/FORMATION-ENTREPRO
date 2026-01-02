@@ -1,70 +1,51 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Quête Commerce</title>
-  <link rel="stylesheet" href="commerce.css" />
+  <meta charset="UTF-8">
+  <title>QUÊTE 1 : COMMERCE</title>
+  <link rel="stylesheet" href="commerce.css">
 </head>
 
 <body>
 
-<!-- VIDÉO -->
-<div id="videoContainer">
-  <video id="questVideo" src="videos/Commercevideo.MOV" preload="auto" playsinline webkit-playsinline></video>
-
-  <div id="videoControls">
-    <button id="toggleSound">🔊</button>
-    <button id="closeVideo">✖</button>
-  </div>
+<!-- ⬇️ FONDU VIDEO -->
+<div id="videoOverlay" class="overlay visible">
+  <video id="introVideo" src="videos/intro.mp4" autoplay></video>
 </div>
 
-<!-- BOUTONS APRÈS VIDÉO -->
-<div id="buttonsContainer">
-  <button id="replayVideo" class="topLeft">⟲ Revoir la vidéo</button>
-  <button id="finishQuest" class="topRight">🚩 Terminer la quête</button>
+<!-- ⬇️ FONDU MESSAGE GAIN -->
+<div id="winOverlay" class="overlay hidden">
+  <div class="win-box">Bravo tu as gagné 5000 PO 💰</div>
 </div>
 
-<!-- FOND + PIRATES -->
-<div id="background">
-  <img src="images/Commercefond.PNG" class="fondImage">
+<!-- ⬇️ CONTENU PRINCIPAL -->
+<div id="scene" class="hidden">
 
-  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
-  <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
-</div>
+  <img src="images/fondCommerce.png" class="background">
 
-<!-- BULLES -->
-<div id="bubbleContainer"></div>
+  <img id="pirate1" src="images/pirate1.png" class="pirate">
+  <img id="pirate5bis" src="images/pirate5bis.png" class="pirate">
 
-  <!-- OVERLAY FLOU -->
-<div id="overlayBlur"></div>
-
-<button id="startMissionButton">🏴‍☠️ Commencer la mission</button>
-
-<!-- MINI JEU POPUP -->
-<div id="miniGameContainer">
-
-  <div id="introText">
-    Les pirates doivent convaincre leur tante de leur prêter de l’or.<br>
-    Réponds correctement pour les aider 🏴‍☠️
+  <!-- BULLES DE TEXTE -->
+  <div id="dialogueBox" class="bubble hidden">
+    <p id="dialogueText"></p>
   </div>
 
-  <div id="miniGameContent">
-    <p id="gameQuestion"></p>
-    <div id="gameAnswers"></div>
-    <p id="gameFeedback"></p>
-  </div>
+  <!-- BOUTON MINI JEU (APPARAÎT APRÈS DERNIÈRE BULLE) -->
+  <button id="startMiniGameBtn" class="hidden">Commencer le mini-jeu</button>
 
 </div>
 
-<!-- ÉCRAN DE VICTOIRE -->
-<div id="victoryScreen">
-  <div class="victoryBox">
-    <h2>🎉 Bravo tu as gagné : <strong>5000 PO</strong> !</h2>
-    <img src="images/pieces_pirates.png" class="coinLogo">
+<!-- ⬇️ MINI JEU -->
+<div id="miniGame" class="hidden">
+  <div class="game-box">
+    <p>Mini-jeu : Clique sur le coffre gagnant</p>
+    <img class="coffre" data-win="false" src="images/coffre1.png">
+    <img class="coffre" data-win="true" src="images/coffre2.png">
+    <img class="coffre" data-win="false" src="images/coffre3.png">
   </div>
 </div>
 
 <script src="commerce.js"></script>
-
 </body>
 </html>
