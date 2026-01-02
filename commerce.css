@@ -3,9 +3,9 @@
 html, body { width:100%; height:100%; overflow:hidden; font-family:'Trebuchet MS',sans-serif; background:#000; color:#fff; }
 
 /* VIDÉO */
-#videoContainer { position:fixed; top:0; left:0; width:100%; height:100%; display:flex; justify-content:center; align-items:center; background:black; z-index:1000; opacity:1; transition:opacity 1s; }
+#videoContainer { position:fixed; top:0; left:0; width:100%; height:100%; display:flex; justify-content:center; align-items:center; background:black; z-index:1000; transition:opacity 1s; }
 #questVideo { max-width:100%; max-height:100%; }
-#videoControls { position:absolute; top:20px; right:20px; display:flex; gap:10px; z-index:1100; }
+#videoControls { position:absolute; top:20px; right:20px; display:flex; gap:10px; z-index:1010; }
 #videoControls button { font-size:22px; padding:8px 12px; border-radius:12px; border:2px solid #3b1b00; background:linear-gradient(#8a5a20,#c89b58); color:#fff5d6; cursor:pointer; box-shadow:0 3px 0 #3b1b00; transition:0.2s; }
 #videoControls button:hover { transform:translateY(-2px); box-shadow:0 5px 0 #3b1b00; }
 #videoControls button:active { transform:translateY(2px); box-shadow:0 2px 0 #3b1b00; }
@@ -16,27 +16,25 @@ html, body { width:100%; height:100%; overflow:hidden; font-family:'Trebuchet MS
 .pirate { position:absolute; cursor:pointer; z-index:10; }
 
 /* BULLES */
-.dialogue-bubble { position:absolute; background:#fdf4e3; color:#3b1b00; border-radius:14px; padding:12px; max-width:320px; word-wrap:break-word; z-index:1200; box-shadow:0 5px 0 #3b1b00; cursor:pointer; transition:opacity 0.5s; }
-.dialogue-bubble strong { display:block; margin-bottom:6px; font-size:16px; }
-.dialogue-bubble button { margin-top:10px; padding:6px 12px; background:linear-gradient(#ffd700,#c89b58); border:2px solid #3b1b00; border-radius:10px; cursor:pointer; font-weight:bold; color:#3b1b00; box-shadow:0 3px 0 #3b1b00; }
+.dialogue-bubble { position:absolute; background:#fdf4e3; color:#3b1b00; border:3px solid #8a5a20; border-radius:12px; padding:10px; max-width:300px; word-wrap:break-word; z-index:2000; box-shadow:0 5px 0 #3b1b00; cursor:pointer; }
+.dialogue-bubble hr { border:none; border-top:2px solid #8a5a20; margin:5px 0; }
+.dialogue-bubble button { margin-top:10px; padding:6px 12px; background:linear-gradient(#ffd700,#c89b58); border:2px solid #3b1b00; border-radius:8px; cursor:pointer; color:#3b1b00; font-weight:bold; box-shadow:0 3px 0 #3b1b00; transition:0.2s; }
 .dialogue-bubble button:hover { transform:translateY(-2px); box-shadow:0 5px 0 #3b1b00; }
 .dialogue-bubble button:active { transform:translateY(2px); box-shadow:0 2px 0 #3b1b00; }
 
-/* OVERLAY FLOU */
-#overlayBlur { position:fixed; top:0; left:0; width:100%; height:100%; backdrop-filter:blur(4px); background: rgba(0,0,0,0.4); display:none; z-index:1150; transition:opacity 0.5s; }
-
 /* LOADER */
-#loaderContainer { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); display:none; z-index:1200; text-align:center; }
-#loaderText { font-size:28px; color:white; text-shadow: 0 0 10px yellow, 0 0 20px yellow; font-weight:bold; opacity:0; transition:opacity 1s; }
+#loaderContainer { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); display:none; z-index:1800; text-align:center; }
+#loaderText { font-size:28px; color:white; text-shadow: 0 0 10px yellow, 0 0 20px yellow, 0 0 30px gold; opacity:0; transition:opacity 0.8s; font-weight:bold; }
 
 /* MINI-JEU */
-#miniGameContainer { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:80%; max-width:600px; background:#fdf4e3; border:5px solid #8a5a20; border-radius:16px; padding:20px; display:none; flex-direction:column; align-items:center; z-index:1200; box-shadow:0 10px 0 #3b1b00; }
-#miniGameContainer #gameQuestion { font-weight:bold; font-size:20px; margin-bottom:20px; color:#3b1b00; text-align:center; }
-#miniGameContainer #gameAnswers button { display:block; width:100%; margin:8px 0; padding:10px; background:linear-gradient(#ffd700,#c89b58); border:3px solid #3b1b00; border-radius:12px; cursor:pointer; font-weight:bold; box-shadow:0 3px 0 #3b1b00; color:#3b1b00; font-size:18px; }
-#miniGameContainer #gameAnswers button:hover { transform:translateY(-2px); box-shadow:0 5px 0 #3b1b00; }
-#miniGameContainer #gameAnswers button:active { transform:translateY(2px); box-shadow:0 2px 0 #3b1b00; }
-#miniGameContainer #gameFeedback { margin-top:12px; font-weight:bold; font-size:18px; color:#1b3b00; text-align:center; }
+#miniGameContainer { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:80%; max-width:600px; background:#fdf4e3; border:5px solid #8a5a20; border-radius:16px; padding:20px; display:none; flex-direction:column; align-items:center; z-index:2000; box-shadow:0 10px 0 #3b1b00; }
+#gameQuestion { font-weight:bold; font-size:20px; margin-bottom:20px; color:#3b1b00; text-align:center; }
+#gameAnswers button { display:block; width:100%; margin:8px 0; padding:10px; background:linear-gradient(#ffd700,#c89b58); border:3px solid #3b1b00; border-radius:12px; cursor:pointer; font-weight:bold; box-shadow:0 3px 0 #3b1b00; color:#3b1b00; font-size:18px; transition:0.2s; }
+#gameAnswers button:hover { transform:translateY(-2px); box-shadow:0 5px 0 #3b1b00; }
+#gameAnswers button:active { transform:translateY(2px); box-shadow:0 2px 0 #3b1b00; }
+#gameFeedback { margin-top:12px; font-weight:bold; font-size:18px; color:#1b3b00; text-align:center; }
 
-/* VICTOIRE */
-#victoryScreen { position:fixed; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; flex-direction:column; background:rgba(0,0,0,0.7); z-index:1300; opacity:0; transition:opacity 1s; pointer-events:none; }
-.victoryBox { text-align:center; color:#fff; font-size:32px; font-weight:bold; position:relative; }
+/* ÉCRAN DE VICTOIRE */
+#victoryScreen { position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.7); z-index:2500; opacity:0; transition:opacity 1s; }
+.victoryBox { text-align:center; color:#fff; font-size:32px; font-weight:bold; position:relative; z-index:2; }
+#lightCanvas { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
