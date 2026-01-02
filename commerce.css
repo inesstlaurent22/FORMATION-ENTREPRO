@@ -5,7 +5,7 @@ body {
 }
 
 /* =================== */
-/* VIDEO + FADES + BOUTONS */
+/* VIDEO + FADES */
 /* =================== */
 #videoContainer {
   position: fixed;
@@ -17,7 +17,6 @@ body {
   opacity: 0;
   transition: opacity 0.6s;
   z-index: 1000;
-  flex-direction: column;
 }
 
 #questVideo {
@@ -28,8 +27,8 @@ body {
 
 #videoControls {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 15px;
+  right: 15px;
   display: flex;
   gap: 10px;
   z-index: 1010;
@@ -37,19 +36,42 @@ body {
 
 #videoControls button {
   font-size: 22px;
-  padding: 8px 12px;
-  border: none;
+  padding: 6px 10px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid #fff5d6;
+  background: rgba(0,0,0,0.5);
+  color: #fff5d6;
   cursor: pointer;
-  text-shadow: 1px 1px 2px #000;
-  transition: transform 0.2s, background 0.2s;
+  transition: background 0.2s, transform 0.2s;
 }
 
 #videoControls button:hover {
-  background: rgba(255, 255, 255, 1);
+  background: rgba(0,0,0,0.8);
   transform: scale(1.1);
 }
+
+/* =================== */
+/* FOND + PIRATES */
+#background {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+
+#background.show {
+  opacity: 1;
+}
+
+.pirate {
+  position: absolute;
+  bottom: 0;
+  width: 220px;
+}
+
+#pirate2bis { left: 10%; }
+#pirate5bis { right: 10%; cursor:pointer; }
 
 /* =================== */
 /* BOUTON LANCER LA VIDÉO */
@@ -72,45 +94,8 @@ body {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-#launchButton:hover {
-  transform: translate(-50%, -50%) translateY(-2px);
-  box-shadow: 0 7px 0 #3b1b00;
-}
-
-#launchButton:active {
-  transform: translate(-50%, -50%) translateY(2px);
-  box-shadow: 0 2px 0 #3b1b00;
-}
-
-/* =================== */
-/* FOND + PIRATES */
-#background {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  display: none;
-}
-
-.pirate {
-  position: absolute;
-  bottom: 0;
-  width: 220px;
-}
-
-#pirate2bis { left: 10%; }
-#pirate5bis { right: 10%; cursor:pointer; }
-
-/* =================== */
-/* BULLES DE DIALOGUE */
-#bubbleContainer .bubble {
-  position: absolute;
-  max-width: 250px;
-  padding: 15px 20px;
-  background: white;
-  border-radius: 18px;
-  font-size: 18px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-}
+#launchButton:hover { transform: translate(-50%, -50%) translateY(-2px); box-shadow: 0 7px 0 #3b1b00; }
+#launchButton:active { transform: translate(-50%, -50%) translateY(2px); box-shadow: 0 2px 0 #3b1b00; }
 
 /* =================== */
 /* BOUTON COMMENCER MINI JEU */
@@ -153,4 +138,31 @@ body {
   background: white;
   padding: 30px;
   border-radius: 15px;
-  display:
+  display: none;
+  opacity: 0;
+  z-index: 1600;
+}
+
+/* MINI JEU CONTENU */
+#gameQuestion { font-size: 20px; margin-bottom: 15px; }
+#gameAnswers button { margin: 5px; padding: 8px 12px; font-size: 18px; }
+#gameFeedback { margin-top: 10px; font-size: 18px; }
+
+/* VICTOIRE */
+#victoryScreen {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+  z-index: 1700;
+}
+
+#victoryScreen .victoryBox {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 15px;
+  font-size: 28px;
+  text-align: center;
+}
