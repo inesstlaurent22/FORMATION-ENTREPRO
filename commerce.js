@@ -49,26 +49,28 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========================================================
         VIDEO AUTO-PLAY
   ======================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+
+  const videoContainer = document.getElementById("videoContainer");
+  const questVideo = document.getElementById("questVideo");
+  const toggleSound = document.getElementById("toggleSound");
+  const closeVideo = document.getElementById("closeVideo");
+
+  // État initial
+  questVideo.muted = true;
+  questVideo.loop = false;
+
+  videoContainer.style.display = "flex";
+  videoContainer.style.opacity = 1;
+
+  // =========================
+  // BOUTON LANCER LA VIDÉO SI AUTO-PLAY BLOQUÉ
+  // =========================
   function createLaunchButton() {
+    if (document.getElementById("launchButton")) return;
     const btn = document.createElement("button");
     btn.id = "launchButton";
     btn.textContent = "⚓ Lancer la vidéo";
-    Object.assign(btn.style, {
-      position: "absolute",
-      left: "50%",
-      top: "50%",
-      transform: "translate(-50%, -50%)",
-      padding: "20px 40px",
-      fontSize: "1.5rem",
-      background: "linear-gradient(#8a5a20, #c89b58)",
-      color: "#fff5d6",
-      border: "3px solid #3b1b00",
-      borderRadius: "12px",
-      boxShadow: "0 5px 0 #3b1b00",
-      cursor: "pointer",
-      zIndex: "1100",
-      textShadow: "1px 1px 2px #000"
-    });
     videoContainer.appendChild(btn);
     btn.addEventListener("click", () => {
       questVideo.play();
@@ -76,11 +78,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function tryPlayVideo() {
-    questVideo.play().catch(() => createLaunchButton());
-  }
+  // Essayer de lancer la vidéo automatiquement
+  questVideo.play().catch(() => {
+    createLaunchButton();
+  });
 
-  setTimeout(tryPlayVideo, 200);
+  // =========================
+  // BOUTONS SON / FERMER
+  // =========================
+  toggleSound.addEventListener("click", () => {
+    questVideo.muted = !questVideo.muted;
+    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  });
+
+  closeVideo.addEventListener("click", () => {
+    questVideo.pause();
+    questVideo.currentTime = 0;
+    videoContainer.style.display = "none";
+    videoContainer.style.opacity = 0;
+    // Ici tu peux lancer la suite : afficher le fond et les pirates
+    // showScene(); <-- si tu veux l'appeler
+  });
+
+  // =========================
+  // FIN VIDEO → FOND + PIRATES
+  // =========================
+  questVideo.addEventListener("ended", () => {
+    videoContainer.style.transition = "opacity 0.8s";
+    videoContainer.style.opacity = 0;
+    setTimeout(() => {
+      videoContainer.style.display = "none";
+      // afficher ton background et pirates ici
+    }, 800);
+  });
+
+});
 
   /* ========================================================
         FIN VIDEO → FOND + PIRATES
