@@ -34,10 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate2bis = document.getElementById("pirate2bis");
   const pirate5bis = document.getElementById("pirate5bis");
 
-  pirate2bis.style.left="516px";
-  pirate2bis.style.top="406px";
-  pirate5bis.style.left="785px";
-  pirate5bis.style.top="397px";
+  pirate2bis.style.left="516px"; pirate2bis.style.top="406px";
+  pirate5bis.style.left="785px"; pirate5bis.style.top="397px";
 
   function showBackgroundAndPirates(){
     background.style.display="block";
@@ -46,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================
-     💬 BULLES
+     💬 DIALOGUES
   ============================ */
   let dialogueStep = 0;
   const dialogues = [
@@ -83,10 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.textContent = "Ok, j’ai compris";
       btn.addEventListener("click", ()=>{
         bubble.remove();
-        showLoader(); // déclenche loader seulement après clic sur le bouton
+        showLoader();
       });
       bubble.appendChild(btn);
-    }else{
+    } else {
       bubble.addEventListener("click", ()=>{
         dialogueStep++;
         showDialogue();
@@ -159,26 +157,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================
-     🏆 VICTOIRE AVEC FADE IN + PIÈCES
+     🏆 VICTOIRE FADE IN + FAISCEAUX
   ============================ */
   const victoryScreen = document.getElementById("victoryScreen");
   const victoryBox = document.querySelector(".victoryBox");
+  const lightCanvas = document.getElementById("lightCanvas");
+  const ctx = lightCanvas.getContext("2d");
+
+  function resizeCanvas(){ lightCanvas.width = window.innerWidth; lightCanvas.height = window.innerHeight; }
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
 
   function showVictory(){
     miniGameContainer.style.display="none";
-    victoryBox.innerHTML = "🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <strong>5000 PO 💰</strong>";
-
-    // Préparer fade-in
+    victoryBox.innerHTML = "🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <strong>5000 PO</strong> 💰";
     victoryScreen.style.display="flex";
     victoryScreen.style.opacity=0;
-    victoryScreen.style.pointerEvents="auto";
+    setTimeout(()=> victoryScreen.style.opacity=1,50);
 
-    setTimeout(()=> {
-      victoryScreen.style.opacity=1; // fade-in
-      launchCoins(victoryBox); // explosion de pièces derrière le texte
-    },50);
+    launchLightBeams();
 
-    // Disparaît après 3s
     setTimeout(()=>{
       victoryScreen.style.opacity=0;
       setTimeout(()=>{
@@ -189,33 +187,36 @@ document.addEventListener("DOMContentLoaded", () => {
     },3000);
   }
 
-  function launchCoins(box){
-    const container = document.createElement("div");
-    container.style.position="absolute";
-    container.style.inset=0;
-    container.style.zIndex=1; // derrière le texte
-    box.appendChild(container);
-
-    for(let i=0;i<40;i++){
-      const c = document.createElement("div");
-      c.textContent="🪙";
-      c.style.position="absolute";
-      c.style.left="50%";
-      c.style.top="50%";
-      c.style.transform="translate(-50%,0)";
-      c.style.opacity=0;
-      c.style.transition="transform 1.2s, opacity 1.2s";
-      container.appendChild(c);
-
-      setTimeout(()=>{
-        const x = Math.random()*200 - 100;
-        const y = Math.random()*200 - 100;
-        c.style.opacity=1;
-        c.style.transform=`translate(${x}px, ${y}px) scale(1.3)`;
-      },50);
-
-      setTimeout(()=>c.remove(),1400);
+  function launchLightBeams(){
+    const beams = [];
+    for(let i=0;i<50;i++){
+      beams.push({
+        x: lightCanvas.width/2,
+        y: lightCanvas.height/2,
+        angle: Math.random()*2*Math.PI,
+        length: Math.random()*100+50,
+        speed: Math.random()*6+2,
+        opacity:1
+      });
     }
+
+    let t=0;
+    function animate(){
+      ctx.clearRect(0,0,lightCanvas.width, lightCanvas.height);
+      beams.forEach(b=>{
+        const dx = Math.cos(b.angle)*b.speed*t;
+        const dy = Math.sin(b.angle)*b.speed*t;
+        ctx.beginPath();
+        ctx.moveTo(b.x, b.y);
+        ctx.lineTo(b.x+dx, b.y+dy);
+        ctx.strokeStyle = `rgba(255,255,0,${b.opacity})`;
+        ctx.lineWidth=2;
+        ctx.stroke();
+      });
+      t+=1;
+      if(t<30) requestAnimationFrame(animate);
+    }
+    animate();
   }
 
 });
