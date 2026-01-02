@@ -1,410 +1,117 @@
-/* ========================= */
-/* PAGE */
 body {
   margin: 0;
-  overflow: hidden;
   background: black;
-  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
-/* ========================= */
-/* VIDEO */
-#videoContainer {
+/* =================== */
+/* FADES OVERLAYS */
+/* =================== */
+
+.overlay {
   position: fixed;
   inset: 0;
-  background: black;
   display: flex;
   align-items: center;
   justify-content: center;
+  background:black;
   opacity: 0;
-  transition: opacity 0.6s;
-  z-index: 1000;
+  transition: opacity 1.2s ease;
+  z-index: 20;
 }
 
-#videoContainer.show {
-  opacity: 1;
-}
+.overlay.visible { opacity: 1; }
+.overlay.hidden { opacity: 0; pointer-events: none; }
 
-#questVideo {
+video {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-#videoControls {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  z-index: 1010;
-}
+/* =================== */
+/* SCENE */
+/* =================== */
 
-#videoControls button {
-  font-size: 22px;
-  margin-left: 10px;
-  cursor: pointer;
-}
+.hidden { display:none; }
 
-/* ========================= */
-/* FOND */
-#background {
-  position: relative;
-  width: 100vw;
+.background {
+  width: 100%;
   height: 100vh;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-#background.show {
-  opacity: 1;
-}
-
-.fondImage {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 
-/* ========================= */
-/* BOUTONS REPLAY / FIN / LANCER VIDÉO */
-/* ========================= */
-#launchButton {
-  position: fixed;            /* reste visible à l’écran */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  font-size: 1.5rem;
-  padding: 20px 40px;
-  border-radius: 12px;
-  border: 3px solid #3b1b00;
-  background: linear-gradient(#8a5a20, #c89b58);
-  color: #fff5d6;
-  text-shadow: 1px 1px 2px #000;
-  box-shadow: 0 5px 0 #3b1b00;
-  cursor: pointer;
-  z-index: 1100;             /* au-dessus de la vidéo */
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-#launchButton:hover {
-  transform: translate(-50%, -50%) translateY(-2px);
-  box-shadow: 0 7px 0 #3b1b00;
-}
-
-#launchButton:active {
-  transform: translate(-50%, -50%) translateY(2px);
-  box-shadow: 0 2px 0 #3b1b00;
-}
-
-/* ========================= */
-/* BOUTON TERMINER LA QUÊTE - HAUT DROITE */
-#finishQuest {
-  position: fixed;            /* reste visible à l’écran */
-  top: 15px;
-  right: 15px;
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  font-size: 1rem;
-  padding: 10px 20px;
-  border-radius: 12px;
-  border: 3px solid #3b1b00;
-  background: linear-gradient(#8a5a20, #c89b58);
-  color: #fff5d6;
-  text-shadow: 1px 1px 2px #000;
-  box-shadow: 0 4px 0 #3b1b00;
-  cursor: pointer;
-  z-index: 950;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-#finishQuest:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 #3b1b00;
-}
-
-#finishQuest:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #3b1b00;
-}
-
-/* ========================= */
-/* BOUTONS CONTAINER - Revoir / Terminer */
-#buttonsContainer button {
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  font-size: 1rem;               /* texte plus petit */
-  padding: 10px 20px;            /* padding réduit */
-  border-radius: 12px;
-  border: 3px solid #3b1b00;
-  background: linear-gradient(#8a5a20, #c89b58);
-  color: #fff5d6;
-  text-shadow: 1px 1px 2px #000;
-  box-shadow: 0 4px 0 #3b1b00;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-#buttonsContainer button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 #3b1b00;
-}
-
-#buttonsContainer button:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #3b1b00;
-}
-
-/* Position des boutons dans le container */
-#buttonsContainer {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  display: none;
-  justify-content: space-between;
-  padding: 15px 50px;
-  z-index: 900;
-}
-
-/* ========================= */
-/* PIRATES */
-/* ========================= */
 .pirate {
   position: absolute;
-  cursor: pointer;
-  z-index: 20; /* pirates sous les bulles */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
+  bottom: 0;
+  width: 220px;
+}
+
+/* placer pirates */
+#pirate1 { left: 10%; }
+#pirate5bis { right: 10%; cursor:pointer; }
+
+/* =================== */
+/* BULLE DIALOGUE */
+/* =================== */
+
+.bubble {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 80%;
+  padding: 15px 20px;
+  background: white;
+  border-radius: 18px;
+  font-size: 20px;
+}
+
+/* =================== */
+/* BOUTON MINI JEU */
+/* =================== */
+
+#startMiniGameBtn {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 26px;
+  font-size: 22px;
   border: none;
-  box-shadow: none;
-  padding: 0;
-  font-size: 1rem;
-  color: white;
-  text-shadow: 1px 1px 2px #000;
-}
-
-/* ========================= */
-/* PIRATE 2BIS */
-#pirate2bis {
-  width: 15vw;      /* double taille */
-  height: auto;
-  left: 25vw;
-  top: 30vh;        /* légèrement plus haut */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-}
-
-#pirate2bis::before {
-  content: '';
-  position: absolute;
-  width: 130%;
-  height: 130%;
-  background: radial-gradient(circle, rgba(255,200,50,0.5) 0%, rgba(255,200,50,0) 70%);
-  border-radius: 50%;
-  z-index: -1;
-  filter: blur(25px);
-  animation: pulseHalo 1.6s infinite ease-in-out;
-}
-
-/* ========================= */
-/* PIRATE 5BIS */
-#pirate5bis {
-  width: 15vw;      /* 50% plus grand */
-  height: auto;
-  left: 60vw;       /* un peu plus à droite */
-  top: 30vh;        /* un peu plus haut */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-}
-
-#pirate5bis::before {
-  content: '';
-  position: absolute;
-  width: 130%;
-  height: 130%;
-  background: radial-gradient(circle, rgba(255,200,50,0.5) 0%, rgba(255,200,50,0) 70%);
-  border-radius: 50%;
-  z-index: -1;
-  filter: blur(25px);
-  animation: pulseHalo 1.6s infinite ease-in-out;
-}
-/* ========================= */
-/* BULLES */
-.bubble {
-  position: absolute;
-  z-index: 30; /* bulles au-dessus des pirates */
-  max-width: 360px;
-  background: white;
-  border-radius: 18px;
-  padding: 14px 16px;
-  font-size: 15px;
-  line-height: 1.35;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-  animation: pop 0.25s ease;
-}
-
-@keyframes pop { 
-  from { transform: scale(0.7); opacity: 0; } 
-  to { transform: scale(1); opacity: 1; } 
-}
-
-/* Animation halo pulsant */
-@keyframes pulseHalo {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.3); opacity: 1; }
-}
-
-/* ========================= */
-/* BULLES */
-.bubble {
-  position: absolute;
-  max-width: 360px;
-  background: white;
-  border-radius: 18px;
-  padding: 14px 16px;
-  font-size: 15px;
-  line-height: 1.35;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-  animation: pop 0.25s ease;
-}
-
-@keyframes pop { 
-  from { transform: scale(0.7); opacity: 0; } 
-  to { transform: scale(1); opacity: 1; } 
-}
-
-/* =============== OVERLAY FLOU =============== */
-#overlayBlur {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(6px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .6s;
-  z-index: 900;
-}
-
-/* ============================== */
-/* BOUTON COMMENCER LA MISSION    */
-/* ============================== */
-#startMissionButton {
-  position: fixed;
-  left: 50%;
-  top: 75%;
-  transform: translate(-50%, -50%);
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  font-size: 1.3rem;
-  padding: 16px 32px;
   border-radius: 12px;
-  border: 3px solid #3b1b00;
-  background: linear-gradient(#8a5a20, #c89b58);
-  color: #fff5d6;
-  text-shadow: 1px 1px 2px #000;
-  box-shadow: 0 5px 0 #3b1b00;
-  cursor: pointer;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .6s ease, transform .3s;
-  z-index: 1200;
-}
-
-#startMissionButton.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-#startMissionButton:hover {
-  transform: translate(-50%, -55%);
-}
-
-/* =============== MINI JEU POPUP =============== */
-#miniGameContainer {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(.8);
-  width: 80%;
-  max-width: 800px;
-  background: rgba(20, 10, 0, 0.92);
-  border: 3px solid #c9a227;
-  border-radius: 18px;
-  padding: 20px;
-  color: #ffe9b5;
-  box-shadow: 0 0 25px rgba(0,0,0,.8);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .6s, transform .6s;
-  z-index: 1000;
-}
-
-/* fade in activation */
-#miniGameContainer.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* INTRODUCTION */
-#introText {
-  font-size: 1.3rem;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-/* QUESTION */
-#gameQuestion {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-/* RÉPONSES BOUTONS */
-#gameAnswers button {
-  display: block;
-  width: 90%;
-  margin: 8px auto;
-  padding: 10px;
-  font-size: 1.1rem;
-  background: linear-gradient(#7a4a00,#d8a84b);
-  border: 2px solid #3b2300;
-  border-radius: 9px;
-  color: white;
+  background: gold;
   cursor: pointer;
 }
 
-/* VICTOIRE */
-#victoryScreen {
+/* =================== */
+/* MINI JEU */
+/* =================== */
+
+.game-box {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .8s;
-  z-index: 1200;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  z-index:25;
 }
 
-#victoryScreen.show {
-  opacity: 1;
-  pointer-events: auto;
+.coffre {
+  width:140px;
+  cursor:pointer;
 }
 
-.victoryBox {
-  background: #1a0d00;
-  border: 3px solid gold;
-  border-radius: 18px;
-  padding: 25px;
-  text-align: center;
-  color: #ffe7a0;
-}
+/* =================== */
+/* WIN MESSAGE */
+/* =================== */
 
-.coinLogo {
-  width: 140px;
-  margin-top: 10px;
+.win-box {
+  background:white;
+  padding:20px 25px;
+  border-radius:15px;
+  font-size:28px;
 }
