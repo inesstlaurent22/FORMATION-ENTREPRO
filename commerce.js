@@ -189,4 +189,155 @@ document.addEventListener("DOMContentLoaded", () => {
     pirate5bis.addEventListener("click", startPirateDialogues);
   }
 
+  document.addEventListener("DOMContentLoaded", () => {
+
+  /* DOM */
+  const bubbleContainer = document.getElementById("bubbleContainer");
+  const pirate2bis = document.getElementById("pirate2bis");
+  const pirate5bis = document.getElementById("pirate5bis");
+
+  const overlay = document.getElementById("overlayBlur");
+  const miniGame = document.getElementById("miniGameContainer");
+  const victory = document.getElementById("victoryScreen");
+
+  const qText = document.getElementById("gameQuestion");
+  const qAnswers = document.getElementById("gameAnswers");
+  const qFeedback = document.getElementById("gameFeedback");
+
+  /* ===================== DIALOGUES ===================== */
+
+  let step = 0;
+
+  const dialogues = [
+    { who:"maitre", text:"Bienvenue au marché, moussaillon !", anchor:pirate5bis },
+    { who:"apprenti", text:"Je suis prêt capitaine !", anchor:pirate2bis },
+    { who:"maitre", text:"Observe les vendeurs et choisis ta stratégie.", anchor:pirate5bis },
+    { who:"apprenti", text:"Je ferai de mon mieux !", anchor:pirate2bis },
+    { who:"maitre", text:"Maintenant… la tante veut un exposé !", anchor:pirate5bis }
+  ];
+
+  function createBubble(dialogue) {
+
+    bubbleContainer.innerHTML = "";
+
+    const rect = dialogue.anchor.getBoundingClientRect();
+    const div = document.createElement("div");
+    div.className = "bubble";
+
+    div.innerHTML = `
+      <div class="name">${dialogue.who === "maitre" ? "Maître pirate" : "Apprenti pirate"}</div>
+      <div>${dialogue.text}</div>
+    `;
+
+    const btn = document.createElement("button");
+    btn.textContent = step < dialogues.length-1 ? "Suite" : "Commencer le mini-jeu";
+    btn.onclick = nextBubble;
+    div.appendChild(btn);
+
+    bubbleContainer.appendChild(div);
+
+    div.style.left = rect.left + "px";
+    div.style.top = (rect.top - 120) + "px";
+  }
+
+  function nextBubble() {
+    step++;
+    if (step < dialogues.length) createBubble(dialogues[step]);
+    else {
+      bubbleContainer.innerHTML = "";
+      launchMiniGame();
+    }
+  }
+
+  function startDialogues() {
+    step = 0;
+    createBubble(dialogues[0]);
+  }
+
+  startDialogues();
+
+  /* ===================== MINI-JEU ===================== */
+
+  const game = [
+    {
+      q: "Comment les pirates ont-ils trouvé les pierres ?",
+      a: ["Dans un magasin","En explorant une île mystérieuse","Sous le lit"],
+      c: 1
+    },
+    {
+      q: "Qui fait partie de l’équipage pirate ?",
+      a: ["Seulement le capitaine","Toi et les deux moussaillons","Des sirènes"],
+      c: 1
+    },
+    {
+      q: "Quel est leur projet ?",
+      a: ["Construire un bateau","Manger","Dormir"],
+      c: 0
+    },
+    {
+      q: "Sur quoi doivent-ils se renseigner ?",
+      a: ["Bonbons","Nos pierres","Chapeaux"],
+      c: 1
+    }
+  ];
+
+  let gi = 0;
+  let score = 0;
+
+  function launchMiniGame() {
+    gi = 0;
+    score = 0;
+
+    overlay.style.opacity = "1";
+    overlay.style.pointerEvents = "auto";
+
+    miniGame.classList.add("show");
+
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    const q = game[gi];
+    qText.textContent = q.q;
+
+    qAnswers.innerHTML = "";
+    qFeedback.textContent = "";
+
+    q.a.forEach((ans,i)=>{
+      const b = document.createElement("button");
+      b.textContent = ans;
+      b.onclick = ()=>checkAnswer(i);
+      qAnswers.appendChild(b);
+    });
+  }
+
+  function checkAnswer(i) {
+
+    if (i === game[gi].c) {
+      score++;
+      qFeedback.textContent = "✔ Bonne réponse moussaillon !";
+    } else {
+      qFeedback.textContent = "❌ La tante fronce les sourcils…";
+    }
+
+    gi++;
+
+    if (gi < game.length) setTimeout(loadQuestion, 600);
+    else setTimeout(endGame, 600);
+  }
+
+  function endGame() {
+
+    miniGame.classList.remove("show");
+    overlay.style.opacity = "0";
+
+    if (score === game.length) {
+      victory.classList.add("show");
+    } else {
+      alert("La tante refuse, réessaie moussaillon !");
+    }
+  }
+
+});
+
 });
