@@ -1,178 +1,171 @@
-/* ================================================= */
-/* 🔧 RESET GLOBAL */
-/* ================================================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* RESET GLOBAL */
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  background: black;
+  background:black;
   font-family: Arial, sans-serif;
-  overflow-x: hidden;
+  overflow-x:hidden;
 }
 
-/* =================== */
-/* VIDEO + FADES */
-/* =================== */
+/* VIDEO CONTAINER */
 #videoContainer {
   position: fixed;
   inset: 0;
-  background: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 1;
-  transition: opacity 0.8s;
-  z-index: 1000;
+  background:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:1;
+  transition:opacity 0.8s;
+  z-index:1000;
 }
 
 #questVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-/* =================== */
-/* FOND + PIRATES */
-/* =================== */
-#background {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  background: url('images/Commercefond.PNG') no-repeat center center;
-  background-size: cover;
-  opacity: 0;
-  transition: opacity 0.8s;
-  z-index: 100;
-  display: none; /* on le met visible via JS */
+/* VIDEO BUTTONS */
+#videoControls {
+  position:absolute;
+  top:20px;
+  right:20px;
+  display:flex;
+  gap:10px;
+  z-index:1010;
 }
 
-#background.show {
-  opacity: 1;
-}
-
-.pirate {
-  position: absolute;
-  bottom: 0;
-  width: 220px;
-  z-index: 110; /* au-dessus du fond */
-}
-
-#pirate2bis { left: 10%; }
-#pirate5bis { right: 10%; cursor: pointer; }
-
-/* =================== */
-/* BOUTON TERMINER LA QUÊTE - HAUT DROITE */
-#finishQuest {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  font-size: 1rem;
-  padding: 10px 20px;
-  border-radius: 12px;
-  border: 3px solid #3b1b00;
-  background: linear-gradient(#8a5a20, #c89b58);
-  color: #fff5d6;
-  text-shadow: 1px 1px 2px #000;
-  box-shadow: 0 4px 0 #3b1b00;
-  cursor: pointer;
-  z-index: 200;
+#videoControls button {
+  font-size:24px;
+  background: linear-gradient(#8a5a20,#c89b58);
+  color:#fff5d6;
+  border: 2px solid #3b1b00;
+  border-radius:12px;
+  padding:6px 12px;
+  cursor:pointer;
+  box-shadow: 0 3px 0 #3b1b00;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-#finishQuest:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #3b1b00; }
-#finishQuest:active { transform: translateY(2px); box-shadow: 0 2px 0 #3b1b00; }
+#videoControls button:hover {
+  transform: translateY(-2px);
+  box-shadow:0 5px 0 #3b1b00;
+}
 
-/* =================== */
+#videoControls button:active {
+  transform: translateY(2px);
+  box-shadow:0 2px 0 #3b1b00;
+}
+
+/* BACKGROUND + PIRATES */
+#background {
+  position:relative;
+  width:100%;
+  height:100vh;
+  background: url('images/Commercefond.PNG') no-repeat center center;
+  background-size: cover;
+  opacity:0;
+  transition: opacity 0.8s;
+  display:none;
+}
+
+#background.show {
+  opacity:1;
+}
+
+.pirate {
+  position:absolute;
+  bottom:0;
+  width:220px;
+  z-index:110;
+}
+
+#pirate2bis { left:10%; }
+#pirate5bis { right:10%; cursor:pointer; }
+
 /* BULLES DE DIALOGUE */
 #bubbleContainer .bubble {
-  position: absolute;
-  max-width: 250px;
-  padding: 15px 20px;
-  background: white;
-  border-radius: 18px;
-  font-size: 18px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-  z-index: 150;
+  position:absolute;
+  max-width:250px;
+  padding:15px 20px;
+  background:white;
+  border-radius:18px;
+  font-size:18px;
+  box-shadow:0 3px 6px rgba(0,0,0,0.3);
+  z-index:150;
 }
 
 #bubbleContainer .bubble .name {
-  font-weight: bold;
-  margin-bottom: 6px;
+  font-weight:bold;
+  margin-bottom:6px;
 }
 
-/* =================== */
 /* BOUTON COMMENCER MINI JEU */
 #startMissionButton {
-  position: fixed;
-  bottom: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 26px;
-  font-size: 22px;
-  border: none;
-  border-radius: 12px;
-  background: gold;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.5s;
-  z-index: 2000;
+  position:fixed;
+  bottom:12%;
+  left:50%;
+  transform:translateX(-50%);
+  padding:12px 26px;
+  font-size:22px;
+  border:none;
+  border-radius:12px;
+  background:gold;
+  cursor:pointer;
+  opacity:0;
+  transition:opacity 0.5s;
+  z-index:2000;
 }
 
-#startMissionButton.show { opacity: 1; }
+#startMissionButton.show { opacity:1; }
 
-/* =================== */
 /* MINI JEU + OVERLAY */
 #overlayBlur {
-  position: fixed;
-  inset: 0;
+  position:fixed;
+  inset:0;
   background: rgba(0,0,0,0.4);
   backdrop-filter: blur(4px);
-  display: none;
-  opacity: 0;
+  display:none;
+  opacity:0;
   transition: opacity 0.5s;
-  z-index: 1500;
+  z-index:1500;
 }
 
 #miniGameContainer {
   position: fixed;
   top:50%;
   left:50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  display: none;
-  opacity: 0;
-  z-index: 1600;
-  transition: opacity 0.4s;
+  transform:translate(-50%,-50%);
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  display:none;
+  opacity:0;
+  z-index:1600;
+  transition:opacity 0.4s;
 }
 
-/* =================== */
 /* MINI JEU CONTENU */
-#gameQuestion { font-size: 20px; margin-bottom: 15px; }
-#gameAnswers button { margin: 5px; padding: 8px 12px; font-size: 18px; cursor:pointer; }
-#gameFeedback { margin-top: 10px; font-size: 18px; }
+#gameQuestion { font-size:20px; margin-bottom:15px; }
+#gameAnswers button { margin:5px; padding:8px 12px; font-size:18px; cursor:pointer; }
+#gameFeedback { margin-top:10px; font-size:18px; }
 
-/* =================== */
 /* VICTOIRE */
 #victoryScreen {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
   background: rgba(0,0,0,0.7);
-  z-index: 1700;
+  z-index:1700;
 }
 
 #victoryScreen .victoryBox {
-  background: white;
-  padding: 25px 30px;
-  border-radius: 15px;
-  font-size: 28px;
-  text-align: center;
+  background:white;
+  padding:25px 30px;
+  border-radius:15px;
+  font-size:28px;
+  text-align:center;
 }
