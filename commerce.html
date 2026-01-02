@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Quête Commerce</title>
-  <link rel="stylesheet" href="commerce.css">
+  <link rel="stylesheet" href="commerce.css" />
 </head>
+
 <body>
 
 <!-- VIDÉO -->
@@ -26,11 +27,13 @@
 <!-- BULLES -->
 <div id="bubbleContainer"></div>
 
-<!-- BOUTON COMMENCER LE MINI-JEU -->
-<button id="startMissionButton">🏴‍☠️ Commencer le mini-jeu</button>
-
 <!-- OVERLAY FLOU -->
 <div id="overlayBlur"></div>
+
+<!-- LOADER après Ok, j'ai compris -->
+<div id="loaderContainer">
+  <div id="loaderText">Gagne ce mini jeux pour continuer ta quête</div>
+</div>
 
 <!-- MINI-JEU QUIZ -->
 <div id="miniGameContainer">
@@ -42,7 +45,8 @@
 <!-- ÉCRAN DE VICTOIRE -->
 <div id="victoryScreen">
   <div class="victoryBox">
-    <h2>🎉 Bravo tu as gagné : <strong>5000 PO</strong> ! 💰</h2>
+    <h2>Tu as gagné 5000 PO 💰</h2>
+    <canvas id="fireworksCanvas"></canvas>
   </div>
 </div>
 
