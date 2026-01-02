@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   video.muted = true;
 
-  // Contrôles fonctionnels
   toggleSound.addEventListener("click", ()=>{
     video.muted = !video.muted;
     toggleSound.textContent = video.muted ? "🔇" : "🔊";
@@ -24,31 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
     videoContainer.style.opacity=0;
     setTimeout(()=>{
       videoContainer.style.display="none";
-      showLoader();
+      showBackgroundAndPirates();
     },1000);
   }
 
   /* ============================
-     🌟 LOADER
-  ============================ */
-  const loaderContainer = document.getElementById("loaderContainer");
-  const loaderText = document.getElementById("loaderText");
-
-  function showLoader(){
-    loaderContainer.style.display="block";
-    setTimeout(()=> loaderText.style.opacity=1,50);
-    setTimeout(()=>{
-      loaderText.style.opacity=0;
-      setTimeout(()=>{
-        loaderContainer.style.display="none";
-        showBackgroundAndPirates();
-        startMiniGame();
-      },800);
-    },2000);
-  }
-
-  /* ============================
-     🏝️ FOND + PIRATES
+     🌅 FOND + PIRATES
   ============================ */
   const background = document.getElementById("background");
   const pirate2bis = document.getElementById("pirate2bis");
@@ -78,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   function startDialogues(){
-    dialogueStep=0;
+    dialogueStep = 0;
     showDialogue();
   }
 
@@ -99,10 +79,11 @@ document.addEventListener("DOMContentLoaded", () => {
     bubble.style.top = (rect.top-120)+"px";
 
     if(d.last){
-      const btn=document.createElement("button");
-      btn.textContent="Ok, j’ai compris";
+      const btn = document.createElement("button");
+      btn.textContent = "Ok, j’ai compris";
       btn.addEventListener("click", ()=>{
         bubble.remove();
+        showLoader(); // déclenche loader seulement après clic sur le bouton
       });
       bubble.appendChild(btn);
     }else{
@@ -113,6 +94,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.body.appendChild(bubble);
+  }
+
+  /* ============================
+     🌟 LOADER
+  ============================ */
+  const loaderContainer = document.getElementById("loaderContainer");
+  const loaderText = document.getElementById("loaderText");
+
+  function showLoader(){
+    loaderContainer.style.display="block";
+    setTimeout(()=> loaderText.style.opacity=1,50);
+    setTimeout(()=>{
+      loaderText.style.opacity=0;
+      setTimeout(()=>{
+        loaderContainer.style.display="none";
+        startMiniGame();
+      },800);
+    },2000);
   }
 
   /* ============================
@@ -129,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {q:"Que doivent-ils faire au marché ?",a:["Observer les concurrents","Dormir","Crier"],c:0}
   ];
 
-  let step=0;
+  let step = 0;
 
   function startMiniGame(){
     miniGameContainer.style.display="flex";
@@ -138,41 +137,48 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showStep(){
-    if(step>=questions.length){ showVictory(); return; }
+    if(step >= questions.length){ showVictory(); return; }
     const q = questions[step];
-    gameQuestion.textContent=q.q;
+    gameQuestion.textContent = q.q;
     gameAnswers.innerHTML="";
     gameFeedback.textContent="";
     q.a.forEach((ans,i)=>{
-      const b=document.createElement("button");
-      b.textContent=ans;
-      b.addEventListener("click",()=>checkAnswer(i,q.c));
+      const b = document.createElement("button");
+      b.textContent = ans;
+      b.addEventListener("click", ()=>checkAnswer(i,q.c));
       gameAnswers.appendChild(b);
     });
   }
 
   function checkAnswer(i,correct){
-    if(i===correct){
+    if(i === correct){
       gameFeedback.textContent="✅ Bravo moussaillon";
       step++;
       setTimeout(showStep,600);
-    }else gameFeedback.textContent="❌ Essaie encore";
+    } else gameFeedback.textContent="❌ Essaie encore";
   }
 
   /* ============================
-     🏆 VICTOIRE
+     🏆 VICTOIRE AVEC FADE IN + PIÈCES
   ============================ */
-  const victoryScreen=document.getElementById("victoryScreen");
-  const victoryBox=document.querySelector(".victoryBox");
+  const victoryScreen = document.getElementById("victoryScreen");
+  const victoryBox = document.querySelector(".victoryBox");
 
   function showVictory(){
     miniGameContainer.style.display="none";
-    victoryBox.innerHTML="🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <strong>5000 PO</strong> 💰";
-    victoryScreen.style.pointerEvents="auto";
-    victoryScreen.style.display="flex";
-    setTimeout(()=> victoryScreen.style.opacity=1,50);
-    launchCoins(victoryBox);
+    victoryBox.innerHTML = "🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <strong>5000 PO 💰</strong>";
 
+    // Préparer fade-in
+    victoryScreen.style.display="flex";
+    victoryScreen.style.opacity=0;
+    victoryScreen.style.pointerEvents="auto";
+
+    setTimeout(()=> {
+      victoryScreen.style.opacity=1; // fade-in
+      launchCoins(victoryBox); // explosion de pièces derrière le texte
+    },50);
+
+    // Disparaît après 3s
     setTimeout(()=>{
       victoryScreen.style.opacity=0;
       setTimeout(()=>{
@@ -184,24 +190,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function launchCoins(box){
-    const container=document.createElement("div");
+    const container = document.createElement("div");
     container.style.position="absolute";
     container.style.inset=0;
+    container.style.zIndex=1; // derrière le texte
     box.appendChild(container);
 
     for(let i=0;i<40;i++){
-      const c=document.createElement("div");
+      const c = document.createElement("div");
       c.textContent="🪙";
       c.style.position="absolute";
-      c.style.left=Math.random()*100+"%";
-      c.style.top="60%";
+      c.style.left="50%";
+      c.style.top="50%";
+      c.style.transform="translate(-50%,0)";
       c.style.opacity=0;
       c.style.transition="transform 1.2s, opacity 1.2s";
       container.appendChild(c);
 
       setTimeout(()=>{
+        const x = Math.random()*200 - 100;
+        const y = Math.random()*200 - 100;
         c.style.opacity=1;
-        c.style.transform=`translate(${Math.random()*200-100}px,-${Math.random()*200}px) scale(1.3)`;
+        c.style.transform=`translate(${x}px, ${y}px) scale(1.3)`;
       },50);
 
       setTimeout(()=>c.remove(),1400);
