@@ -33,7 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
   videoContainer.style.display = "flex";
   videoContainer.style.opacity = "1";
 
-  background.classList.remove("show");
+  // Fond + pirates invisibles au départ
+  background.style.display = "none";
   pirate2bis.style.display = "none";
   pirate5bis.style.display = "none";
   startMissionButton.style.opacity = 0;
@@ -42,40 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
   victoryScreen.style.display = "none";
 
   /* ========================================================
-        VIDEO AUTO-PLAY
+        VIDEO AUTO-PLAY SANS BOUTON
   ======================================================== */
-  function createLaunchButton() {
-    const btn = document.createElement("button");
-    btn.id = "launchButton";
-    btn.textContent = "⚓ Lancer la vidéo";
-    Object.assign(btn.style, {
-      position: "absolute",
-      left: "50%",
-      top: "50%",
-      transform: "translate(-50%, -50%)",
-      padding: "20px 40px",
-      fontSize: "1.5rem",
-      background: "linear-gradient(#8a5a20, #c89b58)",
-      color: "#fff5d6",
-      border: "3px solid #3b1b00",
-      borderRadius: "12px",
-      boxShadow: "0 5px 0 #3b1b00",
-      cursor: "pointer",
-      zIndex: "1100",
-      textShadow: "1px 1px 2px #000"
-    });
-    videoContainer.appendChild(btn);
-    btn.addEventListener("click", () => {
-      questVideo.play();
-      btn.remove();
-    });
-  }
-
-  function tryPlayVideo() {
-    questVideo.play().catch(() => createLaunchButton());
-  }
-
-  setTimeout(tryPlayVideo, 200);
+  questVideo.play().catch(() => console.log("Lecture automatique impossible, l'utilisateur devra cliquer sur la vidéo."));
 
   /* ========================================================
         FIN VIDEO → FOND + PIRATES
@@ -86,7 +56,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       videoContainer.style.display = "none";
-      background.classList.add("show"); // Fade + display
+
+      // Afficher le fond et les pirates
+      background.style.display = "block";
+      setTimeout(() => background.classList.add("show"), 50); // pour transition opacity
+
       pirate2bis.style.display = "flex";
       pirate5bis.style.display = "flex";
     }, 800);
@@ -176,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
   pirate5bis.addEventListener("click", startPirateDialogues);
 
   /* ========================================================
-        MINI JEU
+        MINI JEU (inchangé)
   ======================================================== */
   const steps = [
     { question: "Où les pirates ont-ils trouvé leurs pierres ?", answers: ["Dans un coffre dans une grotte secrète","Ils les ont achetées au marché","La tante les leur a données"], correct: 0 },
