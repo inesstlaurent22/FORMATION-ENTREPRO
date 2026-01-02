@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ============================
-     🎬 VIDEO
+     🎬 VIDÉO
   ============================ */
   const videoContainer = document.getElementById("videoContainer");
   const video = document.getElementById("questVideo");
@@ -10,13 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   video.muted = true;
 
-  function playVideo() {
-    video.play().catch(()=>{});
-    videoContainer.removeEventListener("click", playVideo);
-  }
-  videoContainer.addEventListener("click", playVideo);
-
-  toggleSound.addEventListener("click", () => {
+  // Contrôles fonctionnels
+  toggleSound.addEventListener("click", ()=>{
     video.muted = !video.muted;
     toggleSound.textContent = video.muted ? "🔇" : "🔊";
   });
@@ -24,13 +19,32 @@ document.addEventListener("DOMContentLoaded", () => {
   closeVideo.addEventListener("click", endVideo);
   video.addEventListener("ended", endVideo);
 
-  function endVideo() {
+  function endVideo(){
     video.pause();
-    videoContainer.style.opacity = 0;
-    setTimeout(() => {
-      videoContainer.style.display = "none";
-      showBackgroundAndPirates();
-    }, 1000);
+    videoContainer.style.opacity=0;
+    setTimeout(()=>{
+      videoContainer.style.display="none";
+      showLoader();
+    },1000);
+  }
+
+  /* ============================
+     🌟 LOADER
+  ============================ */
+  const loaderContainer = document.getElementById("loaderContainer");
+  const loaderText = document.getElementById("loaderText");
+
+  function showLoader(){
+    loaderContainer.style.display="block";
+    setTimeout(()=> loaderText.style.opacity=1,50);
+    setTimeout(()=>{
+      loaderText.style.opacity=0;
+      setTimeout(()=>{
+        loaderContainer.style.display="none";
+        showBackgroundAndPirates();
+        startMiniGame();
+      },800);
+    },2000);
   }
 
   /* ============================
@@ -40,19 +54,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate2bis = document.getElementById("pirate2bis");
   const pirate5bis = document.getElementById("pirate5bis");
 
-  pirate2bis.style.left = "516px";
-  pirate2bis.style.top = "406px";
-  pirate5bis.style.left = "785px";
-  pirate5bis.style.top = "397px";
+  pirate2bis.style.left="516px";
+  pirate2bis.style.top="406px";
+  pirate5bis.style.left="785px";
+  pirate5bis.style.top="397px";
 
-  function showBackgroundAndPirates() {
-    background.style.display = "block";
-    setTimeout(()=> background.style.opacity = 1, 50);
+  function showBackgroundAndPirates(){
+    background.style.display="block";
+    setTimeout(()=> background.style.opacity=1,50);
     startDialogues();
   }
 
   /* ============================
-     💬 DIALOGUES
+     💬 BULLES
   ============================ */
   let dialogueStep = 0;
   const dialogues = [
@@ -63,62 +77,42 @@ document.addEventListener("DOMContentLoaded", () => {
     { who:"maitre", text:"Alors montre-moi ce dont tu es capable !", anchor: pirate5bis, last:true }
   ];
 
-  function startDialogues() {
-    dialogueStep = 0;
+  function startDialogues(){
+    dialogueStep=0;
     showDialogue();
   }
 
-  function showDialogue() {
+  function showDialogue(){
     const old = document.querySelector(".dialogue-bubble");
-    if (old) old.remove();
-    if (dialogueStep >= dialogues.length) return;
+    if(old) old.remove();
+    if(dialogueStep >= dialogues.length) return;
 
     const d = dialogues[dialogueStep];
     const bubble = document.createElement("div");
     bubble.classList.add("dialogue-bubble");
 
-    const speaker = d.who === "maitre" ? "Maître Pirate" : "Moussaillon";
+    const speaker = d.who==="maitre" ? "Maître Pirate" : "Moussaillon";
     bubble.innerHTML = `<strong>${speaker}</strong><hr>${d.text}`;
 
     const rect = d.anchor.getBoundingClientRect();
-    bubble.style.left = rect.left + "px";
-    bubble.style.top = (rect.top - 120) + "px";
+    bubble.style.left = rect.left+"px";
+    bubble.style.top = (rect.top-120)+"px";
 
-    if (d.last) {
-      const btn = document.createElement("button");
-      btn.textContent = "Ok, j’ai compris";
-      btn.addEventListener("click", () => {
+    if(d.last){
+      const btn=document.createElement("button");
+      btn.textContent="Ok, j’ai compris";
+      btn.addEventListener("click", ()=>{
         bubble.remove();
-        launchLoader();
       });
       bubble.appendChild(btn);
-    } else {
-      bubble.addEventListener("click", () => {
+    }else{
+      bubble.addEventListener("click", ()=>{
         dialogueStep++;
         showDialogue();
       });
     }
 
     document.body.appendChild(bubble);
-  }
-
-  /* ============================
-     🌟 LOADER
-  ============================ */
-  const loaderContainer = document.getElementById("loaderContainer");
-  const loaderText = document.getElementById("loaderText");
-
-  function launchLoader() {
-    loaderContainer.style.display = "block";
-    setTimeout(()=> loaderText.style.opacity = 1,50);
-
-    setTimeout(()=>{
-      loaderText.style.opacity = 0;
-      setTimeout(()=>{
-        loaderContainer.style.display = "none";
-        startMiniGame();
-      },1000);
-    },2000);
   }
 
   /* ============================
@@ -129,26 +123,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameAnswers = document.getElementById("gameAnswers");
   const gameFeedback = document.getElementById("gameFeedback");
 
-  const questions = [
+  const questions=[
     {q:"Pourquoi les pirates vendent leurs pierres ?",a:["Acheter un bateau","Décorer la cale","Les manger"],c:0},
     {q:"Où ont-ils trouvé les pierres ?",a:["Grotte secrète","Supermarché","Internet"],c:0},
     {q:"Que doivent-ils faire au marché ?",a:["Observer les concurrents","Dormir","Crier"],c:0}
   ];
 
-  let step = 0;
+  let step=0;
 
   function startMiniGame(){
-    miniGameContainer.style.display = "flex";
-    step = 0;
+    miniGameContainer.style.display="flex";
+    step=0;
     showStep();
   }
 
   function showStep(){
-    if(step >= questions.length){ showVictory(); return; }
+    if(step>=questions.length){ showVictory(); return; }
     const q = questions[step];
-    gameQuestion.textContent = q.q;
-    gameAnswers.innerHTML = "";
-    gameFeedback.textContent = "";
+    gameQuestion.textContent=q.q;
+    gameAnswers.innerHTML="";
+    gameFeedback.textContent="";
     q.a.forEach((ans,i)=>{
       const b=document.createElement("button");
       b.textContent=ans;
@@ -162,26 +156,30 @@ document.addEventListener("DOMContentLoaded", () => {
       gameFeedback.textContent="✅ Bravo moussaillon";
       step++;
       setTimeout(showStep,600);
-    } else gameFeedback.textContent="❌ Essaie encore";
+    }else gameFeedback.textContent="❌ Essaie encore";
   }
 
   /* ============================
      🏆 VICTOIRE
   ============================ */
-  const victoryScreen = document.getElementById("victoryScreen");
+  const victoryScreen=document.getElementById("victoryScreen");
+  const victoryBox=document.querySelector(".victoryBox");
 
   function showVictory(){
     miniGameContainer.style.display="none";
+    victoryBox.innerHTML="🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <strong>5000 PO</strong> 💰";
+    victoryScreen.style.pointerEvents="auto";
     victoryScreen.style.display="flex";
-    setTimeout(()=> victoryScreen.style.opacity = 1,50);
-
-    launchCoins(document.querySelector(".victoryBox"));
+    setTimeout(()=> victoryScreen.style.opacity=1,50);
+    launchCoins(victoryBox);
 
     setTimeout(()=>{
       victoryScreen.style.opacity=0;
-      setTimeout(()=> victoryScreen.style.display="none",1000);
-      background.style.display="block";
-      setTimeout(()=> background.style.opacity=1,50);
+      setTimeout(()=>{
+        victoryScreen.style.display="none";
+        background.style.display="block";
+        setTimeout(()=> background.style.opacity=1,50);
+      },1000);
     },3000);
   }
 
