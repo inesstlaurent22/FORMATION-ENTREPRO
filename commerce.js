@@ -56,13 +56,18 @@ document.addEventListener("DOMContentLoaded", () => {
   ============================ */
   let dialogueStep = 0;
   const dialogues = [
-    { who:"maitre", text:"Bienvenue au marché des trésors !", anchor: pirate5bis },
-    { who:"apprenti", text:"Je suis prêt maître pirate !", anchor: pirate2bis },
-    { who:"maitre", text:"Observe, compare, et trouve ta stratégie…", anchor: pirate5bis },
-    { who:"apprenti", text:"Je vais tout donner capitaine !", anchor: pirate2bis },
-    { who:"maitre", text:"Alors montre-moi ce dont tu es capable !", anchor: pirate5bis, last:true }
+     { who: "maitre", text: "Moussaillon ! Bienvenue sur le marché des trésors ! Ici, plein de pirates vendent des pierres précieuses… mais pour toi, qui débutes, faudra suivre mes conseils !", anchor: pirate5bis },
+    { who: "apprenti", text: "J’suis prêt, capitaine !", anchor: pirate2bis },
+    { who: "maitre", text: "Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates… parle comme eux, montre que tu connais tes pierres. Ensuite… sois plus malin et plus rapide qu’eux ! Faut que tous les clients viennent chez toi !", anchor: pirate5bis },
+    { who: "apprenti", text: "Mais comment je fais ça ?", anchor: pirate2bis },
+    { who: "maitre", text: "Regarde bien : la plupart ont une petite échoppe et vendent leurs pierres dans des petits sachets en velours. Les clients adorent ça ! Donc toi aussi, il te faudra une échoppe et des sachets. Mais attention… tes pierres ressemblent à celles des autres ! Faut que tu te démarques !", anchor: pirate5bis },
+    { who: "apprenti", text: "Me démarquer… c’est-à-dire ?", anchor: pirate2bis },
+    { who: "maitre", text: "Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• vendre tes pierres dans des boîtes en bois qui sont plus luxueux que les sachets<br>• avoir une grande boutique visible<br>• aller chez les clients directement", anchor: pirate5bis },
+    { who: "apprenti", text: "Ahhh… donc je choisis la meilleure stratégie selon mes clients !", anchor: pirate2bis },
+    { who: "maitre", text: "Exactement ! Observe, teste, et deviens le pirate que tout le monde veut rencontrer.", anchor: pirate5bis },
+    { who: "apprenti", text: "MERCI capitaine !", anchor: pirate2bis }
   ];
-
+  
   function startDialogues(){
     dialogueStep = 0;
     showDialogue();
@@ -130,13 +135,100 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameAnswers = document.getElementById("gameAnswers");
   const gameFeedback = document.getElementById("gameFeedback");
 
-  const questions=[
-    {q:"Pourquoi les pirates vendent leurs pierres ?",a:["Acheter un bateau","Décorer la cale","Les manger"],c:0},
-    {q:"Où ont-ils trouvé les pierres ?",a:["Grotte secrète","Supermarché","Internet"],c:0},
-    {q:"Que doivent-ils faire au marché ?",a:["Observer les concurrents","Dormir","Crier"],c:0}
-  ];
+const questions = [
+  {
+    q: "Où les pirates ont-ils trouvé leurs pierres ?",
+    answers: [
+      "Dans un coffre dans une grotte secrète",
+      "Ils les ont achetées au marché",
+      "La tante les leur a données"
+    ],
+    correct: 0
+  },
 
-  let step = 0;
+  {
+    q: "Qui fait partie de l'équipage pirate ?",
+    answers: [
+      "Juste le capitaine",
+      "Toute la famille pirate",
+      "Toi et les deux moussaillons"
+    ],
+    correct: 2
+  },
+
+  {
+    q: "Quel est le but du projet des pirates ?",
+    answers: [
+      "Construire un bateau",
+      "Partir en vacances",
+      "Garder les pierres pour décorer la cale"
+    ],
+    correct: 0
+  },
+
+  {
+    q: "Qu’est-ce que les pirates doivent observer sur le marché ?",
+    answers: [
+      "Les pierres",
+      "Les concurrents",
+      "La météo"
+    ],
+    correct: [0, 1]
+  },
+
+  {
+    q: "Que doivent-ils décrire pour leurs pierres ?",
+    answers: [
+      "Le nombre",
+      "Les qualités et défauts des pierres",
+      "Seulement la couleur",
+      "Seulement la taille"
+    ],
+    correct: [0, 1]   // ✅ bonnes réponses : 0 et 1
+  },
+
+  {
+    q: "À quoi sert le modèle économique ?",
+    answers: [
+      "Savoir combien de pierres vendre pour acheter le bateau",
+      "Savoir qui fait la vaisselle",
+      "Compter les mouettes"
+    ],
+    correct: [0, 1]
+  },
+
+  {
+    q: "Quelle stratégie les différencie des autres ?",
+    answers: [
+      "Vendre les pierres dans des boîtes en bois",
+      "Proposer une livraison directement chez le client",
+      "Vendre sans dire le prix"
+    ],
+    correct: 0
+  },
+
+  {
+    q: "Qu’est-ce que le plan financier ?",
+    answers: [
+      "Un document qui prévoit les dépenses et les gains",
+      "Une carte au trésor",
+      "Une chanson de pirates"
+    ],
+    correct: 0
+  },
+
+  {
+    q: "À quoi sert le statut juridique ?",
+    answers: [
+      "À dire comment l’activité pirate est organisée légalement",
+      "À choisir le nom du perroquet",
+      "À fabriquer des épées"
+    ],
+    correct: 0
+  }
+];
+
+let step = 0;
 
   function startMiniGame(){
     miniGameContainer.style.display="flex";
