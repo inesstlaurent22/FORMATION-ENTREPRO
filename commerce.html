@@ -11,20 +11,22 @@
 
 <!-- 🎬 CONTAINER VIDÉO -->
 <div id="videoContainer">
+
   <video 
-    id="questVideo" 
-    autoplay 
-    muted 
-    playsinline 
+    id="questVideo"
+    playsinline
     preload="auto"
   >
     <source src="videos/Commercevideo.MOV" type="video/mp4">
+    Ton navigateur ne supporte pas la vidéo.
   </video>
 
+  <!-- 🎛️ BOUTONS VIDÉO -->
   <div id="videoControls">
-    <button id="toggleSound">🔇</button>
-    <button id="closeVideo">✖</button>
+    <button id="toggleSound" type="button">🔇</button>
+    <button id="closeVideo" type="button">✖</button>
   </div>
+
 </div>
 
 <!-- 🌅 FOND + PIRATES -->
@@ -65,6 +67,7 @@
 
 <!-- 📖 BOOK -->
 <div class="book" style="display:none;">
+
   <div class="page">
     <div class="front" style="background-image:url('images/Businessplan1.jpg')"></div>
     <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
@@ -79,6 +82,7 @@
     <div class="front" style="background-image:url('images/Businessplan3.jpg')"></div>
     <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
   </div>
+
 </div>
 
 <script src="commerce.js"></script>
