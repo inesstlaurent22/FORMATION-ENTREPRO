@@ -2,87 +2,80 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-
   <title>Quête Commerce</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
   <link rel="stylesheet" href="commerce.css">
 </head>
-
 <body>
 
-<!-- 🎬 CONTAINER VIDÉO -->
-<div id="videoContainer">
+  <!-- 🎬 CONTAINER VIDÉO -->
+  <div id="videoContainer">
 
-  <video 
-    id="questVideo"
-    autoplay
-    muted
-    playsinline
-    preload="auto"
-  >
-    <source src="videos/Commercevideo.MOV" type="video/mp4">
-    Ton navigateur ne supporte pas la vidéo.
-  </video>
+    <video 
+      id="questVideo"
+      autoplay
+      muted
+      playsinline
+      preload="auto"
+    >
+      <source src="videos/Commercevideo.MOV" type="video/mp4">
+      Ton navigateur ne supporte pas la vidéo.
+    </video>
 
-  <!-- 🎛️ BOUTONS VIDÉO -->
-  <div id="videoControls">
-
-    <button id="toggleSound" type="button">🔇</button>
-
-    <button id="closeVideo" type="button">✖</button>
+    <!-- 🎛️ BOUTONS VIDÉO EN BAS À DROITE -->
+    <div id="videoControls">
+      <button id="toggleSound" type="button">🔇</button>
+      <button id="closeVideo" type="button">✖</button>
+    </div>
 
   </div>
 
-</div>
-
-<!-- 🌅 FOND + PIRATES -->
-<div id="background" style="display:none; opacity:0;">
-  <img src="images/Commercefond.PNG" class="fondImage">
-  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
-  <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
-</div>
-
-<div id="bubbleContainer"></div>
-<div id="overlayBlur"></div>
-
-<div id="loaderContainer" style="display:none;">
-  <div id="loaderText">Termine ce mini-jeu pour poursuivre la quête</div>
-</div>
-
-<div id="miniGameContainer" style="display:none;">
-  <div id="gameQuestion"></div>
-  <div id="gameAnswers"></div>
-  <div id="gameFeedback"></div>
-</div>
-
-<div id="victoryScreen" style="display:none; opacity:0;">
-  <canvas id="lightCanvas"></canvas>
-  <div class="victoryBox">🎉 Bravo moussaillon ! 🎉</div>
-</div>
-
-<div id="businessPlanLoader" style="display:none;">
-  ✨ Tu as créé ton premier business plan ✨
-</div>
-
-<div class="book" style="display:none; opacity:0;">
-  <div class="page">
-    <div class="front" style="background-image:url('images/Businessplan1.jpg')"></div>
-    <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+  <!-- 🌅 FOND + PIRATES -->
+  <div id="background">
+    <img src="images/Commercefond.PNG" class="fondImage">
+    <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
+    <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
   </div>
 
-  <div class="page">
-    <div class="front" style="background-image:url('images/Businessplan2.jpg')"></div>
-    <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+  <!-- BULLES DE TEXTE -->
+  <div id="bubbleContainer"></div>
+  <div id="overlayBlur"></div>
+
+  <!-- LOADER MINI-JEU -->
+  <div id="loaderContainer">
+    <div id="loaderText">Termine ce mini-jeu pour poursuivre la quête</div>
   </div>
 
-  <div class="page">
-    <div class="front" style="background-image:url('images/Businessplan3.jpg')"></div>
-    <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+  <!-- MINI-JEU -->
+  <div id="miniGameContainer">
+    <div id="gameQuestion"></div>
+    <div id="gameAnswers"></div>
+    <div id="gameFeedback"></div>
   </div>
-</div>
 
-<script src="commerce.js"></script>
+  <!-- ÉCRAN DE VICTOIRE -->
+  <div id="victoryScreen">
+    <canvas id="lightCanvas"></canvas>
+    <div class="victoryBox">🎉 Bravo moussaillon ! 🎉</div>
+  </div>
+
+  <!-- BUSINESS PLAN / LIVRE -->
+  <div id="businessPlanLoader"></div>
+  <div class="book">
+    <div class="page">
+      <div class="front" style="background-image:url('images/Businessplan1.jpg')"></div>
+      <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+    </div>
+    <div class="page">
+      <div class="front" style="background-image:url('images/Businessplan2.jpg')"></div>
+      <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+    </div>
+    <div class="page">
+      <div class="front" style="background-image:url('images/Businessplan3.jpg')"></div>
+      <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+    </div>
+  </div>
+
+  <script src="commerce.js"></script>
 </body>
 </html>
