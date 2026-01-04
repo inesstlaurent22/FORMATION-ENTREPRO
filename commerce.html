@@ -58,86 +58,89 @@
   <div class="victoryBox">🎉 Bravo moussaillon ! 🎉</div>
 </div>
 
-document.addEventListener("DOMContentLoaded", () => {
+  <!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Quête Commerce</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="commerce.css">
+</head>
 
-  /* ============================
-     📖 BUSINESS PLAN BOOK + LOADER
-  ============================ */
+<body>
 
-  const book = document.querySelector('.book');
-  const pages = document.querySelectorAll('.page');
-  let currentPage = 0;
-  const totalPages = pages.length;
+<!-- 🎬 CONTAINER VIDÉO -->
+<div id="videoContainer">
+  <video 
+    id="questVideo" 
+    autoplay 
+    muted 
+    playsinline 
+    preload="auto"
+  >
+    <source src="videos/Commercevideo.MOV" type="video/mp4">
+  </video>
 
-  // Ordre empilement
-  pages.forEach((page, index) => {
-    page.style.zIndex = totalPages - index;
-  });
+  <div id="videoControls">
+    <button id="toggleSound">🔇</button>
+    <button id="closeVideo">✖</button>
+  </div>
+</div>
 
-  // Clic sur le livre
-  book.addEventListener('click', (e) => {
-    const bookRect = book.getBoundingClientRect();
-    const clickX = e.clientX - bookRect.left;
-    const bookWidth = bookRect.width;
+<!-- 🌅 FOND + PIRATES -->
+<div id="background">
+  <img src="images/Commercefond.PNG" class="fondImage">
+  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
+  <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
+</div>
 
-    if(clickX > bookWidth / 2 && currentPage < totalPages){
-      pages[currentPage].classList.add("flipped");
-      currentPage++;
-    } else if(clickX < bookWidth / 2 && currentPage > 0){
-      currentPage--;
-      pages[currentPage].classList.remove("flipped");
-    }
-  });
+<!-- 💬 BULLES -->
+<div id="bubbleContainer"></div>
 
-  /* --- Affichage du loader lumineux --- */
-  function showBusinessPlanLoader(){
-    const loader = document.createElement("div");
-    loader.id = "businessPlanLoader";
-    loader.style.position = "absolute";
-    loader.style.top = "180px"; // ajustable au-dessus du livre
-    loader.style.left = "50%";
-    loader.style.transform = "translateX(-50%)";
-    loader.style.fontSize = "2em";
-    loader.style.fontWeight = "bold";
-    loader.style.textAlign = "center";
-    loader.style.color = "gold";
-    loader.style.zIndex = 3000;
-    loader.style.opacity = 0;
-    loader.style.pointerEvents = "none";
-    loader.innerHTML = "✨ Tu as créé ton premier business plan ✨";
-    loader.style.animation = "pulse 1.5s infinite alternate"; // animation pulsante
+<!-- 🌫 OVERLAY FLOU -->
+<div id="overlayBlur"></div>
 
-    document.body.appendChild(loader);
+<!-- ✨ LOADER -->
+<div id="loaderContainer">
+  <div id="loaderText">Termine ce mini-jeu pour poursuivre la quête</div>
+</div>
 
-    // fade-in
-    setTimeout(()=> loader.style.opacity = 1, 50);
+<!-- 🎮 MINI JEU -->
+<div id="miniGameContainer">
+  <div id="gameQuestion"></div>
+  <div id="gameAnswers"></div>
+  <div id="gameFeedback"></div>
+</div>
 
-    // fade-out et affichage du livre
-    setTimeout(()=>{
-      loader.style.opacity = 0;
-      setTimeout(()=>{
-        loader.remove();
-        showBook();
-      },1000);
-    }, 2500);
-  }
+<!-- 🏆 VICTOIRE -->
+<div id="victoryScreen">
+  <canvas id="lightCanvas"></canvas>
+  <div class="victoryBox">🎉 Bravo moussaillon ! 🎉</div>
+</div>
 
-  /* --- Affichage du livre --- */
-  function showBook(){
-    book.style.display = "flex";
-    book.style.opacity = 0;
-    book.style.justifyContent = "center";
-    book.style.alignItems = "center";
-    book.style.position = "relative";
+<!-- ✨ LOADER BUSINESS PLAN -->
+<div id="businessPlanLoader">
+  ✨ Tu as créé ton premier business plan ✨
+</div>
 
-    setTimeout(()=> book.style.opacity = 1, 200);
-  }
+<!-- 📖 BOOK -->
+<div class="book">
+  <div class="page">
+    <div class="front" style="background-image:url('images/Businessplan1.jpg')"></div>
+    <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+  </div>
 
-  // --- Lancer le loader au démarrage ---
-  showBusinessPlanLoader();
+  <div class="page">
+    <div class="front" style="background-image:url('images/Businessplan2.jpg')"></div>
+    <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+  </div>
 
-});
-
+  <div class="page">
+    <div class="front" style="background-image:url('images/Businessplan3.jpg')"></div>
+    <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+  </div>
+</div>
+  
 <script src="commerce.js"></script>
 </body>
 </html>
