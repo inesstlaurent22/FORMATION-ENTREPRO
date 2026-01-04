@@ -346,4 +346,40 @@ let step = 0;
     showStep();
   });
 
+  /* ============================
+     ✨ LOADER BUSINESS PLAN + LIVRE
+  ============================ */
+  const book = document.querySelector(".book");
+
+  function showBusinessPlanLoader(){
+    const div = document.createElement("div");
+    div.id = "businessPlanLoaderRuntime";
+    div.innerHTML = "✨ Tu as créé ton premier business plan ✨";
+    div.style.position="fixed";
+    div.style.top="50%";
+    div.style.left="50%";
+    div.style.transform="translate(-50%,-50%)";
+    div.style.fontSize="2em";
+    div.style.color="gold";
+    div.style.opacity=0;
+    div.style.transition="opacity .5s ease";
+    document.body.appendChild(div);
+
+    setTimeout(()=> div.style.opacity = 1, 50);
+
+    setTimeout(()=>{
+      div.style.opacity = 0;
+      setTimeout(()=>{
+        div.remove();
+        showBook();
+      }, 600);
+    }, 2200);
+  }
+
+  function showBook(){
+    book.style.display="flex";
+    book.style.opacity=0;
+    setTimeout(()=> book.style.opacity = 1, 200);
+  }
+
 });
