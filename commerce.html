@@ -5,7 +5,6 @@
 
   <title>Quête Commerce</title>
 
-  <!-- Mobile iPhone full screen correct -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <link rel="stylesheet" href="commerce.css">
@@ -18,12 +17,9 @@
 
   <video 
     id="questVideo"
-
-    <!-- 🔴 important pour iPhone -->
     autoplay
     muted
     playsinline
-
     preload="auto"
   >
     <source src="videos/Commercevideo.MOV" type="video/mp4">
@@ -33,15 +29,9 @@
   <!-- 🎛️ BOUTONS VIDÉO -->
   <div id="videoControls">
 
-    <!-- 🔊 bouton son -->
-    <button id="toggleSound" type="button">
-      🔇
-    </button>
+    <button id="toggleSound" type="button">🔇</button>
 
-    <!-- ❌ bouton fermer -->
-    <button id="closeVideo" type="button">
-      ✖
-    </button>
+    <button id="closeVideo" type="button">✖</button>
 
   </div>
 
@@ -54,38 +44,29 @@
   <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
 </div>
 
-<!-- 💬 BULLES -->
 <div id="bubbleContainer"></div>
-
-<!-- 🌫 OVERLAY FLOU -->
 <div id="overlayBlur"></div>
 
-<!-- ✨ LOADER -->
 <div id="loaderContainer" style="display:none;">
   <div id="loaderText">Termine ce mini-jeu pour poursuivre la quête</div>
 </div>
 
-<!-- 🎮 MINI JEU -->
 <div id="miniGameContainer" style="display:none;">
   <div id="gameQuestion"></div>
   <div id="gameAnswers"></div>
   <div id="gameFeedback"></div>
 </div>
 
-<!-- 🏆 VICTOIRE -->
 <div id="victoryScreen" style="display:none; opacity:0;">
   <canvas id="lightCanvas"></canvas>
   <div class="victoryBox">🎉 Bravo moussaillon ! 🎉</div>
 </div>
 
-<!-- ✨ LOADER BUSINESS PLAN -->
 <div id="businessPlanLoader" style="display:none;">
   ✨ Tu as créé ton premier business plan ✨
 </div>
 
-<!-- 📖 BOOK -->
 <div class="book" style="display:none; opacity:0;">
-
   <div class="page">
     <div class="front" style="background-image:url('images/Businessplan1.jpg')"></div>
     <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
@@ -100,7 +81,6 @@
     <div class="front" style="background-image:url('images/Businessplan3.jpg')"></div>
     <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
   </div>
-
 </div>
 
 <script src="commerce.js"></script>
