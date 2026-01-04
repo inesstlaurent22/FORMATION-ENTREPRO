@@ -94,3 +94,68 @@ html, body { width:100%; height:100%; overflow:hidden; font-family:'Trebuchet MS
   border-radius:16px; box-shadow:0 10px 0 #3b1b00;
 }
 #lightCanvas { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
+
+/* ================= LIVRE ================= */
+.book {
+  position: absolute;
+  left: 720px;   /* position X */
+  top: 298px;    /* position Y */
+  width: 487px;  /* largeur exacte */
+  height: 397px; /* hauteur exacte */
+  perspective: 2000px;
+}
+
+/* ================= PAGE ================= */
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 1s ease;
+  transform-origin: left;
+  cursor: pointer;
+}
+
+/* ordre empilement */
+.page:nth-child(1) { z-index: 4; }
+.page:nth-child(2) { z-index: 3; }
+.page:nth-child(3) { z-index: 2; }
+.page:nth-child(4) { z-index: 1; }
+
+/* recto et verso */
+.front, .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backface-visibility: hidden;
+  border-radius: 6px;
+}
+
+/* verso retourné */
+.back {
+  transform: rotateY(180deg);
+}
+
+/* page tournée */
+.page.flipped {
+  transform: rotateY(-180deg);
+}
+
+/* ================= RESPONSIVITÉ MOBILE ================= */
+@media (max-width: 600px) {
+  .book {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    height: auto;
+  }
+
+  .front, .back {
+    border-radius: 4px;
+  }
+}
+
