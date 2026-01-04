@@ -95,17 +95,15 @@ html, body { width:100%; height:100%; overflow:hidden; font-family:'Trebuchet MS
 }
 #lightCanvas { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
 
-/* ========================= */
 /* 🔆 LOADER BUSINESS PLAN LUMINEUX */
-/* ========================= */
 #businessPlanLoader {
   position: absolute;
-  top: 200px; /* ajuste au-dessus du livre */
+  top: 200px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 2em;
   font-weight: bold;
-  color: gold;
+  color: white; /* 👈 texte blanc */
   text-align: center;
   z-index: 3000;
   opacity: 0;
@@ -113,13 +111,35 @@ html, body { width:100%; height:100%; overflow:hidden; font-family:'Trebuchet MS
   pointer-events: none;
 }
 
-/* effet lumineux pulsant */
+/* effet lumineux pulsant JAUNE autour du texte blanc */
 @keyframes pulse {
-  0% { text-shadow: 0 0 5px gold, 0 0 10px gold, 0 0 15px orange; opacity: 0.8; }
-  50% { text-shadow: 0 0 15px gold, 0 0 25px orange, 0 0 35px yellow; opacity: 1; }
-  100% { text-shadow: 0 0 5px gold, 0 0 10px gold, 0 0 15px orange; opacity: 0.8; }
-}
+  0% {
+    text-shadow:
+      0 0 5px yellow,
+      0 0 10px yellow,
+      0 0 20px gold,
+      0 0 30px gold;
+    opacity: 0.8;
+  }
 
+  50% {
+    text-shadow:
+      0 0 10px yellow,
+      0 0 20px gold,
+      0 0 35px orange,
+      0 0 45px yellow;
+    opacity: 1;
+  }
+
+  100% {
+    text-shadow:
+      0 0 5px yellow,
+      0 0 10px yellow,
+      0 0 20px gold,
+      0 0 30px gold;
+    opacity: 0.8;
+  }
+}
 /* ================= LIVRE ================= */
 .book {
   position: absolute;
