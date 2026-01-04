@@ -97,67 +97,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   questVideo.addEventListener("ended", showScene);
 
-/* ========================================================
-      BOUTONS CLOSE ET SOUND EN BAS À DROITE
-======================================================== */
-function createVideoButtons() {
-  // Conteneur des boutons
-  const btnContainer = document.createElement("div");
-  btnContainer.id = "videoBtnContainer";
-  Object.assign(btnContainer.style, {
-    position: "absolute",
-    bottom: "20px",
-    right: "20px",
-    display: "flex",
-    gap: "10px",
-    zIndex: "1200"
-  });
+  /* ========================================================
+        BOUTONS CLOSE ET SOUND CONNECTÉS
+  ======================================================== */
+  if (closeVideo) {
+    closeVideo.addEventListener("click", () => {
+      questVideo.pause();
+      showScene(); // passe directement au fond + pirates
+    });
+  }
 
-  // Bouton Close
-  const btnClose = document.createElement("button");
-  btnClose.id = "closeVideoBtn";
-  btnClose.textContent = "✖";
-  Object.assign(btnClose.style, {
-    padding: "10px 14px",
-    fontSize: "1.2rem",
-    background: "#c33",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    boxShadow: "0 3px 0 #900"
-  });
-  btnClose.addEventListener("click", () => {
-    questVideo.pause();
-    showScene(); // affiche le fond + pirates
-  });
+  if (toggleSound) {
+    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+    toggleSound.addEventListener("click", () => {
+      questVideo.muted = !questVideo.muted;
+      toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+    });
+  }
 
-  // Bouton Sound
-  const btnSound = document.createElement("button");
-  btnSound.id = "toggleSoundBtn";
-  btnSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  Object.assign(btnSound.style, {
-    padding: "10px 14px",
-    fontSize: "1.2rem",
-    background: "#333",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    boxShadow: "0 3px 0 #000"
-  });
-  btnSound.addEventListener("click", () => {
-    questVideo.muted = !questVideo.muted;
-    btnSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  });
-
-  btnContainer.appendChild(btnSound);
-  btnContainer.appendChild(btnClose);
-  videoContainer.appendChild(btnContainer);
-}
-
-// Appelle la fonction dès que la page charge
-createVideoButtons();
   /* ========================================================
         BULLES DE TEXTE DES PIRATES
   ======================================================== */
@@ -179,7 +136,7 @@ createVideoButtons();
     bubbleContainer.innerHTML = "";
     const rect = dialogue.anchor.getBoundingClientRect();
     const div = document.createElement("div");
-    div.className = "bubble";
+    div.className = "dialogue-bubble";
 
     const title = dialogue.who === "maitre" ? "Maître pirate" : "Apprenti pirate";
     div.innerHTML = `<div class="name">${title}</div><div>${dialogue.text}</div>`;
@@ -211,7 +168,7 @@ createVideoButtons();
       createBubble(dialogues[dialogueStep]);
     } else if (startMissionButton) {
       bubbleContainer.innerHTML = `
-        <div class="bubble">
+        <div class="dialogue-bubble">
           <p>Merci Capitaine ! Grâce à toi, la tante pirate a tout compris !</p>
         </div>
       `;
@@ -245,11 +202,10 @@ createVideoButtons();
   ];
 
   let currentStep = 0;
-  const steps = questions;
 
   function showStep() {
-    if (currentStep < steps.length) {
-      const step = steps[currentStep];
+    if (currentStep < questions.length) {
+      const step = questions[currentStep];
       gameQuestion.textContent = step.q;
       gameAnswers.innerHTML = "";
       gameFeedback.textContent = "";
@@ -260,19 +216,19 @@ createVideoButtons();
         gameAnswers.appendChild(btn);
       });
     } else {
-      // FIN MINI-JEU → écran victoire
       miniGameContainer.style.opacity = 0;
       setTimeout(() => {
         miniGameContainer.style.display = "none";
         overlayBlur.style.opacity = 0;
         overlayBlur.style.display = "none";
         victoryScreen.style.display = "flex";
+        victoryScreen.style.opacity = 1;
       }, 500);
     }
   }
 
   function handleAnswer(index) {
-    const stepObj = steps[currentStep];
+    const stepObj = questions[currentStep];
     let correct = stepObj.correct;
     if (Array.isArray(correct)) correct = correct.includes(index);
     else correct = index === stepObj.correct;
