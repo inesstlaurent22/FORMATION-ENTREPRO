@@ -46,6 +46,33 @@ document.addEventListener("DOMContentLoaded", () => {
   overlayBlur.style.display = "none";
   victoryScreen.style.display = "none";
 
+ document.addEventListener("DOMContentLoaded", () => {
+
+  /* ========================================================
+        ÉLÉMENTS DOM
+  ======================================================== */
+  const videoContainer = document.getElementById("videoContainer");
+  const questVideo = document.getElementById("questVideo");
+  const toggleSound = document.getElementById("toggleSound");
+  const closeVideo = document.getElementById("closeVideo");
+
+  const background = document.getElementById("background");
+  const pirate2bis = document.getElementById("pirate2bis");
+  const pirate5bis = document.getElementById("pirate5bis");
+
+  /* ========================================================
+        ÉTAT INITIAL
+  ======================================================== */
+  questVideo.muted = true;
+  questVideo.loop = false;
+
+  videoContainer.style.display = "flex";
+  videoContainer.style.opacity = "1";
+
+  background.style.display = "none";
+  pirate2bis.style.display = "none";
+  pirate5bis.style.display = "none";
+
   /* ========================================================
         VIDEO AUTO-PLAY
   ======================================================== */
@@ -82,6 +109,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setTimeout(tryPlayVideo, 200);
 
+  /* ========================================================
+        FIN VIDEO → FOND + PIRATES
+  ======================================================== */
+  function showScene() {
+    videoContainer.style.transition = "opacity 0.8s";
+    videoContainer.style.opacity = 0;
+
+    setTimeout(() => {
+      videoContainer.style.display = "none";
+      background.style.display = "flex";
+      background.style.opacity = 1;
+      pirate2bis.style.display = "flex";
+      pirate5bis.style.display = "flex";
+    }, 800);
+  }
+
+  questVideo.addEventListener("ended", showScene);
+
+  /* ========================================================
+        BOUTONS VIDÉO
+  ======================================================== */
+  if (toggleSound) {
+    toggleSound.addEventListener("click", () => {
+      questVideo.muted = !questVideo.muted;
+      toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+    });
+  }
+
+  if (closeVideo) {
+    closeVideo.addEventListener("click", () => {
+      questVideo.pause();
+      showScene(); // Appel direct pour afficher les pirates
+    });
+  }
+
+});
   /* ========================================================
         FIN VIDEO → FOND + PIRATES
   ======================================================== */
