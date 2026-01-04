@@ -58,73 +58,13 @@
   <div class="victoryBox">🎉 Bravo moussaillon ! 🎉</div>
 </div>
 
-  <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Quête Commerce</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="commerce.css">
-</head>
-
-<body>
-
-<!-- 🎬 CONTAINER VIDÉO -->
-<div id="videoContainer">
-  <video 
-    id="questVideo" 
-    autoplay 
-    muted 
-    playsinline 
-    preload="auto"
-  >
-    <source src="videos/Commercevideo.MOV" type="video/mp4">
-  </video>
-
-  <div id="videoControls">
-    <button id="toggleSound">🔇</button>
-    <button id="closeVideo">✖</button>
-  </div>
-</div>
-
-<!-- 🌅 FOND + PIRATES -->
-<div id="background">
-  <img src="images/Commercefond.PNG" class="fondImage">
-  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
-  <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
-</div>
-
-<!-- 💬 BULLES -->
-<div id="bubbleContainer"></div>
-
-<!-- 🌫 OVERLAY FLOU -->
-<div id="overlayBlur"></div>
-
-<!-- ✨ LOADER -->
-<div id="loaderContainer">
-  <div id="loaderText">Termine ce mini-jeu pour poursuivre la quête</div>
-</div>
-
-<!-- 🎮 MINI JEU -->
-<div id="miniGameContainer">
-  <div id="gameQuestion"></div>
-  <div id="gameAnswers"></div>
-  <div id="gameFeedback"></div>
-</div>
-
-<!-- 🏆 VICTOIRE -->
-<div id="victoryScreen">
-  <canvas id="lightCanvas"></canvas>
-  <div class="victoryBox">🎉 Bravo moussaillon ! 🎉</div>
-</div>
-
 <!-- ✨ LOADER BUSINESS PLAN -->
-<div id="businessPlanLoader">
+<div id="businessPlanLoader" style="display:none;">
   ✨ Tu as créé ton premier business plan ✨
 </div>
 
 <!-- 📖 BOOK -->
-<div class="book">
+<div class="book" style="display:none;">
   <div class="page">
     <div class="front" style="background-image:url('images/Businessplan1.jpg')"></div>
     <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
@@ -140,7 +80,7 @@
     <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
   </div>
 </div>
-  
+
 <script src="commerce.js"></script>
 </body>
 </html>
