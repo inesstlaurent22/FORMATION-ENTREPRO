@@ -321,7 +321,7 @@ let step = 0;
     animate();
   }
 
-  const pages = document.querySelectorAll('.page');
+const pages = document.querySelectorAll('.page');
 let currentPage = 0;
 const totalPages = pages.length;
 
