@@ -1,53 +1,82 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ============================
-     🎬 VIDÉO
-  ============================ */
+ document.addEventListener("DOMContentLoaded", () => {
+
+  /* ===============================
+      🎬 VARIABLES VIDÉO
+  =============================== */
   const videoContainer = document.getElementById("videoContainer");
-  const video = document.getElementById("questVideo");
-  const closeVideoBtn = document.getElementById("closeVideo");
-  const toggleSoundBtn = document.getElementById("toggleSound");
+  const questVideo = document.getElementById("questVideo");
 
-  if (video && videoContainer && toggleSoundBtn && closeVideoBtn) {
+  /* 🎛 BOUTONS */
+  const toggleSound = document.getElementById("toggleSound");
+  const closeVideo = document.getElementById("closeVideo");
 
-    video.muted = true;
-    toggleSoundBtn.textContent = "🔇";
-
-    // 🔊 toggle son
-    toggleSoundBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (video.paused) video.play().catch(()=>{});
-      video.muted = !video.muted;
-      toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
-    });
-
-    // ❌ fermer vidéo
-    closeVideoBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      endVideo();
-    });
-
-    // lecture au clic
-    videoContainer.addEventListener("click", () => {
-      video.play().catch(()=>{});
-    });
-
-    // fin auto
-    video.addEventListener("ended", endVideo);
-
-    function endVideo(){
-      video.pause();
-      video.currentTime = 0;
-      videoContainer.style.transition = "opacity .5s ease";
-      videoContainer.style.opacity = 0;
-
-      setTimeout(()=>{
-        videoContainer.style.display = "none";
-        showBackgroundAndPirates();
-      }, 500);
-    }
+  /* ===============================
+      🛠 SÉCURITÉS AFFICHAGE BOUTONS
+  =============================== */
+  if (toggleSound) {
+    toggleSound.style.display = "block";
+    toggleSound.style.opacity = "1";
+    toggleSound.style.pointerEvents = "auto";
   }
 
+  if (closeVideo) {
+    closeVideo.style.display = "block";
+    closeVideo.style.opacity = "1";
+    closeVideo.style.pointerEvents = "auto";
+  }
+
+  /* ===============================
+      🔊 BOUTON SON
+  =============================== */
+  if (toggleSound && questVideo) {
+
+    toggleSound.addEventListener("click", () => {
+
+      // desbloque autoplay policies on iPhone
+      questVideo.muted = !questVideo.muted;
+
+      if (questVideo.muted) {
+        toggleSound.textContent = "🔇";
+      } else {
+        toggleSound.textContent = "🔊";
+        questVideo.volume = 1;
+        questVideo.play().catch(()=>{});
+      }
+    });
+  }
+
+  /* ===============================
+      ❌ BOUTON FERMER VIDÉO
+  =============================== */
+  if (closeVideo && questVideo && videoContainer) {
+
+    closeVideo.addEventListener("click", () => {
+
+      questVideo.pause();
+      questVideo.currentTime = 0;
+
+      videoContainer.style.display = "none";
+
+      // 👉 ici tu lances la suite du jeu
+      if (typeof startGame === "function") {
+        startGame();
+      }
+    });
+  }
+
+  /* ===============================
+      ▶️ LECTURE VIDÉO AUTO SAFE
+  =============================== */
+  if (questVideo) {
+    questVideo.play().catch(() => {
+      // iPhone bloque → on garde muted mais boutons OK
+      questVideo.muted = true;
+      questVideo.play().catch(()=>{});
+    });
+  }
+});
   /* ============================
      🌅 FOND + PIRATES
   ============================ */
