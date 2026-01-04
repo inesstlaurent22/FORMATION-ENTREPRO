@@ -321,32 +321,75 @@ let step = 0;
     animate();
   }
 
-const pages = document.querySelectorAll('.page');
-let currentPage = 0;
-const totalPages = pages.length;
+  /* ============================
+     📖 BUSINESS PLAN BOOK
+  ============================ */
+  const book = document.querySelector('.book');
 
-// Définir l'ordre des pages pour l'empilement
-pages.forEach((page, index) => {
-  page.style.zIndex = totalPages - index;
-});
+  function showBusinessPlanLoader(){
+    // créer loader spécifique
+    const loader = document.createElement("div");
+    loader.id="businessPlanLoader";
+    loader.style.position="fixed";
+    loader.style.top=0;
+    loader.style.left=0;
+    loader.style.width="100%";
+    loader.style.height="100%";
+    loader.style.background="black";
+    loader.style.display="flex";
+    loader.style.alignItems="center";
+    loader.style.justifyContent="center";
+    loader.style.color="yellow";
+    loader.style.fontSize="2em";
+    loader.style.fontWeight="bold";
+    loader.style.textAlign="center";
+    loader.style.opacity=0;
+    loader.style.zIndex=9999;
+    loader.innerHTML = "✨ Tu as créé ton premier business plan ✨";
 
-// Gestion du clic sur le livre entier
-document.querySelector('.book').addEventListener('click', (e) => {
-  const bookRect = e.currentTarget.getBoundingClientRect();
-  const clickX = e.clientX - bookRect.left; // position du clic dans le livre
-  const bookWidth = bookRect.width;
-
-  // ---- Clic droite : avancer ----
-  if (clickX > bookWidth / 2 && currentPage < totalPages) {
-    pages[currentPage].classList.add("flipped"); // tourner page suivante
-    currentPage++;
+    document.body.appendChild(loader);
+    setTimeout(()=> loader.style.opacity=1,50);
+    setTimeout(()=>{
+      loader.style.opacity=0;
+      setTimeout(()=>{
+        loader.remove();
+        showBook();
+      },1000);
+    },2500);
   }
 
-  // ---- Clic gauche : revenir ----
-  else if (clickX < bookWidth / 2 && currentPage > 0) {
-    currentPage--;
-    pages[currentPage].classList.remove("flipped"); // revenir à page précédente
+  function showBook(){
+    book.style.display="flex";
+    book.style.opacity=0;
+    book.style.justifyContent="center";
+    book.style.alignItems="center";
+    book.style.position="relative";
+    setTimeout(()=> book.style.opacity=1,200);
   }
-});
+
+  /* ============================
+     📖 GESTION DU BOOK
+  ============================ */
+  const pages = document.querySelectorAll('.page');
+  let currentPage = 0;
+  const totalPages = pages.length;
+
+  pages.forEach((page, index) => {
+    page.style.zIndex = totalPages - index;
+  });
+
+  book.addEventListener('click', (e) => {
+    const bookRect = book.getBoundingClientRect();
+    const clickX = e.clientX - bookRect.left;
+    const bookWidth = bookRect.width;
+
+    if(clickX > bookWidth / 2 && currentPage < totalPages){
+      pages[currentPage].classList.add("flipped");
+      currentPage++;
+    } else if(clickX < bookWidth / 2 && currentPage > 0){
+      currentPage--;
+      pages[currentPage].classList.remove("flipped");
+    }
+  });
 
 });
