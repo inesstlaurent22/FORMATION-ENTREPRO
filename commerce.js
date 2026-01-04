@@ -1,59 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ============================
-   🎬 VIDÉO — VERSION CORRIGÉE
+/* ============================
+   🎬 BOUTONS VIDÉO : SON ET FERMER
 ============================ */
-
 const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("questVideo");
-const closeVideo = document.getElementById("closeVideo");
-const toggleSound = document.getElementById("toggleSound");
+const closeVideoBtn = document.getElementById("closeVideo");
+const toggleSoundBtn = document.getElementById("toggleSound");
 
-/* 🔐 Sécurité : on vérifie que tout existe */
+// Vérification sécurité
 if (video && videoContainer) {
-
-  /* 🎧 Son coupé par défaut (mobile friendly) */
+  
+  // Son coupé par défaut (mobile friendly)
   video.muted = true;
+  toggleSoundBtn.textContent = "🔇";
 
-  /* 🔊 Toggle son */
-  if (toggleSound) {
-    toggleSound.addEventListener("click", (e) => {
-      e.stopPropagation(); // évite de lancer la vidéo en même temps
-      video.muted = !video.muted;
-      toggleSound.textContent = video.muted ? "🔇" : "🔊";
-    });
-  }
-
-  /* ❌ Bouton fermer vidéo */
-  if (closeVideo) {
-    closeVideo.addEventListener("click", (e) => {
-      e.stopPropagation();
-      endVideo();
-    });
-  }
-
-  /* ▶️ Lancement de la vidéo au clic */
-  videoContainer.addEventListener("click", () => {
-    video.play().catch(() => {});
+  // 🔊 Toggle son
+  toggleSoundBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // évite de lancer la vidéo en même temps
+    // iOS : relance si bloqué
+    if (video.paused) video.play().catch(()=>{});
+    video.muted = !video.muted;
+    toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
   });
 
-  /* ⏹ Fin automatique quand la vidéo termine */
-  video.addEventListener("ended", endVideo);
+  // ❌ Bouton fermer vidéo
+  closeVideoBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    endVideo();
+  });
 
-  /* ============================
-     ⛔ Fonction fin de vidéo
-  ============================ */
+  // Fonction fin vidéo
   function endVideo() {
     video.pause();
     video.currentTime = 0;
-
     videoContainer.style.transition = "opacity 0.5s ease";
     videoContainer.style.opacity = 0;
 
     setTimeout(() => {
       videoContainer.style.display = "none";
-
-      // 👉 ta fonction après vidéo
+      // appelle ta fonction pour afficher le background et pirates
       if (typeof showBackgroundAndPirates === "function") {
         showBackgroundAndPirates();
       }
