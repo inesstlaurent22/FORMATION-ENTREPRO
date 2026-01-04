@@ -321,75 +321,84 @@ let step = 0;
     animate();
   }
 
-  /* ============================
-     📖 BUSINESS PLAN BOOK
-  ============================ */
-  const book = document.querySelector('.book');
+ /* ============================
+   📖 BUSINESS PLAN BOOK
+============================ */
+const book = document.querySelector('.book');
 
-  function showBusinessPlanLoader(){
-    // créer loader spécifique
-    const loader = document.createElement("div");
-    loader.id="businessPlanLoader";
-    loader.style.position="fixed";
-    loader.style.top=0;
-    loader.style.left=0;
-    loader.style.width="100%";
-    loader.style.height="100%";
-    loader.style.background="black";
-    loader.style.display="flex";
-    loader.style.alignItems="center";
-    loader.style.justifyContent="center";
-    loader.style.color="yellow";
-    loader.style.fontSize="2em";
-    loader.style.fontWeight="bold";
-    loader.style.textAlign="center";
-    loader.style.opacity=0;
-    loader.style.zIndex=9999;
-    loader.innerHTML = "✨ Tu as créé ton premier business plan ✨";
+/* --- Affichage du loader lumineux --- */
+function showBusinessPlanLoader(){
+  // créer loader spécifique
+  const loader = document.createElement("div");
+  loader.id = "businessPlanLoader";
+  loader.style.position = "absolute";
+  loader.style.top = "180px";        // ajustable au-dessus du livre
+  loader.style.left = "50%";
+  loader.style.transform = "translateX(-50%)";
+  loader.style.fontSize = "2em";
+  loader.style.fontWeight = "bold";
+  loader.style.textAlign = "center";
+  loader.style.color = "gold";
+  loader.style.zIndex = 3000;
+  loader.style.opacity = 0;
+  loader.style.pointerEvents = "none";
+  loader.innerHTML = "✨ Tu as créé ton premier business plan ✨";
 
-    document.body.appendChild(loader);
-    setTimeout(()=> loader.style.opacity=1,50);
+  // ajouter animation pulsante via style
+  loader.style.animation = "pulse 1.5s infinite alternate";
+
+  document.body.appendChild(loader);
+
+  // fade in
+  setTimeout(()=> loader.style.opacity = 1, 50);
+
+  // fade out et affichage du livre
+  setTimeout(()=>{
+    loader.style.opacity = 0;
     setTimeout(()=>{
-      loader.style.opacity=0;
-      setTimeout(()=>{
-        loader.remove();
-        showBook();
-      },1000);
-    },2500);
+      loader.remove();
+      showBook();
+    },1000);
+  }, 2500);
+}
+
+/* --- Affichage du livre --- */
+function showBook(){
+  book.style.display = "flex";
+  book.style.opacity = 0;
+  book.style.justifyContent = "center";
+  book.style.alignItems = "center";
+  book.style.position = "relative";
+
+  setTimeout(()=> book.style.opacity = 1, 200);
+}
+
+/* ============================
+   📖 GESTION DU BOOK
+============================ */
+const pages = document.querySelectorAll('.page');
+let currentPage = 0;
+const totalPages = pages.length;
+
+// ordre empilement
+pages.forEach((page, index) => {
+  page.style.zIndex = totalPages - index;
+});
+
+// clic sur le livre
+book.addEventListener('click', (e) => {
+  const bookRect = book.getBoundingClientRect();
+  const clickX = e.clientX - bookRect.left;
+  const bookWidth = bookRect.width;
+
+  // clic droite : avancer
+  if(clickX > bookWidth / 2 && currentPage < totalPages){
+    pages[currentPage].classList.add("flipped");
+    currentPage++;
   }
-
-  function showBook(){
-    book.style.display="flex";
-    book.style.opacity=0;
-    book.style.justifyContent="center";
-    book.style.alignItems="center";
-    book.style.position="relative";
-    setTimeout(()=> book.style.opacity=1,200);
+  // clic gauche : revenir
+  else if(clickX < bookWidth / 2 && currentPage > 0){
+    currentPage--;
+    pages[currentPage].classList.remove("flipped");
   }
-
-  /* ============================
-     📖 GESTION DU BOOK
-  ============================ */
-  const pages = document.querySelectorAll('.page');
-  let currentPage = 0;
-  const totalPages = pages.length;
-
-  pages.forEach((page, index) => {
-    page.style.zIndex = totalPages - index;
-  });
-
-  book.addEventListener('click', (e) => {
-    const bookRect = book.getBoundingClientRect();
-    const clickX = e.clientX - bookRect.left;
-    const bookWidth = bookRect.width;
-
-    if(clickX > bookWidth / 2 && currentPage < totalPages){
-      pages[currentPage].classList.add("flipped");
-      currentPage++;
-    } else if(clickX < bookWidth / 2 && currentPage > 0){
-      currentPage--;
-      pages[currentPage].classList.remove("flipped");
-    }
-  });
-
 });
