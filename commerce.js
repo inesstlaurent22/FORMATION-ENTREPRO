@@ -1,40 +1,65 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ============================
-     🎬 VIDÉO
-  ============================ */
-  const videoContainer = document.getElementById("videoContainer");
-  const video = document.getElementById("questVideo");
-  const closeVideo = document.getElementById("closeVideo");
-  const toggleSound = document.getElementById("toggleSound");
+   🎬 VIDÉO — VERSION CORRIGÉE
+============================ */
 
+const videoContainer = document.getElementById("videoContainer");
+const video = document.getElementById("questVideo");
+const closeVideo = document.getElementById("closeVideo");
+const toggleSound = document.getElementById("toggleSound");
+
+/* 🔐 Sécurité : on vérifie que tout existe */
+if (video && videoContainer) {
+
+  /* 🎧 Son coupé par défaut (mobile friendly) */
   video.muted = true;
 
-  toggleSound.addEventListener("click", ()=>{
-    video.muted = !video.muted;
-    toggleSound.textContent = video.muted ? "🔇" : "🔊";
-  });
-
-  closeVideo.addEventListener("click", (e)=>{
-    e.stopPropagation();
-    endVideo();
-  });
-
-  videoContainer.addEventListener("click", ()=>{
-    video.play().catch(()=>{});
-  });
-
-  video.addEventListener("ended", endVideo);
-
-  function endVideo(){
-    video.pause();
-    videoContainer.style.opacity=0;
-    setTimeout(()=>{
-      videoContainer.style.display="none";
-      showBackgroundAndPirates();
-    },1000);
+  /* 🔊 Toggle son */
+  if (toggleSound) {
+    toggleSound.addEventListener("click", (e) => {
+      e.stopPropagation(); // évite de lancer la vidéo en même temps
+      video.muted = !video.muted;
+      toggleSound.textContent = video.muted ? "🔇" : "🔊";
+    });
   }
 
+  /* ❌ Bouton fermer vidéo */
+  if (closeVideo) {
+    closeVideo.addEventListener("click", (e) => {
+      e.stopPropagation();
+      endVideo();
+    });
+  }
+
+  /* ▶️ Lancement de la vidéo au clic */
+  videoContainer.addEventListener("click", () => {
+    video.play().catch(() => {});
+  });
+
+  /* ⏹ Fin automatique quand la vidéo termine */
+  video.addEventListener("ended", endVideo);
+
+  /* ============================
+     ⛔ Fonction fin de vidéo
+  ============================ */
+  function endVideo() {
+    video.pause();
+    video.currentTime = 0;
+
+    videoContainer.style.transition = "opacity 0.5s ease";
+    videoContainer.style.opacity = 0;
+
+    setTimeout(() => {
+      videoContainer.style.display = "none";
+
+      // 👉 ta fonction après vidéo
+      if (typeof showBackgroundAndPirates === "function") {
+        showBackgroundAndPirates();
+      }
+    }, 500);
+  }
+}
   /* ============================
      🌅 FOND + PIRATES
   ============================ */
