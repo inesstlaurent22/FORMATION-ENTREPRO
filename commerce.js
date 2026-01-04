@@ -97,20 +97,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
   questVideo.addEventListener("ended", showScene);
 
-  if (closeVideo) {
-    closeVideo.addEventListener("click", () => {
-      questVideo.pause();
-      showScene(); // Appel direct pour afficher le fond et les pirates
-    });
-  }
+/* ========================================================
+      BOUTONS CLOSE ET SOUND EN BAS À DROITE
+======================================================== */
+function createVideoButtons() {
+  // Conteneur des boutons
+  const btnContainer = document.createElement("div");
+  btnContainer.id = "videoBtnContainer";
+  Object.assign(btnContainer.style, {
+    position: "absolute",
+    bottom: "20px",
+    right: "20px",
+    display: "flex",
+    gap: "10px",
+    zIndex: "1200"
+  });
 
-  if (toggleSound) {
-    toggleSound.addEventListener("click", () => {
-      questVideo.muted = !questVideo.muted;
-      toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-    });
-  }
+  // Bouton Close
+  const btnClose = document.createElement("button");
+  btnClose.id = "closeVideoBtn";
+  btnClose.textContent = "✖";
+  Object.assign(btnClose.style, {
+    padding: "10px 14px",
+    fontSize: "1.2rem",
+    background: "#c33",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    boxShadow: "0 3px 0 #900"
+  });
+  btnClose.addEventListener("click", () => {
+    questVideo.pause();
+    showScene(); // affiche le fond + pirates
+  });
 
+  // Bouton Sound
+  const btnSound = document.createElement("button");
+  btnSound.id = "toggleSoundBtn";
+  btnSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  Object.assign(btnSound.style, {
+    padding: "10px 14px",
+    fontSize: "1.2rem",
+    background: "#333",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    boxShadow: "0 3px 0 #000"
+  });
+  btnSound.addEventListener("click", () => {
+    questVideo.muted = !questVideo.muted;
+    btnSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  });
+
+  btnContainer.appendChild(btnSound);
+  btnContainer.appendChild(btnClose);
+  videoContainer.appendChild(btnContainer);
+}
+
+// Appelle la fonction dès que la page charge
+createVideoButtons();
   /* ========================================================
         BULLES DE TEXTE DES PIRATES
   ======================================================== */
