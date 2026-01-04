@@ -1,51 +1,53 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-/* ============================
-   🎬 BOUTONS VIDÉO : SON ET FERMER
-============================ */
-const videoContainer = document.getElementById("videoContainer");
-const video = document.getElementById("questVideo");
-const closeVideoBtn = document.getElementById("closeVideo");
-const toggleSoundBtn = document.getElementById("toggleSound");
+  /* ============================
+     🎬 VIDÉO
+  ============================ */
+  const videoContainer = document.getElementById("videoContainer");
+  const video = document.getElementById("questVideo");
+  const closeVideoBtn = document.getElementById("closeVideo");
+  const toggleSoundBtn = document.getElementById("toggleSound");
 
-// Vérification sécurité
-if (video && videoContainer) {
-  
-  // Son coupé par défaut (mobile friendly)
-  video.muted = true;
-  toggleSoundBtn.textContent = "🔇";
+  if (video && videoContainer && toggleSoundBtn && closeVideoBtn) {
 
-  // 🔊 Toggle son
-  toggleSoundBtn.addEventListener("click", (e) => {
-    e.stopPropagation(); // évite de lancer la vidéo en même temps
-    // iOS : relance si bloqué
-    if (video.paused) video.play().catch(()=>{});
-    video.muted = !video.muted;
-    toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
-  });
+    video.muted = true;
+    toggleSoundBtn.textContent = "🔇";
 
-  // ❌ Bouton fermer vidéo
-  closeVideoBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    endVideo();
-  });
+    // 🔊 toggle son
+    toggleSoundBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (video.paused) video.play().catch(()=>{});
+      video.muted = !video.muted;
+      toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
+    });
 
-  // Fonction fin vidéo
-  function endVideo() {
-    video.pause();
-    video.currentTime = 0;
-    videoContainer.style.transition = "opacity 0.5s ease";
-    videoContainer.style.opacity = 0;
+    // ❌ fermer vidéo
+    closeVideoBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      endVideo();
+    });
 
-    setTimeout(() => {
-      videoContainer.style.display = "none";
-      // appelle ta fonction pour afficher le background et pirates
-      if (typeof showBackgroundAndPirates === "function") {
+    // lecture au clic
+    videoContainer.addEventListener("click", () => {
+      video.play().catch(()=>{});
+    });
+
+    // fin auto
+    video.addEventListener("ended", endVideo);
+
+    function endVideo(){
+      video.pause();
+      video.currentTime = 0;
+      videoContainer.style.transition = "opacity .5s ease";
+      videoContainer.style.opacity = 0;
+
+      setTimeout(()=>{
+        videoContainer.style.display = "none";
         showBackgroundAndPirates();
-      }
-    }, 500);
+      }, 500);
+    }
   }
-}
+
   /* ============================
      🌅 FOND + PIRATES
   ============================ */
@@ -53,12 +55,9 @@ if (video && videoContainer) {
   const pirate2bis = document.getElementById("pirate2bis");
   const pirate5bis = document.getElementById("pirate5bis");
 
-  pirate2bis.style.left="516px"; pirate2bis.style.top="406px";
-  pirate5bis.style.left="785px"; pirate5bis.style.top="397px";
-
   function showBackgroundAndPirates(){
-    background.style.display="block";
-    setTimeout(()=> background.style.opacity=1,50);
+    background.style.display = "block";
+    setTimeout(()=> background.style.opacity = 1, 50);
     startDialogues();
   }
 
@@ -66,19 +65,13 @@ if (video && videoContainer) {
      💬 DIALOGUES
   ============================ */
   let dialogueStep = 0;
+
   const dialogues = [
-     { who: "maitre", text: "Moussaillon ! Bienvenue sur le marché des trésors ! Ici, plein de pirates vendent des pierres précieuses… mais pour toi, qui débutes, faudra suivre mes conseils !", anchor: pirate5bis },
-    { who: "apprenti", text: "J’suis prêt, capitaine !", anchor: pirate2bis },
-    { who: "maitre", text: "Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates… parle comme eux, montre que tu connais tes pierres. Ensuite… sois plus malin et plus rapide qu’eux ! Faut que tous les clients viennent chez toi !", anchor: pirate5bis },
-    { who: "apprenti", text: "Mais comment je fais ça ?", anchor: pirate2bis },
-    { who: "maitre", text: "Regarde bien : la plupart ont une petite échoppe et vendent leurs pierres dans des petits sachets en velours. Les clients adorent ça ! Donc toi aussi, il te faudra une échoppe et des sachets. Mais attention… tes pierres ressemblent à celles des autres ! Faut que tu te démarques !", anchor: pirate5bis },
-    { who: "apprenti", text: "Me démarquer… c’est-à-dire ?", anchor: pirate2bis },
-    { who: "maitre", text: "Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• vendre tes pierres dans des boîtes en bois qui sont plus luxueux que les sachets<br>• avoir une grande boutique visible<br>• aller chez les clients directement", anchor: pirate5bis },
-    { who: "apprenti", text: "Ahhh… donc je choisis la meilleure stratégie selon mes clients !", anchor: pirate2bis },
-    { who: "maitre", text: "Exactement ! Observe, teste, et deviens le pirate que tout le monde veut rencontrer.", anchor: pirate5bis },
-    { who: "apprenti", text: "MERCI capitaine !", anchor: pirate2bis }
+    { who:"maitre", text:"Moussaillon ! Bienvenue sur le marché des trésors !", anchor:pirate5bis },
+    { who:"apprenti", text:"J’suis prêt capitaine !", anchor:pirate2bis },
+    { who:"maitre", text:"Observe, teste, deviens le meilleur vendeur pirate !", anchor:pirate5bis, last:true }
   ];
-  
+
   function startDialogues(){
     dialogueStep = 0;
     showDialogue();
@@ -87,55 +80,50 @@ if (video && videoContainer) {
   function showDialogue(){
     const old = document.querySelector(".dialogue-bubble");
     if(old) old.remove();
-    if(dialogueStep >= dialogues.length) return;
+
+    if(dialogueStep >= dialogues.length){
+      showLoader();
+      return;
+    }
 
     const d = dialogues[dialogueStep];
     const bubble = document.createElement("div");
     bubble.classList.add("dialogue-bubble");
 
-    const speaker = d.who==="maitre" ? "Maître Pirate" : "Moussaillon";
-    bubble.innerHTML = `<strong>${speaker}</strong><hr>${d.text}`;
+    bubble.innerHTML = `<strong>${
+      d.who==="maitre" ? "Maître Pirate" : "Moussaillon"
+    }</strong><hr>${d.text}`;
 
     const rect = d.anchor.getBoundingClientRect();
-    bubble.style.left = rect.left+"px";
-    bubble.style.top = (rect.top-120)+"px";
+    bubble.style.left = rect.left + "px";
+    bubble.style.top = (rect.top - 120) + "px";
 
-    if(d.last){
-      const btn = document.createElement("button");
-      btn.textContent = "Ok, j’ai compris";
-      btn.addEventListener("click", ()=>{
-        bubble.remove();
-        showLoader();
-      });
-      bubble.appendChild(btn);
-    } else {
-      bubble.addEventListener("click", ()=>{
-        dialogueStep++;
-        showDialogue();
-      });
-    }
+    bubble.addEventListener("click", ()=>{
+      dialogueStep++;
+      showDialogue();
+    });
 
     document.body.appendChild(bubble);
   }
 
   /* ============================
-     🌟 LOADER
+     ⏳ LOADER
   ============================ */
   const loaderContainer = document.getElementById("loaderContainer");
-  const loaderText = document.getElementById("loaderText");
 
   function showLoader(){
-    loaderContainer.style.display="flex";
-    loaderContainer.style.background="black"; // fond noir
-    loaderText.style.opacity=0;
-    setTimeout(()=> loaderText.style.opacity=1,50);
+    loaderContainer.style.display = "flex";
+    loaderContainer.style.opacity = 0;
+
+    setTimeout(()=> loaderContainer.style.opacity = 1, 80);
+
     setTimeout(()=>{
-      loaderText.style.opacity=0;
+      loaderContainer.style.opacity = 0;
       setTimeout(()=>{
-        loaderContainer.style.display="none";
+        loaderContainer.style.display = "none";
         startMiniGame();
-      },800);
-    },2000);
+      }, 500);
+    }, 2000);
   }
 
   /* ============================
@@ -146,319 +134,175 @@ if (video && videoContainer) {
   const gameAnswers = document.getElementById("gameAnswers");
   const gameFeedback = document.getElementById("gameFeedback");
 
-const questions = [
-  {
-    q: "Où les pirates ont-ils trouvé leurs pierres ?",
-    answers: [
-      "Dans un coffre dans une grotte secrète",
-      "Ils les ont achetées au marché",
-      "La tante les leur a données"
-    ],
-    correct: 0
-  },
+  const questions = [
+    { q:"Où trouvent-ils les pierres ?", answers:["Dans une grotte","Au marché","Dans la mer"], correct:0 },
+    { q:"Qui est pirate ?", answers:["Le capitaine seulement","Toute l'équipe","Personne"], correct:1 },
+    { q:"Qu’observer ?", answers:["Les concurrents","Les mouettes","Le sable"], correct:[0] }
+  ];
 
-  {
-    q: "Qui fait partie de l'équipage pirate ?",
-    answers: [
-      "Juste le capitaine",
-      "Toute la famille pirate",
-      "Toi et les deux moussaillons"
-    ],
-    correct: 2
-  },
-
-  {
-    q: "Quel est le but du projet des pirates ?",
-    answers: [
-      "Construire un bateau",
-      "Partir en vacances",
-      "Garder les pierres pour décorer la cale"
-    ],
-    correct: 0
-  },
-
-  {
-    q: "Qu’est-ce que les pirates doivent observer sur le marché ?",
-    answers: [
-      "Les pierres",
-      "Les concurrents",
-      "La météo"
-    ],
-    correct: [0, 1]
-  },
-
-  {
-    q: "Que doivent-ils décrire pour leurs pierres ?",
-    answers: [
-      "Le nombre",
-      "Les qualités et défauts des pierres",
-      "Seulement la couleur",
-      "Seulement la taille"
-    ],
-    correct: [0, 1]   // ✅ bonnes réponses : 0 et 1
-  },
-
-  {
-    q: "À quoi sert le modèle économique ?",
-    answers: [
-      "Savoir combien de pierres vendre pour acheter le bateau",
-      "Savoir qui fait la vaisselle",
-      "Compter les mouettes"
-    ],
-    correct: [0, 1]
-  },
-
-  {
-    q: "Quelle stratégie les différencie des autres ?",
-    answers: [
-      "Vendre les pierres dans des boîtes en bois",
-      "Proposer une livraison directement chez le client",
-      "Vendre sans dire le prix"
-    ],
-    correct: 0
-  },
-
-  {
-    q: "Qu’est-ce que le plan financier ?",
-    answers: [
-      "Un document qui prévoit les dépenses et les gains",
-      "Une carte au trésor",
-      "Une chanson de pirates"
-    ],
-    correct: 0
-  },
-
-  {
-    q: "À quoi sert le statut juridique ?",
-    answers: [
-      "À dire comment l’activité pirate est organisée légalement",
-      "À choisir le nom du perroquet",
-      "À fabriquer des épées"
-    ],
-    correct: 0
-  }
-];
-
-let step = 0;
+  let step = 0;
+  let multiSelected = [];
 
   function startMiniGame(){
-    miniGameContainer.style.display="flex";
-    step=0;
+    miniGameContainer.style.display = "flex";
+    step = 0;
     showStep();
   }
 
   function showStep(){
-  if(step >= questions.length){
-    showVictory();
-    return;
-  }
-
-  const q = questions[step];
-  gameQuestion.textContent = q.q;
-
-  gameAnswers.innerHTML = "";
-  gameFeedback.textContent = "";
-
-  q.answers.forEach((ans, i) => {
-    const b = document.createElement("button");
-    b.textContent = ans;
-
-    b.addEventListener("click", () => {
-      checkAnswer(i, q.correct);
-    });
-
-    gameAnswers.appendChild(b);
-  });
-}
-
-function checkAnswer(i, correct){
-  // question 1 bonne réponse simple
-  if(typeof correct === "number"){
-    if(i === correct){
-      gameFeedback.textContent = "✅ Bravo moussaillon";
-      step++;
-      setTimeout(showStep, 600);
-    } else {
-      gameFeedback.textContent = "❌ Essaie encore";
-    }
-  }
-
-  // questions avec plusieurs bonnes réponses
-  else {
-    if(correct.includes(i)){
-      gameFeedback.textContent = "✅ Oui, celle-ci est bonne";
-    } else {
-      gameFeedback.textContent = "❌ Pas celle-ci";
+    if(step >= questions.length){
+      showVictory();
       return;
     }
 
-    // toutes cochées = passe à la suite
-    if([...document.querySelectorAll("#gameAnswers button")]
-        .every((btn, index)=> !correct.includes(index) || btn.clicked)){
+    const q = questions[step];
+    gameQuestion.textContent = q.q;
+    gameFeedback.textContent = "";
+    gameAnswers.innerHTML = "";
+    multiSelected = [];
+
+    q.answers.forEach((ans, i)=>{
+      const b = document.createElement("button");
+      b.textContent = ans;
+
+      b.addEventListener("click", ()=> checkAnswer(i, q.correct));
+
+      gameAnswers.appendChild(b);
+    });
+  }
+
+  function checkAnswer(i, correct){
+
+    // 🔹 1 seule bonne réponse
+    if(typeof correct === "number"){
+      if(i === correct){
+        gameFeedback.textContent = "✅ Bravo !";
+        step++;
+        setTimeout(showStep, 600);
+      } else {
+        gameFeedback.textContent = "❌ Essaie encore";
+      }
+      return;
+    }
+
+    // 🔹 plusieurs bonnes réponses
+    if(!multiSelected.includes(i)) multiSelected.push(i);
+
+    if(correct.includes(i)){
+      gameFeedback.textContent = "✅ Oui, celle-ci est bonne";
+    } else {
+      gameFeedback.textContent = "❌ Mauvaise réponse";
+      return;
+    }
+
+    if(correct.every(v => multiSelected.includes(v))){
       step++;
       setTimeout(showStep, 600);
     }
   }
-}
 
   /* ============================
-     🏆 VICTOIRE FADE IN + FAISCEAUX
+     🏆 VICTOIRE
   ============================ */
   const victoryScreen = document.getElementById("victoryScreen");
   const victoryBox = document.querySelector(".victoryBox");
   const lightCanvas = document.getElementById("lightCanvas");
   const ctx = lightCanvas.getContext("2d");
 
-  function resizeCanvas(){ lightCanvas.width = window.innerWidth; lightCanvas.height = window.innerHeight; }
-  window.addEventListener("resize", resizeCanvas);
+  function resizeCanvas(){
+    lightCanvas.width = innerWidth;
+    lightCanvas.height = innerHeight;
+  }
   resizeCanvas();
+  addEventListener("resize", resizeCanvas);
 
-function showVictory(){
+  function showVictory(){
 
-  // cacher le mini-jeu
-  miniGameContainer.style.display = "none";
+    miniGameContainer.style.display = "none";
 
-  // message victoire
-  victoryBox.innerHTML = "🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <strong>5000 PO</strong> 💰";
+    victoryBox.innerHTML = "🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <b>5000 PO</b>";
 
-  // affichage écran victoire en fade-in
-  victoryScreen.style.display = "flex";
-  victoryScreen.style.opacity = 0;
-  setTimeout(()=> victoryScreen.style.opacity = 1, 80);
-
-  // explosion faisceaux lumineux en même temps que la pancarte
-  setTimeout(()=>{
-    launchLightBeams();
-  }, 300);
-
-  // durée d'affichage victoire
-  setTimeout(()=>{
-
-    // fade-out victoire
+    victoryScreen.style.display = "flex";
     victoryScreen.style.opacity = 0;
 
+    setTimeout(()=> victoryScreen.style.opacity = 1, 100);
+
+    launchLightBeams();
+
     setTimeout(()=>{
+      victoryScreen.style.opacity = 0;
 
-      victoryScreen.style.display = "none";
+      setTimeout(()=>{
+        victoryScreen.style.display = "none";
+        showBusinessPlanLoader();
+      }, 800);
 
-      // ⚡ loader business plan
-      showBusinessPlanLoader();   // ⚠️ ta fonction loader déjà créée plus haut
-
-    }, 900);
-
-  }, 3000);
-}
+    }, 3000);
+  }
 
   function launchLightBeams(){
     const beams = [];
-    for(let i=0;i<50;i++){
+    for(let i=0;i<40;i++){
       beams.push({
-        x: lightCanvas.width/2,
-        y: lightCanvas.height/2,
-        angle: Math.random()*2*Math.PI,
-        length: Math.random()*100+50,
-        speed: Math.random()*6+2,
-        opacity:1
+        angle: Math.random()*Math.PI*2,
+        speed: Math.random()*6+2
       });
     }
 
     let t=0;
-    function animate(){
-      ctx.clearRect(0,0,lightCanvas.width, lightCanvas.height);
+    function anim(){
+      ctx.clearRect(0,0,lightCanvas.width,lightCanvas.height);
       beams.forEach(b=>{
-        const dx = Math.cos(b.angle)*b.speed*t;
-        const dy = Math.sin(b.angle)*b.speed*t;
         ctx.beginPath();
-        ctx.moveTo(b.x, b.y);
-        ctx.lineTo(b.x+dx, b.y+dy);
-        ctx.strokeStyle = `rgba(255,255,0,${b.opacity})`;
-        ctx.lineWidth=2;
+        ctx.moveTo(innerWidth/2, innerHeight/2);
+        ctx.lineTo(
+          innerWidth/2 + Math.cos(b.angle)*t*b.speed,
+          innerHeight/2 + Math.sin(b.angle)*t*b.speed
+        );
+        ctx.strokeStyle = "rgba(255,255,0,.8)";
+        ctx.lineWidth = 2;
         ctx.stroke();
       });
-      t+=1;
-      if(t<30) requestAnimationFrame(animate);
+      t++;
+      if(t<40) requestAnimationFrame(anim);
     }
-    animate();
+    anim();
   }
 
- /* ============================
-   📖 BUSINESS PLAN BOOK
-============================ */
-const book = document.querySelector('.book');
+  /* ============================
+     ✨ LOADER BUSINESS PLAN + LIVRE
+  ============================ */
+  const book = document.querySelector(".book");
 
-/* --- Affichage du loader lumineux --- */
-function showBusinessPlanLoader(){
-  // créer loader spécifique
-  const loader = document.createElement("div");
-  loader.id = "businessPlanLoader";
-  loader.style.position = "absolute";
-  loader.style.top = "180px";        // ajustable au-dessus du livre
-  loader.style.left = "50%";
-  loader.style.transform = "translateX(-50%)";
-  loader.style.fontSize = "2em";
-  loader.style.fontWeight = "bold";
-  loader.style.textAlign = "center";
-  loader.style.color = "gold";
-  loader.style.zIndex = 3000;
-  loader.style.opacity = 0;
-  loader.style.pointerEvents = "none";
-  loader.innerHTML = "✨ Tu as créé ton premier business plan ✨";
+  function showBusinessPlanLoader(){
+    const div = document.createElement("div");
+    div.id = "businessPlanLoaderRuntime";
+    div.innerHTML = "✨ Tu as créé ton premier business plan ✨";
+    div.style.position="fixed";
+    div.style.top="50%";
+    div.style.left="50%";
+    div.style.transform="translate(-50%,-50%)";
+    div.style.fontSize="2em";
+    div.style.color="gold";
+    div.style.opacity=0;
+    div.style.transition="opacity .5s ease";
+    document.body.appendChild(div);
 
-  // ajouter animation pulsante via style
-  loader.style.animation = "pulse 1.5s infinite alternate";
+    setTimeout(()=> div.style.opacity = 1, 50);
 
-  document.body.appendChild(loader);
-
-  // fade in
-  setTimeout(()=> loader.style.opacity = 1, 50);
-
-  // fade out et affichage du livre
-  setTimeout(()=>{
-    loader.style.opacity = 0;
     setTimeout(()=>{
-      loader.remove();
-      showBook();
-    },1000);
-  }, 2500);
-}
-
-/* --- Affichage du livre --- */
-function showBook(){
-  book.style.display = "flex";
-  book.style.opacity = 0;
-  book.style.justifyContent = "center";
-  book.style.alignItems = "center";
-  book.style.position = "relative";
-
-  setTimeout(()=> book.style.opacity = 1, 200);
-}
-
-/* ============================
-   📖 GESTION DU BOOK
-============================ */
-const pages = document.querySelectorAll('.page');
-let currentPage = 0;
-const totalPages = pages.length;
-
-// ordre empilement
-pages.forEach((page, index) => {
-  page.style.zIndex = totalPages - index;
-});
-
-// clic sur le livre
-book.addEventListener('click', (e) => {
-  const bookRect = book.getBoundingClientRect();
-  const clickX = e.clientX - bookRect.left;
-  const bookWidth = bookRect.width;
-
-  // clic droite : avancer
-  if(clickX > bookWidth / 2 && currentPage < totalPages){
-    pages[currentPage].classList.add("flipped");
-    currentPage++;
+      div.style.opacity = 0;
+      setTimeout(()=>{
+        div.remove();
+        showBook();
+      }, 600);
+    }, 2200);
   }
-  // clic gauche : revenir
-  else if(clickX < bookWidth / 2 && currentPage > 0){
-    currentPage--;
-    pages[currentPage].classList.remove("flipped");
+
+  function showBook(){
+    book.style.display="flex";
+    book.style.opacity=0;
+    setTimeout(()=> book.style.opacity = 1, 200);
   }
+
 });
