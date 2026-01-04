@@ -202,17 +202,100 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========================================================
         MINI JEU
   ======================================================== */
-  const steps = [
-    { question: "Où les pirates ont-ils trouvé leurs pierres ?", answers: ["Dans un coffre dans une grotte secrète","Ils les ont achetées au marché","La tante les leur a données"], correct: 0 },
-    { question: "Qui fait partie de l'équipage pirate ?", answers: ["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"], correct: 0 },
-    { question: "Quel est le but du projet des pirates ?", answers: ["Construire un bateau","Partir en vacances","Garder les pierres pour décorer la cale"], correct: 0 },
-    { question: "Qu’est-ce que les pirates doivent observer sur le marché ?", answers: ["Nos pierres","Les chapeaux des concurrents","La météo"], correct: 0 },
-    { question: "Que doivent-ils décrire pour leurs pierres ?", answers: ["Caractéristiques, nombre, qualités et défauts","Seulement la couleur","Seulement la taille"], correct: 0 },
-    { question: "À quoi sert le modèle économique ?", answers: ["Savoir combien de pierres vendre pour acheter le bateau","Savoir qui fait la vaisselle","Compter les mouettes"], correct: 0 },
-    { question: "Quelle stratégie les différencie des autres ?", answers: ["Vendre les pierres dans des boîtes en bois","Crier très fort au marché","Vendre sans dire le prix"], correct: 0 },
-    { question: "Qu’est-ce que le plan financier ?", answers: ["Un document qui prévoit les dépenses et les gains","Une carte au trésor","Une chanson de pirates"], correct: 0 },
-    { question: "À quoi sert le statut juridique ?", answers: ["À dire comment l’activité pirate est organisée légalement","À choisir le nom du perroquet","À fabriquer des épées"], correct: 0 }
-  ];
+  const questions = [
+  {
+    q: "Où les pirates ont-ils trouvé leurs pierres ?",
+    answers: [
+      "Dans un coffre dans une grotte secrète",
+      "Ils les ont achetées au marché",
+      "La tante les leur a données"
+    ],
+    correct: 0
+  },
+
+  {
+    q: "Qui fait partie de l'équipage pirate ?",
+    answers: [
+      "Juste le capitaine",
+      "Toute la famille pirate",
+      "Toi et les deux moussaillons"
+    ],
+    correct: 2
+  },
+
+  {
+    q: "Quel est le but du projet des pirates ?",
+    answers: [
+      "Construire un bateau",
+      "Partir en vacances",
+      "Garder les pierres pour décorer la cale"
+    ],
+    correct: 0
+  },
+
+  {
+    q: "Qu’est-ce que les pirates doivent observer sur le marché ?",
+    answers: [
+      "Les pierres",
+      "Les concurrents",
+      "La météo"
+    ],
+    correct: [0, 1]
+  },
+
+  {
+    q: "Que doivent-ils décrire pour leurs pierres ?",
+    answers: [
+      "Le nombre",
+      "Les qualités et défauts des pierres",
+      "Seulement la couleur",
+      "Seulement la taille"
+    ],
+    correct: [0, 1]   // ✅ bonnes réponses : 0 et 1
+  },
+
+  {
+    q: "À quoi sert le modèle économique ?",
+    answers: [
+      "Savoir combien de pierres vendre pour acheter le bateau",
+      "Savoir qui fait la vaisselle",
+      "Compter les mouettes"
+    ],
+    correct: [0, 1]
+  },
+
+  {
+    q: "Quelle stratégie les différencie des autres ?",
+    answers: [
+      "Vendre les pierres dans des boîtes en bois",
+      "Proposer une livraison directement chez le client",
+      "Vendre sans dire le prix"
+    ],
+    correct: 0
+  },
+
+  {
+    q: "Qu’est-ce que le plan financier ?",
+    answers: [
+      "Un document qui prévoit les dépenses et les gains",
+      "Une carte au trésor",
+      "Une chanson de pirates"
+    ],
+    correct: 0
+  },
+
+  {
+    q: "À quoi sert le statut juridique ?",
+    answers: [
+      "À dire comment l’activité pirate est organisée légalement",
+      "À choisir le nom du perroquet",
+      "À fabriquer des épées"
+    ],
+    correct: 0
+  }
+];
+
+let step = 0;
 
   let currentStep = 0;
 
