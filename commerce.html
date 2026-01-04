@@ -2,8 +2,12 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+
   <title>Quête Commerce</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Mobile iPhone full screen correct -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
   <link rel="stylesheet" href="commerce.css">
 </head>
 
@@ -14,7 +18,12 @@
 
   <video 
     id="questVideo"
+
+    <!-- 🔴 important pour iPhone -->
+    autoplay
+    muted
     playsinline
+
     preload="auto"
   >
     <source src="videos/Commercevideo.MOV" type="video/mp4">
@@ -23,14 +32,23 @@
 
   <!-- 🎛️ BOUTONS VIDÉO -->
   <div id="videoControls">
-    <button id="toggleSound" type="button">🔇</button>
-    <button id="closeVideo" type="button">✖</button>
+
+    <!-- 🔊 bouton son -->
+    <button id="toggleSound" type="button">
+      🔇
+    </button>
+
+    <!-- ❌ bouton fermer -->
+    <button id="closeVideo" type="button">
+      ✖
+    </button>
+
   </div>
 
 </div>
 
 <!-- 🌅 FOND + PIRATES -->
-<div id="background">
+<div id="background" style="display:none; opacity:0;">
   <img src="images/Commercefond.PNG" class="fondImage">
   <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
   <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
@@ -43,19 +61,19 @@
 <div id="overlayBlur"></div>
 
 <!-- ✨ LOADER -->
-<div id="loaderContainer">
+<div id="loaderContainer" style="display:none;">
   <div id="loaderText">Termine ce mini-jeu pour poursuivre la quête</div>
 </div>
 
 <!-- 🎮 MINI JEU -->
-<div id="miniGameContainer">
+<div id="miniGameContainer" style="display:none;">
   <div id="gameQuestion"></div>
   <div id="gameAnswers"></div>
   <div id="gameFeedback"></div>
 </div>
 
 <!-- 🏆 VICTOIRE -->
-<div id="victoryScreen">
+<div id="victoryScreen" style="display:none; opacity:0;">
   <canvas id="lightCanvas"></canvas>
   <div class="victoryBox">🎉 Bravo moussaillon ! 🎉</div>
 </div>
@@ -66,7 +84,7 @@
 </div>
 
 <!-- 📖 BOOK -->
-<div class="book" style="display:none;">
+<div class="book" style="display:none; opacity:0;">
 
   <div class="page">
     <div class="front" style="background-image:url('images/Businessplan1.jpg')"></div>
