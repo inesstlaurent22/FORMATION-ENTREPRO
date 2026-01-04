@@ -321,4 +321,32 @@ let step = 0;
     animate();
   }
 
+  const pages = document.querySelectorAll('.page');
+let currentPage = 0;
+const totalPages = pages.length;
+
+// Définir l'ordre des pages pour l'empilement
+pages.forEach((page, index) => {
+  page.style.zIndex = totalPages - index;
+});
+
+// Gestion du clic sur le livre entier
+document.querySelector('.book').addEventListener('click', (e) => {
+  const bookRect = e.currentTarget.getBoundingClientRect();
+  const clickX = e.clientX - bookRect.left; // position du clic dans le livre
+  const bookWidth = bookRect.width;
+
+  // ---- Clic droite : avancer ----
+  if (clickX > bookWidth / 2 && currentPage < totalPages) {
+    pages[currentPage].classList.add("flipped"); // tourner page suivante
+    currentPage++;
+  }
+
+  // ---- Clic gauche : revenir ----
+  else if (clickX < bookWidth / 2 && currentPage > 0) {
+    currentPage--;
+    pages[currentPage].classList.remove("flipped"); // revenir à page précédente
+  }
+});
+
 });
