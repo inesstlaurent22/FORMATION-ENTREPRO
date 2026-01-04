@@ -237,26 +237,58 @@ let step = 0;
   }
 
   function showStep(){
-    if(step >= questions.length){ showVictory(); return; }
-    const q = questions[step];
-    gameQuestion.textContent = q.q;
-    gameAnswers.innerHTML="";
-    gameFeedback.textContent="";
-    q.a.forEach((ans,i)=>{
-      const b = document.createElement("button");
-      b.textContent = ans;
-      b.addEventListener("click", ()=>checkAnswer(i,q.c));
-      gameAnswers.appendChild(b);
-    });
+  if(step >= questions.length){
+    showVictory();
+    return;
   }
 
-  function checkAnswer(i,correct){
+  const q = questions[step];
+  gameQuestion.textContent = q.q;
+
+  gameAnswers.innerHTML = "";
+  gameFeedback.textContent = "";
+
+  q.answers.forEach((ans, i) => {
+    const b = document.createElement("button");
+    b.textContent = ans;
+
+    b.addEventListener("click", () => {
+      checkAnswer(i, q.correct);
+    });
+
+    gameAnswers.appendChild(b);
+  });
+}
+
+function checkAnswer(i, correct){
+  // question 1 bonne réponse simple
+  if(typeof correct === "number"){
     if(i === correct){
-      gameFeedback.textContent="✅ Bravo moussaillon";
+      gameFeedback.textContent = "✅ Bravo moussaillon";
       step++;
-      setTimeout(showStep,600);
-    } else gameFeedback.textContent="❌ Essaie encore";
+      setTimeout(showStep, 600);
+    } else {
+      gameFeedback.textContent = "❌ Essaie encore";
+    }
   }
+
+  // questions avec plusieurs bonnes réponses
+  else {
+    if(correct.includes(i)){
+      gameFeedback.textContent = "✅ Oui, celle-ci est bonne";
+    } else {
+      gameFeedback.textContent = "❌ Pas celle-ci";
+      return;
+    }
+
+    // toutes cochées = passe à la suite
+    if([...document.querySelectorAll("#gameAnswers button")]
+        .every((btn, index)=> !correct.includes(index) || btn.clicked)){
+      step++;
+      setTimeout(showStep, 600);
+    }
+  }
+}
 
   /* ============================
      🏆 VICTOIRE FADE IN + FAISCEAUX
@@ -270,24 +302,41 @@ let step = 0;
   window.addEventListener("resize", resizeCanvas);
   resizeCanvas();
 
-  function showVictory(){
-    miniGameContainer.style.display="none";
-    victoryBox.innerHTML = "🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <strong>5000 PO</strong> 💰";
-    victoryScreen.style.display="flex";
-    victoryScreen.style.opacity=0;
-    setTimeout(()=> victoryScreen.style.opacity=1,50);
+function showVictory(){
 
+  // cacher le mini-jeu
+  miniGameContainer.style.display = "none";
+
+  // message victoire
+  victoryBox.innerHTML = "🎉 Bravo moussaillon ! 🎉<br>Tu as gagné <strong>5000 PO</strong> 💰";
+
+  // affichage écran victoire en fade-in
+  victoryScreen.style.display = "flex";
+  victoryScreen.style.opacity = 0;
+  setTimeout(()=> victoryScreen.style.opacity = 1, 80);
+
+  // explosion faisceaux lumineux en même temps que la pancarte
+  setTimeout(()=>{
     launchLightBeams();
+  }, 300);
+
+  // durée d'affichage victoire
+  setTimeout(()=>{
+
+    // fade-out victoire
+    victoryScreen.style.opacity = 0;
 
     setTimeout(()=>{
-      victoryScreen.style.opacity=0;
-      setTimeout(()=>{
-        victoryScreen.style.display="none";
-        background.style.display="block";
-        setTimeout(()=> background.style.opacity=1,50);
-      },1000);
-    },3000);
-  }
+
+      victoryScreen.style.display = "none";
+
+      // ⚡ loader business plan
+      showBusinessPlanLoader();   // ⚠️ ta fonction loader déjà créée plus haut
+
+    }, 900);
+
+  }, 3000);
+}
 
   function launchLightBeams(){
     const beams = [];
