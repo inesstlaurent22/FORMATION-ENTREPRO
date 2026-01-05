@@ -96,43 +96,30 @@
     >▶</button>
 
     <!-- 📘 LIVRE -->
-    <div class="book">
+<div class="book-container">
 
-      <div class="page">
-        <div
-          class="front"
-          style="background-image:url('images/Businessplan1.jpg')"
-        ></div>
-        <div
-          class="back"
-          style="background-image:url('images/Businessplan4.jpg')"
-        ></div>
-      </div>
+  <!-- LIVRE -->
+  <div class="book" id="book">
 
-      <div class="page">
-        <div
-          class="front"
-          style="background-image:url('images/Businessplan2.jpg')"
-        ></div>
-        <div
-          class="back"
-          style="background-image:url('images/Businessplan4.jpg')"
-        ></div>
-      </div>
-
-      <div class="page">
-        <div
-          class="front"
-          style="background-image:url('images/Businessplan3.jpg')"
-        ></div>
-        <div
-          class="back"
-          style="background-image:url('images/Businessplan4.jpg')"
-        ></div>
-      </div>
-
+    <!-- PAGE GAUCHE (verso fixe) -->
+    <div class="page left">
+      <img src="images/Businessplan4.jpg" alt="Verso">
     </div>
+
+    <!-- PAGE DROITE (change) -->
+    <div class="page right">
+      <img id="rightPage" src="images/Businessplancov.png" alt="Page droite">
+    </div>
+
   </div>
+
+  <!-- CONTROLES -->
+  <div class="controls">
+    <button id="prev">⬅️</button>
+    <button id="next">➡️</button>
+  </div>
+
+</div>
 
   <!-- ▶️ CONTINUER LA QUÊTE -->
   <button id="continueQuestBtn">
