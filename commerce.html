@@ -3,13 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Quête Commerce</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="stylesheet" href="commerce.css">
 </head>
 
 <body>
 
-<!-- 🌅 FOND + PIRATES -->
+<!-- 🎬 CONTAINER VIDÉO -->
+<div id="videoContainer">
+  <video
+    id="questVideo"
+    autoplay
+    muted
+    playsinline
+    preload="auto"
+  >
+    <source src="videos/Commercevideo.MOV" type="video/mp4">
+  </video>
+
+  <div id="videoControls">
+    <button id="toggleSound">🔇</button>
+    <button id="closeVideo">✖</button>
+  </div>
+</div>
+
+<!-- 🌅 BACKGROUND + PIRATES -->
 <div id="background">
   <img src="images/Commercefond.PNG" class="fondImage">
   <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
