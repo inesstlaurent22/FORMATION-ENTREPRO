@@ -226,24 +226,24 @@ function showReward() {
     rewardScreen.style.display = "none";
     showBook();
   }, 2600);
-}
+} 
 
-  /* =====================================================
-     📖 LIVRE (VERSION SIMPLE ET STABLE)
-  ===================================================== */
+/* =====================================================
+   📖 LIVRE
+===================================================== */
 
-  const rightPage = document.getElementById("rightPage");
-  const nextBook = document.getElementById("bookNextBtn");
-  const prevBook = document.getElementById("bookPrevBtn");
+const rightPage = document.getElementById("rightPage");
+const nextBook = document.getElementById("bookNextBtn");
+const prevBook = document.getElementById("bookPrevBtn");
 
-  const bookPages = [
-    "images/Businessplancov.png",
-    "images/Businessplan1.png",
-    "images/Businessplan2.png",
-    "images/Businessplan3.png"
-  ];
+const bookPages = [
+  "images/Businessplancov.png",
+  "images/Businessplan1.png",
+  "images/Businessplan2.png",
+  "images/Businessplan3.png"
+];
 
-  let bookIndex = 0;
+let bookIndex = 0;
 
 function showBook() {
   // cacher le reste
@@ -265,23 +265,44 @@ function showBook() {
   updateBook();
 }
 
-  nextBook.onclick = () => {
-    if (bookIndex < bookPages.length - 1) {
-      bookIndex++;
-      updateBook();
-    }
-  };
+function updateBook() {
+  // animation page droite
+  rightPage.style.animation = "none";
+  rightPage.offsetHeight;
+  rightPage.style.animation = "pageIn 0.5s ease";
+  rightPage.src = bookPages[bookIndex];
 
-  prevBook.onclick = () => {
-    if (bookIndex > 0) {
-      bookIndex--;
-      updateBook();
-    }
-  };
+  // gestion page gauche (couverture seule)
+  const leftPage = bookContainer.querySelector(".page.left");
+  if (leftPage) {
+    leftPage.style.visibility = bookIndex === 0 ? "hidden" : "visible";
+  }
 
-  continueBtn.onclick = () => {
-    bookContainer.style.display = "none";
-    showBackground();
-  };
+  // boutons
+  prevBook.style.opacity = bookIndex === 0 ? "0.4" : "1";
+  nextBook.style.opacity =
+    bookIndex === bookPages.length - 1 ? "0.4" : "1";
 
-});
+  // bouton continuer
+  continueBtn.style.display =
+    bookIndex === bookPages.length - 1 ? "block" : "none";
+}
+
+nextBook.onclick = () => {
+  if (bookIndex < bookPages.length - 1) {
+    bookIndex++;
+    updateBook();
+  }
+};
+
+prevBook.onclick = () => {
+  if (bookIndex > 0) {
+    bookIndex--;
+    updateBook();
+  }
+};
+
+continueBtn.onclick = () => {
+  bookContainer.style.display = "none";
+  showBackground();
+};
