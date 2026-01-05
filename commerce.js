@@ -69,6 +69,15 @@ function showBackground() {
     background.style.opacity = 1;
   }, 50);
 }
+function movePiratesUp(percent = 20) {
+  [pirate2bis, pirate5bis].forEach(p => {
+    const top = p.offsetTop;
+    p.style.top = (top - window.innerHeight * (percent / 100)) + "px";
+  });
+}
+
+pirate2bis.style.transform = "scale(1.005)";
+movePiratesUp(20);
   
 /* =====================================================
    💬 BULLES DE DIALOGUES (COMPLET)
