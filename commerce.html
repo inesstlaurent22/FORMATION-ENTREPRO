@@ -80,43 +80,24 @@
   </div>
 
   <!-- 📖 LIVRE -->
-  <div id="bookContainer">
+  <div class="book-container">
 
-    <!-- ◀ ▶ NAVIGATION LIVRE -->
-    <button
-      id="bookPrevBtn"
-      class="bookNav left"
-      aria-label="Page précédente"
-    >◀</button>
+  <div class="book">
 
-    <button
-      id="bookNextBtn"
-      class="bookNav right"
-      aria-label="Page suivante"
-    >▶</button>
-
-    <!-- 📘 LIVRE -->
-<div class="book-container">
-
-  <!-- LIVRE -->
-  <div class="book" id="book">
-
-    <!-- PAGE GAUCHE (verso fixe) -->
+    <!-- PAGE GAUCHE : verso fixe -->
     <div class="page left">
       <img src="images/Businessplan4.jpg" alt="Verso">
     </div>
 
-    <!-- PAGE DROITE (change) -->
+    <!-- PAGE DROITE : change -->
     <div class="page right">
       <img id="rightPage" src="images/Businessplancov.png" alt="Page droite">
     </div>
 
-  </div>
+    <!-- BOUTONS PIRATE -->
+    <button class="bookNav left" id="prevPage">◀</button>
+    <button class="bookNav right" id="nextPage">▶</button>
 
-  <!-- CONTROLES -->
-  <div class="controls">
-    <button id="prev">⬅️</button>
-    <button id="next">➡️</button>
   </div>
 
 </div>
