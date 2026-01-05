@@ -61,15 +61,19 @@ document.addEventListener("DOMContentLoaded", () => {
     background.style.display = "block";
     background.style.opacity = 0;
 
-    pirate2bis.style.position = "absolute";
-    pirate2bis.style.left = "516px";
-    pirate2bis.style.top = "406px";
-    pirate2bis.style.transform = "scale(2)";
+// Pirate apprenti (pirate2bis)
+pirate2bis.style.position = "absolute";
+pirate2bis.style.left = "516px";
+pirate2bis.style.top = "406px";
+pirate2bis.style.width = "186px";
+pirate2bis.style.height = "178px";
 
-    pirate5bis.style.position = "absolute";
-    pirate5bis.style.left = "785px";
-    pirate5bis.style.top = "397px";
-    pirate5bis.style.transform = "scale(1.5)";
+// Maître pirate (pirate5bis)
+pirate5bis.style.position = "absolute";
+pirate5bis.style.left = "785px";
+pirate5bis.style.top = "397px";
+pirate5bis.style.width = "143px";
+pirate5bis.style.height = "187px";
 
     requestAnimationFrame(() => background.style.opacity = 1);
   }
