@@ -138,31 +138,22 @@ const dialogues = [
 function typeWriter(element, htmlText, speed = 25, callback) {
   element.innerHTML = "";
   let i = 0;
-  let isTag = false;
   let current = "";
 
   function typing() {
     if (i < htmlText.length) {
-      const char = htmlText[i];
-
-      if (char === "<") isTag = true;
-
-      current += char;
+      current += htmlText[i];
       element.innerHTML = current;
-
-      if (char === ">") isTag = false;
-
       i++;
       setTimeout(typing, speed);
     } else if (callback) {
       callback();
     }
   }
-
   typing();
 }
 
-/* ================= CRÉATION BULLE ================= */
+/* ================= CRÉER UNE BULLE ================= */
 
 function createBubble(dialogue) {
   bubbleContainer.innerHTML = "";
@@ -184,7 +175,7 @@ function createBubble(dialogue) {
   bubble.appendChild(textDiv);
   bubbleContainer.appendChild(bubble);
 
-  /* 🔁 attendre le recalcul du layout */
+  /* positionnement sécurisé */
   requestAnimationFrame(() => {
     const rect = dialogue.anchor.getBoundingClientRect();
     const bubbleRect = bubble.getBoundingClientRect();
@@ -194,7 +185,6 @@ function createBubble(dialogue) {
     let top =
       rect.top - bubbleRect.height - 16;
 
-    /* sécurité écran */
     if (left < 12) left = 12;
     if (left + bubbleRect.width > window.innerWidth - 12) {
       left = window.innerWidth - bubbleRect.width - 12;
@@ -207,9 +197,8 @@ function createBubble(dialogue) {
     bubble.style.top = `${top}px`;
   });
 
-  /* ✨ texte machine à écrire */
+  /* texte animé */
   typeWriter(textDiv, dialogue.text, 25, () => {
-
     const btn = document.createElement("button");
     btn.textContent =
       dialogueStep < dialogues.length - 1
@@ -218,7 +207,6 @@ function createBubble(dialogue) {
 
     btn.addEventListener("click", nextDialogue);
     bubble.appendChild(btn);
-
   });
 }
 
@@ -226,23 +214,22 @@ function createBubble(dialogue) {
 
 function nextDialogue() {
   dialogueStep++;
-
   if (dialogueStep < dialogues.length) {
     createBubble(dialogues[dialogueStep]);
   } else {
     bubbleContainer.innerHTML = "";
-    launchMiniGame(); // 👉 ta fonction existante
+    console.log("👉 Fin des dialogues");
+    // ici : launchMiniGame();
   }
 }
 
 /* ================= LANCEMENT ================= */
 
 pirate5bis.addEventListener("click", () => {
-  if (background.style.display !== "block") return;
   dialogueStep = 0;
   createBubble(dialogues[0]);
 });
-  
+
   /* =====================================================
      🌑 FADE + LOADER MINI-JEU
   ===================================================== */
