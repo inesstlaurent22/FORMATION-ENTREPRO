@@ -265,18 +265,25 @@ function showBook() {
   updateBook();
 }
 
-  function updateBook() {
-    rightPage.style.animation = "none";
-    rightPage.offsetHeight;
-    rightPage.style.animation = "pageIn 0.5s ease";
-    rightPage.src = bookPages[bookIndex];
+function showBook() {
+  // cacher tout le reste
+  rewardScreen.style.display = "none";
+  miniGameContainer.style.display = "none";
+  fadeScreen.style.display = "none";
+  background.style.display = "none";
+  videoContainer.style.display = "none";
 
-    prevBook.style.opacity = bookIndex === 0 ? "0.4" : "1";
-    nextBook.style.opacity = bookIndex === bookPages.length - 1 ? "0.4" : "1";
+  // afficher le livre avec animation
+  gameState = "book";
+  bookContainer.style.display = "flex";
+  bookContainer.classList.remove("show");
+  void bookContainer.offsetWidth; // force reflow
+  bookContainer.classList.add("show");
 
-    continueBtn.style.display =
-      bookIndex === bookPages.length - 1 ? "block" : "none";
-  }
+  continueBtn.style.display = "none";
+  bookIndex = 0;
+  updateBook();
+}
 
   nextBook.onclick = () => {
     if (bookIndex < bookPages.length - 1) {
