@@ -215,15 +215,18 @@ function showBackground() {
   const bookContainer = document.getElementById("bookContainer");
   const continueBtn = document.getElementById("continueQuestBtn");
 
-  function showReward() {
-    miniGameContainer.style.display = "none";
-    rewardScreen.style.display = "flex";
+function showReward() {
+  // 🔥 IMPORTANT : on ferme TOUT
+  miniGameContainer.style.display = "none";
+  fadeScreen.style.display = "none";
 
-    setTimeout(() => {
-      rewardScreen.style.display = "none";
-      showBook();
-    }, 2600);
-  }
+  rewardScreen.style.display = "flex";
+
+  setTimeout(() => {
+    rewardScreen.style.display = "none";
+    showBook();
+  }, 2600);
+}
 
   /* =====================================================
      📖 LIVRE (VERSION SIMPLE ET STABLE)
@@ -243,6 +246,9 @@ function showBackground() {
   let bookIndex = 0;
 
   function showBook() {
+    rewardScreen.style.display = "none";
+    miniGameContainer.style.display = "none";
+    fadeScreen.style.display = "none";
     gameState = "book";
     bookContainer.style.display = "flex";
     continueBtn.style.display = "none";
