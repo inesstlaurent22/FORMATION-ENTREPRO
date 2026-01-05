@@ -51,12 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================================================
      🌅 BACKGROUND + PIRATES
   ===================================================== */
-
 function showBackground() {
   background.style.display = "block";
   background.style.opacity = 0;
 
-  // positions demandées
   pirate2bis.style.position = "absolute";
   pirate2bis.style.left = "516px";
   pirate2bis.style.top = "406px";
@@ -65,19 +63,13 @@ function showBackground() {
   pirate5bis.style.left = "785px";
   pirate5bis.style.top = "397px";
 
+  pirate2bis.style.transform = "scale(1.005)";
+  movePiratesUp(20);
+
   setTimeout(() => {
     background.style.opacity = 1;
   }, 50);
 }
-function movePiratesUp(percent = 20) {
-  [pirate2bis, pirate5bis].forEach(p => {
-    const top = p.offsetTop;
-    p.style.top = (top - window.innerHeight * (percent / 100)) + "px";
-  });
-}
-
-pirate2bis.style.transform = "scale(1.005)";
-movePiratesUp(20);
   
 /* =====================================================
    💬 BULLES DE DIALOGUES (COMPLET)
