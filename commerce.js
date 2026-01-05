@@ -52,14 +52,23 @@ document.addEventListener("DOMContentLoaded", () => {
      🌅 BACKGROUND + PIRATES
   ===================================================== */
 
-  function showBackground() {
-    background.style.display = "block";
-    background.style.opacity = 0;
+function showBackground() {
+  background.style.display = "block";
+  background.style.opacity = 0;
 
-    setTimeout(() => {
-      background.style.opacity = 1;
-    }, 50);
-  }
+  // positions demandées
+  pirate2bis.style.position = "absolute";
+  pirate2bis.style.left = "516px";
+  pirate2bis.style.top = "406px";
+
+  pirate5bis.style.position = "absolute";
+  pirate5bis.style.left = "785px";
+  pirate5bis.style.top = "397px";
+
+  setTimeout(() => {
+    background.style.opacity = 1;
+  }, 50);
+}
 
   /* =====================================================
      💬 DIALOGUES
