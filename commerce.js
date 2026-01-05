@@ -214,14 +214,12 @@ function createBubble(dialogue) {
 
 function nextDialogue() {
   dialogueStep++;
+
   if (dialogueStep < dialogues.length) {
     createBubble(dialogues[dialogueStep]);
   } else {
     bubbleContainer.innerHTML = "";
-    console.log("👉 Fin des dialogues");
-    // ici : launchMiniGame();
-  }
-}
+
 
 /* ================= LANCEMENT ================= */
 
