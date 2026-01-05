@@ -234,10 +234,16 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Trebuchet MS,sans-s
   text-shadow:2px 2px 4px #000;
 }
 
-/* ================= LIVRE ================= */
+/* ================= LIVRE – VISIBILITÉ ================= */
 
-.book-container {
-  text-align: center;
+#bookContainer{
+  position:fixed;
+  inset:0;
+  display:none;               /* 🔥 caché au départ */
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,0.85);
+  z-index:1700;               /* 🔥 AU-DESSUS du rewardScreen */
 }
 
 .book {
