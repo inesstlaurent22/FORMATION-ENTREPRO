@@ -236,8 +236,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Trebuchet MS,sans-s
 }
 
 /* =====================================================
-   🏆 RÉCOMPENSE → LIVRE
+   📖 TITRE DU LIVRE
 ===================================================== */
+
 #bookTitle{
   position:absolute;
   top:6%;
@@ -258,7 +259,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Trebuchet MS,sans-s
     2px 2px 4px #000;
 }
 
-/* 🔥 animation commune livre + titre */
 #bookContainer.show #bookTitle{
   animation: titleAppear 0.6s ease-out forwards;
 }
@@ -274,141 +274,116 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Trebuchet MS,sans-s
   }
 }
 
-/* 🌟 faisceau lumineux */
-#bookTitle .lightBeam{
-  position:absolute;
-  left:-20%;
-  top:50%;
-  width:140%;
-  height:120%;
-  transform:translateY(-50%);
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.9) 50%,
-    transparent 100%
-  );
-  opacity:0.35;
-  filter:blur(6px);
-  animation: lightSweep 3s infinite;
-  pointer-events:none;
-}
-
-@keyframes lightSweep{
-  0%{
-    transform:translate(-120%, -50%) skewX(-20deg);
-    opacity:0;
-  }
-  40%{ opacity:0.5; }
-  100%{
-    transform:translate(120%, -50%) skewX(-20deg);
-    opacity:0;
-  }
-}
+/* =====================================================
+   📖 CONTENEUR LIVRE
+===================================================== */
 
 #bookContainer{
   position:fixed;
   inset:0;
-  display:none;               /* 🔥 caché au départ */
+  display:none;
   justify-content:center;
   align-items:center;
   background:rgba(0,0,0,0.85);
-  z-index:1700;               /* 🔥 AU-DESSUS du rewardScreen */
+  z-index:1700;
 }
 
-.book {
-  display: flex;
-  width: 700px;
-  height: 450px;
-  background: #000;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+#bookContainer.show{
+  animation: bookAppear 0.6s ease-out both;
 }
 
-.page {
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.page img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.left {
-  border-right: 2px solid rgba(255,255,255,0.1);
-}
-
-.right {
-  background: #000;
-  animation: pageIn 0.5s ease;
-}
-
-@keyframes pageIn {
-  from {
-    transform: translateX(40px);
-    opacity: 0;
+@keyframes bookAppear{
+  from{
+    opacity:0;
+    transform:scale(0.85);
   }
-  to {
-    transform: translateX(0);
-    opacity: 1;
+  to{
+    opacity:1;
+    transform:scale(1);
   }
 }
 
-.controls {
-  margin-top: 20px;
-}
+/* =====================================================
+   📖 LIVRE
+===================================================== */
 
-.controls button {
-  font-size: 24px;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-.bookNav{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:1800;
-  padding:12px 18px;
-  font-size:22px;
-  font-weight:bold;
-  border-radius:14px;
-  border:3px solid #3b1b00;
-  background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff5d6;
+.book{
+  position:relative;
+  display:flex;
+  width:700px;
+  height:450px;
+  background:#000;
+  box-shadow:0 30px 60px rgba(0,0,0,0.8);
   cursor:pointer;
-  box-shadow:0 4px 0 #3b1b00;
-  transition:.2s;
+  perspective:1200px;
 }
 
-.bookNav:hover{
-  transform:translateY(-50%) translateY(-2px);
-  box-shadow:0 6px 0 #3b1b00;
+/* ombre reliure */
+.book::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  width:40px;
+  height:100%;
+  transform:translateX(-50%);
+  pointer-events:none;
+  background:radial-gradient(
+    ellipse at center,
+    rgba(0,0,0,0.45) 0%,
+    rgba(0,0,0,0.25) 40%,
+    rgba(0,0,0,0.05) 65%,
+    transparent 80%
+  );
+  opacity:0.6;
 }
 
-.bookNav.left{ left:-90px; }
-.bookNav.right{ right:-90px; }
-
-
-/* 📖 Animation apparition du livre */
-@keyframes bookAppear {
-  from {
-    opacity: 0;
-    transform: scale(0.85);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+/* pages */
+.page{
+  width:50%;
+  height:100%;
+  overflow:hidden;
 }
 
-#bookContainer.show {
-  animation: bookAppear 0.6s ease-out;
+.page img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
+.left{
+  border-right:2px solid rgba(255,255,255,0.1);
+}
 
+/* =====================================================
+   📖 PAGE QUI SE SOULÈVE
+===================================================== */
+
+.page.right img{
+  transform-origin:left center;
+}
+
+/* vers l’avant */
+.lift-next{
+  animation: liftNext 0.35s ease;
+}
+
+/* vers l’arrière */
+.lift-prev{
+  animation: liftPrev 0.35s ease;
+}
+
+@keyframes liftNext{
+  0%{ transform:rotateY(0deg); }
+  50%{ transform:rotateY(-25deg); }
+  100%{ transform:rotateY(0deg); }
+}
+
+@keyframes liftPrev{
+  0%{ transform:rotateY(0deg); }
+  50%{ transform:rotateY(25deg); }
+  100%{ transform:rotateY(0deg); }
+}
 /* ================= CONTINUER LA QUÊTE – STYLE PIRATE ================= */
 
 #continueQuestBtn{
