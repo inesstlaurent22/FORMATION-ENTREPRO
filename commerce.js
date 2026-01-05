@@ -38,15 +38,18 @@ closeVideo.addEventListener("click", (e) => {
 
   video.addEventListener("ended", endVideo);
 
-  function endVideo() {
-    video.pause();
-    videoContainer.style.opacity = 0;
+function closeVideoFlow() {
+  // stop vidéo immédiatement
+  video.pause();
+  video.currentTime = 0;
 
-    setTimeout(() => {
-      videoContainer.style.display = "none";
-      showBackground();
-    }, 1000);
-  }
+  // cacher la vidéo sans écran noir
+  videoContainer.style.display = "none";
+  videoContainer.style.opacity = 1;
+
+  // lancer la suite normale
+  showBackground();
+}
 
   /* =====================================================
      🌅 BACKGROUND + PIRATES
