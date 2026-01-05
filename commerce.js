@@ -376,7 +376,10 @@ function showReward(){
 
   const pages = document.querySelectorAll(".page");
   let currentPage = 0;
-
+  
+function showBook(){
+  bookContainer.style.display = "flex";
+}
   pages.forEach((p,i)=>p.style.zIndex = pages.length - i);
 
   document.querySelector(".book").addEventListener("click",(e)=>{
