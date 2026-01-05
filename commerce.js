@@ -246,34 +246,14 @@ function showReward() {
   let bookIndex = 0;
 
 function showBook() {
-  console.log("📖 SHOW BOOK");
-
-  // 🔥 tout cacher
+  // cacher le reste
   rewardScreen.style.display = "none";
   miniGameContainer.style.display = "none";
   fadeScreen.style.display = "none";
   background.style.display = "none";
   videoContainer.style.display = "none";
 
-  // 📖 afficher le livre
-  gameState = "book";
-  bookContainer.style.display = "flex";
-  bookContainer.style.opacity = "1";
-
-  continueBtn.style.display = "none";
-  bookIndex = 0;
-  updateBook();
-}
-
-function showBook() {
-  // cacher tout le reste
-  rewardScreen.style.display = "none";
-  miniGameContainer.style.display = "none";
-  fadeScreen.style.display = "none";
-  background.style.display = "none";
-  videoContainer.style.display = "none";
-
-  // afficher le livre avec animation
+  // afficher livre + titre ENSEMBLE
   gameState = "book";
   bookContainer.style.display = "flex";
   bookContainer.classList.remove("show");
