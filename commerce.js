@@ -231,36 +231,45 @@ function showReward() {
 /* =====================================================
    📖 LIVRE
 ===================================================== */
+/* =====================================================
+   📖 LIVRE – LOGIQUE FINALE
+===================================================== */
 
 const rightPage = document.getElementById("rightPage");
+const leftPage = bookContainer.querySelector(".page.left img");
+
 const nextBook = document.getElementById("bookNextBtn");
 const prevBook = document.getElementById("bookPrevBtn");
 
-const bookPages = [
-  "images/Businessplancov.png",
+// index logique du livre
+// 0 = couverture
+// 1 → 3 = pages Businessplan1 → 3
+let bookIndex = 0;
+
+// pages droites
+const rightPages = [
+  "images/Businessplancov.png", // couverture
   "images/Businessplan1.png",
   "images/Businessplan2.png",
   "images/Businessplan3.png"
 ];
 
-let bookIndex = 0;
+// verso fixe
+const leftVerso = "images/Businessplan4.jpg";
 
 function showBook() {
-  // cacher le reste
   rewardScreen.style.display = "none";
   miniGameContainer.style.display = "none";
   fadeScreen.style.display = "none";
   background.style.display = "none";
   videoContainer.style.display = "none";
 
-  // afficher livre + titre ENSEMBLE
   gameState = "book";
   bookContainer.style.display = "flex";
   bookContainer.classList.remove("show");
-  void bookContainer.offsetWidth; // force reflow
+  void bookContainer.offsetWidth;
   bookContainer.classList.add("show");
 
-  continueBtn.style.display = "none";
   bookIndex = 0;
   updateBook();
 }
@@ -270,26 +279,30 @@ function updateBook() {
   rightPage.style.animation = "none";
   rightPage.offsetHeight;
   rightPage.style.animation = "pageIn 0.5s ease";
-  rightPage.src = bookPages[bookIndex];
 
-  // gestion page gauche (couverture seule)
-  const leftPage = bookContainer.querySelector(".page.left");
-  if (leftPage) {
-    leftPage.style.visibility = bookIndex === 0 ? "hidden" : "visible";
+  rightPage.src = rightPages[bookIndex];
+
+  if (bookIndex === 0) {
+    // couverture → pas de page gauche
+    leftPage.style.visibility = "hidden";
+  } else {
+    // pages normales
+    leftPage.style.visibility = "visible";
+    leftPage.src = leftVerso;
   }
 
-  // boutons
+  // boutons navigation
   prevBook.style.opacity = bookIndex === 0 ? "0.4" : "1";
-  nextBook.style.opacity =
-    bookIndex === bookPages.length - 1 ? "0.4" : "1";
+  nextBook.style.opacity = bookIndex === rightPages.length - 1 ? "0.4" : "1";
 
   // bouton continuer
   continueBtn.style.display =
-    bookIndex === bookPages.length - 1 ? "block" : "none";
+    bookIndex === rightPages.length - 1 ? "block" : "none";
 }
 
+// navigation
 nextBook.onclick = () => {
-  if (bookIndex < bookPages.length - 1) {
+  if (bookIndex < rightPages.length - 1) {
     bookIndex++;
     updateBook();
   }
@@ -302,6 +315,7 @@ prevBook.onclick = () => {
   }
 };
 
+// sortie du livre
 continueBtn.onclick = () => {
   bookContainer.style.display = "none";
   showBackground();
