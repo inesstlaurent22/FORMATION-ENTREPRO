@@ -219,9 +219,11 @@ function nextDialogue() {
     createBubble(dialogues[dialogueStep]);
   } else {
     bubbleContainer.innerHTML = "";
+    launchMiniGame();
+  }
+}
 
-
-/* ================= LANCEMENT ================= */
+/* ================= LANCEMENT DIALOGUES ================= */
 
 pirate5bis.addEventListener("click", () => {
   dialogueStep = 0;
