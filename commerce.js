@@ -70,61 +70,179 @@ function showBackground() {
   }, 50);
 }
   
-  /* =====================================================
-     💬 DIALOGUES
-  ===================================================== */
+/* =====================================================
+   💬 BULLES DE DIALOGUES (COMPLET)
+===================================================== */
 
-  const bubbleContainer = document.getElementById("bubbleContainer");
+const bubbleContainer = document.getElementById("bubbleContainer");
 
-  let dialogueStep = 0;
+let dialogueStep = 0;
 
-  const dialogues = [
-    { who:"maitre", text:"Moussaillon ! Bienvenue sur le marché des trésors ! Ici, plein de pirates vendent des pierres précieuses… mais pour toi, qui débutes, faudra suivre mes conseils !", anchor: pirate5bis },
-    { who:"apprenti", text:"J’suis prêt, capitaine !", anchor: pirate2bis },
-    { who:"maitre", text:"Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates… parle comme eux, montre que tu connais tes pierres. Ensuite… sois plus malin et plus rapide qu’eux !", anchor: pirate5bis },
-    { who:"apprenti", text:"Mais comment je fais ça ?", anchor: pirate2bis },
-    { who:"maitre", text:"La plupart ont une échoppe et vendent dans des sachets en velours. Tu dois faire pareil… ou mieux !", anchor: pirate5bis },
-    { who:"apprenti", text:"Me démarquer… c’est-à-dire ?", anchor: pirate2bis },
-    { who:"maitre", text:"Moins cher, plus luxueux, plus visible… ou aller directement chez les clients !", anchor: pirate5bis },
-    { who:"apprenti", text:"Je vois… je choisis selon mes clients !", anchor: pirate2bis },
-    { who:"maitre", text:"Exactement. Observe, teste, et deviens le meilleur pirate commerçant.", anchor: pirate5bis },
-    { who:"apprenti", text:"MERCI capitaine !", anchor: pirate2bis }
-  ];
+/* ================= DIALOGUES ================= */
 
-  function createBubble(d) {
-    bubbleContainer.innerHTML = "";
-
-    const div = document.createElement("div");
-    div.className = "dialogue-bubble";
-    div.innerHTML = `<strong>${d.who === "maitre" ? "Maître pirate" : "Apprenti pirate"}</strong><br>${d.text}`;
-
-    const btn = document.createElement("button");
-    btn.textContent = dialogueStep < dialogues.length - 1 ? "Suite" : "OK, j’ai compris";
-    btn.onclick = nextDialogue;
-
-    div.appendChild(btn);
-    bubbleContainer.appendChild(div);
-
-    const rect = d.anchor.getBoundingClientRect();
-    div.style.left = rect.left + "px";
-    div.style.top = (rect.top - div.offsetHeight - 20) + "px";
+const dialogues = [
+  {
+    who: "maitre",
+    text: "Moussaillon ! Bienvenue sur le marché des trésors ! Ici, plein de pirates vendent des pierres précieuses… mais pour toi, qui débutes, faudra suivre mes conseils !",
+    anchor: pirate5bis
+  },
+  {
+    who: "apprenti",
+    text: "J’suis prêt, capitaine !",
+    anchor: pirate2bis
+  },
+  {
+    who: "maitre",
+    text: "Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates… parle comme eux, montre que tu connais tes pierres. Ensuite… sois plus malin et plus rapide qu’eux ! Faut que tous les clients viennent chez toi !",
+    anchor: pirate5bis
+  },
+  {
+    who: "apprenti",
+    text: "Mais comment je fais ça ?",
+    anchor: pirate2bis
+  },
+  {
+    who: "maitre",
+    text: "Regarde bien : la plupart ont une petite échoppe et vendent leurs pierres dans des petits sachets en velours. Les clients adorent ça ! Donc toi aussi, il te faudra une échoppe et des sachets. Mais attention… tes pierres ressemblent à celles des autres ! Faut que tu te démarques !",
+    anchor: pirate5bis
+  },
+  {
+    who: "apprenti",
+    text: "Me démarquer… c’est-à-dire ?",
+    anchor: pirate2bis
+  },
+  {
+    who: "maitre",
+    text: "Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• vendre tes pierres dans des boîtes en bois plus luxueuses<br>• avoir une grande boutique visible<br>• aller directement chez les clients",
+    anchor: pirate5bis
+  },
+  {
+    who: "apprenti",
+    text: "Ahhh… donc je choisis la meilleure stratégie selon mes clients !",
+    anchor: pirate2bis
+  },
+  {
+    who: "maitre",
+    text: "Exactement ! Observe, teste, et deviens le pirate que tout le monde veut rencontrer.",
+    anchor: pirate5bis
+  },
+  {
+    who: "apprenti",
+    text: "MERCI capitaine !",
+    anchor: pirate2bis
   }
+];
 
-  function nextDialogue() {
-    dialogueStep++;
-    if (dialogueStep < dialogues.length) {
-      createBubble(dialogues[dialogueStep]);
-    } else {
-      bubbleContainer.innerHTML = "";
-      launchMiniGame();
+/* ================= MACHINE À ÉCRIRE ================= */
+
+function typeWriter(element, htmlText, speed = 25, callback) {
+  element.innerHTML = "";
+  let i = 0;
+  let isTag = false;
+  let current = "";
+
+  function typing() {
+    if (i < htmlText.length) {
+      const char = htmlText[i];
+
+      if (char === "<") isTag = true;
+
+      current += char;
+      element.innerHTML = current;
+
+      if (char === ">") isTag = false;
+
+      i++;
+      setTimeout(typing, speed);
+    } else if (callback) {
+      callback();
     }
   }
 
-  pirate5bis.addEventListener("click", () => {
-    dialogueStep = 0;
-    createBubble(dialogues[0]);
+  typing();
+}
+
+/* ================= CRÉATION BULLE ================= */
+
+function createBubble(dialogue) {
+  bubbleContainer.innerHTML = "";
+
+  const bubble = document.createElement("div");
+  bubble.className = "dialogue-bubble";
+
+  const nameDiv = document.createElement("div");
+  nameDiv.className = "name";
+  nameDiv.textContent =
+    dialogue.who === "maitre"
+      ? "Maître pirate"
+      : "Apprenti pirate";
+
+  const textDiv = document.createElement("div");
+  textDiv.className = "text";
+
+  bubble.appendChild(nameDiv);
+  bubble.appendChild(textDiv);
+  bubbleContainer.appendChild(bubble);
+
+  /* 🔁 attendre le recalcul du layout */
+  requestAnimationFrame(() => {
+    const rect = dialogue.anchor.getBoundingClientRect();
+    const bubbleRect = bubble.getBoundingClientRect();
+
+    let left =
+      rect.left + rect.width / 2 - bubbleRect.width / 2;
+    let top =
+      rect.top - bubbleRect.height - 16;
+
+    /* sécurité écran */
+    if (left < 12) left = 12;
+    if (left + bubbleRect.width > window.innerWidth - 12) {
+      left = window.innerWidth - bubbleRect.width - 12;
+    }
+    if (top < 12) {
+      top = rect.bottom + 16;
+    }
+
+    bubble.style.left = `${left}px`;
+    bubble.style.top = `${top}px`;
   });
 
+  /* ✨ texte machine à écrire */
+  typeWriter(textDiv, dialogue.text, 25, () => {
+
+    const btn = document.createElement("button");
+    btn.textContent =
+      dialogueStep < dialogues.length - 1
+        ? "Suite"
+        : "OK, j’ai compris";
+
+    btn.addEventListener("click", nextDialogue);
+    bubble.appendChild(btn);
+
+  });
+}
+
+/* ================= SUIVANT ================= */
+
+function nextDialogue() {
+  dialogueStep++;
+
+  if (dialogueStep < dialogues.length) {
+    createBubble(dialogues[dialogueStep]);
+  } else {
+    bubbleContainer.innerHTML = "";
+    launchMiniGame(); // 👉 ta fonction existante
+  }
+}
+
+/* ================= LANCEMENT ================= */
+
+pirate5bis.addEventListener("click", () => {
+  if (background.style.display !== "block") return;
+  dialogueStep = 0;
+  createBubble(dialogues[0]);
+});
+  
   /* =====================================================
      🌑 FADE + LOADER MINI-JEU
   ===================================================== */
