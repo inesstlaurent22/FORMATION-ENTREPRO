@@ -238,6 +238,73 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Trebuchet MS,sans-s
 /* =====================================================
    🏆 RÉCOMPENSE → LIVRE
 ===================================================== */
+#bookTitle{
+  position:absolute;
+  top:6%;
+  left:50%;
+  transform:translateX(-50%) scale(0.85);
+  font-size:42px;
+  font-weight:bold;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:white;
+  z-index:1801;
+  opacity:0;
+
+  font-family:"Trebuchet MS", serif;
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.6),
+    0 0 18px rgba(255,215,0,0.6),
+    2px 2px 4px #000;
+}
+
+/* 🔥 animation commune livre + titre */
+#bookContainer.show #bookTitle{
+  animation: titleAppear 0.6s ease-out forwards;
+}
+
+@keyframes titleAppear{
+  from{
+    opacity:0;
+    transform:translateX(-50%) scale(0.85);
+  }
+  to{
+    opacity:1;
+    transform:translateX(-50%) scale(1);
+  }
+}
+
+/* 🌟 faisceau lumineux */
+#bookTitle .lightBeam{
+  position:absolute;
+  left:-20%;
+  top:50%;
+  width:140%;
+  height:120%;
+  transform:translateY(-50%);
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.9) 50%,
+    transparent 100%
+  );
+  opacity:0.35;
+  filter:blur(6px);
+  animation: lightSweep 3s infinite;
+  pointer-events:none;
+}
+
+@keyframes lightSweep{
+  0%{
+    transform:translate(-120%, -50%) skewX(-20deg);
+    opacity:0;
+  }
+  40%{ opacity:0.5; }
+  100%{
+    transform:translate(120%, -50%) skewX(-20deg);
+    opacity:0;
+  }
+}
 
 #bookContainer{
   position:fixed;
