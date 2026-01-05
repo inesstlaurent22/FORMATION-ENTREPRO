@@ -229,26 +229,28 @@ function showReward() {
 } 
 
 /* =====================================================
-   📖 LIVRE
-===================================================== */
-/* =====================================================
    📖 LIVRE – LOGIQUE FINALE
 ===================================================== */
+/* =====================================================
+   📖 LIVRE – VERSION FINALE AVEC PAGE QUI SE SOULÈVE
+===================================================== */
+
+const bookContainer = document.getElementById("bookContainer");
+const bookElement = document.querySelector(".book");
 
 const rightPage = document.getElementById("rightPage");
-const leftPage = bookContainer.querySelector(".page.left img");
+const leftPageImg = bookContainer.querySelector(".page.left img");
 
-const nextBook = document.getElementById("bookNextBtn");
-const prevBook = document.getElementById("bookPrevBtn");
+const continueBtn = document.getElementById("continueQuestBtn");
 
-// index logique du livre
+// index logique
 // 0 = couverture
 // 1 → 3 = pages Businessplan1 → 3
 let bookIndex = 0;
 
 // pages droites
 const rightPages = [
-  "images/Businessplancov.png", // couverture
+  "images/Businessplancov.png",
   "images/Businessplan1.png",
   "images/Businessplan2.png",
   "images/Businessplan3.png"
@@ -256,6 +258,8 @@ const rightPages = [
 
 // verso fixe
 const leftVerso = "images/Businessplan4.jpg";
+
+/* ================= AFFICHAGE LIVRE ================= */
 
 function showBook() {
   rewardScreen.style.display = "none";
@@ -274,48 +278,54 @@ function showBook() {
   updateBook();
 }
 
-function updateBook() {
-  // animation page droite
-  rightPage.style.animation = "none";
-  rightPage.offsetHeight;
-  rightPage.style.animation = "pageIn 0.5s ease";
+/* ================= MISE À JOUR LIVRE ================= */
 
-  rightPage.src = rightPages[bookIndex];
+function updateBook(direction = "next") {
 
-  if (bookIndex === 0) {
-    // couverture → pas de page gauche
-    leftPage.style.visibility = "hidden";
-  } else {
-    // pages normales
-    leftPage.style.visibility = "visible";
-    leftPage.src = leftVerso;
-  }
+  // effet page qui se soulève
+  rightPage.classList.remove("lift-next", "lift-prev");
+  void rightPage.offsetWidth;
+  rightPage.classList.add(direction === "next" ? "lift-next" : "lift-prev");
 
-  // boutons navigation
-  prevBook.style.opacity = bookIndex === 0 ? "0.4" : "1";
-  nextBook.style.opacity = bookIndex === rightPages.length - 1 ? "0.4" : "1";
+  setTimeout(() => {
+    rightPage.src = rightPages[bookIndex];
 
-  // bouton continuer
-  continueBtn.style.display =
-    bookIndex === rightPages.length - 1 ? "block" : "none";
+    if (bookIndex === 0) {
+      leftPageImg.style.visibility = "hidden";
+    } else {
+      leftPageImg.style.visibility = "visible";
+      leftPageImg.src = leftVerso;
+    }
+
+    continueBtn.style.display =
+      bookIndex === rightPages.length - 1 ? "block" : "none";
+  }, 260);
 }
 
-// navigation
-nextBook.onclick = () => {
-  if (bookIndex < rightPages.length - 1) {
-    bookIndex++;
-    updateBook();
-  }
-};
+/* ================= NAVIGATION PAR CLIC ================= */
 
-prevBook.onclick = () => {
-  if (bookIndex > 0) {
-    bookIndex--;
-    updateBook();
-  }
-};
+bookElement.addEventListener("click", (e) => {
+  const rect = bookElement.getBoundingClientRect();
+  const x = e.clientX - rect.left;
 
-// sortie du livre
+  // clic à droite → page suivante
+  if (x > rect.width / 2) {
+    if (bookIndex < rightPages.length - 1) {
+      bookIndex++;
+      updateBook("next");
+    }
+  }
+  // clic à gauche → page précédente
+  else {
+    if (bookIndex > 0) {
+      bookIndex--;
+      updateBook("prev");
+    }
+  }
+});
+
+/* ================= SORTIE LIVRE ================= */
+
 continueBtn.onclick = () => {
   bookContainer.style.display = "none";
   showBackground();
