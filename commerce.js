@@ -73,23 +73,33 @@ function endVideo() {
      🌅 BACKGROUND + PIRATES
   ===================================================== */
 function showBackground() {
+  // cacher tous les overlays au cas où
+  videoContainer.style.display = "none";
+  fadeScreen.style.display = "none";
+  miniGameContainer.style.display = "none";
+  rewardScreen.style.display = "none";
+  bookContainer.style.display = "none";
+
+  // afficher le background
   background.style.display = "block";
   background.style.opacity = 0;
 
+  // positions pirates
   pirate2bis.style.position = "absolute";
   pirate2bis.style.left = "516px";
   pirate2bis.style.top = "406px";
+  pirate2bis.style.transform = "scale(1.005)";
 
   pirate5bis.style.position = "absolute";
   pirate5bis.style.left = "785px";
   pirate5bis.style.top = "397px";
 
-  pirate2bis.style.transform = "scale(1.005)";
   movePiratesUp(20);
 
-  setTimeout(() => {
+  // fade in réel
+  requestAnimationFrame(() => {
     background.style.opacity = 1;
-  }, 50);
+  });
 }
   
 /* =====================================================
