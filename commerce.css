@@ -239,18 +239,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Trebuchet MS,sans-s
    🏆 RÉCOMPENSE → LIVRE
 ===================================================== */
 
-function showReward() {
-  miniGameContainer.style.display = "none";
-  fadeScreen.style.display = "none";
-
-  rewardScreen.style.display = "flex";
-
-  setTimeout(() => {
-    rewardScreen.style.display = "none";
-    showBook();
-  }, 2600);
-}
-
 #bookContainer{
   position:fixed;
   inset:0;
