@@ -31,10 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleSound.textContent = video.muted ? "🔇" : "🔊";
   });
 
-  closeVideo.addEventListener("click", (e) => {
-    e.stopPropagation();
-    endVideo();
-  });
+closeVideo.addEventListener("click", (e) => {
+  e.stopPropagation();
+  closeVideoFlow();
+});
 
   video.addEventListener("ended", endVideo);
 
