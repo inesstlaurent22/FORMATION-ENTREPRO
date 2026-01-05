@@ -245,16 +245,25 @@ function showReward() {
 
   let bookIndex = 0;
 
-  function showBook() {
-    rewardScreen.style.display = "none";
-    miniGameContainer.style.display = "none";
-    fadeScreen.style.display = "none";
-    gameState = "book";
-    bookContainer.style.display = "flex";
-    continueBtn.style.display = "none";
-    bookIndex = 0;
-    updateBook();
-  }
+function showBook() {
+  console.log("📖 SHOW BOOK");
+
+  // 🔥 tout cacher
+  rewardScreen.style.display = "none";
+  miniGameContainer.style.display = "none";
+  fadeScreen.style.display = "none";
+  background.style.display = "none";
+  videoContainer.style.display = "none";
+
+  // 📖 afficher le livre
+  gameState = "book";
+  bookContainer.style.display = "flex";
+  bookContainer.style.opacity = "1";
+
+  continueBtn.style.display = "none";
+  bookIndex = 0;
+  updateBook();
+}
 
   function updateBook() {
     rightPage.style.animation = "none";
