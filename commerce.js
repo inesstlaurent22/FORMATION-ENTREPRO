@@ -13,6 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate2bis = document.getElementById("pirate2bis");
   const pirate5bis = document.getElementById("pirate5bis");
 
+  const fadeScreen = document.getElementById("fadeScreen");
+  const miniGameContainer = document.getElementById("miniGameContainer");
+  const rewardScreen = document.getElementById("rewardScreen");
+  const bookContainer = document.getElementById("bookContainer");
+
   /* cacher tout sauf la vidéo au départ */
   background.style.display = "none";
 
@@ -73,12 +78,12 @@ function endVideo() {
      🌅 BACKGROUND + PIRATES
   ===================================================== */
 function showBackground() {
-  // cacher tous les overlays au cas où
+  // sécurité : cacher tous les overlays
   videoContainer.style.display = "none";
-  fadeScreen.style.display = "none";
-  miniGameContainer.style.display = "none";
-  rewardScreen.style.display = "none";
-  bookContainer.style.display = "none";
+  if (fadeScreen) fadeScreen.style.display = "none";
+  if (miniGameContainer) miniGameContainer.style.display = "none";
+  if (rewardScreen) rewardScreen.style.display = "none";
+  if (bookContainer) bookContainer.style.display = "none";
 
   // afficher le background
   background.style.display = "block";
@@ -96,7 +101,7 @@ function showBackground() {
 
   movePiratesUp(20);
 
-  // fade in réel
+  // fade-in garanti
   requestAnimationFrame(() => {
     background.style.opacity = 1;
   });
