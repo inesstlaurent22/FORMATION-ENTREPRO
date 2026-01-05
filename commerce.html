@@ -2,40 +2,68 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Vidéo d'introduction</title>
+  <title>Quête Commerce</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="commerce.css">
 </head>
 
 <body>
 
-  <!-- CONTENEUR VIDÉO -->
-  <div class="video-overlay" id="videoOverlay">
+<!-- 🌅 FOND + PIRATES -->
+<div id="background">
+  <img src="images/Commercefond.PNG" class="fondImage">
+  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
+  <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
+</div>
 
-    <video id="introVideo" autoplay muted playsinline>
-      <source src="video/intro.mp4" type="video/mp4">
-    </video>
+<!-- 💬 BULLES -->
+<div id="bubbleContainer"></div>
 
-    <!-- BOUTON SON -->
-    <button class="btn sound" id="soundBtn">🔊 Son</button>
-
-    <!-- BOUTON FERMER -->
-    <button class="btn close" id="closeBtn">✖ Fermer</button>
-
+<!-- 🌑 FADE + LOADER -->
+<div id="fadeScreen">
+  <div class="loaderBox">
+    Termine ce mini-jeu pour continuer ta quête
   </div>
+</div>
 
-  <!-- ÉCRAN APRÈS VIDÉO -->
-  <div class="after-screen" id="afterScreen">
+<!-- 🎮 MINI JEU -->
+<div id="miniGameContainer">
+  <div id="gameQuestion"></div>
+  <div id="gameAnswers"></div>
+  <div id="gameFeedback"></div>
+</div>
 
-    <h1>Bravo !</h1>
-    <p>Tu peux continuer ton aventure.</p>
-
-    <!-- NOUVEAU BOUTON -->
-    <a href="menu.html" class="continue-btn">Continue ta quête</a>
-
+<!-- 🏆 RÉCOMPENSE -->
+<div id="rewardScreen">
+  <div class="rays"></div>
+  <div class="rewardBox">
+    <strong>Bravo !</strong><br>
+    Tu as gagné <strong>5000 PO</strong><br>
+    et ton <strong>Business Plan</strong>
   </div>
+</div>
 
-  <script src="script.js"></script>
+<!-- 📖 LIVRE -->
+<div id="bookContainer">
+  <div class="book">
+    <div class="page">
+      <div class="front" style="background-image:url('images/Businessplan1.jpg')"></div>
+      <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+    </div>
+    <div class="page">
+      <div class="front" style="background-image:url('images/Businessplan2.jpg')"></div>
+      <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+    </div>
+    <div class="page">
+      <div class="front" style="background-image:url('images/Businessplan3.jpg')"></div>
+      <div class="back" style="background-image:url('images/Businessplan4.jpg')"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ▶️ CONTINUER -->
+<button id="continueQuestBtn">Continuer ta quête</button>
+
+<script src="commerce.js"></script>
 </body>
 </html>
