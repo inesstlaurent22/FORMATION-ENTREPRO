@@ -49,16 +49,19 @@
   <!-- 💬 BULLES DE DIALOGUE -->
   <div id="bubbleContainer"></div>
 
-  <button id="skipDialoguesBtn">Ignorer les dialogues</button>
+  <!-- ⏭️ IGNORER DIALOGUES -->
+  <button id="skipDialoguesBtn">
+    Ignorer les dialogues
+  </button>
 
   <!-- 🌑 FADE + LOADER -->
   <div id="fadeScreen">
     <div class="loaderBox">
-      Termines ce mini jeux et tu pourras continuer la quête
+      Termines ce mini-jeu et tu pourras continuer la quête
     </div>
   </div>
 
-  <!-- 🎮 MINI JEU -->
+  <!-- 🎮 MINI-JEU -->
   <div id="miniGameContainer">
     <div id="gameQuestion"></div>
     <div id="gameAnswers"></div>
@@ -78,10 +81,22 @@
 
   <!-- 📖 LIVRE -->
   <div id="bookContainer">
-    <div class="book">
 
-<button id="bookPrevBtn" class="bookNav left">◀</button>
-<button id="bookNextBtn" class="bookNav right">▶</button>
+    <!-- ◀ ▶ NAVIGATION LIVRE -->
+    <button
+      id="bookPrevBtn"
+      class="bookNav left"
+      aria-label="Page précédente"
+    >◀</button>
+
+    <button
+      id="bookNextBtn"
+      class="bookNav right"
+      aria-label="Page suivante"
+    >▶</button>
+
+    <!-- 📘 LIVRE -->
+    <div class="book">
 
       <div class="page">
         <div
