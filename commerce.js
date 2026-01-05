@@ -31,15 +31,21 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleSound.textContent = video.muted ? "🔇" : "🔊";
   });
 
+/* ================= BOUTON CLOSE ================= */
+
 closeVideo.addEventListener("click", (e) => {
   e.stopPropagation();
   closeVideoFlow();
 });
 
-  video.addEventListener("ended", endVideo);
+/* ================= FIN VIDÉO NATURELLE ================= */
+
+video.addEventListener("ended", endVideo);
+
+/* ================= CLOSE MANUEL ================= */
 
 function closeVideoFlow() {
-  // stop vidéo immédiatement
+  // arrêter la vidéo immédiatement
   video.pause();
   video.currentTime = 0;
 
@@ -47,8 +53,20 @@ function closeVideoFlow() {
   videoContainer.style.display = "none";
   videoContainer.style.opacity = 1;
 
-  // lancer la suite normale
+  // enchaîner la suite normale
   showBackground();
+}
+
+/* ================= FIN VIDÉO AUTOMATIQUE ================= */
+
+function endVideo() {
+  video.pause();
+  videoContainer.style.opacity = 0;
+
+  setTimeout(() => {
+    videoContainer.style.display = "none";
+    showBackground();
+  }, 1000);
 }
 
   /* =====================================================
