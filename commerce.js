@@ -350,6 +350,7 @@ pirate5bis.addEventListener("click", () => {
 function showReward(){
   miniGameContainer.style.display = "none";
   rewardScreen.style.display = "flex";
+  rewardScreen.style.opacity = 1;
 
   setTimeout(() => {
     rewardScreen.style.opacity = 0;
