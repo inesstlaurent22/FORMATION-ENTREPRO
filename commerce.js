@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let dialogueStep = 0;
   let quizStep = 0;
   let selected = [];
-  let currentPage = 0;
 
   /* =====================================================
      🎬 VIDÉO
@@ -65,22 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
     pirate2bis.style.position = "absolute";
     pirate2bis.style.left = "516px";
     pirate2bis.style.top = "406px";
-    pirate2bis.style.transform = "scale(1.005)";
+    pirate2bis.style.transform = "scale(2)";
 
     pirate5bis.style.position = "absolute";
     pirate5bis.style.left = "785px";
     pirate5bis.style.top = "397px";
-
-    movePiratesDown(5);
+    pirate5bis.style.transform = "scale(1.5)";
 
     requestAnimationFrame(() => background.style.opacity = 1);
-  }
-
-  function movePiratesDown(percent) {
-    [pirate2bis, pirate5bis].forEach(p => {
-      p.style.top =
-        (p.offsetTop + window.innerHeight * (percent / 100)) + "px";
-    });
   }
 
   /* =====================================================
@@ -129,11 +120,9 @@ document.addEventListener("DOMContentLoaded", () => {
     bubble.append(name, text);
     bubbleContainer.appendChild(bubble);
 
-    requestAnimationFrame(() => {
-      const r = d.anchor.getBoundingClientRect();
-      bubble.style.left = r.left + "px";
-      bubble.style.top = (r.top - bubble.offsetHeight - 12) + "px";
-    });
+    const r = d.anchor.getBoundingClientRect();
+    bubble.style.left = r.left + "px";
+    bubble.style.top = (r.top - bubble.offsetHeight - 12) + "px";
 
     typeWriter(text, d.text, 25, () => {
       const btn = document.createElement("button");
@@ -162,14 +151,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     🌑 FADE + MINI JEU
+     🌑 MINI-JEU
   ===================================================== */
 
   const fadeScreen = document.getElementById("fadeScreen");
   const miniGameContainer = document.getElementById("miniGameContainer");
   const gameQuestion = document.getElementById("gameQuestion");
   const gameAnswers = document.getElementById("gameAnswers");
-  const gameFeedback = document.getElementById("gameFeedback");
 
   const questions = [
     { q: "Où les pirates ont-ils trouvé leurs pierres ?", a: ["Dans une grotte", "Au marché", "Chez la tante"], c: [0] },
@@ -177,7 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   function launchMiniGame() {
-    gameState = "quiz";
     fadeScreen.style.display = "flex";
     setTimeout(() => {
       fadeScreen.style.display = "none";
@@ -197,17 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const q = questions[quizStep];
     gameQuestion.textContent = q.q;
     gameAnswers.innerHTML = "";
-    gameFeedback.textContent = "";
     selected = [];
-
-    const needed = q.c.length;
-
-    if (needed > 1) {
-      const hint = document.createElement("div");
-      hint.className = "multiHint";
-      hint.textContent = `Trouve ${needed} bonnes réponses`;
-      gameAnswers.appendChild(hint);
-    }
 
     q.a.forEach((ans, i) => {
       const b = document.createElement("button");
@@ -215,13 +192,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       b.onclick = () => {
         if (selected.includes(i)) return;
-        b.classList.add("selected");
         selected.push(i);
-
-        if (selected.length === needed) {
+        if (selected.length === q.c.length) {
           selected.sort().join() === q.c.sort().join()
-            ? setTimeout(() => { quizStep++; showQuestion(); }, 600)
-            : (gameFeedback.textContent = "❌ Mauvaises réponses", setTimeout(showQuestion, 900));
+            ? (quizStep++, showQuestion())
+            : showQuestion();
         }
       };
 
@@ -230,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     🏆 RÉCOMPENSE + LIVRE
+     🏆 RÉCOMPENSE → LIVRE
   ===================================================== */
 
   const rewardScreen = document.getElementById("rewardScreen");
@@ -248,50 +223,59 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     📖 LIVRE + NAVIGATION
+     📖 LIVRE (VERSION SIMPLE ET STABLE)
   ===================================================== */
 
-  const pages = document.querySelectorAll(".page");
-  const nextBtn = document.getElementById("bookNextBtn");
-  const prevBtn = document.getElementById("bookPrevBtn");
+  const rightPage = document.getElementById("rightPage");
+  const nextBook = document.getElementById("bookNextBtn");
+  const prevBook = document.getElementById("bookPrevBtn");
+
+  const bookPages = [
+    "images/Businessplancov.png",
+    "images/Businessplan1.png",
+    "images/Businessplan2.png",
+    "images/Businessplan3.png"
+  ];
+
+  let bookIndex = 0;
 
   function showBook() {
     gameState = "book";
     bookContainer.style.display = "flex";
-    currentPage = 0;
-
-    pages.forEach((p, i) => {
-      p.classList.remove("flipped");
-      p.style.zIndex = pages.length - i;
-    });
-
     continueBtn.style.display = "none";
+    bookIndex = 0;
+    updateBook();
   }
 
-  function nextPage() {
-    if (currentPage < pages.length) {
-      pages[currentPage].classList.add("flipped");
-      currentPage++;
+  function updateBook() {
+    rightPage.style.animation = "none";
+    rightPage.offsetHeight;
+    rightPage.style.animation = "pageIn 0.5s ease";
+    rightPage.src = bookPages[bookIndex];
 
-      if (currentPage === pages.length) {
-        continueBtn.style.display = "block";
-      }
+    prevBook.style.opacity = bookIndex === 0 ? "0.4" : "1";
+    nextBook.style.opacity = bookIndex === bookPages.length - 1 ? "0.4" : "1";
+
+    continueBtn.style.display =
+      bookIndex === bookPages.length - 1 ? "block" : "none";
+  }
+
+  nextBook.onclick = () => {
+    if (bookIndex < bookPages.length - 1) {
+      bookIndex++;
+      updateBook();
     }
-  }
+  };
 
-  function prevPage() {
-    if (currentPage > 0) {
-      currentPage--;
-      pages[currentPage].classList.remove("flipped");
-      continueBtn.style.display = "none";
+  prevBook.onclick = () => {
+    if (bookIndex > 0) {
+      bookIndex--;
+      updateBook();
     }
-  }
-
-  nextBtn.onclick = nextPage;
-  prevBtn.onclick = prevPage;
+  };
 
   continueBtn.onclick = () => {
-    continueBtn.style.display = "none";
+    bookContainer.style.display = "none";
     showBackground();
   };
 
