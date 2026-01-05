@@ -41,23 +41,37 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:Trebuchet MS,sans-s
 
 /* ================= BULLES ================= */
 
-#bubbleContainer{position:absolute;inset:0}
-.dialogue-bubble{
-  position:absolute;
-  max-width:340px;
-  background:#fdf4e3;
-  border:3px solid #8a5a20;
-  border-radius:14px;
-  padding:12px;
-  box-shadow:0 5px 0 #3b1b00;
+#bubbleContainer{
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  pointer-events: none;
 }
+
+.dialogue-bubble{
+  position: absolute;
+  max-width: 340px;
+  background: #fdf4e3;
+  color: #3b1b00;
+  border: 3px solid #8a5a20;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 5px 0 #3b1b00;
+  pointer-events: auto;
+}
+
+.dialogue-bubble .name{
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
 .dialogue-bubble button{
-  margin-top:10px;
-  padding:6px 14px;
-  border:none;
-  border-radius:8px;
-  background:#c89b58;
-  cursor:pointer;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #c89b58;
+  cursor: pointer;
 }
 
 /* ================= FADE ================= */
