@@ -355,15 +355,20 @@ pirate5bis.addEventListener("click", () => {
   const bookContainer = document.getElementById("bookContainer");
   const continueBtn = document.getElementById("continueQuestBtn");
 
-  function showReward(){
-    miniGameContainer.style.display="none";
-    rewardScreen.style.display="flex";
+function showReward(){
+  miniGameContainer.style.display = "none";
+  rewardScreen.style.display = "flex";
 
-    setTimeout(()=>{
-      rewardScreen.style.display="none";
-      bookContainer.style.display="flex";
-    },2600);
-  }
+  setTimeout(() => {
+    rewardScreen.style.opacity = 0;
+
+    setTimeout(() => {
+      rewardScreen.style.display = "none";
+      showBook();
+    }, 800);
+
+  }, 2800);
+}
 
   /* =====================================================
      📖 LIVRE → CONTINUER
