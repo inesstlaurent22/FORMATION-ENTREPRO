@@ -9,8 +9,20 @@
 
 <body>
 
-<!-- ================= BACKGROUND ================= -->
-<div id="background">
+<!-- ================= 🎬 VIDÉO ================= -->
+<div id="videoContainer">
+  <video id="questVideo" autoplay muted playsinline>
+    <source src="videos/Commercevideo.MOV" type="video/mp4">
+  </video>
+
+  <div id="videoControls">
+    <button id="toggleSound">🔇</button>
+    <button id="closeVideo">✖</button>
+  </div>
+</div>
+
+<!-- ================= 🌅 BACKGROUND ================= -->
+<div id="background" class="hidden">
   <img src="images/Commercefond.PNG" class="fondImage">
 
   <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
@@ -18,32 +30,41 @@
   <img id="pirate3bis" class="pirate hidden" src="images/Pirateclients.png">
 </div>
 
-<!-- ================= BULLES ================= -->
+<!-- ================= 💬 BULLES ================= -->
 <div id="bubbleContainer"></div>
 
-<!-- ================= FADE / LOADER ================= -->
+<!-- ================= 🌑 FADE / LOADER ================= -->
 <div id="fadeScreen">
   <div class="loaderBox"></div>
 </div>
 
-<!-- ================= FIN DE QUÊTE ================= -->
+<!-- ================= 🎮 MINI JEU 1 ================= -->
+<div id="miniGameContainer" class="hidden">
+  <div class="quizBox">
+    <div id="question"></div>
+    <div id="answers"></div>
+    <div id="progress"></div>
+  </div>
+</div>
+
+<!-- ================= 📖 LIVRE ================= -->
+<div id="bookContainer" class="hidden">
+  <div class="book">
+    <div class="page left"><img id="leftPage"></div>
+    <div class="page right"><img id="rightPage"></div>
+  </div>
+  <button id="continueQuestBtn">Continuer la quête</button>
+</div>
+
+<!-- ================= 🏁 FIN ================= -->
 <div id="endScreen" class="hidden">
   <h1 id="endTitle">Bravo tu as gagné la quête</h1>
   <p id="endSubtitle"></p>
 
   <div id="rewardBubbles">
-    <div class="rewardBubble">
-      <img src="images/vignette1.png">
-      <span>Une échoppe</span>
-    </div>
-    <div class="rewardBubble">
-      <img src="images/vignette2.png">
-      <span>Des boites en bois</span>
-    </div>
-    <div class="rewardBubble">
-      <img src="images/vignette3.PNG">
-      <span>Une réputation sur le marché</span>
-    </div>
+    <div class="rewardBubble"><img src="images/vignette1.png"><span>Une échoppe</span></div>
+    <div class="rewardBubble"><img src="images/vignette2.png"><span>Des boites en bois</span></div>
+    <div class="rewardBubble"><img src="images/vignette3.PNG"><span>Une réputation sur le marché</span></div>
   </div>
 </div>
 
