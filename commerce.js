@@ -1,8 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
+   📳 VIBRATIONS (SAFE MOBILE)
+===================================================== */
+function vibrate(pattern = 15){
+  if ("vibrate" in navigator) {
+    navigator.vibrate(pattern);
+  }
+}
+
+/* =====================================================
    🔧 OUTILS
 ===================================================== */
+const fadeScreen = document.getElementById("fadeScreen");
+
 function fade(text, cb){
   fadeScreen.querySelector(".loaderBox").innerHTML = text;
   fadeScreen.style.display = "flex";
@@ -35,6 +46,7 @@ const closeVideo = document.getElementById("closeVideo");
 video.muted = true;
 
 toggleSound.onclick = () => {
+  vibrate(10);
   video.muted = !video.muted;
   toggleSound.textContent = video.muted ? "🔇" : "🔊";
 };
@@ -43,6 +55,7 @@ closeVideo.onclick = endVideo;
 video.onended = endVideo;
 
 function endVideo(){
+  vibrate(20);
   video.pause();
   videoContainer.style.display = "none";
   fade("Chargement...", showBackground);
@@ -75,7 +88,6 @@ function playDialogues(dialogues, onEnd){
 
     const bubble = document.createElement("div");
     bubble.className = "dialogue-bubble";
-
     const text = document.createElement("div");
     bubble.appendChild(text);
 
@@ -87,6 +99,7 @@ function playDialogues(dialogues, onEnd){
 
     typeWriter(text, d.text, ()=>{
       bubble.onclick = ()=>{
+        vibrate(15);
         index++;
         index < dialogues.length ? show() : end();
       };
@@ -119,7 +132,7 @@ pirate5.onclick = () => {
 };
 
 /* =====================================================
-   🎮 MINI-JEU 1 – QUIZ
+   🎮 MINI-JEU 1
 ===================================================== */
 const miniGameContainer = document.getElementById("miniGameContainer");
 const gameQuestion = document.getElementById("gameQuestion");
@@ -156,10 +169,12 @@ function showStep(){
     btn.textContent = ans;
     btn.onclick = ()=>{
       if(i === q.c){
+        vibrate(25);
         gameFeedback.textContent = "✅ Bien vu !";
         step++;
         setTimeout(showStep,600);
       } else {
+        vibrate([10,30,10]);
         gameFeedback.textContent = "❌ Réfléchis encore";
       }
     };
@@ -204,14 +219,17 @@ function updateBook(){
 document.querySelector(".book").onclick = (e)=>{
   const rect = e.currentTarget.getBoundingClientRect();
   if(e.clientX > rect.left + rect.width/2 && bookIndex < pages.length-1){
+    vibrate(15);
     bookIndex++;
   } else if(bookIndex > 0){
+    vibrate(15);
     bookIndex--;
   }
   updateBook();
 };
 
 continueQuestBtn.onclick = ()=>{
+  vibrate(20);
   bookContainer.classList.add("hidden");
   spawnPirate3();
 };
@@ -240,31 +258,33 @@ pirate3.onclick = ()=>{
 };
 
 /* =====================================================
-   🎮 MINI-JEU 2 – CONFIANCE CLIENT
+   🎮 MINI-JEU 2
 ===================================================== */
 let confiance = 0;
 
 function startMiniGame2(){
   confiance = 0;
+  miniGameContainer.style.display="flex";
+  gameQuestion.textContent="Comment gagner la confiance des clients ?";
+  gameAnswers.innerHTML="";
+  gameFeedback.textContent="";
+
   const choices = [
     "Montrer les pierres aux clients",
     "Rester caché dans l’échoppe",
     "Distribuer des papiers avec l’adresse"
   ];
 
-  miniGameContainer.style.display="flex";
-  gameQuestion.textContent="Comment gagner la confiance des clients ?";
-  gameAnswers.innerHTML="";
-  gameFeedback.textContent="";
-
   choices.forEach((c,i)=>{
     const btn=document.createElement("button");
     btn.textContent=c;
     btn.onclick=()=>{
       if(i===0 || i===2){
+        vibrate(25);
         confiance++;
         gameFeedback.textContent="👍 Bonne action";
       } else {
+        vibrate([10,30,10]);
         gameFeedback.textContent="❌ Mauvaise idée";
       }
       if(confiance>=2){
@@ -276,6 +296,7 @@ function startMiniGame2(){
 }
 
 function endMiniGame2(){
+  vibrate([30,50,30]);
   miniGameContainer.style.display="none";
   fade("Bravo tu as gagné la quête", showEndScreen);
 }
@@ -307,6 +328,7 @@ function showEndScreen(){
 }
 
 backToMenuBtn.onclick = ()=>{
+  vibrate(20);
   window.location.href="menu.html";
 };
 
