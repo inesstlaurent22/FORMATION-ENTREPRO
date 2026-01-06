@@ -12,44 +12,68 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================================================
      🎬 VIDÉO
   ===================================================== */
+/* =====================================================
+   🎬 VIDÉO + BOUTONS (VERSION CORRIGÉE)
+===================================================== */
 
-  const videoContainer = document.getElementById("videoContainer");
-  const video = document.getElementById("questVideo");
-  const toggleSound = document.getElementById("toggleSound");
-  const closeVideo = document.getElementById("closeVideo");
+const videoContainer = document.getElementById("videoContainer");
+const video = document.getElementById("questVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo = document.getElementById("closeVideo");
 
-  const background = document.getElementById("background");
-  const pirate2bis = document.getElementById("pirate2bis");
-  const pirate5bis = document.getElementById("pirate5bis");
+const background = document.getElementById("background");
+const pirate2bis = document.getElementById("pirate2bis");
+const pirate5bis = document.getElementById("pirate5bis");
 
-  background.style.display = "none";
-  video.muted = true;
-  toggleSound.textContent = "🔇";
+// état initial
+background.style.display = "none";
+video.muted = true;
+toggleSound.textContent = "🔇";
 
-  video.play().catch(() => {});
+// autoplay sécurisé
+video.play().catch(() => {});
 
-  toggleSound.onclick = () => {
-    video.muted = !video.muted;
-    toggleSound.textContent = video.muted ? "🔇" : "🔊";
-  };
+/* 🔊 SON */
+toggleSound.onclick = (e) => {
+  e.stopPropagation();
+  video.muted = !video.muted;
+  toggleSound.textContent = video.muted ? "🔇" : "🔊";
+};
 
-  closeVideo.onclick = () => endVideo(true);
-  video.onended = () => endVideo(false);
+/* ❌ CLOSE */
+closeVideo.onclick = (e) => {
+  e.stopPropagation();
+  endVideo(true);
+};
 
-  function endVideo(skipFade) {
-    video.pause();
+/* 🎞️ FIN NATURELLE */
+video.onended = () => endVideo(false);
 
-    if (skipFade) {
-      videoContainer.style.display = "none";
-      showBackground();
-    } else {
-      videoContainer.style.opacity = 0;
-      setTimeout(() => {
-        videoContainer.style.display = "none";
-        showBackground();
-      }, 1000);
-    }
+/* =====================================================
+   🔥 SORTIE VIDÉO PROPRE
+===================================================== */
+
+function endVideo(skipFade) {
+  // stop vidéo
+  video.pause();
+  video.currentTime = 0;
+
+  // éviter clics fantômes
+  videoContainer.style.pointerEvents = "none";
+
+  if (skipFade) {
+    closeVideoNow();
+  } else {
+    videoContainer.style.opacity = "0";
+    setTimeout(closeVideoNow, 600);
   }
+}
+
+function closeVideoNow() {
+  // reset vidéo
+  videoContainer.style.display = "none";
+  videoContainer.style.opacity = "1";
+  videoContainer.style.pointerEvents = "auto";
 
   /* =====================================================
      🌅 BACKGROUND + PIRATES
