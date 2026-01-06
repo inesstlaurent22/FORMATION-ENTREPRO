@@ -205,7 +205,7 @@ html,body{
   position:fixed;
   inset:0;
   background:#000;
-  display:flex;
+  display:none;
   flex-direction:column;
   justify-content:center;
   align-items:center;
@@ -219,7 +219,7 @@ html,body{
 }
 
 #endSubtitle{
-  color:#fff5d6;
+  color:#fff;
   margin:20px 0;
 }
 
