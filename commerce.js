@@ -26,21 +26,36 @@ video.onended = endVideo;
 
 /* ================= 🌅 BACKGROUND ================= */
 
-const background = document.getElementById("background");
-const pirate2 = document.getElementById("pirate2bis");
-const pirate5 = document.getElementById("pirate5bis");
+function showBackground() {
 
-function showBackground(){
-  state = "background";
+  // 🔥 sécurité : on enlève tout ce qui peut bloquer
+  fadeScreen.style.display = "none";
+  videoContainer.style.display = "none";
+  rewardScreen && (rewardScreen.style.display = "none");
+  miniGameContainer && (miniGameContainer.style.display = "none");
+  bookContainer && (bookContainer.style.display = "none");
+
+  // 🎬 affichage background
   background.style.display = "block";
+  background.style.opacity = "0";
 
-  pirate2.style.left = "516px";
-  pirate2.style.top = "406px";
-  pirate2.style.width = "186px";
+  // 📍 placement pirates
+  pirate2bis.style.left = "516px";
+  pirate2bis.style.top = "406px";
+  pirate2bis.style.width = "186px";
+  pirate2bis.style.height = "178px";
 
-  pirate5.style.left = "786px";
-  pirate5.style.top = "397px";
-  pirate5.style.width = "143px";
+  pirate5bis.style.left = "786px";
+  pirate5bis.style.top = "397px";
+  pirate5bis.style.width = "143px";
+  pirate5bis.style.height = "187px";
+
+  // ✨ fade in propre
+  requestAnimationFrame(() => {
+    background.style.opacity = "1";
+  });
+
+  state = "background";
 }
 
 /* ================= 💬 DIALOGUES ================= */
