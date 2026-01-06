@@ -1,132 +1,77 @@
 /* =====================================================
-   🔧 RESET GLOBAL
+   RESET
 ===================================================== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html, body{
-  width:100%;
-  height:100%;
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  width:100%;height:100%;
   overflow:hidden;
-  font-family:"Trebuchet MS", sans-serif;
-  background:#000;
-  color:#fff;
+  font-family:"Trebuchet MS",sans-serif;
+  background:#000;color:#fff;
 }
-
-.hidden{ display:none; }
+.hidden{display:none}
 
 /* =====================================================
-   🎬 VIDÉO (AU DÉPART)
+   VIDÉO
 ===================================================== */
-#videoContainer{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:3000;
-}
-
-#questVideo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-#videoControls{
-  position:absolute;
-  top:20px;
-  right:20px;
-  display:flex;
-  gap:10px;
-  z-index:3100;
-}
-
+#videoContainer{position:fixed;inset:0;background:#000;z-index:3000}
+#questVideo{width:100%;height:100%;object-fit:cover}
+#videoControls{position:absolute;top:20px;right:20px;z-index:3100}
 #videoControls button{
-  font-size:22px;
-  padding:10px 14px;
+  font-size:22px;padding:10px 14px;
   border-radius:12px;
   border:2px solid #3b1b00;
   background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff5d6;
-  cursor:pointer;
-  box-shadow:0 3px 0 #3b1b00;
+  color:#fff5d6;cursor:pointer;
 }
 
 /* =====================================================
-   🌅 BACKGROUND
+   BACKGROUND
 ===================================================== */
 #background{
-  position:fixed;
-  inset:0;
-  display:none;
-  opacity:0;
-  transition:opacity .8s ease;
+  position:fixed;inset:0;
+  display:none;opacity:0;
+  transition:.8s;
   z-index:1;
 }
-
-.fondImage{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+.fondImage{width:100%;height:100%;object-fit:cover}
 
 /* =====================================================
-   🏴‍☠️ PIRATES
+   PIRATES
 ===================================================== */
 .pirate{
   position:absolute;
-  cursor:pointer;
-  object-fit:contain;
   z-index:50;
-  transition:transform .3s ease, filter .3s ease;
+  object-fit:contain;
 }
 
-/* positions desktop */
-#pirate2bis{
-  left:516px;
-  top:406px;
-  width:186px;
+/* positions */
+#pirate2bis{left:516px;top:406px;width:186px}
+#pirate5bis{left:785px;top:397px;width:143px}
+
+/* SEUL pirate5 s’allume */
+#pirate5bis:hover{
+  transform:scale(1.08);
+  filter:drop-shadow(0 0 16px gold);
 }
 
-#pirate5bis{
-  left:785px;
-  top:397px;
-  width:143px;
-}
-
-/* seul pirate2 s’illumine */
-#pirate2bis:hover{
-  transform:scale(1.07);
-  filter:drop-shadow(0 0 14px gold);
-}
-
-/* pirate client (arrive plus tard) */
+/* pirate client */
 #pirate3bis{
-  right:-500px;
-  top:120px;
+  left:533px;
+  top:-144px;
   width:445px;
   opacity:0;
-  z-index:60;
+  transform:translateY(-60px);
 }
-
 #pirate3bis.show{
-  right:80px;
   opacity:1;
-  transition:1s ease;
+  transform:translateY(0);
+  transition:.8s ease;
 }
 
 /* =====================================================
-   💬 BULLES DE DIALOGUE
+   BULLES
 ===================================================== */
-#bubbleContainer{
-  position:fixed;
-  inset:0;
-  z-index:80;
-  pointer-events:none;
-}
-
+#bubbleContainer{position:fixed;inset:0;z-index:80;pointer-events:none}
 .dialogue-bubble{
   position:absolute;
   max-width:360px;
@@ -137,286 +82,129 @@ html, body{
   padding:14px;
   box-shadow:0 6px 0 #3b1b00;
   pointer-events:auto;
+}
+
+/* bouton skip */
+#skipDialoguesBtn{
+  position:fixed;
+  top:20px;right:20px;
+  z-index:90;
+  background:#c0392b;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:12px;
+  font-weight:bold;
   cursor:pointer;
+  display:none;
 }
 
 /* =====================================================
-   🌑 FADE / LOADER
+   FADE / LOADER
 ===================================================== */
 #fadeScreen{
-  position:fixed;
-  inset:0;
+  position:fixed;inset:0;
   display:none;
   justify-content:center;
   align-items:center;
   background:#000;
   z-index:2500;
 }
-
 .loaderBox{
-  padding:22px 30px;
+  padding:24px 32px;
   border:4px solid #c89b58;
   color:#ffd700;
   font-size:22px;
-  text-align:center;
   animation:pulse 1.2s infinite;
 }
-
-@keyframes pulse{
-  0%{opacity:.4}
-  50%{opacity:1}
-  100%{opacity:.4}
-}
+@keyframes pulse{50%{opacity:.5}}
 
 /* =====================================================
-   🎮 MINI-JEUX
+   MINI-JEU
 ===================================================== */
 #miniGameContainer{
-  position:fixed;
-  inset:0;
+  position:fixed;inset:0;
   display:none;
   justify-content:center;
   align-items:center;
   flex-direction:column;
   background:rgba(0,0,0,.85);
   z-index:2000;
-  text-align:center;
 }
-
-#gameQuestion{
-  font-size:22px;
-  color:#fff;
-  margin-bottom:16px;
-}
-
-#gameAnswers{
-  width:100%;
-  max-width:420px;
-}
-
+#gameQuestion{font-size:22px;margin-bottom:18px}
+#gameAnswers{max-width:420px;width:100%}
 #gameAnswers button{
-  width:100%;
-  margin-top:10px;
-  padding:12px;
-  font-size:18px;
-  border-radius:14px;
-  border:3px solid #3b1b00;
+  width:100%;margin-top:10px;
+  padding:12px;font-size:18px;
   background:linear-gradient(#8a5a20,#c89b58);
   color:#fff;
-  cursor:pointer;
-  box-shadow:0 4px 0 #3b1b00;
-  transition:.25s ease;
+  border-radius:14px;
+  border:3px solid #3b1b00;
 }
-
 #gameAnswers button.selected{
   background:linear-gradient(#ffd700,#ffae00);
   color:#3b1b00;
-  box-shadow:0 0 18px gold;
-  border-color:#ffd700;
-}
-
-#gameFeedback{
-  margin-top:14px;
-  font-size:18px;
 }
 
 /* =====================================================
-   💰 EXPLOSION DE PIÈCES
-===================================================== */
-#coinExplosion{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-
-.coin{
-  position:absolute;
-  width:32px;
-  height:32px;
-  background:url("images/coin.png") center/contain no-repeat;
-  animation:coinFly 1.6s ease-out forwards;
-}
-
-@keyframes coinFly{
-  from{
-    transform:scale(.5);
-    opacity:1;
-  }
-  to{
-    transform:translate(
-      calc(-200px + 400px * var(--x)),
-      calc(-200px + 400px * var(--y))
-    ) rotate(360deg);
-    opacity:0;
-  }
-}
-
-/* =====================================================
-   📖 LIVRE DIGITAL
+   LIVRE
 ===================================================== */
 #bookContainer{
-  position:fixed;
-  inset:0;
+  position:fixed;inset:0;
   display:none;
-  opacity:0;
   justify-content:center;
   align-items:center;
   background:rgba(0,0,0,.9);
   z-index:2200;
 }
-
-#bookContainer.show{
-  display:flex;
-  opacity:1;
-}
-
+#bookContainer.show{display:flex}
 .book{
   display:flex;
   width:95vw;
-  max-width:900px;
+  max-width:960px;
+  perspective:2000px;
 }
-
 .page{
   width:50%;
+  overflow:hidden;
 }
-
 .page img{
   width:100%;
   height:auto;
   object-fit:contain;
-  background:#000;
 }
-
-/* animation page */
 .page.right img{
   transform-origin:left center;
 }
-
-.turn-next{
-  animation:turnNext .5s ease;
+.turn{
+  animation:turnPage .6s ease;
 }
-
-.turn-prev{
-  animation:turnPrev .5s ease;
-}
-
-@keyframes turnNext{
-  50%{ transform:rotateY(-35deg); }
-}
-
-@keyframes turnPrev{
-  50%{ transform:rotateY(35deg); }
-}
-
-/* bouton continuer */
-#continueQuestBtn{
-  position:absolute;
-  top:20px;
-  right:20px;
-  display:none;
-  padding:14px 26px;
-  font-size:18px;
-  font-weight:bold;
-  background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff;
-  border:3px solid #3b1b00;
-  border-radius:16px;
-  cursor:pointer;
-  z-index:2300;
+@keyframes turnPage{
+  50%{transform:rotateY(-60deg)}
 }
 
 /* =====================================================
-   🏁 FIN DE QUÊTE
+   FIN DE QUÊTE
 ===================================================== */
 #endScreen{
-  position:fixed;
-  inset:0;
+  position:fixed;inset:0;
   display:none;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
   background:#000;
   z-index:4000;
 }
-
-#endTitle{
-  font-size:42px;
+#endBox{
+  padding:40px 50px;
+  border:6px solid #c89b58;
+  background:#000;
   color:#ffd700;
-  text-shadow:0 0 30px gold;
-  margin-bottom:10px;
+  font-size:28px;
+  position:relative;
 }
-
-#endSubtitle{
-  font-size:18px;
-  margin-bottom:20px;
+.firework{
+  position:absolute;
+  inset:-100px;
+  background:radial-gradient(circle, gold 2px, transparent 3px);
+  animation:fire 1s infinite;
 }
-
-.rewardBubble{
-  opacity:0;
-  transform:scale(.7);
-  transition:.4s ease;
-}
-
-#backToMenuBtn{
-  position:fixed;
-  top:20px;
-  right:20px;
-  display:none;
-  padding:14px 26px;
-  font-size:18px;
-  font-weight:bold;
-  background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff;
-  border:3px solid #3b1b00;
-  border-radius:16px;
-  cursor:pointer;
-}
-
-/* =====================================================
-   📱 RESPONSIVE MOBILE
-===================================================== */
-@media (max-width:768px){
-
-  #pirate2bis{
-    left:18%;
-    top:55%;
-    width:120px;
-  }
-
-  #pirate5bis{
-    left:60%;
-    top:52%;
-    width:100px;
-  }
-
-  #pirate3bis{
-    right:-300px;
-    top:5%;
-    width:260px;
-  }
-
-  #pirate3bis.show{
-    right:50%;
-    transform:translateX(50%);
-  }
-
-  .dialogue-bubble{
-    max-width:85vw;
-    left:50%!important;
-    transform:translateX(-50%);
-    top:auto!important;
-    bottom:18%;
-  }
-
-  .book{
-    width:92vw;
-  }
-
-  #gameQuestion{
-    font-size:18px;
-  }
-
-  #gameAnswers button{
-    font-size:16px;
-  }
-}
+@keyframes fire{to{transform:rotate(360deg)}}
