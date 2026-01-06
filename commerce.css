@@ -258,3 +258,24 @@ html,body{
   border-radius:16px;
   cursor:pointer;
 }
+
+/* ================= RESPONSIVE MOBILE ================= */
+@media (max-width:768px){
+  .dialogue-bubble{
+    max-width:85vw;
+    left:50%!important;
+    transform:translateX(-50%);
+    top:auto!important;
+    bottom:18%;
+  }
+
+  .book{
+    width:90vw;
+    height:55vw;
+    max-height:320px;
+  }
+
+  #rewardBubbles{
+    flex-direction:column;
+  }
+}
