@@ -61,7 +61,7 @@ html, body{
 }
 
 /* =====================================================
-   🌅 BACKGROUND
+   🌅 BACKGROUND (FOND TOUJOURS DERRIÈRE)
 ===================================================== */
 #background{
   position:fixed;
@@ -72,10 +72,14 @@ html, body{
   z-index:1;
 }
 
+/* IMAGE DE FOND */
 .fondImage{
+  position:absolute;
+  inset:0;
   width:100%;
   height:100%;
   object-fit:cover;
+  z-index:0;
 }
 
 /* =====================================================
@@ -83,35 +87,44 @@ html, body{
 ===================================================== */
 .pirate{
   position:absolute;
-  z-index:5;
+  z-index:10;
+  display:block;
+  opacity:1;
+  pointer-events:auto;
 }
 
-/* seul le MAÎTRE pirate s’allume */
+/* Pirate apprenti — neutre */
+#pirate2bis{
+  left:516px;
+  top:406px;
+  width:186px;
+  height:178px;
+}
+
+/* Pirate maître — seul à s’allumer */
 #pirate5bis{
+  left:785px;
+  top:397px;
+  width:143px;
+  height:187px;
   cursor:pointer;
   transition:transform .3s ease, filter .3s ease;
 }
 
 #pirate5bis:hover{
   transform:scale(1.06);
-  filter:drop-shadow(0 0 16px gold);
+  filter:drop-shadow(0 0 18px gold);
 }
 
-/* pirate apprenti = neutre */
-#pirate2bis{
-  pointer-events:auto;
-}
-
-/* pirate client — apparition propre depuis la droite */
+/* Pirate client — arrive plus tard */
 #pirate3bis{
   position:absolute;
-  right:-300px;
+  right:-320px;
   top:-144px;
-
-  opacity:1;            /* ✅ toujours net */
-  filter:none;          /* ✅ aucun voile */
-  transform:none;
-
+  width:445px;
+  height:790px;
+  opacity:1;
+  filter:none;
   transition:right .7s ease;
 }
 
@@ -151,7 +164,7 @@ html, body{
   display:none;
   padding:10px 16px;
   background:#b81d13;
-  color:white;
+  color:#fff;
   border:none;
   border-radius:12px;
   font-weight:bold;
@@ -202,7 +215,7 @@ html, body{
 
 #gameQuestion{
   font-size:22px;
-  color:white;
+  color:#fff;
   margin-bottom:16px;
   text-align:center;
 }
@@ -220,7 +233,7 @@ html, body{
   border-radius:14px;
   border:3px solid #3b1b00;
   background:linear-gradient(#8a5a20,#c89b58);
-  color:white;
+  color:#fff;
   cursor:pointer;
   box-shadow:0 4px 0 #3b1b00;
   transition:.2s;
@@ -236,7 +249,7 @@ html, body{
 #gameFeedback{
   margin-top:14px;
   font-size:18px;
-  color:white;
+  color:#fff;
   text-align:center;
 }
 
@@ -332,6 +345,11 @@ html, body{
     left:55%;
     top:58%;
     width:120px;
+  }
+
+  #pirate3bis{
+    width:300px;
+    height:auto;
   }
 
   .book{
