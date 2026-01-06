@@ -51,7 +51,14 @@ html, body{
   background:linear-gradient(#8a5a20,#c89b58);
   color:#fff5d6;
   cursor:pointer;
-  box-shadow:0 3px 0 #3b1b00;
+  box-shadow:0 4px 0 #3b1b00;
+  transition:transform .1s ease, box-shadow .1s ease;
+}
+
+/* effet clic 3D */
+#videoControls button:active{
+  transform:translateY(3px);
+  box-shadow:0 1px 0 #3b1b00;
 }
 
 /* =====================================================
@@ -80,7 +87,7 @@ html, body{
   z-index:5;
 }
 
-/* seul le MAÎTRE pirate s’allume */
+/* seul pirate5bis s’allume */
 #pirate5bis{
   cursor:pointer;
   transition:transform .3s ease, filter .3s ease;
@@ -88,24 +95,21 @@ html, body{
 
 #pirate5bis:hover{
   transform:scale(1.06);
-  filter:drop-shadow(0 0 16px gold);
+  filter:drop-shadow(0 0 18px gold);
 }
 
-/* pirate apprenti = neutre */
+/* pirate2bis neutre */
 #pirate2bis{
   pointer-events:auto;
 }
 
-/* pirate client — apparition propre depuis la droite */
+/* pirate3bis arrive depuis la droite */
 #pirate3bis{
   position:absolute;
-  right:-300px;
+  right:-320px;
   top:-144px;
-
-  opacity:1;            /* ✅ toujours net */
-  filter:none;          /* ✅ aucun voile */
-  transform:none;
-
+  opacity:1;
+  filter:none;
   transition:right .7s ease;
 }
 
@@ -182,7 +186,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEU
+   🎮 MINI-JEUX
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -235,36 +239,6 @@ html, body{
 }
 
 /* =====================================================
-   💰 EXPLOSION PIÈCES D’OR
-===================================================== */
-#coinExplosion{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-
-.coin{
-  position:absolute;
-  width:16px;
-  height:16px;
-  background:gold;
-  border-radius:50%;
-  animation:coinPop 1s ease-out forwards;
-  left:50%;
-  top:50%;
-}
-
-@keyframes coinPop{
-  to{
-    transform:
-      translate(calc((var(--x) - .5) * 600px),
-                calc((var(--y) - .5) * 400px))
-      scale(0);
-    opacity:0;
-  }
-}
-
-/* =====================================================
    📖 LIVRE DIGITAL
 ===================================================== */
 #bookContainer{
@@ -283,8 +257,8 @@ html, body{
 
 .book{
   display:flex;
-  width:90vw;
-  max-width:900px;
+  width:92vw;
+  max-width:960px;
   aspect-ratio:14/9;
   perspective:1600px;
 }
