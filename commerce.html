@@ -9,107 +9,70 @@
 
 <body>
 
-  <!-- 🎬 VIDÉO (TOUJOURS EN PREMIER) -->
-  <div id="videoContainer">
-    <video
-      id="questVideo"
-      autoplay
-      muted
-      playsinline
-      preload="auto"
-    >
-      <source src="videos/Commercevideo.MOV" type="video/mp4">
-    </video>
+<!-- ================= 🎬 VIDÉO ================= -->
+<div id="videoContainer">
+  <video id="questVideo" autoplay muted playsinline preload="auto">
+    <source src="videos/Commercevideo.MOV" type="video/mp4">
+  </video>
 
-    <div id="videoControls">
-      <button id="toggleSound">🔇</button>
-      <button id="closeVideo">✖</button>
-    </div>
+  <div id="videoControls">
+    <button id="toggleSound">🔇</button>
+    <button id="closeVideo">✖</button>
   </div>
+</div>
 
-  <!-- 🌅 BACKGROUND + PIRATES -->
-  <div id="background">
-    <img src="images/Commercefond.PNG" class="fondImage" alt="Fond commerce">
+<!-- ================= 🌅 BACKGROUND ================= -->
+<div id="background">
+  <img src="images/Commercefond.PNG" class="fondImage">
 
-    <img
-      id="pirate2bis"
-      class="pirate"
-      src="images/Pirate2.png"
-      alt="Pirate apprenti"
-    >
+  <img id="pirate2bis" class="pirate" src="images/Pirate2.png">
+  <img id="pirate5bis" class="pirate" src="images/Pirate5.png">
+</div>
 
-    <img
-      id="pirate5bis"
-      class="pirate"
-      src="images/Pirate5.png"
-      alt="Maître pirate"
-    >
-  </div>
+<!-- ================= 💬 DIALOGUES ================= -->
+<div id="bubbleContainer"></div>
 
-  <!-- 💬 BULLES DE DIALOGUE -->
-  <div id="bubbleContainer"></div>
+<!-- ================= 🌑 FADE ================= -->
+<div id="fadeScreen">
+  <div class="loaderBox"></div>
+</div>
 
-  <!-- ⏭️ IGNORER DIALOGUES -->
-  <button id="skipDialoguesBtn">
-    Ignorer les dialogues
-  </button>
-
-  <!-- 🌑 FADE + LOADER -->
-  <div id="fadeScreen">
-    <div class="loaderBox">
-      Termines ce mini-jeu et tu pourras continuer la quête
-    </div>
-  </div>
-
-  <!-- 🎮 MINI-JEU -->
-  <div id="miniGameContainer">
+<!-- ================= 🎮 MINI-JEU ================= -->
+<div id="miniGameContainer">
+  <div class="quizBox">
+    <div id="multiHint"></div>
     <div id="gameQuestion"></div>
     <div id="gameAnswers"></div>
-    <div id="gameFeedback"></div>
+    <div id="counter"></div>
   </div>
-
-  <!-- 🏆 RÉCOMPENSE -->
-  <div id="rewardScreen">
-    <div class="rays"></div>
-
-    <div class="rewardBox">
-      <strong>Bravo !</strong><br><br>
-      Tu as gagné <strong>5000 PO 💰</strong><br>
-      et ton <strong>Business Plan 📔</strong>
-    </div>
-  </div>
-
-  <!-- 📖 LIVRE -->
-<div id="bookContainer" class="book-container">
-
-  <div id="bookTitle">
-  Ton business plan
-  <span class="lightBeam"></span>
 </div>
-  
+
+<!-- ================= 🏆 RÉCOMPENSE ================= -->
+<div id="rewardScreen">
+  <div class="rays"></div>
+  <div class="rewardBox">
+    Bravo ! Tu as gagné <br><br>
+    5000 PO 💰<br>
+    Business Plan 📔
+  </div>
+</div>
+
+<!-- ================= 📖 LIVRE ================= -->
+<div id="bookContainer">
+  <div id="bookTitle">Ton business plan est prêt</div>
+
   <div class="book">
-
-    <!-- PAGE GAUCHE : verso fixe -->
     <div class="page left">
-      <img src="images/Businessplan4.jpg" alt="Verso">
+      <img id="leftPage">
     </div>
-
-    <!-- PAGE DROITE : change -->
     <div class="page right">
-      <img id="rightPage" src="images/Businessplancov.png" alt="Page droite">
+      <img id="rightPage">
     </div>
-
   </div>
-
 </div>
 
-  <!-- ▶️ CONTINUER LA QUÊTE -->
-  <button id="continueQuestBtn">
-    Continuer la quête
-  </button>
+<button id="continueQuestBtn">Continue ta quête</button>
 
-  <!-- 📜 SCRIPT -->
-  <script src="commerce.js"></script>
-
+<script src="commerce.js"></script>
 </body>
 </html>
