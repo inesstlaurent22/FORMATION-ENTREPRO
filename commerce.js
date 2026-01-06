@@ -1,21 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   📳 VIBRATIONS (SAFE MOBILE)
+   🔐 SÉCURITÉ DÉMARRAGE
 ===================================================== */
-function vibrate(pattern = 15){
-  if ("vibrate" in navigator) {
-    navigator.vibrate(pattern);
-  }
+const endScreen = document.getElementById("endScreen");
+endScreen.style.display = "none";
+endScreen.classList.add("hidden");
+
+/* =====================================================
+   📳 VIBRATIONS
+===================================================== */
+function vibrate(p = 15){
+  if ("vibrate" in navigator) navigator.vibrate(p);
 }
 
 /* =====================================================
-   🔧 OUTILS
+   🌑 FADE + TEXTE
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
+const loaderBox = fadeScreen.querySelector(".loaderBox");
 
 function fade(text, cb){
-  fadeScreen.querySelector(".loaderBox").innerHTML = text;
+  loaderBox.innerHTML = text;
   fadeScreen.style.display = "flex";
   setTimeout(()=>{
     fadeScreen.style.display = "none";
@@ -75,21 +81,20 @@ function showBackground(){
 }
 
 /* =====================================================
-   💬 BULLES GÉNÉRIQUES
+   💬 BULLES
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
 
 function playDialogues(dialogues, onEnd){
-  let index = 0;
+  let i = 0;
 
   function show(){
     bubbleContainer.innerHTML = "";
-    const d = dialogues[index];
+    const d = dialogues[i];
 
     const bubble = document.createElement("div");
     bubble.className = "dialogue-bubble";
-    const text = document.createElement("div");
-    bubble.appendChild(text);
+    bubble.innerHTML = d.text;
 
     const r = d.anchor.getBoundingClientRect();
     bubble.style.left = r.left + "px";
@@ -97,13 +102,11 @@ function playDialogues(dialogues, onEnd){
 
     bubbleContainer.appendChild(bubble);
 
-    typeWriter(text, d.text, ()=>{
-      bubble.onclick = ()=>{
-        vibrate(15);
-        index++;
-        index < dialogues.length ? show() : end();
-      };
-    });
+    bubble.onclick = ()=>{
+      vibrate(15);
+      i++;
+      i < dialogues.length ? show() : end();
+    };
   }
 
   function end(){
@@ -125,7 +128,7 @@ const dialogues1 = [
   { text:"Alors prouve-le !", anchor:pirate5 }
 ];
 
-pirate5.onclick = () => {
+pirate5.onclick = ()=>{
   playDialogues(dialogues1, ()=>{
     fade("Termines ce mini jeu pour poursuivre ta quête", startMiniGame1);
   });
@@ -188,7 +191,7 @@ function endMiniGame1(){
 }
 
 /* =====================================================
-   📖 LIVRE DIGITAL
+   📖 LIVRE
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
@@ -202,7 +205,7 @@ const pages = [
   "images/Businessplan3.png"
 ];
 
-let bookIndex = Number(localStorage.getItem("bookIndex")) || 0;
+let bookIndex = 0;
 
 function showBook(){
   bookContainer.classList.remove("hidden");
@@ -246,7 +249,7 @@ const dialogues2 = [
   { text:"Vous êtes nouveaux sur le marché ? On a entendu parler de vous.", anchor:pirate3 },
   { text:"Oui, nous revendons des pierres précieuses !", anchor:pirate2 },
   { text:"Les clients n’ont confiance qu’en un seul revendeur.", anchor:pirate3 },
-  { text:"Comment faire pour gagner leur confiance ?", anchor:pirate2 },
+  { text:"Comment gagner leur confiance ?", anchor:pirate2 },
   { text:"Va les rencontrer et montre-leur tes pierres.", anchor:pirate5 },
   { text:"Bonne idée !", anchor:pirate2 }
 ];
@@ -269,13 +272,8 @@ function startMiniGame2(){
   gameAnswers.innerHTML="";
   gameFeedback.textContent="";
 
-  const choices = [
-    "Montrer les pierres aux clients",
-    "Rester caché dans l’échoppe",
-    "Distribuer des papiers avec l’adresse"
-  ];
-
-  choices.forEach((c,i)=>{
+  ["Montrer les pierres","Rester caché","Distribuer l’adresse"]
+  .forEach((c,i)=>{
     const btn=document.createElement("button");
     btn.textContent=c;
     btn.onclick=()=>{
@@ -304,13 +302,12 @@ function endMiniGame2(){
 /* =====================================================
    🏁 FIN DE QUÊTE
 ===================================================== */
-const endScreen = document.getElementById("endScreen");
 const endSubtitle = document.getElementById("endSubtitle");
 const rewardBubbles = document.querySelectorAll(".rewardBubble");
 const backToMenuBtn = document.getElementById("backToMenuBtn");
 
 function showEndScreen(){
-  localStorage.setItem("quest_commerce_completed","true");
+  endScreen.style.display="flex";
   endScreen.classList.remove("hidden");
 
   typeWriter(endSubtitle,"tu as gagné ...",()=>{
