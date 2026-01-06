@@ -59,7 +59,6 @@ function showBackground() {
   background.classList.remove("hidden");
 }
 
-
 /* =====================================================
    💬 BULLES – GÉNÉRIQUE
 ===================================================== */
