@@ -1,88 +1,99 @@
-/* =====================================================
-   🔧 RESET GLOBAL
-===================================================== */
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{
   width:100%;
   height:100%;
   overflow:hidden;
-  font-family:"Trebuchet MS",sans-serif;
   background:#000;
-  user-select:none;
+  font-family:"Trebuchet MS",serif;
 }
 
-/* =====================================================
-   🔥 CLASSE SÉCURITÉ
-===================================================== */
-.hidden{
-  display:none !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
+.hidden{display:none!important}
 
-/* =====================================================
-   🎬 VIDÉO
-===================================================== */
-#videoContainer{
+/* ================= BACKGROUND ================= */
+#background{
   position:fixed;
   inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#000;
-  z-index:1000;
 }
-
-#questVideo{
+.fondImage{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-/* =====================================================
-   🎛️ BOUTONS PIRATE (GLOBAL)
-===================================================== */
-button{
-  padding:12px 22px;
-  font-size:18px;
-  font-weight:bold;
-  color:#fff; /* ⬅️ TEXTE BLANC POUR LES BOUTONS */
-  background:linear-gradient(#8a5a20,#c89b58);
-  border:3px solid #3b1b00;
-  border-radius:14px;
+.pirate{
+  position:absolute;
   cursor:pointer;
+  transition:.4s;
+}
+
+#pirate2bis{left:516px;top:406px;width:186px}
+#pirate5bis{left:786px;top:397px;width:143px}
+
+#pirate3bis{
+  left:533px;
+  top:-114px;
+  width:445px;
+  height:790px;
+  opacity:0;
+  transform:translateY(-80px);
+}
+#pirate3bis.show{
+  opacity:1;
+  transform:translateY(0);
+}
+#pirate3bis:hover{
+  filter:drop-shadow(0 0 25px gold);
+}
+
+/* ================= BULLES ================= */
+#bubbleContainer{
+  position:fixed;
+  inset:0;
+  z-index:500;
+}
+
+.dialogue-bubble{
+  position:absolute;
+  max-width:360px;
+  background:#fdf4e3;
+  color:#000;
+  border:3px solid #c89b58;
+  padding:16px;
+  border-radius:16px;
   box-shadow:0 6px 0 #3b1b00;
-  text-shadow:1px 1px 2px #000;
-  transition:.15s;
+  cursor:pointer;
+  transition:.2s;
 }
 
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 0 #3b1b00,0 0 18px gold;
+.dialogue-bubble:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 0 #3b1b00,0 0 20px rgba(255,215,0,.6);
 }
 
-button:active{
-  transform:translateY(4px);
-  box-shadow:0 2px 0 #3b1b00;
+.dialogue-bubble::after{
+  content:"(cliquer)";
+  display:block;
+  margin-top:8px;
+  font-size:12px;
+  color:#8a5a20;
+  opacity:.7;
 }
 
-/* =====================================================
-   🌑 FADE / LOADER
-===================================================== */
+/* ================= FADE ================= */
 #fadeScreen{
   position:fixed;
   inset:0;
-  background:#000;
   display:none;
   justify-content:center;
   align-items:center;
+  background:#000;
   z-index:3000;
 }
 
 .loaderBox{
-  padding:24px 34px;
-  border:4px solid #c89b58;
   color:#ffd700;
+  border:4px solid #c89b58;
+  padding:26px 36px;
   font-size:22px;
   animation:pulse 1.2s infinite;
   text-align:center;
@@ -94,117 +105,64 @@ button:active{
   100%{opacity:.4}
 }
 
-/* =====================================================
-   🌅 BACKGROUND
-===================================================== */
-#background{
+/* ================= FIN DE QUÊTE ================= */
+#endScreen{
   position:fixed;
   inset:0;
-  display:none;
-  z-index:1;
+  background:#000;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:4000;
 }
 
-.fondImage{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+#endTitle{
+  color:#ffd700;
+  font-size:46px;
+  text-shadow:0 0 25px gold;
+  margin-bottom:20px;
+  animation:glow 2s infinite;
 }
 
-.pirate{
-  position:absolute;
-  cursor:pointer;
-  z-index:10;
+#endSubtitle{
+  color:#fff5d6;
+  font-size:20px;
+  margin-bottom:40px;
+  min-height:24px;
 }
 
-/* =====================================================
-   💬 DIALOGUES
-===================================================== */
-#bubbleContainer{
-  position:fixed;
-  inset:0;
-  z-index:500;
-  pointer-events:none;
+@keyframes glow{
+  0%{text-shadow:0 0 10px gold}
+  50%{text-shadow:0 0 35px gold}
+  100%{text-shadow:0 0 10px gold}
 }
 
-/* 🔹 BULLE */
-.dialogue-bubble{
-  position:absolute;
-  max-width:360px;
-  background:#fdf4e3;
-  color:#000;              /* ⬅️ TEXTE NOIR POUR L’ÉCRITURE */
+/* ================= RÉCOMPENSES ================= */
+#rewardBubbles{
+  display:flex;
+  gap:30px;
+}
+
+.rewardBubble{
+  width:180px;
+  background:#1a1a1a;
   border:3px solid #c89b58;
-  border-radius:14px;
-  padding:16px;
-  box-shadow:0 6px 0 #3b1b00;
-  pointer-events:auto;
-}
-
-/* 🔹 TEXTE MACHINE À ÉCRIRE */
-.dialogue-bubble .text{
-  color:#000;              /* ⬅️ NOIR CONFIRMÉ */
-  line-height:1.4;
-}
-
-/* 🔹 BOUTONS DANS LES BULLES */
-.dialogue-bubble button{
-  margin-top:14px;
-  color:#fff;              /* ⬅️ BLANC POUR “Suite” & “Ok, j’ai compris” */
-}
-
-/* ================= IGNORER DIALOGUES ================= */
-
-#skipDialoguesBtn{
-  position:fixed;
-  top:20px;
-  right:20px;
-  z-index:800;
-  display:none;
-  background:linear-gradient(#b31217,#e52d27);
-  border:3px solid #5c0b0f;
-  box-shadow:0 6px 0 #5c0b0f;
-  color:#fff;
-}
-
-/* =====================================================
-   🎮 MINI JEU
-===================================================== */
-#miniGameContainer{
-  position:fixed;
-  inset:0;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.6);
-  z-index:1400;
-}
-
-.quizBox{
-  background:linear-gradient(#8a5a20,#c89b58);
-  border:6px solid #3b1b00;
-  border-radius:22px;
-  padding:30px;
-  width:90%;
-  max-width:420px;
+  border-radius:18px;
+  padding:14px;
   text-align:center;
-  color:#fff;
-  box-shadow:0 0 30px gold;
+  opacity:0;
+  transform:scale(.7);
+  transition:.4s;
 }
 
-#gameAnswers button.selected{
-  background:linear-gradient(#ffd700,#ffae00);
-  color:#3b1b00;
-  box-shadow:0 0 18px gold;
+.rewardBubble img{
+  width:100%;
+  border-radius:12px;
+  margin-bottom:10px;
 }
 
-/* =====================================================
-   🏆 RÉCOMPENSE
-===================================================== */
-#rewardScreen{
-  position:fixed;
-  inset:0;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.85);
-  z-index:1600;
+.rewardBubble span{
+  color:#ffd700;
+  font-weight:bold;
 }
