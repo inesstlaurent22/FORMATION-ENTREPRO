@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let selected = [];
 
 /* =====================================================
-   🎬 VIDÉO + BOUTONS (VERSION CORRIGÉE)
+   🎬 VIDÉO + BOUTONS
 ===================================================== */
 
 const videoContainer = document.getElementById("videoContainer");
@@ -47,15 +47,13 @@ closeVideo.onclick = (e) => {
 video.onended = () => endVideo(false);
 
 /* =====================================================
-   🔥 SORTIE VIDÉO PROPRE
+   🔥 SORTIE VIDÉO
 ===================================================== */
 
 function endVideo(skipFade) {
-  // stop vidéo
   video.pause();
   video.currentTime = 0;
 
-  // éviter clics fantômes
   videoContainer.style.pointerEvents = "none";
 
   if (skipFade) {
@@ -67,35 +65,38 @@ function endVideo(skipFade) {
 }
 
 function closeVideoNow() {
-  // reset vidéo
   videoContainer.style.display = "none";
   videoContainer.style.opacity = "1";
   videoContainer.style.pointerEvents = "auto";
 
-  /* =====================================================
-     🌅 BACKGROUND + PIRATES
-  ===================================================== */
+  showBackground(); // ✅ APPEL CORRECT
+}
+
+/* =====================================================
+   🌅 BACKGROUND + PIRATES
+===================================================== */
+
 function showBackground() {
-  gameState = "background";
-
   background.style.display = "block";
-  background.style.opacity = 0;
+  background.style.opacity = "0";
 
-  // Pirate apprenti (pirate2bis)
+  // Pirate apprenti
   pirate2bis.style.position = "absolute";
   pirate2bis.style.left = "516px";
   pirate2bis.style.top = "406px";
   pirate2bis.style.width = "186px";
   pirate2bis.style.height = "178px";
 
-  // Maître pirate (pirate5bis)
+  // Maître pirate
   pirate5bis.style.position = "absolute";
   pirate5bis.style.left = "785px";
   pirate5bis.style.top = "397px";
   pirate5bis.style.width = "143px";
   pirate5bis.style.height = "187px";
 
-  requestAnimationFrame(() => background.style.opacity = 1);
+  requestAnimationFrame(() => {
+    background.style.opacity = "1";
+  });
 }
 
   /* =====================================================
