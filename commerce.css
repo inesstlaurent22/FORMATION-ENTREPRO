@@ -72,56 +72,46 @@ html, body{
   z-index:1;
 }
 
-/* image de fond TOUJOURS derrière */
 .fondImage{
-  position:absolute;
-  inset:0;
   width:100%;
   height:100%;
   object-fit:cover;
-  z-index:0;
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES — VISIBILITÉ GARANTIE
+   🏴‍☠️ PIRATES
 ===================================================== */
 .pirate{
   position:absolute;
-  z-index:10;
-  display:block;
-  opacity:1;
-  pointer-events:auto;
+  z-index:5;
 }
 
-/* Pirate apprenti */
-#pirate2bis{
-  left:516px;
-  top:406px;
-  width:186px;
-  height:178px;
-}
-
-/* Pirate maître — seul avec hover */
+/* seul le MAÎTRE pirate s’allume */
 #pirate5bis{
-  left:785px;
-  top:397px;
-  width:143px;
-  height:187px;
   cursor:pointer;
   transition:transform .3s ease, filter .3s ease;
 }
 
 #pirate5bis:hover{
   transform:scale(1.06);
-  filter:drop-shadow(0 0 18px gold);
+  filter:drop-shadow(0 0 16px gold);
 }
 
-/* Pirate client — apparition plus tard */
+/* pirate apprenti = neutre */
+#pirate2bis{
+  pointer-events:auto;
+}
+
+/* pirate client — apparition propre depuis la droite */
 #pirate3bis{
-  right:-320px;
+  position:absolute;
+  right:-300px;
   top:-144px;
-  width:445px;
-  height:790px;
+
+  opacity:1;            /* ✅ toujours net */
+  filter:none;          /* ✅ aucun voile */
+  transform:none;
+
   transition:right .7s ease;
 }
 
