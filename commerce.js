@@ -1,181 +1,256 @@
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-/* ================= UTIL ================= */
-function fade(text, cb){
-  fadeScreen.querySelector(".loaderBox").textContent = text;
-  fadeScreen.style.display="flex";
-  setTimeout(()=>{
-    fadeScreen.style.display="none";
-    cb && cb();
-  },1800);
-}
-
-/* ================= VIDÉO ================= */
+/* ============================
+   🎬 VIDÉO
+============================ */
+const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("questVideo");
-const videoContainer = document.getElementById("videoControls");
-const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
-const fadeScreen = document.getElementById("fadeScreen");
+const toggleSound = document.getElementById("toggleSound");
 
-// sécurité autoplay mobile
 video.muted = true;
-video.play().catch(()=>{});
 
-/* 🔊 BOUTON SON */
 toggleSound.addEventListener("click", (e)=>{
   e.stopPropagation();
-
-  // relance vidéo si bloquée (iOS)
-  if(video.paused){
-    video.play().catch(()=>{});
-  }
-
   video.muted = !video.muted;
   toggleSound.textContent = video.muted ? "🔇" : "🔊";
 });
 
-/* ✖ BOUTON FERMER */
 closeVideo.addEventListener("click", (e)=>{
   e.stopPropagation();
   endVideo();
 });
 
-/* ⏹ FIN VIDÉO */
 video.addEventListener("ended", endVideo);
 
 function endVideo(){
   video.pause();
-  videoContainer.style.opacity = "0";
-
+  videoContainer.style.opacity = 0;
   setTimeout(()=>{
     videoContainer.style.display = "none";
-    fade("Chargement...", showBackground);
-  }, 500);
+    showBackground();
+  },1000);
 }
 
-/* ================= BACKGROUND ================= */
-const background=document.getElementById("background");
+/* ============================
+   🌅 FOND + PIRATES
+============================ */
+const background = document.getElementById("background");
+const pirate2bis = document.getElementById("pirate2bis");
+const pirate5bis = document.getElementById("pirate5bis");
+
+pirate2bis.style.left="516px";
+pirate2bis.style.top="406px";
+pirate5bis.style.left="785px";
+pirate5bis.style.top="397px";
+
 function showBackground(){
-  background.classList.remove("hidden");
+  background.style.display="block";
+  setTimeout(()=> background.style.opacity=1,50);
+  startDialogues();
 }
 
+/* ============================
+   💬 DIALOGUES
+============================ */
+let dialogueStep = 0;
 
-/* =====================================================
-   💬 BULLES – GÉNÉRIQUE
-===================================================== */
-const bubbleContainer = document.getElementById("bubbleContainer");
-
-function playDialogues(dialogues, onEnd){
-  let index = 0;
-
-  function show(){
-    bubbleContainer.innerHTML = "";
-
-    const d = dialogues[index];
-    const bubble = document.createElement("div");
-    bubble.className = "dialogue-bubble";
-
-    const text = document.createElement("div");
-    bubble.appendChild(text);
-
-    const r = d.anchor.getBoundingClientRect();
-    bubble.style.left = r.left + "px";
-    bubble.style.top = (r.top - 160) + "px";
-
-    bubbleContainer.appendChild(bubble);
-
-    typeWriter(text, d.text, () => {
-      bubble.onclick = () => {
-        index++;
-        index < dialogues.length ? show() : end();
-      };
-    });
-  }
-
-  function end(){
-    bubbleContainer.innerHTML = "";
-    onEnd && onEnd();
-  }
-
-  show();
-}
-
-/* =====================================================
-   💬 DIALOGUES AVANT MINI-JEU 1 (TES TEXTES)
-===================================================== */
-const introDialogues = [
-  { who:"maitre", text:"Moussaillon ! Bienvenue sur le marché des trésors ! Ici, plein de pirates vendent des pierres précieuses… mais pour toi, qui débutes, faudra suivre mes conseils !", anchor:pirate5 },
-  { who:"apprenti", text:"J’suis prêt, capitaine !", anchor:pirate2 },
-  { who:"maitre", text:"Écoute bien ! D’abord, tu dois te mettre au niveau des autres pirates… parle comme eux, montre que tu connais tes pierres. Ensuite… sois plus malin et plus rapide qu’eux ! Faut que tous les clients viennent chez toi !", anchor:pirate5 },
-  { who:"apprenti", text:"Mais comment je fais ça ?", anchor:pirate2 },
-  { who:"maitre", text:"Regarde bien : la plupart ont une petite échoppe et vendent leurs pierres dans des petits sachets en velours. Les clients adorent ça ! Donc toi aussi, il te faudra une échoppe et des sachets. Mais attention… tes pierres ressemblent à celles des autres ! Faut que tu te démarques !", anchor:pirate5 },
-  { who:"apprenti", text:"Me démarquer… c’est-à-dire ?", anchor:pirate2 },
-  { who:"maitre", text:"Plusieurs stratégies, moussaillon :<br>• vendre moins cher<br>• boîtes en bois luxe<br>• grande boutique visible<br>• aller chez les clients", anchor:pirate5 },
-  { who:"apprenti", text:"Ahhh… donc je choisis la meilleure stratégie selon mes clients !", anchor:pirate2 },
-  { who:"maitre", text:"Exactement ! Observe, teste, et deviens le pirate que tout le monde veut rencontrer.", anchor:pirate5 },
-  { who:"apprenti", text:"MERCI capitaine !", anchor:pirate2 }
+const dialogues = [
+  { who:"maitre", text:"Bienvenue au marché des trésors !", anchor: pirate5bis },
+  { who:"apprenti", text:"Je suis prêt maître pirate !", anchor: pirate2bis },
+  { who:"maitre", text:"Observe bien les autres pirates et leurs stratégies.", anchor: pirate5bis },
+  { who:"apprenti", text:"Je ferai mieux qu’eux !", anchor: pirate2bis },
+  { who:"maitre", text:"Alors prouve-le !", anchor: pirate5bis, last:true }
 ];
 
-/* 👉 clic sur pirate 5 pour lancer */
-pirate5.onclick = () => {
-  playDialogues(introDialogues, () => {
-    fade("Termines ce mini jeu pour poursuivre ta quête", startQuiz);
-  });
-};
-
-/* =====================================================
-   🎮 MINI-JEU 1 – QUIZ (CORRIGÉ)
-===================================================== */
-const miniGameContainer = document.getElementById("miniGameContainer");
-const questionEl = document.getElementById("question");
-const answersEl = document.getElementById("answers");
-const progressEl = document.getElementById("progress");
-
-const steps = [
-  { question:"Où les pirates ont-ils trouvé leurs pierres ?", answers:["Dans un coffre dans une grotte secrète","Ils les ont achetées au marché","La tante les leur a données"], correct:0 },
-  { question:"Qui fait partie de l'équipage pirate ?", answers:["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"], correct:0 },
-  { question:"Quel est le but du projet des pirates ?", answers:["Construire un bateau","Partir en vacances","Garder les pierres pour décorer la cale"], correct:0 },
-  { question:"Qu’est-ce que les pirates doivent observer sur le marché ?", answers:["Nos pierres","Les chapeaux des concurrents","La météo"], correct:0 },
-  { question:"Que doivent-ils décrire pour leurs pierres ?", answers:["Caractéristiques, nombre, qualités et défauts","Seulement la couleur","Seulement la taille"], correct:0 },
-  { question:"À quoi sert le modèle économique ?", answers:["Savoir combien de pierres vendre pour acheter le bateau","Savoir qui fait la vaisselle","Compter les mouettes"], correct:0 },
-  { question:"Quelle stratégie les différencie des autres ?", answers:["Vendre les pierres dans des boîtes en bois","Crier très fort au marché","Vendre sans dire le prix"], correct:0 },
-  { question:"Qu’est-ce que le plan financier ?", answers:["Un document qui prévoit les dépenses et les gains","Une carte au trésor","Une chanson de pirates"], correct:0 },
-  { question:"À quoi sert le statut juridique ?", answers:["À dire comment l’activité pirate est organisée légalement","À choisir le nom du perroquet","À fabriquer des épées"], correct:0 }
-];
-
-let quizIndex = 0;
-
-function startQuiz(){
-  miniGameContainer.style.display = "flex";
-  quizIndex = 0;
-  showQuizQuestion();
+function startDialogues(){
+  dialogueStep = 0;
+  showDialogue();
 }
 
-function showQuizQuestion(){
-  const q = steps[quizIndex];
-  questionEl.textContent = q.question;
-  answersEl.innerHTML = "";
-  progressEl.textContent = `${quizIndex + 1}/${steps.length}`;
+function showDialogue(){
+  const old = document.querySelector(".dialogue-bubble");
+  if(old) old.remove();
+  if(dialogueStep >= dialogues.length) return;
 
-  q.answers.forEach((ans, i) => {
+  const d = dialogues[dialogueStep];
+  const bubble = document.createElement("div");
+  bubble.className = "dialogue-bubble";
+
+  bubble.innerHTML = `<strong>${d.who==="maitre"?"Maître Pirate":"Moussaillon"}</strong><hr>${d.text}`;
+
+  const r = d.anchor.getBoundingClientRect();
+  bubble.style.left = r.left+"px";
+  bubble.style.top = (r.top-120)+"px";
+
+  if(d.last){
     const btn = document.createElement("button");
-    btn.textContent = ans;
-    btn.onclick = () => {
-      if(i === q.correct){
-        quizIndex++;
-        quizIndex < steps.length ? showQuizQuestion() : endQuiz();
-      } else {
-        showQuizQuestion();
-      }
+    btn.textContent = "Ok, j’ai compris";
+    btn.onclick = ()=>{
+      bubble.remove();
+      showLoader();
     };
-    answersEl.appendChild(btn);
+    bubble.appendChild(btn);
+  } else {
+    bubble.onclick = ()=>{
+      dialogueStep++;
+      showDialogue();
+    };
+  }
+
+  document.body.appendChild(bubble);
+}
+
+/* ============================
+   🌑 LOADER
+============================ */
+const loaderContainer = document.getElementById("loaderContainer");
+const loaderText = document.getElementById("loaderText");
+
+function showLoader(){
+  loaderContainer.style.display="flex";
+  loaderText.style.opacity=0;
+  setTimeout(()=> loaderText.style.opacity=1,50);
+
+  setTimeout(()=>{
+    loaderText.style.opacity=0;
+    setTimeout(()=>{
+      loaderContainer.style.display="none";
+      startMiniGame();
+    },800);
+  },2000);
+}
+
+/* ============================
+   🎮 MINI-JEU
+============================ */
+const miniGameContainer = document.getElementById("miniGameContainer");
+const gameQuestion = document.getElementById("gameQuestion");
+const gameAnswers = document.getElementById("gameAnswers");
+const gameFeedback = document.getElementById("gameFeedback");
+
+const questions = [
+  {q:"Pourquoi vendre les pierres ?", a:["Acheter un bateau","Les manger","Décorer"], c:0},
+  {q:"Où observer les concurrents ?", a:["Au marché","À la taverne","En mer"], c:0},
+  {q:"Comment se différencier ?", a:["Boîtes solides","Crier","Copier"], c:0}
+];
+
+let step = 0;
+
+function startMiniGame(){
+  miniGameContainer.style.display="flex";
+  step = 0;
+  showStep();
+}
+
+function showStep(){
+  if(step >= questions.length){
+    showVictory();
+    return;
+  }
+  const q = questions[step];
+  gameQuestion.textContent = q.q;
+  gameAnswers.innerHTML="";
+  gameFeedback.textContent="";
+
+  q.a.forEach((ans,i)=>{
+    const b = document.createElement("button");
+    b.textContent = ans;
+    b.onclick = ()=>checkAnswer(i,q.c);
+    gameAnswers.appendChild(b);
   });
 }
 
-function endQuiz(){
-  miniGameContainer.style.display = "none";
-  fade("Bravo ! Ton business plan est prêt", showBook);
+function checkAnswer(i,c){
+  if(i===c){
+    gameFeedback.textContent="✅ Bien vu !";
+    step++;
+    setTimeout(showStep,600);
+  } else {
+    gameFeedback.textContent="❌ Réfléchis encore";
+  }
 }
+
+/* ============================
+   🏆 RÉUSSITE + COMPTEUR
+============================ */
+const victoryScreen = document.getElementById("victoryScreen");
+const victoryBox = document.querySelector(".victoryBox");
+const counter = document.getElementById("poCounter");
+const canvas = document.getElementById("lightCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function showVictory(){
+  miniGameContainer.style.display="none";
+  victoryScreen.style.display="flex";
+  victoryScreen.style.opacity=0;
+
+  victoryBox.innerHTML = `
+    <h2>🏆 Bravo moussaillon !</h2>
+    <p>Tu as gagné</p>
+    <div id="poCounter">0 PO</div>
+    <p>et ton <strong>Business Plan</strong></p>
+  `;
+
+  setTimeout(()=> victoryScreen.style.opacity=1,50);
+  animateCounter();
+  launchLightBeams();
+
+  setTimeout(()=>{
+    victoryScreen.style.opacity=0;
+    setTimeout(()=>{
+      victoryScreen.style.display="none";
+      background.style.opacity=1;
+      startNextDialogues();
+    },1000);
+  },4000);
+}
+
+function animateCounter(){
+  let value = 0;
+  const target = 5000;
+  const interval = setInterval(()=>{
+    value += 100;
+    counter.textContent = value+" PO";
+    if(value >= target){
+      counter.textContent = "5000 PO";
+      clearInterval(interval);
+    }
+  },30);
+}
+
+function launchLightBeams(){
+  let t = 0;
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let i=0;i<40;i++){
+      ctx.beginPath();
+      ctx.moveTo(canvas.width/2, canvas.height/2);
+      ctx.lineTo(
+        canvas.width/2 + Math.cos(i+t)*300,
+        canvas.height/2 + Math.sin(i+t)*300
+      );
+      ctx.strokeStyle="rgba(255,215,0,0.6)";
+      ctx.lineWidth=2;
+      ctx.stroke();
+    }
+    t+=0.1;
+    if(t<6) requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+/* ============================
+   📖 SUITE DIALOGUES (LIVRE)
+============================ */
+function startNextDialogues(){
+  // ici tu peux relancer tes bulles pour le livre / business plan
+}
+
+});
 
 /* =====================================================
    📖 LIVRE DIGITAL – LOGIQUE COMPLÈTE
