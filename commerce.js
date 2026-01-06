@@ -253,105 +253,108 @@ function startNextDialogues(){
 });
 
 /* =====================================================
-   📖 LIVRE DIGITAL – LOGIQUE COMPLÈTE
+   📖 LIVRE DIGITAL
 ===================================================== */
-
 const bookContainer = document.getElementById("bookContainer");
-const bookElement   = bookContainer.querySelector(".book");
-const leftPageImg   = bookContainer.querySelector(".page.left img");
-const rightPageImg  = bookContainer.querySelector(".page.right img");
+const leftPage = document.getElementById("leftPage");
+const rightPage = document.getElementById("rightPage");
 const continueQuestBtn = document.getElementById("continueQuestBtn");
 
-/* ================= DONNÉES LIVRE ================= */
-
-// pages recto (droite)
-const rightPages = [
-  "images/Businessplancov.png",  // couverture
+const pages = [
+  "images/Businessplancov.png",
   "images/Businessplan1.png",
   "images/Businessplan2.png",
   "images/Businessplan3.png"
 ];
 
-// verso unique (gauche)
-const leftVerso = "images/Businessplan4.jpg";
-
-// index sauvegardé
 let bookIndex = Number(localStorage.getItem("bookIndex")) || 0;
 
-/* ================= AFFICHAGE LIVRE ================= */
-
-function showBook(){
+function showBook() {
   bookContainer.classList.remove("hidden");
-  bookContainer.style.display = "flex";
-
-  bookIndex = Math.max(0, Math.min(bookIndex, rightPages.length - 1));
   updateBook();
 }
 
-/* ================= MISE À JOUR DES PAGES ================= */
-
-function updateBook(direction = "next"){
-
-  // animation page qui se tourne
-  rightPageImg.classList.remove("turn-next","turn-prev");
-  void rightPageImg.offsetWidth;
-  rightPageImg.classList.add(direction === "next" ? "turn-next" : "turn-prev");
-
-  setTimeout(() => {
-
-    // page droite
-    rightPageImg.src = rightPages[bookIndex];
-
-    // page gauche (verso)
-    if(bookIndex === 0){
-      leftPageImg.style.visibility = "hidden";
-    } else {
-      leftPageImg.style.visibility = "visible";
-      leftPageImg.src = leftVerso;
-    }
-
-    // bouton continuer
-    continueQuestBtn.style.display =
-      bookIndex === rightPages.length - 1 ? "block" : "none";
-
-    // sauvegarde progression
-    localStorage.setItem("bookIndex", bookIndex);
-
-  }, 260);
+function updateBook() {
+  rightPage.src = pages[bookIndex];
+  leftPage.src = bookIndex > 0 ? "images/Businessplan4.jpg" : "";
+  continueQuestBtn.style.display = bookIndex === pages.length - 1 ? "block" : "none";
+  localStorage.setItem("bookIndex", bookIndex);
 }
 
-/* ================= CLIC DANS LE LIVRE ================= */
-
-bookElement.addEventListener("click", (e) => {
-
-  const rect = bookElement.getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
-
-  // clic à droite → page suivante
-  if(clickX > rect.width / 2){
-    if(bookIndex < rightPages.length - 1){
-      bookIndex++;
-      updateBook("next");
-    }
+document.querySelector(".book").onclick = (e) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  if (e.clientX > rect.left + rect.width / 2 && bookIndex < pages.length - 1) {
+    bookIndex++;
+  } else if (bookIndex > 0) {
+    bookIndex--;
   }
-  // clic à gauche → page précédente
-  else{
-    if(bookIndex > 0){
-      bookIndex--;
-      updateBook("prev");
-    }
-  }
-});
-
-/* ================= SORTIE DU LIVRE ================= */
+  rightPage.classList.add("turn");
+  updateBook();
+  setTimeout(() => rightPage.classList.remove("turn"), 500);
+};
 
 continueQuestBtn.onclick = () => {
   bookContainer.classList.add("hidden");
-  bookContainer.style.display = "none";
-
-  // on revient au background
-  showBackground();
-
-  // apparition du pirate client
   spawnPirate3();
 };
+
+/* =====================================================
+   ✨ PIRATE 3 + DIALOGUES 2
+===================================================== */
+function spawnPirate3() {
+  pirate3.classList.remove("hidden");
+  setTimeout(() => pirate3.classList.add("show"), 50);
+}
+
+const dialogues2 = [
+  { p: pirate3, t: "Vous êtes nouveaux sur le marché ? On a entendu parler de vous" },
+  { p: pirate2, t: "Oui, nous revendons des pierres précieuses !" },
+  { p: pirate3, t: "Les clients n’ont confiance qu’en un seul revendeur…" },
+  { p: pirate2, t: "Comment allons-nous faire pour qu’ils aient confiance ?" },
+  { p: pirate5, t: "Va les rencontrer et montre tes pierres." },
+  { p: pirate2, t: "Mais nous avons une échoppe…" },
+  { p: pirate5, t: "Pars avec quelques pierres et des papiers." },
+  { p: pirate2, t: "Bonne idée !" }
+];
+
+pirate3.onclick = () => {
+  showDialogueSequence(dialogues2, () =>
+    fade("Dernier mini jeux avant de finir la quête", endMiniGame2)
+  );
+};
+
+/* =====================================================
+   🎮 MINI-JEU 2 (SIMPLIFIÉ)
+===================================================== */
+function endMiniGame2() {
+  fade("Mini jeu réussi !", showEndScreen);
+}
+
+/* =====================================================
+   🏁 FIN DE QUÊTE
+===================================================== */
+const endScreen = document.getElementById("endScreen");
+const endSubtitle = document.getElementById("endSubtitle");
+const rewardBubbles = document.querySelectorAll(".rewardBubble");
+const backToMenuBtn = document.getElementById("backToMenuBtn");
+
+function showEndScreen() {
+  localStorage.setItem("quest_commerce_completed", "true");
+  endScreen.classList.remove("hidden");
+
+  typeWriter(endSubtitle, "tu as gagné ...", () => {
+    rewardBubbles.forEach((b, i) => {
+      setTimeout(() => {
+        b.style.opacity = "1";
+        b.style.transform = "scale(1)";
+      }, i * 700);
+    });
+
+    setTimeout(() => {
+      backToMenuBtn.classList.remove("hidden");
+    }, rewardBubbles.length * 700 + 600);
+  });
+}
+
+backToMenuBtn.onclick = () => {
+  window.location.href = "menu.html";
