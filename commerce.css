@@ -18,7 +18,7 @@ html, body{
 .hidden{ display:none; }
 
 /* =====================================================
-   🎬 VIDÉO (TOUJOURS AU-DESSUS AU DÉPART)
+   🎬 VIDÉO
 ===================================================== */
 #videoContainer{
   position:fixed;
@@ -33,7 +33,6 @@ html, body{
   object-fit:cover;
 }
 
-/* boutons vidéo */
 #videoControls{
   position:absolute;
   top:20px;
@@ -73,18 +72,52 @@ html, body{
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES
+   🏴‍☠️ PIRATES (CORRIGÉ)
 ===================================================== */
 .pirate{
   position:absolute;
   cursor:pointer;
-  z-index:5;
-  transition:transform .3s, filter .3s;
+  object-fit:contain;
+  z-index:50; /* 🔥 AU-DESSUS DU FOND ET DES BULLES */
+  opacity:1;
+  transition:transform .3s ease, filter .3s ease;
 }
 
 .pirate:hover{
   transform:scale(1.05);
-  filter:drop-shadow(0 0 10px gold);
+  filter:drop-shadow(0 0 12px gold);
+}
+
+/* POSITIONS DESKTOP */
+#pirate2bis{
+  left:516px;
+  top:406px;
+  width:186px;
+  height:auto;
+}
+
+#pirate5bis{
+  left:785px;
+  top:397px;
+  width:143px;
+  height:auto;
+}
+
+/* PIRATE CLIENT (APPARAÎT PLUS TARD) */
+#pirate3bis{
+  left:533px;
+  top:-114px;
+  width:445px;
+  height:auto;
+  opacity:0;
+  transform:translateY(-80px);
+  z-index:60;
+}
+
+#pirate3bis.show{
+  opacity:1;
+  transform:translateY(0);
+  transition:opacity .6s ease, transform .6s ease;
 }
 
 /* =====================================================
@@ -93,7 +126,7 @@ html, body{
 #bubbleContainer{
   position:fixed;
   inset:0;
-  z-index:20;
+  z-index:40;
   pointer-events:none;
 }
 
@@ -157,10 +190,6 @@ html, body{
   text-align:center;
 }
 
-#gameAnswers{
-  width:100%;
-}
-
 #gameAnswers button{
   width:100%;
   margin-top:10px;
@@ -181,35 +210,25 @@ html, body{
 }
 
 /* =====================================================
-   📖 LIVRE DIGITAL — CACHÉ AU DÉPART
+   📖 LIVRE DIGITAL
 ===================================================== */
-
 #bookContainer{
   position:fixed;
   inset:0;
-
-  /* 🔒 INVISIBLE PAR DÉFAUT */
   display:none !important;
   opacity:0;
   pointer-events:none;
-
   justify-content:center;
   align-items:center;
-
-  background:rgba(0,0,0,0.9);
-
-  /* 🔽 EN DESSOUS DE LA VIDÉO */
-  z-index:2000;
+  background:rgba(0,0,0,.9);
+  z-index:2200;
 }
 
-/* 👉 Quand le JS l’affiche */
 #bookContainer.show{
   display:flex !important;
   opacity:1;
   pointer-events:auto;
 }
-
-/* ================= LIVRE ================= */
 
 .book{
   display:flex;
@@ -227,39 +246,33 @@ html, body{
 .page img{
   width:100%;
   height:100%;
-  object-fit:contain; /* ✅ jamais coupé */
+  object-fit:contain;
   background:#000;
 }
-
-/* ================= BOUTON CONTINUER ================= */
 
 #continueQuestBtn{
   position:absolute;
   top:20px;
   right:20px;
-
   display:none;
-
   padding:14px 26px;
   font-size:18px;
   font-weight:bold;
-
   background:linear-gradient(#8a5a20,#c89b58);
   color:#fff5d6;
-
   border:3px solid #3b1b00;
   border-radius:16px;
-
   cursor:pointer;
-  z-index:2100;
+  z-index:2300;
 }
+
 /* =====================================================
    🏁 FIN DE QUÊTE
 ===================================================== */
 #endScreen{
   position:fixed;
   inset:0;
-  display:none;          /* ⛔ caché au départ */
+  display:none;
   justify-content:center;
   align-items:center;
   flex-direction:column;
@@ -305,6 +318,29 @@ html, body{
    📱 RESPONSIVE MOBILE
 ===================================================== */
 @media (max-width:768px){
+
+  #pirate2bis{
+    left:18%;
+    top:55%;
+    width:120px;
+  }
+
+  #pirate5bis{
+    left:60%;
+    top:52%;
+    width:100px;
+  }
+
+  #pirate3bis{
+    left:50%;
+    top:5%;
+    width:260px;
+    transform:translateX(-50%) translateY(-40px);
+  }
+
+  #pirate3bis.show{
+    transform:translateX(-50%) translateY(0);
+  }
 
   .dialogue-bubble{
     max-width:85vw;
