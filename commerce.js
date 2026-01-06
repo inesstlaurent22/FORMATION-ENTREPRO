@@ -11,18 +11,46 @@ function fade(text, cb){
 }
 
 /* ================= VIDÉO ================= */
-const video=document.getElementById("questVideo");
-const videoContainer=document.getElementById("videoContainer");
-toggleSound.onclick=()=>{
-  video.muted=!video.muted;
-  toggleSound.textContent=video.muted?"🔇":"🔊";
-};
-closeVideo.onclick=endVideo;
-video.onended=endVideo;
+const video = document.getElementById("questVideo");
+const videoContainer = document.getElementById("videoContainer");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo = document.getElementById("closeVideo");
+const fadeScreen = document.getElementById("fadeScreen");
+
+// sécurité autoplay mobile
+video.muted = true;
+video.play().catch(()=>{});
+
+/* 🔊 BOUTON SON */
+toggleSound.addEventListener("click", (e)=>{
+  e.stopPropagation();
+
+  // relance vidéo si bloquée (iOS)
+  if(video.paused){
+    video.play().catch(()=>{});
+  }
+
+  video.muted = !video.muted;
+  toggleSound.textContent = video.muted ? "🔇" : "🔊";
+});
+
+/* ✖ BOUTON FERMER */
+closeVideo.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  endVideo();
+});
+
+/* ⏹ FIN VIDÉO */
+video.addEventListener("ended", endVideo);
 
 function endVideo(){
-  videoContainer.style.display="none";
-  fade("Chargement...",showBackground);
+  video.pause();
+  videoContainer.style.opacity = "0";
+
+  setTimeout(()=>{
+    videoContainer.style.display = "none";
+    fade("Chargement...", showBackground);
+  }, 500);
 }
 
 /* ================= BACKGROUND ================= */
