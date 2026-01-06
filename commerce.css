@@ -1,299 +1,263 @@
 /* =====================================================
    🔧 RESET GLOBAL
 ===================================================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:"Trebuchet MS",sans-serif;
+  background:#000;
+  user-select:none;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: "Trebuchet MS", sans-serif;
-  background: #000;
-  user-select: none;
+/* =====================================================
+   🔥 CLASSE DE SÉCURITÉ (ANTI BUG FOND NOIR)
+===================================================== */
+.hidden{
+  display:none !important;
+  opacity:0 !important;
+  pointer-events:none !important;
 }
 
 /* =====================================================
    🎬 VIDÉO
 ===================================================== */
-
-#videoContainer {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #000;
-  z-index: 1000;
-  transition: opacity 0.8s ease;
+#videoContainer{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#000;
+  z-index:1000;
 }
 
-#questVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* =====================================================
-   🎛️ CONTROLES VIDÉO (STYLE PIRATE)
-===================================================== */
-
-#videoControls {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-  z-index: 2001;
-}
-
-.pirate-btn,
-#toggleSound,
-#closeVideo,
-#continueQuestBtn {
-  font-size: 18px;
-  padding: 12px 22px;
-  font-weight: bold;
-  color: #fff5d6;
-  background: linear-gradient(#8a5a20, #c89b58);
-  border: 3px solid #3b1b00;
-  border-radius: 14px;
-  cursor: pointer;
-  box-shadow: 0 6px 0 #3b1b00;
-  text-shadow: 1px 1px 2px #000;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
-}
-
-.pirate-btn:hover,
-#toggleSound:hover,
-#closeVideo:hover,
-#continueQuestBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 0 #3b1b00, 0 0 18px rgba(255, 215, 0, 0.8);
-  filter: brightness(1.1);
-}
-
-.pirate-btn:active,
-#toggleSound:active,
-#closeVideo:active,
-#continueQuestBtn:active {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 #3b1b00;
-  filter: brightness(0.95);
+#questVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 /* =====================================================
-   🌑 FADE GLOBAL
+   🎛️ CONTROLES VIDÉO
 ===================================================== */
-
-#videoFade,
-#fadeScreen {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 3000;
+#videoControls{
+  position:absolute;
+  top:20px;
+  right:20px;
+  display:flex;
+  gap:10px;
+  z-index:2001;
 }
 
-#videoFade {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s ease;
+#toggleSound,#closeVideo,#continueQuestBtn{
+  padding:12px 22px;
+  font-size:18px;
+  font-weight:bold;
+  color:#fff5d6;
+  background:linear-gradient(#8a5a20,#c89b58);
+  border:3px solid #3b1b00;
+  border-radius:14px;
+  cursor:pointer;
+  box-shadow:0 6px 0 #3b1b00;
+  text-shadow:1px 1px 2px #000;
+  transition:transform .15s, box-shadow .15s, filter .15s;
 }
 
-#videoFade.show {
-  opacity: 1;
+#toggleSound:hover,#closeVideo:hover,#continueQuestBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 0 #3b1b00,0 0 18px gold;
 }
 
-.loaderBox {
-  padding: 20px 32px;
-  border: 4px solid #c89b58;
-  color: #ffd700;
-  font-size: 22px;
-  animation: pulse 1.2s infinite;
-  text-align: center;
-}
-
-@keyframes pulse {
-  0% { opacity: .4 }
-  50% { opacity: 1 }
-  100% { opacity: .4 }
+#toggleSound:active,#closeVideo:active,#continueQuestBtn:active{
+  transform:translateY(4px);
+  box-shadow:0 2px 0 #3b1b00;
 }
 
 /* =====================================================
-   🌅 BACKGROUND + PIRATES
+   🌑 FADE / LOADER
 ===================================================== */
-
-#background {
-  position: fixed;
-  inset: 0;
-  display: none;
-  opacity: 0;
-  transition: opacity 1s ease;
-  z-index: 1;
+#fadeScreen{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:3000;
+  transition:opacity .5s;
 }
 
-.fondImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.loaderBox{
+  padding:22px 32px;
+  border:4px solid #c89b58;
+  color:#ffd700;
+  font-size:22px;
+  animation:pulse 1.2s infinite;
+  text-align:center;
 }
 
-.pirate {
-  position: absolute;
-  cursor: pointer;
-  z-index: 10;
-  object-fit: contain;
-  will-change: transform;
+@keyframes pulse{
+  0%{opacity:.4}
+  50%{opacity:1}
+  100%{opacity:.4}
 }
 
 /* =====================================================
-   💬 BULLES DE DIALOGUE
+   🌅 BACKGROUND
 ===================================================== */
-
-#bubbleContainer {
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  pointer-events: none;
+#background{
+  position:fixed;
+  inset:0;
+  display:none;
+  opacity:1;
+  z-index:1;
 }
 
-.dialogue-bubble {
-  position: absolute;
-  max-width: 340px;
-  background: #fdf4e3;
-  color: #3b1b00;
-  border: 3px solid #8a5a20;
-  border-radius: 14px;
-  padding: 14px;
-  box-shadow: 0 5px 0 #3b1b00;
-  pointer-events: auto;
+.fondImage{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-.dialogue-bubble button {
-  margin-top: 12px;
-  padding: 8px 16px;
-  border-radius: 10px;
-  background: #c89b58;
-  color: #3b1b00;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 3px 0 #3b1b00;
+.pirate{
+  position:absolute;
+  cursor:pointer;
+  z-index:10;
+  object-fit:contain;
+}
+
+/* =====================================================
+   💬 DIALOGUES
+===================================================== */
+#bubbleContainer{
+  position:fixed;
+  inset:0;
+  z-index:500;
+  pointer-events:none;
+}
+
+.dialogue-bubble{
+  position:absolute;
+  max-width:340px;
+  background:#fdf4e3;
+  color:#3b1b00;
+  border:3px solid #8a5a20;
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 5px 0 #3b1b00;
+  pointer-events:auto;
+}
+
+.dialogue-bubble button{
+  margin-top:12px;
+  padding:8px 16px;
+  background:#c89b58;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 3px 0 #3b1b00;
 }
 
 /* =====================================================
    🎮 MINI-JEU
 ===================================================== */
-
-#miniGameContainer {
-  position: fixed;
-  inset: 0;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.85);
-  z-index: 1400;
-  color: white;
+#miniGameContainer{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.85);
+  z-index:1400;
+  color:#fff;
 }
 
-.quizBox {
-  background: linear-gradient(#8a5a20, #c89b58);
-  border: 6px solid #3b1b00;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 0 30px rgba(255,215,0,0.6);
-  max-width: 420px;
-  width: 90%;
-  text-align: center;
+.quizBox{
+  background:linear-gradient(#8a5a20,#c89b58);
+  border:6px solid #3b1b00;
+  border-radius:20px;
+  padding:30px;
+  max-width:420px;
+  width:90%;
+  text-align:center;
+  box-shadow:0 0 30px gold;
 }
 
 /* =====================================================
    🏆 RÉCOMPENSE
 ===================================================== */
-
-#rewardScreen {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.85);
-  z-index: 1600;
+#rewardScreen{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.85);
+  z-index:1600;
 }
 
-.rays {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  background: repeating-conic-gradient(
-    rgba(255,215,0,0.8) 0deg 10deg,
+.rays{
+  position:absolute;
+  width:600px;
+  height:600px;
+  background:repeating-conic-gradient(
+    rgba(255,215,0,.8) 0deg 10deg,
     transparent 10deg 20deg
   );
-  animation: spinRays 6s linear infinite;
-  filter: blur(2px);
+  animation:spin 6s linear infinite;
 }
 
-@keyframes spinRays {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* =====================================================
    📖 LIVRE
 ===================================================== */
-
-#bookContainer {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.85);
-  z-index: 1700;
+#bookContainer{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.85);
+  z-index:1700;
 }
 
-.book {
-  display: flex;
-  width: 700px;
-  height: 450px;
-  background: #000;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-  cursor: pointer;
-  perspective: 1200px;
+.book{
+  display:flex;
+  width:700px;
+  height:450px;
+  background:#000;
+  cursor:pointer;
 }
 
-.page {
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
+.page{
+  width:50%;
+  height:100%;
 }
 
-.page img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.page img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 /* =====================================================
-   ✨ CONTINUER LA QUÊTE
+   ✨ BOUTON FINAL
 ===================================================== */
-
-#continueQuestBtn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 2000;
-  display: none;
-  animation: pirateGlow 2s infinite;
+#continueQuestBtn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  display:none;
+  z-index:2000;
+  animation:glow 2s infinite;
 }
 
-@keyframes pirateGlow {
-  0% { box-shadow: 0 6px 0 #3b1b00, 0 0 6px rgba(255,215,0,0.4); }
-  50% { box-shadow: 0 6px 0 #3b1b00, 0 0 16px rgba(255,215,0,0.9); }
-  100% { box-shadow: 0 6px 0 #3b1b00, 0 0 6px rgba(255,215,0,0.4); }
+@keyframes glow{
+  0%{box-shadow:0 6px 0 #3b1b00,0 0 6px gold}
+  50%{box-shadow:0 6px 0 #3b1b00,0 0 18px gold}
+  100%{box-shadow:0 6px 0 #3b1b00,0 0 6px gold}
 }
