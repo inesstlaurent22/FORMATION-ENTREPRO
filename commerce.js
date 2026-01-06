@@ -1,103 +1,108 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================================================
-     🧠 ÉTAT GLOBAL
+     🎬 VIDÉO + BOUTONS
   ===================================================== */
 
-  let gameState = "video";
-  let dialogueStep = 0;
-  let quizStep = 0;
-  let selected = [];
+  const videoContainer = document.getElementById("videoContainer");
+  const video = document.getElementById("questVideo");
+  const toggleSound = document.getElementById("toggleSound");
+  const closeVideo = document.getElementById("closeVideo");
 
-/* =====================================================
-   🎬 VIDÉO + BOUTONS
-===================================================== */
+  const background = document.getElementById("background");
+  const pirate2bis = document.getElementById("pirate2bis");
+  const pirate5bis = document.getElementById("pirate5bis");
 
-const videoContainer = document.getElementById("videoContainer");
-const video = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
+  /* =====================================================
+     🌑 FADE IN
+  ===================================================== */
 
-const background = document.getElementById("background");
-const pirate2bis = document.getElementById("pirate2bis");
-const pirate5bis = document.getElementById("pirate5bis");
+  const fadeScreen = document.createElement("div");
+  fadeScreen.id = "videoFade";
+  document.body.appendChild(fadeScreen);
 
-// état initial
-background.style.display = "none";
-video.muted = true;
-toggleSound.textContent = "🔇";
+  /* =====================================================
+     ⚙️ ÉTAT INITIAL
+  ===================================================== */
 
-// autoplay sécurisé
-video.play().catch(() => {});
+  background.style.display = "none";
+  video.muted = true;
+  toggleSound.textContent = "🔇";
 
-/* 🔊 SON */
-toggleSound.onclick = (e) => {
-  e.stopPropagation();
-  video.muted = !video.muted;
-  toggleSound.textContent = video.muted ? "🔇" : "🔊";
-};
+  video.play().catch(() => {});
 
-/* ❌ CLOSE */
-closeVideo.onclick = (e) => {
-  e.stopPropagation();
-  endVideo(true);
-};
+  /* =====================================================
+     🔊 BOUTON SON
+  ===================================================== */
 
-/* 🎞️ FIN NATURELLE */
-video.onended = () => endVideo(false);
+  toggleSound.onclick = (e) => {
+    e.stopPropagation();
+    video.muted = !video.muted;
+    toggleSound.textContent = video.muted ? "🔇" : "🔊";
+  };
 
-/* =====================================================
-   🔥 SORTIE VIDÉO
-===================================================== */
+  /* =====================================================
+     ❌ BOUTON CLOSE
+  ===================================================== */
 
-function endVideo(skipFade) {
-  video.pause();
-  video.currentTime = 0;
+  closeVideo.onclick = (e) => {
+    e.stopPropagation();
+    launchFadeAndExit();
+  };
 
-  videoContainer.style.pointerEvents = "none";
+  /* =====================================================
+     🎞️ FIN VIDÉO
+  ===================================================== */
 
-  if (skipFade) {
-    closeVideoNow();
-  } else {
-    videoContainer.style.opacity = "0";
-    setTimeout(closeVideoNow, 600);
+  video.onended = () => {
+    launchFadeAndExit();
+  };
+
+  /* =====================================================
+     🌑 FADE + SORTIE
+  ===================================================== */
+
+  function launchFadeAndExit() {
+    video.pause();
+    video.currentTime = 0;
+
+    fadeScreen.classList.add("show");
+
+    setTimeout(() => {
+      videoContainer.style.display = "none";
+      fadeScreen.classList.remove("show");
+      showBackground();
+    }, 800);
   }
-}
 
-function closeVideoNow() {
-  videoContainer.style.display = "none";
-  videoContainer.style.opacity = "1";
-  videoContainer.style.pointerEvents = "auto";
+  /* =====================================================
+     🌅 BACKGROUND + PIRATES
+  ===================================================== */
 
-  showBackground(); // ✅ APPEL CORRECT
-}
+  function showBackground() {
+    background.style.display = "block";
+    background.style.opacity = 0;
 
-/* =====================================================
-   🌅 BACKGROUND + PIRATES
-===================================================== */
+    // Pirate apprenti
+    pirate2bis.style.position = "absolute";
+    pirate2bis.style.left = "516px";
+    pirate2bis.style.top = "406px";
+    pirate2bis.style.width = "186px";
+    pirate2bis.style.height = "178px";
 
-function showBackground() {
-  background.style.display = "block";
-  background.style.opacity = "0";
+    // Maître pirate
+    pirate5bis.style.position = "absolute";
+    pirate5bis.style.left = "785px";
+    pirate5bis.style.top = "397px";
+    pirate5bis.style.width = "143px";
+    pirate5bis.style.height = "187px";
 
-  // Pirate apprenti
-  pirate2bis.style.position = "absolute";
-  pirate2bis.style.left = "516px";
-  pirate2bis.style.top = "406px";
-  pirate2bis.style.width = "186px";
-  pirate2bis.style.height = "178px";
+    requestAnimationFrame(() => {
+      background.style.opacity = 1;
+    });
+  }
 
-  // Maître pirate
-  pirate5bis.style.position = "absolute";
-  pirate5bis.style.left = "785px";
-  pirate5bis.style.top = "397px";
-  pirate5bis.style.width = "143px";
-  pirate5bis.style.height = "187px";
-
-  requestAnimationFrame(() => {
-    background.style.opacity = "1";
-  });
-}
+});
 
   /* =====================================================
      💬 DIALOGUES
