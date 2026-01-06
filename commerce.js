@@ -1,11 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   🔐 SÉCURITÉ DÉMARRAGE
+   🔐 ÉTATS INITIAUX — TRÈS IMPORTANT
 ===================================================== */
-const endScreen = document.getElementById("endScreen");
+const videoContainer = document.getElementById("videoContainer");
+const bookContainer  = document.getElementById("bookContainer");
+const endScreen      = document.getElementById("endScreen");
+
+bookContainer.style.display = "none";   // ⛔ jamais visible au départ
 endScreen.style.display = "none";
-endScreen.classList.add("hidden");
 
 /* =====================================================
    📳 VIBRATIONS
@@ -15,7 +18,7 @@ function vibrate(p = 15){
 }
 
 /* =====================================================
-   🌑 FADE + TEXTE
+   🌑 FADE
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
@@ -29,29 +32,16 @@ function fade(text, cb){
   },1800);
 }
 
-function typeWriter(el, text, cb){
-  let i = 0;
-  el.innerHTML = "";
-  const t = setInterval(()=>{
-    el.innerHTML += text[i++];
-    if(i >= text.length){
-      clearInterval(t);
-      cb && cb();
-    }
-  },25);
-}
-
 /* =====================================================
    🎬 VIDÉO
 ===================================================== */
-const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
 video.muted = true;
 
-toggleSound.onclick = () => {
+toggleSound.onclick = ()=>{
   vibrate(10);
   video.muted = !video.muted;
   toggleSound.textContent = video.muted ? "🔇" : "🔊";
@@ -77,7 +67,8 @@ const pirate3 = document.getElementById("pirate3bis");
 
 function showBackground(){
   background.style.display = "block";
-  setTimeout(()=>background.style.opacity=1,50);
+  background.style.opacity = 0;
+  setTimeout(()=> background.style.opacity = 1, 50);
 }
 
 /* =====================================================
@@ -98,7 +89,7 @@ function playDialogues(dialogues, onEnd){
 
     const r = d.anchor.getBoundingClientRect();
     bubble.style.left = r.left + "px";
-    bubble.style.top = (r.top - 160) + "px";
+    bubble.style.top  = (r.top - 160) + "px";
 
     bubbleContainer.appendChild(bubble);
 
@@ -123,7 +114,7 @@ function playDialogues(dialogues, onEnd){
 const dialogues1 = [
   { text:"Moussaillon ! Bienvenue sur le marché des trésors !", anchor:pirate5 },
   { text:"J’suis prêt, capitaine !", anchor:pirate2 },
-  { text:"Observe bien les autres pirates et leurs stratégies.", anchor:pirate5 },
+  { text:"Observe bien les autres pirates.", anchor:pirate5 },
   { text:"Je ferai mieux qu’eux !", anchor:pirate2 },
   { text:"Alors prouve-le !", anchor:pirate5 }
 ];
@@ -151,7 +142,7 @@ const questions = [
 let step = 0;
 
 function startMiniGame1(){
-  miniGameContainer.style.display="flex";
+  miniGameContainer.style.display = "flex";
   step = 0;
   showStep();
 }
@@ -186,14 +177,13 @@ function showStep(){
 }
 
 function endMiniGame1(){
-  miniGameContainer.style.display="none";
+  miniGameContainer.style.display = "none";
   fade("Bravo ! Ton business plan est prêt", showBook);
 }
 
 /* =====================================================
-   📖 LIVRE
+   📖 LIVRE (AFFICHÉ UNIQUEMENT ICI)
 ===================================================== */
-const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
 const continueQuestBtn = document.getElementById("continueQuestBtn");
@@ -208,7 +198,7 @@ const pages = [
 let bookIndex = 0;
 
 function showBook(){
-  bookContainer.classList.remove("hidden");
+  bookContainer.style.display = "flex";
   updateBook();
 }
 
@@ -233,7 +223,7 @@ document.querySelector(".book").onclick = (e)=>{
 
 continueQuestBtn.onclick = ()=>{
   vibrate(20);
-  bookContainer.classList.add("hidden");
+  bookContainer.style.display = "none";
   spawnPirate3();
 };
 
