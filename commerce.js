@@ -47,20 +47,32 @@ function endVideo(){
   fade("Chargement...", showBackground);
 }
 
-/* =====================================================
-   🌅 BACKGROUND + PIRATES
-===================================================== */
-const background = document.getElementById("background");
-const pirate2 = document.getElementById("pirate2bis");
-const pirate5 = document.getElementById("pirate5bis");
-const pirate3 = document.getElementById("pirate3bis");
+ /* =====================================================
+     🌅 BACKGROUND + PIRATES (FIX VISIBILITÉ)
+  ===================================================== */
+  const background = document.getElementById("background");
+  const pirate2 = document.getElementById("pirate2bis");
+  const pirate5 = document.getElementById("pirate5bis");
+  const pirate3 = document.getElementById("pirate3bis");
 
-function showBackground(){
-  background.style.display = "block";
-  pirate2.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
-  setTimeout(()=> background.style.opacity = 1, 50);
-}
+  function showBackground(){
+    background.style.display = "block";
+    background.style.opacity = "0";
+
+    /* 🔥 FORÇAGE VISIBILITÉ PIRATES */
+    pirate2.classList.remove("hidden");
+    pirate5.classList.remove("hidden");
+
+    pirate2.style.display = "block";
+    pirate5.style.display = "block";
+
+    pirate2.style.opacity = "1";
+    pirate5.style.opacity = "1";
+
+    setTimeout(()=>{
+      background.style.opacity = "1";
+    }, 50);
+  }
 
 /* =====================================================
    💬 BULLES + SKIP
