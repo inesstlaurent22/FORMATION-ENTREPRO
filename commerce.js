@@ -175,12 +175,105 @@ function endQuiz(){
 }
 
 /* =====================================================
-   📖 LIVRE + SUITE
-   (inchangé par rapport à la version précédente)
+   📖 LIVRE DIGITAL – LOGIQUE COMPLÈTE
 ===================================================== */
 
-/* 👉 le reste de ton JS (livre, pirate 3, mini-jeu 2, fin)
-   reste IDENTIQUE à la version que je t’ai envoyée juste avant
-*/
+const bookContainer = document.getElementById("bookContainer");
+const bookElement   = bookContainer.querySelector(".book");
+const leftPageImg   = bookContainer.querySelector(".page.left img");
+const rightPageImg  = bookContainer.querySelector(".page.right img");
+const continueQuestBtn = document.getElementById("continueQuestBtn");
 
+/* ================= DONNÉES LIVRE ================= */
+
+// pages recto (droite)
+const rightPages = [
+  "images/Businessplancov.png",  // couverture
+  "images/Businessplan1.png",
+  "images/Businessplan2.png",
+  "images/Businessplan3.png"
+];
+
+// verso unique (gauche)
+const leftVerso = "images/Businessplan4.jpg";
+
+// index sauvegardé
+let bookIndex = Number(localStorage.getItem("bookIndex")) || 0;
+
+/* ================= AFFICHAGE LIVRE ================= */
+
+function showBook(){
+  bookContainer.classList.remove("hidden");
+  bookContainer.style.display = "flex";
+
+  bookIndex = Math.max(0, Math.min(bookIndex, rightPages.length - 1));
+  updateBook();
+}
+
+/* ================= MISE À JOUR DES PAGES ================= */
+
+function updateBook(direction = "next"){
+
+  // animation page qui se tourne
+  rightPageImg.classList.remove("turn-next","turn-prev");
+  void rightPageImg.offsetWidth;
+  rightPageImg.classList.add(direction === "next" ? "turn-next" : "turn-prev");
+
+  setTimeout(() => {
+
+    // page droite
+    rightPageImg.src = rightPages[bookIndex];
+
+    // page gauche (verso)
+    if(bookIndex === 0){
+      leftPageImg.style.visibility = "hidden";
+    } else {
+      leftPageImg.style.visibility = "visible";
+      leftPageImg.src = leftVerso;
+    }
+
+    // bouton continuer
+    continueQuestBtn.style.display =
+      bookIndex === rightPages.length - 1 ? "block" : "none";
+
+    // sauvegarde progression
+    localStorage.setItem("bookIndex", bookIndex);
+
+  }, 260);
+}
+
+/* ================= CLIC DANS LE LIVRE ================= */
+
+bookElement.addEventListener("click", (e) => {
+
+  const rect = bookElement.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+
+  // clic à droite → page suivante
+  if(clickX > rect.width / 2){
+    if(bookIndex < rightPages.length - 1){
+      bookIndex++;
+      updateBook("next");
+    }
+  }
+  // clic à gauche → page précédente
+  else{
+    if(bookIndex > 0){
+      bookIndex--;
+      updateBook("prev");
+    }
+  }
 });
+
+/* ================= SORTIE DU LIVRE ================= */
+
+continueQuestBtn.onclick = () => {
+  bookContainer.classList.add("hidden");
+  bookContainer.style.display = "none";
+
+  // on revient au background
+  showBackground();
+
+  // apparition du pirate client
+  spawnPirate3();
+};
