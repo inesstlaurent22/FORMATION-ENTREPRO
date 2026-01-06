@@ -116,13 +116,25 @@ function typeWriter(el, text, cb){
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
-function fade(text, cb){
+function fade(text, callback) {
+
   loaderBox.textContent = text;
-  fadeScreen.style.display="flex";
-  setTimeout(()=>{
-    fadeScreen.style.display="none";
-    cb && cb();
-  },1800);
+  fadeScreen.style.display = "flex";
+  fadeScreen.style.opacity = "0";
+
+  requestAnimationFrame(() => {
+    fadeScreen.style.opacity = "1";
+  });
+
+  setTimeout(() => {
+    fadeScreen.style.opacity = "0";
+
+    setTimeout(() => {
+      fadeScreen.style.display = "none";
+      callback && callback();
+    }, 600);
+
+  }, 1200);
 }
 
 /* ================= 🎮 QUIZ ================= */
