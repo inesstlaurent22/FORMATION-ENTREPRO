@@ -13,13 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate2bis = document.getElementById("pirate2bis");
   const pirate5bis = document.getElementById("pirate5bis");
 
-  /* =====================================================
-     🌑 FADE IN
-  ===================================================== */
-
-  const fadeScreen = document.createElement("div");
-  fadeScreen.id = "videoFade";
-  document.body.appendChild(fadeScreen);
+  /* 🔐 SÉCURITÉ */
+  if (!video || !toggleSound || !closeVideo || !videoContainer) {
+    console.error("❌ Élément vidéo manquant dans le DOM");
+    return;
+  }
 
   /* =====================================================
      ⚙️ ÉTAT INITIAL
@@ -35,32 +33,34 @@ document.addEventListener("DOMContentLoaded", () => {
      🔊 BOUTON SON
   ===================================================== */
 
-  toggleSound.onclick = (e) => {
+  toggleSound.addEventListener("click", (e) => {
     e.stopPropagation();
     video.muted = !video.muted;
     toggleSound.textContent = video.muted ? "🔇" : "🔊";
-  };
+  });
 
   /* =====================================================
      ❌ BOUTON CLOSE
   ===================================================== */
 
-  closeVideo.onclick = (e) => {
+  closeVideo.addEventListener("click", (e) => {
     e.stopPropagation();
     launchFadeAndExit();
-  };
+  });
 
   /* =====================================================
      🎞️ FIN VIDÉO
   ===================================================== */
 
-  video.onended = () => {
-    launchFadeAndExit();
-  };
+  video.addEventListener("ended", launchFadeAndExit);
 
   /* =====================================================
      🌑 FADE + SORTIE
   ===================================================== */
+
+  const fadeScreen = document.createElement("div");
+  fadeScreen.id = "videoFade";
+  document.body.appendChild(fadeScreen);
 
   function launchFadeAndExit() {
     video.pause();
@@ -81,16 +81,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showBackground() {
     background.style.display = "block";
-    background.style.opacity = 0;
+    background.style.opacity = "0";
 
-    // Pirate apprenti
     pirate2bis.style.position = "absolute";
     pirate2bis.style.left = "516px";
     pirate2bis.style.top = "406px";
     pirate2bis.style.width = "186px";
     pirate2bis.style.height = "178px";
 
-    // Maître pirate
     pirate5bis.style.position = "absolute";
     pirate5bis.style.left = "785px";
     pirate5bis.style.top = "397px";
@@ -98,12 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
     pirate5bis.style.height = "187px";
 
     requestAnimationFrame(() => {
-      background.style.opacity = 1;
+      background.style.opacity = "1";
     });
   }
 
 });
-
   /* =====================================================
      💬 DIALOGUES
   ===================================================== */
