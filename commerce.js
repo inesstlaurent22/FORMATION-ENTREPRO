@@ -1,356 +1,211 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* =====================================================
-     🎬 VIDÉO + BOUTONS
-  ===================================================== */
+let state = "video";
 
-  const videoContainer = document.getElementById("videoContainer");
-  const video = document.getElementById("questVideo");
-  const toggleSound = document.getElementById("toggleSound");
-  const closeVideo = document.getElementById("closeVideo");
+/* ================= 🎬 VIDÉO ================= */
 
-  const background = document.getElementById("background");
-  const pirate2bis = document.getElementById("pirate2bis");
-  const pirate5bis = document.getElementById("pirate5bis");
+const video = document.getElementById("questVideo");
+const videoContainer = document.getElementById("videoContainer");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo = document.getElementById("closeVideo");
 
-  /* 🔐 SÉCURITÉ */
-  if (!video || !toggleSound || !closeVideo || !videoContainer) {
-    console.error("❌ Élément vidéo manquant dans le DOM");
-    return;
-  }
+toggleSound.onclick = () => {
+  video.muted = !video.muted;
+  toggleSound.textContent = video.muted ? "🔇" : "🔊";
+};
 
-  /* =====================================================
-     ⚙️ ÉTAT INITIAL
-  ===================================================== */
-
-  background.style.display = "none";
-  video.muted = true;
-  toggleSound.textContent = "🔇";
-
-  video.play().catch(() => {});
-
-  /* =====================================================
-     🔊 BOUTON SON
-  ===================================================== */
-
-  toggleSound.addEventListener("click", (e) => {
-    e.stopPropagation();
-    video.muted = !video.muted;
-    toggleSound.textContent = video.muted ? "🔇" : "🔊";
+function endVideo(){
+  fade("Chargement...", () => {
+    videoContainer.style.display = "none";
+    showBackground();
   });
+}
 
-  /* =====================================================
-     ❌ BOUTON CLOSE
-  ===================================================== */
+closeVideo.onclick = endVideo;
+video.onended = endVideo;
 
-  closeVideo.addEventListener("click", (e) => {
-    e.stopPropagation();
-    launchFadeAndExit();
+/* ================= 🌅 BACKGROUND ================= */
+
+const background = document.getElementById("background");
+const pirate2 = document.getElementById("pirate2bis");
+const pirate5 = document.getElementById("pirate5bis");
+
+function showBackground(){
+  state = "background";
+  background.style.display = "block";
+
+  pirate2.style.left = "516px";
+  pirate2.style.top = "406px";
+  pirate2.style.width = "186px";
+
+  pirate5.style.left = "786px";
+  pirate5.style.top = "397px";
+  pirate5.style.width = "143px";
+}
+
+/* ================= 💬 DIALOGUES ================= */
+
+const dialogues = [
+  {p: pirate5, t: "Bienvenue sur le marché des trésors !"},
+  {p: pirate2, t: "Je suis prêt capitaine !"},
+  {p: pirate5, t: "Observe, compare et fais les bons choix."},
+  {p: pirate2, t: "Ok, j’ai compris !"}
+];
+
+let dIndex = 0;
+const bubbleContainer = document.getElementById("bubbleContainer");
+
+pirate5.onclick = () => {
+  if(state !== "background") return;
+  state = "dialogue";
+  dIndex = 0;
+  showBubble();
+};
+
+function showBubble(){
+  bubbleContainer.innerHTML = "";
+  const d = dialogues[dIndex];
+
+  const bubble = document.createElement("div");
+  bubble.className = "dialogue-bubble";
+  bubble.textContent = "";
+
+  const r = d.p.getBoundingClientRect();
+  bubble.style.left = r.left + "px";
+  bubble.style.top = (r.top - 120) + "px";
+
+  bubbleContainer.appendChild(bubble);
+
+  typeWriter(bubble, d.t, () => {
+    const btn = document.createElement("button");
+    btn.textContent = dIndex === dialogues.length -1 ? "Ok, j’ai compris" : "Suite";
+    btn.onclick = () => {
+      dIndex++;
+      dIndex < dialogues.length ? showBubble() : startQuiz();
+    };
+    bubble.appendChild(btn);
   });
+}
 
-  /* =====================================================
-     🎞️ FIN VIDÉO
-  ===================================================== */
+function typeWriter(el, text, cb){
+  let i=0;
+  el.innerHTML="";
+  const t = setInterval(()=>{
+    el.innerHTML += text[i++];
+    if(i>=text.length){ clearInterval(t); cb(); }
+  },30);
+}
 
-  video.addEventListener("ended", launchFadeAndExit);
+/* ================= 🌑 FADE ================= */
 
-  /* =====================================================
-     🌑 FADE + SORTIE
-  ===================================================== */
+const fadeScreen = document.getElementById("fadeScreen");
+const loaderBox = fadeScreen.querySelector(".loaderBox");
 
-  const fadeScreen = document.createElement("div");
-  fadeScreen.id = "videoFade";
-  document.body.appendChild(fadeScreen);
+function fade(text, cb){
+  loaderBox.textContent = text;
+  fadeScreen.style.display="flex";
+  setTimeout(()=>{
+    fadeScreen.style.display="none";
+    cb && cb();
+  },1800);
+}
 
-  function launchFadeAndExit() {
-    video.pause();
-    video.currentTime = 0;
+/* ================= 🎮 QUIZ ================= */
 
-    fadeScreen.classList.add("show");
+const miniGame = document.getElementById("miniGameContainer");
+const qEl = document.getElementById("gameQuestion");
+const aEl = document.getElementById("gameAnswers");
+const hint = document.getElementById("multiHint");
+const counter = document.getElementById("counter");
 
-    setTimeout(() => {
-      videoContainer.style.display = "none";
-      fadeScreen.classList.remove("show");
-      showBackground();
-    }, 800);
-  }
+const quiz = [
+  {q:"Que doivent-ils observer ?", a:["Pierres","Concurrents","Météo"], c:[0,1]}
+];
 
-  /* =====================================================
-     🌅 BACKGROUND + PIRATES
-  ===================================================== */
+let qi=0, selected=[];
 
-  function showBackground() {
-    background.style.display = "block";
-    background.style.opacity = "0";
-
-    pirate2bis.style.position = "absolute";
-    pirate2bis.style.left = "516px";
-    pirate2bis.style.top = "406px";
-    pirate2bis.style.width = "186px";
-    pirate2bis.style.height = "178px";
-
-    pirate5bis.style.position = "absolute";
-    pirate5bis.style.left = "785px";
-    pirate5bis.style.top = "397px";
-    pirate5bis.style.width = "143px";
-    pirate5bis.style.height = "187px";
-
-    requestAnimationFrame(() => {
-      background.style.opacity = "1";
-    });
-  }
-
-});
-  /* =====================================================
-     💬 DIALOGUES
-  ===================================================== */
-
-  const bubbleContainer = document.getElementById("bubbleContainer");
-  const skipDialoguesBtn = document.getElementById("skipDialoguesBtn");
-
-  const dialogues = [
-    { who: "maitre", text: "Moussaillon ! Bienvenue sur le marché des trésors !", anchor: pirate5bis },
-    { who: "apprenti", text: "J’suis prêt, capitaine !", anchor: pirate2bis },
-    { who: "maitre", text: "Observe, compare et trouve la meilleure stratégie.", anchor: pirate5bis },
-    { who: "apprenti", text: "Ok, j’ai compris !", anchor: pirate2bis }
-  ];
-
-  pirate5bis.onclick = () => {
-    if (gameState !== "background") return;
-    gameState = "dialogues";
-    dialogueStep = 0;
-    skipDialoguesBtn.style.display = "block";
-    createBubble(dialogues[0]);
-  };
-
-  skipDialoguesBtn.onclick = endDialogues;
-
-  function endDialogues() {
-    skipDialoguesBtn.style.display = "none";
-    bubbleContainer.innerHTML = "";
-    launchMiniGame();
-  }
-
-  function createBubble(d) {
-    bubbleContainer.innerHTML = "";
-
-    const bubble = document.createElement("div");
-    bubble.className = "dialogue-bubble";
-
-    const name = document.createElement("div");
-    name.className = "name";
-    name.textContent = d.who === "maitre" ? "Maître pirate" : "Apprenti pirate";
-
-    const text = document.createElement("div");
-    text.className = "text";
-
-    bubble.append(name, text);
-    bubbleContainer.appendChild(bubble);
-
-    const r = d.anchor.getBoundingClientRect();
-    bubble.style.left = r.left + "px";
-    bubble.style.top = (r.top - bubble.offsetHeight - 12) + "px";
-
-    typeWriter(text, d.text, 25, () => {
-      const btn = document.createElement("button");
-      btn.textContent = dialogueStep < dialogues.length - 1 ? "Suite" : "OK, j’ai compris";
-      btn.onclick = nextDialogue;
-      bubble.appendChild(btn);
-    });
-  }
-
-  function nextDialogue() {
-    dialogueStep++;
-    dialogueStep < dialogues.length
-      ? createBubble(dialogues[dialogueStep])
-      : endDialogues();
-  }
-
-  function typeWriter(el, text, speed, cb) {
-    let i = 0;
-    el.innerHTML = "";
-    (function loop() {
-      if (i < text.length) {
-        el.innerHTML += text[i++];
-        setTimeout(loop, speed);
-      } else cb && cb();
-    })();
-  }
-
-  /* =====================================================
-     🌑 MINI-JEU
-  ===================================================== */
-
-  const fadeScreen = document.getElementById("fadeScreen");
-  const miniGameContainer = document.getElementById("miniGameContainer");
-  const gameQuestion = document.getElementById("gameQuestion");
-  const gameAnswers = document.getElementById("gameAnswers");
-
-  const questions = [
-    { q: "Où les pirates ont-ils trouvé leurs pierres ?", a: ["Dans une grotte", "Au marché", "Chez la tante"], c: [0] },
-    { q: "Que doivent-ils observer ?", a: ["Pierres", "Concurrents", "Météo"], c: [0, 1] }
-  ];
-
-  function launchMiniGame() {
-    fadeScreen.style.display = "flex";
-    setTimeout(() => {
-      fadeScreen.style.display = "none";
-      startMiniGame();
-    }, 2000);
-  }
-
-  function startMiniGame() {
-    quizStep = 0;
-    miniGameContainer.style.display = "flex";
+function startQuiz(){
+  fade("Termine ce mini-jeu et tu pourras continuer ta quête", ()=>{
+    state="quiz";
+    miniGame.style.display="flex";
     showQuestion();
-  }
+  });
+}
 
-  function showQuestion() {
-    if (quizStep >= questions.length) return showReward();
+function showQuestion(){
+  selected=[];
+  const q=quiz[qi];
+  qEl.textContent=q.q;
+  aEl.innerHTML="";
+  hint.textContent = q.c.length>1 ? "Plusieurs réponses possibles" : "";
+  counter.textContent = "";
 
-    const q = questions[quizStep];
-    gameQuestion.textContent = q.q;
-    gameAnswers.innerHTML = "";
-    selected = [];
+  q.a.forEach((txt,i)=>{
+    const b=document.createElement("button");
+    b.textContent=txt;
+    b.onclick=()=>{
+      if(selected.includes(i)) return;
+      selected.push(i);
+      b.classList.add("selected");
+      counter.textContent = selected.length+" / "+q.c.length;
 
-    q.a.forEach((ans, i) => {
-      const b = document.createElement("button");
-      b.textContent = ans;
+      if(selected.length===q.c.length){
+        setTimeout(()=>{
+          selected.sort().join()==q.c.sort().join() ? win() : showQuestion();
+        },500);
+      }
+    };
+    aEl.appendChild(b);
+  });
+}
 
-      b.onclick = () => {
-        if (selected.includes(i)) return;
-        selected.push(i);
-        if (selected.length === q.c.length) {
-          selected.sort().join() === q.c.sort().join()
-            ? (quizStep++, showQuestion())
-            : showQuestion();
-        }
-      };
+/* ================= 🏆 VICTOIRE ================= */
 
-      gameAnswers.appendChild(b);
-    });
-  }
+const reward = document.getElementById("rewardScreen");
 
-  /* =====================================================
-     🏆 RÉCOMPENSE → LIVRE
-  ===================================================== */
+function win(){
+  miniGame.style.display="none";
+  reward.style.display="flex";
+  setTimeout(showBook,2500);
+}
 
-  const rewardScreen = document.getElementById("rewardScreen");
-  const bookContainer = document.getElementById("bookContainer");
-  const continueBtn = document.getElementById("continueQuestBtn");
+/* ================= 📖 LIVRE ================= */
 
-function showReward() {
-  // 🔥 IMPORTANT : on ferme TOUT
-  miniGameContainer.style.display = "none";
-  fadeScreen.style.display = "none";
-
-  rewardScreen.style.display = "flex";
-
-  setTimeout(() => {
-    rewardScreen.style.display = "none";
-    showBook();
-  }, 2600);
-} 
-
-/* =====================================================
-   📖 LIVRE – LOGIQUE FINALE
-===================================================== */
-/* =====================================================
-   📖 LIVRE – VERSION FINALE AVEC PAGE QUI SE SOULÈVE
-===================================================== */
-
-const bookContainer = document.getElementById("bookContainer");
-const bookElement = document.querySelector(".book");
-
+const book = document.getElementById("bookContainer");
 const rightPage = document.getElementById("rightPage");
-const leftPageImg = bookContainer.querySelector(".page.left img");
-
+const leftPage = document.getElementById("leftPage");
 const continueBtn = document.getElementById("continueQuestBtn");
 
-// index logique
-// 0 = couverture
-// 1 → 3 = pages Businessplan1 → 3
-let bookIndex = 0;
-
-// pages droites
-const rightPages = [
+const pages = [
   "images/Businessplancov.png",
   "images/Businessplan1.png",
   "images/Businessplan2.png",
   "images/Businessplan3.png"
 ];
 
-// verso fixe
-const leftVerso = "images/Businessplan4.jpg";
+let pi=0;
 
-/* ================= AFFICHAGE LIVRE ================= */
-
-function showBook() {
-  rewardScreen.style.display = "none";
-  miniGameContainer.style.display = "none";
-  fadeScreen.style.display = "none";
-  background.style.display = "none";
-  videoContainer.style.display = "none";
-
-  gameState = "book";
-  bookContainer.style.display = "flex";
-  bookContainer.classList.remove("show");
-  void bookContainer.offsetWidth;
-  bookContainer.classList.add("show");
-
-  bookIndex = 0;
+function showBook(){
+  reward.style.display="none";
+  book.style.display="flex";
   updateBook();
 }
 
-/* ================= MISE À JOUR LIVRE ================= */
-
-function updateBook(direction = "next") {
-
-  // effet page qui se soulève
-  rightPage.classList.remove("lift-next", "lift-prev");
-  void rightPage.offsetWidth;
-  rightPage.classList.add(direction === "next" ? "lift-next" : "lift-prev");
-
-  setTimeout(() => {
-    rightPage.src = rightPages[bookIndex];
-
-    if (bookIndex === 0) {
-      leftPageImg.style.visibility = "hidden";
-    } else {
-      leftPageImg.style.visibility = "visible";
-      leftPageImg.src = leftVerso;
-    }
-
-    continueBtn.style.display =
-      bookIndex === rightPages.length - 1 ? "block" : "none";
-  }, 260);
+function updateBook(){
+  rightPage.src = pages[pi];
+  leftPage.src = pi>0 ? "images/Businessplan4.jpg" : "";
+  continueBtn.style.display = pi===pages.length-1 ? "block" : "none";
 }
 
-/* ================= NAVIGATION PAR CLIC ================= */
-
-bookElement.addEventListener("click", (e) => {
-  const rect = bookElement.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-
-  // clic à droite → page suivante
-  if (x > rect.width / 2) {
-    if (bookIndex < rightPages.length - 1) {
-      bookIndex++;
-      updateBook("next");
-    }
+book.onclick = e=>{
+  if(e.offsetX > book.clientWidth/2 && pi<pages.length-1){
+    pi++; updateBook();
   }
-  // clic à gauche → page précédente
-  else {
-    if (bookIndex > 0) {
-      bookIndex--;
-      updateBook("prev");
-    }
-  }
-});
+};
 
-/* ================= SORTIE LIVRE ================= */
-
-continueBtn.onclick = () => {
-  bookContainer.style.display = "none";
+continueBtn.onclick = ()=>{
+  book.style.display="none";
   showBackground();
 };
+
+});
