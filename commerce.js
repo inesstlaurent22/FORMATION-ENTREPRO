@@ -1,63 +1,36 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded",()=>{
 
-/* =====================================================
-   🔧 UTILITAIRES
-===================================================== */
-function fade(text, cb) {
+/* ================= UTIL ================= */
+function fade(text, cb){
   fadeScreen.querySelector(".loaderBox").textContent = text;
-  fadeScreen.style.display = "flex";
-
-  setTimeout(() => {
-    fadeScreen.style.display = "none";
+  fadeScreen.style.display="flex";
+  setTimeout(()=>{
+    fadeScreen.style.display="none";
     cb && cb();
-  }, 1800);
+  },1800);
 }
 
-function typeWriter(el, text, cb) {
-  let i = 0;
-  el.textContent = "";
-  const t = setInterval(() => {
-    el.textContent += text[i++];
-    if (i >= text.length) {
-      clearInterval(t);
-      cb && cb();
-    }
-  }, 80);
-}
-
-/* =====================================================
-   🎬 VIDÉO INTRO
-===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const video = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
-
-toggleSound.onclick = () => {
-  video.muted = !video.muted;
-  toggleSound.textContent = video.muted ? "🔇" : "🔊";
+/* ================= VIDÉO ================= */
+const video=document.getElementById("questVideo");
+const videoContainer=document.getElementById("videoContainer");
+toggleSound.onclick=()=>{
+  video.muted=!video.muted;
+  toggleSound.textContent=video.muted?"🔇":"🔊";
 };
+closeVideo.onclick=endVideo;
+video.onended=endVideo;
 
-closeVideo.onclick = endVideo;
-video.onended = endVideo;
-
-function endVideo() {
-  video.pause();
-  videoContainer.style.display = "none";
-  fade("Chargement...", showBackground);
+function endVideo(){
+  videoContainer.style.display="none";
+  fade("Chargement...",showBackground);
 }
 
-/* =====================================================
-   🌅 BACKGROUND
-===================================================== */
-const background = document.getElementById("background");
-const pirate2 = document.getElementById("pirate2bis");
-const pirate5 = document.getElementById("pirate5bis");
-const pirate3 = document.getElementById("pirate3bis");
-
-function showBackground() {
+/* ================= BACKGROUND ================= */
+const background=document.getElementById("background");
+function showBackground(){
   background.classList.remove("hidden");
 }
+
 
 /* =====================================================
    💬 BULLES – GÉNÉRIQUE
