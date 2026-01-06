@@ -68,6 +68,14 @@ const pirate3 = document.getElementById("pirate3bis");
 function showBackground(){
   background.style.display = "block";
   background.style.opacity = 0;
+
+  // 🔓 rendre visibles les pirates
+  pirate2.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
+
+  pirate2.style.display = "block";
+  pirate5.style.display = "block";
+
   setTimeout(()=> background.style.opacity = 1, 50);
 }
 
