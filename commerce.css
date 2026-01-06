@@ -1,77 +1,128 @@
 /* =====================================================
-   RESET
+   🔧 RESET GLOBAL
 ===================================================== */
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{
-  width:100%;height:100%;
-  overflow:hidden;
-  font-family:"Trebuchet MS",sans-serif;
-  background:#000;color:#fff;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
-.hidden{display:none}
+
+html, body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:"Trebuchet MS", sans-serif;
+  background:#000;
+}
+
+.hidden{ display:none; }
 
 /* =====================================================
-   VIDÉO
+   🎬 VIDÉO
 ===================================================== */
-#videoContainer{position:fixed;inset:0;background:#000;z-index:3000}
-#questVideo{width:100%;height:100%;object-fit:cover}
-#videoControls{position:absolute;top:20px;right:20px;z-index:3100}
+#videoContainer{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:3000;
+}
+
+#questVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* boutons vidéo */
+#videoControls{
+  position:absolute;
+  top:20px;
+  right:20px;
+  display:flex;
+  gap:10px;
+  z-index:3100;
+}
+
 #videoControls button{
-  font-size:22px;padding:10px 14px;
+  font-size:22px;
+  padding:10px 14px;
   border-radius:12px;
   border:2px solid #3b1b00;
   background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff5d6;cursor:pointer;
+  color:#fff5d6;
+  cursor:pointer;
+  box-shadow:0 3px 0 #3b1b00;
 }
 
 /* =====================================================
-   BACKGROUND
+   🌅 BACKGROUND
 ===================================================== */
 #background{
-  position:fixed;inset:0;
-  display:none;opacity:0;
-  transition:.8s;
+  position:fixed;
+  inset:0;
+  display:none;
+  opacity:0;
+  transition:opacity .8s ease;
   z-index:1;
 }
-.fondImage{width:100%;height:100%;object-fit:cover}
+
+.fondImage{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
 /* =====================================================
-   PIRATES
+   🏴‍☠️ PIRATES
 ===================================================== */
 .pirate{
   position:absolute;
-  z-index:50;
-  object-fit:contain;
+  z-index:5;
 }
 
-/* positions */
-#pirate2bis{left:516px;top:406px;width:186px}
-#pirate5bis{left:785px;top:397px;width:143px}
+/* seul le MAÎTRE pirate s’allume */
+#pirate5bis{
+  cursor:pointer;
+  transition:transform .3s ease, filter .3s ease;
+}
 
-/* SEUL pirate5 s’allume */
 #pirate5bis:hover{
-  transform:scale(1.08);
+  transform:scale(1.06);
   filter:drop-shadow(0 0 16px gold);
 }
 
-/* pirate client */
-#pirate3bis{
-  left:533px;
-  top:-144px;
-  width:445px;
-  opacity:0;
-  transform:translateY(-60px);
+/* pirate apprenti = neutre */
+#pirate2bis{
+  pointer-events:auto;
 }
+
+/* pirate client — apparition propre depuis la droite */
+#pirate3bis{
+  position:absolute;
+  right:-300px;
+  top:-144px;
+
+  opacity:1;            /* ✅ toujours net */
+  filter:none;          /* ✅ aucun voile */
+  transform:none;
+
+  transition:right .7s ease;
+}
+
 #pirate3bis.show{
-  opacity:1;
-  transform:translateY(0);
-  transition:.8s ease;
+  right:533px;
 }
 
 /* =====================================================
-   BULLES
+   💬 BULLES DE DIALOGUE
 ===================================================== */
-#bubbleContainer{position:fixed;inset:0;z-index:80;pointer-events:none}
+#bubbleContainer{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  pointer-events:none;
+}
+
 .dialogue-bubble{
   position:absolute;
   max-width:360px;
@@ -81,130 +132,231 @@ html,body{
   border-radius:16px;
   padding:14px;
   box-shadow:0 6px 0 #3b1b00;
+  cursor:pointer;
   pointer-events:auto;
 }
 
-/* bouton skip */
+/* bouton passer dialogues */
 #skipDialoguesBtn{
   position:fixed;
-  top:20px;right:20px;
-  z-index:90;
-  background:#c0392b;
-  color:#fff;
+  top:20px;
+  right:20px;
+  z-index:60;
+  display:none;
   padding:10px 16px;
+  background:#b81d13;
+  color:white;
+  border:none;
   border-radius:12px;
   font-weight:bold;
   cursor:pointer;
-  display:none;
+  box-shadow:0 4px 0 #5e0e09;
 }
 
 /* =====================================================
-   FADE / LOADER
+   🌑 FADE / LOADER
 ===================================================== */
 #fadeScreen{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   display:none;
   justify-content:center;
   align-items:center;
   background:#000;
   z-index:2500;
 }
+
 .loaderBox{
-  padding:24px 32px;
+  padding:22px 32px;
   border:4px solid #c89b58;
   color:#ffd700;
   font-size:22px;
+  text-align:center;
   animation:pulse 1.2s infinite;
 }
-@keyframes pulse{50%{opacity:.5}}
+
+@keyframes pulse{
+  0%{opacity:.4}
+  50%{opacity:1}
+  100%{opacity:.4}
+}
 
 /* =====================================================
-   MINI-JEU
+   🎮 MINI-JEU
 ===================================================== */
 #miniGameContainer{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   display:none;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
-  background:rgba(0,0,0,.85);
+  background:rgba(0,0,0,.88);
   z-index:2000;
 }
-#gameQuestion{font-size:22px;margin-bottom:18px}
-#gameAnswers{max-width:420px;width:100%}
+
+#gameQuestion{
+  font-size:22px;
+  color:white;
+  margin-bottom:16px;
+  text-align:center;
+}
+
+#gameAnswers{
+  width:100%;
+  max-width:420px;
+}
+
 #gameAnswers button{
-  width:100%;margin-top:10px;
-  padding:12px;font-size:18px;
-  background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff;
+  width:100%;
+  margin-top:10px;
+  padding:14px;
+  font-size:18px;
   border-radius:14px;
   border:3px solid #3b1b00;
+  background:linear-gradient(#8a5a20,#c89b58);
+  color:white;
+  cursor:pointer;
+  box-shadow:0 4px 0 #3b1b00;
+  transition:.2s;
 }
+
+#gameAnswers button:hover,
 #gameAnswers button.selected{
   background:linear-gradient(#ffd700,#ffae00);
   color:#3b1b00;
+  box-shadow:0 0 18px gold;
+}
+
+#gameFeedback{
+  margin-top:14px;
+  font-size:18px;
+  color:white;
+  text-align:center;
 }
 
 /* =====================================================
-   LIVRE
+   💰 EXPLOSION PIÈCES D’OR
+===================================================== */
+#coinExplosion{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.coin{
+  position:absolute;
+  width:16px;
+  height:16px;
+  background:gold;
+  border-radius:50%;
+  animation:coinPop 1s ease-out forwards;
+  left:50%;
+  top:50%;
+}
+
+@keyframes coinPop{
+  to{
+    transform:
+      translate(calc((var(--x) - .5) * 600px),
+                calc((var(--y) - .5) * 400px))
+      scale(0);
+    opacity:0;
+  }
+}
+
+/* =====================================================
+   📖 LIVRE DIGITAL
 ===================================================== */
 #bookContainer{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   display:none;
   justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,.9);
-  z-index:2200;
+  background:rgba(0,0,0,.92);
+  z-index:2000;
 }
-#bookContainer.show{display:flex}
+
+#bookContainer.show{
+  display:flex;
+}
+
 .book{
   display:flex;
-  width:95vw;
-  max-width:960px;
-  perspective:2000px;
+  width:90vw;
+  max-width:900px;
+  aspect-ratio:14/9;
+  perspective:1600px;
 }
+
 .page{
   width:50%;
+  height:100%;
+  background:#000;
   overflow:hidden;
 }
+
 .page img{
   width:100%;
-  height:auto;
+  height:100%;
   object-fit:contain;
+  background:#000;
 }
+
+/* animation page */
 .page.right img{
   transform-origin:left center;
 }
+
 .turn{
-  animation:turnPage .6s ease;
+  animation:pageTurn .6s ease;
 }
-@keyframes turnPage{
-  50%{transform:rotateY(-60deg)}
+
+@keyframes pageTurn{
+  0%{transform:rotateY(0deg)}
+  50%{transform:rotateY(-35deg)}
+  100%{transform:rotateY(0deg)}
 }
 
 /* =====================================================
-   FIN DE QUÊTE
+   🏁 FIN DE QUÊTE
 ===================================================== */
 #endScreen{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   display:none;
   justify-content:center;
   align-items:center;
   background:#000;
   z-index:4000;
+  color:gold;
+  font-size:32px;
+  text-shadow:0 0 25px gold;
 }
-#endBox{
-  padding:40px 50px;
-  border:6px solid #c89b58;
-  background:#000;
-  color:#ffd700;
-  font-size:28px;
-  position:relative;
+
+/* =====================================================
+   📱 RESPONSIVE MOBILE
+===================================================== */
+@media (max-width:768px){
+
+  .dialogue-bubble{
+    max-width:88vw;
+    left:50%!important;
+    transform:translateX(-50%);
+    bottom:18%;
+    top:auto!important;
+  }
+
+  .book{
+    width:94vw;
+    aspect-ratio:4/3;
+  }
+
+  #gameQuestion{
+    font-size:18px;
+  }
+
+  #gameAnswers button{
+    font-size:16px;
+  }
 }
-.firework{
-  position:absolute;
-  inset:-100px;
-  background:radial-gradient(circle, gold 2px, transparent 3px);
-  animation:fire 1s infinite;
-}
-@keyframes fire{to{transform:rotate(360deg)}}
