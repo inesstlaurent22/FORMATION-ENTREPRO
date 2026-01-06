@@ -12,7 +12,7 @@ html,body{
 }
 
 /* =====================================================
-   🔥 CLASSE DE SÉCURITÉ (ANTI BUG FOND NOIR)
+   🔥 CLASSE SÉCURITÉ
 ===================================================== */
 .hidden{
   display:none !important;
@@ -40,37 +40,28 @@ html,body{
 }
 
 /* =====================================================
-   🎛️ CONTROLES VIDÉO
+   🎛️ BOUTONS PIRATE (GLOBAL)
 ===================================================== */
-#videoControls{
-  position:absolute;
-  top:20px;
-  right:20px;
-  display:flex;
-  gap:10px;
-  z-index:2001;
-}
-
-#toggleSound,#closeVideo,#continueQuestBtn{
+button{
   padding:12px 22px;
   font-size:18px;
   font-weight:bold;
-  color:#fff5d6;
+  color:#fff; /* ⬅️ TEXTE BLANC POUR LES BOUTONS */
   background:linear-gradient(#8a5a20,#c89b58);
   border:3px solid #3b1b00;
   border-radius:14px;
   cursor:pointer;
   box-shadow:0 6px 0 #3b1b00;
   text-shadow:1px 1px 2px #000;
-  transition:transform .15s, box-shadow .15s, filter .15s;
+  transition:.15s;
 }
 
-#toggleSound:hover,#closeVideo:hover,#continueQuestBtn:hover{
+button:hover{
   transform:translateY(-2px);
   box-shadow:0 8px 0 #3b1b00,0 0 18px gold;
 }
 
-#toggleSound:active,#closeVideo:active,#continueQuestBtn:active{
+button:active{
   transform:translateY(4px);
   box-shadow:0 2px 0 #3b1b00;
 }
@@ -86,11 +77,10 @@ html,body{
   justify-content:center;
   align-items:center;
   z-index:3000;
-  transition:opacity .5s;
 }
 
 .loaderBox{
-  padding:22px 32px;
+  padding:24px 34px;
   border:4px solid #c89b58;
   color:#ffd700;
   font-size:22px;
@@ -111,7 +101,6 @@ html,body{
   position:fixed;
   inset:0;
   display:none;
-  opacity:1;
   z-index:1;
 }
 
@@ -125,7 +114,6 @@ html,body{
   position:absolute;
   cursor:pointer;
   z-index:10;
-  object-fit:contain;
 }
 
 /* =====================================================
@@ -138,31 +126,47 @@ html,body{
   pointer-events:none;
 }
 
+/* 🔹 BULLE */
 .dialogue-bubble{
   position:absolute;
-  max-width:340px;
+  max-width:360px;
   background:#fdf4e3;
-  color:#3b1b00;
-  border:3px solid #8a5a20;
+  color:#000;              /* ⬅️ TEXTE NOIR POUR L’ÉCRITURE */
+  border:3px solid #c89b58;
   border-radius:14px;
-  padding:14px;
-  box-shadow:0 5px 0 #3b1b00;
+  padding:16px;
+  box-shadow:0 6px 0 #3b1b00;
   pointer-events:auto;
 }
 
+/* 🔹 TEXTE MACHINE À ÉCRIRE */
+.dialogue-bubble .text{
+  color:#000;              /* ⬅️ NOIR CONFIRMÉ */
+  line-height:1.4;
+}
+
+/* 🔹 BOUTONS DANS LES BULLES */
 .dialogue-bubble button{
-  margin-top:12px;
-  padding:8px 16px;
-  background:#c89b58;
-  border:none;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 3px 0 #3b1b00;
+  margin-top:14px;
+  color:#fff;              /* ⬅️ BLANC POUR “Suite” & “Ok, j’ai compris” */
+}
+
+/* ================= IGNORER DIALOGUES ================= */
+
+#skipDialoguesBtn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:800;
+  display:none;
+  background:linear-gradient(#b31217,#e52d27);
+  border:3px solid #5c0b0f;
+  box-shadow:0 6px 0 #5c0b0f;
+  color:#fff;
 }
 
 /* =====================================================
-   🎮 MINI-JEU
+   🎮 MINI JEU
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -170,20 +174,26 @@ html,body{
   display:none;
   justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,.85);
+  background:rgba(0,0,0,.6);
   z-index:1400;
-  color:#fff;
 }
 
 .quizBox{
   background:linear-gradient(#8a5a20,#c89b58);
   border:6px solid #3b1b00;
-  border-radius:20px;
+  border-radius:22px;
   padding:30px;
-  max-width:420px;
   width:90%;
+  max-width:420px;
   text-align:center;
+  color:#fff;
   box-shadow:0 0 30px gold;
+}
+
+#gameAnswers button.selected{
+  background:linear-gradient(#ffd700,#ffae00);
+  color:#3b1b00;
+  box-shadow:0 0 18px gold;
 }
 
 /* =====================================================
@@ -197,67 +207,4 @@ html,body{
   align-items:center;
   background:rgba(0,0,0,.85);
   z-index:1600;
-}
-
-.rays{
-  position:absolute;
-  width:600px;
-  height:600px;
-  background:repeating-conic-gradient(
-    rgba(255,215,0,.8) 0deg 10deg,
-    transparent 10deg 20deg
-  );
-  animation:spin 6s linear infinite;
-}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* =====================================================
-   📖 LIVRE
-===================================================== */
-#bookContainer{
-  position:fixed;
-  inset:0;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.85);
-  z-index:1700;
-}
-
-.book{
-  display:flex;
-  width:700px;
-  height:450px;
-  background:#000;
-  cursor:pointer;
-}
-
-.page{
-  width:50%;
-  height:100%;
-}
-
-.page img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-/* =====================================================
-   ✨ BOUTON FINAL
-===================================================== */
-#continueQuestBtn{
-  position:fixed;
-  top:20px;
-  right:20px;
-  display:none;
-  z-index:2000;
-  animation:glow 2s infinite;
-}
-
-@keyframes glow{
-  0%{box-shadow:0 6px 0 #3b1b00,0 0 6px gold}
-  50%{box-shadow:0 6px 0 #3b1b00,0 0 18px gold}
-  100%{box-shadow:0 6px 0 #3b1b00,0 0 6px gold}
 }
