@@ -176,6 +176,7 @@ html, body{
    🌑 FADE / LOADER
 ===================================================== */
 #fadeScreen{
+  pointer-events:none;
   position:fixed;
   inset:0;
   display:none;
