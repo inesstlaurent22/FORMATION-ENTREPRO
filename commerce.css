@@ -13,12 +13,13 @@ html, body{
   overflow:hidden;
   font-family:"Trebuchet MS", sans-serif;
   background:#000;
+  color:#fff;
 }
 
 .hidden{ display:none; }
 
 /* =====================================================
-   🎬 VIDÉO
+   🎬 VIDÉO (AU DÉPART)
 ===================================================== */
 #videoContainer{
   position:fixed;
@@ -72,52 +73,48 @@ html, body{
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES (CORRIGÉ)
+   🏴‍☠️ PIRATES
 ===================================================== */
 .pirate{
   position:absolute;
   cursor:pointer;
   object-fit:contain;
-  z-index:50; /* 🔥 AU-DESSUS DU FOND ET DES BULLES */
-  opacity:1;
+  z-index:50;
   transition:transform .3s ease, filter .3s ease;
 }
 
-.pirate:hover{
-  transform:scale(1.05);
-  filter:drop-shadow(0 0 12px gold);
-}
-
-/* POSITIONS DESKTOP */
+/* positions desktop */
 #pirate2bis{
   left:516px;
   top:406px;
   width:186px;
-  height:auto;
 }
 
 #pirate5bis{
   left:785px;
   top:397px;
   width:143px;
-  height:auto;
 }
 
-/* PIRATE CLIENT (APPARAÎT PLUS TARD) */
+/* seul pirate2 s’illumine */
+#pirate2bis:hover{
+  transform:scale(1.07);
+  filter:drop-shadow(0 0 14px gold);
+}
+
+/* pirate client (arrive plus tard) */
 #pirate3bis{
-  left:533px;
-  top:-114px;
+  right:-500px;
+  top:120px;
   width:445px;
-  height:auto;
   opacity:0;
-  transform:translateY(-80px);
   z-index:60;
 }
 
 #pirate3bis.show{
+  right:80px;
   opacity:1;
-  transform:translateY(0);
-  transition:opacity .6s ease, transform .6s ease;
+  transition:1s ease;
 }
 
 /* =====================================================
@@ -126,7 +123,7 @@ html, body{
 #bubbleContainer{
   position:fixed;
   inset:0;
-  z-index:40;
+  z-index:80;
   pointer-events:none;
 }
 
@@ -139,8 +136,8 @@ html, body{
   border-radius:16px;
   padding:14px;
   box-shadow:0 6px 0 #3b1b00;
-  cursor:pointer;
   pointer-events:auto;
+  cursor:pointer;
 }
 
 /* =====================================================
@@ -180,14 +177,21 @@ html, body{
   display:none;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
   background:rgba(0,0,0,.85);
   z-index:2000;
+  text-align:center;
 }
 
 #gameQuestion{
   font-size:22px;
+  color:#fff;
   margin-bottom:16px;
-  text-align:center;
+}
+
+#gameAnswers{
+  width:100%;
+  max-width:420px;
 }
 
 #gameAnswers button{
@@ -198,15 +202,53 @@ html, body{
   border-radius:14px;
   border:3px solid #3b1b00;
   background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff5d6;
+  color:#fff;
   cursor:pointer;
   box-shadow:0 4px 0 #3b1b00;
+  transition:.25s ease;
+}
+
+#gameAnswers button.selected{
+  background:linear-gradient(#ffd700,#ffae00);
+  color:#3b1b00;
+  box-shadow:0 0 18px gold;
+  border-color:#ffd700;
 }
 
 #gameFeedback{
   margin-top:14px;
   font-size:18px;
-  text-align:center;
+}
+
+/* =====================================================
+   💰 EXPLOSION DE PIÈCES
+===================================================== */
+#coinExplosion{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.coin{
+  position:absolute;
+  width:32px;
+  height:32px;
+  background:url("images/coin.png") center/contain no-repeat;
+  animation:coinFly 1.6s ease-out forwards;
+}
+
+@keyframes coinFly{
+  from{
+    transform:scale(.5);
+    opacity:1;
+  }
+  to{
+    transform:translate(
+      calc(-200px + 400px * var(--x)),
+      calc(-200px + 400px * var(--y))
+    ) rotate(360deg);
+    opacity:0;
+  }
 }
 
 /* =====================================================
@@ -215,9 +257,8 @@ html, body{
 #bookContainer{
   position:fixed;
   inset:0;
-  display:none !important;
+  display:none;
   opacity:0;
-  pointer-events:none;
   justify-content:center;
   align-items:center;
   background:rgba(0,0,0,.9);
@@ -225,31 +266,49 @@ html, body{
 }
 
 #bookContainer.show{
-  display:flex !important;
+  display:flex;
   opacity:1;
-  pointer-events:auto;
 }
 
 .book{
   display:flex;
-  width:90vw;
-  max-width:700px;
-  aspect-ratio:14/9;
+  width:95vw;
+  max-width:900px;
 }
 
 .page{
   width:50%;
-  height:100%;
-  background:#000;
 }
 
 .page img{
   width:100%;
-  height:100%;
+  height:auto;
   object-fit:contain;
   background:#000;
 }
 
+/* animation page */
+.page.right img{
+  transform-origin:left center;
+}
+
+.turn-next{
+  animation:turnNext .5s ease;
+}
+
+.turn-prev{
+  animation:turnPrev .5s ease;
+}
+
+@keyframes turnNext{
+  50%{ transform:rotateY(-35deg); }
+}
+
+@keyframes turnPrev{
+  50%{ transform:rotateY(35deg); }
+}
+
+/* bouton continuer */
 #continueQuestBtn{
   position:absolute;
   top:20px;
@@ -259,7 +318,7 @@ html, body{
   font-size:18px;
   font-weight:bold;
   background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff5d6;
+  color:#fff;
   border:3px solid #3b1b00;
   border-radius:16px;
   cursor:pointer;
@@ -288,7 +347,6 @@ html, body{
 }
 
 #endSubtitle{
-  color:#fff;
   font-size:18px;
   margin-bottom:20px;
 }
@@ -308,7 +366,7 @@ html, body{
   font-size:18px;
   font-weight:bold;
   background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff5d6;
+  color:#fff;
   border:3px solid #3b1b00;
   border-radius:16px;
   cursor:pointer;
@@ -332,14 +390,14 @@ html, body{
   }
 
   #pirate3bis{
-    left:50%;
+    right:-300px;
     top:5%;
     width:260px;
-    transform:translateX(-50%) translateY(-40px);
   }
 
   #pirate3bis.show{
-    transform:translateX(-50%) translateY(0);
+    right:50%;
+    transform:translateX(50%);
   }
 
   .dialogue-bubble{
@@ -352,7 +410,6 @@ html, body{
 
   .book{
     width:92vw;
-    aspect-ratio:4/3;
   }
 
   #gameQuestion{
