@@ -12,7 +12,7 @@ function fade(text, cb){
 
 /* ================= VIDÉO ================= */
 const video = document.getElementById("questVideo");
-const videoContainer = document.getElementById("videoContainer");
+const videoContainer = document.getElementById("videoControls");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 const fadeScreen = document.getElementById("fadeScreen");
