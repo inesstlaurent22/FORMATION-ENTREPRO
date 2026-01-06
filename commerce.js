@@ -1,24 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   🔐 ÉTATS INITIAUX — TRÈS IMPORTANT
+   📳 VIBRATION
 ===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const bookContainer  = document.getElementById("bookContainer");
-const endScreen      = document.getElementById("endScreen");
-
-bookContainer.style.display = "none";   // ⛔ jamais visible au départ
-endScreen.style.display = "none";
+const vibrate = (p=15)=>{
+  if(navigator.vibrate) navigator.vibrate(p);
+};
 
 /* =====================================================
-   📳 VIBRATIONS
-===================================================== */
-function vibrate(p = 15){
-  if ("vibrate" in navigator) navigator.vibrate(p);
-}
-
-/* =====================================================
-   🌑 FADE
+   🌑 FADE / LOADER
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
@@ -29,25 +19,21 @@ function fade(text, cb){
   setTimeout(()=>{
     fadeScreen.style.display = "none";
     cb && cb();
-  },1800);
+  }, 2000);
 }
 
 /* =====================================================
    🎬 VIDÉO
 ===================================================== */
+const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
 
-video.muted = true;
-
-toggleSound.onclick = ()=>{
-  vibrate(10);
+document.getElementById("toggleSound").onclick = ()=>{
   video.muted = !video.muted;
-  toggleSound.textContent = video.muted ? "🔇" : "🔊";
+  vibrate(10);
 };
 
-closeVideo.onclick = endVideo;
+document.getElementById("closeVideo").onclick = endVideo;
 video.onended = endVideo;
 
 function endVideo(){
@@ -67,20 +53,13 @@ const pirate3 = document.getElementById("pirate3bis");
 
 function showBackground(){
   background.style.display = "block";
-  background.style.opacity = 0;
-
-  // 🔓 rendre visibles les pirates
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
-
-  pirate2.style.display = "block";
-  pirate5.style.display = "block";
-
-  setTimeout(()=> background.style.opacity = 1, 50);
+  setTimeout(()=>background.style.opacity=1,50);
 }
 
 /* =====================================================
-   💬 BULLES
+   💬 BULLES DE DIALOGUE
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
 
@@ -90,22 +69,21 @@ function playDialogues(dialogues, onEnd){
   function show(){
     bubbleContainer.innerHTML = "";
     const d = dialogues[i];
-
     const bubble = document.createElement("div");
     bubble.className = "dialogue-bubble";
     bubble.innerHTML = d.text;
 
     const r = d.anchor.getBoundingClientRect();
     bubble.style.left = r.left + "px";
-    bubble.style.top  = (r.top - 160) + "px";
-
-    bubbleContainer.appendChild(bubble);
+    bubble.style.top = (r.top - 150) + "px";
 
     bubble.onclick = ()=>{
-      vibrate(15);
+      vibrate(10);
       i++;
       i < dialogues.length ? show() : end();
     };
+
+    bubbleContainer.appendChild(bubble);
   }
 
   function end(){
@@ -119,16 +97,13 @@ function playDialogues(dialogues, onEnd){
 /* =====================================================
    💬 DIALOGUES 1
 ===================================================== */
-const dialogues1 = [
-  { text:"Moussaillon ! Bienvenue sur le marché des trésors !", anchor:pirate5 },
-  { text:"J’suis prêt, capitaine !", anchor:pirate2 },
-  { text:"Observe bien les autres pirates.", anchor:pirate5 },
-  { text:"Je ferai mieux qu’eux !", anchor:pirate2 },
-  { text:"Alors prouve-le !", anchor:pirate5 }
-];
-
 pirate5.onclick = ()=>{
-  playDialogues(dialogues1, ()=>{
+  playDialogues([
+    { text:"Moussaillon ! Bienvenue sur le marché des trésors !", anchor:pirate5 },
+    { text:"J’suis prêt, capitaine !", anchor:pirate2 },
+    { text:"Observe les autres pirates et sois plus malin qu’eux.", anchor:pirate5 },
+    { text:"Je ferai mieux qu’eux !", anchor:pirate2 }
+  ], ()=>{
     fade("Termines ce mini jeu pour poursuivre ta quête", startMiniGame1);
   });
 };
@@ -141,10 +116,9 @@ const gameQuestion = document.getElementById("gameQuestion");
 const gameAnswers = document.getElementById("gameAnswers");
 const gameFeedback = document.getElementById("gameFeedback");
 
-const questions = [
-  {q:"Pourquoi vendre les pierres ?", a:["Acheter un bateau","Les manger","Décorer"], c:0},
-  {q:"Où observer les concurrents ?", a:["Au marché","À la taverne","En mer"], c:0},
-  {q:"Comment se différencier ?", a:["Boîtes solides","Crier","Copier"], c:0}
+const quiz1 = [
+  { q:"Pourquoi vendre les pierres ?", a:["Acheter un bateau","Les manger","Décorer"], c:0 },
+  { q:"Où observer les concurrents ?", a:["Au marché","À la taverne","En mer"], c:0 }
 ];
 
 let step = 0;
@@ -152,16 +126,17 @@ let step = 0;
 function startMiniGame1(){
   miniGameContainer.style.display = "flex";
   step = 0;
-  showStep();
+  showQuestion();
 }
 
-function showStep(){
-  if(step >= questions.length){
-    endMiniGame1();
+function showQuestion(){
+  if(step >= quiz1.length){
+    miniGameContainer.style.display = "none";
+    showReward();
     return;
   }
 
-  const q = questions[step];
+  const q = quiz1[step];
   gameQuestion.textContent = q.q;
   gameAnswers.innerHTML = "";
   gameFeedback.textContent = "";
@@ -170,11 +145,14 @@ function showStep(){
     const btn = document.createElement("button");
     btn.textContent = ans;
     btn.onclick = ()=>{
+      document.querySelectorAll("#gameAnswers button")
+        .forEach(b=>b.classList.remove("selected"));
+      btn.classList.add("selected");
+
       if(i === q.c){
         vibrate(25);
-        gameFeedback.textContent = "✅ Bien vu !";
         step++;
-        setTimeout(showStep,600);
+        setTimeout(showQuestion,600);
       } else {
         vibrate([10,30,10]);
         gameFeedback.textContent = "❌ Réfléchis encore";
@@ -184,20 +162,47 @@ function showStep(){
   });
 }
 
-function endMiniGame1(){
-  miniGameContainer.style.display = "none";
-  fade("Bravo ! Ton business plan est prêt", showBook);
+/* =====================================================
+   💰 RÉCOMPENSE OR + LIVRE
+===================================================== */
+function showReward(){
+  fade(`
+    <strong>Bravo !</strong><br><br>
+    Tu as gagné <span id="goldCounter">0</span> pièces d’or<br>
+    et ton <strong>Business Plan</strong>
+    <div id="coinExplosion"></div>
+  `, showBook);
+
+  let gold = 0;
+  const counter = document.getElementById("goldCounter");
+
+  const it = setInterval(()=>{
+    gold += 100;
+    counter.textContent = gold;
+    if(gold >= 5000){
+      counter.textContent = "5000";
+      clearInterval(it);
+    }
+  },30);
+
+  const explosion = document.getElementById("coinExplosion");
+  for(let i=0;i<20;i++){
+    const c = document.createElement("div");
+    c.className = "coin";
+    c.style.setProperty("--x",Math.random());
+    c.style.setProperty("--y",Math.random());
+    explosion.appendChild(c);
+  }
 }
 
 /* =====================================================
-   📖 LIVRE DIGITAL — VERSION CORRIGÉE
+   📖 LIVRE
 ===================================================== */
-
+const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
 const continueQuestBtn = document.getElementById("continueQuestBtn");
 
-// pages recto
 const pages = [
   "images/Businessplancov.png",
   "images/Businessplan1.png",
@@ -207,52 +212,40 @@ const pages = [
 
 let bookIndex = 0;
 
-/* ================= AFFICHER LIVRE ================= */
-
 function showBook(){
-  // 🔑 on laisse le CSS gérer l’affichage
   bookContainer.classList.add("show");
   updateBook();
 }
 
-/* ================= MISE À JOUR ================= */
-
 function updateBook(){
   rightPage.src = pages[bookIndex];
   leftPage.src = bookIndex > 0 ? "images/Businessplan4.jpg" : "";
-
   continueQuestBtn.style.display =
     bookIndex === pages.length - 1 ? "block" : "none";
 }
 
-/* ================= NAVIGATION ================= */
-
-document.querySelector(".book").addEventListener("click", (e)=>{
+document.querySelector(".book").onclick = (e)=>{
   const rect = e.currentTarget.getBoundingClientRect();
+  const img = rightPage;
 
-  if(e.clientX > rect.left + rect.width / 2){
-    if(bookIndex < pages.length - 1){
-      vibrate(15);
-      bookIndex++;
-    }
-  } else {
-    if(bookIndex > 0){
-      vibrate(15);
-      bookIndex--;
-    }
+  if(e.clientX > rect.left + rect.width/2 && bookIndex < pages.length-1){
+    bookIndex++;
+    img.classList.add("turn-next");
+  } else if(bookIndex > 0){
+    bookIndex--;
+    img.classList.add("turn-prev");
   }
 
   updateBook();
-});
+  setTimeout(()=>img.className="",500);
+};
 
-/* ================= SORTIE LIVRE ================= */
-
-continueQuestBtn.addEventListener("click", ()=>{
+continueQuestBtn.onclick = ()=>{
   vibrate(20);
   bookContainer.classList.remove("show");
   spawnPirate3();
-});
-   
+};
+
 /* =====================================================
    ✨ PIRATE 3 + DIALOGUES 2
 ===================================================== */
@@ -283,25 +276,25 @@ let confiance = 0;
 
 function startMiniGame2(){
   confiance = 0;
-  miniGameContainer.style.display="flex";
-  gameQuestion.textContent="Comment gagner la confiance des clients ?";
-  gameAnswers.innerHTML="";
-  gameFeedback.textContent="";
+  miniGameContainer.style.display = "flex";
+  gameQuestion.textContent = "Comment gagner la confiance des clients ?";
+  gameAnswers.innerHTML = "";
+  gameFeedback.textContent = "";
 
   ["Montrer les pierres","Rester caché","Distribuer l’adresse"]
   .forEach((c,i)=>{
-    const btn=document.createElement("button");
-    btn.textContent=c;
-    btn.onclick=()=>{
+    const btn = document.createElement("button");
+    btn.textContent = c;
+    btn.onclick = ()=>{
       if(i===0 || i===2){
         vibrate(25);
         confiance++;
-        gameFeedback.textContent="👍 Bonne action";
+        gameFeedback.textContent = "👍 Bonne action";
       } else {
         vibrate([10,30,10]);
-        gameFeedback.textContent="❌ Mauvaise idée";
+        gameFeedback.textContent = "❌ Mauvaise idée";
       }
-      if(confiance>=2){
+      if(confiance >= 2){
         setTimeout(endMiniGame2,800);
       }
     };
@@ -311,38 +304,38 @@ function startMiniGame2(){
 
 function endMiniGame2(){
   vibrate([30,50,30]);
-  miniGameContainer.style.display="none";
+  miniGameContainer.style.display = "none";
   fade("Bravo tu as gagné la quête", showEndScreen);
 }
 
 /* =====================================================
    🏁 FIN DE QUÊTE
 ===================================================== */
+const endScreen = document.getElementById("endScreen");
 const endSubtitle = document.getElementById("endSubtitle");
 const rewardBubbles = document.querySelectorAll(".rewardBubble");
 const backToMenuBtn = document.getElementById("backToMenuBtn");
 
 function showEndScreen(){
-  endScreen.style.display="flex";
-  endScreen.classList.remove("hidden");
+  endScreen.style.display = "flex";
 
-  typeWriter(endSubtitle,"tu as gagné ...",()=>{
+  typeWriter(endSubtitle, "tu as gagné ...", ()=>{
     rewardBubbles.forEach((b,i)=>{
       setTimeout(()=>{
         b.style.opacity="1";
         b.style.transform="scale(1)";
-      },i*700);
+      }, i*700);
     });
 
     setTimeout(()=>{
-      backToMenuBtn.classList.remove("hidden");
+      backToMenuBtn.style.display="block";
     }, rewardBubbles.length*700 + 600);
   });
 }
 
 backToMenuBtn.onclick = ()=>{
   vibrate(20);
-  window.location.href="menu.html";
+  window.location.href = "menu.html";
 };
 
 });
