@@ -14,8 +14,8 @@ toggleSound.onclick = () => {
   toggleSound.textContent = video.muted ? "🔇" : "🔊";
 };
 
-closeVideo.onclick = endVideo;
 video.onended = endVideo;
+closeVideo.onclick = endVideo;
 
 function endVideo(){
   fade("Chargement...", showBackground);
@@ -28,28 +28,24 @@ const pirate2 = document.getElementById("pirate2bis");
 const pirate5 = document.getElementById("pirate5bis");
 
 function showBackground(){
-
   hideAll();
+  background.style.display="block";
 
-  background.classList.remove("hidden");
-  background.style.display = "block";
+  pirate2.style.left="516px";
+  pirate2.style.top="406px";
+  pirate2.style.width="186px";
 
-  pirate2.style.left = "516px";
-  pirate2.style.top = "406px";
-  pirate2.style.width = "186px";
-  pirate2.style.height = "178px";
+  pirate5.style.left="786px";
+  pirate5.style.top="397px";
+  pirate5.style.width="143px";
 
-  pirate5.style.left = "786px";
-  pirate5.style.top = "397px";
-  pirate5.style.width = "143px";
-  pirate5.style.height = "187px";
-
-  state = "background";
+  state="background";
 }
 
 /* ================= 💬 DIALOGUES ================= */
 
 const bubbleContainer = document.getElementById("bubbleContainer");
+const skipBtn = document.getElementById("skipDialoguesBtn");
 
 const dialogues = [
   {p:pirate5,t:"Bienvenue sur le marché des trésors !"},
@@ -58,36 +54,52 @@ const dialogues = [
   {p:pirate2,t:"Ok, j’ai compris !"}
 ];
 
-let dIndex = 0;
+let dIndex=0;
 
-pirate5.onclick = () => {
-  if(state!=="background") return;
+pirate5.onclick=()=>{
+  if(state!=="background")return;
   state="dialogue";
   dIndex=0;
+  skipBtn.style.display="block";
   showBubble();
 };
 
+skipBtn.onclick=endDialogues;
+
 function showBubble(){
   bubbleContainer.innerHTML="";
-  const d = dialogues[dIndex];
-  const b = document.createElement("div");
-  b.className="dialogue-bubble";
+  const d=dialogues[dIndex];
 
-  const r = d.p.getBoundingClientRect();
-  b.style.left = r.left+"px";
-  b.style.top = (r.top-120)+"px";
+  const bubble=document.createElement("div");
+  bubble.className="dialogue-bubble";
 
-  bubbleContainer.appendChild(b);
+  const text=document.createElement("div");
+  text.className="text";
 
-  typeWriter(b,d.t,()=>{
+  const r=d.p.getBoundingClientRect();
+  bubble.style.left=r.left+"px";
+  bubble.style.top=(r.top-140)+"px";
+
+  bubble.appendChild(text);
+  bubbleContainer.appendChild(bubble);
+
+  typeWriter(text,d.t,()=>{
     const btn=document.createElement("button");
-    btn.textContent=dIndex===dialogues.length-1?"Ok, j’ai compris":"Suite";
+    btn.textContent=dIndex===dialogues.length-1
+      ? "Ok, j’ai compris"
+      : "Suite";
     btn.onclick=()=>{
       dIndex++;
-      dIndex<dialogues.length?showBubble():startQuiz();
+      dIndex<dialogues.length ? showBubble() : endDialogues();
     };
-    b.appendChild(btn);
+    bubble.appendChild(btn);
   });
+}
+
+function endDialogues(){
+  skipBtn.style.display="none";
+  bubbleContainer.innerHTML="";
+  fade("Termines ce mini-jeu et tu pourras continuer ta quête", startQuiz);
 }
 
 function typeWriter(el,text,cb){
@@ -95,50 +107,44 @@ function typeWriter(el,text,cb){
   el.innerHTML="";
   const t=setInterval(()=>{
     el.innerHTML+=text[i++];
-    if(i>=text.length){clearInterval(t);cb();}
-  },30);
+    if(i>=text.length){
+      clearInterval(t);
+      cb();
+    }
+  },28);
 }
 
 /* ================= 🌑 FADE ================= */
 
-const fadeScreen = document.getElementById("fadeScreen");
-const loaderBox = fadeScreen.querySelector(".loaderBox");
+const fadeScreen=document.getElementById("fadeScreen");
+const loaderBox=fadeScreen.querySelector(".loaderBox");
 
 function fade(text,cb){
   loaderBox.textContent=text;
   fadeScreen.style.display="flex";
-  fadeScreen.style.opacity="1";
-
   setTimeout(()=>{
-    fadeScreen.style.opacity="0";
-    setTimeout(()=>{
-      fadeScreen.style.display="none";
-      cb && cb();
-    },500);
-  },1200);
+    fadeScreen.style.display="none";
+    cb&&cb();
+  },1600);
 }
 
-/* ================= 🎮 QUIZ ================= */
+/* ================= 🎮 MINI JEU ================= */
 
-const miniGame = document.getElementById("miniGameContainer");
+const miniGame=document.getElementById("miniGameContainer");
 
 function startQuiz(){
-  fade("Termine ce mini-jeu et tu pourras continuer ta quête",()=>{
-    miniGame.style.display="flex";
-  });
+  hideAll();
+  miniGame.style.display="flex";
 }
 
-/* ================= 🔥 NETTOYAGE GLOBAL ================= */
-
-const rewardScreen = document.getElementById("rewardScreen");
-const bookContainer = document.getElementById("bookContainer");
+/* ================= 🔥 NETTOYAGE ================= */
 
 function hideAll(){
   videoContainer.classList.add("hidden");
   fadeScreen.classList.add("hidden");
   miniGame.classList.add("hidden");
-  rewardScreen.classList.add("hidden");
-  bookContainer.classList.add("hidden");
+  document.getElementById("rewardScreen").classList.add("hidden");
+  document.getElementById("bookContainer")?.classList.add("hidden");
 }
 
 });
