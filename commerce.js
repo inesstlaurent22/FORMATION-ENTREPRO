@@ -16,10 +16,17 @@ const loaderBox = fadeScreen.querySelector(".loaderBox");
 function fade(text, cb){
   loaderBox.innerHTML = text;
   fadeScreen.style.display = "flex";
+  fadeScreen.style.opacity = "1";
+
   setTimeout(()=>{
-    fadeScreen.style.display = "none";
-    cb && cb();
-  }, 1800);
+    fadeScreen.style.opacity = "0";
+
+    setTimeout(()=>{
+      fadeScreen.style.display = "none";
+      cb && cb(); // 👈 background APRÈS disparition du fade
+    }, 400);
+
+  }, 1400);
 }
 
 /* ============================
@@ -56,15 +63,24 @@ const pirate5 = document.getElementById("pirate5bis");
 const pirate3 = document.getElementById("pirate3bis");
 
 function showBackground(){
+  console.log("▶ showBackground déclenché");
+
+  background.classList.remove("hidden");
   background.style.display = "block";
   background.style.opacity = "0";
 
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
 
-  setTimeout(()=>{
+  pirate2.style.display = "block";
+  pirate5.style.display = "block";
+
+  // 🔥 forcer le repaint navigateur
+  background.offsetHeight;
+
+  requestAnimationFrame(()=>{
     background.style.opacity = "1";
-  }, 50);
+  });
 }
 
 /* ============================
