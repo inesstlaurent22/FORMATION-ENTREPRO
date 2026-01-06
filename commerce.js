@@ -182,12 +182,14 @@ function endMiniGame1(){
 }
 
 /* =====================================================
-   📖 LIVRE (AFFICHÉ UNIQUEMENT ICI)
+   📖 LIVRE DIGITAL — VERSION CORRIGÉE
 ===================================================== */
+
 const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
 const continueQuestBtn = document.getElementById("continueQuestBtn");
 
+// pages recto
 const pages = [
   "images/Businessplancov.png",
   "images/Businessplan1.png",
@@ -197,36 +199,52 @@ const pages = [
 
 let bookIndex = 0;
 
+/* ================= AFFICHER LIVRE ================= */
+
 function showBook(){
-  bookContainer.style.display = "flex";
+  // 🔑 on laisse le CSS gérer l’affichage
+  bookContainer.classList.add("show");
   updateBook();
 }
+
+/* ================= MISE À JOUR ================= */
 
 function updateBook(){
   rightPage.src = pages[bookIndex];
   leftPage.src = bookIndex > 0 ? "images/Businessplan4.jpg" : "";
+
   continueQuestBtn.style.display =
     bookIndex === pages.length - 1 ? "block" : "none";
 }
 
-document.querySelector(".book").onclick = (e)=>{
+/* ================= NAVIGATION ================= */
+
+document.querySelector(".book").addEventListener("click", (e)=>{
   const rect = e.currentTarget.getBoundingClientRect();
-  if(e.clientX > rect.left + rect.width/2 && bookIndex < pages.length-1){
-    vibrate(15);
-    bookIndex++;
-  } else if(bookIndex > 0){
-    vibrate(15);
-    bookIndex--;
+
+  if(e.clientX > rect.left + rect.width / 2){
+    if(bookIndex < pages.length - 1){
+      vibrate(15);
+      bookIndex++;
+    }
+  } else {
+    if(bookIndex > 0){
+      vibrate(15);
+      bookIndex--;
+    }
   }
+
   updateBook();
-};
+});
 
-continueQuestBtn.onclick = ()=>{
+/* ================= SORTIE LIVRE ================= */
+
+continueQuestBtn.addEventListener("click", ()=>{
   vibrate(20);
-  bookContainer.style.display = "none";
+  bookContainer.classList.remove("show");
   spawnPirate3();
-};
-
+});
+   
 /* =====================================================
    ✨ PIRATE 3 + DIALOGUES 2
 ===================================================== */
