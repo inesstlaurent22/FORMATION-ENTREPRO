@@ -317,41 +317,6 @@ html,body{
 }
 
 /* =====================================================
-   🏁 FIN DE QUÊTE
-===================================================== */
-#endScreen{
-  position:fixed;
-  inset:0;
-  background:#000;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  z-index:4000;
-}
-
-#endTitle{
-  color:#ffd700;
-  font-size:46px;
-  text-shadow:0 0 30px gold;
-  margin-bottom:20px;
-  animation:glow 2s infinite;
-}
-
-@keyframes glow{
-  0%{text-shadow:0 0 10px gold}
-  50%{text-shadow:0 0 40px gold}
-  100%{text-shadow:0 0 10px gold}
-}
-
-#endSubtitle{
-  color:#fff5d6;
-  font-size:20px;
-  margin-bottom:40px;
-  min-height:24px;
-}
-
-/* =====================================================
    🎁 RÉCOMPENSES
 ===================================================== */
 #rewardBubbles{
@@ -380,4 +345,53 @@ html,body{
 .rewardBubble span{
   color:#ffd700;
   font-weight:bold;
+}
+
+/* =====================================================
+   🔙 BOUTON RETOUR MENU – FIN DE QUÊTE
+===================================================== */
+
+#backToMenuBtn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:4500;
+
+  padding:14px 26px;
+  font-size:18px;
+  font-weight:bold;
+  letter-spacing:0.5px;
+
+  color:#fff5d6;
+  background:linear-gradient(#8a5a20,#c89b58);
+  border:3px solid #3b1b00;
+  border-radius:16px;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 6px 0 #3b1b00,
+    inset 0 0 10px rgba(255,215,0,0.25);
+
+  text-shadow:1px 1px 2px #000;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+/* Hover */
+#backToMenuBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 8px 0 #3b1b00,
+    0 0 18px rgba(255,215,0,0.8);
+  filter:brightness(1.1);
+}
+
+/* Click */
+#backToMenuBtn:active{
+  transform:translateY(4px);
+  box-shadow:0 2px 0 #3b1b00;
 }
