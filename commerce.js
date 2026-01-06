@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-/* =====================================================
+/* ============================
    📳 VIBRATION
-===================================================== */
+============================ */
 function vibrate(p = 15){
   if ("vibrate" in navigator) navigator.vibrate(p);
 }
 
-/* =====================================================
+/* ============================
    🌑 FADE / LOADER
-===================================================== */
+============================ */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
@@ -22,9 +22,9 @@ function fade(text, cb){
   }, 1800);
 }
 
-/* =====================================================
+/* ============================
    🎬 VIDÉO
-===================================================== */
+============================ */
 const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
@@ -47,36 +47,29 @@ function endVideo(){
   fade("Chargement...", showBackground);
 }
 
- /* =====================================================
-     🌅 BACKGROUND + PIRATES (FIX VISIBILITÉ)
-  ===================================================== */
-  const background = document.getElementById("background");
-  const pirate2 = document.getElementById("pirate2bis");
-  const pirate5 = document.getElementById("pirate5bis");
-  const pirate3 = document.getElementById("pirate3bis");
+/* ============================
+   🌅 BACKGROUND + PIRATES
+============================ */
+const background = document.getElementById("background");
+const pirate2 = document.getElementById("pirate2bis");
+const pirate5 = document.getElementById("pirate5bis");
+const pirate3 = document.getElementById("pirate3bis");
 
-  function showBackground(){
-    background.style.display = "block";
-    background.style.opacity = "0";
+function showBackground(){
+  background.style.display = "block";
+  background.style.opacity = "0";
 
-    /* 🔥 FORÇAGE VISIBILITÉ PIRATES */
-    pirate2.classList.remove("hidden");
-    pirate5.classList.remove("hidden");
+  pirate2.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
 
-    pirate2.style.display = "block";
-    pirate5.style.display = "block";
+  setTimeout(()=>{
+    background.style.opacity = "1";
+  }, 50);
+}
 
-    pirate2.style.opacity = "1";
-    pirate5.style.opacity = "1";
-
-    setTimeout(()=>{
-      background.style.opacity = "1";
-    }, 50);
-  }
-
-/* =====================================================
+/* ============================
    💬 BULLES + SKIP
-===================================================== */
+============================ */
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
 
@@ -115,9 +108,9 @@ function playDialogues(dialogues, onEnd){
   show();
 }
 
-/* =====================================================
+/* ============================
    💬 DIALOGUES 1 → MINI-JEU 1
-===================================================== */
+============================ */
 pirate5.onclick = ()=>{
   playDialogues([
     { text:"Bienvenue sur le marché des trésors.", anchor: pirate5 },
@@ -128,9 +121,9 @@ pirate5.onclick = ()=>{
   });
 };
 
-/* =====================================================
+/* ============================
    🎮 MINI-JEU 1
-===================================================== */
+============================ */
 const miniGame = document.getElementById("miniGameContainer");
 const gameQuestion = document.getElementById("gameQuestion");
 const gameAnswers = document.getElementById("gameAnswers");
@@ -174,9 +167,9 @@ function startMiniGame1(){
   });
 }
 
-/* =====================================================
+/* ============================
    📖 LIVRE DIGITAL
-===================================================== */
+============================ */
 const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
@@ -210,9 +203,9 @@ document.querySelector(".book").onclick = ()=>{
   }
 };
 
-/* =====================================================
+/* ============================
    ✨ PIRATE 3 + DIALOGUES 2
-===================================================== */
+============================ */
 function spawnPirate3(){
   pirate3.classList.remove("hidden");
   pirate3.classList.add("show");
@@ -228,61 +221,49 @@ pirate3.onclick = ()=>{
   });
 };
 
-/* =====================================================
-   🎮 MINI-JEU 2 — VRAI / FAUX DU MARCHÉ PIRATE
-===================================================== */
-const vraiFauxQuestions = [
-  { q:"Les clients ont plus confiance quand ils voient les pierres.", correct:true },
-  { q:"Mentir sur la provenance rassure les clients.", correct:false },
-  { q:"Le packaging influence la valeur perçue.", correct:true },
-  { q:"Un pirate sérieux cache ses pierres.", correct:false }
+/* ============================
+   🎮 MINI-JEU 2 — VRAI / FAUX
+============================ */
+const vraiFaux = [
+  { q:"Voir les pierres rassure les clients.", ok:true },
+  { q:"Mentir augmente la confiance.", ok:false },
+  { q:"Un bon packaging aide à vendre.", ok:true }
 ];
 
 let vfIndex = 0;
-let vfScore = 0;
 
 function startMiniGame2(){
   vfIndex = 0;
-  vfScore = 0;
   miniGame.style.display = "flex";
-  showVraiFaux();
+  showVF();
 }
 
-function showVraiFaux(){
-  if(vfIndex >= vraiFauxQuestions.length){
+function showVF(){
+  if(vfIndex >= vraiFaux.length){
     endQuest();
     return;
   }
 
-  const q = vraiFauxQuestions[vfIndex];
+  const q = vraiFaux[vfIndex];
   gameQuestion.textContent = q.q;
   gameFeedback.textContent = "";
   gameAnswers.innerHTML = "";
 
-  ["Vrai","Faux"].forEach(val=>{
+  ["Vrai","Faux"].forEach(v=>{
     const btn = document.createElement("button");
-    btn.textContent = val;
-
+    btn.textContent = v;
     btn.onclick = ()=>{
       vibrate(20);
-      const isTrue = val === "Vrai";
-      if(isTrue === q.correct){
-        vfScore++;
-        gameFeedback.textContent = "✅ Correct";
-      } else {
-        gameFeedback.textContent = "❌ Faux";
-      }
       vfIndex++;
-      setTimeout(showVraiFaux, 600);
+      setTimeout(showVF, 500);
     };
-
     gameAnswers.appendChild(btn);
   });
 }
 
-/* =====================================================
+/* ============================
    🏁 FIN DE QUÊTE
-===================================================== */
+============================ */
 const endScreen = document.getElementById("endScreen");
 
 function endQuest(){
