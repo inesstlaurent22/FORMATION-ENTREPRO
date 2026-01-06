@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Quête Commerce</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="commerce.css">
+  <meta charset="UTF-8">
+  <title>Quête Commerce</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="commerce.css">
 </head>
 
 <body>
@@ -40,7 +40,7 @@
 </div>
 
 <!-- ================= 🎮 MINI-JEU ================= -->
-<div id="miniGameContainer" class="hidden">
+<div id="miniGameContainer">
   <div class="quizBox">
     <div id="gameQuestion"></div>
     <div id="gameAnswers"></div>
@@ -49,7 +49,7 @@
 </div>
 
 <!-- ================= 📖 LIVRE ================= -->
-<div id="bookContainer" class="hidden">
+<div id="bookContainer">
   <div class="book">
     <div class="page left">
       <img id="leftPage" alt="Page gauche">
@@ -58,31 +58,11 @@
       <img id="rightPage" alt="Page droite">
     </div>
   </div>
-
-  <button id="continueQuestBtn">Continuer la quête</button>
 </div>
 
 <!-- ================= 🏁 FIN ================= -->
-<div id="endScreen" class="hidden">
-  <h1 id="endTitle">Bravo tu as gagné la quête</h1>
-  <p id="endSubtitle"></p>
-
-  <div id="rewardBubbles">
-    <div class="rewardBubble">
-      <img src="images/vignette1.png" alt="Une échoppe">
-      <span>Une échoppe</span>
-    </div>
-    <div class="rewardBubble">
-      <img src="images/vignette2.png" alt="Des boîtes en bois">
-      <span>Des boîtes en bois</span>
-    </div>
-    <div class="rewardBubble">
-      <img src="images/vignette3.PNG" alt="Réputation sur le marché">
-      <span>Une réputation sur le marché</span>
-    </div>
-  </div>
-
-  <button id="backToMenuBtn" class="hidden">Revenir au menu</button>
+<div id="endScreen">
+  <h1 id="endTitle">Bravo, tu as gagné la quête</h1>
 </div>
 
 <script src="commerce.js"></script>
