@@ -64,9 +64,7 @@ function endVideo(){
     pirate2.classList.remove("hidden");
     pirate5.classList.remove("hidden");
 
-    // pirate5bis : +15px en bas
     pirate5.style.top = (pirate5.offsetTop + 15) + "px";
-
     enablePirate5();
   });
 }
@@ -82,7 +80,7 @@ function enablePirate5(){
 }
 
 /* =====================================================
-   💬 SYSTÈME DE DIALOGUES
+   💬 DIALOGUES (SYSTÈME)
 ===================================================== */
 function showDialogues(dialogues, onEnd){
   currentDialogues = dialogues;
@@ -177,8 +175,7 @@ function showQuestion(){
     const btn = document.createElement("button");
     btn.textContent = txt;
     btn.onclick = ()=>{
-      document.querySelectorAll("#gameAnswers button")
-        .forEach(b=>b.classList.remove("selected"));
+      document.querySelectorAll("#gameAnswers button").forEach(b=>b.classList.remove("selected"));
       btn.classList.add("selected");
 
       if(i === q.correct){
@@ -196,7 +193,7 @@ function showQuestion(){
 }
 
 /* =====================================================
-   💎 CANVAS GEMS FIREWORKS
+   💎 CANVAS GEMS
 ===================================================== */
 let canvas, ctx, gems = [];
 
@@ -274,7 +271,7 @@ function winQuiz1(){
 }
 
 /* =====================================================
-   📖 LIVRE — PAGE TURN AVANT / ARRIÈRE
+   📖 LIVRE
 ===================================================== */
 const bookPages = [
   "Businessplancov.png",
@@ -318,15 +315,12 @@ continueBtn.onclick = ()=>{
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 — CLICK + GLOW
+   🏴‍☠️ PIRATE 3 → DIALOGUES 2
 ===================================================== */
 function preparePirate3(){
   pirate3.classList.remove("hidden");
-
-  // pirate3bis : +80px haut
   pirate3.style.top = (pirate3.offsetTop - 80) + "px";
 
-  pirate3.style.cursor = "pointer";
   pirate3.onmouseenter = () => pirate3.classList.add("glow");
   pirate3.onmouseleave = () => pirate3.classList.remove("glow");
 
@@ -349,18 +343,16 @@ function startDialogues2(){
 ===================================================== */
 function startMerchantGame(){
   merchantGame.classList.remove("hidden");
-  clueEl.innerHTML = `
-    <span style="color:gold;text-shadow:0 0 18px gold;font-weight:bold">
-      Analyse le marché avant de décider
-    </span>
-  `;
+  clueEl.innerHTML = `<strong style="color:gold;text-shadow:0 0 18px gold">
+    Analyse le marché avant de décider
+  </strong>`;
 }
 
 window.analyzeClient = ()=>{
   clueEl.textContent = "💡 Vous n’êtes que 2 à vendre cette pierre";
 };
 
-window.lowerPrice = ()=> {
+window.lowerPrice = ()=>{
   clueEl.textContent = "❌ Mauvaise décision";
 };
 
@@ -386,7 +378,7 @@ function afterMerchantDiscussion(){
 }
 
 /* =====================================================
-   📦 PANNEAU PIRATE — BASE DE DONNÉES
+   📦 PANNEAU BASE DE DONNÉES → RETOUR MENU
 ===================================================== */
 function showDatabaseBox(){
   const box = document.createElement("div");
@@ -395,45 +387,24 @@ function showDatabaseBox(){
   box.style.top = "50%";
   box.style.transform = "translate(-50%,-50%)";
   box.style.maxWidth = "680px";
-  box.style.cursor = "pointer";
 
   box.innerHTML = `
-    <h2 style="text-align:center;color:#5a2e0c;margin-bottom:8px">
-      Les Bases de données
-    </h2>
-    <hr style="margin:8px 0 14px;border:1px solid #8a5a20">
+    <h2 style="text-align:center;color:#5a2e0c">Les Bases de données</h2>
+    <hr style="margin:10px 0;border:1px solid #8a5a20">
     <p>
       Une base de données permet de noter l’ensemble des informations de tes clients
-      (nom, adresse, téléphone, mail et préférences).
-      <br><br>
-      Elle est essentielle pour créer un lien durable, suivre tes ventes,
-      ton chiffre d’affaires, ton stock et ne rien oublier.
+      (nom, adresse, téléphone, mail et préférences).<br><br>
+      Elle te permet de créer un lien durable et de suivre ventes, stock et chiffre d’affaires.
     </p>
-    <div class="pirate-continue-btn">
-      ▶ Clique pour continuer
-    </div>
+    <div class="pirate-continue-btn">▶ Clique pour continuer</div>
   `;
 
-  box.onclick = ()=>{
-    bubbleContainer.innerHTML="";
-    winFinal();
+  box.onclick = () => {
+    sessionStorage.setItem("unlock_pirate3", "true");
+    window.location.href = "menu.html";
   };
 
   bubbleContainer.appendChild(box);
-}
-
-/* =====================================================
-   🎆 FIN
-===================================================== */
-function winFinal(){
-  fadeScreen.classList.remove("hidden");
-  loaderBox.innerHTML = `
-    <h1 style="color:gold;text-shadow:0 0 35px gold">
-      🎉 Bravo tu as gagné ta quête
-    </h1>
-  `;
-  launchGems();
-  setTimeout(()=>window.location.href="menu.html",3000);
 }
 
 /* =====================================================
