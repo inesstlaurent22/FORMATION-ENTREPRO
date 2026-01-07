@@ -11,7 +11,7 @@
 
 <!-- ================= 🎬 VIDÉO ================= -->
 <div id="videoContainer">
-  <video id="questVideo" autoplay muted playsinline>
+  <video id="questVideo" autoplay muted playsinline preload="auto">
     <source src="videos/Commercevideo.MOV" type="video/mp4">
   </video>
 
@@ -22,12 +22,29 @@
 </div>
 
 <!-- ================= 🌅 BACKGROUND ================= -->
-<div id="background">
+<div id="background" class="hidden">
   <img src="images/Commercefond.PNG" class="fondImage" alt="Fond du marché pirate">
 
-  <img id="pirate2bis" class="pirate" src="images/Pirate2.png" alt="Pirate apprenti">
-  <img id="pirate5bis" class="pirate" src="images/Pirate5.png" alt="Maître pirate">
-  <img id="pirate3bis" class="pirate hidden" src="images/Pirateclients.png" alt="Pirate client">
+  <img
+    id="pirate2bis"
+    class="pirate hidden"
+    src="images/Pirate2.png"
+    alt="Pirate apprenti"
+  >
+
+  <img
+    id="pirate5bis"
+    class="pirate hidden"
+    src="images/Pirate5.png"
+    alt="Maître pirate"
+  >
+
+  <img
+    id="pirate3bis"
+    class="pirate hidden"
+    src="images/Pirateclients.png"
+    alt="Pirate client"
+  >
 </div>
 
 <!-- ================= 💬 BULLES ================= -->
@@ -35,29 +52,21 @@
 <button id="skipDialoguesBtn">Passer les dialogues</button>
 
 <!-- ================= 🌑 FADE / LOADER ================= -->
-<div id="fadeScreen">
+<div id="fadeScreen" class="hidden">
   <div class="loaderBox">Chargement...</div>
 </div>
 
-<!-- ================= 🎮 MINI-JEU ================= -->
-<div id="miniGameContainer">
+<!-- ================= 🎮 MINI-JEUX ================= -->
+<div id="miniGameContainer" class="hidden">
   <div class="quizBox">
     <div id="gameQuestion"></div>
     <div id="gameAnswers"></div>
     <div id="gameFeedback"></div>
   </div>
-
-  <div class="loaderBox rewardLoader">
-  <div class="rewardTitle">Bravo ! Tu as gagné</div>
-  <div class="rewardCounter"><span id="poCounter">0</span></div>
-  <div class="rewardLabel">pièces d’or 💰</div>
-  <div class="rewardSub">et ton business plan</div>
-</div>
-  
 </div>
 
 <!-- ================= 📖 LIVRE ================= -->
-<div id="bookContainer">
+<div id="bookContainer" class="hidden">
   <div class="book">
     <div class="page left">
       <img id="leftPage" alt="Page gauche">
@@ -67,12 +76,11 @@
     </div>
   </div>
 
-<button id="continueQuestBtn">Continuer la quête</button>
-  
+  <button id="continueQuestBtn">Continuer la quête</button>
 </div>
 
 <!-- ================= 🏁 FIN ================= -->
-<div id="endScreen">
+<div id="endScreen" class="hidden">
   <h1 id="endTitle">Bravo, tu as gagné la quête</h1>
 </div>
 
