@@ -1,5 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* ==========================================================
+     🌅 BACKGROUND MENU
+  ========================================================== */
+  document.body.style.backgroundColor = "#000";
+  document.body.style.backgroundImage = "url('images/Fondmenu.PNG')";
+  document.body.style.backgroundRepeat = "no-repeat";
+  document.body.style.backgroundPosition = "center center";
+  document.body.style.backgroundSize = "cover";
+
+  /* ==========================================================
+     🔱 RESET — CAPTURE GLOBALE (ANTI-BUG)
+  ========================================================== */
+  document.addEventListener("click", (e) => {
+
+    const resetBtn = e.target.closest("#resetButton");
+    if (!resetBtn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const confirmReset = confirm("Réinitialiser toute la progression ?");
+    if (!confirmReset) return;
+
+    localStorage.clear();
+    sessionStorage.clear();
+
+    window.location.reload();
+  });
+
+  /* ==========================================================
+     🏴‍☠️ RÉFÉRENCES PIRATES
+  ========================================================== */
   const pirate1 = document.getElementById("pirate1");
   const pirate2 = document.getElementById("pirate2");
   const pirate3 = document.getElementById("pirate3");
@@ -10,12 +42,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const bubble = document.getElementById("bubble");
   const bubbleButton = document.getElementById("bubbleButton");
 
-  const resetButton = document.getElementById("resetButton");
-
   /* ==========================================================
      0️⃣ TOUT VERROUILLER AU DÉPART
   ========================================================== */
   [pirate1, pirate2, pirate3, pirate4, pirate5].forEach(p => {
+    if (!p) return;
     p.classList.add("locked");
     p.classList.remove("unlocked", "glow");
     p.style.pointerEvents = "none";
@@ -29,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
   pirate2.style.pointerEvents = "auto";
 
   /* ==========================================================
-     2️⃣ DÉBLOCAGE AU RETOUR DE QUÊTES
+     2️⃣ DÉBLOCAGE AU RETOUR DES QUÊTES
   ========================================================== */
   if (sessionStorage.getItem("unlock_pirate3") === "true") {
     localStorage.setItem("pirate3_unlocked", "true");
@@ -106,9 +137,11 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.removeItem("showBubbleAfterReload");
   }
 
-  bubbleButton.addEventListener("click", () => {
-    bubble.style.display = "none";
-  });
+  if (bubbleButton) {
+    bubbleButton.addEventListener("click", () => {
+      bubble.style.display = "none";
+    });
+  }
 
   /* ==========================================================
      6️⃣ NAVIGATION ENTRE PAGES
@@ -136,16 +169,5 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "legal.html";
     }
   });
-
-  /* ==========================================================
-     7️⃣ RESET PROGRESSION — CORRIGÉ
-  ========================================================== */
-  if (resetButton) {
-    resetButton.addEventListener("click", () => {
-      localStorage.clear();
-      sessionStorage.clear();
-      location.reload();
-    });
-  }
 
 });
