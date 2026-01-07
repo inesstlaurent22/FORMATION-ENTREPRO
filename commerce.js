@@ -3,73 +3,140 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    🧠 ÉTAT GLOBAL
 ===================================================== */
-let playerPO = 0;
 let dialogueIndex = 0;
 let quizIndex = 0;
+let currentSpeaker = null;
+let playerPO = 0;
 
 /* =====================================================
-   🎬 VIDÉO — ANTI FOND NOIR
+   📦 ÉLÉMENTS
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
-const closeVideo = document.getElementById("closeVideo");
-
-closeVideo.onclick = endVideo;
-questVideo.onended = endVideo;
-
-// sécurité si la vidéo bug (mobile)
-setTimeout(() => {
-  if (videoContainer.style.display !== "none") {
-    endVideo();
-  }
-}, 9000);
-
-function endVideo(){
-  forceBackground();
-  requestAnimationFrame(() => {
-    videoContainer.style.display = "none";
-    startDialogues1();
-  });
-}
-
-/* =====================================================
-   🌅 BACKGROUND + PIRATES
-===================================================== */
 const background = document.getElementById("background");
+
 const pirate2 = document.getElementById("pirate2bis");
 const pirate5 = document.getElementById("pirate5bis");
 const pirate3 = document.getElementById("pirate3bis");
 
+const bubbleContainer = document.getElementById("bubbleContainer");
+
+const miniGame = document.getElementById("miniGameContainer");
+const gameQ = document.getElementById("gameQuestion");
+const gameA = document.getElementById("gameAnswers");
+const gameF = document.getElementById("gameFeedback");
+
+const fadeScreen = document.getElementById("fadeScreen");
+const poCounter = document.getElementById("poCounter");
+
+const bookContainer = document.getElementById("bookContainer");
+const leftPage = document.getElementById("leftPage");
+const rightPage = document.getElementById("rightPage");
+const continueBtn = document.getElementById("continueQuestBtn");
+
+const merchantGame = document.getElementById("merchantGame");
+
+/* =====================================================
+   ⏳ LOADER GÉNÉRIQUE
+===================================================== */
+function showLoader(text, duration = 1200, callback){
+  fadeScreen.classList.remove("hidden");
+  fadeScreen.querySelector(".loaderBox").textContent = text;
+
+  setTimeout(() => {
+    fadeScreen.classList.add("hidden");
+    if(callback) callback();
+  }, duration);
+}
+
+/* =====================================================
+   🎬 VIDÉO → LOADER → BACKGROUND
+===================================================== */
+questVideo.onended = endVideo;
+document.getElementById("closeVideo").onclick = endVideo;
+
+function endVideo(){
+  questVideo.pause();
+  videoContainer.style.display = "none";
+
+  showLoader("Chargement...", 1200, () => {
+    forceBackground();
+    startDialogues1();
+  });
+}
+
 function forceBackground(){
   background.style.display = "block";
-  background.style.visibility = "visible";
-  background.style.opacity = "1";
   background.classList.remove("hidden");
 
   [pirate2, pirate5].forEach(p => {
     p.classList.remove("hidden");
-    p.style.display = "block";
     p.style.opacity = "1";
   });
 }
 
 /* =====================================================
-   💬 DIALOGUES 1
+   💬 BULLES — POSITION AUTO AU-DESSUS DU PIRATE
 ===================================================== */
-const bubbleContainer = document.getElementById("bubbleContainer");
+function showDialogue(dialogues, speaker, onEnd){
+  dialogueIndex = 0;
+  currentSpeaker = speaker;
+  bubbleContainer.innerHTML = "";
 
-const dialogues1 = [
-  "Bienvenue dans mon échoppe.",
-  "Voici comment nous avons bâti notre commerce.",
-  "Écoutons maintenant ton jugement."
-];
+  const bubble = document.createElement("div");
+  bubble.className = "dialogue-bubble";
 
-function startDialogues1(){
-  showDialogue(dialogues1, startQuiz1);
+  const skipBtn = document.createElement("button");
+  skipBtn.textContent = "Passer les dialogues";
+  skipBtn.className = "skipDialogueBtn";
+  skipBtn.onclick = () => {
+    bubbleContainer.innerHTML = "";
+    onEnd();
+  };
+
+  document.body.appendChild(skipBtn);
+
+  function positionBubble(){
+    const rect = speaker.getBoundingClientRect();
+    bubble.style.left = rect.left + rect.width / 2 + "px";
+    bubble.style.top = rect.top - 20 + "px";
+    bubble.style.transform = "translate(-50%, -100%)";
+  }
+
+  bubble.onclick = () => {
+    dialogueIndex++;
+    if(dialogueIndex < dialogues.length){
+      bubble.textContent = dialogues[dialogueIndex];
+      positionBubble();
+    } else {
+      bubbleContainer.innerHTML = "";
+      skipBtn.remove();
+      onEnd();
+    }
+  };
+
+  bubble.textContent = dialogues[0];
+  bubbleContainer.appendChild(bubble);
+  positionBubble();
 }
 
 /* =====================================================
-   🎮 QUIZ 1 — QUESTIONS DEMANDÉES
+   💬 DIALOGUES 1
+===================================================== */
+const dialogues1 = [
+  "Bienvenue dans notre échoppe.",
+  "Nous allons te raconter notre histoire.",
+  "Puis ce sera à toi de juger."
+];
+
+function startDialogues1(){
+  showDialogue(dialogues1, pirate5, () => {
+    showLoader("Le mini-jeu va commencer...", 1200, startQuiz1);
+  });
+}
+
+/* =====================================================
+   🎮 MINI-JEU 1 — QUIZ
 ===================================================== */
 const quiz1 = [
   {
@@ -92,20 +159,14 @@ const quiz1 = [
   }
 ];
 
-const miniGame = document.getElementById("miniGameContainer");
-const gameQ = document.getElementById("gameQuestion");
-const gameA = document.getElementById("gameAnswers");
-const gameF = document.getElementById("gameFeedback");
-
 function startQuiz1(){
   quizIndex = 0;
+  miniGame.classList.remove("hidden");
   showQuestion();
 }
 
 function showQuestion(){
-  miniGame.classList.remove("hidden");
   gameF.textContent = "";
-
   const q = quiz1[quizIndex];
   gameQ.textContent = q.question;
   gameA.innerHTML = "";
@@ -115,8 +176,11 @@ function showQuestion(){
     btn.textContent = txt;
     btn.onclick = () => {
       if(i === q.correct){
-        quizIndex++;
-        quizIndex < quiz1.length ? showQuestion() : winQuiz1();
+        gameF.textContent = "Bonne réponse 👍";
+        setTimeout(() => {
+          quizIndex++;
+          quizIndex < quiz1.length ? showQuestion() : winQuiz1();
+        }, 800);
       } else {
         gameF.textContent = "Mauvaise réponse.";
       }
@@ -126,11 +190,8 @@ function showQuestion(){
 }
 
 /* =====================================================
-   🏆 RÉUSSITE QUIZ 1 + COMPTEUR PO
+   🏆 RÉUSSITE QUIZ 1 — COMPTEUR PO
 ===================================================== */
-const fadeScreen = document.getElementById("fadeScreen");
-const poCounter = document.getElementById("poCounter");
-
 function winQuiz1(){
   miniGame.classList.add("hidden");
   fadeScreen.classList.remove("hidden");
@@ -138,26 +199,18 @@ function winQuiz1(){
   let count = 0;
   const interval = setInterval(() => {
     count += 100;
-    poCounter.textContent = `${count} PO`;
+    poCounter.textContent = count + " PO";
     if(count >= 5000){
       clearInterval(interval);
-      playerPO = 5000;
-      setTimeout(() => {
-        fadeScreen.classList.add("hidden");
-        openBook();
-      }, 700);
+      fadeScreen.classList.add("hidden");
+      openBook();
     }
   }, 25);
 }
 
 /* =====================================================
-   📖 LIVRE DIGITAL
+   📖 LIVRE DIGITAL — SANS CADRE / RETOUR ARRIÈRE
 ===================================================== */
-const bookContainer = document.getElementById("bookContainer");
-const leftPage = document.getElementById("leftPage");
-const rightPage = document.getElementById("rightPage");
-const continueBtn = document.getElementById("continueQuestBtn");
-
 const bookPages = [
   ["Businessplancov.png", ""],
   ["Businessplan4.jpg", "Businessplan1.png"],
@@ -185,65 +238,70 @@ document.querySelector(".book").onclick = () => {
   }
 };
 
-continueBtn.onclick = () => {
-  bookContainer.classList.add("hidden");
-  spawnPirate3();
-};
+document.addEventListener("keydown", e => {
+  if(bookContainer.classList.contains("hidden")) return;
+  if(e.key === "ArrowLeft" && pageIndex > 0){
+    pageIndex--;
+    updateBook();
+  }
+});
 
 /* =====================================================
    🏴‍☠️ PIRATE 3 + DIALOGUES 2
 ===================================================== */
 const dialogues2 = [
-  "Alors c’est toi le nouveau marchand ?",
-  "J’ai une affaire à te proposer.",
-  "Voyons comment tu juges une vraie négociation."
+  "J’ai entendu parler de toi.",
+  "Voyons comment tu gères une vraie négociation."
 ];
 
-function spawnPirate3(){
-  forceBackground();
+continueBtn.onclick = () => {
+  bookContainer.classList.add("hidden");
+
+  pirate3.style.left = "517px";
+  pirate3.style.top = "141px";
   pirate3.classList.remove("hidden");
-  setTimeout(() => pirate3.classList.add("show"), 100);
 
   setTimeout(() => {
-    showDialogue(dialogues2, startMerchantGame);
-  }, 900);
-}
+    showDialogue(dialogues2, pirate3, () => {
+      showLoader("Le Jugement du Marchand va commencer...", 1200, startMerchantGame);
+    });
+  }, 500);
+};
 
 /* =====================================================
-   🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHAND (INTÉGRÉ)
+   🎮 MINI-JEU 2 — JUGEMENT DU MARCHAND
 ===================================================== */
-const merchantGame = document.getElementById("merchantGame");
-
 let basePrice = 300;
 let merchantGold = 1200;
-let merchantExperience = 65;
+let competitorPrice = 250;
 let clientCredibility = Math.floor(Math.random() * 100);
-let clientLuck = Math.random();
 
 const goldEl = document.getElementById("gold");
 const priceEl = document.getElementById("price");
+const expEl = document.getElementById("exp");
 const clueEl = document.getElementById("clue");
 
 function startMerchantGame(){
   merchantGame.classList.remove("hidden");
+
+  clueEl.textContent =
+    "Règle : observe le client, utilise un indice si besoin, puis décide de ton prix.";
+
+  expEl.textContent = competitorPrice;
 }
 
 window.analyzeClient = function(){
-  let score = clientCredibility + merchantExperience * 0.5;
-  clueEl.textContent =
-    score > 120 ? "🟢 Il semble sûr de lui."
-    : score > 80 ? "🟡 Son histoire paraît douteuse."
-    : "🔴 Il cache quelque chose.";
+  clueEl.textContent = clientCredibility > 60
+    ? "🟢 Le client semble honnête."
+    : "🔴 Le client bluffe peut-être.";
 };
 
 window.lowerPrice = function(){
-  endMerchant("Bonne décision. Vente honnête.");
+  endMerchant("Bonne décision.");
 };
 
 window.keepPrice = function(){
-  clientCredibility > 60
-    ? endMerchant("Le client accepte le prix.")
-    : endMerchant("Le client s’en va.");
+  endMerchant("Décision risquée, mais assumée.");
 };
 
 window.refuseSale = function(){
@@ -251,56 +309,19 @@ window.refuseSale = function(){
 };
 
 function endMerchant(msg){
-  clueEl.textContent = "✅ " + msg;
-  setTimeout(endFinal, 2200);
-}
-
-/* =====================================================
-   🎆 FIN — TEXTE + FEUX D’ARTIFICE + MENU
-===================================================== */
-function endFinal(){
   merchantGame.classList.add("hidden");
 
-  const final = document.createElement("div");
-  final.innerHTML = "<h1>🎉 Bravo tu as gagné cette première quête</h1>";
-  final.style.position = "fixed";
-  final.style.inset = "0";
-  final.style.display = "flex";
-  final.style.justifyContent = "center";
-  final.style.alignItems = "center";
-  final.style.fontSize = "32px";
-  final.style.zIndex = "6000";
-  document.body.appendChild(final);
+  fadeScreen.classList.remove("hidden");
+  fadeScreen.querySelector(".loaderBox").innerHTML =
+    `<h1 style="color:gold;text-shadow:0 0 25px gold">
+      🎉 Bravo tu as gagné cette quête
+    </h1>`;
 
   document.body.classList.add("fireworks");
 
   setTimeout(() => {
     window.location.href = "menu.html";
-  }, 3500);
-}
-
-/* =====================================================
-   💬 DIALOGUE GÉNÉRIQUE
-===================================================== */
-function showDialogue(dialogues, onEnd){
-  dialogueIndex = 0;
-  bubbleContainer.innerHTML = "";
-
-  const bubble = document.createElement("div");
-  bubble.className = "dialogue-bubble";
-  bubbleContainer.appendChild(bubble);
-
-  bubble.onclick = () => {
-    dialogueIndex++;
-    if(dialogueIndex < dialogues.length){
-      bubble.textContent = dialogues[dialogueIndex];
-    } else {
-      bubbleContainer.innerHTML = "";
-      onEnd();
-    }
-  };
-
-  bubble.textContent = dialogues[0];
+  }, 3000);
 }
 
 });
