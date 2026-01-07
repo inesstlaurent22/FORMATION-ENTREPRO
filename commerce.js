@@ -8,6 +8,7 @@ let quizIndex = 0;
 let currentDialogues = [];
 let currentOnEnd = null;
 let soundOn = false;
+let turning = false;
 
 /* =====================================================
    📦 ÉLÉMENTS
@@ -33,7 +34,6 @@ const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
 const bookContainer = document.getElementById("bookContainer");
-const book = document.querySelector(".book");
 const leftPage = document.getElementById("leftPage");
 const continueBtn = document.getElementById("continueQuestBtn");
 
@@ -64,7 +64,7 @@ function endVideo(){
     pirate2.classList.remove("hidden");
     pirate5.classList.remove("hidden");
 
-    /* pirate5bis : +15px en bas */
+    // pirate5bis : +15px en bas
     pirate5.style.top = (pirate5.offsetTop + 15) + "px";
 
     enablePirate5();
@@ -143,12 +143,20 @@ function startDialogues1(){
 const quiz1 = [
   {
     question:"Où les pirates ont-ils trouvé leurs pierres ?",
-    answers:["Dans un coffre dans une grotte secrète","Ils les ont achetées au marché","La tante les leur a données"],
+    answers:[
+      "Dans un coffre dans une grotte secrète",
+      "Ils les ont achetées au marché",
+      "La tante les leur a données"
+    ],
     correct:0
   },
   {
     question:"Qui fait partie de l'équipage pirate ?",
-    answers:["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"],
+    answers:[
+      "Toi et les deux moussaillons",
+      "Juste le capitaine",
+      "Toute la famille pirate"
+    ],
     correct:0
   }
 ];
@@ -169,7 +177,8 @@ function showQuestion(){
     const btn = document.createElement("button");
     btn.textContent = txt;
     btn.onclick = ()=>{
-      document.querySelectorAll("#gameAnswers button").forEach(b=>b.classList.remove("selected"));
+      document.querySelectorAll("#gameAnswers button")
+        .forEach(b=>b.classList.remove("selected"));
       btn.classList.add("selected");
 
       if(i === q.correct){
@@ -187,7 +196,7 @@ function showQuestion(){
 }
 
 /* =====================================================
-   💎 GEM FIREWORKS (CANVAS)
+   💎 CANVAS GEMS FIREWORKS
 ===================================================== */
 let canvas, ctx, gems = [];
 
@@ -204,7 +213,7 @@ function launchGems(){
   ctx = canvas.getContext("2d");
   gems = [];
 
-  for(let i=0;i<140;i++){
+  for(let i=0;i<150;i++){
     const a = Math.random()*Math.PI*2;
     const s = Math.random()*9+4;
     gems.push({
@@ -265,7 +274,7 @@ function winQuiz1(){
 }
 
 /* =====================================================
-   📖 LIVRE — PAGE TURN
+   📖 LIVRE — PAGE TURN AVANT / ARRIÈRE
 ===================================================== */
 const bookPages = [
   "Businessplancov.png",
@@ -275,7 +284,6 @@ const bookPages = [
 ];
 
 let pageIndex = 0;
-let turning = false;
 
 function openBook(){
   pageIndex = 0;
@@ -315,7 +323,7 @@ continueBtn.onclick = ()=>{
 function preparePirate3(){
   pirate3.classList.remove("hidden");
 
-  /* pirate3bis : 80px plus haut */
+  // pirate3bis : +80px haut
   pirate3.style.top = (pirate3.offsetTop - 80) + "px";
 
   pirate3.style.cursor = "pointer";
@@ -341,7 +349,6 @@ function startDialogues2(){
 ===================================================== */
 function startMerchantGame(){
   merchantGame.classList.remove("hidden");
-
   clueEl.innerHTML = `
     <span style="color:gold;text-shadow:0 0 18px gold;font-weight:bold">
       Analyse le marché avant de décider
@@ -353,7 +360,10 @@ window.analyzeClient = ()=>{
   clueEl.textContent = "💡 Vous n’êtes que 2 à vendre cette pierre";
 };
 
-window.lowerPrice = ()=> failMerchant();
+window.lowerPrice = ()=> {
+  clueEl.textContent = "❌ Mauvaise décision";
+};
+
 window.keepPrice = ()=>{
   clueEl.innerHTML = "<strong style='color:#7CFF7C'>Bonne décision ✔️</strong>";
   setTimeout(()=>{
@@ -361,10 +371,6 @@ window.keepPrice = ()=>{
     afterMerchantDiscussion();
   },1200);
 };
-
-function failMerchant(){
-  clueEl.textContent = "❌ Mauvaise décision";
-}
 
 /* =====================================================
    💬 DISCUSSION FINALE
@@ -380,20 +386,22 @@ function afterMerchantDiscussion(){
 }
 
 /* =====================================================
-   📦 BASE DE DONNÉES (CLIQUABLE)
+   📦 PANNEAU PIRATE — BASE DE DONNÉES
 ===================================================== */
 function showDatabaseBox(){
   const box = document.createElement("div");
-  box.className = "dialogue-bubble";
+  box.className = "dialogue-bubble pirate-panel";
   box.style.left = "50%";
   box.style.top = "50%";
   box.style.transform = "translate(-50%,-50%)";
-  box.style.maxWidth = "640px";
+  box.style.maxWidth = "680px";
   box.style.cursor = "pointer";
 
   box.innerHTML = `
-    <h2 style="text-align:center;color:#8a5a20">Les Bases de données</h2>
-    <hr style="margin:10px 0;border:1px solid #8a5a20">
+    <h2 style="text-align:center;color:#5a2e0c;margin-bottom:8px">
+      Les Bases de données
+    </h2>
+    <hr style="margin:8px 0 14px;border:1px solid #8a5a20">
     <p>
       Une base de données permet de noter l’ensemble des informations de tes clients
       (nom, adresse, téléphone, mail et préférences).
@@ -401,9 +409,9 @@ function showDatabaseBox(){
       Elle est essentielle pour créer un lien durable, suivre tes ventes,
       ton chiffre d’affaires, ton stock et ne rien oublier.
     </p>
-    <p style="margin-top:14px;font-weight:bold;text-align:center">
-      (Clique pour continuer)
-    </p>
+    <div class="pirate-continue-btn">
+      ▶ Clique pour continuer
+    </div>
   `;
 
   box.onclick = ()=>{
