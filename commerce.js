@@ -141,42 +141,68 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameAnswers  = document.getElementById("gameAnswers");
   const gameFeedback = document.getElementById("gameFeedback");
 
-  function startMiniGame1(){
-    miniGame.style.display = "flex";
-    gameQuestion.textContent = "Que dois-tu faire pour rassurer les clients ?";
-    gameFeedback.textContent = "";
-    gameAnswers.innerHTML = "";
+function startMiniGame1(){
+  miniGame.style.display = "flex";
+  gameQuestion.innerHTML = `
+    Que dois-tu faire pour rassurer les clients ?
+    <div class="multiHint">⚠️ Plusieurs réponses possibles</div>
+  `;
+  gameFeedback.textContent = "";
+  gameAnswers.innerHTML = "";
 
-    let good = 0;
+  const choices = [
+    { text:"Montrer les pierres", ok:true },
+    { text:"Mentir sur leur origine", ok:false },
+    { text:"Donner l’adresse de l’échoppe", ok:true }
+  ];
 
-    [
-      { text:"Montrer les pierres", ok:true },
-      { text:"Mentir sur leur origine", ok:false },
-      { text:"Donner l’adresse de l’échoppe", ok:true }
-    ].forEach(choice => {
-      const btn = document.createElement("button");
-      btn.textContent = choice.text;
+  let selected = [];
 
-      btn.onclick = () => {
-        vibrate(20);
-        btn.classList.add("selected");
+  choices.forEach((choice, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = choice.text;
 
-        if(choice.ok){
-          good++;
-          gameFeedback.textContent = "👍 Bonne décision";
-        }else{
-          gameFeedback.textContent = "❌ Mauvaise idée";
-        }
+    btn.onclick = () => {
+      vibrate(10);
+      btn.classList.toggle("selected");
 
-        if(good >= 2){
-          miniGame.style.display = "none";
-          fade("Bravo, tu as gagné 5000 pièces d’or et ton Business Plan", showBook);
-        }
-      };
+      if (selected.includes(index)) {
+        selected = selected.filter(i => i !== index);
+      } else {
+        selected.push(index);
+      }
+    };
 
-      gameAnswers.appendChild(btn);
-    });
-  }
+    gameAnswers.appendChild(btn);
+  });
+
+  const validateBtn = document.createElement("button");
+  validateBtn.textContent = "Valider mes choix";
+  validateBtn.className = "validateBtn";
+
+  validateBtn.onclick = () => {
+    const success =
+      selected.length === 2 &&
+      selected.every(i => choices[i].ok);
+
+    if (success) {
+      gameFeedback.innerHTML = "✅ <strong>Bonne décision !</strong>";
+      gameFeedback.classList.add("success");
+
+      setTimeout(() => {
+        miniGame.style.display = "none";
+        fade(
+          "Bravo, tu as gagné 5000 pièces d’or et ton Business Plan",
+          showBook
+        );
+      }, 1200);
+    } else {
+      gameFeedback.innerHTML = "❌ Mauvaise stratégie, essaie encore";
+    }
+  };
+
+  gameAnswers.appendChild(validateBtn);
+}
 
   /* =====================================================
      📖 LIVRE DIGITAL
@@ -204,15 +230,43 @@ document.addEventListener("DOMContentLoaded", () => {
     leftPage.src  = bookIndex > 0 ? "images/Businessplan4.jpg" : "";
   }
 
-  document.querySelector(".book").onclick = () => {
-    if(bookIndex >= pages.length - 1) return;
-    bookIndex++;
-    updateBook();
+document.querySelector(".book").onclick = (e) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
 
-    if(bookIndex === pages.length - 1){
-      setTimeout(spawnPirate3, 600);
-    }
-  };
+  rightPage.classList.remove("turn-next","turn-prev");
+  void rightPage.offsetWidth;
+
+  // clic droite → page suivante
+  if (clickX > rect.width / 2 && bookIndex < pages.length - 1) {
+    bookIndex++;
+    rightPage.classList.add("turn-next");
+  }
+  // clic gauche → page précédente
+  else if (clickX <= rect.width / 2 && bookIndex > 0) {
+    bookIndex--;
+    rightPage.classList.add("turn-prev");
+  }
+
+  updateBook();
+
+  if (bookIndex === pages.length - 1) {
+    continueQuestBtn.style.display = "block";
+  } else {
+    continueQuestBtn.style.display = "none";
+  }
+};
+
+const continueQuestBtn = document.getElementById("continueQuestBtn");
+
+continueQuestBtn.onclick = () => {
+  bookContainer.classList.remove("show");
+  bookContainer.style.display = "none";
+
+  showBackground();
+
+  setTimeout(spawnPirate3, 600);
+};
 
   /* =====================================================
      ✨ PIRATE 3 + MINI-JEU 2
