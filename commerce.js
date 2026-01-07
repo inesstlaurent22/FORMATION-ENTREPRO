@@ -8,22 +8,27 @@ function vibrate(p = 15){
 }
 
 /* =====================================================
-   🌑 FADE SIMPLE
+   🌑 FADE / LOADER — CORRIGÉ (hidden FIX)
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox  = fadeScreen.querySelector(".loaderBox");
 
 function fade(text, cb){
-  loaderBox.textContent = text;
+  loaderBox.innerHTML = text;
+
+  fadeScreen.classList.remove("hidden");
   fadeScreen.style.display = "flex";
   fadeScreen.style.opacity = "1";
 
   setTimeout(() => {
     fadeScreen.style.opacity = "0";
+
     setTimeout(() => {
       fadeScreen.style.display = "none";
+      fadeScreen.classList.add("hidden");
       cb && cb();
     }, 400);
+
   }, 1400);
 }
 
@@ -31,9 +36,9 @@ function fade(text, cb){
    🎬 VIDÉO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
-const video = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
+const video          = document.getElementById("questVideo");
+const toggleSound    = document.getElementById("toggleSound");
+const closeVideo     = document.getElementById("closeVideo");
 
 video.muted = true;
 
@@ -44,7 +49,7 @@ toggleSound.onclick = () => {
 };
 
 closeVideo.onclick = endVideo;
-video.onended = endVideo;
+video.onended      = endVideo;
 
 function endVideo(){
   video.pause();
@@ -53,19 +58,27 @@ function endVideo(){
 }
 
 /* =====================================================
-   🌅 BACKGROUND + PIRATES
+   🌅 BACKGROUND + PIRATES (FORÇAGE TOTAL)
 ===================================================== */
 const background = document.getElementById("background");
-const pirate2 = document.getElementById("pirate2bis");
-const pirate5 = document.getElementById("pirate5bis");
-const pirate3 = document.getElementById("pirate3bis");
+const pirate2    = document.getElementById("pirate2bis");
+const pirate5    = document.getElementById("pirate5bis");
+const pirate3    = document.getElementById("pirate3bis");
 
 function showBackground(){
-  background.style.display = "block";
-  background.style.opacity = "1";
+  console.log("✅ BACKGROUND AFFICHÉ");
 
-  pirate2.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
+  background.classList.remove("hidden");
+  background.style.display    = "block";
+  background.style.opacity    = "1";
+  background.style.visibility = "visible";
+
+  [pirate2, pirate5].forEach(p => {
+    p.classList.remove("hidden");
+    p.style.display    = "block";
+    p.style.opacity    = "1";
+    p.style.visibility = "visible";
+  });
 }
 
 /* =====================================================
@@ -80,8 +93,8 @@ function playDialogues(dialogues, onEnd){
 
   function show(){
     bubbleContainer.innerHTML = "";
-    const d = dialogues[i];
 
+    const d = dialogues[i];
     const bubble = document.createElement("div");
     bubble.className = "dialogue-bubble";
     bubble.innerHTML = d.text;
@@ -123,12 +136,14 @@ pirate5.onclick = () => {
 };
 
 /* =====================================================
-   🎮 MINI-JEU 1
+   🎮 MINI-JEU 1 (MULTI-CHOIX)
 ===================================================== */
-const miniGame = document.getElementById("miniGameContainer");
+const miniGame     = document.getElementById("miniGameContainer");
 const gameQuestion = document.getElementById("gameQuestion");
-const gameAnswers = document.getElementById("gameAnswers");
+const gameAnswers  = document.getElementById("gameAnswers");
 const gameFeedback = document.getElementById("gameFeedback");
+
+let selected = [];
 
 function startMiniGame1(){
   miniGame.style.display = "flex";
@@ -138,14 +153,13 @@ function startMiniGame1(){
   `;
   gameFeedback.textContent = "";
   gameAnswers.innerHTML = "";
+  selected = [];
 
   const choices = [
     { text:"Montrer les pierres", ok:true },
     { text:"Mentir sur leur origine", ok:false },
     { text:"Donner l’adresse de l’échoppe", ok:true }
   ];
-
-  let selected = [];
 
   choices.forEach((choice, index) => {
     const btn = document.createElement("button");
@@ -154,8 +168,9 @@ function startMiniGame1(){
     btn.onclick = () => {
       vibrate(10);
       btn.classList.toggle("selected");
+
       selected.includes(index)
-        ? selected = selected.filter(i => i !== index)
+        ? selected.splice(selected.indexOf(index),1)
         : selected.push(index);
     };
 
@@ -171,14 +186,15 @@ function startMiniGame1(){
       selected.length === 2 &&
       selected.every(i => choices[i].ok);
 
-    if (success) {
+    if(success){
       gameFeedback.innerHTML = "✅ <strong>Bonne décision !</strong>";
+
       setTimeout(() => {
         miniGame.style.display = "none";
         showRewardThenBook();
-      }, 1200);
-    } else {
-      gameFeedback.textContent = "❌ Mauvaise stratégie";
+      }, 1000);
+    }else{
+      gameFeedback.textContent = "❌ Mauvaise stratégie, essaie encore";
     }
   };
 
@@ -189,7 +205,9 @@ function startMiniGame1(){
    🏆 RÉCOMPENSE + COMPTEUR 5000 PO
 ===================================================== */
 function showRewardThenBook(){
+  fadeScreen.classList.remove("hidden");
   fadeScreen.style.display = "flex";
+
   loaderBox.innerHTML = `
     <div class="rewardTitle">Bravo ! Tu as gagné</div>
     <div class="rewardCounter"><span id="poCounter">0</span></div>
@@ -206,12 +224,14 @@ function showRewardThenBook(){
     if(value >= 5000){
       counter.textContent = "5000";
       clearInterval(interval);
+
       setTimeout(()=>{
         fadeScreen.style.display = "none";
+        fadeScreen.classList.add("hidden");
         showBook();
-      }, 1200);
+      },1200);
     }
-  }, 30);
+  },30);
 }
 
 /* =====================================================
@@ -232,6 +252,7 @@ let bookIndex = 0;
 
 function showBook(){
   bookContainer.classList.remove("hidden");
+  bookContainer.classList.add("show");
   bookIndex = 0;
   updateBook();
 }
@@ -248,13 +269,16 @@ document.querySelector(".book").onclick = (e)=>{
   const rect = e.currentTarget.getBoundingClientRect();
   const isRight = e.clientX > rect.left + rect.width/2;
 
-  if(isRight && bookIndex < bookPages.length-1) bookIndex++;
-  else if(!isRight && bookIndex > 0) bookIndex--;
-
+  if(isRight && bookIndex < bookPages.length-1){
+    bookIndex++;
+  }else if(!isRight && bookIndex > 0){
+    bookIndex--;
+  }
   updateBook();
 };
 
 continueBtn.onclick = ()=>{
+  bookContainer.classList.remove("show");
   bookContainer.classList.add("hidden");
   spawnPirate3();
 };
@@ -272,7 +296,7 @@ pirate3.onclick = ()=>{
     { text:"Vous êtes nouveaux sur le marché ?", anchor: pirate3 },
     { text:"Oui, nous vendons des pierres précieuses.", anchor: pirate2 },
     { text:"Alors montre-les aux clients.", anchor: pirate3 }
-  ], () => {
+  ], ()=>{
     fade("Dernier mini-jeu avant de finir la quête", startMiniGame2);
   });
 };
@@ -281,7 +305,9 @@ pirate3.onclick = ()=>{
    🎮 MINI-JEU 2
 ===================================================== */
 function startMiniGame2(){
+  selected = [];
   miniGame.style.display = "flex";
+
   gameQuestion.innerHTML = `
     Comment gagner la confiance des clients ?
     <div class="multiHint">⚠️ Plusieurs réponses possibles</div>
@@ -295,15 +321,14 @@ function startMiniGame2(){
     {text:"Montrer la qualité", ok:true}
   ];
 
-  let selected = [];
-
   choices.forEach((c,i)=>{
     const btn=document.createElement("button");
     btn.textContent=c.text;
     btn.onclick=()=>{
+      vibrate(15);
       btn.classList.toggle("selected");
       selected.includes(i)
-        ? selected = selected.filter(x=>x!==i)
+        ? selected.splice(selected.indexOf(i),1)
         : selected.push(i);
     };
     gameAnswers.appendChild(btn);
@@ -314,8 +339,10 @@ function startMiniGame2(){
   validate.textContent="Valider mes choix";
 
   validate.onclick=()=>{
-    const good = selected.length === 2 &&
-                 selected.every(i=>choices[i].ok);
+    const good =
+      selected.length === 2 &&
+      selected.every(i=>choices[i].ok);
+
     if(good){
       fade("Bravo, tu as gagné la quête 🎆", endQuest);
     }else{
@@ -327,7 +354,7 @@ function startMiniGame2(){
 }
 
 /* =====================================================
-   🏁 FIN
+   🏁 FIN → MENU
 ===================================================== */
 function endQuest(){
   setTimeout(()=>{
