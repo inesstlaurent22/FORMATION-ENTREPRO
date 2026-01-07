@@ -19,10 +19,9 @@
   </video>
 
   <div id="videoControls">
-    <!-- 🔊 BOUTON SON (OBLIGATOIRE POUR LE JS) -->
+    <!-- Bouton son -->
     <button id="toggleSound">🔇</button>
-
-    <!-- ✖ PASSER LA VIDÉO -->
+    <!-- Passer la vidéo -->
     <button id="closeVideo">Passer la vidéo</button>
   </div>
 </div>
@@ -37,7 +36,7 @@
     alt="Fond du marché pirate"
   >
 
-  <!-- 🧑‍🎓 Pirate apprenti -->
+  <!-- Pirate apprenti -->
   <img
     id="pirate2bis"
     class="pirate hidden"
@@ -45,15 +44,15 @@
     alt="Pirate apprenti"
   >
 
-  <!-- 🧔 Pirate maître -->
+  <!-- Pirate maître -->
   <img
     id="pirate5bis"
     class="pirate hidden"
     src="images/Pirate5.png"
-    alt="Maître pirate"
+    alt="Pirate maître"
   >
 
-  <!-- 🧔‍♂️ Pirate client -->
+  <!-- Pirate client -->
   <img
     id="pirate3bis"
     class="pirate hidden"
@@ -83,21 +82,16 @@
      ⏳ LOADER / RÉCOMPENSE / TRANSITIONS
 ===================================================== -->
 <div id="fadeScreen" class="hidden">
-  <div class="loaderBox">
-    Chargement...
-  </div>
+  <div class="loaderBox">Chargement...</div>
 </div>
 
 <!-- =====================================================
-     📖 LIVRE DIGITAL (PAGE TURN)
+     📖 LIVRE DIGITAL (PAGE UNIQUE + CURL)
 ===================================================== -->
 <div id="bookContainer" class="hidden">
   <div class="book">
-    <div class="page left">
-      <img id="leftPage" src="" alt="Page gauche">
-    </div>
-    <div class="page right">
-      <img id="rightPage" src="" alt="Page droite">
+    <div class="page">
+      <img id="leftPage" src="" alt="Page du livre">
     </div>
   </div>
 
@@ -112,7 +106,10 @@
 <div id="merchantGame" class="hidden">
   <div id="game">
 
-    <h1> Ne te fait pas avoir ! </h1>
+    <h1>🧔‍♂️ Le Jugement du Marché</h1>
+
+    <p>📦 Prix de l’objet : <strong><span id="price">300</span> PO</strong></p>
+    <p>🏷️ Prix des concurrents : <strong><span id="exp">250</span> PO</strong></p>
 
     <div id="dialogue">
       <p id="clientText">
@@ -127,11 +124,6 @@
       <button onclick="lowerPrice()">💰 Baisser le prix</button>
       <button onclick="keepPrice()">⚖️ Maintenir le prix</button>
       <button onclick="refuseSale()">❌ Refuser</button>
-    </div>
-
-    <div id="stats">
-      <p>📦 Prix de l’objet : <span id="price">300</span> PO</p>
-      <p>🏷️ Prix des concurrents : <span id="exp">250</span> PO</p>
     </div>
 
   </div>
