@@ -3,28 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <title>Quête Commerce</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="stylesheet" href="commerce.css">
 </head>
 
 <body>
 
-<!-- ================= 🎬 VIDÉO ================= -->
+<!-- =====================================================
+     🎬 VIDÉO D’INTRO
+===================================================== -->
 <div id="videoContainer">
   <video id="questVideo" autoplay muted playsinline preload="auto">
     <source src="videos/Commercevideo.MOV" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
   </video>
 
   <div id="videoControls">
     <button id="toggleSound">🔇</button>
-    <button id="closeVideo">✖</button>
+    <button id="closeVideo">Passer la vidéo</button>
   </div>
 </div>
 
-<!-- ================= 🌅 BACKGROUND ================= -->
+<!-- =====================================================
+     🌅 BACKGROUND + PIRATES
+===================================================== -->
 <div id="background" class="hidden">
-  <img src="images/Commercefond.PNG" class="fondImage" alt="Fond du marché pirate">
+  <img src="images/Commercefond.PNG" class="fondImage" alt="Fond marché pirate">
 
+  <!-- Pirates présents au début -->
   <img
     id="pirate2bis"
     class="pirate hidden"
@@ -39,6 +45,7 @@
     alt="Maître pirate"
   >
 
+  <!-- Pirate client (arrive plus tard) -->
   <img
     id="pirate3bis"
     class="pirate hidden"
@@ -47,16 +54,15 @@
   >
 </div>
 
-<!-- ================= 💬 BULLES ================= -->
+<!-- =====================================================
+     💬 DIALOGUES
+===================================================== -->
 <div id="bubbleContainer"></div>
 <button id="skipDialoguesBtn">Passer les dialogues</button>
 
-<!-- ================= 🌑 FADE / LOADER ================= -->
-<div id="fadeScreen" class="hidden">
-  <div class="loaderBox">Chargement...</div>
-</div>
-
-<!-- ================= 🎮 MINI-JEUX ================= -->
+<!-- =====================================================
+     🎮 MINI-JEUX
+===================================================== -->
 <div id="miniGameContainer" class="hidden">
   <div class="quizBox">
     <div id="gameQuestion"></div>
@@ -65,25 +71,42 @@
   </div>
 </div>
 
-<!-- ================= 📖 LIVRE ================= -->
+<!-- =====================================================
+     🏆 MESSAGE DE RÉUSSITE / PO
+===================================================== -->
+<div id="fadeScreen" class="hidden">
+  <div class="loaderBox">
+    <div class="rewardTitle">🎉 Bravo !</div>
+    <div class="rewardCounter" id="poCounter">+0 PO</div>
+    <div class="rewardSub">Business Plan débloqué</div>
+  </div>
+</div>
+
+<!-- =====================================================
+     📖 LIVRE DIGITAL
+===================================================== -->
 <div id="bookContainer" class="hidden">
   <div class="book">
     <div class="page left">
-      <img id="leftPage" alt="Page gauche">
+      <img src="images/page1.png" alt="Page gauche">
     </div>
     <div class="page right">
-      <img id="rightPage" alt="Page droite">
+      <img src="images/page2.png" alt="Page droite">
     </div>
   </div>
 
   <button id="continueQuestBtn">Continuer la quête</button>
 </div>
 
-<!-- ================= 🏁 FIN ================= -->
-<div id="endScreen" class="hidden">
-  <h1 id="endTitle">Bravo, tu as gagné la quête</h1>
-</div>
+<!-- =====================================================
+     🏁 FIN (redirigée via JS vers menu.html)
+===================================================== -->
+<!-- Aucun contenu ici : géré par le JS -->
 
+<!-- =====================================================
+     📜 SCRIPT
+===================================================== -->
 <script src="commerce.js"></script>
+
 </body>
 </html>
