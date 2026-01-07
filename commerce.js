@@ -228,68 +228,85 @@ function showRewardThenBook(){
   },30);
 }
   
-  /* =====================================================
-     📖 LIVRE DIGITAL
-  ===================================================== */
-  const bookContainer = document.getElementById("bookContainer");
-  const leftPage  = document.getElementById("leftPage");
-  const rightPage = document.getElementById("rightPage");
+/* =====================================================
+   🏆 RÉCOMPENSE + COMPTEUR 5000 PO
+===================================================== */
+function showRewardThenBook(){
+  fadeScreen.style.display = "flex";
 
-  const pages = [
-    "images/Businessplancov.png",
-    "images/Businessplan1.png",
-    "images/Businessplan2.png",
-    "images/Businessplan3.png"
-  ];
+  loaderBox.innerHTML = `
+    <div class="rewardTitle">Bravo ! Tu as gagné</div>
+    <div class="rewardCounter"><span id="poCounter">0</span></div>
+    <div class="rewardLabel">pièces d’or 💰</div>
+    <div class="rewardSub">et ton business plan</div>
+  `;
 
-  let bookIndex = 0;
+  let value = 0;
+  const counter = document.getElementById("poCounter");
 
-  function showBook(){
-    bookContainer.classList.add("show");
-    updateBook();
-  }
+  const interval = setInterval(()=>{
+    value += 100;
+    counter.textContent = value;
+    if(value >= 5000){
+      counter.textContent = "5000";
+      clearInterval(interval);
 
-  function updateBook(){
-    rightPage.src = pages[bookIndex];
-    leftPage.src  = bookIndex > 0 ? "images/Businessplan4.jpg" : "";
-  }
+      setTimeout(()=>{
+        fadeScreen.style.display = "none";
+        showBook();
+      },1200);
+    }
+  },30);
+}
 
-document.querySelector(".book").onclick = (e) => {
-  const rect = e.currentTarget.getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
+/* =====================================================
+   📖 LIVRE — RECTO / VERSO + PAGE TURN
+===================================================== */
+const bookContainer = document.getElementById("bookContainer");
+const leftPage = document.getElementById("leftPage");
+const rightPage = document.getElementById("rightPage");
+const continueBtn = document.getElementById("continueQuestBtn");
 
-  rightPage.classList.remove("turn-next","turn-prev");
-  void rightPage.offsetWidth;
+const bookPages = [
+  { left:null, right:"images/Businessplancov.png" },
+  { left:"images/Businessplan1.png", right:"images/Businessplan2.png" },
+  { left:"images/Businessplan2.png", right:"images/Businessplan3.png" }
+];
 
-  // clic droite → page suivante
-  if (clickX > rect.width / 2 && bookIndex < pages.length - 1) {
-    bookIndex++;
-    rightPage.classList.add("turn-next");
-  }
-  // clic gauche → page précédente
-  else if (clickX <= rect.width / 2 && bookIndex > 0) {
-    bookIndex--;
-    rightPage.classList.add("turn-prev");
-  }
+let bookIndex = 0;
 
+function showBook(){
+  bookContainer.classList.remove("hidden");
+  bookContainer.classList.add("show");
+  bookIndex = 0;
   updateBook();
+}
 
-  if (bookIndex === pages.length - 1) {
-    continueQuestBtn.style.display = "block";
-  } else {
-    continueQuestBtn.style.display = "none";
+function updateBook(){
+  const p = bookPages[bookIndex];
+  leftPage.src = p.left || "";
+  rightPage.src = p.right;
+
+  continueBtn.style.display =
+    bookIndex === bookPages.length - 1 ? "block" : "none";
+}
+
+document.querySelector(".book").onclick = (e)=>{
+  const rect = e.currentTarget.getBoundingClientRect();
+  const isRight = e.clientX > rect.left + rect.width/2;
+
+  if(isRight && bookIndex < bookPages.length-1){
+    bookIndex++;
+  }else if(!isRight && bookIndex > 0){
+    bookIndex--;
   }
+  updateBook();
 };
 
-const continueQuestBtn = document.getElementById("continueQuestBtn");
-
-continueQuestBtn.onclick = () => {
+continueBtn.onclick = ()=>{
   bookContainer.classList.remove("show");
-  bookContainer.style.display = "none";
-
-  showBackground();
-
-  setTimeout(spawnPirate3, 600);
+  bookContainer.classList.add("hidden");
+  spawnPirate3();
 };
 
   /* =====================================================
