@@ -28,7 +28,11 @@
      🌅 BACKGROUND + PIRATES
 ===================================================== -->
 <div id="background">
-  <img src="images/Commercefond.PNG" class="fondImage" alt="Fond du marché pirate">
+  <img
+    src="images/Commercefond.PNG"
+    class="fondImage"
+    alt="Fond du marché pirate"
+  >
 
   <!-- Pirate apprenti -->
   <img
@@ -46,7 +50,7 @@
     alt="Maître pirate"
   >
 
-  <!-- Pirate client (apparaît plus tard) -->
+  <!-- Pirate client -->
   <img
     id="pirate3bis"
     class="pirate hidden"
@@ -59,6 +63,7 @@
      💬 BULLES DE DIALOGUE
 ===================================================== -->
 <div id="bubbleContainer"></div>
+<!-- le bouton "Passer les dialogues" est injecté dynamiquement par le JS -->
 
 <!-- =====================================================
      🎮 MINI-JEU 1 — QUIZ
@@ -72,13 +77,11 @@
 </div>
 
 <!-- =====================================================
-     🏆 MESSAGE DE RÉUSSITE / COMPTEUR PO
+     ⏳ LOADER / RÉCOMPENSE / TRANSITIONS
 ===================================================== -->
 <div id="fadeScreen" class="hidden">
   <div class="loaderBox">
-    <div class="rewardTitle">🎉 Bravo !</div>
-    <div class="rewardCounter" id="poCounter">0 PO</div>
-    <div class="rewardSub">Business Plan débloqué</div>
+    Chargement...
   </div>
 </div>
 
@@ -117,7 +120,8 @@
     <div id="clue"></div>
 
     <div id="buttons">
-      <button onclick="analyzeClient()">🧠 Analyser</button>
+      <!-- renommé et mis en avant par le CSS -->
+      <button onclick="analyzeClient()">💡 Indice</button>
       <button onclick="lowerPrice()">💰 Baisser le prix</button>
       <button onclick="keepPrice()">⚖️ Maintenir le prix</button>
       <button onclick="refuseSale()">❌ Refuser</button>
@@ -126,7 +130,7 @@
     <div id="stats">
       <p>💰 Or du marchand : <span id="gold">1200</span> PO</p>
       <p>📦 Prix de l’objet : <span id="price">300</span> PO</p>
-      <p>⭐ Expérience : <span id="exp">65</span></p>
+      <p>🏷️ Prix des concurrents : <span id="exp">250</span> PO</p>
     </div>
 
   </div>
