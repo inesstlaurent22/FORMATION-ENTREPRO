@@ -136,68 +136,93 @@ pirate5.onclick = () => {
 };
 
 /* =====================================================
-   🎮 MINI-JEU 1 — CHOIX MULTIPLES + VALIDATION
+   🎮 MINI-JEU 1 — STRATÉGIE PIRATE
 ===================================================== */
+
 const miniGame = document.getElementById("miniGameContainer");
 const gameQuestion = document.getElementById("gameQuestion");
 const gameAnswers = document.getElementById("gameAnswers");
 const gameFeedback = document.getElementById("gameFeedback");
 
-let selected = [];
-
+/* 🔹 Lancement du mini-jeu */
 function startMiniGame1(){
-  selected = [];
+
+  console.log("🎮 Mini-jeu 1 lancé");
+
   miniGame.style.display = "flex";
+  gameFeedback.textContent = "";
 
   gameQuestion.innerHTML = `
-    Comment rassurer les clients ?
+    Que dois-tu faire pour rassurer les clients ?
     <div class="multiHint">⚠️ Plusieurs réponses possibles</div>
   `;
 
   gameAnswers.innerHTML = "";
-  gameFeedback.textContent = "";
 
   const choices = [
-    {text:"Montrer les pierres", ok:true},
-    {text:"Mentir sur leur origine", ok:false},
-    {text:"Donner l’adresse de l’échoppe", ok:true}
+    { text: "Montrer les pierres", ok: true },
+    { text: "Mentir sur leur origine", ok: false },
+    { text: "Donner l’adresse de l’échoppe", ok: true }
   ];
 
-  choices.forEach((c, i)=>{
-    const btn = document.createElement("button");
-    btn.textContent = c.text;
+  let selected = [];
 
-    btn.onclick = ()=>{
-      vibrate(15);
+  /* 🔘 Boutons réponses */
+  choices.forEach((choice, index) => {
+
+    const btn = document.createElement("button");
+    btn.textContent = choice.text;
+
+    btn.addEventListener("click", () => {
+      vibrate(10);
+
       btn.classList.toggle("selected");
-      selected.includes(i)
-        ? selected.splice(selected.indexOf(i),1)
-        : selected.push(i);
-    };
+
+      if (selected.includes(index)) {
+        selected = selected.filter(i => i !== index);
+      } else {
+        selected.push(index);
+      }
+    });
 
     gameAnswers.appendChild(btn);
   });
 
-  const validate = document.createElement("button");
-  validate.className = "validateBtn";
-  validate.textContent = "Valider mes choix";
+  /* ✅ Bouton validation */
+  const validateBtn = document.createElement("button");
+  validateBtn.textContent = "Valider mes choix";
+  validateBtn.className = "validateBtn";
 
-  validate.onclick = ()=>{
-    const good = selected.every(i => choices[i].ok) &&
-                 choices.filter(c=>c.ok).length === selected.length;
+  validateBtn.addEventListener("click", () => {
 
-    if(good){
-      gameFeedback.textContent = "✅ Bonne décision";
-      setTimeout(()=>{
+    vibrate(20);
+
+    const success =
+      selected.length === 2 &&
+      selected.every(i => choices[i].ok);
+
+    if (success) {
+      gameFeedback.innerHTML = "✅ <strong>Bonne décision !</strong>";
+      gameFeedback.classList.add("success");
+
+      setTimeout(() => {
         miniGame.style.display = "none";
-        showRewardThenBook();
-      },1000);
-    }else{
-      gameFeedback.textContent = "❌ Réfléchis encore";
-    }
-  };
 
-  gameAnswers.appendChild(validate);
+        // 👉 suite logique après mini-jeu
+        fade(
+          "Bravo, tu as gagné 5000 pièces d’or et ton Business Plan",
+          showRewardThenBook   // ou showBook si tu veux direct
+        );
+
+      }, 1200);
+
+    } else {
+      gameFeedback.innerHTML = "❌ Mauvaise stratégie, essaie encore";
+      gameFeedback.classList.remove("success");
+    }
+  });
+
+  gameAnswers.appendChild(validateBtn);
 }
 
 /* =====================================================
