@@ -19,6 +19,10 @@
   </video>
 
   <div id="videoControls">
+    <!-- 🔊 BOUTON SON (OBLIGATOIRE POUR LE JS) -->
+    <button id="toggleSound">🔇</button>
+
+    <!-- ✖ PASSER LA VIDÉO -->
     <button id="closeVideo">Passer la vidéo</button>
   </div>
 </div>
@@ -26,14 +30,14 @@
 <!-- =====================================================
      🌅 BACKGROUND + PIRATES
 ===================================================== -->
-<div id="background">
+<div id="background" class="hidden">
   <img
     src="images/Commercefond.PNG"
     class="fondImage"
     alt="Fond du marché pirate"
   >
 
-  <!-- Pirate apprenti -->
+  <!-- 🧑‍🎓 Pirate apprenti -->
   <img
     id="pirate2bis"
     class="pirate hidden"
@@ -41,7 +45,7 @@
     alt="Pirate apprenti"
   >
 
-  <!-- Pirate maître -->
+  <!-- 🧔 Pirate maître -->
   <img
     id="pirate5bis"
     class="pirate hidden"
@@ -49,7 +53,7 @@
     alt="Maître pirate"
   >
 
-  <!-- Pirate client -->
+  <!-- 🧔‍♂️ Pirate client -->
   <img
     id="pirate3bis"
     class="pirate hidden"
@@ -62,7 +66,7 @@
      💬 BULLES DE DIALOGUE
 ===================================================== -->
 <div id="bubbleContainer"></div>
-<!-- bouton "Passer les dialogues" injecté dynamiquement -->
+<!-- Le bouton "Passer les dialogues" est injecté dynamiquement par le JS -->
 
 <!-- =====================================================
      🎮 MINI-JEU 1 — QUIZ
@@ -76,7 +80,7 @@
 </div>
 
 <!-- =====================================================
-     ⏳ LOADER / COMPTEUR / TRANSITIONS
+     ⏳ LOADER / RÉCOMPENSE / TRANSITIONS
 ===================================================== -->
 <div id="fadeScreen" class="hidden">
   <div class="loaderBox">
@@ -85,7 +89,7 @@
 </div>
 
 <!-- =====================================================
-     📖 LIVRE DIGITAL (ANIMATION DE PAGE)
+     📖 LIVRE DIGITAL (PAGE TURN)
 ===================================================== -->
 <div id="bookContainer" class="hidden">
   <div class="book">
@@ -103,12 +107,12 @@
 </div>
 
 <!-- =====================================================
-     🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHAND
+     🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHÉ
 ===================================================== -->
 <div id="merchantGame" class="hidden">
   <div id="game">
 
-    <h1>🧔‍♂️ Le Jugement du Marchand</h1>
+    <h1> Ne te fait pas avoir ! </h1>
 
     <div id="dialogue">
       <p id="clientText">
@@ -126,7 +130,6 @@
     </div>
 
     <div id="stats">
-      <p>💰 Or du marchand : <span id="gold">1200</span> PO</p>
       <p>📦 Prix de l’objet : <span id="price">300</span> PO</p>
       <p>🏷️ Prix des concurrents : <span id="exp">250</span> PO</p>
     </div>
