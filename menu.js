@@ -10,10 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const bubble = document.getElementById("bubble");
   const bubbleButton = document.getElementById("bubbleButton");
 
-  const resetProgress = document.getElementById("resetButton");
+  const resetButton = document.getElementById("resetButton");
 
   /* ==========================================================
-     0️⃣ TOUT VERROUILLER AU DÉPART (SÉCURITÉ)
+     0️⃣ TOUT VERROUILLER AU DÉPART
   ========================================================== */
   [pirate1, pirate2, pirate3, pirate4, pirate5].forEach(p => {
     p.classList.add("locked");
@@ -29,22 +29,18 @@ document.addEventListener("DOMContentLoaded", () => {
   pirate2.style.pointerEvents = "auto";
 
   /* ==========================================================
-     2️⃣ DÉBLOCAGE AU RETOUR DE QUÊTES (NOUVEAU)
+     2️⃣ DÉBLOCAGE AU RETOUR DE QUÊTES
   ========================================================== */
-
-  // 🔓 Retour de commerce.html → pirate3
   if (sessionStorage.getItem("unlock_pirate3") === "true") {
     localStorage.setItem("pirate3_unlocked", "true");
     sessionStorage.removeItem("unlock_pirate3");
   }
 
-  // 🔓 Retour de communication.html → pirate4
   if (sessionStorage.getItem("unlock_pirate4") === "true") {
     localStorage.setItem("pirate4_unlocked", "true");
     sessionStorage.removeItem("unlock_pirate4");
   }
 
-  // 🔓 Retour de finance.html → pirate5
   if (sessionStorage.getItem("unlock_pirate5") === "true") {
     localStorage.setItem("pirate5_unlocked", "true");
     sessionStorage.removeItem("unlock_pirate5");
@@ -53,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      3️⃣ RÉACTIVATION SELON LOCALSTORAGE
   ========================================================== */
-
   if (localStorage.getItem("pirate1_unlocked") === "true") {
     pirate1.classList.remove("locked");
     pirate1.classList.add("unlocked", "glow");
@@ -79,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     4️⃣ LOGIQUE PIRATE 2 → PIRATE 1 (INTOUCHÉE)
+     4️⃣ LOGIQUE PIRATE 2 → PIRATE 1 (INCHANGÉE)
   ========================================================== */
   pirate2.addEventListener("click", () => {
     localStorage.setItem("pirate1_unlocked", "true");
@@ -88,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     5️⃣ BULLE APRÈS RELOAD (INTOUCHÉE)
+     5️⃣ BULLE APRÈS RELOAD (INCHANGÉE)
   ========================================================== */
   if (sessionStorage.getItem("showBubbleAfterReload") === "yes") {
 
@@ -143,10 +138,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     7️⃣ RESET PROGRESSION
+     7️⃣ RESET PROGRESSION — CORRIGÉ
   ========================================================== */
-  if (resetProgress) {
-    resetProgress.addEventListener("click", () => {
+  if (resetButton) {
+    resetButton.addEventListener("click", () => {
       localStorage.clear();
       sessionStorage.clear();
       location.reload();
