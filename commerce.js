@@ -23,10 +23,23 @@ closeVideo.onclick = endVideo;
 questVideo.onended = endVideo;
 
 function endVideo(){
-  questVideo.pause();
-  videoContainer.style.display = "none";
+
+  // 1️⃣ FORCER le background AVANT tout
   forceBackground();
-  startDialogues1();
+
+  // 2️⃣ attendre 1 frame navigateur
+  requestAnimationFrame(() => {
+
+    // 3️⃣ cacher la vidéo APRÈS
+    videoContainer.style.display = "none";
+
+    // 4️⃣ sécurité mobile (iOS)
+    setTimeout(() => {
+      forceBackground();
+      startDialogues1();
+    }, 100);
+
+  });
 }
 
 /* =====================================================
@@ -38,13 +51,17 @@ const pirate5 = document.getElementById("pirate5bis");
 const pirate3 = document.getElementById("pirate3bis");
 
 function forceBackground(){
-  background.classList.remove("hidden");
+
   background.style.display = "block";
+  background.style.visibility = "visible";
   background.style.opacity = "1";
+
+  background.classList.remove("hidden");
 
   [pirate2, pirate5].forEach(p => {
     p.classList.remove("hidden");
     p.style.display = "block";
+    p.style.visibility = "visible";
     p.style.opacity = "1";
   });
 }
