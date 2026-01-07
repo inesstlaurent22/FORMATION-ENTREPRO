@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Quête Commerce</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="stylesheet" href="finance.css">
+</head>
+
+<body>
+
+<!-- =====================================================
+     🎬 VIDÉO D’INTRO
+===================================================== -->
+<div id="videoContainer">
+  <video id="questVideo" autoplay muted playsinline preload="auto">
+    <source src="videos/Commercevideo.MOV" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div id="videoControls">
+    <button id="toggleSound">🔇</button>
+    <button id="closeVideo">Passer la vidéo</button>
+  </div>
+</div>
+
+<!-- =====================================================
+     🌅 BACKGROUND + PIRATES
+===================================================== -->
+<div id="background" class="hidden">
+  <img
+    src="images/Commercefond.PNG"
+    class="fondImage"
+    alt="Fond du marché pirate"
+  >
+
+  <!-- Pirate apprenti -->
+  <img
+    id="pirate2bis"
+    class="pirate hidden"
+    src="images/Pirate2.png"
+    alt="Pirate apprenti"
+  >
+
+  <!-- Pirate maître -->
+  <img
+    id="pirate5bis"
+    class="pirate hidden"
+    src="images/Pirate5.png"
+    alt="Pirate maître"
+  >
+
+  <!-- Pirate client -->
+  <img
+    id="pirate3bis"
+    class="pirate hidden"
+    src="images/Pirateclients.png"
+    alt="Pirate client"
+  >
+</div>
+
+<!-- =====================================================
+     💬 BULLES DE DIALOGUE
+===================================================== -->
+<div id="bubbleContainer"></div>
+<!-- Bouton “Passer les dialogues” injecté par JS -->
+
+<!-- =====================================================
+     🎮 MINI-JEU 1 — QUIZ
+===================================================== -->
+<div id="miniGameContainer" class="hidden">
+  <div class="quizBox">
+    <div id="gameQuestion"></div>
+    <div id="gameAnswers"></div>
+    <div id="gameFeedback"></div>
+  </div>
+</div>
+
+<!-- =====================================================
+     ⏳ LOADER / RÉCOMPENSE / TRANSITIONS
+===================================================== -->
+<div id="fadeScreen" class="hidden">
+  <div class="loaderBox">Chargement...</div>
+</div>
+
+<!-- =====================================================
+     📖 LIVRE DIGITAL (PAGE UNIQUE + PAGE TURN)
+===================================================== -->
+<div id="bookContainer" class="hidden">
+  <div class="book">
+    <div class="page">
+      <img id="leftPage" src="" alt="Page du livre">
+    </div>
+  </div>
+
+  <button id="continueQuestBtn" class="hidden">
+    Continuer la quête
+  </button>
+</div>
+
+<!-- =====================================================
+     🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHÉ
+===================================================== -->
+<div id="merchantGame" class="hidden">
+  <div id="game">
+
+    <h1>🧔‍♂️ Le Jugement du Marché</h1>
+
+    <p>📦 Prix de l’objet : <strong><span id="price">300</span> PO</strong></p>
+    <p>🏷️ Prix des concurrents : <strong><span id="exp">250</span> PO</strong></p>
+
+    <div id="dialogue">
+      <p id="clientText">
+        « J’ai vu cet objet à moitié prix dans un autre port… »
+      </p>
+    </div>
+
+    <!-- Message / Indice / Instruction -->
+    <div id="clue"></div>
+
+    <div id="buttons">
+      <button onclick="analyzeClient()">💡 Indice</button>
+      <button onclick="lowerPrice()">💰 Baisser le prix</button>
+      <button onclick="keepPrice()">⚖️ Maintenir le prix</button>
+      <!-- bouton Refuser volontairement supprimé -->
+    </div>
+
+  </div>
+</div>
+
+<!-- =====================================================
+     📜 SCRIPT
+===================================================== -->
+<script src="finance.js"></script>
+
+</body>
+</html>
