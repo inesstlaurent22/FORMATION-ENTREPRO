@@ -136,69 +136,68 @@ pirate5.onclick = () => {
 };
 
 /* =====================================================
-   🎮 MINI-JEU 1 (MULTI-CHOIX)
+   🎮 MINI-JEU 1 — CHOIX MULTIPLES + VALIDATION
 ===================================================== */
-const miniGame     = document.getElementById("miniGameContainer");
+const miniGame = document.getElementById("miniGameContainer");
 const gameQuestion = document.getElementById("gameQuestion");
-const gameAnswers  = document.getElementById("gameAnswers");
+const gameAnswers = document.getElementById("gameAnswers");
 const gameFeedback = document.getElementById("gameFeedback");
 
 let selected = [];
 
 function startMiniGame1(){
+  selected = [];
   miniGame.style.display = "flex";
+
   gameQuestion.innerHTML = `
-    Que dois-tu faire pour rassurer les clients ?
+    Comment rassurer les clients ?
     <div class="multiHint">⚠️ Plusieurs réponses possibles</div>
   `;
-  gameFeedback.textContent = "";
+
   gameAnswers.innerHTML = "";
-  selected = [];
+  gameFeedback.textContent = "";
 
   const choices = [
-    { text:"Montrer les pierres", ok:true },
-    { text:"Mentir sur leur origine", ok:false },
-    { text:"Donner l’adresse de l’échoppe", ok:true }
+    {text:"Montrer les pierres", ok:true},
+    {text:"Mentir sur leur origine", ok:false},
+    {text:"Donner l’adresse de l’échoppe", ok:true}
   ];
 
-  choices.forEach((choice, index) => {
+  choices.forEach((c, i)=>{
     const btn = document.createElement("button");
-    btn.textContent = choice.text;
+    btn.textContent = c.text;
 
-    btn.onclick = () => {
-      vibrate(10);
+    btn.onclick = ()=>{
+      vibrate(15);
       btn.classList.toggle("selected");
-
-      selected.includes(index)
-        ? selected.splice(selected.indexOf(index),1)
-        : selected.push(index);
+      selected.includes(i)
+        ? selected.splice(selected.indexOf(i),1)
+        : selected.push(i);
     };
 
     gameAnswers.appendChild(btn);
   });
 
-  const validateBtn = document.createElement("button");
-  validateBtn.textContent = "Valider mes choix";
-  validateBtn.className = "validateBtn";
+  const validate = document.createElement("button");
+  validate.className = "validateBtn";
+  validate.textContent = "Valider mes choix";
 
-  validateBtn.onclick = () => {
-    const success =
-      selected.length === 2 &&
-      selected.every(i => choices[i].ok);
+  validate.onclick = ()=>{
+    const good = selected.every(i => choices[i].ok) &&
+                 choices.filter(c=>c.ok).length === selected.length;
 
-    if(success){
-      gameFeedback.innerHTML = "✅ <strong>Bonne décision !</strong>";
-
-      setTimeout(() => {
+    if(good){
+      gameFeedback.textContent = "✅ Bonne décision";
+      setTimeout(()=>{
         miniGame.style.display = "none";
         showRewardThenBook();
-      }, 1000);
+      },1000);
     }else{
-      gameFeedback.textContent = "❌ Mauvaise stratégie, essaie encore";
+      gameFeedback.textContent = "❌ Réfléchis encore";
     }
   };
 
-  gameAnswers.appendChild(validateBtn);
+  gameAnswers.appendChild(validate);
 }
 
 /* =====================================================
