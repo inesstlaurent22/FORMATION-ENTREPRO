@@ -72,7 +72,7 @@ html, body{
   font-size:30px;
   color:#ffd700;
   text-align:center;
-  text-shadow:0 0 30px gold;
+  text-shadow:0 0 35px gold;
 }
 
 /* =====================================================
@@ -99,6 +99,12 @@ html, body{
   position:absolute;
   z-index:50;
   pointer-events:auto;
+  transition:transform .3s ease, filter .3s ease;
+}
+
+.pirate.glow{
+  transform:scale(1.07);
+  filter:drop-shadow(0 0 30px gold);
 }
 
 #pirate2bis{
@@ -112,18 +118,13 @@ html, body{
   top:397px;
   width:143px;
   cursor:pointer;
-  transition:transform .3s ease, filter .3s ease;
-}
-
-#pirate5bis.glow{
-  transform:scale(1.08);
-  filter:drop-shadow(0 0 28px gold);
 }
 
 #pirate3bis{
   left:517px;
   top:141px;
   width:445px;
+  cursor:pointer;
 }
 
 /* =====================================================
@@ -138,18 +139,18 @@ html, body{
 
 .dialogue-bubble{
   position:absolute;
-  max-width:560px;
+  max-width:580px;
   background:#fdf4e3;
   color:#000;
   border:4px solid #8a5a20;
-  border-radius:18px;
-  padding:18px 20px;
+  border-radius:20px;
+  padding:20px 22px;
+  line-height:1.45;
   box-shadow:
     0 6px 0 #3b1b00,
-    0 20px 40px rgba(0,0,0,.45);
+    0 22px 45px rgba(0,0,0,.5);
   cursor:pointer;
   pointer-events:auto;
-  line-height:1.4;
 }
 
 .skipDialogueBtn{
@@ -168,7 +169,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — QUIZ (STYLE PIRATE)
+   🎮 MINI-JEU 1 — QUIZ PIRATE
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -176,19 +177,19 @@ html, body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,.92);
+  background:rgba(0,0,0,.93);
   z-index:2000;
 }
 
 .quizBox{
-  width:94%;
-  max-width:540px;
+  width:95%;
+  max-width:560px;
   background:linear-gradient(#2b1a0d,#140a05);
   border:6px solid #6b3e18;
   padding:28px;
   box-shadow:
     inset 0 0 25px rgba(0,0,0,.9),
-    0 0 45px rgba(0,0,0,.95);
+    0 0 50px rgba(0,0,0,.95);
 }
 
 #gameQuestion{
@@ -218,7 +219,7 @@ html, body{
 
 #gameAnswers button.selected{
   background:linear-gradient(#fff2b2,#ffd700);
-  box-shadow:0 0 18px gold;
+  box-shadow:0 0 22px gold;
 }
 
 #gameFeedback{
@@ -229,7 +230,7 @@ html, body{
 }
 
 /* =====================================================
-   📖 LIVRE — PAGE UNIQUE + CURL
+   📖 LIVRE — PAGE TURN
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -296,18 +297,18 @@ html, body{
 #merchantGame #game{
   background:linear-gradient(#2b1a0d,#140a05);
   border:8px solid #6b3e18;
-  padding:36px;
+  padding:40px;
   width:96%;
-  max-width:700px;
+  max-width:720px;
   text-align:center;
   box-shadow:
-    inset 0 0 30px rgba(0,0,0,.9),
-    0 0 55px rgba(0,0,0,.95);
+    inset 0 0 35px rgba(0,0,0,.9),
+    0 0 60px rgba(0,0,0,.95);
 }
 
 #merchantGame h1{
   color:#ffd27d;
-  margin-bottom:20px;
+  margin-bottom:22px;
 }
 
 #merchantGame p{
@@ -319,6 +320,14 @@ html, body{
   color:white;
 }
 
+/* texte d’instruction illuminé */
+#clue{
+  margin:16px 0;
+  font-size:18px;
+  text-shadow:0 0 18px gold;
+}
+
+/* boutons */
 #buttons button{
   width:100%;
   padding:16px;
@@ -333,7 +342,7 @@ html, body{
 
 #buttons button:first-child{
   border:3px solid gold;
-  box-shadow:0 0 20px gold;
+  box-shadow:0 0 22px gold;
 }
 
 /* =====================================================
@@ -351,6 +360,6 @@ html, body{
   }
 
   #merchantGame #game{
-    padding:24px;
+    padding:26px;
   }
 }
