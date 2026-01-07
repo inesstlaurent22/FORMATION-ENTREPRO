@@ -35,6 +35,7 @@ html, body{
   object-fit:cover;
 }
 
+/* contrôles vidéo */
 #videoControls{
   position:absolute;
   top:20px;
@@ -53,6 +54,7 @@ html, body{
   color:#fff5d6;
   cursor:pointer;
   box-shadow:0 4px 0 #3b1b00;
+  transition:transform .1s ease, box-shadow .1s ease;
 }
 
 #videoControls button:active{
@@ -61,13 +63,12 @@ html, body{
 }
 
 /* =====================================================
-   🌅 BACKGROUND (VISIBLE APRÈS VIDÉO)
+   🌅 BACKGROUND
 ===================================================== */
 #background{
   position:fixed;
   inset:0;
   z-index:1;
-  background:#000;
 }
 
 /* image de fond TOUJOURS derrière */
@@ -86,12 +87,11 @@ html, body{
 .pirate{
   position:absolute;
   z-index:10;
-  display:block;
   opacity:1;
   pointer-events:auto;
 }
 
-/* Pirate apprenti (neutre) */
+/* pirate apprenti (neutre) */
 #pirate2bis{
   left:516px;
   top:406px;
@@ -99,7 +99,7 @@ html, body{
   height:178px;
 }
 
-/* Pirate maître (hover actif) */
+/* pirate maître (seul avec hover) */
 #pirate5bis{
   left:785px;
   top:397px;
@@ -114,9 +114,8 @@ html, body{
   filter:drop-shadow(0 0 18px gold);
 }
 
-/* Pirate client (arrive plus tard) */
+/* pirate client — arrive depuis la droite */
 #pirate3bis{
-  position:absolute;
   right:-320px;
   top:-144px;
   width:445px;
@@ -151,19 +150,21 @@ html, body{
   pointer-events:auto;
 }
 
+/* bouton passer dialogues */
 #skipDialoguesBtn{
   position:fixed;
   top:20px;
   right:20px;
   z-index:60;
+  display:none;
   padding:10px 16px;
   background:#b81d13;
-  color:#fff;
+  color:white;
   border:none;
   border-radius:12px;
   font-weight:bold;
   cursor:pointer;
-  display:none;
+  box-shadow:0 4px 0 #5e0e09;
 }
 
 /* =====================================================
@@ -184,6 +185,7 @@ html, body{
   border:4px solid #c89b58;
   color:#ffd700;
   font-size:22px;
+  text-align:center;
   animation:pulse 1.2s infinite;
 }
 
@@ -194,7 +196,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEU
+   🎮 MINI-JEUX
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -213,9 +215,17 @@ html, body{
 
 #gameQuestion{
   font-size:22px;
-  color:#fff;
-  margin-bottom:16px;
+  color:white;
+  margin-bottom:10px;
   text-align:center;
+}
+
+.multiHint{
+  font-size:14px;
+  color:#ffd700;
+  font-style:italic;
+  text-align:center;
+  margin-bottom:12px;
 }
 
 #gameAnswers button{
@@ -226,18 +236,38 @@ html, body{
   border-radius:14px;
   border:3px solid #3b1b00;
   background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff;
+  color:white;
   cursor:pointer;
   box-shadow:0 4px 0 #3b1b00;
+  transition:.2s;
 }
 
 #gameAnswers button.selected{
   background:linear-gradient(#ffd700,#ffae00);
   color:#3b1b00;
+  box-shadow:0 0 18px gold;
+}
+
+.validateBtn{
+  margin-top:16px;
+  background:linear-gradient(#ffd700,#ffae00);
+  color:#3b1b00;
+  font-weight:bold;
+}
+
+#gameFeedback{
+  font-size:28px;
+  color:white;
+  margin-top:16px;
+  text-align:center;
+}
+
+#gameFeedback.success{
+  text-shadow:0 0 20px gold;
 }
 
 /* =====================================================
-   📖 LIVRE
+   📖 LIVRE DIGITAL (NET + ANIMÉ)
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -256,22 +286,71 @@ html, body{
 .book{
   display:flex;
   width:92vw;
-  max-width:960px;
+  max-width:1000px;
   aspect-ratio:14/9;
+  perspective:1800px;
 }
 
 .page{
   width:50%;
+  height:100%;
+  position:relative;
+  overflow:hidden;
+  background:#000;
 }
 
 .page img{
   width:100%;
   height:100%;
   object-fit:contain;
+  backface-visibility:hidden;
+  transform:translateZ(0); /* 🔥 anti-flou */
+}
+
+/* animation pages */
+.page.right img{
+  transform-origin:left center;
+}
+
+.turn-next{
+  animation:turnNext .7s ease forwards;
+}
+
+.turn-prev{
+  animation:turnPrev .7s ease forwards;
+}
+
+@keyframes turnNext{
+  0%{transform:rotateY(0deg)}
+  50%{transform:rotateY(-60deg)}
+  100%{transform:rotateY(0deg)}
+}
+
+@keyframes turnPrev{
+  0%{transform:rotateY(0deg)}
+  50%{transform:rotateY(60deg)}
+  100%{transform:rotateY(0deg)}
+}
+
+/* bouton poursuivre quête */
+#continueQuestBtn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  display:none;
+  padding:14px 26px;
+  font-size:18px;
+  font-weight:bold;
+  background:linear-gradient(#8a5a20,#c89b58);
+  color:#fff5d6;
+  border:3px solid #3b1b00;
+  border-radius:16px;
+  cursor:pointer;
+  z-index:2100;
 }
 
 /* =====================================================
-   🏁 FIN
+   🏁 FIN DE QUÊTE
 ===================================================== */
 #endScreen{
   position:fixed;
@@ -287,9 +366,17 @@ html, body{
 }
 
 /* =====================================================
-   📱 MOBILE
+   📱 RESPONSIVE MOBILE
 ===================================================== */
 @media (max-width:768px){
+
+  .dialogue-bubble{
+    max-width:90vw;
+    left:50%!important;
+    transform:translateX(-50%);
+    bottom:18%;
+    top:auto!important;
+  }
 
   #pirate2bis{
     left:30%;
@@ -303,15 +390,15 @@ html, body{
     width:120px;
   }
 
-  .dialogue-bubble{
-    max-width:90vw;
-    left:50%!important;
-    transform:translateX(-50%);
-    bottom:18%;
-    top:auto!important;
-  }
-
   .book{
     aspect-ratio:4/3;
+  }
+
+  #gameQuestion{
+    font-size:18px;
+  }
+
+  #gameAnswers button{
+    font-size:16px;
   }
 }
