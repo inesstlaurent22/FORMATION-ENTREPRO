@@ -39,7 +39,7 @@ const continueBtn = document.getElementById("continueQuestBtn");
 const merchantGame = document.getElementById("merchantGame");
 
 /* =====================================================
-   🎬 VIDÉO – SON
+   🎬 VIDÉO + SON
 ===================================================== */
 questVideo.muted = true;
 toggleSound.textContent = "🔇";
@@ -62,22 +62,10 @@ function endVideo(){
     pirate2.classList.remove("hidden");
     pirate5.classList.remove("hidden");
 
-    // pirate5bis 20% plus haut
     pirate5.style.top = (pirate5.offsetTop * 0.8) + "px";
 
-    enableFirstDialogueTrigger();
+    pirate5.addEventListener("click", startDialogues1, { once:true });
   });
-}
-
-/* =====================================================
-   🏴‍☠️ PIRATE 5 — HOVER + CLICK
-===================================================== */
-pirate5.style.cursor = "pointer";
-pirate5.onmouseenter = () => pirate5.classList.add("glow");
-pirate5.onmouseleave = () => pirate5.classList.remove("glow");
-
-function enableFirstDialogueTrigger(){
-  pirate5.addEventListener("click", startDialogues1, { once:true });
 }
 
 /* =====================================================
@@ -126,7 +114,7 @@ function endDialogues(){
 }
 
 /* =====================================================
-   💬 DIALOGUES 1
+   💬 DIALOGUES 1 (INTRO)
 ===================================================== */
 function startDialogues1(){
   showDialogues([
@@ -137,7 +125,7 @@ function startDialogues1(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 (ENCADRÉ + RÉPONSE QUI S’ALLUME)
+   🎮 MINI-JEU 1
 ===================================================== */
 const quiz1 = [
   {
@@ -168,9 +156,7 @@ function showQuestion(){
     const btn = document.createElement("button");
     btn.textContent = txt;
     btn.onclick = ()=>{
-      document.querySelectorAll("#gameAnswers button")
-        .forEach(b=>b.classList.remove("selected"));
-
+      document.querySelectorAll("#gameAnswers button").forEach(b=>b.classList.remove("selected"));
       btn.classList.add("selected");
 
       if(i === q.correct){
@@ -188,7 +174,7 @@ function showQuestion(){
 }
 
 /* =====================================================
-   💎 GEM FIREWORKS (CANVAS)
+   💎 CANVAS GEM FIREWORKS
 ===================================================== */
 let canvas, ctx, gems = [];
 
@@ -238,7 +224,7 @@ function updateGems(){
 }
 
 /* =====================================================
-   🏆 RÉUSSITE MINI-JEU 1
+   🏆 FIN MINI-JEU 1 → LIVRE
 ===================================================== */
 function winQuiz1(){
   miniGame.classList.add("hidden");
@@ -266,7 +252,7 @@ function winQuiz1(){
 }
 
 /* =====================================================
-   📖 LIVRE — AVANT / ARRIÈRE
+   📖 LIVRE
 ===================================================== */
 const bookPages = [
   "Businessplancov.png",
@@ -304,12 +290,53 @@ continueBtn.onclick = ()=>{
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 + DIALOGUES FIN
+   🏴‍☠️ DIALOGUES 2 (AVANT MINI-JEU 2)
 ===================================================== */
 function spawnPirate3(){
   pirate3.classList.remove("hidden");
   pirate3.style.top = (pirate3.offsetTop - 150) + "px";
 
+  const dialogues2 = [
+    { text:"C’est toi le nouveau vendeur de pierres?", anchor: pirate5 },
+    { text:"Oui, vous cherchez quel type de pierres ?", anchor: pirate2 },
+    { text:"Je veux bien les voir, mais on fait confiance qu’à un seul vendeur…", anchor: pirate5 }
+  ];
+
+  showDialogues(dialogues2, () => {
+    showLoader("Le Jugement du Marché commence…", 900, startMerchantGame);
+  });
+}
+
+/* =====================================================
+   🎮 MINI-JEU 2
+===================================================== */
+function startMerchantGame(){
+  merchantGame.classList.remove("hidden");
+  document.getElementById("clue").textContent =
+    "Analyse le marché avant de décider.";
+}
+
+window.analyzeClient = ()=>{
+  document.getElementById("clue").textContent =
+    "💡 Vous n’êtes que 2 à vendre cette pierre";
+};
+
+window.lowerPrice = ()=> failMerchant();
+window.refuseSale = ()=> failMerchant();
+
+window.keepPrice = ()=>{
+  merchantGame.classList.add("hidden");
+  afterMerchantDiscussion();
+};
+
+function failMerchant(){
+  document.getElementById("clue").textContent = "❌ Mauvaise décision";
+}
+
+/* =====================================================
+   💬 DISCUSSION FINALE + BASE DE DONNÉES
+===================================================== */
+function afterMerchantDiscussion(){
   showDialogues([
     { text:"Tu connais bien ton produit, tu peux nous compter dans tes futurs clients", anchor: pirate3 },
     { text:"Tu devrais noter leur nom et adresse dans un cahier", anchor: pirate5 },
@@ -319,9 +346,6 @@ function spawnPirate3(){
   ], showDatabaseMessage);
 }
 
-/* =====================================================
-   📦 MESSAGE BASE DE DONNÉES
-===================================================== */
 function showDatabaseMessage(){
   const box = document.createElement("div");
   box.className = "dialogue-bubble";
@@ -331,7 +355,7 @@ function showDatabaseMessage(){
   box.innerHTML = `
     <strong>Base de données</strong><br><br>
     Une base de données permet de noter l’ensemble des informations de tes clients
-    (nom, adresse, téléphone, mail, préférences).  
+    (nom, adresse, téléphone, mail et préférences).  
     Elle est essentielle pour créer un lien durable, suivre tes ventes,
     ton chiffre d’affaires et ton stock.
   `;
@@ -340,7 +364,7 @@ function showDatabaseMessage(){
   setTimeout(()=>{
     bubbleContainer.innerHTML="";
     winFinal();
-  },4000);
+  },4500);
 }
 
 /* =====================================================
