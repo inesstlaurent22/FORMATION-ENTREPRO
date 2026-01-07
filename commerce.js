@@ -332,7 +332,7 @@ function preparePirate3(){
 ===================================================== */
 function startDialogues2(){
   showDialogues([
-    { text:"C’est toi le nouveau vendeur de pierres?", anchor: pirate5 },
+    { text:"C’est toi le nouveau vendeur de pierres?", anchor: pirate3 },
     { text:"Oui, vous cherchez quel type de pierres ?", anchor: pirate2 },
     { text:"Je veux bien les voir, mais on fait confiance qu’à un seul vendeur…", anchor: pirate5 }
   ], () => showLoader("Le Jugement du Marché commence…", 900, startMerchantGame));
