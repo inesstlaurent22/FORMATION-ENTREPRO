@@ -28,9 +28,9 @@
      🌅 BACKGROUND + PIRATES
 ===================================================== -->
 <div id="background">
-  <img src="images/Commercefond.PNG" class="fondImage" alt="Fond marché pirate">
+  <img src="images/Commercefond.PNG" class="fondImage" alt="Fond du marché pirate">
 
-  <!-- Pirates présents au début -->
+  <!-- Pirate apprenti -->
   <img
     id="pirate2bis"
     class="pirate hidden"
@@ -38,6 +38,7 @@
     alt="Pirate apprenti"
   >
 
+  <!-- Pirate maître -->
   <img
     id="pirate5bis"
     class="pirate hidden"
@@ -45,7 +46,7 @@
     alt="Maître pirate"
   >
 
-  <!-- Pirate client (arrive plus tard) -->
+  <!-- Pirate client (apparaît plus tard) -->
   <img
     id="pirate3bis"
     class="pirate hidden"
@@ -55,13 +56,12 @@
 </div>
 
 <!-- =====================================================
-     💬 DIALOGUES
+     💬 BULLES DE DIALOGUE
 ===================================================== -->
 <div id="bubbleContainer"></div>
-<button id="skipDialoguesBtn">Passer les dialogues</button>
 
 <!-- =====================================================
-     🎮 MINI-JEUX
+     🎮 MINI-JEU 1 — QUIZ
 ===================================================== -->
 <div id="miniGameContainer" class="hidden">
   <div class="quizBox">
@@ -72,12 +72,12 @@
 </div>
 
 <!-- =====================================================
-     🏆 MESSAGE DE RÉUSSITE / PO
+     🏆 MESSAGE DE RÉUSSITE / COMPTEUR PO
 ===================================================== -->
 <div id="fadeScreen" class="hidden">
   <div class="loaderBox">
     <div class="rewardTitle">🎉 Bravo !</div>
-    <div class="rewardCounter" id="poCounter">+0 PO</div>
+    <div class="rewardCounter" id="poCounter">0 PO</div>
     <div class="rewardSub">Business Plan débloqué</div>
   </div>
 </div>
@@ -88,20 +88,49 @@
 <div id="bookContainer" class="hidden">
   <div class="book">
     <div class="page left">
-      <img src="images/page1.png" alt="Page gauche">
+      <img id="leftPage" src="" alt="Page gauche">
     </div>
     <div class="page right">
-      <img src="images/page2.png" alt="Page droite">
+      <img id="rightPage" src="" alt="Page droite">
     </div>
   </div>
 
-  <button id="continueQuestBtn">Continuer la quête</button>
+  <button id="continueQuestBtn" class="hidden">
+    Continuer la quête
+  </button>
 </div>
 
 <!-- =====================================================
-     🏁 FIN (redirigée via JS vers menu.html)
+     🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHAND
 ===================================================== -->
-<!-- Aucun contenu ici : géré par le JS -->
+<div id="merchantGame" class="hidden">
+  <div id="game">
+
+    <h1>🧔‍♂️ Le Jugement du Marchand</h1>
+
+    <div id="dialogue">
+      <p id="clientText">
+        « J’ai vu cet objet à moitié prix dans un autre port… »
+      </p>
+    </div>
+
+    <div id="clue"></div>
+
+    <div id="buttons">
+      <button onclick="analyzeClient()">🧠 Analyser</button>
+      <button onclick="lowerPrice()">💰 Baisser le prix</button>
+      <button onclick="keepPrice()">⚖️ Maintenir le prix</button>
+      <button onclick="refuseSale()">❌ Refuser</button>
+    </div>
+
+    <div id="stats">
+      <p>💰 Or du marchand : <span id="gold">1200</span> PO</p>
+      <p>📦 Prix de l’objet : <span id="price">300</span> PO</p>
+      <p>⭐ Expérience : <span id="exp">65</span></p>
+    </div>
+
+  </div>
+</div>
 
 <!-- =====================================================
      📜 SCRIPT
