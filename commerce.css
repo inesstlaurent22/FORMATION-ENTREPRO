@@ -248,11 +248,41 @@ html, body{
   box-shadow:0 0 18px gold;
 }
 
+/* bouton validation mini-jeu */
 .validateBtn{
-  margin-top:16px;
-  background:linear-gradient(#ffd700,#ffae00);
-  color:#3b1b00;
+  margin-top:18px;
+  padding:16px;
+  font-size:18px;
   font-weight:bold;
+  text-transform:uppercase;
+  letter-spacing:1px;
+
+  background:linear-gradient(#1abc9c,#16a085);
+  color:#ffffff;
+
+  border:3px solid #0e6655;
+  border-radius:18px;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 6px 0 #0e6655,
+    0 0 18px rgba(26,188,156,0.6);
+
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+
+.validateBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 8px 0 #0e6655,
+    0 0 26px rgba(26,188,156,0.9);
+}
+
+.validateBtn:active{
+  transform:translateY(4px);
+  box-shadow:
+    0 2px 0 #0e6655;
 }
 
 #gameFeedback{
