@@ -62,14 +62,14 @@ html, body{
 }
 
 /* =====================================================
-   🌅 BACKGROUND
+   🌅 BACKGROUND (ANTI FOND NOIR)
 ===================================================== */
 #background{
   position:fixed;
   inset:0;
-  display:block !important;
-  visibility:visible !important;
-  opacity:1 !important;
+  display:block;
+  visibility:visible;
+  opacity:1;
   z-index:1;
 }
 
@@ -87,23 +87,21 @@ html, body{
 ===================================================== */
 .pirate{
   position:absolute;
-  z-index:10;
-  opacity:1;
+  z-index:50;
   pointer-events:auto;
 }
 
-/* Pirate apprenti */
+/* positions EXACTES demandées */
 #pirate2bis{
-  left:35%;
-  top:55%;
-  width:180px;
+  left:517px;
+  top:406px;
+  width:186px;
 }
 
-/* Pirate maître */
 #pirate5bis{
-  left:55%;
-  top:55%;
-  width:150px;
+  left:786px;
+  top:397px;
+  width:143px;
   cursor:pointer;
   transition:transform .3s ease, filter .3s ease;
 }
@@ -113,31 +111,31 @@ html, body{
   filter:drop-shadow(0 0 18px gold);
 }
 
-/* Pirate client (arrivée) */
+/* pirate client */
 #pirate3bis{
-  right:-320px;
-  top:10%;
-  width:420px;
-  transition:right .8s ease;
+  left:517px;
+  top:-119px;
+  width:445px;
+  transition:top .8s ease;
 }
 
 #pirate3bis.show{
-  right:50%;
+  top:140px;
 }
 
 /* =====================================================
-   💬 BULLES DE DIALOGUE
+   💬 BULLES DE DIALOGUE (AU-DESSUS DES PIRATES)
 ===================================================== */
 #bubbleContainer{
   position:fixed;
   inset:0;
-  z-index:50;
+  z-index:120;
   pointer-events:none;
 }
 
 .dialogue-bubble{
   position:absolute;
-  bottom:20%;
+  bottom:22%;
   left:50%;
   transform:translateX(-50%);
   max-width:420px;
@@ -151,25 +149,8 @@ html, body{
   pointer-events:auto;
 }
 
-/* bouton skip */
-#skipDialoguesBtn{
-  position:fixed;
-  top:20px;
-  left:20px;
-  z-index:60;
-  display:none;
-  padding:10px 16px;
-  background:#b81d13;
-  color:white;
-  border:none;
-  border-radius:12px;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 4px 0 #5e0e09;
-}
-
 /* =====================================================
-   🎮 MINI-JEUX
+   🎮 MINI-JEU 1 (QUIZ)
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -182,9 +163,9 @@ html, body{
 }
 
 .quizBox{
-  text-align:center;
   width:90%;
   max-width:460px;
+  text-align:center;
 }
 
 #gameQuestion{
@@ -218,7 +199,7 @@ html, body{
 }
 
 /* =====================================================
-   🏆 RÉCOMPENSE
+   🏆 RÉCOMPENSE + COMPTEUR PO
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -267,8 +248,8 @@ html, body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,.8);
-  z-index:2000;
+  background:rgba(0,0,0,.85);
+  z-index:2200;
 }
 
 .book{
@@ -276,6 +257,7 @@ html, body{
   width:92vw;
   max-width:960px;
   aspect-ratio:14/9;
+  cursor:pointer;
 }
 
 .page{
@@ -304,7 +286,72 @@ html, body{
 }
 
 /* =====================================================
-   🎆 FEUX D’ARTIFICE (FIN)
+   🎮 MINI-JEU 2 — JUGEMENT DU MARCHAND
+===================================================== */
+#merchantGame{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:2300;
+}
+
+/* ton CSS du jeu intégré */
+#game{
+  background:rgba(0,0,0,.65);
+  border:3px solid #a67c3b;
+  padding:25px;
+  width:90%;
+  max-width:520px;
+  text-align:center;
+  box-shadow:0 0 25px #000;
+}
+
+#game h1{
+  margin-bottom:15px;
+  color:#ffd27d;
+}
+
+#dialogue{
+  background:#1a1208;
+  padding:15px;
+  border:2px solid #5c4420;
+  margin-bottom:10px;
+  font-style:italic;
+}
+
+#clue{
+  min-height:24px;
+  margin:10px 0;
+  font-weight:bold;
+}
+
+#buttons button{
+  background:linear-gradient(#6b4b1e,#3b240c);
+  border:2px solid #a67c3b;
+  color:#ffd27d;
+  padding:10px;
+  margin:5px;
+  cursor:pointer;
+  width:90%;
+}
+
+#buttons button:hover{
+  transform:scale(1.03);
+  box-shadow:0 0 8px #ffd27d;
+}
+
+#stats{
+  margin-top:15px;
+  font-size:14px;
+}
+
+.good{color:#7CFF7C}
+.bad{color:#FF6B6B}
+
+/* =====================================================
+   🎆 FEUX D’ARTIFICE FIN
 ===================================================== */
 body.fireworks::before{
   content:"";
@@ -315,7 +362,7 @@ body.fireworks::before{
     radial-gradient(circle at 70% 40%, #ff0044 0 4px, transparent 5px),
     radial-gradient(circle at 50% 60%, #00ccff 0 4px, transparent 5px);
   animation:fireworks 1s infinite;
-  z-index:4000;
+  z-index:5000;
   pointer-events:none;
 }
 
@@ -326,12 +373,9 @@ body.fireworks::before{
 }
 
 /* =====================================================
-   📱 RESPONSIVE
+   📱 RESPONSIVE (sécurisé)
 ===================================================== */
 @media(max-width:768px){
-
-  #pirate2bis{left:30%;top:60%;width:140px}
-  #pirate5bis{left:55%;top:60%;width:120px}
 
   .dialogue-bubble{
     max-width:90vw;
