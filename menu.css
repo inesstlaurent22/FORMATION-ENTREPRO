@@ -1,13 +1,18 @@
 /* ================================================= */
 /* 🎨 FOND MENU */
 /* ================================================= */
-#background {
-  position: fixed;
-  inset: 0;
-  background-image: url("images/Fondmenu.PNG");
-  background-size: cover;
-  background-position: center;
-  z-index: 1;
+html, body{
+  width:100%;
+  height:100%;
+  margin:0;
+  background:#000; /* 🔥 fond noir garanti */
+  overflow:hidden;
+}
+/* container principal du menu */
+#menu,
+#background,
+.menu-container{
+  background:#000;
 }
 
 /* ================================================= */
@@ -159,7 +164,7 @@
 /* ================================================= */
 /*  Reset */
 /* ================================================= */
-#resetProgress {
+#resetButton {
   position: fixed;        /* toujours visible à l'écran */
   top: 15px;              /* haut */
   left: 15px;             /* gauche */
@@ -173,6 +178,6 @@
   color: white;
 }
 
-#resetProgress:hover {
+#resetButton:hover {
   transform: scale(1.05);
 }
