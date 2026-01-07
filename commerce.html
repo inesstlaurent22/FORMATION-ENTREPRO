@@ -63,7 +63,7 @@
      💬 BULLES DE DIALOGUE
 ===================================================== -->
 <div id="bubbleContainer"></div>
-<!-- bouton "Passer les dialogues" injecté par JS -->
+<!-- Bouton “Passer les dialogues” injecté par JS -->
 
 <!-- =====================================================
      🎮 MINI-JEU 1 — QUIZ
@@ -84,7 +84,7 @@
 </div>
 
 <!-- =====================================================
-     📖 LIVRE DIGITAL (PAGE UNIQUE + CURL)
+     📖 LIVRE DIGITAL (PAGE UNIQUE + PAGE TURN)
 ===================================================== -->
 <div id="bookContainer" class="hidden">
   <div class="book">
@@ -115,13 +115,14 @@
       </p>
     </div>
 
+    <!-- Message / Indice / Instruction -->
     <div id="clue"></div>
 
     <div id="buttons">
       <button onclick="analyzeClient()">💡 Indice</button>
       <button onclick="lowerPrice()">💰 Baisser le prix</button>
       <button onclick="keepPrice()">⚖️ Maintenir le prix</button>
-      <button onclick="refuseSale()">❌ Refuser</button>
+      <!-- bouton Refuser volontairement supprimé -->
     </div>
 
   </div>
