@@ -238,24 +238,22 @@ html, body{
   z-index:2000;
 }
 
-.quizBox{
-  width:90%;
-  max-width:420px;
-}
-
 #gameQuestion{
   font-size:22px;
   color:white;
-  margin-bottom:10px;
+  margin-bottom:16px;
   text-align:center;
 }
 
 .multiHint{
   font-size:14px;
   color:#ffd700;
-  font-style:italic;
-  text-align:center;
-  margin-bottom:12px;
+  margin-top:6px;
+}
+
+#gameAnswers{
+  width:100%;
+  max-width:420px;
 }
 
 #gameAnswers button{
@@ -272,62 +270,38 @@ html, body{
   transition:.2s;
 }
 
+#gameAnswers button:hover,
 #gameAnswers button.selected{
   background:linear-gradient(#ffd700,#ffae00);
   color:#3b1b00;
   box-shadow:0 0 18px gold;
 }
 
-/* bouton validation mini-jeu */
+#gameFeedback{
+  margin-top:14px;
+  font-size:18px;
+  color:white;
+  text-align:center;
+}
+
+/* bouton validation */
 .validateBtn{
   margin-top:18px;
   padding:16px;
   font-size:18px;
   font-weight:bold;
-  text-transform:uppercase;
   letter-spacing:1px;
-
+  text-transform:uppercase;
   background:linear-gradient(#1abc9c,#16a085);
-  color:#ffffff;
-
+  color:#fff;
   border:3px solid #0e6655;
   border-radius:18px;
-
   cursor:pointer;
-
-  box-shadow:
-    0 6px 0 #0e6655,
-    0 0 18px rgba(26,188,156,0.6);
-
-  transition:transform .15s ease, box-shadow .15s ease;
-}
-
-.validateBtn:hover{
-  transform:translateY(-2px);
-  box-shadow:
-    0 8px 0 #0e6655,
-    0 0 26px rgba(26,188,156,0.9);
-}
-
-.validateBtn:active{
-  transform:translateY(4px);
-  box-shadow:
-    0 2px 0 #0e6655;
-}
-
-#gameFeedback{
-  font-size:28px;
-  color:white;
-  margin-top:16px;
-  text-align:center;
-}
-
-#gameFeedback.success{
-  text-shadow:0 0 20px gold;
+  box-shadow:0 6px 0 #0e6655, 0 0 18px rgba(26,188,156,.6);
 }
 
 /* =====================================================
-   📖 LIVRE DIGITAL (NET + ANIMÉ)
+   📖 LIVRE DIGITAL
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -335,7 +309,7 @@ html, body{
   display:none;
   justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,.92);
+  background:transparent;
   z-index:2000;
 }
 
@@ -343,50 +317,37 @@ html, body{
   display:flex;
 }
 
-#bookContainer{
-  background:transparent; /* 🔥 plus de fond noir */
+.book{
+  display:flex;
+  width:92vw;
+  max-width:960px;
+  aspect-ratio:14/9;
+  perspective:1600px;
 }
 
 .page{
+  width:50%;
+  height:100%;
   background:#fff;
+  overflow:hidden;
+  position:relative;
+}
+
+.page img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
 }
 
 .page::after{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(to left,
-    rgba(0,0,0,0.25),
-    transparent 40%);
+  background:linear-gradient(to left, rgba(0,0,0,.25), transparent 40%);
   pointer-events:none;
 }
 
-/* animation pages */
-.page.right img{
-  transform-origin:left center;
-}
-
-.turn-next{
-  animation:turnNext .7s ease forwards;
-}
-
-.turn-prev{
-  animation:turnPrev .7s ease forwards;
-}
-
-@keyframes turnNext{
-  0%{transform:rotateY(0deg)}
-  50%{transform:rotateY(-60deg)}
-  100%{transform:rotateY(0deg)}
-}
-
-@keyframes turnPrev{
-  0%{transform:rotateY(0deg)}
-  50%{transform:rotateY(60deg)}
-  100%{transform:rotateY(0deg)}
-}
-
-/* bouton poursuivre quête */
+/* bouton continuer */
 #continueQuestBtn{
   position:absolute;
   top:20px;
@@ -404,28 +365,12 @@ html, body{
 }
 
 /* =====================================================
-   🏁 FIN DE QUÊTE
-===================================================== */
-#endScreen{
-  position:fixed;
-  inset:0;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  background:#000;
-  z-index:4000;
-  color:gold;
-  font-size:32px;
-  text-shadow:0 0 25px gold;
-}
-
-/* =====================================================
-   📱 RESPONSIVE MOBILE
+   📱 RESPONSIVE
 ===================================================== */
 @media (max-width:768px){
 
   .dialogue-bubble{
-    max-width:90vw;
+    max-width:88vw;
     left:50%!important;
     transform:translateX(-50%);
     bottom:18%;
@@ -433,7 +378,7 @@ html, body{
   }
 
   #pirate2bis{
-    left:30%;
+    left:35%;
     top:60%;
     width:140px;
   }
@@ -445,6 +390,7 @@ html, body{
   }
 
   .book{
+    width:94vw;
     aspect-ratio:4/3;
   }
 
@@ -454,5 +400,5 @@ html, body{
 
   #gameAnswers button{
     font-size:16px;
-  }
-}
+    }
+    }
