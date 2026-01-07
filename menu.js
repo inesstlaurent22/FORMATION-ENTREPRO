@@ -10,43 +10,60 @@ document.addEventListener("DOMContentLoaded", () => {
   const bubble = document.getElementById("bubble");
   const bubbleButton = document.getElementById("bubbleButton");
 
-  const resetButton = document.getElementById("resetButton");
+  const resetProgress = document.getElementById("resetButton");
 
-  // ==========================================================
-  // 0️⃣ TOUT VERROUILLER AU DÉPART (sécurité maximale)
-  // ==========================================================
+  /* ==========================================================
+     0️⃣ TOUT VERROUILLER AU DÉPART (SÉCURITÉ)
+  ========================================================== */
   [pirate1, pirate2, pirate3, pirate4, pirate5].forEach(p => {
     p.classList.add("locked");
     p.classList.remove("unlocked", "glow");
     p.style.pointerEvents = "none";
   });
 
-  // ==========================================================
-  // 1️⃣ Pirate 2 débloqué par défaut
-  // ==========================================================
+  /* ==========================================================
+     1️⃣ PIRATE 2 DÉBLOQUÉ PAR DÉFAUT (INTOUCHABLE)
+  ========================================================== */
   pirate2.classList.remove("locked");
   pirate2.classList.add("unlocked");
   pirate2.style.pointerEvents = "auto";
 
-  // ==========================================================
-  // 2️⃣ Réactivation selon progression SAUVEGARDÉE
-  // ==========================================================
+  /* ==========================================================
+     2️⃣ DÉBLOCAGE AU RETOUR DE QUÊTES (NOUVEAU)
+  ========================================================== */
+
+  // 🔓 Retour de commerce.html → pirate3
+  if (sessionStorage.getItem("unlock_pirate3") === "true") {
+    localStorage.setItem("pirate3_unlocked", "true");
+    sessionStorage.removeItem("unlock_pirate3");
+  }
+
+  // 🔓 Retour de communication.html → pirate4
+  if (sessionStorage.getItem("unlock_pirate4") === "true") {
+    localStorage.setItem("pirate4_unlocked", "true");
+    sessionStorage.removeItem("unlock_pirate4");
+  }
+
+  // 🔓 Retour de finance.html → pirate5
+  if (sessionStorage.getItem("unlock_pirate5") === "true") {
+    localStorage.setItem("pirate5_unlocked", "true");
+    sessionStorage.removeItem("unlock_pirate5");
+  }
+
+  /* ==========================================================
+     3️⃣ RÉACTIVATION SELON LOCALSTORAGE
+  ========================================================== */
+
   if (localStorage.getItem("pirate1_unlocked") === "true") {
     pirate1.classList.remove("locked");
     pirate1.classList.add("unlocked", "glow");
     pirate1.style.pointerEvents = "auto";
   }
 
-  // 🚨 pirate3 uniquement si VRAIMENT marqué dans localStorage
   if (localStorage.getItem("pirate3_unlocked") === "true") {
     pirate3.classList.remove("locked");
     pirate3.classList.add("unlocked", "glow");
     pirate3.style.pointerEvents = "auto";
-  } else {
-    // sécurité supplémentaire contre le bug pirate3 débloqué
-    pirate3.classList.add("locked");
-    pirate3.classList.remove("unlocked", "glow");
-    pirate3.style.pointerEvents = "none";
   }
 
   if (localStorage.getItem("pirate4_unlocked") === "true") {
@@ -61,20 +78,18 @@ document.addEventListener("DOMContentLoaded", () => {
     pirate5.style.pointerEvents = "auto";
   }
 
-  // ==========================================================
-  // 3️⃣ Clic pirate2 → débloque pirate1
-  // ==========================================================
+  /* ==========================================================
+     4️⃣ LOGIQUE PIRATE 2 → PIRATE 1 (INTOUCHÉE)
+  ========================================================== */
   pirate2.addEventListener("click", () => {
-
     localStorage.setItem("pirate1_unlocked", "true");
     sessionStorage.setItem("showBubbleAfterReload", "yes");
-
     window.location.reload();
   });
 
-  // ==========================================================
-  // 4️⃣ Afficher bulle après reload
-  // ==========================================================
+  /* ==========================================================
+     5️⃣ BULLE APRÈS RELOAD (INTOUCHÉE)
+  ========================================================== */
   if (sessionStorage.getItem("showBubbleAfterReload") === "yes") {
 
     notification.textContent = "Un nouveau pirate est débloqué !";
@@ -96,38 +111,44 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.removeItem("showBubbleAfterReload");
   }
 
-  bubbleButton.addEventListener("click", () => bubble.style.display = "none");
+  bubbleButton.addEventListener("click", () => {
+    bubble.style.display = "none";
+  });
 
-  // ==========================================================
-  // 5️⃣ Navigation entre pages
-  // ==========================================================
+  /* ==========================================================
+     6️⃣ NAVIGATION ENTRE PAGES
+  ========================================================== */
   pirate1.addEventListener("click", () => {
-    if (!pirate1.classList.contains("locked")) window.location.href = "commerce.html";
+    if (!pirate1.classList.contains("locked")) {
+      window.location.href = "commerce.html";
+    }
   });
 
   pirate3.addEventListener("click", () => {
-    if (!pirate3.classList.contains("locked")) window.location.href = "communication.html";
+    if (!pirate3.classList.contains("locked")) {
+      window.location.href = "communication.html";
+    }
   });
 
   pirate4.addEventListener("click", () => {
-    if (!pirate4.classList.contains("locked")) window.location.href = "finance.html";
+    if (!pirate4.classList.contains("locked")) {
+      window.location.href = "finance.html";
+    }
   });
 
   pirate5.addEventListener("click", () => {
-    if (!pirate5.classList.contains("locked")) window.location.href = "legal.html";
+    if (!pirate5.classList.contains("locked")) {
+      window.location.href = "legal.html";
+    }
   });
 
-  // ==========================================================
-  // 6️⃣ BOUTON RESET — présent dès le 1er chargement
-  // ==========================================================
+  /* ==========================================================
+     7️⃣ RESET PROGRESSION
+  ========================================================== */
   if (resetProgress) {
     resetProgress.addEventListener("click", () => {
-
-      // supprime totalement la progression
       localStorage.clear();
       sessionStorage.clear();
-
-      // recharge proprement
       location.reload();
     });
   }
