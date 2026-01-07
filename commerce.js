@@ -1,229 +1,210 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-/* =====================================================
-   🔧 UTILITAIRES
-===================================================== */
-function vibrate(p = 15){
-  if ("vibrate" in navigator) navigator.vibrate(p);
-}
+  /* =====================================================
+     📳 VIBRATION
+  ===================================================== */
+  function vibrate(p = 15){
+    if ("vibrate" in navigator) navigator.vibrate(p);
+  }
 
-/* =====================================================
-   🌑 FADE / LOADER — CORRIGÉ (hidden FIX)
-===================================================== */
-const fadeScreen = document.getElementById("fadeScreen");
-const loaderBox  = fadeScreen.querySelector(".loaderBox");
+  /* =====================================================
+     🌑 FADE / LOADER (CENTRAL)
+  ===================================================== */
+  const fadeScreen = document.getElementById("fadeScreen");
+  const loaderBox  = fadeScreen.querySelector(".loaderBox");
 
-function fade(text, cb){
-  loaderBox.innerHTML = text;
-
-  fadeScreen.classList.remove("hidden");
-  fadeScreen.style.display = "flex";
-  fadeScreen.style.opacity = "1";
-
-  setTimeout(() => {
-    fadeScreen.style.opacity = "0";
+  function showLoader(text, callback){
+    loaderBox.textContent = text;
+    fadeScreen.style.display = "flex";
+    fadeScreen.style.opacity = "1";
 
     setTimeout(() => {
-      fadeScreen.style.display = "none";
-      fadeScreen.classList.add("hidden");
-      cb && cb();
-    }, 400);
-
-  }, 1400);
-}
-
-/* =====================================================
-   🎬 VIDÉO
-===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const video          = document.getElementById("questVideo");
-const toggleSound    = document.getElementById("toggleSound");
-const closeVideo     = document.getElementById("closeVideo");
-
-video.muted = true;
-
-toggleSound.onclick = () => {
-  vibrate(10);
-  video.muted = !video.muted;
-  toggleSound.textContent = video.muted ? "🔇" : "🔊";
-};
-
-closeVideo.onclick = endVideo;
-video.onended      = endVideo;
-
-function endVideo(){
-  video.pause();
-  videoContainer.style.display = "none";
-  fade("Chargement...", showBackground);
-}
-
-/* =====================================================
-   🌅 BACKGROUND + PIRATES
-===================================================== */
-const background = document.getElementById("background");
-const pirate2 = document.getElementById("pirate2bis");
-const pirate5 = document.getElementById("pirate5bis");
-const pirate3 = document.getElementById("pirate3bis");
-
-function showBackground(){
-  background.classList.remove("hidden");
-  background.style.display = "block";
-  background.style.opacity = "0";
-
-  pirate2.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
-
-  pirate2.style.display = "block";
-  pirate5.style.display = "block";
-
-  setTimeout(()=>{
-    background.style.opacity = "1";
-  },50);
-}
-
-/* =====================================================
-   💬 BULLES + SKIP
-===================================================== */
-const bubbleContainer = document.getElementById("bubbleContainer");
-const skipBtn = document.getElementById("skipDialoguesBtn");
-
-function playDialogues(dialogues, onEnd){
-  let i = 0;
-  skipBtn.style.display = "block";
-
-  function show(){
-    bubbleContainer.innerHTML = "";
-
-    const d = dialogues[i];
-    const bubble = document.createElement("div");
-    bubble.className = "dialogue-bubble";
-    bubble.innerHTML = d.text;
-
-    const r = d.anchor.getBoundingClientRect();
-    bubble.style.left = r.left + "px";
-    bubble.style.top  = (r.top - 130) + "px";
-
-    bubble.onclick = () => {
-      vibrate(10);
-      i++;
-      i < dialogues.length ? show() : end();
-    };
-
-    bubbleContainer.appendChild(bubble);
-  }
-
-  function end(){
-    bubbleContainer.innerHTML = "";
-    skipBtn.style.display = "none";
-    onEnd && onEnd();
-  }
-
-  skipBtn.onclick = end;
-  show();
-}
-
-/* =====================================================
-   💬 DIALOGUES 1 → MINI-JEU 1
-===================================================== */
-pirate5.onclick = () => {
-  playDialogues([
-    { text:"Bienvenue sur le marché des trésors.", anchor: pirate5 },
-    { text:"Je veux réussir ici.", anchor: pirate2 },
-    { text:"Alors prouve que tu es digne de confiance.", anchor: pirate5 }
-  ], () => {
-    fade("Termine ce mini-jeu pour continuer la quête", startMiniGame1);
-  });
-};
-
-/* =====================================================
-   🎮 MINI-JEU 1 — STRATÉGIE PIRATE
-===================================================== */
-
-const miniGame = document.getElementById("miniGameContainer");
-const gameQuestion = document.getElementById("gameQuestion");
-const gameAnswers = document.getElementById("gameAnswers");
-const gameFeedback = document.getElementById("gameFeedback");
-
-/* 🔹 Lancement du mini-jeu */
-function startMiniGame1(){
-
-  console.log("🎮 Mini-jeu 1 lancé");
-
-  miniGame.style.display = "flex";
-  gameFeedback.textContent = "";
-
-  gameQuestion.innerHTML = `
-    Que dois-tu faire pour rassurer les clients ?
-    <div class="multiHint">⚠️ Plusieurs réponses possibles</div>
-  `;
-
-  gameAnswers.innerHTML = "";
-
-  const choices = [
-    { text: "Montrer les pierres", ok: true },
-    { text: "Mentir sur leur origine", ok: false },
-    { text: "Donner l’adresse de l’échoppe", ok: true }
-  ];
-
-  let selected = [];
-
-  /* 🔘 Boutons réponses */
-  choices.forEach((choice, index) => {
-
-    const btn = document.createElement("button");
-    btn.textContent = choice.text;
-
-    btn.addEventListener("click", () => {
-      vibrate(10);
-
-      btn.classList.toggle("selected");
-
-      if (selected.includes(index)) {
-        selected = selected.filter(i => i !== index);
-      } else {
-        selected.push(index);
-      }
-    });
-
-    gameAnswers.appendChild(btn);
-  });
-
-  /* ✅ Bouton validation */
-  const validateBtn = document.createElement("button");
-  validateBtn.textContent = "Valider mes choix";
-  validateBtn.className = "validateBtn";
-
-  validateBtn.addEventListener("click", () => {
-
-    vibrate(20);
-
-    const success =
-      selected.length === 2 &&
-      selected.every(i => choices[i].ok);
-
-    if (success) {
-      gameFeedback.innerHTML = "✅ <strong>Bonne décision !</strong>";
-      gameFeedback.classList.add("success");
+      fadeScreen.style.opacity = "0";
 
       setTimeout(() => {
-        miniGame.style.display = "none";
+        fadeScreen.style.display = "none";
+        callback && callback();
+      }, 400);
 
-        // 👉 suite logique après mini-jeu
-        fade(
-          "Bravo, tu as gagné 5000 pièces d’or et ton Business Plan",
-          showRewardThenBook   // ou showBook si tu veux direct
-        );
+    }, 1400);
+  }
 
-      }, 1200);
+  /* =====================================================
+     🎬 VIDÉO
+  ===================================================== */
+  const videoContainer = document.getElementById("videoContainer");
+  const video = document.getElementById("questVideo");
+  const toggleSound = document.getElementById("toggleSound");
+  const closeVideo = document.getElementById("closeVideo");
 
-    } else {
-      gameFeedback.innerHTML = "❌ Mauvaise stratégie, essaie encore";
-      gameFeedback.classList.remove("success");
+  video.muted = true;
+
+  toggleSound.onclick = () => {
+    vibrate(10);
+    video.muted = !video.muted;
+    toggleSound.textContent = video.muted ? "🔇" : "🔊";
+  };
+
+  closeVideo.onclick = endVideo;
+  video.onended = endVideo;
+
+  function endVideo(){
+    video.pause();
+    videoContainer.style.display = "none";
+    showLoader("Chargement...", showBackground);
+  }
+
+  /* =====================================================
+     🌅 BACKGROUND + PIRATES
+  ===================================================== */
+  const background = document.getElementById("background");
+  const pirate2 = document.getElementById("pirate2bis");
+  const pirate5 = document.getElementById("pirate5bis");
+
+  function showBackground(){
+    background.style.display = "block";
+    background.style.opacity = "1";
+
+    pirate2.classList.remove("hidden");
+    pirate5.classList.remove("hidden");
+  }
+
+  /* =====================================================
+     💬 DIALOGUES
+  ===================================================== */
+  const bubbleContainer = document.getElementById("bubbleContainer");
+  const skipBtn = document.getElementById("skipDialoguesBtn");
+
+  function playDialogues(dialogues, onEnd){
+    let i = 0;
+    skipBtn.style.display = "block";
+
+    function show(){
+      bubbleContainer.innerHTML = "";
+
+      const d = dialogues[i];
+      const bubble = document.createElement("div");
+      bubble.className = "dialogue-bubble";
+      bubble.innerHTML = d.text;
+
+      const r = d.anchor.getBoundingClientRect();
+      bubble.style.left = r.left + "px";
+      bubble.style.top  = (r.top - 140) + "px";
+
+      bubble.onclick = () => {
+        vibrate(10);
+        i++;
+        i < dialogues.length ? show() : end();
+      };
+
+      bubbleContainer.appendChild(bubble);
     }
-  });
 
-  gameAnswers.appendChild(validateBtn);
-}
+    function end(){
+      bubbleContainer.innerHTML = "";
+      skipBtn.style.display = "none";
+      onEnd && onEnd();
+    }
+
+    skipBtn.onclick = end;
+    show();
+  }
+
+  /* =====================================================
+     ▶️ CLIC PIRATE → DIALOGUES → LOADER → MINI-JEU 1
+  ===================================================== */
+  pirate5.onclick = () => {
+
+    const dialogues1 = [
+      { text:"Bienvenue sur le marché des trésors.", anchor: pirate5 },
+      { text:"Je veux réussir ici.", anchor: pirate2 },
+      { text:"Alors prouve que tu es digne de confiance.", anchor: pirate5 }
+    ];
+
+    playDialogues(dialogues1, () => {
+      showLoader(
+        "Termine ce mini-jeu pour continuer la quête",
+        startMiniGame1
+      );
+    });
+  };
+
+  /* =====================================================
+     🎮 MINI-JEU 1 — MULTI-RÉPONSES
+  ===================================================== */
+  const miniGame = document.getElementById("miniGameContainer");
+  const gameQuestion = document.getElementById("gameQuestion");
+  const gameAnswers = document.getElementById("gameAnswers");
+  const gameFeedback = document.getElementById("gameFeedback");
+
+  function startMiniGame1(){
+
+    console.log("🎮 Mini-jeu 1 démarré");
+
+    miniGame.style.display = "flex";
+    gameFeedback.textContent = "";
+
+    gameQuestion.innerHTML = `
+      Que dois-tu faire pour rassurer les clients ?
+      <div class="multiHint">⚠️ Plusieurs réponses possibles</div>
+    `;
+
+    gameAnswers.innerHTML = "";
+
+    const choices = [
+      { text:"Montrer les pierres", ok:true },
+      { text:"Mentir sur leur origine", ok:false },
+      { text:"Donner l’adresse de l’échoppe", ok:true }
+    ];
+
+    let selected = [];
+
+    choices.forEach((choice, index) => {
+      const btn = document.createElement("button");
+      btn.textContent = choice.text;
+
+      btn.onclick = () => {
+        vibrate(10);
+        btn.classList.toggle("selected");
+
+        selected.includes(index)
+          ? selected = selected.filter(i => i !== index)
+          : selected.push(index);
+      };
+
+      gameAnswers.appendChild(btn);
+    });
+
+    const validateBtn = document.createElement("button");
+    validateBtn.textContent = "Valider mes choix";
+    validateBtn.className = "validateBtn";
+
+    validateBtn.onclick = () => {
+      vibrate(20);
+
+      const success =
+        selected.length === 2 &&
+        selected.every(i => choices[i].ok);
+
+      if(success){
+        gameFeedback.innerHTML = "✅ <strong>Bonne décision !</strong>";
+
+        setTimeout(() => {
+          miniGame.style.display = "none";
+          showLoader(
+            "Bravo, tu as gagné 5000 pièces d’or et ton Business Plan",
+            showBook   // ou ta suite
+          );
+        }, 1200);
+
+      } else {
+        gameFeedback.innerHTML = "❌ Mauvaise stratégie, essaie encore";
+      }
+    };
+
+    gameAnswers.appendChild(validateBtn);
+  }
+
 
 /* =====================================================
    🏆 RÉCOMPENSE + COMPTEUR 5000 PO
