@@ -50,13 +50,13 @@ html, body{
   border-radius:14px;
   border:2px solid #3b1b00;
   background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff5d6;
+  color:#000;
   cursor:pointer;
   box-shadow:0 4px 0 #3b1b00;
 }
 
 /* =====================================================
-   ⏳ LOADER / FADE
+   ⏳ LOADER
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -66,60 +66,13 @@ html, body{
   align-items:center;
   background:#000;
   z-index:2500;
-  overflow:hidden;
 }
 
 .loaderBox{
-  font-size:28px;
+  font-size:30px;
   color:#ffd700;
   text-align:center;
-  text-shadow:0 0 20px gold;
-  animation:pulse 1.2s infinite;
-  z-index:2;
-}
-
-@keyframes pulse{
-  0%{opacity:.4}
-  50%{opacity:1}
-  100%{opacity:.4}
-}
-
-/* =====================================================
-   💎 GEM FIREWORKS (RÉCOMPENSE)
-===================================================== */
-#fadeScreen.gems::before,
-#fadeScreen.gems::after{
-  content:"";
-  position:absolute;
-  inset:-20%;
-  pointer-events:none;
-  z-index:1;
-  background:
-    radial-gradient(circle at 20% 30%, #00eaff 0 6px, transparent 7px),
-    radial-gradient(circle at 80% 25%, #ff00ff 0 6px, transparent 7px),
-    radial-gradient(circle at 50% 50%, #ffd700 0 7px, transparent 8px),
-    radial-gradient(circle at 30% 70%, #00ff88 0 6px, transparent 7px),
-    radial-gradient(circle at 70% 75%, #ff4444 0 6px, transparent 7px);
-  animation:gemFireworks 1.2s infinite;
-}
-
-#fadeScreen.gems::after{
-  animation-delay:.6s;
-  filter:blur(1px);
-}
-
-@keyframes gemFireworks{
-  0%{
-    transform:scale(.4);
-    opacity:0;
-  }
-  40%{
-    opacity:1;
-  }
-  100%{
-    transform:scale(1.4);
-    opacity:0;
-  }
+  text-shadow:0 0 25px gold;
 }
 
 /* =====================================================
@@ -128,7 +81,6 @@ html, body{
 #background{
   position:fixed;
   inset:0;
-  display:block;
   z-index:1;
 }
 
@@ -149,7 +101,6 @@ html, body{
   pointer-events:auto;
 }
 
-/* positions */
 #pirate2bis{
   left:517px;
   top:406px;
@@ -164,10 +115,9 @@ html, body{
   transition:transform .3s ease, filter .3s ease;
 }
 
-/* glow hover */
 #pirate5bis.glow{
-  transform:scale(1.06);
-  filter:drop-shadow(0 0 22px gold);
+  transform:scale(1.08);
+  filter:drop-shadow(0 0 25px gold);
 }
 
 #pirate3bis{
@@ -177,7 +127,7 @@ html, body{
 }
 
 /* =====================================================
-   💬 BULLES DE DIALOGUE
+   💬 DIALOGUES
 ===================================================== */
 #bubbleContainer{
   position:fixed;
@@ -188,7 +138,7 @@ html, body{
 
 .dialogue-bubble{
   position:absolute;
-  max-width:480px;
+  max-width:460px;
   background:#fdf4e3;
   color:#000;
   border:3px solid #c89b58;
@@ -196,18 +146,17 @@ html, body{
   padding:16px;
   box-shadow:
     0 6px 0 #3b1b00,
-    0 20px 40px rgba(0,0,0,.35);
+    0 18px 35px rgba(0,0,0,.4);
   cursor:pointer;
   pointer-events:auto;
 }
 
-/* bouton passer dialogues */
 .skipDialogueBtn{
   position:fixed;
   top:20px;
   right:20px;
-  z-index:140;
-  padding:10px 16px;
+  z-index:150;
+  padding:10px 18px;
   background:#b81d13;
   color:white;
   border:none;
@@ -231,26 +180,26 @@ html, body{
 }
 
 .quizBox{
-  width:90%;
-  max-width:460px;
+  width:92%;
+  max-width:500px;
   text-align:center;
 }
 
 #gameQuestion{
-  font-size:22px;
+  font-size:24px;
   color:white;
-  margin-bottom:18px;
+  margin-bottom:20px;
 }
 
 #gameAnswers button{
   width:100%;
-  margin-top:10px;
-  padding:14px;
+  margin-top:12px;
+  padding:16px;
   font-size:18px;
-  border-radius:14px;
+  border-radius:16px;
   border:3px solid #3b1b00;
-  background:linear-gradient(#8a5a20,#c89b58);
-  color:white;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
   cursor:pointer;
   box-shadow:0 4px 0 #3b1b00;
 }
@@ -262,7 +211,7 @@ html, body{
 }
 
 /* =====================================================
-   📖 LIVRE DIGITAL — CENTRÉ & RESPONSIVE
+   📖 LIVRE — PAGE UNIQUE + CURL
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -275,44 +224,29 @@ html, body{
 }
 
 .book{
-  display:flex;
-  max-width:85vw;
-  max-height:80vh;
-  aspect-ratio:14/9;
+  width:70vw;
+  max-width:520px;
+  height:80vh;
+  max-height:680px;
   perspective:2000px;
   cursor:pointer;
-  transition:transform .35s ease, box-shadow .35s ease;
 }
 
 .page{
-  flex:1;
-  position:relative;
+  width:100%;
+  height:100%;
   display:flex;
   justify-content:center;
   align-items:center;
-  overflow:hidden;
 }
 
 .page img{
   max-width:100%;
   max-height:100%;
   object-fit:contain;
-  display:block;
-}
-
-/* ombre papier */
-.page::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    to right,
-    rgba(0,0,0,.22),
-    transparent 40%,
-    transparent 60%,
-    rgba(0,0,0,.22)
-  );
-  pointer-events:none;
+  backface-visibility:hidden;
+  transform-origin:left center;
+  transition:transform .6s ease, box-shadow .6s ease;
 }
 
 #continueQuestBtn{
@@ -323,7 +257,7 @@ html, body{
   font-size:18px;
   font-weight:bold;
   background:linear-gradient(#8a5a20,#c89b58);
-  color:#fff5d6;
+  color:#000;
   border:3px solid #3b1b00;
   border-radius:16px;
   cursor:pointer;
@@ -331,7 +265,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ (STYLE PIRATE)
+   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
 ===================================================== */
 #merchantGame{
   position:fixed;
@@ -343,24 +277,39 @@ html, body{
 }
 
 #merchantGame #game{
-  background:rgba(20,10,5,.92);
-  border:6px solid #6b3e18;
-  padding:25px;
-  max-width:520px;
-  width:90%;
+  background:linear-gradient(#2b1a0d,#140a05);
+  border:8px solid #6b3e18;
+  padding:35px;
+  width:92%;
+  max-width:620px;
   text-align:center;
   box-shadow:
-    inset 0 0 20px rgba(0,0,0,.8),
-    0 0 40px rgba(0,0,0,.9);
+    inset 0 0 25px rgba(0,0,0,.9),
+    0 0 50px rgba(0,0,0,.95);
 }
 
-/* texte blanc */
+#merchantGame h1{
+  color:#ffd27d;
+  margin-bottom:18px;
+}
+
 #merchantGame,
 #merchantGame *{
-  color:#fff;
+  color:white;
 }
 
-/* bouton Indice mis en avant */
+#buttons button{
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  border:3px solid #3b1b00;
+  border-radius:14px;
+  padding:14px;
+  margin:8px 0;
+  width:100%;
+  font-size:16px;
+  cursor:pointer;
+}
+
 #buttons button:first-child{
   border:3px solid gold;
   box-shadow:0 0 18px gold;
@@ -376,8 +325,11 @@ html, body{
   }
 
   .book{
-    max-width:92vw;
-    max-height:65vh;
-    aspect-ratio:4/3;
+    width:88vw;
+    height:65vh;
+  }
+
+  #merchantGame #game{
+    padding:24px;
   }
 }
