@@ -309,78 +309,83 @@ continueBtn.onclick = ()=>{
   spawnPirate3();
 };
 
-  /* =====================================================
-     ✨ PIRATE 3 + MINI-JEU 2
-  ===================================================== */
-  function spawnPirate3(){
-    pirate3.classList.remove("hidden");
-    pirate3.classList.add("show");
-  }
+/* =====================================================
+   ✨ PIRATE 3 + DIALOGUES 2
+===================================================== */
+function spawnPirate3(){
+  pirate3.classList.remove("hidden");
+  pirate3.classList.add("show");
+}
 
-  pirate3.onclick = () => {
-    playDialogues([
-      { text:"Vous êtes nouveaux sur le marché ?", anchor: pirate3 },
-      { text:"Oui, nous vendons des pierres précieuses.", anchor: pirate2 },
-      { text:"Les clients ont besoin de confiance.", anchor: pirate3 }
-    ], () => {
-      fade("Dernier mini jeu avant de finir la quête", startMiniGame2);
-    });
-  };
+pirate3.onclick = ()=>{
+  playDialogues([
+    { text:"Vous êtes nouveaux sur le marché ?", anchor: pirate3 },
+    { text:"Oui, nous vendons des pierres précieuses.", anchor: pirate2 },
+    { text:"Alors montre-les aux clients.", anchor: pirate3 }
+  ], ()=>{
+    fade("Dernier mini-jeu avant de finir la quête", startMiniGame2);
+  });
+};
 
-  /* =====================================================
-     🎮 MINI-JEU 2 — VRAI / FAUX
-  ===================================================== */
-  const vfQuestions = [
-    { q:"Voir les pierres rassure les clients.", ok:true },
-    { q:"Mentir augmente la confiance.", ok:false },
-    { q:"Un bon packaging aide à vendre.", ok:true }
+/* =====================================================
+   🎮 MINI-JEU 2 — MÊME LOGIQUE
+===================================================== */
+function startMiniGame2(){
+  selected = [];
+  miniGame.style.display = "flex";
+
+  gameQuestion.innerHTML = `
+    Comment gagner la confiance des clients ?
+    <div class="multiHint">⚠️ Plusieurs réponses possibles</div>
+  `;
+
+  gameAnswers.innerHTML = "";
+  gameFeedback.textContent = "";
+
+  const choices = [
+    {text:"Expliquer l’origine", ok:true},
+    {text:"Cacher les défauts", ok:false},
+    {text:"Montrer la qualité", ok:true}
   ];
 
-  let vfIndex = 0;
+  choices.forEach((c,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=c.text;
+    btn.onclick=()=>{
+      vibrate(15);
+      btn.classList.toggle("selected");
+      selected.includes(i)
+        ? selected.splice(selected.indexOf(i),1)
+        : selected.push(i);
+    };
+    gameAnswers.appendChild(btn);
+  });
 
-  function startMiniGame2(){
-    vfIndex = 0;
-    miniGame.style.display = "flex";
-    showVF();
-  }
+  const validate=document.createElement("button");
+  validate.className="validateBtn";
+  validate.textContent="Valider mes choix";
 
-  function showVF(){
-    if(vfIndex >= vfQuestions.length){
-      endQuest();
-      return;
+  validate.onclick=()=>{
+    const good = selected.every(i=>choices[i].ok) &&
+                 choices.filter(c=>c.ok).length === selected.length;
+
+    if(good){
+      fade("Bravo, tu as gagné la quête 🎆", endQuest);
+    }else{
+      gameFeedback.textContent="❌ Mauvaise stratégie";
     }
+  };
 
-    const q = vfQuestions[vfIndex];
-    gameQuestion.textContent = q.q;
-    gameFeedback.textContent = "";
-    gameAnswers.innerHTML = "";
+  gameAnswers.appendChild(validate);
+}
 
-    ["Vrai","Faux"].forEach(val => {
-      const btn = document.createElement("button");
-      btn.textContent = val;
+/* =====================================================
+   🏁 FIN → MENU
+===================================================== */
+function endQuest(){
+  setTimeout(()=>{
+    window.location.href="menu.html";
+  },3000);
+}
 
-      btn.onclick = () => {
-        vibrate(15);
-        vfIndex++;
-        setTimeout(showVF, 400);
-      };
-
-      gameAnswers.appendChild(btn);
-    });
-  }
-
-  /* =====================================================
-     🏁 FIN DE QUÊTE
-  ===================================================== */
-  const endScreen = document.getElementById("endScreen");
-
-  function endQuest(){
-    fade("Bravo, tu as gagné la quête", () => {
-      endScreen.style.display = "flex";
-      setTimeout(() => {
-        window.location.href = "menu.html";
-      }, 3000);
-    });
-  }
-
-});
+}
