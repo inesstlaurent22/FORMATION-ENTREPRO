@@ -203,7 +203,31 @@ function startMiniGame1(){
 
   gameAnswers.appendChild(validateBtn);
 }
+function showRewardThenBook(){
+  fadeScreen.style.display = "flex";
 
+  const counterEl = document.getElementById("poCounter");
+  let value = 0;
+  const target = 5000;
+
+  const interval = setInterval(()=>{
+    value += 100;
+    counterEl.textContent = value;
+    if(value >= target){
+      counterEl.textContent = "5000";
+      clearInterval(interval);
+
+      setTimeout(()=>{
+        fadeScreen.querySelector(".rewardLoader").style.animation = "rewardOut .6s forwards";
+        setTimeout(()=>{
+          fadeScreen.style.display = "none";
+          showBook();
+        },600);
+      },1200);
+    }
+  },30);
+}
+  
   /* =====================================================
      📖 LIVRE DIGITAL
   ===================================================== */
