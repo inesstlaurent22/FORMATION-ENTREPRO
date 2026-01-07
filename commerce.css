@@ -35,7 +35,6 @@ html, body{
   object-fit:cover;
 }
 
-/* contrôles vidéo */
 #videoControls{
   position:absolute;
   top:20px;
@@ -71,7 +70,6 @@ html, body{
   z-index:1;
 }
 
-/* image de fond TOUJOURS derrière */
 .fondImage{
   position:absolute;
   inset:0;
@@ -91,7 +89,7 @@ html, body{
   pointer-events:auto;
 }
 
-/* pirate apprenti (neutre) */
+/* pirate apprenti (neutre, PAS d’hover) */
 #pirate2bis{
   left:516px;
   top:406px;
@@ -99,7 +97,7 @@ html, body{
   height:178px;
 }
 
-/* pirate maître (seul avec hover) */
+/* pirate maître (seul interactif) */
 #pirate5bis{
   left:785px;
   top:397px;
@@ -114,17 +112,22 @@ html, body{
   filter:drop-shadow(0 0 18px gold);
 }
 
-/* pirate client — arrive depuis la droite */
+/* pirate client — apparition animée */
 #pirate3bis{
-  right:-320px;
+  position:absolute;
+  right:-360px;
   top:-144px;
   width:445px;
   height:790px;
-  transition:right .7s ease;
+  transition:right .7s ease, filter .3s ease;
 }
 
 #pirate3bis.show{
   right:533px;
+}
+
+#pirate3bis:hover{
+  filter:drop-shadow(0 0 20px gold);
 }
 
 /* =====================================================
@@ -168,7 +171,7 @@ html, body{
 }
 
 /* =====================================================
-   🌑 FADE / LOADER
+   🌑 FADE / LOADER + RÉCOMPENSE
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -180,15 +183,11 @@ html, body{
   z-index:2500;
 }
 
-.rewardLoader{
-  text-align:center;
-  animation:rewardIn .6s ease forwards;
-}
-
 .rewardTitle{
   font-size:28px;
   color:#ffd700;
   margin-bottom:10px;
+  text-align:center;
 }
 
 .rewardCounter{
@@ -197,32 +196,20 @@ html, body{
   color:#fff;
   text-shadow:0 0 25px gold;
   margin:10px 0;
+  text-align:center;
 }
 
 .rewardLabel{
   font-size:20px;
   color:#ffd700;
+  text-align:center;
 }
 
 .rewardSub{
   margin-top:10px;
   font-size:18px;
   color:white;
-}
-
-@keyframes rewardIn{
-  from{ transform:scale(.8); opacity:0 }
-  to{ transform:scale(1); opacity:1 }
-}
-
-@keyframes rewardOut{
-  to{ transform:scale(.8); opacity:0 }
-}
-
-@keyframes pulse{
-  0%{opacity:.4}
-  50%{opacity:1}
-  100%{opacity:.4}
+  text-align:center;
 }
 
 /* =====================================================
@@ -238,6 +225,11 @@ html, body{
   z-index:2000;
 }
 
+.quizBox{
+  max-width:420px;
+  width:90%;
+}
+
 #gameQuestion{
   font-size:22px;
   color:white;
@@ -249,11 +241,6 @@ html, body{
   font-size:14px;
   color:#ffd700;
   margin-top:6px;
-}
-
-#gameAnswers{
-  width:100%;
-  max-width:420px;
 }
 
 #gameAnswers button{
@@ -270,8 +257,8 @@ html, body{
   transition:.2s;
 }
 
-#gameAnswers button:hover,
-#gameAnswers button.selected{
+#gameAnswers button.selected,
+#gameAnswers button:hover{
   background:linear-gradient(#ffd700,#ffae00);
   color:#3b1b00;
   box-shadow:0 0 18px gold;
@@ -284,7 +271,7 @@ html, body{
   text-align:center;
 }
 
-/* bouton validation */
+/* bouton validation distinct */
 .validateBtn{
   margin-top:18px;
   padding:16px;
@@ -301,7 +288,7 @@ html, body{
 }
 
 /* =====================================================
-   📖 LIVRE DIGITAL
+   📖 LIVRE DIGITAL — EFFET RÉALISTE
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -322,15 +309,15 @@ html, body{
   width:92vw;
   max-width:960px;
   aspect-ratio:14/9;
-  perspective:1600px;
+  perspective:1800px;
 }
 
 .page{
   width:50%;
   height:100%;
   background:#fff;
-  overflow:hidden;
   position:relative;
+  overflow:hidden;
 }
 
 .page img{
@@ -339,12 +326,12 @@ html, body{
   object-fit:contain;
 }
 
-.page::after{
+/* ombre page */
+.page.right::after{
   content:"";
   position:absolute;
   inset:0;
   background:linear-gradient(to left, rgba(0,0,0,.25), transparent 40%);
-  pointer-events:none;
 }
 
 /* bouton continuer */
@@ -400,5 +387,5 @@ html, body{
 
   #gameAnswers button{
     font-size:16px;
-    }
-    }
+  }
+}
