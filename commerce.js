@@ -58,27 +58,27 @@ function endVideo(){
 }
 
 /* =====================================================
-   🌅 BACKGROUND + PIRATES (FORÇAGE TOTAL)
+   🌅 BACKGROUND + PIRATES
 ===================================================== */
 const background = document.getElementById("background");
-const pirate2    = document.getElementById("pirate2bis");
-const pirate5    = document.getElementById("pirate5bis");
-const pirate3    = document.getElementById("pirate3bis");
+const pirate2 = document.getElementById("pirate2bis");
+const pirate5 = document.getElementById("pirate5bis");
+const pirate3 = document.getElementById("pirate3bis");
 
 function showBackground(){
-  console.log("✅ BACKGROUND AFFICHÉ");
-
   background.classList.remove("hidden");
-  background.style.display    = "block";
-  background.style.opacity    = "1";
-  background.style.visibility = "visible";
+  background.style.display = "block";
+  background.style.opacity = "0";
 
-  [pirate2, pirate5].forEach(p => {
-    p.classList.remove("hidden");
-    p.style.display    = "block";
-    p.style.opacity    = "1";
-    p.style.visibility = "visible";
-  });
+  pirate2.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
+
+  pirate2.style.display = "block";
+  pirate5.style.display = "block";
+
+  setTimeout(()=>{
+    background.style.opacity = "1";
+  },50);
 }
 
 /* =====================================================
