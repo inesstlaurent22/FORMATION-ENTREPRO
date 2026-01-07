@@ -33,14 +33,13 @@ const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
 const bookContainer = document.getElementById("bookContainer");
-const book = document.querySelector(".book");
 const leftPage = document.getElementById("leftPage");
 const continueBtn = document.getElementById("continueQuestBtn");
 
 const merchantGame = document.getElementById("merchantGame");
 
 /* =====================================================
-   🎬 VIDÉO SON
+   🎬 VIDÉO – SON
 ===================================================== */
 questVideo.muted = true;
 toggleSound.textContent = "🔇";
@@ -57,10 +56,15 @@ closeVideo.onclick = endVideo;
 function endVideo(){
   questVideo.pause();
   videoContainer.style.display = "none";
+
   showLoader("Chargement...", 900, () => {
     background.classList.remove("hidden");
     pirate2.classList.remove("hidden");
     pirate5.classList.remove("hidden");
+
+    // pirate5bis 20% plus haut
+    pirate5.style.top = (pirate5.offsetTop * 0.8) + "px";
+
     enableFirstDialogueTrigger();
   });
 }
@@ -77,7 +81,7 @@ function enableFirstDialogueTrigger(){
 }
 
 /* =====================================================
-   💬 DIALOGUES ANCRÉS
+   💬 SYSTÈME DE DIALOGUES
 ===================================================== */
 function showDialogues(dialogues, onEnd){
   currentDialogues = dialogues;
@@ -105,7 +109,7 @@ function renderDialogue(){
   const bubble = document.querySelector(".dialogue-bubble");
 
   bubble.innerHTML = d.text;
-  bubble.style.left = r.left + r.width/2 + "px";
+  bubble.style.left = r.left + r.width / 2 + "px";
   bubble.style.top = r.top - 12 + "px";
   bubble.style.transform = "translate(-50%,-100%)";
 }
@@ -117,7 +121,7 @@ function nextDialogue(){
 
 function endDialogues(){
   bubbleContainer.innerHTML = "";
-  document.querySelectorAll(".skipDialogueBtn").forEach(b=>b.remove());
+  document.querySelectorAll(".skipDialogueBtn").forEach(b => b.remove());
   if(currentOnEnd) currentOnEnd();
 }
 
@@ -129,15 +133,23 @@ function startDialogues1(){
     { text:"Moussaillon ! Bienvenue sur le marché des trésors !", anchor: pirate5 },
     { text:"J’suis prêt, capitaine !", anchor: pirate2 },
     { text:"Observe les autres vendeurs et dépasse-les.", anchor: pirate5 }
-  ], () => showLoader("Le mini-jeu va commencer…",800,startQuiz1));
+  ], () => showLoader("Le mini-jeu va commencer…", 800, startQuiz1));
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1
+   🎮 MINI-JEU 1 (ENCADRÉ + RÉPONSE QUI S’ALLUME)
 ===================================================== */
 const quiz1 = [
-  { question:"Où les pirates ont-ils trouvé leurs pierres ?", answers:["Dans un coffre","Au marché","Chez leur tante"], correct:0 },
-  { question:"Qui fait partie de l'équipage pirate ?", answers:["Toi et les moussaillons","Juste le capitaine","Toute la famille"], correct:0 }
+  {
+    question:"Où les pirates ont-ils trouvé leurs pierres ?",
+    answers:["Dans un coffre dans une grotte secrète","Ils les ont achetées au marché","La tante les leur a données"],
+    correct:0
+  },
+  {
+    question:"Qui fait partie de l'équipage pirate ?",
+    answers:["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"],
+    correct:0
+  }
 ];
 
 function startQuiz1(){
@@ -156,27 +168,34 @@ function showQuestion(){
     const btn = document.createElement("button");
     btn.textContent = txt;
     btn.onclick = ()=>{
-      if(i===q.correct){
+      document.querySelectorAll("#gameAnswers button")
+        .forEach(b=>b.classList.remove("selected"));
+
+      btn.classList.add("selected");
+
+      if(i === q.correct){
         gameF.textContent = "Bonne réponse 👍";
-        setTimeout(()=> {
+        setTimeout(()=>{
           quizIndex++;
           quizIndex < quiz1.length ? showQuestion() : winQuiz1();
         },700);
-      } else gameF.textContent = "Mauvaise réponse";
+      } else {
+        gameF.textContent = "Mauvaise réponse";
+      }
     };
     gameA.appendChild(btn);
   });
 }
 
 /* =====================================================
-   💎 CANVAS GEM FIREWORKS
+   💎 GEM FIREWORKS (CANVAS)
 ===================================================== */
 let canvas, ctx, gems = [];
 
 function launchGems(){
   canvas = document.createElement("canvas");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
   canvas.style.position = "fixed";
   canvas.style.inset = 0;
   canvas.style.pointerEvents = "none";
@@ -186,20 +205,19 @@ function launchGems(){
   ctx = canvas.getContext("2d");
   gems = [];
 
-  for(let i=0;i<120;i++){
-    const angle = Math.random()*Math.PI*2;
-    const speed = Math.random()*8 + 4;
+  for(let i=0;i<140;i++){
+    const a = Math.random()*Math.PI*2;
+    const s = Math.random()*9+4;
     gems.push({
-      x: canvas.width/2,
-      y: canvas.height/2,
-      vx: Math.cos(angle)*speed,
-      vy: Math.sin(angle)*speed,
-      r: Math.random()*4+3,
-      color: `hsl(${Math.random()*360},100%,60%)`,
-      life: 100
+      x:canvas.width/2,
+      y:canvas.height/2,
+      vx:Math.cos(a)*s,
+      vy:Math.sin(a)*s,
+      r:Math.random()*4+3,
+      c:`hsl(${Math.random()*360},100%,60%)`,
+      life:100
     });
   }
-
   requestAnimationFrame(updateGems);
 }
 
@@ -210,15 +228,13 @@ function updateGems(){
     g.x += g.vx;
     g.y += g.vy;
     g.life--;
-    ctx.fillStyle = g.color;
+    ctx.fillStyle = g.c;
     ctx.beginPath();
     ctx.arc(g.x,g.y,g.r,0,Math.PI*2);
     ctx.fill();
   });
-
   gems = gems.filter(g=>g.life>0);
-  if(gems.length>0) requestAnimationFrame(updateGems);
-  else canvas.remove();
+  gems.length ? requestAnimationFrame(updateGems) : canvas.remove();
 }
 
 /* =====================================================
@@ -236,12 +252,12 @@ function winQuiz1(){
   launchGems();
 
   let po = 0;
-  const timer = setInterval(()=>{
+  const t = setInterval(()=>{
     po += 100;
     document.getElementById("poCounter").textContent = po+" PO";
-    if(po>=5000){
-      clearInterval(timer);
-      setTimeout(()=> {
+    if(po >= 5000){
+      clearInterval(t);
+      setTimeout(()=>{
         fadeScreen.classList.add("hidden");
         openBook();
       },900);
@@ -250,7 +266,7 @@ function winQuiz1(){
 }
 
 /* =====================================================
-   📖 LIVRE — PAGE CURL RÉALISTE
+   📖 LIVRE — AVANT / ARRIÈRE
 ===================================================== */
 const bookPages = [
   "Businessplancov.png",
@@ -260,7 +276,6 @@ const bookPages = [
 ];
 
 let pageIndex = 0;
-let turning = false;
 
 function openBook(){
   pageIndex = 0;
@@ -273,21 +288,14 @@ function updateBook(){
   continueBtn.classList.toggle("hidden", pageIndex !== bookPages.length-1);
 }
 
-book.onclick = ()=>{
-  if(turning || pageIndex >= bookPages.length-1) return;
-  turning = true;
-
-  leftPage.style.transformOrigin = "left center";
-  leftPage.style.transform = "rotateY(-140deg)";
-  leftPage.style.boxShadow = "30px 0 40px rgba(0,0,0,.6)";
-
-  setTimeout(()=>{
+leftPage.onclick = (e)=>{
+  const x = e.offsetX;
+  if(x < leftPage.clientWidth/2 && pageIndex>0){
+    pageIndex--;
+  } else if(pageIndex < bookPages.length-1){
     pageIndex++;
-    leftPage.style.transform = "rotateY(0deg)";
-    leftPage.style.boxShadow = "none";
-    updateBook();
-    turning = false;
-  },600);
+  }
+  updateBook();
 };
 
 continueBtn.onclick = ()=>{
@@ -296,43 +304,43 @@ continueBtn.onclick = ()=>{
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 + DIALOGUES
+   🏴‍☠️ PIRATE 3 + DIALOGUES FIN
 ===================================================== */
 function spawnPirate3(){
   pirate3.classList.remove("hidden");
-  pirate3.style.top = (pirate3.offsetTop - 150)+"px";
+  pirate3.style.top = (pirate3.offsetTop - 150) + "px";
 
   showDialogues([
-    { text:"C’est toi le nouveau vendeur de pierres ?", anchor: pirate5 },
-    { text:"Oui, vous cherchez quel type de pierres ?", anchor: pirate2 },
-    { text:"On ne fait confiance qu’à un seul vendeur ici…", anchor: pirate5 }
-  ], ()=> showLoader("Le Jugement du Marché commence…",900,startMerchantGame));
+    { text:"Tu connais bien ton produit, tu peux nous compter dans tes futurs clients", anchor: pirate3 },
+    { text:"Tu devrais noter leur nom et adresse dans un cahier", anchor: pirate5 },
+    { text:"Pourquoi ?", anchor: pirate2 },
+    { text:"Comme ça, si tu as des nouvelles pierres, tu pourras les rappeler pour qu’ils viennent directement t’en acheter", anchor: pirate5 },
+    { text:"Merci, c’est une très bonne idée", anchor: pirate2 }
+  ], showDatabaseMessage);
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2
+   📦 MESSAGE BASE DE DONNÉES
 ===================================================== */
-function startMerchantGame(){
-  merchantGame.classList.remove("hidden");
-  document.getElementById("clue").textContent =
-    "Analyse le marché avant de décider.";
-}
+function showDatabaseMessage(){
+  const box = document.createElement("div");
+  box.className = "dialogue-bubble";
+  box.style.left = "50%";
+  box.style.top = "50%";
+  box.style.transform = "translate(-50%,-50%)";
+  box.innerHTML = `
+    <strong>Base de données</strong><br><br>
+    Une base de données permet de noter l’ensemble des informations de tes clients
+    (nom, adresse, téléphone, mail, préférences).  
+    Elle est essentielle pour créer un lien durable, suivre tes ventes,
+    ton chiffre d’affaires et ton stock.
+  `;
+  bubbleContainer.appendChild(box);
 
-window.analyzeClient = ()=>{
-  document.getElementById("clue").textContent =
-    "💡 Vous n’êtes que 2 à vendre cette pierre";
-};
-
-window.lowerPrice = ()=> failMerchant();
-window.refuseSale = ()=> failMerchant();
-
-window.keepPrice = ()=>{
-  merchantGame.classList.add("hidden");
-  winFinal();
-};
-
-function failMerchant(){
-  document.getElementById("clue").textContent = "❌ Mauvaise décision";
+  setTimeout(()=>{
+    bubbleContainer.innerHTML="";
+    winFinal();
+  },4000);
 }
 
 /* =====================================================
@@ -342,7 +350,7 @@ function winFinal(){
   fadeScreen.classList.remove("hidden");
   loaderBox.innerHTML = `
     <h1 style="color:gold;text-shadow:0 0 30px gold">
-      🎉 Bravo tu as gagné la quête
+      🎉 Bravo tu as gagné ta quête
     </h1>
   `;
   launchGems();
