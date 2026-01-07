@@ -56,20 +56,39 @@ html, body{
   box-shadow:0 4px 0 #3b1b00;
 }
 
-#videoControls button:active{
-  transform:translateY(3px);
-  box-shadow:0 1px 0 #3b1b00;
+/* =====================================================
+   ⏳ LOADER (VIDÉO / MINI-JEUX)
+===================================================== */
+#fadeScreen{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#000;
+  z-index:2500;
+}
+
+.loaderBox{
+  font-size:28px;
+  color:#ffd700;
+  text-shadow:0 0 20px gold;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:.4}
+  50%{opacity:1}
+  100%{opacity:.4}
 }
 
 /* =====================================================
-   🌅 BACKGROUND (ANTI FOND NOIR)
+   🌅 BACKGROUND
 ===================================================== */
 #background{
   position:fixed;
   inset:0;
   display:block;
-  visibility:visible;
-  opacity:1;
   z-index:1;
 }
 
@@ -79,7 +98,6 @@ html, body{
   width:100%;
   height:100%;
   object-fit:cover;
-  z-index:0;
 }
 
 /* =====================================================
@@ -91,7 +109,7 @@ html, body{
   pointer-events:auto;
 }
 
-/* positions EXACTES demandées */
+/* positions demandées */
 #pirate2bis{
   left:517px;
   top:406px;
@@ -114,17 +132,12 @@ html, body{
 /* pirate client */
 #pirate3bis{
   left:517px;
-  top:-119px;
+  top:141px;
   width:445px;
-  transition:top .8s ease;
-}
-
-#pirate3bis.show{
-  top:140px;
 }
 
 /* =====================================================
-   💬 BULLES DE DIALOGUE (AU-DESSUS DES PIRATES)
+   💬 BULLES DE DIALOGUE
 ===================================================== */
 #bubbleContainer{
   position:fixed;
@@ -135,18 +148,31 @@ html, body{
 
 .dialogue-bubble{
   position:absolute;
-  bottom:22%;
-  left:50%;
-  transform:translateX(-50%);
   max-width:420px;
   background:#fdf4e3;
   color:#000;
   border:3px solid #c89b58;
   border-radius:18px;
   padding:16px;
-  box-shadow:0 6px 0 #3b1b00;
+  box-shadow:0 8px 0 #3b1b00;
   cursor:pointer;
   pointer-events:auto;
+}
+
+/* bouton passer dialogues */
+.skipDialogueBtn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:130;
+  padding:10px 16px;
+  background:#b81d13;
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 4px 0 #5e0e09;
 }
 
 /* =====================================================
@@ -199,48 +225,7 @@ html, body{
 }
 
 /* =====================================================
-   🏆 RÉCOMPENSE + COMPTEUR PO
-===================================================== */
-#fadeScreen{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#000;
-  z-index:2500;
-}
-
-.loaderBox{
-  text-align:center;
-  animation:rewardIn .6s ease forwards;
-}
-
-.rewardTitle{
-  font-size:28px;
-  color:#ffd700;
-}
-
-.rewardCounter{
-  font-size:52px;
-  font-weight:bold;
-  color:white;
-  text-shadow:0 0 25px gold;
-  margin:10px 0;
-}
-
-.rewardSub{
-  font-size:18px;
-  color:white;
-}
-
-@keyframes rewardIn{
-  from{transform:scale(.8);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
-/* =====================================================
-   📖 LIVRE DIGITAL
+   📖 LIVRE DIGITAL (SANS CADRE)
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -258,11 +243,12 @@ html, body{
   max-width:960px;
   aspect-ratio:14/9;
   cursor:pointer;
+  perspective:2000px;
 }
 
 .page{
   width:50%;
-  background:#fff;
+  position:relative;
 }
 
 .page img{
@@ -271,8 +257,9 @@ html, body{
   object-fit:contain;
 }
 
+/* bouton continuer */
 #continueQuestBtn{
-  position:absolute;
+  position:fixed;
   bottom:30px;
   right:30px;
   padding:14px 28px;
@@ -283,6 +270,7 @@ html, body{
   border:3px solid #3b1b00;
   border-radius:16px;
   cursor:pointer;
+  z-index:2300;
 }
 
 /* =====================================================
@@ -297,61 +285,20 @@ html, body{
   z-index:2300;
 }
 
-/* ton CSS du jeu intégré */
-#game{
-  background:rgba(0,0,0,.65);
-  border:3px solid #a67c3b;
-  padding:25px;
-  width:90%;
-  max-width:520px;
-  text-align:center;
-  box-shadow:0 0 25px #000;
+/* texte blanc */
+#merchantGame,
+#merchantGame *{
+  color:white;
 }
 
-#game h1{
-  margin-bottom:15px;
-  color:#ffd27d;
+/* mise en avant du bouton Indice */
+#buttons button:first-child{
+  border:3px solid gold;
+  box-shadow:0 0 15px gold;
 }
-
-#dialogue{
-  background:#1a1208;
-  padding:15px;
-  border:2px solid #5c4420;
-  margin-bottom:10px;
-  font-style:italic;
-}
-
-#clue{
-  min-height:24px;
-  margin:10px 0;
-  font-weight:bold;
-}
-
-#buttons button{
-  background:linear-gradient(#6b4b1e,#3b240c);
-  border:2px solid #a67c3b;
-  color:#ffd27d;
-  padding:10px;
-  margin:5px;
-  cursor:pointer;
-  width:90%;
-}
-
-#buttons button:hover{
-  transform:scale(1.03);
-  box-shadow:0 0 8px #ffd27d;
-}
-
-#stats{
-  margin-top:15px;
-  font-size:14px;
-}
-
-.good{color:#7CFF7C}
-.bad{color:#FF6B6B}
 
 /* =====================================================
-   🎆 FEUX D’ARTIFICE FIN
+   🎆 FEUX D’ARTIFICE FINAL
 ===================================================== */
 body.fireworks::before{
   content:"";
@@ -373,13 +320,12 @@ body.fireworks::before{
 }
 
 /* =====================================================
-   📱 RESPONSIVE (sécurisé)
+   📱 RESPONSIVE (SAFE)
 ===================================================== */
 @media(max-width:768px){
 
   .dialogue-bubble{
     max-width:90vw;
-    bottom:15%;
   }
 
   .book{
