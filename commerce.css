@@ -66,6 +66,7 @@ html, body{
   align-items:center;
   background:#000;
   z-index:2500;
+  overflow:hidden;
 }
 
 .loaderBox{
@@ -74,6 +75,7 @@ html, body{
   text-align:center;
   text-shadow:0 0 20px gold;
   animation:pulse 1.2s infinite;
+  z-index:2;
 }
 
 @keyframes pulse{
@@ -83,25 +85,41 @@ html, body{
 }
 
 /* =====================================================
-   💎 GEM EXPLOSION (RÉCOMPENSE)
+   💎 GEM FIREWORKS (RÉCOMPENSE)
 ===================================================== */
-#fadeScreen.gems::before{
+#fadeScreen.gems::before,
+#fadeScreen.gems::after{
   content:"";
   position:absolute;
-  inset:0;
+  inset:-20%;
+  pointer-events:none;
+  z-index:1;
   background:
     radial-gradient(circle at 20% 30%, #00eaff 0 6px, transparent 7px),
-    radial-gradient(circle at 70% 40%, #ff00ff 0 6px, transparent 7px),
-    radial-gradient(circle at 50% 60%, #ffd700 0 6px, transparent 7px),
-    radial-gradient(circle at 30% 70%, #00ff88 0 6px, transparent 7px);
-  animation:gemsBurst 1s infinite;
-  z-index:-1;
+    radial-gradient(circle at 80% 25%, #ff00ff 0 6px, transparent 7px),
+    radial-gradient(circle at 50% 50%, #ffd700 0 7px, transparent 8px),
+    radial-gradient(circle at 30% 70%, #00ff88 0 6px, transparent 7px),
+    radial-gradient(circle at 70% 75%, #ff4444 0 6px, transparent 7px);
+  animation:gemFireworks 1.2s infinite;
 }
 
-@keyframes gemsBurst{
-  0%{opacity:0}
-  50%{opacity:1}
-  100%{opacity:0}
+#fadeScreen.gems::after{
+  animation-delay:.6s;
+  filter:blur(1px);
+}
+
+@keyframes gemFireworks{
+  0%{
+    transform:scale(.4);
+    opacity:0;
+  }
+  40%{
+    opacity:1;
+  }
+  100%{
+    transform:scale(1.4);
+    opacity:0;
+  }
 }
 
 /* =====================================================
@@ -131,7 +149,7 @@ html, body{
   pointer-events:auto;
 }
 
-/* positions exactes */
+/* positions */
 #pirate2bis{
   left:517px;
   top:406px;
@@ -146,7 +164,7 @@ html, body{
   transition:transform .3s ease, filter .3s ease;
 }
 
-/* glow au hover */
+/* glow hover */
 #pirate5bis.glow{
   transform:scale(1.06);
   filter:drop-shadow(0 0 22px gold);
@@ -244,7 +262,7 @@ html, body{
 }
 
 /* =====================================================
-   📖 LIVRE DIGITAL — PAGE TURN
+   📖 LIVRE DIGITAL — CENTRÉ & RESPONSIVE
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -258,23 +276,26 @@ html, body{
 
 .book{
   display:flex;
-  width:auto;
-  max-width:90vw;
+  max-width:85vw;
   max-height:80vh;
+  aspect-ratio:14/9;
   perspective:2000px;
   cursor:pointer;
   transition:transform .35s ease, box-shadow .35s ease;
 }
 
 .page{
-  width:auto;
-  height:100%;
+  flex:1;
   position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
 }
 
 .page img{
-  height:100%;
-  width:auto;
+  max-width:100%;
+  max-height:100%;
   object-fit:contain;
   display:block;
 }
@@ -286,10 +307,10 @@ html, body{
   inset:0;
   background:linear-gradient(
     to right,
-    rgba(0,0,0,.25),
+    rgba(0,0,0,.22),
     transparent 40%,
     transparent 60%,
-    rgba(0,0,0,.25)
+    rgba(0,0,0,.22)
   );
   pointer-events:none;
 }
@@ -346,28 +367,7 @@ html, body{
 }
 
 /* =====================================================
-   🎆 FEUX D’ARTIFICE FINAL
-===================================================== */
-#fadeScreen.fireworks::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 20% 30%, gold 0 4px, transparent 5px),
-    radial-gradient(circle at 70% 40%, #ff0044 0 4px, transparent 5px),
-    radial-gradient(circle at 50% 60%, #00ccff 0 4px, transparent 5px);
-  animation:fireworks 1s infinite;
-  z-index:-1;
-}
-
-@keyframes fireworks{
-  0%{opacity:0}
-  50%{opacity:1}
-  100%{opacity:0}
-}
-
-/* =====================================================
-   📱 RESPONSIVE (SAFE)
+   📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
 
@@ -376,6 +376,8 @@ html, body{
   }
 
   .book{
-    max-height:70vh;
+    max-width:92vw;
+    max-height:65vh;
+    aspect-ratio:4/3;
   }
 }
