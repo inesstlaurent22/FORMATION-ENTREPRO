@@ -33,10 +33,12 @@ const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
 const bookContainer = document.getElementById("bookContainer");
+const book = document.querySelector(".book");
 const leftPage = document.getElementById("leftPage");
 const continueBtn = document.getElementById("continueQuestBtn");
 
 const merchantGame = document.getElementById("merchantGame");
+const clueEl = document.getElementById("clue");
 
 /* =====================================================
    🎬 VIDÉO + SON
@@ -62,10 +64,21 @@ function endVideo(){
     pirate2.classList.remove("hidden");
     pirate5.classList.remove("hidden");
 
-    pirate5.style.top = (pirate5.offsetTop * 0.8) + "px";
+    /* pirate5bis : +15px en bas */
+    pirate5.style.top = (pirate5.offsetTop + 15) + "px";
 
-    pirate5.addEventListener("click", startDialogues1, { once:true });
+    enablePirate5();
   });
+}
+
+/* =====================================================
+   🏴‍☠️ PIRATE 5 — CLICK + GLOW
+===================================================== */
+function enablePirate5(){
+  pirate5.style.cursor = "pointer";
+  pirate5.onmouseenter = () => pirate5.classList.add("glow");
+  pirate5.onmouseleave = () => pirate5.classList.remove("glow");
+  pirate5.addEventListener("click", startDialogues1, { once:true });
 }
 
 /* =====================================================
@@ -114,7 +127,7 @@ function endDialogues(){
 }
 
 /* =====================================================
-   💬 DIALOGUES 1 (INTRO)
+   💬 DIALOGUES 1
 ===================================================== */
 function startDialogues1(){
   showDialogues([
@@ -174,7 +187,7 @@ function showQuestion(){
 }
 
 /* =====================================================
-   💎 CANVAS GEM FIREWORKS
+   💎 GEM FIREWORKS (CANVAS)
 ===================================================== */
 let canvas, ctx, gems = [];
 
@@ -252,7 +265,7 @@ function winQuiz1(){
 }
 
 /* =====================================================
-   📖 LIVRE
+   📖 LIVRE — PAGE TURN
 ===================================================== */
 const bookPages = [
   "Businessplancov.png",
@@ -262,6 +275,7 @@ const bookPages = [
 ];
 
 let pageIndex = 0;
+let turning = false;
 
 function openBook(){
   pageIndex = 0;
@@ -275,36 +289,51 @@ function updateBook(){
 }
 
 leftPage.onclick = (e)=>{
-  const x = e.offsetX;
-  if(x < leftPage.clientWidth/2 && pageIndex>0){
-    pageIndex--;
-  } else if(pageIndex < bookPages.length-1){
-    pageIndex++;
-  }
-  updateBook();
+  if(turning) return;
+  turning = true;
+
+  const forward = e.offsetX > leftPage.clientWidth/2;
+  leftPage.style.transform = `rotateY(${forward ? "-140deg" : "140deg"})`;
+
+  setTimeout(()=>{
+    if(forward && pageIndex < bookPages.length-1) pageIndex++;
+    if(!forward && pageIndex > 0) pageIndex--;
+    leftPage.style.transform = "rotateY(0deg)";
+    updateBook();
+    turning = false;
+  },600);
 };
 
 continueBtn.onclick = ()=>{
   bookContainer.classList.add("hidden");
-  spawnPirate3();
+  preparePirate3();
 };
 
 /* =====================================================
-   🏴‍☠️ DIALOGUES 2 (AVANT MINI-JEU 2)
+   🏴‍☠️ PIRATE 3 — CLICK + GLOW
 ===================================================== */
-function spawnPirate3(){
+function preparePirate3(){
   pirate3.classList.remove("hidden");
-  pirate3.style.top = (pirate3.offsetTop - 150) + "px";
 
-  const dialogues2 = [
+  /* pirate3bis : 80px plus haut */
+  pirate3.style.top = (pirate3.offsetTop - 80) + "px";
+
+  pirate3.style.cursor = "pointer";
+  pirate3.onmouseenter = () => pirate3.classList.add("glow");
+  pirate3.onmouseleave = () => pirate3.classList.remove("glow");
+
+  pirate3.addEventListener("click", startDialogues2, { once:true });
+}
+
+/* =====================================================
+   💬 DIALOGUES 2
+===================================================== */
+function startDialogues2(){
+  showDialogues([
     { text:"C’est toi le nouveau vendeur de pierres?", anchor: pirate5 },
     { text:"Oui, vous cherchez quel type de pierres ?", anchor: pirate2 },
     { text:"Je veux bien les voir, mais on fait confiance qu’à un seul vendeur…", anchor: pirate5 }
-  ];
-
-  showDialogues(dialogues2, () => {
-    showLoader("Le Jugement du Marché commence…", 900, startMerchantGame);
-  });
+  ], () => showLoader("Le Jugement du Marché commence…", 900, startMerchantGame));
 }
 
 /* =====================================================
@@ -312,29 +341,33 @@ function spawnPirate3(){
 ===================================================== */
 function startMerchantGame(){
   merchantGame.classList.remove("hidden");
-  document.getElementById("clue").textContent =
-    "Analyse le marché avant de décider.";
+
+  clueEl.innerHTML = `
+    <span style="color:gold;text-shadow:0 0 18px gold;font-weight:bold">
+      Analyse le marché avant de décider
+    </span>
+  `;
 }
 
 window.analyzeClient = ()=>{
-  document.getElementById("clue").textContent =
-    "💡 Vous n’êtes que 2 à vendre cette pierre";
+  clueEl.textContent = "💡 Vous n’êtes que 2 à vendre cette pierre";
 };
 
 window.lowerPrice = ()=> failMerchant();
-window.refuseSale = ()=> failMerchant();
-
 window.keepPrice = ()=>{
-  merchantGame.classList.add("hidden");
-  afterMerchantDiscussion();
+  clueEl.innerHTML = "<strong style='color:#7CFF7C'>Bonne décision ✔️</strong>";
+  setTimeout(()=>{
+    merchantGame.classList.add("hidden");
+    afterMerchantDiscussion();
+  },1200);
 };
 
 function failMerchant(){
-  document.getElementById("clue").textContent = "❌ Mauvaise décision";
+  clueEl.textContent = "❌ Mauvaise décision";
 }
 
 /* =====================================================
-   💬 DISCUSSION FINALE + BASE DE DONNÉES
+   💬 DISCUSSION FINALE
 ===================================================== */
 function afterMerchantDiscussion(){
   showDialogues([
@@ -343,28 +376,42 @@ function afterMerchantDiscussion(){
     { text:"Pourquoi ?", anchor: pirate2 },
     { text:"Comme ça, si tu as des nouvelles pierres, tu pourras les rappeler pour qu’ils viennent directement t’en acheter", anchor: pirate5 },
     { text:"Merci, c’est une très bonne idée", anchor: pirate2 }
-  ], showDatabaseMessage);
+  ], showDatabaseBox);
 }
 
-function showDatabaseMessage(){
+/* =====================================================
+   📦 BASE DE DONNÉES (CLIQUABLE)
+===================================================== */
+function showDatabaseBox(){
   const box = document.createElement("div");
   box.className = "dialogue-bubble";
   box.style.left = "50%";
   box.style.top = "50%";
   box.style.transform = "translate(-50%,-50%)";
-  box.innerHTML = `
-    <strong>Base de données</strong><br><br>
-    Une base de données permet de noter l’ensemble des informations de tes clients
-    (nom, adresse, téléphone, mail et préférences).  
-    Elle est essentielle pour créer un lien durable, suivre tes ventes,
-    ton chiffre d’affaires et ton stock.
-  `;
-  bubbleContainer.appendChild(box);
+  box.style.maxWidth = "640px";
+  box.style.cursor = "pointer";
 
-  setTimeout(()=>{
+  box.innerHTML = `
+    <h2 style="text-align:center;color:#8a5a20">Les Bases de données</h2>
+    <hr style="margin:10px 0;border:1px solid #8a5a20">
+    <p>
+      Une base de données permet de noter l’ensemble des informations de tes clients
+      (nom, adresse, téléphone, mail et préférences).
+      <br><br>
+      Elle est essentielle pour créer un lien durable, suivre tes ventes,
+      ton chiffre d’affaires, ton stock et ne rien oublier.
+    </p>
+    <p style="margin-top:14px;font-weight:bold;text-align:center">
+      (Clique pour continuer)
+    </p>
+  `;
+
+  box.onclick = ()=>{
     bubbleContainer.innerHTML="";
     winFinal();
-  },4500);
+  };
+
+  bubbleContainer.appendChild(box);
 }
 
 /* =====================================================
@@ -373,7 +420,7 @@ function showDatabaseMessage(){
 function winFinal(){
   fadeScreen.classList.remove("hidden");
   loaderBox.innerHTML = `
-    <h1 style="color:gold;text-shadow:0 0 30px gold">
+    <h1 style="color:gold;text-shadow:0 0 35px gold">
       🎉 Bravo tu as gagné ta quête
     </h1>
   `;
