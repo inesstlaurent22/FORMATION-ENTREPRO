@@ -1,73 +1,84 @@
-let renommee = 0;
-let piratesCount = 0;
-let gameFinished = false;
+document.addEventListener("DOMContentLoaded", () => {
 
-const renommeeFill = document.getElementById("renommeeFill");
-const renommeeValue = document.getElementById("renommeeValue");
-const harbor = document.getElementById("harbor");
-const message = document.getElementById("message");
+  let renommee = 0;
+  let gameFinished = false;
 
-function useNetwork(type){
-  if(gameFinished) return;
+  const renommeeFill = document.getElementById("renommeeFill");
+  const renommeeValue = document.getElementById("renommeeValue");
+  const harbor = document.getElementById("harbor");
+  const message = document.getElementById("message");
 
-  let gain = 0;
+  message.textContent = "Fais du bruit dans le port pour vendre ton trésor !";
 
-  switch(type){
-    case "insta":
+  // Boutons réseaux
+  document.querySelectorAll(".network").forEach(btn => {
+    btn.addEventListener("click", () => {
+      useNetwork(btn.dataset.network);
+    });
+  });
+
+  function useNetwork(type){
+    if(gameFinished) return;
+
+    let gain = 0;
+
+    if(type === "insta"){
       gain = 10;
       message.textContent = "📜 Tu montres ton trésor avec style.";
-      break;
-    case "tiktok":
+    }
+
+    if(type === "tiktok"){
       gain = 18;
       message.textContent = "📣 Ton cri résonne dans tout le port !";
-      break;
-    case "twitter":
+    }
+
+    if(type === "twitter"){
       gain = 8;
       message.textContent = "🦜 Les pirates parlent de toi…";
-      break;
+    }
+
+    renommee = Math.min(100, renommee + gain);
+    updateRenommee();
+    spawnPirates(gain);
+
+    if(renommee >= 100){
+      winGame();
+    }
   }
 
-  renommee = Math.min(100, renommee + gain);
-  updateRenommee();
-  spawnPirates(gain);
-
-  if(renommee >= 100){
-    winGame();
+  function updateRenommee(){
+    renommeeFill.style.width = renommee + "%";
+    renommeeValue.textContent = renommee + "%";
   }
-}
 
-function updateRenommee(){
-  renommeeFill.style.width = renommee + "%";
-  renommeeValue.textContent = renommee + "%";
-}
+  function spawnPirates(amount){
+    const count = Math.floor(amount / 5);
 
-function spawnPirates(amount){
-  let count = Math.floor(amount / 5);
+    for(let i = 0; i < count; i++){
+      const pirate = document.createElement("div");
+      pirate.className = "pirate";
+      pirate.textContent = "🏴‍☠️";
+      pirate.style.left = Math.random() * 85 + "%";
 
-  for(let i=0;i<count;i++){
-    piratesCount++;
+      harbor.appendChild(pirate);
 
-    const pirate = document.createElement("div");
-    pirate.className = "pirate";
-    pirate.textContent = "🏴‍☠️";
-    pirate.style.left = Math.random()*85 + "%";
-
-    harbor.appendChild(pirate);
-
-    setTimeout(()=>pirate.remove(),4000);
+      setTimeout(() => pirate.remove(), 4000);
+    }
   }
-}
 
-function winGame(){
-  gameFinished = true;
-  message.innerHTML = `
-    🏆 <strong>Victoire !</strong><br>
-    Ton trésor se vend grâce à la criée pirate.<br>
-    <em>Les réseaux font vendre.</em>
-  `;
+  function winGame(){
+    gameFinished = true;
 
-  // 👉 ICI tu peux brancher :
-  // addPO(5000)
-  // nextDialogue()
-  // unlockQuest()
-}
+    message.innerHTML = `
+      🏆 <strong>Victoire !</strong><br>
+      Ton trésor se vend grâce à la criée pirate.<br>
+      <em>Les réseaux font vendre.</em>
+    `;
+
+    // 🔗 ICI branche ton jeu principal :
+    // addPO(5000);
+    // nextDialogue();
+    // unlockQuest();
+  }
+
+});
