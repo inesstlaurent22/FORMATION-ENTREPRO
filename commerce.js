@@ -1,365 +1,443 @@
-/* =====================================================
-   🔧 RESET GLOBAL
-===================================================== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html, body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  font-family:"Trebuchet MS", sans-serif;
-  background:#000;
-}
-
-.hidden{
-  display:none !important;
-}
+document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   🎬 VIDÉO
+   🌍 ÉTAT GLOBAL
 ===================================================== */
-#videoContainer{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:3000;
-}
-
-#questVideo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-#videoControls{
-  position:absolute;
-  top:20px;
-  right:20px;
-  display:flex;
-  gap:10px;
-  z-index:3200;
-}
-
-#videoControls button{
-  padding:10px 16px;
-  font-size:16px;
-  border-radius:14px;
-  border:2px solid #3b1b00;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  cursor:pointer;
-  box-shadow:0 4px 0 #3b1b00;
-}
+let dialogueIndex = 0;
+let quizIndex = 0;
+let currentDialogues = [];
+let currentOnEnd = null;
+let soundOn = false;
 
 /* =====================================================
-   ⏳ LOADER / TRANSITIONS
+   📦 ÉLÉMENTS
 ===================================================== */
-#fadeScreen{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#000;
-  z-index:2500;
-}
+const videoContainer = document.getElementById("videoContainer");
+const questVideo = document.getElementById("questVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo = document.getElementById("closeVideo");
 
-.loaderBox{
-  font-size:30px;
-  color:#ffd700;
-  text-align:center;
-  text-shadow:0 0 35px gold;
+const background = document.getElementById("background");
+const pirate2 = document.getElementById("pirate2bis");
+const pirate5 = document.getElementById("pirate5bis");
+const pirate3 = document.getElementById("pirate3bis");
+
+const bubbleContainer = document.getElementById("bubbleContainer");
+
+const miniGame = document.getElementById("miniGameContainer");
+const gameQ = document.getElementById("gameQuestion");
+const gameA = document.getElementById("gameAnswers");
+const gameF = document.getElementById("gameFeedback");
+
+const fadeScreen = document.getElementById("fadeScreen");
+const loaderBox = fadeScreen.querySelector(".loaderBox");
+
+const bookContainer = document.getElementById("bookContainer");
+const book = document.querySelector(".book");
+const leftPage = document.getElementById("leftPage");
+const continueBtn = document.getElementById("continueQuestBtn");
+
+const merchantGame = document.getElementById("merchantGame");
+const clueEl = document.getElementById("clue");
+
+/* =====================================================
+   🎬 VIDÉO + SON
+===================================================== */
+questVideo.muted = true;
+toggleSound.textContent = "🔇";
+
+toggleSound.onclick = () => {
+  soundOn = !soundOn;
+  questVideo.muted = !soundOn;
+  toggleSound.textContent = soundOn ? "🔊" : "🔇";
+};
+
+questVideo.onended = endVideo;
+closeVideo.onclick = endVideo;
+
+function endVideo(){
+  questVideo.pause();
+  videoContainer.style.display = "none";
+
+  showLoader("Chargement...", 900, () => {
+    background.classList.remove("hidden");
+    pirate2.classList.remove("hidden");
+    pirate5.classList.remove("hidden");
+
+    /* pirate5bis : +15px en bas */
+    pirate5.style.top = (pirate5.offsetTop + 15) + "px";
+
+    enablePirate5();
+  });
 }
 
 /* =====================================================
-   🌅 BACKGROUND
+   🏴‍☠️ PIRATE 5 — CLICK + GLOW
 ===================================================== */
-#background{
-  position:fixed;
-  inset:0;
-  z-index:1;
-}
-
-.fondImage{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
+function enablePirate5(){
+  pirate5.style.cursor = "pointer";
+  pirate5.onmouseenter = () => pirate5.classList.add("glow");
+  pirate5.onmouseleave = () => pirate5.classList.remove("glow");
+  pirate5.addEventListener("click", startDialogues1, { once:true });
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES
+   💬 SYSTÈME DE DIALOGUES
 ===================================================== */
-.pirate{
-  position:absolute;
-  z-index:50;
-  pointer-events:auto;
-  transition:transform .3s ease, filter .3s ease;
+function showDialogues(dialogues, onEnd){
+  currentDialogues = dialogues;
+  currentOnEnd = onEnd;
+  dialogueIndex = 0;
+  bubbleContainer.innerHTML = "";
+
+  const bubble = document.createElement("div");
+  bubble.className = "dialogue-bubble";
+  bubble.onclick = nextDialogue;
+  bubbleContainer.appendChild(bubble);
+
+  const skip = document.createElement("button");
+  skip.className = "skipDialogueBtn";
+  skip.textContent = "Passer les dialogues";
+  skip.onclick = endDialogues;
+  document.body.appendChild(skip);
+
+  renderDialogue();
 }
 
-.pirate.glow{
-  transform:scale(1.07);
-  filter:drop-shadow(0 0 30px gold);
+function renderDialogue(){
+  const d = currentDialogues[dialogueIndex];
+  const r = d.anchor.getBoundingClientRect();
+  const bubble = document.querySelector(".dialogue-bubble");
+
+  bubble.innerHTML = d.text;
+  bubble.style.left = r.left + r.width / 2 + "px";
+  bubble.style.top = r.top - 12 + "px";
+  bubble.style.transform = "translate(-50%,-100%)";
 }
 
-#pirate2bis{
-  left:517px;
-  top:406px;
-  width:186px;
+function nextDialogue(){
+  dialogueIndex++;
+  dialogueIndex < currentDialogues.length ? renderDialogue() : endDialogues();
 }
 
-#pirate5bis{
-  left:786px;
-  top:397px;
-  width:143px;
-  cursor:pointer;
-}
-
-#pirate3bis{
-  left:517px;
-  top:141px;
-  width:235px;
-  cursor:pointer;
+function endDialogues(){
+  bubbleContainer.innerHTML = "";
+  document.querySelectorAll(".skipDialogueBtn").forEach(b => b.remove());
+  if(currentOnEnd) currentOnEnd();
 }
 
 /* =====================================================
-   💬 BULLES DE DIALOGUE
+   💬 DIALOGUES 1
 ===================================================== */
-#bubbleContainer{
-  position:fixed;
-  inset:0;
-  z-index:120;
-  pointer-events:none;
-}
-
-.dialogue-bubble{
-  position:absolute;
-  max-width:580px;
-  background:#fdf4e3;
-  color:#000;
-  border:4px solid #8a5a20;
-  border-radius:20px;
-  padding:20px 22px;
-  line-height:1.45;
-  box-shadow:
-    0 6px 0 #3b1b00,
-    0 22px 45px rgba(0,0,0,.5);
-  cursor:pointer;
-  pointer-events:auto;
-}
-
-.skipDialogueBtn{
-  position:fixed;
-  top:20px;
-  right:20px;
-  z-index:150;
-  padding:10px 18px;
-  background:#b81d13;
-  color:white;
-  border:none;
-  border-radius:12px;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 4px 0 #5e0e09;
+function startDialogues1(){
+  showDialogues([
+    { text:"Moussaillon ! Bienvenue sur le marché des trésors !", anchor: pirate5 },
+    { text:"J’suis prêt, capitaine !", anchor: pirate2 },
+    { text:"Observe les autres vendeurs et dépasse-les.", anchor: pirate5 }
+  ], () => showLoader("Le mini-jeu va commencer…", 800, startQuiz1));
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — QUIZ PIRATE
+   🎮 MINI-JEU 1
 ===================================================== */
-#miniGameContainer{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.93);
-  z-index:2000;
+const quiz1 = [
+  {
+    question:"Où les pirates ont-ils trouvé leurs pierres ?",
+    answers:["Dans un coffre dans une grotte secrète","Ils les ont achetées au marché","La tante les leur a données"],
+    correct:0
+  },
+  {
+    question:"Qui fait partie de l'équipage pirate ?",
+    answers:["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"],
+    correct:0
+  }
+];
+
+function startQuiz1(){
+  quizIndex = 0;
+  miniGame.classList.remove("hidden");
+  showQuestion();
 }
 
-.quizBox{
-  width:95%;
-  max-width:560px;
-  background:linear-gradient(#2b1a0d,#140a05);
-  border:6px solid #6b3e18;
-  padding:28px;
-  box-shadow:
-    inset 0 0 25px rgba(0,0,0,.9),
-    0 0 50px rgba(0,0,0,.95);
+function showQuestion(){
+  gameF.textContent = "";
+  const q = quiz1[quizIndex];
+  gameQ.textContent = q.question;
+  gameA.innerHTML = "";
+
+  q.answers.forEach((txt,i)=>{
+    const btn = document.createElement("button");
+    btn.textContent = txt;
+    btn.onclick = ()=>{
+      document.querySelectorAll("#gameAnswers button").forEach(b=>b.classList.remove("selected"));
+      btn.classList.add("selected");
+
+      if(i === q.correct){
+        gameF.textContent = "Bonne réponse 👍";
+        setTimeout(()=>{
+          quizIndex++;
+          quizIndex < quiz1.length ? showQuestion() : winQuiz1();
+        },700);
+      } else {
+        gameF.textContent = "Mauvaise réponse";
+      }
+    };
+    gameA.appendChild(btn);
+  });
 }
 
-#gameQuestion{
-  font-size:22px;
-  color:#ffd27d;
-  margin-bottom:20px;
-  text-align:center;
+/* =====================================================
+   💎 GEM FIREWORKS (CANVAS)
+===================================================== */
+let canvas, ctx, gems = [];
+
+function launchGems(){
+  canvas = document.createElement("canvas");
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  canvas.style.position = "fixed";
+  canvas.style.inset = 0;
+  canvas.style.pointerEvents = "none";
+  canvas.style.zIndex = 2600;
+  document.body.appendChild(canvas);
+
+  ctx = canvas.getContext("2d");
+  gems = [];
+
+  for(let i=0;i<140;i++){
+    const a = Math.random()*Math.PI*2;
+    const s = Math.random()*9+4;
+    gems.push({
+      x:canvas.width/2,
+      y:canvas.height/2,
+      vx:Math.cos(a)*s,
+      vy:Math.sin(a)*s,
+      r:Math.random()*4+3,
+      c:`hsl(${Math.random()*360},100%,60%)`,
+      life:100
+    });
+  }
+  requestAnimationFrame(updateGems);
 }
 
-#gameAnswers button{
-  width:100%;
-  margin-top:12px;
-  padding:16px;
-  font-size:17px;
-  border-radius:14px;
-  border:3px solid #3b1b00;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  cursor:pointer;
-  box-shadow:0 4px 0 #3b1b00;
-  transition:.2s;
+function updateGems(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  gems.forEach(g=>{
+    g.vy += 0.15;
+    g.x += g.vx;
+    g.y += g.vy;
+    g.life--;
+    ctx.fillStyle = g.c;
+    ctx.beginPath();
+    ctx.arc(g.x,g.y,g.r,0,Math.PI*2);
+    ctx.fill();
+  });
+  gems = gems.filter(g=>g.life>0);
+  gems.length ? requestAnimationFrame(updateGems) : canvas.remove();
 }
 
-#gameAnswers button:hover{
-  transform:scale(1.03);
-}
+/* =====================================================
+   🏆 FIN MINI-JEU 1 → LIVRE
+===================================================== */
+function winQuiz1(){
+  miniGame.classList.add("hidden");
+  fadeScreen.classList.remove("hidden");
 
-#gameAnswers button.selected{
-  background:linear-gradient(#fff2b2,#ffd700);
-  box-shadow:0 0 22px gold;
-}
+  loaderBox.innerHTML = `
+    <div class="rewardTitle">Bravo ! Tu as gagné</div>
+    <div class="rewardCounter" id="poCounter">0 PO</div>
+  `;
 
-#gameFeedback{
-  margin-top:16px;
-  font-size:18px;
-  color:#ffd700;
-  text-align:center;
+  launchGems();
+
+  let po = 0;
+  const t = setInterval(()=>{
+    po += 100;
+    document.getElementById("poCounter").textContent = po+" PO";
+    if(po >= 5000){
+      clearInterval(t);
+      setTimeout(()=>{
+        fadeScreen.classList.add("hidden");
+        openBook();
+      },900);
+    }
+  },25);
 }
 
 /* =====================================================
    📖 LIVRE — PAGE TURN
 ===================================================== */
-#bookContainer{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.85);
-  z-index:2200;
+const bookPages = [
+  "Businessplancov.png",
+  "Businessplan1.png",
+  "Businessplan2.png",
+  "Businessplan3.png"
+];
+
+let pageIndex = 0;
+let turning = false;
+
+function openBook(){
+  pageIndex = 0;
+  bookContainer.classList.remove("hidden");
+  updateBook();
 }
 
-.book{
-  width:70vw;
-  max-width:540px;
-  height:80vh;
-  max-height:700px;
-  perspective:2000px;
+function updateBook(){
+  leftPage.src = "images/" + bookPages[pageIndex];
+  continueBtn.classList.toggle("hidden", pageIndex !== bookPages.length-1);
 }
 
-.page{
-  width:100%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+leftPage.onclick = (e)=>{
+  if(turning) return;
+  turning = true;
 
-.page img{
-  max-width:100%;
-  max-height:100%;
-  object-fit:contain;
-  transform-origin:left center;
-  backface-visibility:hidden;
-  transition:transform .6s ease, box-shadow .6s ease;
-}
+  const forward = e.offsetX > leftPage.clientWidth/2;
+  leftPage.style.transform = `rotateY(${forward ? "-140deg" : "140deg"})`;
 
-#continueQuestBtn{
-  position:fixed;
-  bottom:30px;
-  right:30px;
-  padding:14px 28px;
-  font-size:18px;
-  font-weight:bold;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  border:3px solid #3b1b00;
-  border-radius:16px;
-  cursor:pointer;
-  z-index:2300;
+  setTimeout(()=>{
+    if(forward && pageIndex < bookPages.length-1) pageIndex++;
+    if(!forward && pageIndex > 0) pageIndex--;
+    leftPage.style.transform = "rotateY(0deg)";
+    updateBook();
+    turning = false;
+  },600);
+};
+
+continueBtn.onclick = ()=>{
+  bookContainer.classList.add("hidden");
+  preparePirate3();
+};
+
+/* =====================================================
+   🏴‍☠️ PIRATE 3 — CLICK + GLOW
+===================================================== */
+function preparePirate3(){
+  pirate3.classList.remove("hidden");
+
+  /* pirate3bis : 80px plus haut */
+  pirate3.style.top = (pirate3.offsetTop - 80) + "px";
+
+  pirate3.style.cursor = "pointer";
+  pirate3.onmouseenter = () => pirate3.classList.add("glow");
+  pirate3.onmouseleave = () => pirate3.classList.remove("glow");
+
+  pirate3.addEventListener("click", startDialogues2, { once:true });
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
+   💬 DIALOGUES 2
 ===================================================== */
-#merchantGame{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:2300;
-}
-
-#merchantGame #game{
-  background:linear-gradient(#2b1a0d,#140a05);
-  border:8px solid #6b3e18;
-  padding:40px;
-  width:96%;
-  max-width:720px;
-  text-align:center;
-  box-shadow:
-    inset 0 0 35px rgba(0,0,0,.9),
-    0 0 60px rgba(0,0,0,.95);
-}
-
-#merchantGame h1{
-  color:#ffd27d;
-  margin-bottom:22px;
-}
-
-#merchantGame p{
-  margin:8px 0;
-}
-
-#merchantGame,
-#merchantGame *{
-  color:white;
-}
-
-/* texte d’instruction illuminé */
-#clue{
-  margin:16px 0;
-  font-size:18px;
-  text-shadow:0 0 18px gold;
-}
-
-/* boutons */
-#buttons button{
-  width:100%;
-  padding:16px;
-  margin:10px 0;
-  font-size:17px;
-  border-radius:14px;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  border:3px solid #3b1b00;
-  cursor:pointer;
-}
-
-#buttons button:first-child{
-  border:3px solid gold;
-  box-shadow:0 0 22px gold;
+function startDialogues2(){
+  showDialogues([
+    { text:"C’est toi le nouveau vendeur de pierres?", anchor: pirate5 },
+    { text:"Oui, vous cherchez quel type de pierres ?", anchor: pirate2 },
+    { text:"Je veux bien les voir, mais on fait confiance qu’à un seul vendeur…", anchor: pirate5 }
+  ], () => showLoader("Le Jugement du Marché commence…", 900, startMerchantGame));
 }
 
 /* =====================================================
-   📱 RESPONSIVE
+   🎮 MINI-JEU 2
 ===================================================== */
-@media(max-width:768px){
+function startMerchantGame(){
+  merchantGame.classList.remove("hidden");
 
-  .dialogue-bubble{
-    max-width:90vw;
-  }
-
-  .book{
-    width:90vw;
-    height:65vh;
-  }
-
-  #merchantGame #game{
-    padding:26px;
-  }
+  clueEl.innerHTML = `
+    <span style="color:gold;text-shadow:0 0 18px gold;font-weight:bold">
+      Analyse le marché avant de décider
+    </span>
+  `;
 }
+
+window.analyzeClient = ()=>{
+  clueEl.textContent = "💡 Vous n’êtes que 2 à vendre cette pierre";
+};
+
+window.lowerPrice = ()=> failMerchant();
+window.keepPrice = ()=>{
+  clueEl.innerHTML = "<strong style='color:#7CFF7C'>Bonne décision ✔️</strong>";
+  setTimeout(()=>{
+    merchantGame.classList.add("hidden");
+    afterMerchantDiscussion();
+  },1200);
+};
+
+function failMerchant(){
+  clueEl.textContent = "❌ Mauvaise décision";
+}
+
+/* =====================================================
+   💬 DISCUSSION FINALE
+===================================================== */
+function afterMerchantDiscussion(){
+  showDialogues([
+    { text:"Tu connais bien ton produit, tu peux nous compter dans tes futurs clients", anchor: pirate3 },
+    { text:"Tu devrais noter leur nom et adresse dans un cahier", anchor: pirate5 },
+    { text:"Pourquoi ?", anchor: pirate2 },
+    { text:"Comme ça, si tu as des nouvelles pierres, tu pourras les rappeler pour qu’ils viennent directement t’en acheter", anchor: pirate5 },
+    { text:"Merci, c’est une très bonne idée", anchor: pirate2 }
+  ], showDatabaseBox);
+}
+
+/* =====================================================
+   📦 BASE DE DONNÉES (CLIQUABLE)
+===================================================== */
+function showDatabaseBox(){
+  const box = document.createElement("div");
+  box.className = "dialogue-bubble";
+  box.style.left = "50%";
+  box.style.top = "50%";
+  box.style.transform = "translate(-50%,-50%)";
+  box.style.maxWidth = "640px";
+  box.style.cursor = "pointer";
+
+  box.innerHTML = `
+    <h2 style="text-align:center;color:#8a5a20">Les Bases de données</h2>
+    <hr style="margin:10px 0;border:1px solid #8a5a20">
+    <p>
+      Une base de données permet de noter l’ensemble des informations de tes clients
+      (nom, adresse, téléphone, mail et préférences).
+      <br><br>
+      Elle est essentielle pour créer un lien durable, suivre tes ventes,
+      ton chiffre d’affaires, ton stock et ne rien oublier.
+    </p>
+    <p style="margin-top:14px;font-weight:bold;text-align:center">
+      (Clique pour continuer)
+    </p>
+  `;
+
+  box.onclick = ()=>{
+    bubbleContainer.innerHTML="";
+    winFinal();
+  };
+
+  bubbleContainer.appendChild(box);
+}
+
+/* =====================================================
+   🎆 FIN
+===================================================== */
+function winFinal(){
+  fadeScreen.classList.remove("hidden");
+  loaderBox.innerHTML = `
+    <h1 style="color:gold;text-shadow:0 0 35px gold">
+      🎉 Bravo tu as gagné ta quête
+    </h1>
+  `;
+  launchGems();
+  setTimeout(()=>window.location.href="menu.html",3000);
+}
+
+/* =====================================================
+   ⏳ LOADER
+===================================================== */
+function showLoader(text,time,cb){
+  loaderBox.innerHTML = text;
+  fadeScreen.classList.remove("hidden");
+  setTimeout(()=>{
+    fadeScreen.classList.add("hidden");
+    if(cb) cb();
+  },time);
+}
+
+});
