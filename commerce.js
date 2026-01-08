@@ -27,36 +27,59 @@ function showLoader(text, cb){
   }, 1400);
 }
 
-/* =====================================================
-   🎬 VIDÉO
-===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const video = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
 
-video.muted = true;
+  /* ======== SÉCURITÉ ======== */
+  const videoContainer = document.getElementById("videoContainer");
+  const video = document.getElementById("questVideo");
+  const toggleSound = document.getElementById("toggleSound");
+  const closeVideo = document.getElementById("closeVideo");
 
-toggleSound.addEventListener("click", e=>{
-  e.stopPropagation();
-  vibrate(10);
-  video.muted = !video.muted;
-  toggleSound.textContent = video.muted ? "🔇" : "🔊";
+  if (!video || !toggleSound || !closeVideo) {
+    console.error("❌ Boutons vidéo introuvables dans le DOM");
+    return;
+  }
+
+  video.muted = true;
+
+  /* ======== SON ======== */
+  toggleSound.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    video.muted = !video.muted;
+    toggleSound.textContent = video.muted ? "🔇" : "🔊";
+
+    console.log("🔊 Toggle sound :", !video.muted);
+  });
+
+  /* ======== FERMER VIDÉO ======== */
+  closeVideo.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log("❌ Vidéo fermée");
+    endVideo();
+  });
+
+  /* ======== FIN VIDÉO AUTO ======== */
+  video.addEventListener("ended", endVideo);
+
+  function endVideo(){
+    video.pause();
+    video.currentTime = 0;
+    videoContainer.style.display = "none";
+
+    // fallback sécurisé
+    if (typeof showLoader === "function") {
+      showLoader("Chargement...", showBackground);
+    } else if (typeof showBackground === "function") {
+      showBackground();
+    } else {
+      console.warn("⚠️ Aucun loader / background défini");
+    }
+  }
+
 });
-
-closeVideo.addEventListener("click", e=>{
-  e.stopPropagation();
-  endVideo();
-});
-
-video.addEventListener("ended", endVideo);
-
-function endVideo(){
-  video.pause();
-  videoContainer.style.display = "none";
-  showLoader("Chargement...", showBackground);
-}
-
 /* =====================================================
    🌅 BACKGROUND + PIRATES
 ===================================================== */
