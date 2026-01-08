@@ -237,6 +237,68 @@ html, body{
   box-shadow:0 14px 30px rgba(0,0,0,.6);
   transition:transform .6s ease;
 }
+/* =====================================================
+   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
+===================================================== */
+#merchantGame{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:2300;
+}
+
+#merchantGame #game{
+  background:linear-gradient(#2b1a0d,#140a05);
+  border:8px solid #6b3e18;
+  padding:40px;
+  width:96%;
+  max-width:720px;
+  text-align:center;
+  box-shadow:
+    inset 0 0 35px rgba(0,0,0,.9),
+    0 0 60px rgba(0,0,0,.95);
+}
+
+#merchantGame h1{
+  color:#ffd27d;
+  margin-bottom:22px;
+}
+
+#merchantGame p{
+  margin:8px 0;
+}
+
+#merchantGame,
+#merchantGame *{
+  color:white;
+}
+
+/* texte d’instruction illuminé */
+#clue{
+  margin:16px 0;
+  font-size:18px;
+  text-shadow:0 0 18px gold;
+}
+
+/* boutons */
+#buttons button{
+  width:100%;
+  padding:16px;
+  margin:10px 0;
+  font-size:17px;
+  border-radius:14px;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  border:3px solid #3b1b00;
+  cursor:pointer;
+}
+
+#buttons button:first-child{
+  border:3px solid gold;
+  box-shadow:0 0 22px gold;
+}
 
 /* =====================================================
    🪵 PANNEAU BASE DE DONNÉES
