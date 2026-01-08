@@ -153,7 +153,6 @@ html, body{
   pointer-events:auto;
 }
 
-/* bouton skip */
 .skipDialogueBtn{
   position:fixed;
   top:20px;
@@ -231,7 +230,7 @@ html, body{
 }
 
 /* =====================================================
-   📖 LIVRE — NET + PAGE TURN
+   📖 LIVRE — PAGE TURN
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -259,22 +258,10 @@ html, body{
   align-items:center;
 }
 
-/* 🔥 IMAGE NETTE */
 .page img{
   max-width:100%;
   max-height:100%;
   object-fit:contain;
-
-  image-rendering:auto;
-  image-rendering:crisp-edges;
-  image-rendering:-webkit-optimize-contrast;
-
-  filter:contrast(1.05) brightness(1.02);
-
-  box-shadow:
-    inset 0 0 12px rgba(0,0,0,.25),
-    0 12px 25px rgba(0,0,0,.55);
-
   transform-origin:left center;
   backface-visibility:hidden;
   transition:transform .6s ease, box-shadow .6s ease;
@@ -333,7 +320,7 @@ html, body{
   color:white;
 }
 
-/* texte illuminé */
+/* texte d’instruction illuminé */
 #clue{
   margin:16px 0;
   font-size:18px;
@@ -356,38 +343,6 @@ html, body{
 #buttons button:first-child{
   border:3px solid gold;
   box-shadow:0 0 22px gold;
-}
-
-/* =====================================================
-   🪵 PANNEAU PIRATE — BASE DE DONNÉES
-===================================================== */
-.dialogue-bubble.pirate-panel{
-  border-radius:6px;
-  border:5px solid #6b3e18;
-  background:linear-gradient(#f3e1b6,#e6c98a);
-  box-shadow:
-    inset 0 0 0 3px #8a5a20,
-    inset 0 0 25px rgba(0,0,0,.25),
-    0 18px 35px rgba(0,0,0,.6);
-}
-
-/* bouton continuer */
-.pirate-continue-btn{
-  margin-top:20px;
-  padding:14px;
-  text-align:center;
-  font-weight:bold;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#3b1b00;
-  border:3px solid #3b1b00;
-  cursor:pointer;
-  box-shadow:0 6px 0 #3b1b00, 0 0 20px rgba(255,215,0,.6);
-  transition:.15s;
-}
-
-.pirate-continue-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 0 #3b1b00, 0 0 30px gold;
 }
 
 /* =====================================================
