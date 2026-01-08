@@ -7,6 +7,7 @@ let dialogueIndex = 0;
 let currentDialogues = [];
 let currentOnEnd = null;
 let quizIndex = 0;
+let soundOn = false;
 
 /* =====================================================
    📦 ÉLÉMENTS
@@ -14,6 +15,7 @@ let quizIndex = 0;
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
 const closeVideo = document.getElementById("closeVideo");
+const toggleSound = document.getElementById("toggleSound");
 
 const background = document.getElementById("background");
 
@@ -31,8 +33,17 @@ const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
 /* =====================================================
-   🎬 VIDÉO
+   🎬 VIDÉO + SON
 ===================================================== */
+questVideo.muted = true;
+toggleSound.textContent = "🔇";
+
+toggleSound.onclick = () => {
+  soundOn = !soundOn;
+  questVideo.muted = !soundOn;
+  toggleSound.textContent = soundOn ? "🔊" : "🔇";
+};
+
 closeVideo.textContent = "Passer la vidéo";
 closeVideo.onclick = endVideo;
 
@@ -177,14 +188,14 @@ function winQuiz1(){
 }
 
 /* =====================================================
-   💬 DIALOGUES 2 — AVANT JUGEMENT DU MARCHÉ
+   💬 DIALOGUES 2 — AVANT JUGEMENT
 ===================================================== */
 function startDialogues2(){
   fadeScreen.classList.add("hidden");
   showDialogues([
     { text:"Ces pierres sont magnifiques…", anchor: pirate3 },
     { text:"Mais le marché est exigeant.", anchor: pirate5 },
-    { text:"Il va falloir gagner leur confiance.", anchor: pirate5 }
+    { text:"Voyons comment tu réagis.", anchor: pirate5 }
   ], startMarketJudgment);
 }
 
@@ -214,7 +225,7 @@ window.marketChoice = (choice)=>{
 };
 
 /* =====================================================
-   💬 DIALOGUES 3 — DISCUSSION ENTRE LES 3 PIRATES (RÉTABLIE)
+   💬 DIALOGUES 3 — DISCUSSION ENTRE LES 3 PIRATES
 ===================================================== */
 function startDialogues3(){
   showDialogues([
@@ -222,7 +233,7 @@ function startDialogues3(){
     { text:"Oui, ils peuvent te faire confiance.", anchor: pirate5 },
     { text:"Tu devrais noter leurs informations.", anchor: pirate5 },
     { text:"Pourquoi ?", anchor: pirate2 },
-    { text:"Comme ça, quand tu auras de nouvelles pierres, tu pourras les recontacter directement.", anchor: pirate5 },
+    { text:"Comme ça, tu pourras les recontacter plus tard.", anchor: pirate5 },
     { text:"Bonne idée, je vais faire ça.", anchor: pirate2 }
   ], showDatabaseBox);
 }
@@ -242,7 +253,7 @@ function showDatabaseBox(){
   box.innerHTML = `
     <h2 style="text-align:center">Les bases de données</h2>
     <p>
-      Une base de données permet de conserver les informations
+      Une base de données te permet de conserver les informations
       de tes clients pour créer une relation durable.
     </p>
     <p style="text-align:center;font-weight:bold">(Clique pour terminer)</p>
