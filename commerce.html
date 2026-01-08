@@ -3,63 +3,137 @@
 <head>
   <meta charset="UTF-8">
   <title>Quête Commerce</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="stylesheet" href="commerce.css">
 </head>
 
 <body>
 
-<!-- ================= 🎬 VIDÉO ================= -->
+<!-- =====================================================
+     🎬 VIDÉO D’INTRO
+===================================================== -->
 <div id="videoContainer">
-  <video id="questVideo" autoplay muted playsinline>
+  <video id="questVideo" autoplay muted playsinline preload="auto">
     <source src="videos/Commercevideo.MOV" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
   </video>
 
   <div id="videoControls">
-    <button id="toggleSound" aria-label="Son">🔇</button>
-    <button id="closeVideo" aria-label="Fermer">✖</button>
+    <button id="toggleSound">🔇</button>
+    <button id="closeVideo">Passer la vidéo</button>
   </div>
 </div>
 
-<!-- ================= 🌅 BACKGROUND ================= -->
+<!-- =====================================================
+     🌅 BACKGROUND + PIRATES
+===================================================== -->
 <div id="background">
-  <img src="images/Commercefond.PNG" class="fondImage">
+  <img src="images/Commercefond.PNG"
+       class="fondImage"
+       alt="Fond du marché pirate">
 
-  <img id="pirate2bis" class="pirate hidden" src="images/Pirate2.png">
-  <img id="pirate5bis" class="pirate hidden" src="images/Pirate5.png">
-  <img id="pirate3bis" class="pirate hidden" src="images/Pirateclients.png">
+  <!-- Pirate apprenti -->
+  <img id="pirate2bis"
+       class="pirate hidden"
+       src="images/Pirate2.png"
+       alt="Pirate apprenti">
+
+  <!-- Pirate maître -->
+  <img id="pirate5bis"
+       class="pirate hidden"
+       src="images/Pirate5.png"
+       alt="Pirate maître">
+
+  <!-- Pirate client -->
+  <img id="pirate3bis"
+       class="pirate hidden"
+       src="images/Pirateclients.png"
+       alt="Pirate client">
 </div>
 
-<!-- ================= 💬 BULLES ================= -->
+<!-- =====================================================
+     💬 BULLES DE DIALOGUE
+===================================================== -->
 <div id="bubbleContainer"></div>
-<button id="skipDialoguesBtn">Passer les dialogues</button>
+<button id="skipDialoguesBtn" class="hidden">
+  Passer les dialogues
+</button>
 
-<!-- ================= 🌑 LOADER ================= -->
-<div id="fadeScreen">
+<!-- =====================================================
+     ⏳ LOADER / TRANSITIONS
+===================================================== -->
+<div id="fadeScreen" class="hidden">
   <div class="loaderBox">Chargement...</div>
 </div>
 
-<!-- ================= 🎮 MINI-JEU ================= -->
-<div id="miniGameContainer">
-  <div id="gameQuestion"></div>
-  <div id="gameAnswers"></div>
-  <div id="gameFeedback"></div>
-</div>
-
-<!-- ================= 📖 LIVRE ================= -->
-<div id="bookContainer">
-  <div class="book">
-    <div class="page left"><img id="leftPage"></div>
-    <div class="page right"><img id="rightPage"></div>
+<!-- =====================================================
+     🎮 MINI-JEU 1 — QUIZ
+===================================================== -->
+<div id="miniGameContainer" class="hidden">
+  <div class="quizBox">
+    <div id="gameQuestion"></div>
+    <div id="gameAnswers"></div>
+    <div id="gameFeedback"></div>
   </div>
-  <button id="continueQuestBtn">Continuer la quête</button>
 </div>
 
-<!-- ================= 🏁 FIN ================= -->
-<div id="endScreen">
-  <h1>Bravo, tu as gagné la quête 🎆</h1>
+<!-- =====================================================
+     📖 LIVRE DIGITAL — RECTO / VERSO
+===================================================== -->
+<div id="bookContainer" class="hidden">
+  <div class="book">
+    <div class="page left">
+      <img id="leftPage" alt="Page gauche">
+    </div>
+    <div class="page right">
+      <img id="rightPage" alt="Page droite">
+    </div>
+  </div>
+
+  <button id="continueQuestBtn" class="hidden">
+    Continuer la quête
+  </button>
 </div>
 
+<!-- =====================================================
+     🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHÉ
+===================================================== -->
+<div id="merchantGame" class="hidden">
+  <div id="game">
+
+    <h1>🧔‍♂️ Le Jugement du Marché</h1>
+
+    <p>
+      📦 Prix de l’objet :
+      <strong><span id="price">300</span> PO</strong>
+    </p>
+
+    <p>
+      🏷️ Prix des concurrents :
+      <strong><span id="exp">250</span> PO</strong>
+    </p>
+
+    <div id="dialogue">
+      <p id="clientText">
+        « J’ai vu cet objet à moitié prix dans un autre port… »
+      </p>
+    </div>
+
+    <div id="clue"></div>
+
+    <div id="buttons">
+      <button id="btnHint">💡 Indice</button>
+      <button id="btnLower">💰 Baisser le prix</button>
+      <button id="btnKeep">⚖️ Maintenir le prix</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- =====================================================
+     📜 SCRIPT
+===================================================== -->
 <script src="commerce.js"></script>
+
 </body>
 </html>
