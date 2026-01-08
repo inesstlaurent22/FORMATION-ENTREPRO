@@ -1,56 +1,72 @@
-/* ===================== */
-/* RESET */
-/* ===================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* =========================
+   🌍 RESET & BODY
+========================= */
+*{
+  box-sizing:border-box;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  background: black;
-}
-
-/* ===================== */
-/* PAGE COMMUNICATION */
-/* ===================== */
-.communication-page {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-
-  background-image: url("images/Communicationfond.PNG");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* ===================== */
-/* OVERLAY (optionnel) */
-/* ===================== */
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.15);
-  pointer-events: none;
-}
-
-#miniGameSocial{
-  width:100%;
-  max-width:720px;
-  padding:20px;
-  background:#1b1b1b;
-  border:3px solid #b8892f;
-  border-radius:14px;
-  color:#fff;
-  text-align:center;
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#000;
   font-family: serif;
 }
 
+/* =========================
+   🏴‍☠️ CADRE PIRATE
+========================= */
+#pirateFrame{
+  position:relative;
+  padding:26px;
+  border-radius:24px;
+  background:linear-gradient(145deg,#3b2a17,#1e140b);
+  box-shadow:
+    0 0 0 4px #6d4420,
+    0 0 0 8px #d4af37,
+    0 30px 60px rgba(0,0,0,.85);
+}
+
+/* Coins décoratifs */
+#pirateFrame::before,
+#pirateFrame::after{
+  content:"☠️";
+  position:absolute;
+  font-size:22px;
+  color:#d4af37;
+  opacity:.85;
+}
+
+#pirateFrame::before{
+  top:10px;
+  left:14px;
+}
+
+#pirateFrame::after{
+  bottom:10px;
+  right:14px;
+}
+
+/* =========================
+   🎮 MINI-JEU
+========================= */
+#miniGameSocial{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:720px;
+  padding:22px;
+  background:#1b1b1b;
+  border-radius:16px;
+  color:#fff;
+  text-align:center;
+}
+
+/* =========================
+   🏷️ TITRES
+========================= */
 .title{
   font-size:26px;
   margin-bottom:6px;
@@ -62,7 +78,9 @@ html, body {
   margin-bottom:16px;
 }
 
-/* RENOMMÉE */
+/* =========================
+   📊 RENOMMÉE
+========================= */
 .renommee-box{
   margin:16px 0;
 }
@@ -80,10 +98,12 @@ html, body {
   width:0%;
   height:100%;
   background:linear-gradient(90deg,#ff9800,#ffd700);
-  transition:width .3s;
+  transition:width .3s ease;
 }
 
-/* RÉSEAUX */
+/* =========================
+   📣 RÉSEAUX PIRATES
+========================= */
 .networks{
   display:flex;
   justify-content:center;
@@ -100,19 +120,23 @@ html, body {
   color:#fff;
   cursor:pointer;
   font-size:14px;
+  transition:.2s;
 }
 
 .network:hover{
   transform:scale(1.05);
   border-color:#ffd700;
+  box-shadow:0 0 10px rgba(255,215,0,.3);
 }
 
-/* PORT */
+/* =========================
+   ⚓ PORT PIRATE
+========================= */
 #harbor{
   min-height:130px;
   background:#101010;
   border:2px dashed #555;
-  border-radius:10px;
+  border-radius:12px;
   padding:10px;
   position:relative;
   overflow:hidden;
@@ -123,7 +147,9 @@ html, body {
   opacity:.6;
 }
 
-/* PIRATES */
+/* =========================
+   🏴‍☠️ PIRATES
+========================= */
 .pirate{
   font-size:26px;
   position:absolute;
@@ -136,9 +162,24 @@ html, body {
   to{transform:scale(1);}
 }
 
-/* MESSAGE */
+/* =========================
+   💬 MESSAGE
+========================= */
 #message{
   margin-top:16px;
   min-height:42px;
   font-size:15px;
+}
+
+/* =========================
+   📱 RESPONSIVE
+========================= */
+@media(max-width:600px){
+  #miniGameSocial{
+    padding:16px;
+  }
+
+  .title{
+    font-size:22px;
+  }
 }
