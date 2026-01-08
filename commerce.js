@@ -8,16 +8,16 @@ function vibrate(p=15){
 }
 
 /* =====================================================
-   🌑 LOADER CENTRAL
+   🌑 LOADER CENTRAL (CORRIGÉ)
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox  = fadeScreen.querySelector(".loaderBox");
 
 function showLoader(text, time=1200, cb){
   loaderBox.innerHTML = text;
-  fadeScreen.classList.remove("hidden");
+  fadeScreen.style.display = "flex";   // 🔥 FIX CRITIQUE
   setTimeout(()=>{
-    fadeScreen.classList.add("hidden");
+    fadeScreen.style.display = "none";
     cb && cb();
   }, time);
 }
@@ -75,17 +75,13 @@ function enablePirate5(){
    💬 DIALOGUES (SYSTÈME STABLE)
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
+const skipBtn = document.getElementById("skipDialoguesBtn");
 
 let dialogues = [];
 let dIndex = 0;
 let onDialogueEnd = null;
 
-let skipBtn = document.createElement("button");
-skipBtn.textContent = "Passer les dialogues";
-skipBtn.className = "skipDialogueBtn";
 skipBtn.onclick = endDialogues;
-document.body.appendChild(skipBtn);
-skipBtn.classList.add("hidden");
 
 function playDialogues(list, cb){
   dialogues = list;
@@ -123,7 +119,7 @@ function renderDialogue(){
 function endDialogues(){
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
-  onDialogueEnd && onDialogueEnd();
+  onDialogueEnd && onDialogueEnd();   // 🔥 GARANTI
 }
 
 /* =====================================================
@@ -138,7 +134,7 @@ function startDialogues1(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 (QUIZ)
+   🎮 MINI-JEU 1
 ===================================================== */
 const miniGame = document.getElementById("miniGameContainer");
 const gameQ = document.getElementById("gameQuestion");
@@ -162,7 +158,7 @@ let qIndex = 0;
 
 function startQuiz1(){
   qIndex = 0;
-  miniGame.classList.remove("hidden");
+  miniGame.style.display = "flex";
   showQuestion();
 }
 
@@ -194,8 +190,8 @@ function showQuestion(){
    🏆 RÉUSSITE MINI-JEU 1 (5000 PO)
 ===================================================== */
 function winQuiz1(){
-  miniGame.classList.add("hidden");
-  fadeScreen.classList.remove("hidden");
+  miniGame.style.display = "none";
+  fadeScreen.style.display = "flex";
 
   loaderBox.innerHTML = `
     <div class="rewardTitle">Bravo ! Tu as gagné</div>
@@ -214,7 +210,7 @@ function winQuiz1(){
       counter.textContent = "5000";
       clearInterval(interval);
       setTimeout(()=>{
-        fadeScreen.classList.add("hidden");
+        fadeScreen.style.display = "none";
         openBook();
       },1000);
     }
@@ -238,14 +234,14 @@ const pages = [
 let page = 0;
 
 function openBook(){
-  bookContainer.classList.remove("hidden");
+  bookContainer.style.display = "flex";
   page = 0;
   updateBook();
 }
 
 function updateBook(){
   leftPage.src = "images/" + pages[page];
-  continueBtn.classList.toggle("hidden", page !== pages.length-1);
+  continueBtn.style.display = page === pages.length-1 ? "block" : "none";
 }
 
 leftPage.onclick = ()=>{
@@ -256,24 +252,16 @@ leftPage.onclick = ()=>{
 };
 
 continueBtn.onclick = ()=>{
-  bookContainer.classList.add("hidden");
+  bookContainer.style.display = "none";
   preparePirate3();
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 + DIALOGUES 2
+   🏴‍☠️ PIRATE 3 + MINI-JEU 2
 ===================================================== */
 function preparePirate3(){
   pirate3.classList.remove("hidden");
-  pirate3.addEventListener("click", startDialogues2, { once:true });
-}
-
-function startDialogues2(){
-  playDialogues([
-    { text:"Vous êtes nouveaux sur le marché ?", anchor:pirate3 },
-    { text:"Oui, nous revendons des pierres précieuses.", anchor:pirate2 },
-    { text:"Les clients font confiance à un seul vendeur…", anchor:pirate3 }
-  ], ()=> showLoader("Le Jugement du Marché commence…", 900, startMerchantGame));
+  pirate3.addEventListener("click", startMerchantGame, { once:true });
 }
 
 /* =====================================================
@@ -283,20 +271,20 @@ const merchantGame = document.getElementById("merchantGame");
 const clueEl = document.getElementById("clue");
 
 function startMerchantGame(){
-  merchantGame.classList.remove("hidden");
+  merchantGame.style.display = "flex";
   clueEl.textContent = "Analyse le marché avant de décider";
 }
 
-window.analyzeClient = ()=>{
+document.getElementById("btnHint").onclick = ()=>{
   clueEl.textContent = "💡 Vous êtes peu nombreux sur ce marché";
 };
 
-window.keepPrice = ()=>{
-  merchantGame.classList.add("hidden");
+document.getElementById("btnKeep").onclick = ()=>{
+  merchantGame.style.display = "none";
   winFinal();
 };
 
-window.lowerPrice = ()=>{
+document.getElementById("btnLower").onclick = ()=>{
   clueEl.textContent = "❌ Mauvaise décision";
 };
 
