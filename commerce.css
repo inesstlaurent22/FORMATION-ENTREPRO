@@ -77,20 +77,17 @@ html, body{
   position:absolute;
   z-index:20;
   pointer-events:auto;
-  transition:transform .3s ease, filter .3s ease;
+  transition:filter .3s ease, transform .3s ease;
 }
 
 .pirate.glow{
-  filter:drop-shadow(0 0 28px gold);
+  filter:drop-shadow(0 0 30px gold);
 }
 
 .pirate.frozen{
   pointer-events:none;
+  filter:none;
 }
-
-/* Décalages JS */
-.pirate.raise-5{ transform:translateY(-5px); }
-.pirate.lower-15{ transform:translateY(15px); }
 
 /* =====================================================
    💬 BULLES DE DIALOGUE
@@ -118,8 +115,19 @@ html, body{
   pointer-events:auto;
 }
 
+/* Version panneau (base de données) */
+.dialogue-bubble.pirate-panel{
+  border-radius:8px;
+  border:5px solid #6b3e18;
+  background:linear-gradient(#f3e1b6,#e6c98a);
+  box-shadow:
+    inset 0 0 0 3px #8a5a20,
+    inset 0 0 25px rgba(0,0,0,.25),
+    0 18px 35px rgba(0,0,0,.65);
+}
+
 /* =====================================================
-   🎮 MINI-JEU
+   🎮 MINI-JEUX (COMMUN)
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -131,37 +139,44 @@ html, body{
   z-index:2000;
 }
 
+/* Boîte de jeu */
 .quizBox{
   width:94%;
-  max-width:600px;
+  max-width:620px;
   background:linear-gradient(#2b1a0d,#140a05);
   border:6px solid #6b3e18;
   padding:28px;
   box-shadow:0 0 40px rgba(0,0,0,.9);
+  text-align:center;
 }
 
+/* =====================================================
+   🏷️ TITRES MINI-JEU
+===================================================== */
 .quizTitle{
-  text-align:center;
   font-size:26px;
   color:#ffd27d;
-  margin-bottom:16px;
-  text-shadow:0 0 12px gold;
+  text-shadow:0 0 14px gold;
+  margin-bottom:10px;
 }
 
 .quizSeparator{
   height:3px;
   background:linear-gradient(90deg,transparent,gold,transparent);
-  margin-bottom:18px;
+  margin:14px 0 18px;
 }
 
+/* =====================================================
+   ❓ QUESTION / RÉPONSES
+===================================================== */
 #gameQuestion{
   font-size:20px;
   color:#fff;
-  margin-bottom:14px;
-  text-align:center;
+  margin-bottom:16px;
 }
 
-#gameAnswers button{
+#gameAnswers button,
+.quizBox button{
   width:100%;
   margin-top:12px;
   padding:16px;
@@ -175,9 +190,10 @@ html, body{
   transition:.2s;
 }
 
-#gameAnswers button:hover{
+#gameAnswers button:hover,
+.quizBox button:hover{
+  transform:scale(1.03);
   box-shadow:0 0 25px gold;
-  transform:scale(1.02);
 }
 
 #gameAnswers button.selected{
@@ -186,7 +202,7 @@ html, body{
 }
 
 /* =====================================================
-   🌑 LOADER
+   🌑 LOADER / VICTOIRE
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -201,116 +217,8 @@ html, body{
 .loaderBox{
   text-align:center;
   color:gold;
-  font-size:28px;
+  font-size:26px;
   text-shadow:0 0 25px gold;
-}
-
-/* =====================================================
-   📖 LIVRE
-===================================================== */
-#bookContainer{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.88);
-  z-index:2200;
-}
-
-.book{
-  width:70vw;
-  max-width:540px;
-  height:80vh;
-  max-height:700px;
-  perspective:2000px;
-}
-
-.page img{
-  max-width:100%;
-  max-height:100%;
-  object-fit:contain;
-  image-rendering:auto;
-  image-rendering:crisp-edges;
-  image-rendering:-webkit-optimize-contrast;
-  filter:contrast(1.05) brightness(1.02);
-  box-shadow:0 14px 30px rgba(0,0,0,.6);
-  transition:transform .6s ease;
-}
-/* =====================================================
-   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
-===================================================== */
-#merchantGame{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:2300;
-}
-
-#merchantGame #game{
-  background:linear-gradient(#2b1a0d,#140a05);
-  border:8px solid #6b3e18;
-  padding:40px;
-  width:96%;
-  max-width:720px;
-  text-align:center;
-  box-shadow:
-    inset 0 0 35px rgba(0,0,0,.9),
-    0 0 60px rgba(0,0,0,.95);
-}
-
-#merchantGame h1{
-  color:#ffd27d;
-  margin-bottom:22px;
-}
-
-#merchantGame p{
-  margin:8px 0;
-}
-
-#merchantGame,
-#merchantGame *{
-  color:white;
-}
-
-/* texte d’instruction illuminé */
-#clue{
-  margin:16px 0;
-  font-size:18px;
-  text-shadow:0 0 18px gold;
-}
-
-/* boutons */
-#buttons button{
-  width:100%;
-  padding:16px;
-  margin:10px 0;
-  font-size:17px;
-  border-radius:14px;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  border:3px solid #3b1b00;
-  cursor:pointer;
-}
-
-#buttons button:first-child{
-  border:3px solid gold;
-  box-shadow:0 0 22px gold;
-}
-
-/* =====================================================
-   🪵 PANNEAU BASE DE DONNÉES
-===================================================== */
-.dialogue-bubble.pirate-panel{
-  border-radius:6px;
-  border:5px solid #6b3e18;
-  background:linear-gradient(#f3e1b6,#e6c98a);
-  box-shadow:
-    inset 0 0 0 3px #8a5a20,
-    inset 0 0 25px rgba(0,0,0,.25),
-    0 18px 35px rgba(0,0,0,.65);
 }
 
 /* =====================================================
@@ -321,8 +229,11 @@ html, body{
     max-width:90vw;
   }
 
-  .book{
-    width:90vw;
-    height:65vh;
+  .quizBox{
+    padding:20px;
+  }
+
+  .quizTitle{
+    font-size:22px;
   }
 }
