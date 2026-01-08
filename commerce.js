@@ -8,7 +8,6 @@ let quizIndex = 0;
 let currentDialogues = [];
 let currentOnEnd = null;
 let soundOn = false;
-let turning = false;
 
 /* =====================================================
    📦 ÉLÉMENTS
@@ -34,6 +33,7 @@ const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
 const bookContainer = document.getElementById("bookContainer");
+const book = document.querySelector(".book");
 const leftPage = document.getElementById("leftPage");
 const continueBtn = document.getElementById("continueQuestBtn");
 
@@ -64,7 +64,9 @@ function endVideo(){
     pirate2.classList.remove("hidden");
     pirate5.classList.remove("hidden");
 
+    /* pirate5bis : +15px en bas */
     pirate5.style.top = (pirate5.offsetTop + 15) + "px";
+
     enablePirate5();
   });
 }
@@ -80,7 +82,7 @@ function enablePirate5(){
 }
 
 /* =====================================================
-   💬 DIALOGUES (SYSTÈME)
+   💬 SYSTÈME DE DIALOGUES
 ===================================================== */
 function showDialogues(dialogues, onEnd){
   currentDialogues = dialogues;
@@ -141,20 +143,12 @@ function startDialogues1(){
 const quiz1 = [
   {
     question:"Où les pirates ont-ils trouvé leurs pierres ?",
-    answers:[
-      "Dans un coffre dans une grotte secrète",
-      "Ils les ont achetées au marché",
-      "La tante les leur a données"
-    ],
+    answers:["Dans un coffre dans une grotte secrète","Ils les ont achetées au marché","La tante les leur a données"],
     correct:0
   },
   {
     question:"Qui fait partie de l'équipage pirate ?",
-    answers:[
-      "Toi et les deux moussaillons",
-      "Juste le capitaine",
-      "Toute la famille pirate"
-    ],
+    answers:["Toi et les deux moussaillons","Juste le capitaine","Toute la famille pirate"],
     correct:0
   }
 ];
@@ -193,7 +187,7 @@ function showQuestion(){
 }
 
 /* =====================================================
-   💎 CANVAS GEMS
+   💎 GEM FIREWORKS (CANVAS)
 ===================================================== */
 let canvas, ctx, gems = [];
 
@@ -210,7 +204,7 @@ function launchGems(){
   ctx = canvas.getContext("2d");
   gems = [];
 
-  for(let i=0;i<150;i++){
+  for(let i=0;i<140;i++){
     const a = Math.random()*Math.PI*2;
     const s = Math.random()*9+4;
     gems.push({
@@ -271,7 +265,7 @@ function winQuiz1(){
 }
 
 /* =====================================================
-   📖 LIVRE
+   📖 LIVRE — PAGE TURN
 ===================================================== */
 const bookPages = [
   "Businessplancov.png",
@@ -281,6 +275,7 @@ const bookPages = [
 ];
 
 let pageIndex = 0;
+let turning = false;
 
 function openBook(){
   pageIndex = 0;
@@ -315,12 +310,15 @@ continueBtn.onclick = ()=>{
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 → DIALOGUES 2
+   🏴‍☠️ PIRATE 3 — CLICK + GLOW
 ===================================================== */
 function preparePirate3(){
   pirate3.classList.remove("hidden");
+
+  /* pirate3bis : 80px plus haut */
   pirate3.style.top = (pirate3.offsetTop - 80) + "px";
 
+  pirate3.style.cursor = "pointer";
   pirate3.onmouseenter = () => pirate3.classList.add("glow");
   pirate3.onmouseleave = () => pirate3.classList.remove("glow");
 
@@ -343,19 +341,19 @@ function startDialogues2(){
 ===================================================== */
 function startMerchantGame(){
   merchantGame.classList.remove("hidden");
-  clueEl.innerHTML = `<strong style="color:gold;text-shadow:0 0 18px gold">
-    Analyse le marché avant de décider
-  </strong>`;
+
+  clueEl.innerHTML = `
+    <span style="color:gold;text-shadow:0 0 18px gold;font-weight:bold">
+      Analyse le marché avant de décider
+    </span>
+  `;
 }
 
 window.analyzeClient = ()=>{
   clueEl.textContent = "💡 Vous n’êtes que 2 à vendre cette pierre";
 };
 
-window.lowerPrice = ()=>{
-  clueEl.textContent = "❌ Mauvaise décision";
-};
-
+window.lowerPrice = ()=> failMerchant();
 window.keepPrice = ()=>{
   clueEl.innerHTML = "<strong style='color:#7CFF7C'>Bonne décision ✔️</strong>";
   setTimeout(()=>{
@@ -363,6 +361,10 @@ window.keepPrice = ()=>{
     afterMerchantDiscussion();
   },1200);
 };
+
+function failMerchant(){
+  clueEl.textContent = "❌ Mauvaise décision";
+}
 
 /* =====================================================
    💬 DISCUSSION FINALE
@@ -378,33 +380,52 @@ function afterMerchantDiscussion(){
 }
 
 /* =====================================================
-   📦 PANNEAU BASE DE DONNÉES → RETOUR MENU
+   📦 BASE DE DONNÉES (CLIQUABLE)
 ===================================================== */
 function showDatabaseBox(){
   const box = document.createElement("div");
-  box.className = "dialogue-bubble pirate-panel";
+  box.className = "dialogue-bubble";
   box.style.left = "50%";
   box.style.top = "50%";
   box.style.transform = "translate(-50%,-50%)";
-  box.style.maxWidth = "680px";
+  box.style.maxWidth = "640px";
+  box.style.cursor = "pointer";
 
   box.innerHTML = `
-    <h2 style="text-align:center;color:#5a2e0c">Les Bases de données</h2>
+    <h2 style="text-align:center;color:#8a5a20">Les Bases de données</h2>
     <hr style="margin:10px 0;border:1px solid #8a5a20">
     <p>
       Une base de données permet de noter l’ensemble des informations de tes clients
-      (nom, adresse, téléphone, mail et préférences).<br><br>
-      Elle te permet de créer un lien durable et de suivre ventes, stock et chiffre d’affaires.
+      (nom, adresse, téléphone, mail et préférences).
+      <br><br>
+      Elle est essentielle pour créer un lien durable, suivre tes ventes,
+      ton chiffre d’affaires, ton stock et ne rien oublier.
     </p>
-    <div class="pirate-continue-btn">▶ Clique pour continuer</div>
+    <p style="margin-top:14px;font-weight:bold;text-align:center">
+      (Clique pour continuer)
+    </p>
   `;
 
-  box.onclick = () => {
-    sessionStorage.setItem("unlock_pirate3", "true");
-    window.location.href = "menu.html";
+  box.onclick = ()=>{
+    bubbleContainer.innerHTML="";
+    winFinal();
   };
 
   bubbleContainer.appendChild(box);
+}
+
+/* =====================================================
+   🎆 FIN
+===================================================== */
+function winFinal(){
+  fadeScreen.classList.remove("hidden");
+  loaderBox.innerHTML = `
+    <h1 style="color:gold;text-shadow:0 0 35px gold">
+      🎉 Bravo tu as gagné ta quête
+    </h1>
+  `;
+  launchGems();
+  setTimeout(()=>window.location.href="menu.html",3000);
 }
 
 /* =====================================================
