@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Quête Commerce</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="commerce.css">
 </head>
 
@@ -15,56 +17,46 @@
 <div id="videoContainer">
   <video id="questVideo" autoplay muted playsinline preload="auto">
     <source src="videos/Commercevideo.MOV" type="video/mp4">
-    Votre navigateur ne supporte pas la vidéo.
   </video>
 
   <div id="videoControls">
     <button id="toggleSound">🔇</button>
-    <button id="closeVideo">Passer la vidéo</button>
+    <button id="closeVideo">✖</button>
   </div>
 </div>
 
 <!-- =====================================================
      🌅 BACKGROUND + PIRATES
 ===================================================== -->
-<div id="background">
-  <img src="images/Commercefond.PNG"
-       class="fondImage"
-       alt="Fond du marché pirate">
+<div id="background" class="hidden">
+  <img src="images/Commercefond.PNG" class="fondImage" alt="Fond du marché pirate">
 
-  <!-- Pirate apprenti -->
-  <img id="pirate2bis"
-       class="pirate hidden"
-       src="images/Pirate2.png"
-       alt="Pirate apprenti">
+  <img
+    id="pirate2bis"
+    class="pirate hidden"
+    src="images/Pirate2.png"
+    alt="Pirate apprenti"
+  >
 
-  <!-- Pirate maître -->
-  <img id="pirate5bis"
-       class="pirate hidden"
-       src="images/Pirate5.png"
-       alt="Pirate maître">
+  <img
+    id="pirate5bis"
+    class="pirate hidden"
+    src="images/Pirate5.png"
+    alt="Pirate maître"
+  >
 
-  <!-- Pirate client -->
-  <img id="pirate3bis"
-       class="pirate hidden"
-       src="images/Pirateclients.png"
-       alt="Pirate client">
+  <img
+    id="pirate3bis"
+    class="pirate hidden"
+    src="images/Pirateclients.png"
+    alt="Pirate client"
+  >
 </div>
 
 <!-- =====================================================
      💬 BULLES DE DIALOGUE
 ===================================================== -->
 <div id="bubbleContainer"></div>
-<button id="skipDialoguesBtn" class="hidden">
-  Passer les dialogues
-</button>
-
-<!-- =====================================================
-     ⏳ LOADER / TRANSITIONS
-===================================================== -->
-<div id="fadeScreen" class="hidden">
-  <div class="loaderBox">Chargement...</div>
-</div>
 
 <!-- =====================================================
      🎮 MINI-JEU 1 — QUIZ
@@ -78,15 +70,19 @@
 </div>
 
 <!-- =====================================================
-     📖 LIVRE DIGITAL — RECTO / VERSO
+     🌑 LOADER / VICTOIRE / GEMS
+===================================================== -->
+<div id="fadeScreen" class="hidden">
+  <div class="loaderBox"></div>
+</div>
+
+<!-- =====================================================
+     📖 LIVRE DIGITAL
 ===================================================== -->
 <div id="bookContainer" class="hidden">
   <div class="book">
-    <div class="page left">
-      <img id="leftPage" alt="Page gauche">
-    </div>
-    <div class="page right">
-      <img id="rightPage" alt="Page droite">
+    <div class="page">
+      <img id="leftPage" alt="Page du business plan">
     </div>
   </div>
 
@@ -96,42 +92,31 @@
 </div>
 
 <!-- =====================================================
-     🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHÉ
+     🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
 ===================================================== -->
 <div id="merchantGame" class="hidden">
   <div id="game">
 
     <h1>🧔‍♂️ Le Jugement du Marché</h1>
 
-    <p>
-      📦 Prix de l’objet :
-      <strong><span id="price">300</span> PO</strong>
+    <p id="clue">
+      Analyse le marché avant de décider
     </p>
 
-    <p>
-      🏷️ Prix des concurrents :
-      <strong><span id="exp">250</span> PO</strong>
-    </p>
-
-    <div id="dialogue">
-      <p id="clientText">
-        « J’ai vu cet objet à moitié prix dans un autre port… »
-      </p>
-    </div>
-
-    <div id="clue"></div>
+    <p><strong>💎 Prix de l’objet :</strong> 300 PO</p>
+    <p><strong>⚖️ Prix des concurrents :</strong> 280 – 320 PO</p>
 
     <div id="buttons">
-      <button id="btnHint">💡 Indice</button>
-      <button id="btnLower">💰 Baisser le prix</button>
-      <button id="btnKeep">⚖️ Maintenir le prix</button>
+      <button onclick="analyzeClient()">Indice</button>
+      <button onclick="lowerPrice()">Baisser le prix</button>
+      <button onclick="keepPrice()">Maintenir le prix</button>
     </div>
 
   </div>
 </div>
 
 <!-- =====================================================
-     📜 SCRIPT
+     📜 SCRIPTS
 ===================================================== -->
 <script src="commerce.js"></script>
 
