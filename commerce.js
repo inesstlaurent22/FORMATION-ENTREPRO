@@ -8,7 +8,7 @@ function vibrate(p=15){
 }
 
 /* =====================================================
-   🌑 LOADER CENTRAL (UNIQUE)
+   🌑 LOADER CENTRAL
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox  = fadeScreen.querySelector(".loaderBox");
@@ -68,19 +68,24 @@ function showBackground(){
 ===================================================== */
 function enablePirate5(){
   pirate5.classList.add("glow");
-  pirate5.style.cursor = "pointer";
   pirate5.addEventListener("click", startDialogues1, { once:true });
 }
 
 /* =====================================================
-   💬 SYSTÈME DE DIALOGUES (STABLE)
+   💬 DIALOGUES (SYSTÈME STABLE)
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
-const skipBtn = document.getElementById("skipDialoguesBtn");
 
 let dialogues = [];
 let dIndex = 0;
 let onDialogueEnd = null;
+
+let skipBtn = document.createElement("button");
+skipBtn.textContent = "Passer les dialogues";
+skipBtn.className = "skipDialogueBtn";
+skipBtn.onclick = endDialogues;
+document.body.appendChild(skipBtn);
+skipBtn.classList.add("hidden");
 
 function playDialogues(list, cb){
   dialogues = list;
@@ -99,10 +104,10 @@ function renderDialogue(){
   bubble.className = "dialogue-bubble";
   bubble.innerHTML = d.text;
 
-  let top = r.top - 140;
+  let top = r.top - 150;
   if(top < 20) top = r.bottom + 20;
 
-  bubble.style.left = r.left + r.width/2 + "px";
+  bubble.style.left = (r.left + r.width/2) + "px";
   bubble.style.top  = top + "px";
   bubble.style.transform = "translateX(-50%)";
 
@@ -121,8 +126,6 @@ function endDialogues(){
   onDialogueEnd && onDialogueEnd();
 }
 
-skipBtn.onclick = endDialogues;
-
 /* =====================================================
    💬 DIALOGUES 1
 ===================================================== */
@@ -135,7 +138,7 @@ function startDialogues1(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — QUIZ
+   🎮 MINI-JEU 1 (QUIZ)
 ===================================================== */
 const miniGame = document.getElementById("miniGameContainer");
 const gameQ = document.getElementById("gameQuestion");
@@ -145,12 +148,12 @@ const gameF = document.getElementById("gameFeedback");
 const quiz1 = [
   {
     q:"Où les pirates ont-ils trouvé leurs pierres ?",
-    a:["Dans un coffre dans une grotte secrète","Au marché","La tante"],
+    a:["Dans un coffre secret","Au marché","Chez la tante"],
     c:0
   },
   {
     q:"Qui fait partie de l’équipage ?",
-    a:["Toi et les moussaillons","Le capitaine","La famille"],
+    a:["Toi et les moussaillons","Le capitaine seul","Toute la famille"],
     c:0
   }
 ];
@@ -188,11 +191,34 @@ function showQuestion(){
 }
 
 /* =====================================================
-   🏆 FIN MINI-JEU 1 → LIVRE
+   🏆 RÉUSSITE MINI-JEU 1 (5000 PO)
 ===================================================== */
 function winQuiz1(){
   miniGame.classList.add("hidden");
-  showLoader("Bravo ! Tu as gagné 5000 pièces d’or 💰", 1400, openBook);
+  fadeScreen.classList.remove("hidden");
+
+  loaderBox.innerHTML = `
+    <div class="rewardTitle">Bravo ! Tu as gagné</div>
+    <div class="rewardCounter"><span id="poCounter">0</span></div>
+    <div class="rewardLabel">pièces d’or 💰</div>
+    <div class="rewardSub">et ton business plan</div>
+  `;
+
+  let po = 0;
+  const counter = document.getElementById("poCounter");
+
+  const interval = setInterval(()=>{
+    po += 100;
+    counter.textContent = po;
+    if(po >= 5000){
+      counter.textContent = "5000";
+      clearInterval(interval);
+      setTimeout(()=>{
+        fadeScreen.classList.add("hidden");
+        openBook();
+      },1000);
+    }
+  },30);
 }
 
 /* =====================================================
@@ -212,8 +238,8 @@ const pages = [
 let page = 0;
 
 function openBook(){
-  page = 0;
   bookContainer.classList.remove("hidden");
+  page = 0;
   updateBook();
 }
 
@@ -235,11 +261,10 @@ continueBtn.onclick = ()=>{
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 + DIALOGUES
+   🏴‍☠️ PIRATE 3 + DIALOGUES 2
 ===================================================== */
 function preparePirate3(){
   pirate3.classList.remove("hidden");
-  pirate3.style.cursor = "pointer";
   pirate3.addEventListener("click", startDialogues2, { once:true });
 }
 
@@ -247,7 +272,7 @@ function startDialogues2(){
   playDialogues([
     { text:"Vous êtes nouveaux sur le marché ?", anchor:pirate3 },
     { text:"Oui, nous revendons des pierres précieuses.", anchor:pirate2 },
-    { text:"Les clients n’ont confiance qu’en un seul vendeur…", anchor:pirate3 }
+    { text:"Les clients font confiance à un seul vendeur…", anchor:pirate3 }
   ], ()=> showLoader("Le Jugement du Marché commence…", 900, startMerchantGame));
 }
 
@@ -263,43 +288,17 @@ function startMerchantGame(){
 }
 
 window.analyzeClient = ()=>{
-  clueEl.textContent = "💡 Vous êtes peu nombreux à vendre cette pierre";
+  clueEl.textContent = "💡 Vous êtes peu nombreux sur ce marché";
+};
+
+window.keepPrice = ()=>{
+  merchantGame.classList.add("hidden");
+  winFinal();
 };
 
 window.lowerPrice = ()=>{
   clueEl.textContent = "❌ Mauvaise décision";
 };
-
-window.keepPrice = ()=>{
-  merchantGame.classList.add("hidden");
-  startFinalDialogues();
-};
-
-/* =====================================================
-   💬 DIALOGUES FINAUX + BASE DE DONNÉES
-===================================================== */
-function startFinalDialogues(){
-  playDialogues([
-    { text:"Bonne décision. Les clients aiment la transparence.", anchor:pirate3 },
-    { text:"Tu devrais noter leurs coordonnées.", anchor:pirate5 },
-    { text:"Pourquoi faire ?", anchor:pirate2 },
-    { text:"Pour les recontacter et créer une relation durable.", anchor:pirate5 }
-  ], showDatabaseMessage);
-}
-
-function showDatabaseMessage(){
-  playDialogues([
-    {
-      text:`
-        <strong>📂 Les bases de données</strong><br><br>
-        Une base de données permet de conserver les informations de tes clients
-        (nom, contact, préférences).<br><br>
-        C’est essentiel pour fidéliser et développer ton activité.
-      `,
-      anchor: pirate5
-    }
-  ], winFinal);
-}
 
 /* =====================================================
    🎆 FIN
