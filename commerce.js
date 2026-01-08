@@ -83,8 +83,8 @@ function showDialogues(dialogues, onEnd){
   dialogueIndex = 0;
   bubbleContainer.innerHTML = "";
 
-  pirate3.style.pointerEvents = "none"; // ❌ bloqué pendant dialogue
-  pirate3.style.top = (pirate3.offsetTop - 5) + "px";
+  pirate3.style.pointerEvents = "none";
+  pirate3.classList.add("raise-5");
 
   const bubble = document.createElement("div");
   bubble.className = "dialogue-bubble";
@@ -112,6 +112,7 @@ function nextDialogue(){
 
 function endDialogues(){
   bubbleContainer.innerHTML = "";
+  pirate3.classList.remove("raise-5");
   if(currentOnEnd) currentOnEnd();
 }
 
@@ -184,53 +185,6 @@ function showQuestion(){
 }
 
 /* =====================================================
-   💎 GEMS CANVAS
-===================================================== */
-function launchGems(){
-  const canvas = document.createElement("canvas");
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-  canvas.style.position = "fixed";
-  canvas.style.inset = 0;
-  canvas.style.pointerEvents = "none";
-  canvas.style.zIndex = 3000;
-  document.body.appendChild(canvas);
-
-  const ctx = canvas.getContext("2d");
-  let gems = [];
-
-  for(let i=0;i<160;i++){
-    const a = Math.random()*Math.PI*2;
-    gems.push({
-      x:canvas.width/2,
-      y:canvas.height/2,
-      vx:Math.cos(a)*(Math.random()*8+4),
-      vy:Math.sin(a)*(Math.random()*8+4),
-      r:Math.random()*4+3,
-      c:`hsl(${Math.random()*360},100%,60%)`,
-      life:100
-    });
-  }
-
-  function update(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    gems.forEach(g=>{
-      g.vy += 0.15;
-      g.x += g.vx;
-      g.y += g.vy;
-      g.life--;
-      ctx.fillStyle = g.c;
-      ctx.beginPath();
-      ctx.arc(g.x,g.y,g.r,0,Math.PI*2);
-      ctx.fill();
-    });
-    gems = gems.filter(g=>g.life>0);
-    gems.length ? requestAnimationFrame(update) : canvas.remove();
-  }
-  update();
-}
-
-/* =====================================================
    🏆 FIN MINI-JEU 1
 ===================================================== */
 function winQuiz1(){
@@ -265,106 +219,16 @@ function winQuiz1(){
 }
 
 /* =====================================================
-   📖 LIVRE
-===================================================== */
-const bookPages = [
-  "Businessplancov.png",
-  "Businessplan1.png",
-  "Businessplan2.png",
-  "Businessplan3.png"
-];
-
-let pageIndex = 0;
-
-function openBook(){
-  fadeScreen.classList.add("hidden");
-  bookContainer.classList.remove("hidden");
-
-  const title = document.createElement("div");
-  title.textContent = "Ton Business Plan est prêt";
-  title.style.cssText = `
-    position:fixed;top:20px;width:100%;
-    text-align:center;font-size:32px;
-    color:gold;text-shadow:0 0 25px gold;
-    z-index:2300`;
-  document.body.appendChild(title);
-
-  pageIndex = 0;
-  updateBook();
-}
-
-function updateBook(){
-  leftPage.src = "images/" + bookPages[pageIndex];
-  continueBtn.classList.toggle("hidden", pageIndex !== bookPages.length-1);
-}
-
-leftPage.onclick = e => {
-  if(turning) return;
-  turning = true;
-
-  const forward = e.offsetX > leftPage.clientWidth/2;
-  leftPage.style.transform = `rotateY(${forward ? "-140deg" : "140deg"})`;
-
-  setTimeout(()=>{
-    if(forward && pageIndex < bookPages.length-1) pageIndex++;
-    if(!forward && pageIndex > 0) pageIndex--;
-    leftPage.style.transform = "rotateY(0deg)";
-    updateBook();
-    turning = false;
-  },600);
-};
-
-continueBtn.onclick = () => {
-  bookContainer.classList.add("hidden");
-  activatePirate3();
-};
-
-/* =====================================================
    🏴‍☠️ PIRATE 3
 ===================================================== */
 function activatePirate3(){
-  pirate3.style.top = (pirate3.offsetTop + 15) + "px";
+  pirate3.classList.add("lower-15");
   pirate3.style.pointerEvents = "auto";
   pirate3.onmouseenter = () => pirate3.classList.add("glow");
   pirate3.onmouseleave = () => pirate3.classList.remove("glow");
 
   pirate2.style.pointerEvents = "none";
-
   pirate3.addEventListener("click", showDatabaseBox, { once:true });
-}
-
-/* =====================================================
-   📦 BASE DE DONNÉES + FIN
-===================================================== */
-function showDatabaseBox(){
-  const box = document.createElement("div");
-  box.className = "dialogue-bubble pirate-panel";
-  box.style.left = "50%";
-  box.style.top = "50%";
-  box.style.transform = "translate(-50%,-50%)";
-  box.style.maxWidth = "720px";
-
-  box.innerHTML = `
-    <h2 style="text-align:center">Les Bases de données</h2>
-    <hr>
-    <p>
-      Une base de données permet de noter les informations de tes clients
-      et de créer un lien durable avec eux.
-    </p>
-  `;
-
-  box.onclick = () => {
-    fadeScreen.classList.remove("hidden");
-    loaderBox.innerHTML = "<h1 style='color:gold'>Bravo tu as terminé cette première quête</h1>";
-    launchGems();
-
-    setTimeout(()=>{
-      sessionStorage.setItem("unlock_pirate3","true");
-      window.location.href = "menu.html";
-    },2500);
-  };
-
-  bubbleContainer.appendChild(box);
 }
 
 /* =====================================================
