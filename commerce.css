@@ -1,45 +1,130 @@
 /* =====================================================
-   🌍 BASE
+   🔧 RESET GLOBAL
 ===================================================== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html, body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:"Trebuchet MS", sans-serif;
+  background:#000;
+}
+
 .hidden{
   display:none !important;
 }
 
-body{
-  margin:0;
-  overflow:hidden;
-  font-family: "Trebuchet MS", Arial, sans-serif;
+/* =====================================================
+   🎬 VIDÉO
+===================================================== */
+#videoContainer{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:3000;
+}
+
+#questVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+#videoControls{
+  position:absolute;
+  top:20px;
+  right:20px;
+  display:flex;
+  gap:10px;
+  z-index:3200;
+}
+
+#videoControls button{
+  padding:10px 16px;
+  font-size:16px;
+  border-radius:14px;
+  border:2px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  cursor:pointer;
+  box-shadow:0 4px 0 #3b1b00;
+}
+
+/* =====================================================
+   ⏳ LOADER / TRANSITIONS
+===================================================== */
+#fadeScreen{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#000;
+  z-index:2500;
+}
+
+.loaderBox{
+  font-size:30px;
+  color:#ffd700;
+  text-align:center;
+  text-shadow:0 0 35px gold;
+}
+
+/* =====================================================
+   🌅 BACKGROUND
+===================================================== */
+#background{
+  position:fixed;
+  inset:0;
+  z-index:1;
+}
+
+.fondImage{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 /* =====================================================
    🏴‍☠️ PIRATES
 ===================================================== */
-#pirate2bis,
-#pirate3bis,
-#pirate5bis{
+.pirate{
   position:absolute;
-  transition: transform .3s ease, filter .3s ease, top .3s ease;
+  z-index:50;
+  pointer-events:auto;
+  transition:transform .3s ease, filter .3s ease;
+}
+
+.pirate.glow{
+  transform:scale(1.07);
+  filter:drop-shadow(0 0 30px gold);
 }
 
 #pirate2bis{
-  pointer-events:auto;
-}
-
-#pirate3bis{
-  pointer-events:none;
+  left:517px;
+  top:406px;
+  width:186px;
 }
 
 #pirate5bis{
+  left:794px;
+  top:390px;
+  width:143px;
   cursor:pointer;
 }
 
-/* Glow actif (seul pirate cliquable) */
-.glow{
-  filter:
-    drop-shadow(0 0 8px gold)
-    drop-shadow(0 0 18px orange)
-    drop-shadow(0 0 30px rgba(255,215,0,.8));
-  transform: scale(1.05);
+#pirate3bis{
+  left:631px;
+  top:190px;
+  width:235px;
+  cursor:pointer;
 }
 
 /* =====================================================
@@ -48,194 +133,278 @@ body{
 #bubbleContainer{
   position:fixed;
   inset:0;
+  z-index:120;
   pointer-events:none;
-  z-index:2000;
 }
 
 .dialogue-bubble{
   position:absolute;
-  max-width:420px;
-  padding:14px 18px;
-  background:rgba(30,18,5,.95);
-  color:#fff4d0;
-  border:2px solid #d6a44a;
-  border-radius:14px;
-  font-size:16px;
-  text-align:center;
-  box-shadow:0 0 25px rgba(255,200,80,.4);
-  pointer-events:auto;
+  max-width:580px;
+  background:#fdf4e3;
+  color:#000;
+  border:4px solid #8a5a20;
+  border-radius:20px;
+  padding:20px 22px;
+  line-height:1.45;
+  box-shadow:
+    0 6px 0 #3b1b00,
+    0 22px 45px rgba(0,0,0,.5);
   cursor:pointer;
-  animation: bubbleIn .35s ease-out;
+  pointer-events:auto;
 }
 
-@keyframes bubbleIn{
-  from{opacity:0;transform:translate(-50%,-120%) scale(.8)}
-  to{opacity:1;transform:translate(-50%,-100%) scale(1)}
+/* bouton skip */
+.skipDialogueBtn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:150;
+  padding:10px 18px;
+  background:#b81d13;
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 4px 0 #5e0e09;
 }
 
 /* =====================================================
-   🎮 MINI-JEU
+   🎮 MINI-JEU 1 — QUIZ PIRATE
 ===================================================== */
 #miniGameContainer{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.75);
-  z-index:2100;
   display:flex;
-  align-items:center;
   justify-content:center;
-}
-
-#miniGameContainer button{
-  display:block;
-  width:100%;
-  margin:8px 0;
-  padding:10px;
-  font-size:16px;
-  background:#5a2e0c;
-  color:#fff;
-  border:2px solid gold;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-#miniGameContainer button:hover{
-  background:#7a3f12;
-}
-
-/* =====================================================
-   ⏳ FADE / LOADER / RÉCOMPENSE
-===================================================== */
-#fadeScreen{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  z-index:2500;
-  display:flex;
   align-items:center;
-  justify-content:center;
-  animation: fadeIn .5s ease forwards;
+  background:rgba(0,0,0,.93);
+  z-index:2000;
 }
 
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
+.quizBox{
+  width:95%;
+  max-width:560px;
+  background:linear-gradient(#2b1a0d,#140a05);
+  border:6px solid #6b3e18;
+  padding:28px;
+  box-shadow:
+    inset 0 0 25px rgba(0,0,0,.9),
+    0 0 50px rgba(0,0,0,.95);
 }
 
-.loaderBox{
-  background:rgba(20,10,0,.9);
-  border:3px solid gold;
-  padding:30px 40px;
-  border-radius:20px;
+#gameQuestion{
+  font-size:22px;
+  color:#ffd27d;
+  margin-bottom:20px;
   text-align:center;
-  color:#fff;
-  box-shadow:0 0 40px rgba(255,200,0,.6);
+}
+
+#gameAnswers button{
+  width:100%;
+  margin-top:12px;
+  padding:16px;
+  font-size:17px;
+  border-radius:14px;
+  border:3px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  cursor:pointer;
+  box-shadow:0 4px 0 #3b1b00;
+  transition:.2s;
+}
+
+#gameAnswers button:hover{
+  transform:scale(1.03);
+}
+
+#gameAnswers button.selected{
+  background:linear-gradient(#fff2b2,#ffd700);
+  box-shadow:0 0 22px gold;
+}
+
+#gameFeedback{
+  margin-top:16px;
+  font-size:18px;
+  color:#ffd700;
+  text-align:center;
 }
 
 /* =====================================================
-   🌈 TEXTE BRAVO MULTICOLORE
-===================================================== */
-.loaderBox div:first-child{
-  animation: rainbowGlow 2s linear infinite;
-}
-
-@keyframes rainbowGlow{
-  0%{text-shadow:0 0 15px red}
-  25%{text-shadow:0 0 15px yellow}
-  50%{text-shadow:0 0 15px cyan}
-  75%{text-shadow:0 0 15px violet}
-  100%{text-shadow:0 0 15px red}
-}
-
-/* =====================================================
-   📖 LIVRE / BUSINESS PLAN
+   📖 LIVRE — NET + PAGE TURN
 ===================================================== */
 #bookContainer{
   position:fixed;
   inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   background:rgba(0,0,0,.85);
   z-index:2200;
+}
+
+.book{
+  width:70vw;
+  max-width:540px;
+  height:80vh;
+  max-height:700px;
+  perspective:2000px;
+}
+
+.page{
+  width:100%;
+  height:100%;
   display:flex;
-  flex-direction:column;
-  align-items:center;
   justify-content:center;
+  align-items:center;
 }
 
-#bookContainer > div:first-child{
-  margin-bottom:20px;
-}
+/* 🔥 IMAGE NETTE */
+.page img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
 
-#leftPage{
-  width:360px;
-  max-width:80vw;
-  border-radius:12px;
-  box-shadow:0 0 35px rgba(255,215,0,.6);
-  cursor:pointer;
-  transition:transform .6s ease;
+  image-rendering:auto;
+  image-rendering:crisp-edges;
+  image-rendering:-webkit-optimize-contrast;
+
+  filter:contrast(1.05) brightness(1.02);
+
+  box-shadow:
+    inset 0 0 12px rgba(0,0,0,.25),
+    0 12px 25px rgba(0,0,0,.55);
+
+  transform-origin:left center;
   backface-visibility:hidden;
+  transition:transform .6s ease, box-shadow .6s ease;
 }
 
 #continueQuestBtn{
-  margin-top:20px;
-  padding:12px 26px;
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  padding:14px 28px;
   font-size:18px;
-  background:linear-gradient(90deg,#cfa44a,#f7e27a);
-  border:none;
-  border-radius:10px;
+  font-weight:bold;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  border:3px solid #3b1b00;
+  border-radius:16px;
   cursor:pointer;
-  box-shadow:0 0 20px gold;
+  z-index:2300;
 }
 
 /* =====================================================
-   🎮 MINI-JEU MARCHAND
+   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
 ===================================================== */
 #merchantGame{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.8);
-  z-index:2300;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
+  z-index:2300;
 }
 
-#merchantGame button{
-  padding:12px 18px;
-  font-size:16px;
-  background:#3a1c08;
-  border:2px solid gold;
-  color:#fff;
-  border-radius:8px;
+#merchantGame #game{
+  background:linear-gradient(#2b1a0d,#140a05);
+  border:8px solid #6b3e18;
+  padding:40px;
+  width:96%;
+  max-width:720px;
+  text-align:center;
+  box-shadow:
+    inset 0 0 35px rgba(0,0,0,.9),
+    0 0 60px rgba(0,0,0,.95);
+}
+
+#merchantGame h1{
+  color:#ffd27d;
+  margin-bottom:22px;
+}
+
+#merchantGame p{
+  margin:8px 0;
+}
+
+#merchantGame,
+#merchantGame *{
+  color:white;
+}
+
+/* texte illuminé */
+#clue{
+  margin:16px 0;
+  font-size:18px;
+  text-shadow:0 0 18px gold;
+}
+
+/* boutons */
+#buttons button{
+  width:100%;
+  padding:16px;
+  margin:10px 0;
+  font-size:17px;
+  border-radius:14px;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  border:3px solid #3b1b00;
   cursor:pointer;
 }
 
-#merchantGame button:hover{
-  background:#5a2e0c;
+#buttons button:first-child{
+  border:3px solid gold;
+  box-shadow:0 0 22px gold;
 }
 
 /* =====================================================
-   📦 BASE DE DONNÉES (FIN)
+   🪵 PANNEAU PIRATE — BASE DE DONNÉES
 ===================================================== */
-.pirate-panel{
-  background:rgba(20,10,0,.95);
-  border:3px solid gold;
-  border-radius:20px;
-  padding:30px;
-  color:#fff4d0;
-  box-shadow:0 0 40px rgba(255,200,0,.5);
-  animation: fadeIn .6s ease forwards;
+.dialogue-bubble.pirate-panel{
+  border-radius:6px;
+  border:5px solid #6b3e18;
+  background:linear-gradient(#f3e1b6,#e6c98a);
+  box-shadow:
+    inset 0 0 0 3px #8a5a20,
+    inset 0 0 25px rgba(0,0,0,.25),
+    0 18px 35px rgba(0,0,0,.6);
 }
 
+/* bouton continuer */
 .pirate-continue-btn{
   margin-top:20px;
-  padding:12px;
-  border:2px dashed gold;
+  padding:14px;
   text-align:center;
+  font-weight:bold;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#3b1b00;
+  border:3px solid #3b1b00;
   cursor:pointer;
-  color:#fff;
+  box-shadow:0 6px 0 #3b1b00, 0 0 20px rgba(255,215,0,.6);
+  transition:.15s;
 }
 
-/* Pas de glow volontairement */
 .pirate-continue-btn:hover{
-  background:rgba(255,215,0,.08);
+  transform:translateY(-2px);
+  box-shadow:0 8px 0 #3b1b00, 0 0 30px gold;
+}
+
+/* =====================================================
+   📱 RESPONSIVE
+===================================================== */
+@media(max-width:768px){
+
+  .dialogue-bubble{
+    max-width:90vw;
+  }
+
+  .book{
+    width:90vw;
+    height:65vh;
+  }
+
+  #merchantGame #game{
+    padding:26px;
+  }
 }
