@@ -253,5 +253,122 @@ function showLoader(text,time,cb){
     if(cb) cb();
   },time);
 }
+});
+
+/* =====================================================
+   💬 DIALOGUES 2
+===================================================== */
+function startDialogues2(){
+  showDialogues([
+    { text:"C’est toi le nouveau vendeur de pierres?", anchor: pirate5 },
+    { text:"Oui, vous cherchez quel type de pierres ?", anchor: pirate2 },
+    { text:"Je veux bien les voir, mais on fait confiance qu’à un seul vendeur…", anchor: pirate5 }
+  ], () => showLoader("Le Jugement du Marché commence…", 900, startMerchantGame));
+}
+
+/* =====================================================
+   🎮 MINI-JEU 2
+===================================================== */
+function startMerchantGame(){
+  merchantGame.classList.remove("hidden");
+
+  clueEl.innerHTML = `
+    <span style="color:gold;text-shadow:0 0 18px gold;font-weight:bold">
+      Analyse le marché avant de décider
+    </span>
+  `;
+}
+
+window.analyzeClient = ()=>{
+  clueEl.textContent = "💡 Vous n’êtes que 2 à vendre cette pierre";
+};
+
+window.lowerPrice = ()=> failMerchant();
+window.keepPrice = ()=>{
+  clueEl.innerHTML = "<strong style='color:#7CFF7C'>Bonne décision ✔️</strong>";
+  setTimeout(()=>{
+    merchantGame.classList.add("hidden");
+    afterMerchantDiscussion();
+  },1200);
+};
+
+function failMerchant(){
+  clueEl.textContent = "❌ Mauvaise décision";
+}
+
+/* =====================================================
+   💬 DISCUSSION FINALE
+===================================================== */
+function afterMerchantDiscussion(){
+  showDialogues([
+    { text:"Tu connais bien ton produit, tu peux nous compter dans tes futurs clients", anchor: pirate3 },
+    { text:"Tu devrais noter leur nom et adresse dans un cahier", anchor: pirate5 },
+    { text:"Pourquoi ?", anchor: pirate2 },
+    { text:"Comme ça, si tu as des nouvelles pierres, tu pourras les rappeler pour qu’ils viennent directement t’en acheter", anchor: pirate5 },
+    { text:"Merci, c’est une très bonne idée", anchor: pirate2 }
+  ], showDatabaseBox);
+}
+
+/* =====================================================
+   📦 BASE DE DONNÉES (CLIQUABLE)
+===================================================== */
+function showDatabaseBox(){
+  const box = document.createElement("div");
+  box.className = "dialogue-bubble";
+  box.style.left = "50%";
+  box.style.top = "50%";
+  box.style.transform = "translate(-50%,-50%)";
+  box.style.maxWidth = "640px";
+  box.style.cursor = "pointer";
+
+  box.innerHTML = `
+    <h2 style="text-align:center;color:#8a5a20">Les Bases de données</h2>
+    <hr style="margin:10px 0;border:1px solid #8a5a20">
+    <p>
+      Une base de données permet de noter l’ensemble des informations de tes clients
+      (nom, adresse, téléphone, mail et préférences).
+      <br><br>
+      Elle est essentielle pour créer un lien durable, suivre tes ventes,
+      ton chiffre d’affaires, ton stock et ne rien oublier.
+    </p>
+    <p style="margin-top:14px;font-weight:bold;text-align:center">
+      (Clique pour continuer)
+    </p>
+  `;
+
+  box.onclick = ()=>{
+    bubbleContainer.innerHTML="";
+    winFinal();
+  };
+
+  bubbleContainer.appendChild(box);
+}
+
+/* =====================================================
+   🎆 FIN
+===================================================== */
+function winFinal(){
+  fadeScreen.classList.remove("hidden");
+  loaderBox.innerHTML = `
+    <h1 style="color:gold;text-shadow:0 0 35px gold">
+      🎉 Bravo tu as gagné ta quête
+    </h1>
+  `;
+  launchGems();
+  setTimeout(()=>window.location.href="menu.html",3000);
+}
+
+/* =====================================================
+   ⏳ LOADER
+===================================================== */
+function showLoader(text,time,cb){
+  loaderBox.innerHTML = text;
+  fadeScreen.classList.remove("hidden");
+  setTimeout(()=>{
+    fadeScreen.classList.add("hidden");
+    if(cb) cb();
+  },time);
+}
 
 });
+
