@@ -8,7 +8,7 @@
   <!-- CSS du mini-jeu -->
   <link rel="stylesheet" href="criee-pirate.css">
 
-  <!-- CSS de la page -->
+  <!-- CSS spécifique à la page -->
   <style>
     body{
       margin:0;
@@ -23,47 +23,51 @@
 </head>
 <body>
 
-  <!-- MINI-JEU (inactif tant que le background n'est pas chargé) -->
-  <div id="miniGameSocial">
+  <!-- 🏴‍☠️ CADRE PIRATE -->
+  <div id="pirateFrame">
 
-    <h2 class="title">📣 La Criée du Pirate</h2>
-    <p class="subtitle">
-      Ton trésor est prêt… mais personne n’est au courant !
-    </p>
+    <!-- 🎮 MINI-JEU -->
+    <div id="miniGameSocial">
 
-    <!-- Jauge de renommée -->
-    <div class="renommee-box">
-      <span>Renommée</span>
-      <div class="bar">
-        <div id="renommeeFill"></div>
+      <h2 class="title">📣 La Criée du Pirate</h2>
+      <p class="subtitle">
+        Ton trésor est prêt… mais personne n’est au courant !
+      </p>
+
+      <!-- Jauge de renommée -->
+      <div class="renommee-box">
+        <span>Renommée</span>
+        <div class="bar">
+          <div id="renommeeFill"></div>
+        </div>
+        <span id="renommeeValue">0%</span>
       </div>
-      <span id="renommeeValue">0%</span>
+
+      <!-- Réseaux pirates -->
+      <div class="networks">
+        <button class="network insta" data-network="insta">
+          📜 Parchemin-Gram
+        </button>
+        <button class="network tiktok" data-network="tiktok">
+          📣 Corne-Tok
+        </button>
+        <button class="network twitter" data-network="twitter">
+          🦜 Perroquet-X
+        </button>
+      </div>
+
+      <!-- Port pirate -->
+      <div id="harbor">
+        <p class="harbor-title">⚓ Le Port Pirate</p>
+      </div>
+
+      <!-- Message -->
+      <div id="message"></div>
+
     </div>
-
-    <!-- Réseaux pirates -->
-    <div class="networks">
-      <button class="network insta" data-network="insta">
-        📜 Parchemin-Gram
-      </button>
-      <button class="network tiktok" data-network="tiktok">
-        📣 Corne-Tok
-      </button>
-      <button class="network twitter" data-network="twitter">
-        🦜 Perroquet-X
-      </button>
-    </div>
-
-    <!-- Port pirate -->
-    <div id="harbor">
-      <p class="harbor-title">⚓ Le Port Pirate</p>
-    </div>
-
-    <!-- Message -->
-    <div id="message"></div>
-
   </div>
 
-  <!-- JS : attente du background puis lancement du mini-jeu -->
+  <!-- JS : lancement après chargement du background -->
   <script src="criee-pirate.js"></script>
 
 </body>
