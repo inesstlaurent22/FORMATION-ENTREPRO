@@ -56,7 +56,7 @@ html, body{
 }
 
 /* =====================================================
-   ⏳ LOADER / TRANSITIONS
+   ⏳ LOADER
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -117,14 +117,12 @@ html, body{
   left:786px;
   top:397px;
   width:143px;
-  cursor:pointer;
 }
 
 #pirate3bis{
   left:517px;
   top:141px;
   width:235px;
-  cursor:pointer;
 }
 
 /* =====================================================
@@ -144,7 +142,7 @@ html, body{
   color:#000;
   border:4px solid #8a5a20;
   border-radius:20px;
-  padding:20px 22px;
+  padding:22px;
   line-height:1.45;
   box-shadow:
     0 6px 0 #3b1b00,
@@ -169,7 +167,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — QUIZ PIRATE
+   🎮 MINI-JEU 1
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -230,7 +228,7 @@ html, body{
 }
 
 /* =====================================================
-   📖 LIVRE — PAGE TURN
+   📖 LIVRE
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -250,21 +248,13 @@ html, body{
   perspective:2000px;
 }
 
-.page{
-  width:100%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
 .page img{
   max-width:100%;
   max-height:100%;
   object-fit:contain;
   transform-origin:left center;
   backface-visibility:hidden;
-  transition:transform .6s ease, box-shadow .6s ease;
+  transition:transform .6s ease;
 }
 
 #continueQuestBtn{
@@ -283,7 +273,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
+   🎮 MINI-JEU 2
 ===================================================== */
 #merchantGame{
   position:fixed;
@@ -306,60 +296,67 @@ html, body{
     0 0 60px rgba(0,0,0,.95);
 }
 
-#merchantGame h1{
-  color:#ffd27d;
-  margin-bottom:22px;
-}
-
-#merchantGame p{
-  margin:8px 0;
-}
-
-#merchantGame,
-#merchantGame *{
-  color:white;
-}
-
-/* texte d’instruction illuminé */
-#clue{
-  margin:16px 0;
-  font-size:18px;
-  text-shadow:0 0 18px gold;
-}
-
-/* boutons */
-#buttons button{
-  width:100%;
-  padding:16px;
-  margin:10px 0;
-  font-size:17px;
-  border-radius:14px;
+/* =====================================================
+   ☠️ BOUTON PIRATE
+===================================================== */
+.pirate-continue-btn{
+  display:block;
+  margin:26px auto 0;
+  padding:16px 38px;
+  font-size:20px;
+  font-weight:bold;
+  letter-spacing:1px;
+  color:#2b1500;
   background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  border:3px solid #3b1b00;
+  border:4px solid #6b3e18;
+  border-radius:18px;
   cursor:pointer;
+  box-shadow:
+    0 6px 0 #3b1b00,
+    0 0 30px rgba(255,215,0,.45);
+  transition:.15s;
 }
 
-#buttons button:first-child{
-  border:3px solid gold;
-  box-shadow:0 0 22px gold;
+.pirate-continue-btn:hover{
+  transform:translateY(-2px) scale(1.05);
+  box-shadow:
+    0 8px 0 #3b1b00,
+    0 0 45px gold;
+}
+
+.pirate-continue-btn:active{
+  transform:translateY(4px);
+  box-shadow:0 2px 0 #3b1b00;
+}
+
+/* =====================================================
+   📦 BASE DE DONNÉES TEXTE
+===================================================== */
+.db-title{
+  text-align:center;
+  color:#8a5a20;
+  text-shadow:0 0 12px gold;
+}
+
+.db-separator{
+  margin:12px 0;
+  border:1px solid #8a5a20;
+}
+
+.db-text{
+  font-size:17px;
+  line-height:1.5;
 }
 
 /* =====================================================
    📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
-
   .dialogue-bubble{
     max-width:90vw;
   }
-
   .book{
     width:90vw;
     height:65vh;
-  }
-
-  #merchantGame #game{
-    padding:26px;
   }
 }
