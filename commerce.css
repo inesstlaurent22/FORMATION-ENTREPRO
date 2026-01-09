@@ -131,7 +131,7 @@ html, body{
 #bubbleContainer{
   position:fixed;
   inset:0;
-  z-index:200;
+  z-index:9999;
   pointer-events:none;
 }
 
@@ -149,6 +149,7 @@ html, body{
     0 22px 45px rgba(0,0,0,.5);
   cursor:pointer;
   pointer-events:auto;
+  z-index:10000;
 }
 
 /* Bouton passer dialogues */
