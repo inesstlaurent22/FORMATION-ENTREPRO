@@ -15,63 +15,148 @@
      🎬 VIDÉO D’INTRO
 ===================================================== -->
 <div id="videoContainer">
-  <video id="questVideo" src="videos/Commercevideo.MOV" autoplay muted></video>
+  <video
+    id="questVideo"
+    src="videos/Commercevideo.MOV"
+    autoplay
+    muted
+    playsinline
+  ></video>
 
-<div id="videoControls">
-  <button id="toggleSound">🔇</button>
-  <button id="closeVideo">Passer la vidéo</button>
-</div>
+  <div id="videoControls">
+    <button id="toggleSound">🔇</button>
+    <button id="closeVideo">Passer la vidéo</button>
+  </div>
 </div>
 
 <!-- =====================================================
-     🌅 BACKGROUND
+     🌅 BACKGROUND + PIRATES
 ===================================================== -->
 <div id="background" class="hidden">
-  <img src="images/Commercefond.PNG" class="fondImage" alt="Marché pirate">
+
+  <!-- Image de fond -->
+  <img
+    src="images/Commercefond.PNG"
+    class="fondImage"
+    alt="Marché pirate"
+  >
+
+  <!-- Pirate apprenti -->
+  <img
+    src="images/Pirate2.png"
+    id="pirate2bis"
+    class="pirate hidden"
+    alt="Pirate apprenti"
+  >
+
+  <!-- Pirate client (apparaît plus tard) -->
+  <img
+    src="images/Pirate3.png"
+    id="pirate3bis"
+    class="pirate hidden"
+    alt="Pirate client"
+  >
+
+  <!-- Pirate maître -->
+  <img
+    src="images/Pirate5.png"
+    id="pirate5bis"
+    class="pirate hidden"
+    alt="Maître pirate"
+  >
+
 </div>
-
-<!-- =====================================================
-     🏴‍☠️ PIRATES
-===================================================== -->
-<img src="images/Pirate2.png"
-     id="pirate2bis"
-     class="pirate hidden"
-     alt="Pirate 2">
-
-<img src="images/Pirate3.png"
-     id="pirate3bis"
-     class="pirate hidden"
-     alt="Pirate 3">
-
-<img src="images/Pirate5.png"
-     id="pirate5bis"
-     class="pirate hidden"
-     alt="Pirate 5">
 
 <!-- =====================================================
      💬 BULLES DE DIALOGUE
 ===================================================== -->
 <div id="bubbleContainer"></div>
 
+<button id="skipDialoguesBtn" class="hidden">
+  Passer les dialogues
+</button>
+
 <!-- =====================================================
-     🎮 MINI-JEUX
+     🎮 MINI-JEU 1 / 2 (CONTENEUR COMMUN)
 ===================================================== -->
 <div id="miniGameContainer" class="hidden">
   <div class="quizBox">
+
     <div class="quizTitle">La création de ton business plan</div>
     <div class="quizSeparator"></div>
 
     <div id="gameQuestion"></div>
     <div id="gameAnswers"></div>
+    <div id="gameFeedback"></div>
+
   </div>
 </div>
 
 <!-- =====================================================
-     🌑 LOADER / VICTOIRE
+     🌑 LOADER / RÉCOMPENSE / TRANSITIONS
 ===================================================== -->
 <div id="fadeScreen" class="hidden">
   <div class="loaderBox">
     Chargement…
+  </div>
+</div>
+
+<!-- =====================================================
+     📖 LIVRE DIGITAL
+===================================================== -->
+<div id="bookContainer" class="hidden">
+
+  <h2 id="bookTitle">
+    ✨ Ton business plan est prêt ✨
+  </h2>
+
+  <div class="book">
+    <div class="page left">
+      <img id="leftPage" alt="Page gauche">
+    </div>
+    <div class="page right">
+      <img id="rightPage" alt="Page droite">
+    </div>
+  </div>
+
+  <button id="continueQuestBtn" class="hidden">
+    Continuer ta quête
+  </button>
+
+</div>
+
+<!-- =====================================================
+     🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHÉ
+===================================================== -->
+<div id="merchantGame" class="hidden">
+  <div id="game">
+
+    <h1>🧔‍♂️ Le Jugement du Marché</h1>
+
+    <p>
+      📦 Prix de l’objet :
+      <strong><span id="price">300</span> PO</strong>
+    </p>
+
+    <p>
+      🏷️ Prix des concurrents :
+      <strong><span id="exp">250</span> PO</strong>
+    </p>
+
+    <div id="dialogue">
+      <p id="clientText">
+        « J’ai vu cet objet à moitié prix dans un autre port… »
+      </p>
+    </div>
+
+    <div id="clue"></div>
+
+    <div id="buttons">
+      <button id="btnHint">💡 Indice</button>
+      <button id="btnLower">💰 Baisser le prix</button>
+      <button id="btnKeep">⚖️ Maintenir le prix</button>
+    </div>
+
   </div>
 </div>
 
