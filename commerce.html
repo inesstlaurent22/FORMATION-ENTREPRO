@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Quête – Le Marché des Trésors</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <!-- CSS -->
   <link rel="stylesheet" href="commerce.css">
@@ -15,13 +15,10 @@
      🎬 VIDÉO D’INTRO
 ===================================================== -->
 <div id="videoContainer">
-  <video
-    id="questVideo"
-    src="videos/Commercevideo.MOV"
-    autoplay
-    muted
-    playsinline
-  ></video>
+  <video id="questVideo" autoplay muted playsinline preload="auto">
+    <source src="videos/Commercevideo.MOV" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
 
   <div id="videoControls">
     <button id="toggleSound">🔇</button>
@@ -30,42 +27,39 @@
 </div>
 
 <!-- =====================================================
-     🌅 BACKGROUND + PIRATES
+     🌅 BACKGROUND
 ===================================================== -->
 <div id="background" class="hidden">
-
-  <!-- Image de fond -->
   <img
     src="images/Commercefond.PNG"
     class="fondImage"
     alt="Marché pirate"
   >
-
-  <!-- Pirate apprenti -->
-  <img
-    src="images/Pirate2.png"
-    id="pirate2bis"
-    class="pirate hidden"
-    alt="Pirate apprenti"
-  >
-
-  <!-- Pirate client (apparaît plus tard) -->
-  <img
-    src="images/Pirate3.png"
-    id="pirate3bis"
-    class="pirate hidden"
-    alt="Pirate client"
-  >
-
-  <!-- Pirate maître -->
-  <img
-    src="images/Pirate5.png"
-    id="pirate5bis"
-    class="pirate hidden"
-    alt="Maître pirate"
-  >
-
 </div>
+
+<!-- =====================================================
+     🏴‍☠️ PIRATES
+===================================================== -->
+<img
+  src="images/Pirate2.png"
+  id="pirate2bis"
+  class="pirate hidden"
+  alt="Pirate apprenti"
+>
+
+<img
+  src="images/Pirate5.png"
+  id="pirate5bis"
+  class="pirate hidden"
+  alt="Maître pirate"
+>
+
+<img
+  src="images/Pirate3.png"
+  id="pirate3bis"
+  class="pirate hidden"
+  alt="Pirate client"
+>
 
 <!-- =====================================================
      💬 BULLES DE DIALOGUE
@@ -77,12 +71,24 @@
 </button>
 
 <!-- =====================================================
-     🎮 MINI-JEU 1 / 2 (CONTENEUR COMMUN)
+     🌑 LOADER / TRANSITIONS
+===================================================== -->
+<div id="fadeScreen" class="hidden">
+  <div class="loaderBox">
+    Chargement…
+  </div>
+</div>
+
+<!-- =====================================================
+     🎮 MINI-JEU 1 — BUSINESS PLAN
 ===================================================== -->
 <div id="miniGameContainer" class="hidden">
   <div class="quizBox">
 
-    <div class="quizTitle">La création de ton business plan</div>
+    <div class="quizTitle">
+      La création de ton business plan
+    </div>
+
     <div class="quizSeparator"></div>
 
     <div id="gameQuestion"></div>
@@ -93,22 +99,13 @@
 </div>
 
 <!-- =====================================================
-     🌑 LOADER / RÉCOMPENSE / TRANSITIONS
-===================================================== -->
-<div id="fadeScreen" class="hidden">
-  <div class="loaderBox">
-    Chargement…
-  </div>
-</div>
-
-<!-- =====================================================
      📖 LIVRE DIGITAL
 ===================================================== -->
 <div id="bookContainer" class="hidden">
 
-  <h2 id="bookTitle">
-    ✨ Ton business plan est prêt ✨
-  </h2>
+  <div id="bookTitle">
+    Ton business plan est prêt
+  </div>
 
   <div class="book">
     <div class="page left">
@@ -120,7 +117,7 @@
   </div>
 
   <button id="continueQuestBtn" class="hidden">
-    Continuer ta quête
+    Poursuivre ta quête
   </button>
 
 </div>
@@ -161,7 +158,14 @@
 </div>
 
 <!-- =====================================================
-     JS
+     🏁 FIN DE QUÊTE (UTILISÉ VIA JS)
+===================================================== -->
+<div id="endScreen" class="hidden">
+  <h1>Bravo, tu as terminé la quête 🎉</h1>
+</div>
+
+<!-- =====================================================
+     📜 SCRIPT
 ===================================================== -->
 <script src="commerce.js"></script>
 
