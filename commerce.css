@@ -7,7 +7,7 @@
   box-sizing:border-box;
 }
 
-html,body{
+html, body{
   width:100%;
   height:100%;
   overflow:hidden;
@@ -25,8 +25,8 @@ html,body{
 #videoContainer{
   position:fixed;
   inset:0;
-  z-index:3000;
   background:#000;
+  z-index:3000;
 }
 
 #questVideo{
@@ -41,11 +41,11 @@ html,body{
   right:20px;
   display:flex;
   gap:10px;
-  z-index:3100;
+  z-index:3200;
 }
 
 #videoControls button{
-  padding:12px 16px;
+  padding:12px 18px;
   font-size:16px;
   border-radius:14px;
   border:3px solid #3b1b00;
@@ -53,6 +53,7 @@ html,body{
   color:#000;
   cursor:pointer;
   box-shadow:0 4px 0 #3b1b00;
+  transition:transform .1s ease, box-shadow .1s ease;
 }
 
 #videoControls button:active{
@@ -82,44 +83,46 @@ html,body{
 ===================================================== */
 .pirate{
   position:absolute;
-  z-index:50;
+  z-index:20;
   pointer-events:auto;
   transition:transform .3s ease, filter .3s ease;
 }
 
+/* Pirate qui s’allume */
 .pirate.glow{
-  transform:scale(1.06);
-  filter:drop-shadow(0 0 28px gold);
+  transform:scale(1.07);
+  filter:drop-shadow(0 0 30px gold);
 }
 
-/* tailles réelles images (pas étirées) */
+/* Pirate figé après clic */
+.pirate.frozen{
+  pointer-events:none;
+  filter:none;
+}
+
+/* POSITIONS — desktop */
 #pirate2bis{
   left:520px;
-  top:405px;
+  top:410px;
   width:auto;
-  height:200px;
+  height:auto;
+  max-width:190px;
 }
 
 #pirate5bis{
-  left:780px;
+  left:800px;
   top:395px;
   width:auto;
-  height:180px;
+  max-width:150px;
   cursor:pointer;
 }
 
-/* pirate client (arrive de droite) */
 #pirate3bis{
-  top:150px;
+  position:absolute;
   right:-320px;
-  width:auto;
-  height:260px;
-  transition:right .8s ease;
+  top:160px;
+  width:240px;
   cursor:pointer;
-}
-
-#pirate3bis.show{
-  right:520px;
 }
 
 /* =====================================================
@@ -139,16 +142,16 @@ html,body{
   color:#000;
   border:4px solid #8a5a20;
   border-radius:20px;
-  padding:18px 22px;
+  padding:20px 22px;
   line-height:1.45;
   box-shadow:
     0 6px 0 #3b1b00,
     0 22px 45px rgba(0,0,0,.5);
-  pointer-events:auto;
   cursor:pointer;
+  pointer-events:auto;
 }
 
-/* bouton skip */
+/* Bouton passer dialogues */
 #skipDialoguesBtn{
   position:fixed;
   top:20px;
@@ -156,17 +159,16 @@ html,body{
   z-index:260;
   padding:10px 18px;
   background:#b81d13;
-  color:#fff;
+  color:white;
   border:none;
   border-radius:12px;
   font-weight:bold;
   cursor:pointer;
   box-shadow:0 4px 0 #5e0e09;
-  display:none;
 }
 
 /* =====================================================
-   🌑 LOADER / FADE
+   🌑 LOADER / RÉCOMPENSE
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -180,20 +182,33 @@ html,body{
 
 .loaderBox{
   text-align:center;
-  color:#ffd700;
-  font-size:28px;
-  text-shadow:0 0 30px gold;
+  color:gold;
+  font-size:26px;
+  text-shadow:0 0 25px gold;
 }
 
-/* compteur */
-#poCounter{
+.rewardTitle{
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.rewardCounter{
   font-size:48px;
   font-weight:bold;
   margin:10px 0;
 }
 
+.rewardLabel{
+  font-size:20px;
+}
+
+.rewardSub{
+  margin-top:10px;
+  font-size:18px;
+}
+
 /* =====================================================
-   🎮 MINI-JEUX (COMMUN)
+   🎮 MINI-JEUX
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -215,10 +230,23 @@ html,body{
   text-align:center;
 }
 
+.quizTitle{
+  font-size:26px;
+  color:#ffd27d;
+  text-shadow:0 0 14px gold;
+  margin-bottom:10px;
+}
+
+.quizSeparator{
+  height:3px;
+  background:linear-gradient(90deg,transparent,gold,transparent);
+  margin:14px 0 18px;
+}
+
 #gameQuestion{
-  font-size:22px;
+  font-size:20px;
   color:#fff;
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
 
 .multiHint{
@@ -231,32 +259,38 @@ html,body{
   width:100%;
   margin-top:12px;
   padding:16px;
-  font-size:17px;
+  font-size:16px;
   border-radius:14px;
   border:3px solid #3b1b00;
   background:linear-gradient(#ffd27d,#c89b58);
   color:#000;
   cursor:pointer;
   box-shadow:0 4px 0 #3b1b00;
+  transition:.2s;
+}
+
+#gameAnswers button:hover{
+  transform:scale(1.03);
+  box-shadow:0 0 25px gold;
 }
 
 #gameAnswers button.selected{
   background:linear-gradient(#fff2b2,#ffd700);
-  box-shadow:0 0 25px gold;
+  box-shadow:0 0 35px gold;
 }
 
+/* Bouton validation */
 .validateBtn{
-  margin-top:20px;
-  background:linear-gradient(#1abc9c,#16a085);
-  color:#fff;
-  border:3px solid #0e6655;
+  margin-top:18px;
+  padding:16px;
+  font-size:18px;
   font-weight:bold;
-  letter-spacing:1px;
-}
-
-#gameFeedback{
-  margin-top:14px;
-  color:#ffd700;
+  background:linear-gradient(#1abc9c,#16a085);
+  color:white;
+  border:3px solid #0e6655;
+  border-radius:18px;
+  cursor:pointer;
+  box-shadow:0 6px 0 #0e6655, 0 0 18px rgba(26,188,156,.6);
 }
 
 /* =====================================================
@@ -268,47 +302,31 @@ html,body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,.9);
+  background:rgba(0,0,0,.85);
   z-index:2200;
 }
 
 .book{
-  position:relative;
   display:flex;
-  width:90vw;
+  width:92vw;
   max-width:960px;
   aspect-ratio:14/9;
 }
 
 .page{
   width:50%;
-  height:100%;
-  background:#fff;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
 .page img{
-  width:100%;
-  height:100%;
+  max-width:100%;
+  max-height:100%;
   object-fit:contain;
-  image-rendering:crisp-edges;
 }
 
-/* titre livre */
-.book::before{
-  content:"Ton business plan est prêt";
-  position:absolute;
-  top:-50px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:26px;
-  color:#ffd700;
-  text-shadow:0 0 20px gold;
-}
-
-/* bouton continuer */
+/* Bouton continuer */
 #continueQuestBtn{
   position:fixed;
   top:20px;
@@ -317,50 +335,49 @@ html,body{
   font-size:18px;
   font-weight:bold;
   background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
   border:3px solid #3b1b00;
   border-radius:16px;
   cursor:pointer;
-  display:none;
   z-index:2300;
 }
 
 /* =====================================================
-   📱 RESPONSIVE
+   📱 RESPONSIVE MOBILE
 ===================================================== */
 @media(max-width:768px){
 
+  .dialogue-bubble{
+    max-width:90vw;
+    left:50%!important;
+    transform:translateX(-50%);
+    top:auto!important;
+    bottom:20%;
+  }
+
   #pirate2bis{
-    left:30%;
+    left:20%;
     top:60%;
-    height:150px;
+    max-width:120px;
   }
 
   #pirate5bis{
     left:55%;
     top:58%;
-    height:130px;
+    max-width:110px;
   }
 
   #pirate3bis{
-    right:-220px;
-    height:180px;
-  }
-
-  .dialogue-bubble{
-    max-width:90vw;
-    left:50%!important;
-    transform:translateX(-50%)!important;
-    top:auto!important;
-    bottom:18%;
+    top:40%;
+    max-width:140px;
   }
 
   .book{
-    width:95vw;
+    width:94vw;
     aspect-ratio:4/3;
   }
 
-  .book::before{
-    font-size:20px;
-    top:-40px;
+  .quizBox{
+    padding:20px;
   }
 }
