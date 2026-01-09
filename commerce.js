@@ -4,16 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
    🔧 OUTILS
 ===================================================== */
 function vibrate(p=15){
-  if(navigator.vibrate) navigator.vibrate(p);
+  if (navigator.vibrate) navigator.vibrate(p);
 }
 
 /* =====================================================
-   🌑 LOADER CENTRAL
+   🌑 LOADER
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox  = fadeScreen.querySelector(".loaderBox");
 
-function showLoader(text, time=1200, cb){
+function showLoader(text, time = 1000, cb){
   loaderBox.innerHTML = text;
   fadeScreen.classList.remove("hidden");
   setTimeout(()=>{
@@ -63,11 +63,9 @@ function showBackground(){
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5
+   🏴‍☠️ PIRATE 5 — GLOW UNIQUEMENT AU HOVER
 ===================================================== */
 function enablePirate5(){
-  pirate5.classList.add("glow");
-
   pirate5.addEventListener("mouseenter", ()=>pirate5.classList.add("glow"));
   pirate5.addEventListener("mouseleave", ()=>pirate5.classList.remove("glow"));
 
@@ -79,7 +77,7 @@ function enablePirate5(){
 }
 
 /* =====================================================
-   💬 DIALOGUES – SYSTÈME SÉCURISÉ
+   💬 DIALOGUES — SYSTÈME GLOBAL
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
@@ -105,7 +103,7 @@ function renderDialogue(){
   bubble.className = "dialogue-bubble";
   bubble.innerHTML = d.text;
 
-  let top = r.top - 150;
+  let top = r.top - 140;
   if(top < 20) top = r.bottom + 20;
 
   bubble.style.left = (r.left + r.width/2) + "px";
@@ -113,6 +111,7 @@ function renderDialogue(){
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = ()=>{
+    vibrate(10);
     dIndex++;
     dIndex < dialogues.length ? renderDialogue() : endDialogues();
   };
@@ -128,7 +127,6 @@ function endDialogues(){
   cb && cb();
 }
 
-/* ⚠️ IMPORTANT : skip sécurisé */
 skipBtn.onclick = ()=>{
   skipBtn.classList.add("hidden");
   if(onDialogueEnd){
@@ -139,7 +137,7 @@ skipBtn.onclick = ()=>{
 };
 
 /* =====================================================
-   💬 DIALOGUES 1
+   💬 DIALOGUES 1 — INTRO
 ===================================================== */
 function startDialogues1(){
   playDialogues([
@@ -170,7 +168,7 @@ function startMiniGame1(){
 
 function showQuestion1(){
   const q = quiz1[0];
-  gameQ.innerHTML = q.q;
+  gameQ.textContent = q.q;
   gameA.innerHTML = "";
   gameF.textContent = "";
 
@@ -193,7 +191,7 @@ function showQuestion1(){
 }
 
 /* =====================================================
-   🏆 VICTOIRE MINI-JEU 1
+   🏆 RÉUSSITE MINI-JEU 1
 ===================================================== */
 function winMiniGame1(){
   miniGame.classList.add("hidden");
@@ -223,59 +221,37 @@ function winMiniGame1(){
 }
 
 /* =====================================================
-   📖 LIVRE
+   📖 LIVRE + TAMPON
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
-const leftPage = document.getElementById("leftPage");
-const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
-
-const pages = [
-  "images/Businessplancov.png",
-  "images/Businessplan1.png",
-  "images/Businessplan2.png",
-  "images/Businessplan3.png"
-];
-
-let pageIndex = 0;
+const book = document.querySelector(".book");
 
 function showBook(){
   bookContainer.classList.remove("hidden");
-  pageIndex = 0;
-  updateBook();
 }
-
-function updateBook(){
-  leftPage.src = pages[pageIndex];
-  rightPage.src = pages[pageIndex+1] || "";
-  continueBtn.classList.toggle("hidden", pageIndex < pages.length-2);
-}
-
-document.querySelector(".book").onclick = (e)=>{
-  const rect = e.currentTarget.getBoundingClientRect();
-  const isLast = pageIndex >= pages.length - 2;
-
-  if(e.clientX > rect.left + rect.width/2 && !isLast){
-    pageIndex++;
-  }else if(pageIndex > 0){
-    pageIndex--;
-  }
-  updateBook();
-};
 
 continueBtn.onclick = ()=>{
-  bookContainer.classList.add("hidden");
-  spawnPirate3();
+  const stamp = document.createElement("div");
+  stamp.className = "bookStamp";
+  stamp.textContent = "APPROUVÉ";
+  book.appendChild(stamp);
+
+  setTimeout(()=>{
+    bookContainer.classList.add("hidden");
+    spawnPirate3();
+  }, 2000);
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 + MINI-JEU 2
+   🏴‍☠️ PIRATE 3 → MINI-JEU 2
 ===================================================== */
 function spawnPirate3(){
   pirate3.classList.remove("hidden");
   pirate3.classList.add("glow");
 
   pirate3.addEventListener("click", ()=>{
+    pirate3.classList.remove("glow");
     pirate3.style.pointerEvents = "none";
     startDialogues2();
   }, { once:true });
@@ -324,7 +300,7 @@ function startDialogues3(){
 
 function showDatabaseBox(){
   bubbleContainer.innerHTML = "";
-  skipBtn.classList.remove("hidden");
+  skipBtn.classList.add("hidden");
 
   const box = document.createElement("div");
   box.className = "dialogue-bubble";
@@ -333,29 +309,16 @@ function showDatabaseBox(){
   box.style.transform = "translate(-50%,-50%)";
 
   box.innerHTML = `
-    <h2 class="finalTitle">📜 Business plan validé</h2>
-    <div class="finalSeal">☠️ APPROUVÉ ☠️</div>
-    <p>Ton registre commercial est désormais prêt.</p>
-    <p><strong>(Clique pour terminer)</strong></p>
+    <h2>Ton registre commercial est prêt</h2>
+    <button class="finalBtn">Clique pour terminer</button>
   `;
 
-  bubbleContainer.appendChild(box);
-
-  box.onclick = ()=>{
-    skipBtn.classList.add("hidden");
-    winFinal();
-  };
-}
-
-/* =====================================================
-   🏁 FIN → MENU
-===================================================== */
-function winFinal(){
-  bubbleContainer.innerHTML = "";
-  showLoader("🎉 Bravo tu as terminé la quête", 1800, ()=>{
+  box.querySelector("button").onclick = ()=>{
     sessionStorage.setItem("unlock_pirate3", "true");
     window.location.href = "menu.html";
-  });
+  };
+
+  bubbleContainer.appendChild(box);
 }
 
 });
