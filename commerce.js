@@ -8,12 +8,12 @@ function vibrate(p=15){
 }
 
 /* =====================================================
-   🌑 LOADER CENTRAL
+   🌑 LOADER GLOBAL
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox  = fadeScreen.querySelector(".loaderBox");
 
-function showLoader(text, time=1200, cb){
+function showLoader(text="Chargement...", time=1200, cb){
   loaderBox.innerHTML = text;
   fadeScreen.style.display = "flex";
   setTimeout(()=>{
@@ -26,30 +26,29 @@ function showLoader(text, time=1200, cb){
    🎬 VIDÉO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
-const questVideo = document.getElementById("questVideo");
+const video = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo  = document.getElementById("closeVideo");
 
-questVideo.muted = true;
+video.muted = true;
 toggleSound.textContent = "🔇";
 
 toggleSound.onclick = ()=>{
-  vibrate(10);
-  questVideo.muted = !questVideo.muted;
-  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  video.muted = !video.muted;
+  toggleSound.textContent = video.muted ? "🔇" : "🔊";
 };
 
-questVideo.onended = endVideo;
+video.onended = endVideo;
 closeVideo.onclick = endVideo;
 
 function endVideo(){
-  questVideo.pause();
+  video.pause();
   videoContainer.style.display = "none";
-  showLoader("⚓ Chargement du marché…", 900, showBackground);
+  showLoader("Chargement...", 1000, showBackground);
 }
 
 /* =====================================================
-   🌅 BACKGROUND + PIRATES
+   🌅 BACKGROUND + PIRATES 1
 ===================================================== */
 const background = document.getElementById("background");
 const pirate2 = document.getElementById("pirate2bis");
@@ -60,83 +59,75 @@ function showBackground(){
   background.classList.remove("hidden");
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
-  enablePirate5();
-}
 
-/* =====================================================
-   🏴‍☠️ PIRATE 5 → DIALOGUES
-===================================================== */
-function enablePirate5(){
   pirate5.classList.add("glow");
-  pirate5.style.cursor = "pointer";
-
-  pirate5.onclick = ()=>{
-    pirate5.classList.remove("glow");
-    pirate5.style.pointerEvents = "none";
-    startDialogues1();
-  };
+  pirate5.addEventListener("click", startDialogues1, { once:true });
 }
 
 /* =====================================================
-   💬 DIALOGUES (SYSTÈME ROBUSTE)
+   💬 SYSTÈME DE DIALOGUES
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
 
-function playDialogues(dialogues, onEnd){
-  let index = 0;
+let dialogues = [];
+let dIndex = 0;
+let onDialogueEnd = null;
+
+function playDialogues(list, cb){
+  dialogues = list;
+  dIndex = 0;
+  onDialogueEnd = cb;
   skipBtn.style.display = "block";
-
-  function render(){
-    bubbleContainer.innerHTML = "";
-    const d = dialogues[index];
-
-    const bubble = document.createElement("div");
-    bubble.className = "dialogue-bubble";
-    bubble.innerHTML = d.text;
-
-    const r = d.anchor.getBoundingClientRect();
-    let top = r.top - 140;
-    if(top < 20) top = r.bottom + 20;
-
-    bubble.style.left = r.left + r.width/2 + "px";
-    bubble.style.top  = top + "px";
-    bubble.style.transform = "translateX(-50%)";
-
-    bubble.onclick = ()=>{
-      vibrate(10);
-      index++;
-      index < dialogues.length ? render() : end();
-    };
-
-    bubbleContainer.appendChild(bubble);
-  }
-
-  function end(){
-    bubbleContainer.innerHTML = "";
-    skipBtn.style.display = "none";
-    onEnd && onEnd();
-  }
-
-  skipBtn.onclick = end;
-  render();
+  renderDialogue();
 }
+
+function renderDialogue(){
+  bubbleContainer.innerHTML = "";
+  const d = dialogues[dIndex];
+  const r = d.anchor.getBoundingClientRect();
+
+  const bubble = document.createElement("div");
+  bubble.className = "dialogue-bubble";
+  bubble.innerHTML = d.text;
+
+  bubble.style.left = (r.left + r.width/2) + "px";
+  bubble.style.top  = (r.top - 140) + "px";
+  bubble.style.transform = "translateX(-50%)";
+
+  bubble.onclick = ()=>{
+    vibrate(10);
+    dIndex++;
+    dIndex < dialogues.length ? renderDialogue() : endDialogues();
+  };
+
+  bubbleContainer.appendChild(bubble);
+}
+
+function endDialogues(){
+  bubbleContainer.innerHTML = "";
+  skipBtn.style.display = "none";
+  onDialogueEnd && onDialogueEnd();
+}
+
+skipBtn.onclick = endDialogues;
 
 /* =====================================================
    💬 DIALOGUES 1
 ===================================================== */
 function startDialogues1(){
+  pirate5.classList.remove("glow");
+  pirate5.style.pointerEvents = "none";
+
   playDialogues([
-    { text:"Moussaillon ! Bienvenue sur le marché des trésors !", anchor:pirate5 },
-    { text:"Ici, la confiance vaut plus que l’or.", anchor:pirate5 },
-    { text:"Créons d’abord ton business plan.", anchor:pirate2 }
-  ], ()=>{
-    showLoader("Chargement du mini-jeu…", 900, startMiniGame1);
-  });
+    { text:"Bienvenue sur le marché des trésors.", anchor:pirate5 },
+    { text:"Je veux réussir ici.", anchor:pirate2 },
+    { text:"Alors commence par ton business plan.", anchor:pirate5 }
+  ], ()=> showLoader("Chargement du mini-jeu…", 1000, startMiniGame1));
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — BUSINESS PLAN
+   🎮 MINI-JEU 1
 ===================================================== */
 const miniGame = document.getElementById("miniGameContainer");
 const gameQ = document.getElementById("gameQuestion");
@@ -146,24 +137,24 @@ const gameF = document.getElementById("gameFeedback");
 function startMiniGame1(){
   miniGame.classList.remove("hidden");
   gameQ.innerHTML = `
-    Quelle action rassure les clients ?
-    <div style="font-size:14px;color:gold">⚠️ Plusieurs réponses possibles</div>
+    Que dois-tu faire pour rassurer les clients ?
+    <div class="multiHint">⚠️ Plusieurs réponses possibles</div>
   `;
   gameA.innerHTML = "";
   gameF.textContent = "";
 
   const choices = [
     {t:"Montrer les pierres", ok:true},
-    {t:"Mentir sur l’origine", ok:false},
-    {t:"Expliquer leur valeur", ok:true}
+    {t:"Mentir", ok:false},
+    {t:"Expliquer l’origine", ok:true}
   ];
 
   let selected = [];
 
   choices.forEach((c,i)=>{
-    const b = document.createElement("button");
-    b.textContent = c.t;
-    b.onclick = ()=>{
+    const b=document.createElement("button");
+    b.textContent=c.t;
+    b.onclick=()=>{
       b.classList.toggle("selected");
       selected.includes(i)
         ? selected.splice(selected.indexOf(i),1)
@@ -172,125 +163,96 @@ function startMiniGame1(){
     gameA.appendChild(b);
   });
 
-  const validate = document.createElement("button");
-  validate.textContent = "Valider mes choix";
-  validate.style.marginTop = "18px";
-
-  validate.onclick = ()=>{
-    const good = selected.length === 2 && selected.every(i=>choices[i].ok);
+  const validate=document.createElement("button");
+  validate.className="validateBtn";
+  validate.textContent="Valider mes choix";
+  validate.onclick=()=>{
+    const good = selected.length===2 && selected.every(i=>choices[i].ok);
     if(good){
       miniGame.classList.add("hidden");
-      showReward();
+      reward5000();
     }else{
-      gameF.textContent = "❌ Mauvaise stratégie";
+      gameF.textContent="❌ Mauvaise stratégie";
     }
   };
-
   gameA.appendChild(validate);
 }
 
 /* =====================================================
-   🎆 RÉCOMPENSE + COMPTEUR
+   🏆 RÉCOMPENSE 5000 + FEU D’ARTIFICE
 ===================================================== */
-function showReward(){
-  loaderBox.innerHTML = `
-    <h1 style="color:gold">Bravo !</h1>
-    <p>Tu as gagné</p>
-    <h2 id="poCounter">0</h2>
+function reward5000(){
+  showLoader(`
+    <h2>Bravo ! Tu as gagné</h2>
+    <div id="poCounter">0</div>
     <p>pièces d’or 💰</p>
-    <p>et ton business plan</p>
-  `;
-  fadeScreen.style.display="flex";
-  launchFireworks();
-
-  let v=0;
-  const t=setInterval(()=>{
-    v+=100;
-    document.getElementById("poCounter").textContent=v;
-    if(v>=5000){
-      clearInterval(t);
-      setTimeout(()=>{
-        fadeScreen.style.display="none";
-        openBook();
-      },1000);
-    }
-  },30);
-}
-
-/* =====================================================
-   🎇 FEUX D’ARTIFICE
-===================================================== */
-function launchFireworks(){
-  const c=document.createElement("canvas");
-  c.width=innerWidth;c.height=innerHeight;
-  c.style.position="fixed";c.style.inset=0;
-  c.style.pointerEvents="none";c.style.zIndex=5000;
-  document.body.appendChild(c);
-  const x=c.getContext("2d");
-  let p=[];
-  for(let i=0;i<200;i++){
-    const a=Math.random()*Math.PI*2;
-    const s=Math.random()*8+4;
-    p.push({x:innerWidth/2,y:innerHeight/2,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:100});
-  }
-  (function anim(){
-    x.clearRect(0,0,c.width,c.height);
-    p.forEach(o=>{
-      o.vy+=0.15;o.x+=o.vx;o.y+=o.vy;o.l--;
-      x.fillStyle="gold";x.beginPath();x.arc(o.x,o.y,3,0,7);x.fill();
-    });
-    p=p.filter(o=>o.l>0);
-    p.length?requestAnimationFrame(anim):c.remove();
-  })();
+    <p>et ton Business Plan</p>
+  `, 100, ()=>{
+    let v=0;
+    const counter=document.getElementById("poCounter");
+    const t=setInterval(()=>{
+      v+=100;
+      counter.textContent=v;
+      if(v>=5000){
+        clearInterval(t);
+        launchFireworks();
+        setTimeout(showBook,1200);
+      }
+    },30);
+  });
 }
 
 /* =====================================================
    📖 LIVRE
 ===================================================== */
-const bookContainer = document.getElementById("bookContainer");
-const leftPage = document.getElementById("leftPage");
-const rightPage = document.getElementById("rightPage");
-const continueBtn = document.getElementById("continueQuestBtn");
+const bookContainer=document.getElementById("bookContainer");
+const leftPage=document.getElementById("leftPage");
+const rightPage=document.getElementById("rightPage");
+const continueBtn=document.getElementById("continueQuestBtn");
 
-const pages = [
+const pages=[
   "images/Businessplancov.png",
   "images/Businessplan1.png",
   "images/Businessplan2.png",
   "images/Businessplan3.png"
 ];
-
 let page=0;
 
-function openBook(){
+function showBook(){
   bookContainer.classList.remove("hidden");
   updateBook();
 }
 
 function updateBook(){
-  leftPage.src = pages[page];
-  rightPage.src = pages[page+1] || "";
-  continueBtn.style.display = page >= pages.length-2 ? "block" : "none";
+  leftPage.src=pages[page];
+  rightPage.src=pages[page+1]||"";
+  continueBtn.style.display = page>=pages.length-2?"block":"none";
 }
 
-document.querySelector(".book").onclick = e=>{
-  const mid=e.currentTarget.offsetWidth/2;
-  e.offsetX>mid && page<pages.length-2 ? page+=2 :
-  e.offsetX<mid && page>0 ? page-=2 : null;
+document.querySelector(".book").onclick=(e)=>{
+  const rect=e.currentTarget.getBoundingClientRect();
+  if(e.clientX>rect.left+rect.width/2 && page<pages.length-2) page++;
+  else if(page>0) page--;
   updateBook();
 };
 
-continueBtn.onclick = ()=>{
+continueBtn.onclick=()=>{
   bookContainer.classList.add("hidden");
-  spawnPirate3();
+  showLoader("Chargement…",1000,spawnPirate3);
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 — ENTRÉE
+   🏴‍☠️ PIRATE 3 + FUMÉE
 ===================================================== */
 function spawnPirate3(){
   pirate3.classList.remove("hidden");
   pirate3.classList.add("show");
-  pirate3.onclick = startDialogues2;
+  pirate3.classList.add("glow");
+
+  pirate3.addEventListener("click",()=>{
+    pirate3.classList.remove("glow");
+    startDialogues2();
+  },{once:true});
 }
 
 /* =====================================================
@@ -299,28 +261,70 @@ function spawnPirate3(){
 function startDialogues2(){
   playDialogues([
     {text:"Les clients ont besoin de confiance.",anchor:pirate3},
-    {text:"Prouve-leur la valeur de tes pierres.",anchor:pirate5}
-  ], startMiniGame2);
+    {text:"Comment vas-tu faire ?",anchor:pirate5}
+  ],()=>showLoader("Chargement…",1000,startMiniGame2));
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
+   🎮 MINI-JEU 2 — JUGEMENT
 ===================================================== */
 function startMiniGame2(){
-  showLoader("Le jugement du marché commence…",900,()=>{
-    playDialogues([
-      {text:"Bonne décision. Les clients te feront confiance.",anchor:pirate3}
-    ], winFinal);
+  miniGame.classList.remove("hidden");
+  gameQ.textContent="Que fais-tu ?";
+  gameA.innerHTML="";
+  ["Expliquer","Baisser le prix","Ignorer"].forEach((t,i)=>{
+    const b=document.createElement("button");
+    b.textContent=t;
+    b.onclick=()=>{
+      miniGame.classList.add("hidden");
+      i===0 ? startDialogues3() : startMiniGame2();
+    };
+    gameA.appendChild(b);
   });
 }
 
 /* =====================================================
-   🏁 FIN
+   💬 DIALOGUES 3 + FIN
 ===================================================== */
-function winFinal(){
-  showLoader("🎉 Quête terminée",2000,()=>{
-    window.location.href="menu.html";
+function startDialogues3(){
+  playDialogues([
+    {text:"Tu as gagné leur confiance.",anchor:pirate3},
+    {text:"Note leurs informations.",anchor:pirate5}
+  ],finalReward);
+}
+
+function finalReward(){
+  showLoader("<h1>Bravo tu as terminé la quête</h1>",1500,()=>{
+    launchFireworks();
+    setTimeout(()=>location.href="menu.html",3000);
   });
+}
+
+/* =====================================================
+   🎆 FEUX D’ARTIFICE
+===================================================== */
+function launchFireworks(){
+  const c=document.createElement("canvas");
+  c.width=innerWidth;c.height=innerHeight;
+  c.style.position="fixed";c.style.inset=0;c.style.pointerEvents="none";
+  document.body.appendChild(c);
+  const ctx=c.getContext("2d");
+  let p=[];
+  for(let i=0;i<200;i++){
+    const a=Math.random()*Math.PI*2;
+    p.push({x:innerWidth/2,y:innerHeight/2,vx:Math.cos(a)*8,vy:Math.sin(a)*8,l:80});
+  }
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    p.forEach(o=>{
+      o.vy+=0.15;o.x+=o.vx;o.y+=o.vy;o.l--;
+      ctx.fillStyle="gold";
+      ctx.beginPath();ctx.arc(o.x,o.y,3,0,Math.PI*2);ctx.fill();
+    });
+    p=p.filter(o=>o.l>0);
+    p.length?requestAnimationFrame(draw):c.remove();
+  }
+  draw();
 }
 
 });
