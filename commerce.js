@@ -81,7 +81,7 @@ function enablePirate5(){
 }
 
 /* =====================================================
-   💬 DIALOGUES (SYSTÈME STABLE)
+   💬 SYSTÈME DE DIALOGUES — FIX FINAL
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
@@ -94,12 +94,17 @@ function playDialogues(list, cb){
   dialogues = list;
   dIndex = 0;
   onDialogueEnd = cb;
-  skipBtn.classList.remove("hidden");
-  renderDialogue();
+
+  bubbleContainer.innerHTML = "";
+  skipBtn.style.display = "block";
+
+  // ⚠️ attendre le rendu visuel des pirates
+  setTimeout(renderDialogue, 50);
 }
 
 function renderDialogue(){
   bubbleContainer.innerHTML = "";
+
   const d = dialogues[dIndex];
   const r = d.anchor.getBoundingClientRect();
 
@@ -107,12 +112,17 @@ function renderDialogue(){
   bubble.className = "dialogue-bubble";
   bubble.innerHTML = d.text;
 
-  bubble.style.left = (r.left + r.width/2) + "px";
-  bubble.style.top  = (r.top - 140) + "px";
+  // 🔒 POSITION SÉCURISÉE
+  let top = r.top - 160;
+  if(top < 20){
+    top = r.bottom + 20;
+  }
+
+  bubble.style.left = (r.left + r.width / 2) + "px";
+  bubble.style.top = top + "px";
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = ()=>{
-    vibrate(10);
     dIndex++;
     dIndex < dialogues.length ? renderDialogue() : endDialogues();
   };
@@ -122,7 +132,7 @@ function renderDialogue(){
 
 function endDialogues(){
   bubbleContainer.innerHTML = "";
-  skipBtn.classList.add("hidden");
+  skipBtn.style.display = "none";
   onDialogueEnd && onDialogueEnd();
 }
 
