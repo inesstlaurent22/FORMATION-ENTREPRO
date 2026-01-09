@@ -1,259 +1,381 @@
-document.addEventListener("DOMContentLoaded", () => {
-
 /* =====================================================
-   🔧 OUTILS
+   🔧 RESET GLOBAL
 ===================================================== */
-function vibrate(p=15){
-  if (navigator.vibrate) navigator.vibrate(p);
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* =====================================================
-   🌑 LOADER
-===================================================== */
-const fadeScreen = document.getElementById("fadeScreen");
-const loaderBox  = fadeScreen.querySelector(".loaderBox");
+html, body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:"Trebuchet MS", sans-serif;
+  background:#000;
+}
 
-function showLoader(text, time = 1000, cb){
-  loaderBox.innerHTML = text;
-  fadeScreen.classList.remove("hidden");
-  setTimeout(()=>{
-    fadeScreen.classList.add("hidden");
-    cb && cb();
-  }, time);
+.hidden{
+  display:none !important;
 }
 
 /* =====================================================
    🎬 VIDÉO INTRO
 ===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const questVideo = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo  = document.getElementById("closeVideo");
+#videoContainer{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:3000;
+}
 
-questVideo.muted = true;
-toggleSound.textContent = "🔇";
+#questVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-toggleSound.onclick = ()=>{
-  questVideo.muted = !questVideo.muted;
-  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-};
+#videoControls{
+  position:absolute;
+  top:20px;
+  right:20px;
+  display:flex;
+  gap:10px;
+  z-index:3100;
+}
 
-questVideo.onended = endVideo;
-closeVideo.onclick = endVideo;
+#videoControls button{
+  padding:12px 16px;
+  font-size:16px;
+  border-radius:14px;
+  border:3px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000; /* texte noir */
+  cursor:pointer;
+  box-shadow:0 4px 0 #3b1b00;
+}
 
-function endVideo(){
-  questVideo.pause();
-  videoContainer.style.display = "none";
-  showLoader("Chargement...", 800, showBackground);
+#videoControls button:active{
+  transform:translateY(3px) scale(.96);
+  box-shadow:0 1px 0 #3b1b00;
 }
 
 /* =====================================================
-   🌅 BACKGROUND + PIRATES
+   🌅 BACKGROUND
 ===================================================== */
-const background = document.getElementById("background");
-const pirate2 = document.getElementById("pirate2bis");
-const pirate5 = document.getElementById("pirate5bis");
-const pirate3 = document.getElementById("pirate3bis");
+#background{
+  position:fixed;
+  inset:0;
+  z-index:1;
+}
 
-function showBackground(){
-  background.classList.remove("hidden");
-  pirate2.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
-  enablePirate5();
+.fondImage{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 — HOVER UNIQUEMENT
+   🏴‍☠️ PIRATES
 ===================================================== */
-function enablePirate5(){
-  pirate5.addEventListener("mouseenter", ()=>pirate5.classList.add("glow"));
-  pirate5.addEventListener("mouseleave", ()=>pirate5.classList.remove("glow"));
+.pirate{
+  position:absolute;
+  z-index:50;
+  transition:transform .3s ease, filter .3s ease;
+}
 
-  pirate5.addEventListener("click", ()=>{
-    pirate5.classList.remove("glow");
-    pirate5.style.pointerEvents = "none";
-    startDialogues1();
-  }, { once:true });
+.pirate.glow{
+  transform:scale(1.06);
+  filter:drop-shadow(0 0 28px gold);
+}
+
+#pirate2bis{
+  width:186px;
+  left:520px;
+  top:406px;
+}
+
+#pirate5bis{
+  width:143px;
+  left:785px;
+  top:397px;
+  cursor:pointer;
+}
+
+#pirate3bis{
+  width:235px;
+  left:630px;
+  top:180px;
+  cursor:pointer;
 }
 
 /* =====================================================
-   💬 DIALOGUES
+   💬 BULLES DE DIALOGUE
 ===================================================== */
-const bubbleContainer = document.getElementById("bubbleContainer");
-const skipBtn = document.getElementById("skipDialoguesBtn");
-
-let dialogues = [];
-let dIndex = 0;
-let onDialogueEnd = null;
-
-function playDialogues(list, cb){
-  dialogues = list;
-  dIndex = 0;
-  onDialogueEnd = cb;
-  skipBtn.classList.remove("hidden");
-  renderDialogue();
+#bubbleContainer{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  pointer-events:none;
 }
 
-function renderDialogue(){
-  bubbleContainer.innerHTML = "";
-  const d = dialogues[dIndex];
-  const r = d.anchor.getBoundingClientRect();
-
-  const bubble = document.createElement("div");
-  bubble.className = "dialogue-bubble";
-  bubble.innerHTML = d.text;
-
-  let top = r.top - 140;
-  if(top < 20) top = r.bottom + 20;
-
-  bubble.style.left = (r.left + r.width/2) + "px";
-  bubble.style.top  = top + "px";
-  bubble.style.transform = "translateX(-50%)";
-
-  bubble.onclick = ()=>{
-    dIndex++;
-    dIndex < dialogues.length ? renderDialogue() : endDialogues();
-  };
-
-  bubbleContainer.appendChild(bubble);
+.dialogue-bubble{
+  position:absolute;
+  max-width:560px;
+  background:#fdf4e3;
+  color:#000;
+  border:4px solid #8a5a20;
+  border-radius:20px;
+  padding:22px;
+  line-height:1.45;
+  box-shadow:
+    0 6px 0 #3b1b00,
+    0 22px 45px rgba(0,0,0,.55);
+  cursor:pointer;
+  pointer-events:auto;
 }
-
-function endDialogues(){
-  bubbleContainer.innerHTML = "";
-  skipBtn.classList.add("hidden");
-  const cb = onDialogueEnd;
-  onDialogueEnd = null;
-  cb && cb();
-}
-
-skipBtn.onclick = endDialogues;
 
 /* =====================================================
-   💬 DIALOGUES 1 — INTRO
+   ⏭️ PASSER LES DIALOGUES
 ===================================================== */
-function startDialogues1(){
-  playDialogues([
-    { text:"Moussaillon ! Bienvenue sur le marché des trésors.", anchor: pirate5 },
-    { text:"Créons ton business plan.", anchor: pirate2 }
-  ], ()=> showLoader("Chargement...", 800, startMiniGame1));
+#skipDialoguesBtn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  padding:12px 20px;
+  font-size:16px;
+  font-weight:bold;
+  border-radius:16px;
+  border:3px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000; /* texte noir */
+  cursor:pointer;
+  box-shadow:0 4px 0 #3b1b00;
+  z-index:3200;
+}
+
+#skipDialoguesBtn:active{
+  transform:translateY(3px) scale(.96);
+  box-shadow:0 1px 0 #3b1b00;
+}
+
+/* =====================================================
+   ⏳ LOADER
+===================================================== */
+#fadeScreen{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.95);
+  z-index:2500;
+}
+
+.loaderBox{
+  text-align:center;
+  color:gold;
+  font-size:28px;
+  text-shadow:0 0 25px gold;
 }
 
 /* =====================================================
    🎮 MINI-JEU 1 — BUSINESS PLAN
 ===================================================== */
-const miniGame = document.getElementById("miniGameContainer");
-const gameQ = document.getElementById("gameQuestion");
-const gameA = document.getElementById("gameAnswers");
-const gameF = document.getElementById("gameFeedback");
+#miniGameContainer{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.92);
+  z-index:2000;
+}
 
-function startMiniGame1(){
-  miniGame.classList.remove("hidden");
-  document.querySelector(".quizTitle").textContent = "La création de ton business plan";
-  gameQ.textContent = "Quelle est la première étape ?";
-  gameA.innerHTML = "";
-  gameF.textContent = "";
+.quizBox{
+  width:94%;
+  max-width:640px;
+  background:linear-gradient(#2b1a0d,#140a05);
+  border:6px solid #6b3e18;
+  padding:30px;
+  box-shadow:0 0 40px rgba(0,0,0,.9);
+  text-align:center;
+}
 
-  ["Acheter un bateau","Définir clairement son offre","Fixer les prix"].forEach((txt,i)=>{
-    const b = document.createElement("button");
-    b.textContent = txt;
-    b.onclick = ()=>{
-      if(i === 1){
-        gameF.textContent = "✅ Bonne décision";
-        setTimeout(winMiniGame1, 900);
-      }else{
-        gameF.textContent = "❌ Mauvais choix";
-      }
-    };
-    gameA.appendChild(b);
-  });
+/* 🔥 Titre fort et différencié */
+.quizTitle{
+  font-size:32px;
+  font-weight:900;
+  color:#ffffff;
+  text-shadow:0 0 18px gold;
+  margin-bottom:18px;
+  letter-spacing:1px;
+}
+
+.quizSeparator{
+  height:3px;
+  background:linear-gradient(90deg,transparent,gold,transparent);
+  margin:10px 0 18px;
+}
+
+#gameQuestion{
+  font-size:20px;
+  color:#ffffff;
+  margin-bottom:18px;
+}
+
+/* Boutons mini-jeu 1 */
+#gameAnswers button{
+  width:100%;
+  margin-top:14px;
+  padding:22px;
+  font-size:20px;
+  font-weight:bold;
+  border-radius:18px;
+  border:4px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000; /* texte noir */
+  cursor:pointer;
+  box-shadow:
+    0 6px 0 #3b1b00,
+    0 0 25px rgba(255,215,0,.25);
+}
+
+#gameAnswers button:hover{
+  transform:scale(1.05);
+  box-shadow:
+    0 6px 0 #3b1b00,
+    0 0 35px gold;
+}
+
+#gameFeedback{
+  margin-top:16px;
+  font-size:18px;
+  color:#ffd700;
 }
 
 /* =====================================================
-   🏆 RÉUSSITE MINI-JEU 1
+   📖 LIVRE — BUSINESS PLAN
 ===================================================== */
-function winMiniGame1(){
-  miniGame.classList.add("hidden");
+#bookContainer{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.9);
+  z-index:2200;
+}
 
-  loaderBox.innerHTML = `
-    <div class="winBravo">BRAVO 🎉</div>
-    <div class="winText">Tu as gagné</div>
-    <div class="winCounter"><span id="poCounter">0</span></div>
-    <div class="winText">pièces d’or 💰</div>
-    <div class="winText">et ton business plan 🎁</div>
-  `;
-  fadeScreen.classList.remove("hidden");
+#bookTitle{
+  color:#ffffff;
+  font-size:26px;
+  font-weight:bold;
+  text-shadow:0 0 18px gold;
+  margin-bottom:16px;
+}
 
-  let v = 0;
-  const counter = document.getElementById("poCounter");
-  const i = setInterval(()=>{
-    v += 100;
-    counter.textContent = v;
-    if(v >= 5000){
-      clearInterval(i);
-      setTimeout(()=>{
-        fadeScreen.classList.add("hidden");
-        showBook();
-      }, 1200);
-    }
-  }, 30);
+.book{
+  display:flex;
+  border:6px solid #6b3e18;
+  border-radius:16px;
+  overflow:hidden;
+  background:#2b1a0d;
+}
+
+.page{
+  width:420px;
+  height:520px;
+}
+
+.page img{
+  width:100%;
+  height:100%;
+  object-fit:contain; /* images visibles entièrement */
+  background:#1b1008;
 }
 
 /* =====================================================
-   📖 LIVRE — IMAGES BUSINESS PLAN
+   ▶️ BOUTON POURSUIVRE LA QUÊTE
 ===================================================== */
-const bookContainer = document.getElementById("bookContainer");
-const leftPage = document.getElementById("leftPage");
-const rightPage = document.getElementById("rightPage");
-const continueBtn = document.getElementById("continueQuestBtn");
-
-const pages = [
-  "images/Businessplancov.png",
-  "images/Businessplan1.png",
-  "images/Businessplan2.png",
-  "images/Businessplan3.png",
-  "images/Businessplan4.png"
-];
-
-let pageIndex = 0;
-
-function showBook(){
-  bookContainer.classList.remove("hidden");
-  pageIndex = 0;
-  updateBook();
+#continueQuestBtn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  padding:16px 28px;
+  font-size:18px;
+  font-weight:bold;
+  border-radius:18px;
+  border:4px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  cursor:pointer;
+  box-shadow:0 6px 0 #3b1b00;
+  z-index:3300;
 }
 
-function updateBook(){
-  leftPage.src = pages[pageIndex];
-  rightPage.src = pages[pageIndex+1] || "";
-  continueBtn.classList.toggle("hidden", pageIndex < pages.length-2);
+#continueQuestBtn:hover{
+  transform:scale(1.06);
+  box-shadow:0 0 35px gold;
 }
 
-document.querySelector(".book").onclick = (e)=>{
-  const rect = e.currentTarget.getBoundingClientRect();
-  if(e.clientX > rect.left + rect.width/2 && pageIndex < pages.length-2){
-    pageIndex++;
-  }else if(pageIndex > 0){
-    pageIndex--;
+#continueQuestBtn:active{
+  transform:translateY(4px) scale(.96);
+  box-shadow:0 2px 0 #3b1b00;
+}
+
+/* =====================================================
+   ☠️ BOUTON FINAL — CLIQUE POUR TERMINER
+===================================================== */
+.finalBtn{
+  margin-top:18px;
+  padding:14px 26px;
+  font-size:18px;
+  font-weight:bold;
+  border-radius:16px;
+  border:4px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  cursor:pointer;
+  box-shadow:0 6px 0 #3b1b00;
+}
+
+.finalBtn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 30px gold;
+}
+
+/* =====================================================
+   📱 RESPONSIVE
+===================================================== */
+@media(max-width:768px){
+
+  .dialogue-bubble{
+    max-width:90vw;
+    left:50%!important;
+    transform:translateX(-50%);
   }
-  updateBook();
-};
 
-continueBtn.onclick = ()=>{
-  bookContainer.classList.add("hidden");
-  spawnPirate3();
-};
+  .book{
+    transform:scale(.9);
+  }
 
-/* =====================================================
-   🏴‍☠️ PIRATE 3 — FIN DE QUÊTE
-===================================================== */
-function spawnPirate3(){
-  pirate3.classList.remove("hidden");
-  pirate3.classList.add("glow");
+  #pirate2bis{
+    left:30%;
+    top:60%;
+    width:140px;
+  }
 
-  pirate3.onclick = ()=>{
-    sessionStorage.setItem("unlock_pirate3", "true");
-    window.location.href = "menu.html";
-  };
+  #pirate5bis{
+    left:55%;
+    top:58%;
+    width:120px;
+  }
+
+  #pirate3bis{
+    left:40%;
+    top:30%;
+    width:160px;
+  }
 }
-
-});
