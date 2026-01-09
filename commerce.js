@@ -269,48 +269,104 @@ function launchFireworks(){
 }
 
 /* =====================================================
-   📖 LIVRE DIGITAL
+   📖 LIVRE DIGITAL — BUSINESS PLAN
 ===================================================== */
-const bookContainer = document.getElementById("bookContainer");
-const leftPage = document.getElementById("leftPage");
-const rightPage = document.getElementById("rightPage");
-const continueBtn = document.getElementById("continueQuestBtn");
-
-const pages = [
-  "images/Businessplancov.png",
-  "images/Businessplan1.png",
-  "images/Businessplan2.png",
-  "images/Businessplan3.png"
-];
-
-let pageIndex = 0;
-
-function showBook(){
-  bookContainer.classList.remove("hidden");
-  pageIndex = 0;
-  updateBook();
+#bookContainer{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.9); /* ❌ plus de fond blanc */
+  z-index:2200;
 }
 
-function updateBook(){
-  leftPage.src = pages[pageIndex];
-  rightPage.src = pages[pageIndex+1] || "";
-  continueBtn.classList.toggle("hidden", pageIndex < pages.length-2);
+/* ✨ TITRE BRILLANT */
+.bookTitle{
+  font-size:30px;
+  color:white;
+  margin-bottom:18px;
+  text-shadow:
+    0 0 12px gold,
+    0 0 28px gold,
+    0 0 55px rgba(255,215,0,.9);
+  animation:glowPulse 2s infinite ease-in-out;
 }
 
-document.querySelector(".book").onclick = (e)=>{
-  const rect = e.currentTarget.getBoundingClientRect();
-  if(e.clientX > rect.left + rect.width/2 && pageIndex < pages.length-2){
-    pageIndex++;
-  }else if(pageIndex > 0){
-    pageIndex--;
-  }
-  updateBook();
-};
+/* animation légère du texte */
+@keyframes glowPulse{
+  0%{ text-shadow:0 0 10px gold }
+  50%{ text-shadow:0 0 30px gold }
+  100%{ text-shadow:0 0 10px gold }
+}
 
-continueBtn.onclick = ()=>{
-  bookContainer.classList.add("hidden");
-  showLoader("Chargement...", 800, spawnPirate3);
-};
+/* =====================================================
+   📘 LIVRE
+===================================================== */
+.book{
+  position:relative;
+  display:flex;
+  width:82vw;
+  max-width:920px;
+  height:58vh;
+  perspective:1800px;
+}
+
+/* pages */
+.page{
+  width:50%;
+  height:100%;
+  background:transparent; /* ❌ fond blanc supprimé */
+  overflow:hidden;
+  position:relative;
+}
+
+/* images nettes */
+.page img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  backface-visibility:hidden;
+  transform-origin:left center;
+  transition:transform .6s ease;
+}
+
+/* =====================================================
+   📄 ANIMATION PAGE TURN
+===================================================== */
+.page.right img.turn{
+  transform:rotateY(-28deg);
+  box-shadow:
+    inset -30px 0 40px rgba(0,0,0,.45),
+    -10px 0 25px rgba(0,0,0,.6);
+}
+
+.page.left img.turn-back{
+  transform:rotateY(28deg);
+  box-shadow:
+    inset 30px 0 40px rgba(0,0,0,.45),
+    10px 0 25px rgba(0,0,0,.6);
+}
+
+/* =====================================================
+   ▶️ BOUTON CONTINUER
+===================================================== */
+#continueQuestBtn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  padding:14px 26px;
+  font-size:18px;
+  font-weight:bold;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  border:3px solid #3b1b00;
+  border-radius:16px;
+  cursor:pointer;
+  box-shadow:0 4px 0 #3b1b00;
+  z-index:2300;
+}
 
 /* =====================================================
    🏴‍☠️ PIRATE 3 — ENTRÉE + DIALOGUES 2
