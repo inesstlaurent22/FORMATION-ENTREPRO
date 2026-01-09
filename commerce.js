@@ -65,18 +65,13 @@ function showBackground(){
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 (HOVER + CLICK UNIQUE)
+   🏴‍☠️ PIRATE 5
 ===================================================== */
 function enablePirate5(){
   pirate5.classList.add("glow");
 
-  pirate5.addEventListener("mouseenter", ()=>{
-    pirate5.classList.add("glow");
-  });
-
-  pirate5.addEventListener("mouseleave", ()=>{
-    pirate5.classList.remove("glow");
-  });
+  pirate5.addEventListener("mouseenter", ()=>pirate5.classList.add("glow"));
+  pirate5.addEventListener("mouseleave", ()=>pirate5.classList.remove("glow"));
 
   pirate5.addEventListener("click", ()=>{
     pirate5.classList.remove("glow");
@@ -86,7 +81,7 @@ function enablePirate5(){
 }
 
 /* =====================================================
-   💬 SYSTÈME DE DIALOGUES
+   💬 DIALOGUES – SYSTÈME GLOBAL
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
@@ -137,7 +132,7 @@ function endDialogues(){
 skipBtn.onclick = endDialogues;
 
 /* =====================================================
-   💬 DIALOGUES 1 — INTRO
+   💬 DIALOGUES 1
 ===================================================== */
 function startDialogues1(){
   playDialogues([
@@ -148,20 +143,18 @@ function startDialogues1(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — QUIZ
+   🎮 MINI-JEU 1
 ===================================================== */
 const miniGame = document.getElementById("miniGameContainer");
 const gameQ = document.getElementById("gameQuestion");
 const gameA = document.getElementById("gameAnswers");
 const gameF = document.getElementById("gameFeedback");
 
-const quiz1 = [
-  {
-    q:"Quelle est la première étape d’un business plan ?",
-    a:["Acheter un bateau","Définir clairement son offre","Fixer les prix"],
-    c:1
-  }
-];
+const quiz1 = [{
+  q:"Quelle est la première étape d’un business plan ?",
+  a:["Acheter un bateau","Définir clairement son offre","Fixer les prix"],
+  c:1
+}];
 
 function startMiniGame1(){
   miniGame.classList.remove("hidden");
@@ -193,7 +186,7 @@ function showQuestion1(){
 }
 
 /* =====================================================
-   🏆 RÉUSSITE MINI-JEU 1
+   🏆 VICTOIRE MINI-JEU 1
 ===================================================== */
 function winMiniGame1(){
   miniGame.classList.add("hidden");
@@ -224,7 +217,7 @@ function winMiniGame1(){
 }
 
 /* =====================================================
-   🎆 FEUX D’ARTIFICE (GEMS)
+   🎆 FEUX D’ARTIFICE
 ===================================================== */
 function launchFireworks(){
   const canvas = document.createElement("canvas");
@@ -240,30 +233,23 @@ function launchFireworks(){
   let particles = [];
 
   for(let i=0;i<160;i++){
-    const angle = Math.random()*Math.PI*2;
-    const speed = Math.random()*8+4;
+    const a = Math.random()*Math.PI*2;
+    const s = Math.random()*8+4;
     particles.push({
-      x:innerWidth/2,
-      y:innerHeight/2,
-      vx:Math.cos(angle)*speed,
-      vy:Math.sin(angle)*speed,
-      life:100,
-      c:`hsl(${Math.random()*360},100%,60%)`
+      x:innerWidth/2, y:innerHeight/2,
+      vx:Math.cos(a)*s, vy:Math.sin(a)*s,
+      life:100, c:`hsl(${Math.random()*360},100%,60%)`
     });
   }
 
   function update(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     particles.forEach(p=>{
-      p.vy += 0.12;
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life--;
-      ctx.fillStyle = p.c;
-      ctx.fillRect(p.x,p.y,3,3);
+      p.vy+=0.12; p.x+=p.vx; p.y+=p.vy; p.life--;
+      ctx.fillStyle=p.c; ctx.fillRect(p.x,p.y,3,3);
     });
-    particles = particles.filter(p=>p.life>0);
-    particles.length ? requestAnimationFrame(update) : canvas.remove();
+    particles=particles.filter(p=>p.life>0);
+    particles.length?requestAnimationFrame(update):canvas.remove();
   }
   update();
 }
@@ -299,10 +285,12 @@ function updateBook(){
 
 document.querySelector(".book").onclick = (e)=>{
   const rect = e.currentTarget.getBoundingClientRect();
-  if(e.clientX > rect.left + rect.width/2 && pageIndex < pages.length-2){
-    pageIndex++;
-  }else if(pageIndex > 0){
-    pageIndex--;
+  const isLast = pageIndex >= pages.length - 2;
+
+  if(e.clientX > rect.left + rect.width/2){
+    if(!isLast) pageIndex++;
+  }else{
+    if(pageIndex > 0) pageIndex--;
   }
   updateBook();
 };
@@ -313,7 +301,7 @@ continueBtn.onclick = ()=>{
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 — ENTRÉE + DIALOGUES 2
+   🏴‍☠️ PIRATE 3
 ===================================================== */
 function spawnPirate3(){
   pirate3.classList.remove("hidden");
@@ -337,7 +325,7 @@ function startDialogues2(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
+   🎮 MINI-JEU 2
 ===================================================== */
 const merchantGame = document.getElementById("merchantGame");
 const clueEl = document.getElementById("clue");
@@ -361,7 +349,7 @@ document.getElementById("btnLower").onclick = ()=>{
 };
 
 /* =====================================================
-   💬 DIALOGUES 3 — BASE DE DONNÉES
+   💬 DIALOGUES 3
 ===================================================== */
 function startDialogues3(){
   playDialogues([
@@ -390,13 +378,17 @@ function showDatabaseBox(){
 }
 
 /* =====================================================
-   🏁 FIN
+   🏁 FIN DE QUÊTE → MENU
 ===================================================== */
 function winFinal(){
   bubbleContainer.innerHTML = "";
   showLoader("🎉 Bravo tu as terminé la quête", 2000, ()=>{
     launchFireworks();
-    setTimeout(()=>window.location.href="menu.html", 3000);
+
+    setTimeout(()=>{
+      sessionStorage.setItem("unlock_pirate3", "true");
+      window.location.href = "menu.html";
+    }, 3000);
   });
 }
 
