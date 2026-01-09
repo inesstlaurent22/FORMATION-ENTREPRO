@@ -25,6 +25,9 @@ function showLoader(text, time = 1000, cb){
 /* =====================================================
    🎬 VIDÉO INTRO
 ===================================================== */
+/* =====================================================
+   🎬 VIDÉO INTRO — FIXED
+===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
@@ -33,13 +36,20 @@ const closeVideo  = document.getElementById("closeVideo");
 questVideo.muted = true;
 toggleSound.textContent = "🔇";
 
-toggleSound.onclick = ()=>{
+/* 🔊 Toggle son */
+toggleSound.addEventListener("click", (e)=>{
+  e.stopPropagation();
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-};
+});
 
-questVideo.onended = endVideo;
-closeVideo.onclick = endVideo;
+/* ⏭️ Passer la vidéo */
+closeVideo.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  endVideo();
+});
+
+questVideo.addEventListener("ended", endVideo);
 
 function endVideo(){
   questVideo.pause();
