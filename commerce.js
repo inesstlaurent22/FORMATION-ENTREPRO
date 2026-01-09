@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    🔧 OUTILS
 ===================================================== */
-function vibrate(p=15){
+function vibrate(p=20){
   if(navigator.vibrate) navigator.vibrate(p);
 }
 
@@ -16,7 +16,6 @@ const loaderBox  = fadeScreen.querySelector(".loaderBox");
 function showLoader(text, time=1200, cb){
   loaderBox.innerHTML = text;
   fadeScreen.classList.remove("hidden");
-
   setTimeout(()=>{
     fadeScreen.classList.add("hidden");
     cb && cb();
@@ -24,7 +23,7 @@ function showLoader(text, time=1200, cb){
 }
 
 /* =====================================================
-   🎬 VIDÉO
+   🎬 VIDÉO INTRO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
@@ -81,7 +80,7 @@ function enablePirate5(){
 }
 
 /* =====================================================
-   💬 DIALOGUES – SYSTÈME GLOBAL
+   💬 DIALOGUES — SYSTÈME GLOBAL
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
@@ -192,10 +191,11 @@ function winMiniGame1(){
   miniGame.classList.add("hidden");
 
   loaderBox.innerHTML = `
-    <div style="font-size:28px">Bravo ! Tu as gagné</div>
-    <div style="font-size:48px"><span id="poCounter">0</span></div>
-    <div>pièces d’or 💰</div>
-    <div>et ton business plan</div>
+    <div class="winBravo">BRAVO 🎉</div>
+    <div class="winText">Tu as gagné</div>
+    <div class="winCounter"><span id="poCounter">0</span></div>
+    <div class="winText">pièces d’or 💰</div>
+    <div class="winText">et ton business plan 🎁</div>
   `;
   fadeScreen.classList.remove("hidden");
 
@@ -349,7 +349,7 @@ document.getElementById("btnLower").onclick = ()=>{
 };
 
 /* =====================================================
-   💬 DIALOGUES 3
+   💬 DIALOGUES 3 — SCEAU PIRATE
 ===================================================== */
 function startDialogues3(){
   playDialogues([
@@ -360,6 +360,7 @@ function startDialogues3(){
 
 function showDatabaseBox(){
   bubbleContainer.innerHTML = "";
+  skipBtn.classList.remove("hidden");
 
   const box = document.createElement("div");
   box.className = "dialogue-bubble";
@@ -368,23 +369,32 @@ function showDatabaseBox(){
   box.style.transform = "translate(-50%,-50%)";
 
   box.innerHTML = `
-    <h2>Base de données</h2>
-    <p>Elle te permet de garder une relation durable avec tes clients.</p>
+    <h2 class="finalTitle">📜 Business plan validé</h2>
+    <div class="finalSeal">☠️ APPROUVÉ ☠️</div>
+    <p>Ton registre commercial est désormais prêt.</p>
+    <p>Tu peux fidéliser tes clients et développer ton empire.</p>
     <p><strong>(Clique pour terminer)</strong></p>
   `;
 
-  box.onclick = winFinal;
   bubbleContainer.appendChild(box);
+
+  const seal = box.querySelector(".finalSeal");
+  seal.style.animation = "sealDrop .6s ease-out";
+  vibrate(40);
+
+  box.onclick = ()=>{
+    skipBtn.classList.add("hidden");
+    winFinal();
+  };
 }
 
 /* =====================================================
-   🏁 FIN DE QUÊTE → MENU
+   🏁 FIN → MENU
 ===================================================== */
 function winFinal(){
   bubbleContainer.innerHTML = "";
   showLoader("🎉 Bravo tu as terminé la quête", 2000, ()=>{
     launchFireworks();
-
     setTimeout(()=>{
       sessionStorage.setItem("unlock_pirate3", "true");
       window.location.href = "menu.html";
