@@ -142,11 +142,14 @@ skipBtn.onclick = endDialogues;
    💬 DIALOGUES 1
 ===================================================== */
 function startDialogues1(){
+  pirate5.classList.remove("glow");
+  pirate5.classList.add("frozen");
+
   playDialogues([
-    { text:"Moussaillon ! Bienvenue sur le marché des trésors.", anchor:pirate5 },
-    { text:"Ici, la confiance vaut plus que l’or.", anchor:pirate5 },
-    { text:"Créons d’abord ton business plan.", anchor:pirate2 }
-  ], ()=> showLoader("Chargement du mini-jeu…", 1000, startMiniGame1));
+    { text:"Moussaillon ! Bienvenue sur le marché des trésors.", anchor: pirate5 },
+    { text:"Ici, la confiance vaut plus que l’or.", anchor: pirate5 },
+    { text:"Créons d’abord ton business plan.", anchor: pirate2 }
+  ], () => showLoader("Chargement du mini-jeu…", 1000, startMiniGame1));
 }
 
 /* =====================================================
