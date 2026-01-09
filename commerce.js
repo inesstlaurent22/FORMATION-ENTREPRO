@@ -63,7 +63,7 @@ function showBackground(){
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 — GLOW UNIQUEMENT AU HOVER
+   🏴‍☠️ PIRATE 5 — HOVER UNIQUEMENT
 ===================================================== */
 function enablePirate5(){
   pirate5.addEventListener("mouseenter", ()=>pirate5.classList.add("glow"));
@@ -77,7 +77,7 @@ function enablePirate5(){
 }
 
 /* =====================================================
-   💬 DIALOGUES — SYSTÈME GLOBAL
+   💬 DIALOGUES
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
@@ -111,7 +111,6 @@ function renderDialogue(){
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = ()=>{
-    vibrate(10);
     dIndex++;
     dIndex < dialogues.length ? renderDialogue() : endDialogues();
   };
@@ -127,14 +126,7 @@ function endDialogues(){
   cb && cb();
 }
 
-skipBtn.onclick = ()=>{
-  skipBtn.classList.add("hidden");
-  if(onDialogueEnd){
-    const cb = onDialogueEnd;
-    onDialogueEnd = null;
-    cb();
-  }
-};
+skipBtn.onclick = endDialogues;
 
 /* =====================================================
    💬 DIALOGUES 1 — INTRO
@@ -142,9 +134,8 @@ skipBtn.onclick = ()=>{
 function startDialogues1(){
   playDialogues([
     { text:"Moussaillon ! Bienvenue sur le marché des trésors.", anchor: pirate5 },
-    { text:"Ici, la confiance vaut plus que l’or.", anchor: pirate5 },
-    { text:"Créons d’abord ton business plan.", anchor: pirate2 }
-  ], ()=> showLoader("Chargement du mini-jeu…", 800, startMiniGame1));
+    { text:"Créons ton business plan.", anchor: pirate2 }
+  ], ()=> showLoader("Chargement...", 800, startMiniGame1));
 }
 
 /* =====================================================
@@ -155,31 +146,18 @@ const gameQ = document.getElementById("gameQuestion");
 const gameA = document.getElementById("gameAnswers");
 const gameF = document.getElementById("gameFeedback");
 
-const quiz1 = [{
-  q:"Quelle est la première étape d’un business plan ?",
-  a:["Acheter un bateau","Définir clairement son offre","Fixer les prix"],
-  c:1
-}];
-
 function startMiniGame1(){
   miniGame.classList.remove("hidden");
-  showQuestion1();
-}
-
-function showQuestion1(){
-  const q = quiz1[0];
-  gameQ.textContent = q.q;
+  document.querySelector(".quizTitle").textContent = "La création de ton business plan";
+  gameQ.textContent = "Quelle est la première étape ?";
   gameA.innerHTML = "";
   gameF.textContent = "";
 
-  q.a.forEach((txt,i)=>{
+  ["Acheter un bateau","Définir clairement son offre","Fixer les prix"].forEach((txt,i)=>{
     const b = document.createElement("button");
     b.textContent = txt;
     b.onclick = ()=>{
-      gameA.querySelectorAll("button").forEach(x=>x.classList.remove("selected"));
-      b.classList.add("selected");
-
-      if(i === q.c){
+      if(i === 1){
         gameF.textContent = "✅ Bonne décision";
         setTimeout(winMiniGame1, 900);
       }else{
@@ -221,104 +199,61 @@ function winMiniGame1(){
 }
 
 /* =====================================================
-   📖 LIVRE + TAMPON
+   📖 LIVRE — IMAGES BUSINESS PLAN
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
+const leftPage = document.getElementById("leftPage");
+const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
-const book = document.querySelector(".book");
+
+const pages = [
+  "images/Businessplancov.png",
+  "images/Businessplan1.png",
+  "images/Businessplan2.png",
+  "images/Businessplan3.png",
+  "images/Businessplan4.png"
+];
+
+let pageIndex = 0;
 
 function showBook(){
   bookContainer.classList.remove("hidden");
+  pageIndex = 0;
+  updateBook();
 }
 
-continueBtn.onclick = ()=>{
-  const stamp = document.createElement("div");
-  stamp.className = "bookStamp";
-  stamp.textContent = "APPROUVÉ";
-  book.appendChild(stamp);
+function updateBook(){
+  leftPage.src = pages[pageIndex];
+  rightPage.src = pages[pageIndex+1] || "";
+  continueBtn.classList.toggle("hidden", pageIndex < pages.length-2);
+}
 
-  setTimeout(()=>{
-    bookContainer.classList.add("hidden");
-    spawnPirate3();
-  }, 2000);
+document.querySelector(".book").onclick = (e)=>{
+  const rect = e.currentTarget.getBoundingClientRect();
+  if(e.clientX > rect.left + rect.width/2 && pageIndex < pages.length-2){
+    pageIndex++;
+  }else if(pageIndex > 0){
+    pageIndex--;
+  }
+  updateBook();
+};
+
+continueBtn.onclick = ()=>{
+  bookContainer.classList.add("hidden");
+  spawnPirate3();
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 → MINI-JEU 2
+   🏴‍☠️ PIRATE 3 — FIN DE QUÊTE
 ===================================================== */
 function spawnPirate3(){
   pirate3.classList.remove("hidden");
   pirate3.classList.add("glow");
 
-  pirate3.addEventListener("click", ()=>{
-    pirate3.classList.remove("glow");
-    pirate3.style.pointerEvents = "none";
-    startDialogues2();
-  }, { once:true });
-}
-
-function startDialogues2(){
-  playDialogues([
-    { text:"Ces pierres inspirent confiance.", anchor: pirate3 },
-    { text:"Encore faut-il convaincre le marché.", anchor: pirate5 }
-  ], ()=> showLoader("Chargement...", 800, startMiniGame2));
-}
-
-/* =====================================================
-   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
-===================================================== */
-const merchantGame = document.getElementById("merchantGame");
-const clueEl = document.getElementById("clue");
-
-function startMiniGame2(){
-  merchantGame.classList.remove("hidden");
-  clueEl.textContent = "Analyse le marché avant de décider";
-}
-
-document.getElementById("btnHint").onclick = ()=>{
-  clueEl.textContent = "💡 Peu de concurrents sur ce port";
-};
-
-document.getElementById("btnKeep").onclick = ()=>{
-  merchantGame.classList.add("hidden");
-  startDialogues3();
-};
-
-document.getElementById("btnLower").onclick = ()=>{
-  clueEl.textContent = "❌ Mauvaise décision";
-};
-
-/* =====================================================
-   💬 DIALOGUES 3 — BASE DE DONNÉES
-===================================================== */
-function startDialogues3(){
-  playDialogues([
-    { text:"Note les coordonnées de tes clients.", anchor: pirate5 },
-    { text:"C’est ta base de données.", anchor: pirate2 }
-  ], showDatabaseBox);
-}
-
-function showDatabaseBox(){
-  bubbleContainer.innerHTML = "";
-  skipBtn.classList.add("hidden");
-
-  const box = document.createElement("div");
-  box.className = "dialogue-bubble";
-  box.style.left = "50%";
-  box.style.top = "50%";
-  box.style.transform = "translate(-50%,-50%)";
-
-  box.innerHTML = `
-    <h2>Ton registre commercial est prêt</h2>
-    <button class="finalBtn">Clique pour terminer</button>
-  `;
-
-  box.querySelector("button").onclick = ()=>{
+  pirate3.onclick = ()=>{
     sessionStorage.setItem("unlock_pirate3", "true");
     window.location.href = "menu.html";
   };
-
-  bubbleContainer.appendChild(box);
 }
 
 });
