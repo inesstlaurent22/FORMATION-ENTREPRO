@@ -238,7 +238,7 @@ html, body{
 }
 
 /* =====================================================
-   📖 LIVRE DIGITAL
+   📖 LIVRE DIGITAL — STYLE PIRATE
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -251,19 +251,37 @@ html, body{
   z-index:2200;
 }
 
+#bookTitle{
+  color:#ffffff;
+  font-size:26px;
+  font-weight:bold;
+  text-shadow:0 0 18px gold;
+  margin-bottom:16px;
+}
+
 .book{
   display:flex;
   width:80vw;
   max-width:900px;
   height:60vh;
   perspective:1600px;
+  padding:14px;
+  background:linear-gradient(#2b1a0d,#140a05);
+  border:6px solid #6b3e18;
+  border-radius:18px;
+  box-shadow:
+    0 8px 0 #3b1b00,
+    0 25px 60px rgba(0,0,0,.9);
 }
 
 .page{
   width:50%;
   height:100%;
-  background:transparent;
+  background:radial-gradient(#f7e6c1,#e2c48a);
+  border:3px solid #8a5a20;
+  border-radius:12px;
   overflow:hidden;
+  box-shadow:inset 0 0 25px rgba(0,0,0,.25);
 }
 
 .page img{
