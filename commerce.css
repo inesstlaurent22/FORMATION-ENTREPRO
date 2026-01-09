@@ -1,171 +1,95 @@
-/* =====================================================
-   🔧 RESET GLOBAL
-===================================================== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html, body{
+/* ================= RESET ================= */
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
   width:100%;
   height:100%;
   overflow:hidden;
-  font-family:"Trebuchet MS", sans-serif;
+  font-family:"Trebuchet MS",sans-serif;
   background:#000;
 }
+.hidden{display:none!important;}
 
-.hidden{
-  display:none !important;
-}
-
-/* =====================================================
-   🎬 VIDÉO INTRO
-===================================================== */
+/* ================= VIDEO ================= */
 #videoContainer{
   position:fixed;
   inset:0;
   background:#000;
   z-index:3000;
 }
-
 #questVideo{
   width:100%;
   height:100%;
   object-fit:cover;
 }
-
 #videoControls{
   position:absolute;
   top:20px;
-  left:20px;
+  right:20px;
   display:flex;
   gap:10px;
   z-index:3100;
 }
-
 #videoControls button{
   padding:12px 16px;
   font-size:16px;
   border-radius:14px;
   border:3px solid #3b1b00;
   background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  cursor:pointer;
   box-shadow:0 4px 0 #3b1b00;
-  transition:transform .12s ease, box-shadow .12s ease;
+  cursor:pointer;
 }
-
 #videoControls button:active{
   transform:translateY(3px) scale(.96);
   box-shadow:0 1px 0 #3b1b00;
 }
 
-/* =====================================================
-   🌅 BACKGROUND
-===================================================== */
-#background{
-  position:fixed;
-  inset:0;
-  z-index:1;
-}
+/* ================= BACKGROUND ================= */
+#background{position:fixed;inset:0;z-index:1;}
+.fondImage{width:100%;height:100%;object-fit:cover;}
 
-.fondImage{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-/* =====================================================
-   🏴‍☠️ PIRATES
-===================================================== */
+/* ================= PIRATES ================= */
 .pirate{
   position:absolute;
   z-index:50;
-  pointer-events:auto;
-  transition:transform .3s ease, filter .3s ease;
+  transition:.3s;
 }
-
 .pirate.glow{
-  transform:scale(1.06);
   filter:drop-shadow(0 0 28px gold);
+  transform:scale(1.06);
 }
 
-#pirate2bis{
-  width:186px;
-  left:520px;
-  top:406px;
-}
+#pirate2bis{width:186px;left:520px;top:406px;}
+#pirate5bis{width:143px;left:785px;top:397px;cursor:pointer;}
+#pirate3bis{width:235px;left:630px;top:180px;cursor:pointer;}
 
-#pirate5bis{
-  width:143px;
-  left:785px;
-  top:397px;
-  cursor:pointer;
-}
-
-#pirate3bis{
-  width:235px;
-  left:630px;
-  top:180px;
-  cursor:pointer;
-}
-
-/* =====================================================
-   💬 BULLES DE DIALOGUE
-===================================================== */
-#bubbleContainer{
-  position:fixed;
-  inset:0;
-  z-index:200;
-  pointer-events:none;
-}
-
+/* ================= DIALOGUES ================= */
+#bubbleContainer{position:fixed;inset:0;z-index:200;pointer-events:none;}
 .dialogue-bubble{
   position:absolute;
-  max-width:580px;
+  max-width:560px;
   background:#fdf4e3;
-  color:#000;
   border:4px solid #8a5a20;
   border-radius:20px;
-  padding:20px 22px;
-  line-height:1.45;
-  box-shadow:
-    0 6px 0 #3b1b00,
-    0 22px 45px rgba(0,0,0,.55);
-  cursor:pointer;
+  padding:22px;
+  box-shadow:0 6px 0 #3b1b00,0 22px 45px rgba(0,0,0,.55);
   pointer-events:auto;
+  cursor:pointer;
 }
 
-/* =====================================================
-   ⏭️ PASSER LES DIALOGUES
-===================================================== */
+/* bouton skip */
 #skipDialoguesBtn{
   position:fixed;
   top:20px;
   right:20px;
-  padding:14px 22px;
-  font-size:16px;
-  font-weight:bold;
+  padding:12px 20px;
   border-radius:16px;
   border:3px solid #3b1b00;
   background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  cursor:pointer;
-  box-shadow:0 4px 0 #3b1b00;
+  font-weight:bold;
   z-index:3200;
 }
 
-#skipDialoguesBtn:active{
-  transform:translateY(3px) scale(.96);
-  box-shadow:0 1px 0 #3b1b00;
-}
-
-/* =====================================================
-   ⏳ LOADER
-===================================================== */
+/* ================= LOADER ================= */
 #fadeScreen{
   position:fixed;
   inset:0;
@@ -175,46 +99,14 @@ html, body{
   background:rgba(0,0,0,.95);
   z-index:2500;
 }
-
 .loaderBox{
-  text-align:center;
   color:gold;
   font-size:28px;
   text-shadow:0 0 25px gold;
+  text-align:center;
 }
 
-/* =====================================================
-   🎉 MESSAGE DE VICTOIRE
-===================================================== */
-.winBravo{
-  font-size:42px;
-  font-weight:900;
-  margin-bottom:10px;
-  background:linear-gradient(
-    90deg, red, orange, yellow,
-    lime, cyan, dodgerblue, violet
-  );
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.winText{
-  font-size:20px;
-  color:#ffd27d;
-  margin-top:6px;
-}
-
-.winCounter{
-  font-size:54px;
-  font-weight:bold;
-  color:gold;
-  text-shadow:0 0 25px gold;
-  margin:10px 0;
-}
-
-/* =====================================================
-   🎮 MINI-JEU 1 — BUSINESS PLAN
-===================================================== */
+/* ================= MINI JEU 1 ================= */
 #miniGameContainer{
   position:fixed;
   inset:0;
@@ -224,35 +116,14 @@ html, body{
   background:rgba(0,0,0,.92);
   z-index:2000;
 }
-
 .quizBox{
   width:94%;
   max-width:640px;
   background:linear-gradient(#2b1a0d,#140a05);
   border:6px solid #6b3e18;
   padding:30px;
-  box-shadow:0 0 40px rgba(0,0,0,.9);
   text-align:center;
 }
-
-.quizTitle{
-  font-size:26px;
-  color:#ffd27d;
-  text-shadow:0 0 14px gold;
-}
-
-.quizSeparator{
-  height:3px;
-  background:linear-gradient(90deg,transparent,gold,transparent);
-  margin:14px 0 18px;
-}
-
-#gameQuestion{
-  font-size:20px;
-  color:#fff;
-  margin-bottom:18px;
-}
-
 #gameAnswers button{
   width:100%;
   margin-top:14px;
@@ -262,37 +133,10 @@ html, body{
   border-radius:18px;
   border:4px solid #3b1b00;
   background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  cursor:pointer;
-  box-shadow:
-    0 6px 0 #3b1b00,
-    0 0 25px rgba(255,215,0,.25);
-  transition:.18s;
+  box-shadow:0 6px 0 #3b1b00;
 }
 
-#gameAnswers button:hover{
-  transform:scale(1.05);
-  box-shadow:
-    0 6px 0 #3b1b00,
-    0 0 35px gold;
-}
-
-#gameAnswers button.selected{
-  background:linear-gradient(#fff2b2,#ffd700);
-  box-shadow:
-    0 0 45px gold,
-    inset 0 0 10px rgba(255,255,255,.6);
-}
-
-#gameFeedback{
-  margin-top:16px;
-  font-size:18px;
-  color:#ffd700;
-}
-
-/* =====================================================
-   📖 LIVRE — CADRE ALIGNÉ AUX PAGES
-===================================================== */
+/* ================= LIVRE ================= */
 #bookContainer{
   position:fixed;
   inset:0;
@@ -303,44 +147,32 @@ html, body{
   background:rgba(0,0,0,.9);
   z-index:2200;
 }
-
 #bookTitle{
   color:#fff;
   font-size:26px;
-  font-weight:bold;
-  text-shadow:0 0 18px gold;
   margin-bottom:16px;
+  text-shadow:0 0 18px gold;
 }
-
 .book{
   display:flex;
-  width:80vw;
-  max-width:900px;
-  height:60vh;
-  border-radius:18px;
-  overflow:hidden;
-  background:linear-gradient(#2b1a0d,#140a05);
+  gap:0;
   border:6px solid #6b3e18;
-  box-shadow:
-    0 8px 0 #3b1b00,
-    0 25px 60px rgba(0,0,0,.9);
-}
-
-.page{
-  width:50%;
-  height:100%;
+  border-radius:16px;
   overflow:hidden;
+  background:#2b1a0d;
 }
-
+.page{
+  width:420px;
+  height:520px;
+}
 .page img{
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
+  background:#1b1008;
 }
 
-/* =====================================================
-   ▶️ BOUTON CONTINUER QUÊTE
-===================================================== */
+/* bouton continuer */
 #continueQuestBtn{
   position:fixed;
   top:20px;
@@ -348,131 +180,37 @@ html, body{
   padding:16px 28px;
   font-size:18px;
   font-weight:bold;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  border:4px solid #3b1b00;
   border-radius:18px;
-  cursor:pointer;
-  box-shadow:
-    0 6px 0 #3b1b00,
-    0 0 25px rgba(255,215,0,.4);
+  border:4px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  box-shadow:0 6px 0 #3b1b00;
   z-index:3300;
 }
 
-#continueQuestBtn:hover{
-  transform:scale(1.06);
-  box-shadow:0 0 40px gold;
-}
-
-#continueQuestBtn:active{
-  transform:translateY(4px) scale(.96);
-  box-shadow:0 2px 0 #3b1b00;
-}
-
-/* =====================================================
-   🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHÉ
-===================================================== */
-#merchantGame{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.95);
-  z-index:2300;
-}
-
-#merchantGame #game{
-  background:linear-gradient(#2b1a0d,#140a05);
-  border:6px solid #6b3e18;
-  padding:30px;
-  max-width:620px;
-  width:94%;
-  color:white;
-  text-align:center;
-}
-
-#merchantGame #buttons{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  margin-top:20px;
-}
-
-#merchantGame button{
-  padding:20px;
-  font-size:20px;
-  font-weight:bold;
-  border-radius:18px;
-  border:4px solid #3b1b00;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  cursor:pointer;
-  box-shadow:0 6px 0 #3b1b00;
-}
-
-#merchantGame button:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 30px gold;
-}
-
-#merchantGame button:active{
-  transform:translateY(4px) scale(.96);
-  box-shadow:0 2px 0 #3b1b00;
-}
-
-#clue{
-  margin:16px 0;
-  color:gold;
-  text-shadow:0 0 14px gold;
-}
-
-/* =====================================================
-   ☠️ ENCART FINAL — BUSINESS PLAN
-===================================================== */
-.finalTitle{
-  font-size:26px;
-  color:#3b1b00;
-  text-align:center;
-  margin-bottom:10px;
-}
-
-.finalSeal{
-  text-align:center;
-  font-size:22px;
+/* ================= TAMPON ================= */
+.bookStamp{
+  position:absolute;
+  font-size:38px;
   font-weight:900;
   color:darkred;
-  border:4px dashed darkred;
-  padding:10px 14px;
-  margin:10px auto 16px;
-  background:rgba(255,255,255,.65);
-  transform:rotate(-3deg);
-  animation:sealDrop .6s ease-out;
+  border:6px dashed darkred;
+  padding:14px 22px;
+  transform:rotate(-12deg);
+  animation:stamp .5s ease-out;
+}
+@keyframes stamp{
+  0%{transform:scale(3) rotate(-25deg);opacity:0;}
+  100%{transform:scale(1) rotate(-12deg);opacity:1;}
 }
 
-/* Animation du sceau */
-@keyframes sealDrop{
-  0%{ transform:scale(3) rotate(-25deg); opacity:0; }
-  70%{ transform:scale(.9) rotate(-3deg); opacity:1; }
-  100%{ transform:scale(1) rotate(-3deg); }
-}
-
-/* =====================================================
-   📱 RESPONSIVE
-===================================================== */
-@media(max-width:768px){
-  .dialogue-bubble{
-    max-width:90vw;
-    left:50%!important;
-    transform:translateX(-50%);
-  }
-
-  .book{
-    width:94vw;
-    height:50vh;
-  }
-
-  #pirate2bis{ left:30%; top:60%; width:140px; }
-  #pirate5bis{ left:55%; top:58%; width:120px; }
-  #pirate3bis{ left:40%; top:30%; width:160px; }
+/* ================= FINAL ================= */
+.finalBtn{
+  margin-top:16px;
+  padding:14px 24px;
+  font-size:18px;
+  font-weight:bold;
+  border-radius:16px;
+  border:4px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  cursor:pointer;
 }
