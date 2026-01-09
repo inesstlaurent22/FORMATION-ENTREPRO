@@ -23,9 +23,6 @@ function showLoader(text, time = 1000, cb){
 }
 
 /* =====================================================
-   🎬 VIDÉO INTRO
-===================================================== */
-/* =====================================================
    🎬 VIDÉO INTRO — FIXED
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
@@ -215,42 +212,75 @@ const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
+const book = document.querySelector(".book");
 
-const pages = [
-  "images/Businessplancov.png",
-  "images/Businessplan1.png",
-  "images/Businessplan2.png",
-  "images/Businessplan3.png",
-  "images/Businessplan4.png"
+/* Ordre exact des pages */
+const bookSteps = [
+  {
+    left: "images/Businessplancov.png",
+    right: "images/Businessplan1.png"
+  },
+  {
+    left: "images/Businessplan4.png",
+    right: "images/Businessplan2.png"
+  },
+  {
+    left: "images/Businessplan4.png",
+    right: "images/Businessplan3.png"
+  }
 ];
 
-let pageIndex = 0;
+let bookIndex = 0;
+
+/* On cache le skip pendant le livre */
+skipBtn.classList.add("hidden");
 
 function showBook(){
   bookContainer.classList.remove("hidden");
-  pageIndex = 0;
-  updateBook();
+  bookIndex = 0;
+  renderBook();
 }
 
-function updateBook(){
-  leftPage.src = pages[pageIndex];
-  rightPage.src = pages[pageIndex+1] || "";
-  continueBtn.classList.toggle("hidden", pageIndex < pages.length-2);
+function renderBook(){
+  const step = bookSteps[bookIndex];
+  leftPage.src = step.left;
+  rightPage.src = step.right;
+
+  continueBtn.classList.toggle(
+    "hidden",
+    bookIndex < bookSteps.length - 1
+  );
 }
 
-document.querySelector(".book").onclick = (e)=>{
-  const rect = e.currentTarget.getBoundingClientRect();
-  if(e.clientX > rect.left + rect.width/2 && pageIndex < pages.length-2){
-    pageIndex++;
-  }else if(pageIndex > 0){
-    pageIndex--;
+/* Clic sur la page droite uniquement */
+book.onclick = (e)=>{
+  const rect = book.getBoundingClientRect();
+
+  if (
+    e.clientX > rect.left + rect.width / 2 &&
+    bookIndex < bookSteps.length - 1
+  ){
+    bookIndex++;
+    renderBook();
   }
-  updateBook();
 };
 
+/* Bouton poursuivre → tampon + pause */
 continueBtn.onclick = ()=>{
-  bookContainer.classList.add("hidden");
-  spawnPirate3();
+  const stamp = document.createElement("div");
+  stamp.className = "bookStamp";
+  stamp.textContent = "APPROUVÉ";
+  stamp.style.top = "50%";
+  stamp.style.left = "50%";
+  stamp.style.transform = "translate(-50%, -50%) rotate(-12deg)";
+
+  book.appendChild(stamp);
+
+  setTimeout(()=>{
+    bookContainer.classList.add("hidden");
+    stamp.remove();
+    spawnPirate3();
+  }, 2000);
 };
 
 /* =====================================================
