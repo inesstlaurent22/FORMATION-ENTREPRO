@@ -139,6 +139,28 @@ html, body{
   pointer-events:auto;
 }
 
+/* Bouton passer dialogues */
+#skipDialoguesBtn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  padding:14px 22px;
+  font-size:16px;
+  font-weight:bold;
+  border-radius:16px;
+  border:3px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  cursor:pointer;
+  box-shadow:0 4px 0 #3b1b00;
+  z-index:2600;
+}
+
+#skipDialoguesBtn:active{
+  transform:translateY(3px) scale(.96);
+  box-shadow:0 1px 0 #3b1b00;
+}
+
 /* =====================================================
    ⏳ LOADER / TRANSITIONS
 ===================================================== */
@@ -157,6 +179,37 @@ html, body{
   color:gold;
   font-size:28px;
   text-shadow:0 0 25px gold;
+}
+
+/* =====================================================
+   🎉 MESSAGE DE VICTOIRE
+===================================================== */
+.winBravo{
+  font-size:42px;
+  font-weight:900;
+  margin-bottom:10px;
+  background:linear-gradient(
+    90deg,
+    red, orange, yellow, lime,
+    cyan, dodgerblue, violet
+  );
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 25px rgba(255,255,255,.4);
+}
+
+.winText{
+  font-size:20px;
+  color:#ffd27d;
+  margin-top:6px;
+}
+
+.winCounter{
+  font-size:54px;
+  font-weight:bold;
+  color:gold;
+  text-shadow:0 0 25px gold;
+  margin:10px 0;
 }
 
 /* =====================================================
@@ -207,38 +260,8 @@ html, body{
   margin-top:6px;
 }
 
-#gameAnswers button{
-  width:100%;
-  margin-top:12px;
-  padding:16px;
-  font-size:16px;
-  border-radius:14px;
-  border:3px solid #3b1b00;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  cursor:pointer;
-  box-shadow:0 4px 0 #3b1b00;
-  transition:.2s;
-}
-
-#gameAnswers button:hover{
-  transform:scale(1.03);
-  box-shadow:0 0 25px gold;
-}
-
-#gameAnswers button.selected{
-  background:linear-gradient(#fff2b2,#ffd700);
-  box-shadow:0 0 35px gold;
-}
-
-#gameFeedback{
-  margin-top:14px;
-  font-size:18px;
-  color:#ffd700;
-}
-
 /* =====================================================
-   📖 LIVRE DIGITAL — STYLE PIRATE
+   📖 LIVRE — STYLE PIRATE
 ===================================================== */
 #bookContainer{
   position:fixed;
@@ -252,7 +275,7 @@ html, body{
 }
 
 #bookTitle{
-  color:#ffffff;
+  color:#fff;
   font-size:26px;
   font-weight:bold;
   text-shadow:0 0 18px gold;
@@ -264,8 +287,6 @@ html, body{
   width:80vw;
   max-width:900px;
   height:60vh;
-  perspective:1600px;
-  padding:14px;
   background:linear-gradient(#2b1a0d,#140a05);
   border:6px solid #6b3e18;
   border-radius:18px;
@@ -288,82 +309,45 @@ html, body{
   width:100%;
   height:100%;
   object-fit:contain;
-  backface-visibility:hidden;
-}
-
-#continueQuestBtn{
-  position:absolute;
-  top:20px;
-  right:20px;
-  padding:14px 26px;
-  font-size:18px;
-  font-weight:bold;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  border:3px solid #3b1b00;
-  border-radius:16px;
-  cursor:pointer;
-  box-shadow:0 4px 0 #3b1b00;
-  z-index:2300;
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHÉ
+   ☠️ ENCART FINAL — BUSINESS PLAN
 ===================================================== */
-#merchantGame{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.95);
-  z-index:2300;
-}
-
-#merchantGame #game{
-  background:linear-gradient(#2b1a0d,#140a05);
-  border:6px solid #6b3e18;
-  padding:30px;
-  max-width:620px;
-  width:94%;
-  color:white;
+.finalTitle{
+  font-size:26px;
+  color:#3b1b00;
   text-align:center;
+  margin-bottom:10px;
 }
 
-#merchantGame #buttons{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  margin-top:20px;
+.finalSeal{
+  text-align:center;
+  font-size:22px;
+  font-weight:900;
+  color:darkred;
+  border:4px dashed darkred;
+  padding:10px 14px;
+  margin:10px auto 16px;
+  width:fit-content;
+  background:rgba(255,255,255,.65);
+  transform:rotate(-3deg);
+  box-shadow:0 0 20px rgba(139,0,0,.5);
 }
 
-#merchantGame button{
-  padding:20px;
-  font-size:20px;
-  font-weight:bold;
-  border-radius:18px;
-  border:4px solid #3b1b00;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  cursor:pointer;
-  box-shadow:0 6px 0 #3b1b00;
-  transition:.15s;
-}
-
-#merchantGame button:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 30px gold;
-}
-
-#merchantGame button:active{
-  transform:translateY(4px) scale(.96);
-  box-shadow:0 2px 0 #3b1b00;
-}
-
-#clue{
-  margin:16px 0;
-  color:gold;
-  text-shadow:0 0 14px gold;
+/* 🎬 Animation du sceau */
+@keyframes sealDrop{
+  0%{
+    transform:scale(3) rotate(-25deg);
+    opacity:0;
+  }
+  70%{
+    transform:scale(.9) rotate(-3deg);
+    opacity:1;
+  }
+  100%{
+    transform:scale(1) rotate(-3deg);
+  }
 }
 
 /* =====================================================
