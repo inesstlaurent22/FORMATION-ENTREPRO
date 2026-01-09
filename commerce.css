@@ -20,7 +20,7 @@ html, body{
 }
 
 /* =====================================================
-   🎬 VIDÉO
+   🎬 VIDÉO INTRO
 ===================================================== */
 #videoContainer{
   position:fixed;
@@ -53,6 +53,12 @@ html, body{
   color:#000;
   cursor:pointer;
   box-shadow:0 4px 0 #3b1b00;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+
+#videoControls button:active{
+  transform:translateY(3px) scale(.96);
+  box-shadow:0 1px 0 #3b1b00;
 }
 
 /* =====================================================
@@ -82,13 +88,11 @@ html, body{
   transition:transform .3s ease, filter .3s ease;
 }
 
-/* effet lumineux */
 .pirate.glow{
   transform:scale(1.06);
   filter:drop-shadow(0 0 28px gold);
 }
 
-/* positions */
 #pirate2bis{
   width:186px;
   left:520px;
@@ -156,7 +160,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX
+   🎮 MINI-JEU 1 — QUIZ
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -247,13 +251,6 @@ html, body{
   z-index:2200;
 }
 
-.bookTitle{
-  color:white;
-  font-size:26px;
-  text-shadow:0 0 18px gold;
-  margin-bottom:14px;
-}
-
 .book{
   display:flex;
   width:80vw;
@@ -265,7 +262,7 @@ html, body{
 .page{
   width:50%;
   height:100%;
-  background:#fff;
+  background:transparent;
   overflow:hidden;
 }
 
@@ -293,7 +290,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — MARCHÉ
+   🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHÉ
 ===================================================== */
 #merchantGame{
   position:fixed;
@@ -315,6 +312,36 @@ html, body{
   text-align:center;
 }
 
+#merchantGame #buttons{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-top:20px;
+}
+
+#merchantGame button{
+  padding:20px;
+  font-size:20px;
+  font-weight:bold;
+  border-radius:18px;
+  border:4px solid #3b1b00;
+  background:linear-gradient(#ffd27d,#c89b58);
+  color:#000;
+  cursor:pointer;
+  box-shadow:0 6px 0 #3b1b00;
+  transition:.15s;
+}
+
+#merchantGame button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 30px gold;
+}
+
+#merchantGame button:active{
+  transform:translateY(4px) scale(.96);
+  box-shadow:0 2px 0 #3b1b00;
+}
+
 #clue{
   margin:16px 0;
   color:gold;
@@ -322,7 +349,7 @@ html, body{
 }
 
 /* =====================================================
-   📱 RESPONSIVE MOBILE
+   📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
 
