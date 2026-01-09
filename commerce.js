@@ -23,31 +23,53 @@ function showLoader(text, time=1200, cb){
   }, time);
 }
 
-/* =====================================================
-   🎬 VIDÉO
-===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const questVideo = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo  = document.getElementById("closeVideo");
+document.addEventListener("DOMContentLoaded", () => {
 
-questVideo.muted = true;
-toggleSound.textContent = "🔇";
+  /* =====================================================
+     🎬 VIDÉO – FIX TOTAL
+  ===================================================== */
+  const videoContainer = document.getElementById("videoContainer");
+  const questVideo     = document.getElementById("questVideo");
+  const toggleSound    = document.getElementById("toggleSound");
+  const closeVideo     = document.getElementById("closeVideo");
 
-toggleSound.onclick = ()=>{
-  vibrate(10);
-  questVideo.muted = !questVideo.muted;
-  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-};
+  if (!questVideo || !toggleSound || !closeVideo) {
+    console.error("❌ Éléments vidéo manquants");
+    return;
+  }
 
-questVideo.onended = endVideo;
-closeVideo.onclick = endVideo;
+  // état son
+  let soundOn = false;
+  questVideo.muted = true;
+  toggleSound.textContent = "🔇";
 
-function endVideo(){
-  questVideo.pause();
-  videoContainer.style.display = "none";
-  showLoader("Chargement...", 900, showBackground);
-}
+  /* 🔊 TOGGLE SON */
+  toggleSound.addEventListener("click", (e) => {
+    e.stopPropagation();
+    soundOn = !soundOn;
+    questVideo.muted = !soundOn;
+    toggleSound.textContent = soundOn ? "🔊" : "🔇";
+  });
+
+  /* ⏭️ PASSER VIDÉO */
+  closeVideo.addEventListener("click", (e) => {
+    e.stopPropagation();
+    endVideo();
+  });
+
+  /* ▶️ FIN NATURELLE */
+  questVideo.addEventListener("ended", endVideo);
+
+  function endVideo(){
+    questVideo.pause();
+    questVideo.currentTime = 0;
+    videoContainer.style.display = "none";
+
+    // 👉 SUITE DU JEU
+    showLoader("Chargement...", 900, showBackground);
+  }
+
+});
 
 /* =====================================================
    🌅 BACKGROUND + PIRATES
