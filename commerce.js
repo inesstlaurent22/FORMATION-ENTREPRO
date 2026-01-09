@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    🔧 OUTILS
 ===================================================== */
-function vibrate(p=20){
+function vibrate(p=15){
   if(navigator.vibrate) navigator.vibrate(p);
 }
 
@@ -34,7 +34,6 @@ questVideo.muted = true;
 toggleSound.textContent = "🔇";
 
 toggleSound.onclick = ()=>{
-  vibrate(10);
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
 };
@@ -45,7 +44,7 @@ closeVideo.onclick = endVideo;
 function endVideo(){
   questVideo.pause();
   videoContainer.style.display = "none";
-  showLoader("Chargement...", 900, showBackground);
+  showLoader("Chargement...", 800, showBackground);
 }
 
 /* =====================================================
@@ -80,7 +79,7 @@ function enablePirate5(){
 }
 
 /* =====================================================
-   💬 DIALOGUES — SYSTÈME GLOBAL
+   💬 DIALOGUES – SYSTÈME SÉCURISÉ
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
@@ -114,7 +113,6 @@ function renderDialogue(){
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = ()=>{
-    vibrate(10);
     dIndex++;
     dIndex < dialogues.length ? renderDialogue() : endDialogues();
   };
@@ -125,10 +123,20 @@ function renderDialogue(){
 function endDialogues(){
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
-  onDialogueEnd && onDialogueEnd();
+  const cb = onDialogueEnd;
+  onDialogueEnd = null;
+  cb && cb();
 }
 
-skipBtn.onclick = endDialogues;
+/* ⚠️ IMPORTANT : skip sécurisé */
+skipBtn.onclick = ()=>{
+  skipBtn.classList.add("hidden");
+  if(onDialogueEnd){
+    const cb = onDialogueEnd;
+    onDialogueEnd = null;
+    cb();
+  }
+};
 
 /* =====================================================
    💬 DIALOGUES 1
@@ -138,11 +146,11 @@ function startDialogues1(){
     { text:"Moussaillon ! Bienvenue sur le marché des trésors.", anchor: pirate5 },
     { text:"Ici, la confiance vaut plus que l’or.", anchor: pirate5 },
     { text:"Créons d’abord ton business plan.", anchor: pirate2 }
-  ], ()=> showLoader("Chargement du mini-jeu…", 1000, startMiniGame1));
+  ], ()=> showLoader("Chargement du mini-jeu…", 800, startMiniGame1));
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1
+   🎮 MINI-JEU 1 — BUSINESS PLAN
 ===================================================== */
 const miniGame = document.getElementById("miniGameContainer");
 const gameQ = document.getElementById("gameQuestion");
@@ -162,7 +170,7 @@ function startMiniGame1(){
 
 function showQuestion1(){
   const q = quiz1[0];
-  gameQ.innerHTML = q.q + "<div class='multiHint'>⚠️ Une seule bonne réponse</div>";
+  gameQ.innerHTML = q.q;
   gameA.innerHTML = "";
   gameF.textContent = "";
 
@@ -199,8 +207,6 @@ function winMiniGame1(){
   `;
   fadeScreen.classList.remove("hidden");
 
-  launchFireworks();
-
   let v = 0;
   const counter = document.getElementById("poCounter");
   const i = setInterval(()=>{
@@ -217,45 +223,7 @@ function winMiniGame1(){
 }
 
 /* =====================================================
-   🎆 FEUX D’ARTIFICE
-===================================================== */
-function launchFireworks(){
-  const canvas = document.createElement("canvas");
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-  canvas.style.position = "fixed";
-  canvas.style.inset = 0;
-  canvas.style.pointerEvents = "none";
-  canvas.style.zIndex = 3000;
-  document.body.appendChild(canvas);
-
-  const ctx = canvas.getContext("2d");
-  let particles = [];
-
-  for(let i=0;i<160;i++){
-    const a = Math.random()*Math.PI*2;
-    const s = Math.random()*8+4;
-    particles.push({
-      x:innerWidth/2, y:innerHeight/2,
-      vx:Math.cos(a)*s, vy:Math.sin(a)*s,
-      life:100, c:`hsl(${Math.random()*360},100%,60%)`
-    });
-  }
-
-  function update(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-      p.vy+=0.12; p.x+=p.vx; p.y+=p.vy; p.life--;
-      ctx.fillStyle=p.c; ctx.fillRect(p.x,p.y,3,3);
-    });
-    particles=particles.filter(p=>p.life>0);
-    particles.length?requestAnimationFrame(update):canvas.remove();
-  }
-  update();
-}
-
-/* =====================================================
-   📖 LIVRE DIGITAL
+   📖 LIVRE
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
@@ -287,31 +255,27 @@ document.querySelector(".book").onclick = (e)=>{
   const rect = e.currentTarget.getBoundingClientRect();
   const isLast = pageIndex >= pages.length - 2;
 
-  if(e.clientX > rect.left + rect.width/2){
-    if(!isLast) pageIndex++;
-  }else{
-    if(pageIndex > 0) pageIndex--;
+  if(e.clientX > rect.left + rect.width/2 && !isLast){
+    pageIndex++;
+  }else if(pageIndex > 0){
+    pageIndex--;
   }
   updateBook();
 };
 
 continueBtn.onclick = ()=>{
   bookContainer.classList.add("hidden");
-  showLoader("Chargement...", 800, spawnPirate3);
+  spawnPirate3();
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3
+   🏴‍☠️ PIRATE 3 + MINI-JEU 2
 ===================================================== */
 function spawnPirate3(){
   pirate3.classList.remove("hidden");
   pirate3.classList.add("glow");
 
-  pirate3.addEventListener("mouseenter", ()=>pirate3.classList.add("glow"));
-  pirate3.addEventListener("mouseleave", ()=>pirate3.classList.remove("glow"));
-
   pirate3.addEventListener("click", ()=>{
-    pirate3.classList.remove("glow");
     pirate3.style.pointerEvents = "none";
     startDialogues2();
   }, { once:true });
@@ -325,7 +289,7 @@ function startDialogues2(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2
+   🎮 MINI-JEU 2 — JUGEMENT DU MARCHÉ
 ===================================================== */
 const merchantGame = document.getElementById("merchantGame");
 const clueEl = document.getElementById("clue");
@@ -349,7 +313,7 @@ document.getElementById("btnLower").onclick = ()=>{
 };
 
 /* =====================================================
-   💬 DIALOGUES 3 — SCEAU PIRATE
+   💬 DIALOGUES 3 — BASE DE DONNÉES
 ===================================================== */
 function startDialogues3(){
   playDialogues([
@@ -372,15 +336,10 @@ function showDatabaseBox(){
     <h2 class="finalTitle">📜 Business plan validé</h2>
     <div class="finalSeal">☠️ APPROUVÉ ☠️</div>
     <p>Ton registre commercial est désormais prêt.</p>
-    <p>Tu peux fidéliser tes clients et développer ton empire.</p>
     <p><strong>(Clique pour terminer)</strong></p>
   `;
 
   bubbleContainer.appendChild(box);
-
-  const seal = box.querySelector(".finalSeal");
-  seal.style.animation = "sealDrop .6s ease-out";
-  vibrate(40);
 
   box.onclick = ()=>{
     skipBtn.classList.add("hidden");
@@ -393,12 +352,9 @@ function showDatabaseBox(){
 ===================================================== */
 function winFinal(){
   bubbleContainer.innerHTML = "";
-  showLoader("🎉 Bravo tu as terminé la quête", 2000, ()=>{
-    launchFireworks();
-    setTimeout(()=>{
-      sessionStorage.setItem("unlock_pirate3", "true");
-      window.location.href = "menu.html";
-    }, 3000);
+  showLoader("🎉 Bravo tu as terminé la quête", 1800, ()=>{
+    sessionStorage.setItem("unlock_pirate3", "true");
+    window.location.href = "menu.html";
   });
 }
 
