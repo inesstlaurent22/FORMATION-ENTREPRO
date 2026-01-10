@@ -25,74 +25,51 @@ function showLoader(text, time = 800, cb) {
 /* =====================================================
    🌑 Vidéo
 ===================================================== */
-
   const videoContainer = document.getElementById("videoContainer");
   const questVideo = document.getElementById("questVideo");
   const toggleSound = document.getElementById("toggleSound");
   const closeVideo = document.getElementById("closeVideo");
+  const background = document.getElementById("background");
+  const pirate2 = document.getElementById("pirate2bis");
+  const pirate5 = document.getElementById("pirate5bis");
 
-  if (!videoContainer || !questVideo || !toggleSound || !closeVideo) {
-    console.error("❌ Éléments vidéo introuvables");
+  if (!videoContainer || !questVideo || !closeVideo || !background) {
+    console.error("❌ Élément manquant (vidéo ou background)");
     return;
   }
 
+  /* état initial */
   questVideo.muted = true;
-  questVideo.setAttribute("muted", "");
   toggleSound.textContent = "🔇";
 
-  let videoFinished = false;
-
-  /* 🔊 bouton son */
+  /* 🔊 toggle son */
   toggleSound.addEventListener("click", (e) => {
     e.preventDefault();
-    e.stopPropagation();
-
     questVideo.muted = !questVideo.muted;
     toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
   });
 
-  /* ⏭ bouton passer la vidéo */
+  /* ⏭ bouton PASSER */
   closeVideo.addEventListener("click", (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    forceEndVideo();
+    endVideo();
   });
 
-  /* clic ailleurs = skip */
-  videoContainer.addEventListener("click", () => {
-    forceEndVideo();
+  /* 🧠 FIN RÉELLE DE LA VIDÉO */
+  questVideo.addEventListener("ended", () => {
+    endVideo();
   });
 
-  function forceEndVideo() {
-    if (videoFinished) return;
-    videoFinished = true;
-
+  /* 🔥 TRANSITION UNIQUE */
+  function endVideo() {
     questVideo.pause();
-
-    try {
-      questVideo.currentTime = questVideo.duration || 0;
-    } catch (e) {}
 
     videoContainer.classList.add("hidden");
 
-    if (typeof showLoader === "function" && typeof showBackground === "function") {
-      showLoader("Chargement...", 600, showBackground);
-    } else if (typeof showBackground === "function") {
-      showBackground();
-    } else {
-      console.warn("⚠️ showBackground non définie");
-    }
+    background.classList.remove("hidden");
+    pirate2.classList.remove("hidden");
+    pirate5.classList.remove("hidden");
   }
-
-  /* fin automatique fiable */
-  questVideo.addEventListener("timeupdate", () => {
-    if (
-      questVideo.duration &&
-      questVideo.currentTime >= questVideo.duration - 0.3
-    ) {
-      forceEndVideo();
-    }
-  });
 
 });
 /* =====================================================
