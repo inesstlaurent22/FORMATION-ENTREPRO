@@ -17,7 +17,7 @@ html,body{
   z-index:3000;
 }
 
-/* ❗ La vidéo ne doit PAS capter les clics */
+/* la vidéo ne capte PAS les clics */
 #questVideo{
   width:100%;
   height:100%;
@@ -32,7 +32,6 @@ html,body{
   display:flex;
   gap:10px;
   z-index:3100;
-  pointer-events:auto;
 }
 
 #videoControls button{
@@ -42,7 +41,7 @@ html,body{
   border-radius:14px;
   border:3px solid #3b1b00;
   background:linear-gradient(#ffd27d,#c89b58);
-  color:#000; /* écriture noire */
+  color:#000;
   box-shadow:0 4px 0 #3b1b00;
   cursor:pointer;
 }
@@ -53,8 +52,16 @@ html,body{
 }
 
 /* ================= BACKGROUND ================= */
-#background{position:fixed;inset:0;z-index:1;}
-.fondImage{width:100%;height:100%;object-fit:cover;}
+#background{
+  position:fixed;
+  inset:0;
+  z-index:1;
+}
+.fondImage{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
 /* ================= PIRATES ================= */
 .pirate{
@@ -62,6 +69,8 @@ html,body{
   z-index:50;
   transition:transform .3s ease, filter .3s ease;
 }
+
+/* glow générique (utilisé par pirate2 & pirate5) */
 .pirate.glow{
   filter:drop-shadow(0 0 28px gold);
   transform:scale(1.06);
@@ -69,13 +78,33 @@ html,body{
 
 #pirate2bis{width:186px;left:520px;top:406px;}
 #pirate5bis{width:143px;left:785px;top:397px;cursor:pointer;}
-#pirate3bis{width:235px;left:630px;top:180px;cursor:pointer;}
+
+/* pirate3bis : JAMAIS glow par défaut */
+#pirate3bis{
+  width:235px;
+  left:auto;
+  right:-300px;
+  top:180px;
+  cursor:pointer;
+  filter:none !important;
+  transform:none !important;
+  transition:
+    right 1s ease-out,
+    transform .3s ease,
+    filter .3s ease;
+}
+
+/* glow UNIQUEMENT au hover */
+#pirate3bis:hover{
+  filter:drop-shadow(0 0 28px gold);
+  transform:scale(1.06);
+}
 
 /* ================= DIALOGUES ================= */
 #bubbleContainer{
   position:fixed;
   inset:0;
-  z-index:200;
+  z-index:3000;
   pointer-events:none;
 }
 
@@ -106,8 +135,8 @@ html,body{
   border-radius:16px;
   border:3px solid #3b1b00;
   background:linear-gradient(#ffd27d,#c89b58);
-  color:#000; /* écriture noire */
-  z-index:3200;
+  color:#000;
+  z-index:3500;
   cursor:pointer;
 }
 
@@ -119,7 +148,7 @@ html,body{
   justify-content:center;
   align-items:center;
   background:rgba(0,0,0,.95);
-  z-index:2500;
+  z-index:4000;
 }
 
 .loaderBox{
@@ -176,15 +205,11 @@ html,body{
   box-shadow:0 0 40px rgba(0,0,0,.9);
 }
 
-/* Titre lumineux */
 .quizTitle{
   font-size:34px;
   font-weight:900;
   color:#fff;
-  text-shadow:
-    0 0 10px gold,
-    0 0 25px rgba(255,215,0,.8);
-  letter-spacing:1px;
+  text-shadow:0 0 25px gold;
   margin-bottom:18px;
 }
 
@@ -200,7 +225,6 @@ html,body{
   margin-top:14px;
 }
 
-/* Boutons mini-jeu */
 #gameAnswers button{
   width:100%;
   margin-top:14px;
@@ -210,7 +234,7 @@ html,body{
   border-radius:18px;
   border:4px solid #3b1b00;
   background:linear-gradient(#ffd27d,#c89b58);
-  color:#000; /* écriture noire */
+  color:#000;
   box-shadow:0 6px 0 #3b1b00;
   cursor:pointer;
 }
@@ -221,7 +245,6 @@ html,body{
 }
 
 /* ================= LIVRE ================= */
-/* ================= LIVRE (CORRIGÉ) ================= */
 #bookContainer{
   position:fixed;
   inset:0;
@@ -233,54 +256,18 @@ html,body{
   z-index:2200;
 }
 
-/* ⚠️ le cadre DOIT suivre le contenu */
-.book{
-  display:flex;
-  width:auto;              /* 🔥 suppression largeur forcée */
-  height:auto;
-  border:6px solid #6b3e18;
-  border-radius:18px;
-  overflow:hidden;
-  background:#2b1a0d;
-}
-
-/* pages EXACTEMENT à la taille des images */
-.page{
-  width:auto;              /* 🔥 clé du problème */
-  height:auto;
-  display:flex;
-}
-
-.page img{
-  display:block;           /* empêche les marges fantômes */
-  max-width:420px;         /* taille réelle du livre */
-  max-height:520px;
-  width:auto;
-  height:auto;
-  object-fit:contain;
-  background:#1b1008;
-}
-
-/* Titre lumineux */
 #bookTitle{
   color:#fff;
   font-size:26px;
   margin-bottom:16px;
-  animation:glowTitle 2s ease-in-out infinite alternate;
+  text-shadow:0 0 25px gold;
 }
 
-@keyframes glowTitle{
-  from{ text-shadow:0 0 10px gold; }
-  to{
-    text-shadow:
-      0 0 20px gold,
-      0 0 40px rgba(255,215,0,.8);
-  }
-}
-
-/* Livre – cadre suit le contour */
+/* cadre EXACTEMENT à la taille des pages */
 .book{
   display:flex;
+  width:auto;
+  height:auto;
   border:6px solid #6b3e18;
   border-radius:18px;
   overflow:hidden;
@@ -288,13 +275,17 @@ html,body{
 }
 
 .page{
-  width:420px;
-  height:520px;
+  width:auto;
+  height:auto;
+  display:flex;
 }
 
 .page img{
-  width:100%;
-  height:100%;
+  display:block;
+  max-width:420px;
+  max-height:520px;
+  width:auto;
+  height:auto;
   object-fit:contain;
   background:#1b1008;
 }
@@ -310,7 +301,7 @@ html,body{
   border-radius:18px;
   border:4px solid #3b1b00;
   background:linear-gradient(#ffd27d,#c89b58);
-  color:#000; /* écriture noire */
+  color:#000;
   box-shadow:0 6px 0 #3b1b00;
   cursor:pointer;
   z-index:3300;
@@ -335,43 +326,24 @@ html,body{
   box-shadow:0 6px 0 #3b1b00;
 }
 
-/* =====================================================
-   💬 DIALOGUES — SÉCURITÉ VISUELLE
-===================================================== */
-
-.dialogue-bubble{
-  z-index:3000;
-}
-
-/* bouton skip toujours au-dessus */
-#skipDialoguesBtn{
-  z-index:3500;
-}
-
-/* =====================================================
-   🎮 MINI-JEU 2 — VISIBILITÉ
-===================================================== */
-
+/* ================= MINI-JEU 2 ================= */
 #merchantGame{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.95);
   z-index:2600;
 }
 
-/* =====================================================
-   🌑 LOADER FINAL
-===================================================== */
-
-#fadeScreen{
-  z-index:4000;
-}
-
-/* =====================================================
-   🎆 FEUX D’ARTIFICE — GEMS
-===================================================== */
-
+/* ================= FEUX D’ARTIFICE ================= */
 canvas{
+  position:fixed;
+  inset:0;
   z-index:5000 !important;
   pointer-events:none;
-} 
+}
 
 /* ================= RESPONSIVE ================= */
 @media(max-width:768px){
