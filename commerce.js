@@ -208,13 +208,20 @@ function winMiniGame1(){
 /* =====================================================
    📖 LIVRE — IMAGES BUSINESS PLAN
 ===================================================== */
+/* =====================================================
+   📖 LIVRE — VERSION FINALE
+===================================================== */
 const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
 const book = document.querySelector(".book");
 
-/* Ordre exact des pages */
+/*
+0 → cover | plan1
+1 → plan4 | plan2
+2 → plan4 | plan3 (final)
+*/
 const bookSteps = [
   {
     left: "images/Businessplancov.png",
@@ -232,7 +239,7 @@ const bookSteps = [
 
 let bookIndex = 0;
 
-/* On cache le skip pendant le livre */
+/* cacher le skip pendant le livre */
 skipBtn.classList.add("hidden");
 
 function showBook(){
@@ -243,45 +250,40 @@ function showBook(){
 
 function renderBook(){
   const step = bookSteps[bookIndex];
+
   leftPage.src = step.left;
   rightPage.src = step.right;
 
+  /* bouton visible UNIQUEMENT sur la dernière page */
   continueBtn.classList.toggle(
     "hidden",
-    bookIndex < bookSteps.length - 1
+    step.right !== "images/Businessplan3.png"
   );
 }
 
-/* Clic sur la page droite uniquement */
-book.onclick = (e)=>{
+/* navigation gauche / droite */
+book.addEventListener("click", (e)=>{
   const rect = book.getBoundingClientRect();
+  const middle = rect.left + rect.width / 2;
 
-  if (
-    e.clientX > rect.left + rect.width / 2 &&
-    bookIndex < bookSteps.length - 1
-  ){
+  /* avancer */
+  if (e.clientX > middle && bookIndex < bookSteps.length - 1) {
     bookIndex++;
     renderBook();
   }
-};
 
-/* Bouton poursuivre → tampon + pause */
-continueBtn.onclick = ()=>{
-  const stamp = document.createElement("div");
-  stamp.className = "bookStamp";
-  stamp.textContent = "APPROUVÉ";
-  stamp.style.top = "50%";
-  stamp.style.left = "50%";
-  stamp.style.transform = "translate(-50%, -50%) rotate(-12deg)";
+  /* revenir */
+  if (e.clientX < middle && bookIndex > 0) {
+    bookIndex--;
+    renderBook();
+  }
+});
 
-  book.appendChild(stamp);
-
-  setTimeout(()=>{
-    bookContainer.classList.add("hidden");
-    stamp.remove();
-    spawnPirate3();
-  }, 2000);
-};
+/* bouton poursuivre → apparition pirate3 */
+continueBtn.addEventListener("click", ()=>{
+  bookContainer.classList.add("hidden");
+  spawnPirate3Animated();
+});
 
 /* =====================================================
    🏴‍☠️ PIRATE 3 — FIN DE QUÊTE
