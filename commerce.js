@@ -23,8 +23,9 @@ function showLoader(text, time = 800, cb) {
 }
 
 /* =====================================================
-   🎬 VIDÉO INTRO — VERSION STABLE
+   🌑 Vidéo
 ===================================================== */
+
   const videoContainer = document.getElementById("videoContainer");
   const questVideo = document.getElementById("questVideo");
   const toggleSound = document.getElementById("toggleSound");
@@ -57,7 +58,7 @@ function showLoader(text, time = 800, cb) {
     forceEndVideo();
   });
 
-  /* fallback : clic ailleurs sur la vidéo */
+  /* clic ailleurs = skip */
   videoContainer.addEventListener("click", () => {
     forceEndVideo();
   });
@@ -74,7 +75,6 @@ function showLoader(text, time = 800, cb) {
 
     videoContainer.classList.add("hidden");
 
-    // sécurité si loader/background existent
     if (typeof showLoader === "function" && typeof showBackground === "function") {
       showLoader("Chargement...", 600, showBackground);
     } else if (typeof showBackground === "function") {
@@ -84,7 +84,7 @@ function showLoader(text, time = 800, cb) {
     }
   }
 
-  /* détection fin fiable */
+  /* fin automatique fiable */
   questVideo.addEventListener("timeupdate", () => {
     if (
       questVideo.duration &&
