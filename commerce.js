@@ -256,14 +256,28 @@ function renderBook() {
 }
 
 book.addEventListener("click", (e) => {
-  const middle = book.getBoundingClientRect().left + book.offsetWidth / 2;
+  const rect = book.getBoundingClientRect();
+  const middle = rect.left + rect.width / 2;
+
+  const rightPageEl = book.querySelector(".page.right");
+  const leftPageEl = book.querySelector(".page.left");
+
   if (e.clientX > middle && bookIndex < bookSteps.length - 1) {
-    bookIndex++;
-    renderBook();
+    rightPageEl.classList.add("turning");
+    setTimeout(() => {
+      rightPageEl.classList.remove("turning");
+      bookIndex++;
+      renderBook();
+    }, 800);
   }
+
   if (e.clientX < middle && bookIndex > 0) {
-    bookIndex--;
-    renderBook();
+    leftPageEl.classList.add("turning");
+    setTimeout(() => {
+      leftPageEl.classList.remove("turning");
+      bookIndex--;
+      renderBook();
+    }, 800);
   }
 });
 
@@ -277,6 +291,7 @@ continueBtn.addEventListener("click", () => {
 ===================================================== */
 function spawnPirate3Animated() {
   pirate3.classList.remove("hidden");
+
   pirate3.style.transition = "none";
   pirate3.style.right = "-300px";
 
@@ -284,6 +299,21 @@ function spawnPirate3Animated() {
     pirate3.style.transition = "right 1s ease-out";
     pirate3.style.right = "120px";
   });
+
+  pirate3.addEventListener("mouseenter", () => {
+    pirate3.classList.add("glow");
+  });
+
+  pirate3.addEventListener("mouseleave", () => {
+    pirate3.classList.remove("glow");
+  });
+
+  pirate3.addEventListener("click", () => {
+    pirate3.classList.remove("glow");
+    pirate3.style.pointerEvents = "none";
+    startDialogues2();
+  }, { once: true });
+}
 
   pirate3.addEventListener("click", startDialogues2, { once: true });
 }
@@ -345,11 +375,27 @@ function showDatabaseBox() {
   box.style.top = "50%";
   box.style.transform = "translate(-50%,-50%)";
 
-  box.innerHTML = `
-    <h2>Base de données</h2>
-    <p>Elle te permet de fidéliser tes clients.</p>
-    <button class="finalBtn">Clique pour terminer</button>
-  `;
+box.innerHTML = `
+  <h2 style="
+    font-size:28px;
+    color:gold;
+    text-shadow:0 0 20px gold;
+    margin-bottom:10px;
+  ">📜 Base de données</h2>
+
+  <div style="
+    height:3px;
+    width:60%;
+    margin:0 auto 14px;
+    background:linear-gradient(to right, transparent, gold, transparent);
+  "></div>
+
+  <p style="font-size:18px">
+    Elle te permet de fidéliser tes clients et de bâtir ton empire.
+  </p>
+
+  <button class="finalBtn">Sceller cette connaissance</button>
+`;
 
   box.querySelector("button").onclick = winFinal;
   bubbleContainer.appendChild(box);
