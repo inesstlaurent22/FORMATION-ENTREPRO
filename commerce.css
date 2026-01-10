@@ -1,362 +1,358 @@
 /* ================= RESET ================= */
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  font-family:"Trebuchet MS",sans-serif;
-  background:#000;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.hidden{display:none!important;}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Trebuchet MS", sans-serif;
+  background: #000;
+}
+
+.hidden {
+  display: none !important;
+}
 
 /* ================= VIDEO ================= */
-#videoContainer{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:3000;
-  pointer-events: auto; /* 🔥 OBLIGATOIRE */
+#videoContainer {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 3000;
+  pointer-events: auto;
 }
 
 /* la vidéo ne capte PAS les clics */
-#questVideo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  pointer-events:none;
+#questVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
 }
 
 /* contrôles cliquables */
-#videoControls{
-  position:absolute;
-  top:20px;
-  right:20px;
-  display:flex;
-  gap:10px;
-  z-index:3100;
+#videoControls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 3100;
+  pointer-events: auto;
 }
 
-#videoControls button{
-  padding:12px 16px;
-  font-size:16px;
-  font-weight:bold;
-  border-radius:14px;
-  border:3px solid #3b1b00;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  box-shadow:0 4px 0 #3b1b00;
-  cursor:pointer;
-  pointer-events: auto
+#videoControls button {
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 14px;
+  border: 3px solid #3b1b00;
+  background: linear-gradient(#ffd27d, #c89b58);
+  color: #000;
+  box-shadow: 0 4px 0 #3b1b00;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
-/* animation clic */
-#videoControls button:active{
-  transform:translateY(3px) scale(.96);
-  box-shadow:0 1px 0 #3b1b00;
+#videoControls button:active {
+  transform: translateY(3px) scale(.96);
+  box-shadow: 0 1px 0 #3b1b00;
 }
 
 /* ================= BACKGROUND ================= */
-#background{
-  position:fixed;
-  inset:0;
-  z-index:1;
+#background {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
 }
-.fondImage{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+
+.fondImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ================= PIRATES ================= */
-.pirate{
-  position:absolute;
-  z-index:50;
-  transition:transform .3s ease, filter .3s ease;
+.pirate {
+  position: absolute;
+  z-index: 50;
+  transition: transform .3s ease, filter .3s ease;
 }
 
-/* glow générique (utilisé par pirate2 & pirate5) */
-.pirate.glow{
-  filter:drop-shadow(0 0 28px gold);
-  transform:scale(1.06);
+.pirate.glow {
+  filter: drop-shadow(0 0 28px gold);
+  transform: scale(1.06);
 }
 
-#pirate2bis{width:186px;left:520px;top:406px;}
-#pirate5bis{width:143px;left:785px;top:397px;cursor:pointer;}
+#pirate2bis {
+  width: 186px;
+  left: 520px;
+  top: 406px;
+}
 
-/* pirate3bis : JAMAIS glow par défaut */
-#pirate3bis{
-  width:235px;
-  left:auto;
-  right:-300px;
-  top:180px;
-  cursor:pointer;
-  filter:none !important;
-  transform:none !important;
+#pirate5bis {
+  width: 143px;
+  left: 785px;
+  top: 397px;
+  cursor: pointer;
+}
+
+/* pirate3 : apparition animée */
+#pirate3bis {
+  width: 235px;
+  right: -300px;
+  top: 180px;
+  cursor: pointer;
+  filter: none !important;
+  transform: none !important;
   transition:
     right 1s ease-out,
     transform .3s ease,
     filter .3s ease;
 }
 
-/* glow UNIQUEMENT au hover */
-#pirate3bis:hover{
-  filter:drop-shadow(0 0 28px gold);
-  transform:scale(1.06);
+#pirate3bis:hover {
+  filter: drop-shadow(0 0 28px gold);
+  transform: scale(1.06);
 }
 
 /* ================= DIALOGUES ================= */
-#bubbleContainer{
-  position:fixed;
-  inset:0;
-  z-index:3000;
-  pointer-events:none;
+#bubbleContainer {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  pointer-events: none;
 }
 
-.dialogue-bubble{
-  position:absolute;
-  max-width:560px;
-  background:#fdf4e3;
-  color:#000;
-  border:4px solid #8a5a20;
-  border-radius:20px;
-  padding:22px;
-  line-height:1.45;
+.dialogue-bubble {
+  position: absolute;
+  max-width: 560px;
+  background: #fdf4e3;
+  color: #000;
+  border: 4px solid #8a5a20;
+  border-radius: 20px;
+  padding: 22px;
+  line-height: 1.45;
   box-shadow:
     0 6px 0 #3b1b00,
     0 22px 45px rgba(0,0,0,.55);
-  pointer-events:auto;
-  cursor:pointer;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 /* ================= PASSER LES DIALOGUES ================= */
-#skipDialoguesBtn{
-  position:fixed;
-  top:20px;
-  right:20px;
-  padding:12px 20px;
-  font-size:16px;
-  font-weight:bold;
-  border-radius:16px;
-  border:3px solid #3b1b00;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  z-index:3500;
-  cursor:pointer;
+#skipDialoguesBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 16px;
+  border: 3px solid #3b1b00;
+  background: linear-gradient(#ffd27d, #c89b58);
+  color: #000;
+  z-index: 3500;
+  cursor: pointer;
 }
 
 /* ================= LOADER ================= */
-#fadeScreen{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.95);
-  z-index:4000;
+#fadeScreen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,.95);
+  z-index: 4000;
 }
 
-.loaderBox{
-  color:gold;
-  font-size:28px;
-  text-shadow:0 0 25px gold;
-  text-align:center;
+/* 🔥 CRITIQUE — empêche fadeScreen caché de bloquer les clics */
+#fadeScreen.hidden {
+  pointer-events: none;
+}
+
+.loaderBox {
+  color: gold;
+  font-size: 28px;
+  text-shadow: 0 0 25px gold;
+  text-align: center;
 }
 
 /* ===== BRAVO ANIMÉ MULTICOLORE ===== */
-.winBravo{
-  font-size:42px;
-  font-weight:900;
-  background:linear-gradient(
+.winBravo {
+  font-size: 42px;
+  font-weight: 900;
+  background: linear-gradient(
     90deg,
     red, orange, yellow,
     lime, cyan, dodgerblue, violet, red
   );
-  background-size:400% 400%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:rainbowMove 2.5s linear infinite;
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowMove 2.5s linear infinite;
 }
 
-@keyframes rainbowMove{
-  0%{background-position:0% 50%;}
-  100%{background-position:100% 50%;}
+@keyframes rainbowMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
 .winText,
-.winCounter{
-  color:#fff;
-  text-shadow:0 0 15px gold;
+.winCounter {
+  color: #fff;
+  text-shadow: 0 0 15px gold;
 }
 
 /* ================= MINI JEU 1 ================= */
-#miniGameContainer{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.92);
-  z-index:2000;
+#miniGameContainer {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,.92);
+  z-index: 2000;
 }
 
-.quizBox{
-  width:94%;
-  max-width:640px;
-  background:linear-gradient(#2b1a0d,#140a05);
-  border:6px solid #6b3e18;
-  padding:30px;
-  text-align:center;
-  box-shadow:0 0 40px rgba(0,0,0,.9);
+.quizBox {
+  width: 94%;
+  max-width: 640px;
+  background: linear-gradient(#2b1a0d, #140a05);
+  border: 6px solid #6b3e18;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(0,0,0,.9);
 }
 
-.quizTitle{
-  font-size:34px;
-  font-weight:900;
-  color:#fff;
-  text-shadow:0 0 25px gold;
-  margin-bottom:18px;
+.quizTitle {
+  font-size: 34px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 25px gold;
+  margin-bottom: 18px;
 }
 
-#gameQuestion{
-  font-size:20px;
-  color:#fff;
-  margin-bottom:18px;
+#gameQuestion {
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 18px;
 }
 
-#gameFeedback{
-  color:#fff;
-  font-size:18px;
-  margin-top:14px;
+#gameFeedback {
+  color: #fff;
+  font-size: 18px;
+  margin-top: 14px;
 }
 
-#gameAnswers button{
-  width:100%;
-  margin-top:14px;
-  padding:22px;
-  font-size:20px;
-  font-weight:bold;
-  border-radius:18px;
-  border:4px solid #3b1b00;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  box-shadow:0 6px 0 #3b1b00;
-  cursor:pointer;
+#gameAnswers button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 22px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 18px;
+  border: 4px solid #3b1b00;
+  background: linear-gradient(#ffd27d, #c89b58);
+  color: #000;
+  box-shadow: 0 6px 0 #3b1b00;
+  cursor: pointer;
 }
 
-#gameAnswers button:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 30px gold;
+#gameAnswers button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px gold;
 }
 
 /* ================= LIVRE ================= */
-#bookContainer{
-  position:fixed;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.9);
-  z-index:2200;
+#bookContainer {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,.9);
+  z-index: 2200;
 }
 
-#bookTitle{
-  color:#fff;
-  font-size:26px;
-  margin-bottom:16px;
-  text-shadow:0 0 25px gold;
+#bookTitle {
+  color: #fff;
+  font-size: 26px;
+  margin-bottom: 16px;
+  text-shadow: 0 0 25px gold;
 }
 
-/* cadre EXACTEMENT à la taille des pages */
-.book{
-  display:flex;
-  width:auto;
-  height:auto;
-  border:6px solid #6b3e18;
-  border-radius:18px;
-  overflow:hidden;
-  background:#2b1a0d;
+.book {
+  display: flex;
+  border: 6px solid #6b3e18;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #2b1a0d;
 }
 
-.page{
-  width:auto;
-  height:auto;
-  display:flex;
-}
-
-.page img{
-  display:block;
-  max-width:420px;
-  max-height:520px;
-  width:auto;
-  height:auto;
-  object-fit:contain;
-  background:#1b1008;
+.page img {
+  max-width: 420px;
+  max-height: 520px;
+  object-fit: contain;
+  background: #1b1008;
 }
 
 /* ================= BOUTON CONTINUER ================= */
-#continueQuestBtn{
-  position:fixed;
-  top:20px;
-  right:20px;
-  padding:16px 28px;
-  font-size:18px;
-  font-weight:bold;
-  border-radius:18px;
-  border:4px solid #3b1b00;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  box-shadow:0 6px 0 #3b1b00;
-  cursor:pointer;
-  z-index:3300;
+#continueQuestBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 18px;
+  border: 4px solid #3b1b00;
+  background: linear-gradient(#ffd27d, #c89b58);
+  color: #000;
+  box-shadow: 0 6px 0 #3b1b00;
+  cursor: pointer;
+  z-index: 3300;
 }
 
-#continueQuestBtn:hover{
-  transform:scale(1.06);
-  box-shadow:0 0 35px gold;
-}
-
-/* ================= FINAL ================= */
-.finalBtn{
-  margin-top:16px;
-  padding:14px 24px;
-  font-size:18px;
-  font-weight:bold;
-  border-radius:16px;
-  border:4px solid #3b1b00;
-  background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;
-  cursor:pointer;
-  box-shadow:0 6px 0 #3b1b00;
+#continueQuestBtn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 35px gold;
 }
 
 /* ================= MINI-JEU 2 ================= */
-#merchantGame{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.95);
-  z-index:2600;
+#merchantGame {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,.95);
+  z-index: 2600;
 }
 
 /* ================= FEUX D’ARTIFICE ================= */
-canvas{
-  position:fixed;
-  inset:0;
-  z-index:5000 !important;
-  pointer-events:none;
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 5000 !important;
+  pointer-events: none;
 }
 
 /* ================= RESPONSIVE ================= */
-@media(max-width:768px){
-  .dialogue-bubble{
-    max-width:90vw;
-    left:50%!important;
-    transform:translateX(-50%);
+@media (max-width: 768px) {
+  .dialogue-bubble {
+    max-width: 90vw;
+    left: 50% !important;
+    transform: translateX(-50%);
   }
-  .book{
-    transform:scale(.9);
+
+  .book {
+    transform: scale(.9);
   }
 }
