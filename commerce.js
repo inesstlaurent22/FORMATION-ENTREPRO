@@ -25,66 +25,76 @@ function showLoader(text, time = 800, cb) {
 /* =====================================================
    🎬 VIDÉO INTRO — VERSION STABLE
 ===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const questVideo = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
+  const videoContainer = document.getElementById("videoContainer");
+  const questVideo = document.getElementById("questVideo");
+  const toggleSound = document.getElementById("toggleSound");
+  const closeVideo = document.getElementById("closeVideo");
 
-questVideo.muted = true;
-questVideo.setAttribute("muted", "");
-toggleSound.textContent = "🔇";
-
-let videoFinished = false;
-
-/* 🔊 bouton son */
-toggleSound.addEventListener("click", (e) => {
-  e.preventDefault();
-  e.stopPropagation(); // 🔥 empêche le clic parent
-
-  questVideo.muted = !questVideo.muted;
-  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-});
-
-/* ⏭ bouton passer la vidéo */
-closeVideo.addEventListener("click", (e) => {
-  e.preventDefault();
-  e.stopPropagation(); // 🔥 empêche le clic parent
-
-  forceEndVideo();
-});
-
-/* fallback : clic ailleurs sur la vidéo */
-videoContainer.addEventListener("click", () => {
-  forceEndVideo();
-});
-
-/* fin forcée (mobile + desktop) */
-function forceEndVideo() {
-  if (videoFinished) return;
-  videoFinished = true;
-
-  questVideo.pause();
-
-  try {
-    questVideo.currentTime = questVideo.duration || 0;
-  } catch (e) {}
-
-  videoContainer.classList.add("hidden");
-
-  // 👉 TRANSITION VERS LE BACKGROUND
-  showLoader("Chargement...", 600, showBackground);
-}
-
-/* détection de fin fiable (Safari / iOS safe) */
-questVideo.addEventListener("timeupdate", () => {
-  if (
-    questVideo.duration &&
-    questVideo.currentTime >= questVideo.duration - 0.3
-  ) {
-    forceEndVideo();
+  if (!videoContainer || !questVideo || !toggleSound || !closeVideo) {
+    console.error("❌ Éléments vidéo introuvables");
+    return;
   }
-});
 
+  questVideo.muted = true;
+  questVideo.setAttribute("muted", "");
+  toggleSound.textContent = "🔇";
+
+  let videoFinished = false;
+
+  /* 🔊 bouton son */
+  toggleSound.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    questVideo.muted = !questVideo.muted;
+    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  });
+
+  /* ⏭ bouton passer la vidéo */
+  closeVideo.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    forceEndVideo();
+  });
+
+  /* fallback : clic ailleurs sur la vidéo */
+  videoContainer.addEventListener("click", () => {
+    forceEndVideo();
+  });
+
+  function forceEndVideo() {
+    if (videoFinished) return;
+    videoFinished = true;
+
+    questVideo.pause();
+
+    try {
+      questVideo.currentTime = questVideo.duration || 0;
+    } catch (e) {}
+
+    videoContainer.classList.add("hidden");
+
+    // sécurité si loader/background existent
+    if (typeof showLoader === "function" && typeof showBackground === "function") {
+      showLoader("Chargement...", 600, showBackground);
+    } else if (typeof showBackground === "function") {
+      showBackground();
+    } else {
+      console.warn("⚠️ showBackground non définie");
+    }
+  }
+
+  /* détection fin fiable */
+  questVideo.addEventListener("timeupdate", () => {
+    if (
+      questVideo.duration &&
+      questVideo.currentTime >= questVideo.duration - 0.3
+    ) {
+      forceEndVideo();
+    }
+  });
+
+});
 /* =====================================================
    🌅 BACKGROUND + PIRATES
 ===================================================== */
