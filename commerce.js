@@ -23,7 +23,7 @@ function showLoader(text, time = 1000, cb){
 }
 
 /* =====================================================
-   🎬 VIDÉO INTRO — FIXED
+   🎬 VIDÉO — FIX CLICS
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
@@ -33,14 +33,14 @@ const closeVideo  = document.getElementById("closeVideo");
 questVideo.muted = true;
 toggleSound.textContent = "🔇";
 
-/* 🔊 Toggle son */
+/* toggle son */
 toggleSound.addEventListener("click", (e)=>{
   e.stopPropagation();
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
 });
 
-/* ⏭️ Passer la vidéo */
+/* passer la vidéo */
 closeVideo.addEventListener("click", (e)=>{
   e.stopPropagation();
   endVideo();
