@@ -23,67 +23,54 @@ function showLoader(text, time = 800, cb) {
 }
 
 /* =====================================================
-   🌑 Vidéo
+   🎬 VIDÉO INTRO
 ===================================================== */
-  const videoContainer = document.getElementById("videoContainer");
-  const questVideo = document.getElementById("questVideo");
-  const toggleSound = document.getElementById("toggleSound");
-  const closeVideo = document.getElementById("closeVideo");
-  const background = document.getElementById("background");
-  const pirate2 = document.getElementById("pirate2bis");
-  const pirate5 = document.getElementById("pirate5bis");
+const videoContainer = document.getElementById("videoContainer");
+const questVideo = document.getElementById("questVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo = document.getElementById("closeVideo");
 
-  if (!videoContainer || !questVideo || !closeVideo || !background) {
-    console.error("❌ Élément manquant (vidéo ou background)");
-    return;
-  }
-
-  /* état initial */
-  questVideo.muted = true;
-  toggleSound.textContent = "🔇";
-
-  /* 🔊 toggle son */
-  toggleSound.addEventListener("click", (e) => {
-    e.preventDefault();
-    questVideo.muted = !questVideo.muted;
-    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  });
-
-  /* ⏭ bouton PASSER */
-  closeVideo.addEventListener("click", (e) => {
-    e.preventDefault();
-    endVideo();
-  });
-
-  /* 🧠 FIN RÉELLE DE LA VIDÉO */
-  questVideo.addEventListener("ended", () => {
-    endVideo();
-  });
-
-  /* 🔥 TRANSITION UNIQUE */
-  function endVideo() {
-    questVideo.pause();
-
-    videoContainer.classList.add("hidden");
-
-    background.classList.remove("hidden");
-    pirate2.classList.remove("hidden");
-    pirate5.classList.remove("hidden");
-  }
-
-});
-/* =====================================================
-   🌅 BACKGROUND + PIRATES
-===================================================== */
 const background = document.getElementById("background");
 const pirate2 = document.getElementById("pirate2bis");
 const pirate5 = document.getElementById("pirate5bis");
 const pirate3 = document.getElementById("pirate3bis");
 
-function showBackground() {
+let videoFinished = false;
+
+/* état initial */
+questVideo.muted = true;
+toggleSound.textContent = "🔇";
+
+/* 🔊 toggle son */
+toggleSound.addEventListener("click", (e) => {
+  e.preventDefault();
+  questVideo.muted = !questVideo.muted;
+  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+
+  setTimeout(endVideo, 300);
+});
+
+/* ⏭ PASSER LA VIDÉO */
+closeVideo.addEventListener("click", (e) => {
+  e.preventDefault();
+  endVideo();
+});
+
+/* 🎞️ FIN NATURELLE */
+questVideo.addEventListener("ended", endVideo);
+
+/* 🔥 TRANSITION UNIQUE */
+function endVideo() {
+  if (videoFinished) return;
+  videoFinished = true;
+
+  questVideo.pause();
+  videoContainer.classList.add("hidden");
+
   background.classList.remove("hidden");
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
+
   enablePirate5();
 }
 
@@ -249,32 +236,21 @@ function renderBook() {
   const step = bookSteps[bookIndex];
   leftPage.src = step.left;
   rightPage.src = step.right;
-  continueBtn.classList.toggle("hidden", step.right !== "images/Businessplan3.png");
+  continueBtn.classList.toggle("hidden", bookIndex !== bookSteps.length - 1);
 }
 
 book.addEventListener("click", (e) => {
   const rect = book.getBoundingClientRect();
   const middle = rect.left + rect.width / 2;
 
-  const rightPageEl = book.querySelector(".page.right");
-  const leftPageEl = book.querySelector(".page.left");
-
   if (e.clientX > middle && bookIndex < bookSteps.length - 1) {
-    rightPageEl.classList.add("turning");
-    setTimeout(() => {
-      rightPageEl.classList.remove("turning");
-      bookIndex++;
-      renderBook();
-    }, 800);
+    bookIndex++;
+    renderBook();
   }
 
   if (e.clientX < middle && bookIndex > 0) {
-    leftPageEl.classList.add("turning");
-    setTimeout(() => {
-      leftPageEl.classList.remove("turning");
-      bookIndex--;
-      renderBook();
-    }, 800);
+    bookIndex--;
+    renderBook();
   }
 });
 
@@ -288,7 +264,6 @@ continueBtn.addEventListener("click", () => {
 ===================================================== */
 function spawnPirate3Animated() {
   pirate3.classList.remove("hidden");
-
   pirate3.style.transition = "none";
   pirate3.style.right = "-300px";
 
@@ -297,22 +272,14 @@ function spawnPirate3Animated() {
     pirate3.style.right = "120px";
   });
 
-  pirate3.addEventListener("mouseenter", () => {
-    pirate3.classList.add("glow");
-  });
-
-  pirate3.addEventListener("mouseleave", () => {
-    pirate3.classList.remove("glow");
-  });
+  pirate3.addEventListener("mouseenter", () => pirate3.classList.add("glow"));
+  pirate3.addEventListener("mouseleave", () => pirate3.classList.remove("glow"));
 
   pirate3.addEventListener("click", () => {
     pirate3.classList.remove("glow");
     pirate3.style.pointerEvents = "none";
     startDialogues2();
   }, { once: true });
-}
-
-  pirate3.addEventListener("click", startDialogues2, { once: true });
 }
 
 /* =====================================================
@@ -372,27 +339,11 @@ function showDatabaseBox() {
   box.style.top = "50%";
   box.style.transform = "translate(-50%,-50%)";
 
-box.innerHTML = `
-  <h2 style="
-    font-size:28px;
-    color:gold;
-    text-shadow:0 0 20px gold;
-    margin-bottom:10px;
-  ">📜 Base de données</h2>
-
-  <div style="
-    height:3px;
-    width:60%;
-    margin:0 auto 14px;
-    background:linear-gradient(to right, transparent, gold, transparent);
-  "></div>
-
-  <p style="font-size:18px">
-    Elle te permet de fidéliser tes clients et de bâtir ton empire.
-  </p>
-
-  <button class="finalBtn">Sceller cette connaissance</button>
-`;
+  box.innerHTML = `
+    <h2 style="color:gold;text-align:center">📜 Base de données</h2>
+    <p>Elle te permet de fidéliser tes clients et de bâtir ton empire.</p>
+    <button class="finalBtn">Sceller cette connaissance</button>
+  `;
 
   box.querySelector("button").onclick = winFinal;
   bubbleContainer.appendChild(box);
