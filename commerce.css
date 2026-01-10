@@ -15,6 +15,7 @@ html,body{
   inset:0;
   background:#000;
   z-index:3000;
+  pointer-events: none;
 }
 
 /* ✅ la vidéo ne capte PAS les clics */
@@ -33,6 +34,7 @@ html,body{
   display:flex;
   gap:10px;
   z-index:3100;
+  pointer-events: auto
 }
 
 #videoControls button{
