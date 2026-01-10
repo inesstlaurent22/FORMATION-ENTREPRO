@@ -21,7 +21,7 @@ function showLoader(text, time = 800, cb) {
     cb && cb();
   }, time);
 }
-   
+
 /* =====================================================
    🎬 VIDÉO
 ===================================================== */
@@ -30,9 +30,15 @@ const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo  = document.getElementById("closeVideo");
 
-questVideo.muted = true;
+const background = document.getElementById("background");
+const pirate2 = document.getElementById("pirate2bis");
+const pirate5 = document.getElementById("pirate5bis");
+const pirate3 = document.getElementById("pirate3bis");
 
-toggleSound.onclick = ()=>{
+questVideo.muted = true;
+toggleSound.textContent = "🔇";
+
+toggleSound.onclick = () => {
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
 };
@@ -40,10 +46,26 @@ toggleSound.onclick = ()=>{
 questVideo.onended = endVideo;
 closeVideo.onclick = endVideo;
 
-function endVideo(){
+let videoFinished = false;
+
+function endVideo() {
+  if (videoFinished) return;
+  videoFinished = true;
+
   questVideo.pause();
   videoContainer.style.display = "none";
+
   showLoader("Chargement...", 800, showBackground);
+}
+
+/* =====================================================
+   🌅 BACKGROUND + PIRATES
+===================================================== */
+function showBackground() {
+  background.classList.remove("hidden");
+  pirate2.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
+  enablePirate5();
 }
 
 /* =====================================================
@@ -69,16 +91,20 @@ const skipBtn = document.getElementById("skipDialoguesBtn");
 let dialogues = [];
 let dIndex = 0;
 let onDialogueEnd = null;
+let dialogueFinished = false;
 
 function playDialogues(list, cb) {
   dialogues = list;
   dIndex = 0;
   onDialogueEnd = cb;
+  dialogueFinished = false;
   skipBtn.classList.remove("hidden");
   renderDialogue();
 }
 
 function renderDialogue() {
+  if (dialogueFinished) return;
+
   bubbleContainer.innerHTML = "";
   const d = dialogues[dIndex];
   const r = d.anchor.getBoundingClientRect();
@@ -95,6 +121,7 @@ function renderDialogue() {
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = () => {
+    if (dialogueFinished) return;
     vibrate(10);
     dIndex++;
     dIndex < dialogues.length ? renderDialogue() : endDialogues();
@@ -104,9 +131,15 @@ function renderDialogue() {
 }
 
 function endDialogues() {
+  if (dialogueFinished) return;
+  dialogueFinished = true;
+
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
-  onDialogueEnd && onDialogueEnd();
+
+  if (typeof onDialogueEnd === "function") {
+    onDialogueEnd();
+  }
 }
 
 skipBtn.onclick = endDialogues;
