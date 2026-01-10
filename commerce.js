@@ -31,6 +31,7 @@ const toggleSound = document.getElementById("toggleSound");
 const closeVideo  = document.getElementById("closeVideo");
 
 questVideo.muted = true;
+questVideo.setAttribute("muted", "");
 toggleSound.textContent = "🔇";
 
 /* toggle son */
