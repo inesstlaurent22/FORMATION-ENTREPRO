@@ -23,7 +23,7 @@ function showLoader(text, time = 800, cb) {
 }
 
 /* =====================================================
-   🎬 VIDÉO INTRO — FIX DÉFINITIF
+   🎬 VIDÉO INTRO — VERSION STABLE
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
@@ -34,26 +34,48 @@ questVideo.muted = true;
 questVideo.setAttribute("muted", "");
 toggleSound.textContent = "🔇";
 
+let videoFinished = false;
+
+/* 🔊 bouton son */
 toggleSound.addEventListener("click", (e) => {
-  e.stopPropagation();
+  e.preventDefault();
+  e.stopPropagation(); // 🔥 empêche le clic parent
+
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
 });
 
-let videoFinished = false;
+/* ⏭ bouton passer la vidéo */
+closeVideo.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation(); // 🔥 empêche le clic parent
 
+  forceEndVideo();
+});
+
+/* fallback : clic ailleurs sur la vidéo */
+videoContainer.addEventListener("click", () => {
+  forceEndVideo();
+});
+
+/* fin forcée (mobile + desktop) */
 function forceEndVideo() {
   if (videoFinished) return;
   videoFinished = true;
 
   questVideo.pause();
-  questVideo.currentTime = questVideo.duration || 0;
+
+  try {
+    questVideo.currentTime = questVideo.duration || 0;
+  } catch (e) {}
 
   videoContainer.classList.add("hidden");
+
+  // 👉 TRANSITION VERS LE BACKGROUND
   showLoader("Chargement...", 600, showBackground);
 }
 
-/* fin auto (fiable mobile) */
+/* détection de fin fiable (Safari / iOS safe) */
 questVideo.addEventListener("timeupdate", () => {
   if (
     questVideo.duration &&
@@ -61,18 +83,6 @@ questVideo.addEventListener("timeupdate", () => {
   ) {
     forceEndVideo();
   }
-});
-
-/* bouton passer la vidéo */
-closeVideo.addEventListener("click", (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  forceEndVideo();
-});
-
-/* sécurité ultime : clic n’importe où */
-videoContainer.addEventListener("click", () => {
-  forceEndVideo();
 });
 
 /* =====================================================
