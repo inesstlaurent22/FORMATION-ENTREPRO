@@ -25,7 +25,6 @@ html, body {
   z-index:3000;
 }
 
-/* ❗ La vidéo ne doit PAS capter les clics */
 #questVideo{
   width:100%;
   height:100%;
@@ -40,7 +39,6 @@ html, body {
   display:flex;
   gap:10px;
   z-index:3100;
-  pointer-events:auto;
 }
 
 #videoControls button{
@@ -49,14 +47,13 @@ html, body {
   border-radius:14px;
   border:3px solid #3b1b00;
   background:linear-gradient(#ffd27d,#c89b58);
-  color:#000;               /* texte noir */
+  color:#000;
   box-shadow:0 4px 0 #3b1b00;
   cursor:pointer;
-  pointer-events:auto;
 }
 
 #videoControls button:active{
-  transform:translateY(3px) scale(.96);
+  transform:translateY(3px);
   box-shadow:0 1px 0 #3b1b00;
 }
 
@@ -103,8 +100,6 @@ html, body {
   right: -300px;
   top: 180px;
   cursor: pointer;
-  filter: none;
-  transform: none;
   transition:
     right 1s ease-out,
     transform .3s ease,
@@ -135,7 +130,7 @@ html, body {
   cursor: pointer;
 }
 
-/* ================= SKIP ================= */
+/* ================= SKIP DIALOGUES ================= */
 #skipDialoguesBtn {
   position: fixed;
   top: 20px;
@@ -146,6 +141,7 @@ html, body {
   border-radius: 16px;
   border: 3px solid #3b1b00;
   background: linear-gradient(#ffd27d, #c89b58);
+  color: #000;
   z-index: 3500;
   cursor: pointer;
 }
@@ -159,10 +155,6 @@ html, body {
   align-items: center;
   background: rgba(0,0,0,.95);
   z-index: 4000;
-}
-
-#fadeScreen.hidden {
-  pointer-events: none;
 }
 
 .loaderBox {
@@ -200,6 +192,46 @@ html, body {
   margin-bottom: 18px;
 }
 
+#gameQuestion {
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+#gameFeedback {
+  color: #fff;
+  font-size: 20px;
+  margin-top: 14px;
+  font-weight: bold;
+}
+
+/* === Boutons pirate MINI JEU 1 === */
+#gameAnswers button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 16px 22px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+  border-radius: 18px;
+  border: 4px solid #3b1b00;
+  background: linear-gradient(#ffd27d, #c89b58);
+  box-shadow:
+    0 5px 0 #3b1b00,
+    inset 0 0 10px rgba(255,215,100,.5);
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+#gameAnswers button:hover {
+  transform: scale(1.04);
+}
+
+#gameAnswers button:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #3b1b00;
+}
+
 /* ================= LIVRE ================= */
 #bookContainer {
   position: fixed;
@@ -212,6 +244,23 @@ html, body {
   z-index: 2200;
 }
 
+#bookTitle {
+  font-size: 48px;
+  font-weight: 900;
+  color: gold;
+  margin-bottom: 26px;
+  text-shadow:
+    0 0 15px gold,
+    0 0 30px gold;
+  animation: glowPulse 2s infinite ease-in-out;
+}
+
+@keyframes glowPulse {
+  0%   { text-shadow: 0 0 10px gold; }
+  50%  { text-shadow: 0 0 35px gold, 0 0 60px #ffdf80; }
+  100% { text-shadow: 0 0 10px gold; }
+}
+
 .book {
   display: flex;
   border: 6px solid #6b3e18;
@@ -220,24 +269,14 @@ html, body {
   background: #2b1a0d;
 }
 
-.page {
-  perspective: 1200px;
-}
-
 .page img {
   max-width: 420px;
   max-height: 520px;
   object-fit: contain;
   background: #1b1008;
-  transform-origin: left center;
-  transition: transform 0.8s ease;
 }
 
-.page.turning img {
-  transform: rotateY(-160deg);
-}
-
-/* ================= BOUTON CONTINUER ================= */
+/* ================= CONTINUER ================= */
 #continueQuestBtn {
   position: fixed;
   top: 20px;
@@ -248,6 +287,7 @@ html, body {
   border-radius: 18px;
   border: 4px solid #3b1b00;
   background: linear-gradient(#ffd27d, #c89b58);
+  color: #000;
   cursor: pointer;
   z-index: 3300;
 }
@@ -272,19 +312,11 @@ html, body {
   text-align: center;
 }
 
-#merchantGame h1 {
-  font-size: 32px;
-  color: gold;
-  text-shadow: 0 0 25px gold;
-}
-
-#merchantGame h1::after {
-  content: "";
-  display: block;
-  height: 3px;
-  width: 60%;
-  margin: 10px auto 20px;
-  background: linear-gradient(to right, transparent, gold, transparent);
+#merchantGame h1,
+#merchantGame p,
+#merchantGame #dialogue,
+#merchantGame #clue {
+  color: #fff;
 }
 
 #merchantGame button {
@@ -295,15 +327,34 @@ html, body {
   border-radius: 16px;
   border: 4px solid #3b1b00;
   background: linear-gradient(#ffd27d, #c89b58);
+  color: #000;
   cursor: pointer;
 }
 
-/* ================= FEUX D’ARTIFICE ================= */
-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 5000;
-  pointer-events: none;
+/* ================= BOUTON FINAL ================= */
+.finalBtn {
+  margin-top: 18px;
+  padding: 16px 26px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+  border-radius: 20px;
+  border: 4px solid #3b1b00;
+  background: linear-gradient(#ffe08a, #c89b58);
+  box-shadow:
+    0 6px 0 #3b1b00,
+    inset 0 0 12px rgba(255,220,120,.6);
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.finalBtn:hover {
+  transform: scale(1.06);
+}
+
+.finalBtn:active {
+  transform: translateY(5px);
+  box-shadow: 0 1px 0 #3b1b00;
 }
 
 /* ================= RESPONSIVE ================= */
