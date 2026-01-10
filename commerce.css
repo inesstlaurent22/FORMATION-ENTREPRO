@@ -221,6 +221,7 @@ html,body{
 }
 
 /* ================= LIVRE ================= */
+/* ================= LIVRE (CORRIGÉ) ================= */
 #bookContainer{
   position:fixed;
   inset:0;
@@ -230,6 +231,34 @@ html,body{
   align-items:center;
   background:rgba(0,0,0,.9);
   z-index:2200;
+}
+
+/* ⚠️ le cadre DOIT suivre le contenu */
+.book{
+  display:flex;
+  width:auto;              /* 🔥 suppression largeur forcée */
+  height:auto;
+  border:6px solid #6b3e18;
+  border-radius:18px;
+  overflow:hidden;
+  background:#2b1a0d;
+}
+
+/* pages EXACTEMENT à la taille des images */
+.page{
+  width:auto;              /* 🔥 clé du problème */
+  height:auto;
+  display:flex;
+}
+
+.page img{
+  display:block;           /* empêche les marges fantômes */
+  max-width:420px;         /* taille réelle du livre */
+  max-height:520px;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  background:#1b1008;
 }
 
 /* Titre lumineux */
