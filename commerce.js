@@ -236,8 +236,8 @@ const book = document.querySelector(".book");
 
 const bookSteps = [
   { left: "images/Businessplancov.png", right: "images/Businessplan1.png" },
-  { left: "images/Businessplan4.png", right: "images/Businessplan2.png" },
-  { left: "images/Businessplan4.png", right: "images/Businessplan3.png" }
+  { left: "images/Businessplancov.png", right: "images/Businessplan2.png" },
+  { left: "images/Businessplancov.png", right: "images/Businessplan3.png" }
 ];
 
 let bookIndex = 0;
