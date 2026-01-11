@@ -82,6 +82,16 @@ html, body {
   transform: scale(1.06);
 }
 
+.pirate.interactive {
+  cursor: pointer;
+}
+
+.pirate.locked {
+  filter: none !important;
+  transform: none !important;
+}
+
+/* Positions */
 #pirate2bis {
   width: 186px;
   left: 520px;
@@ -92,18 +102,12 @@ html, body {
   width: 143px;
   left: 785px;
   top: 397px;
-  cursor: pointer;
 }
 
 #pirate3bis {
   width: 235px;
-  right: -300px;
+  left: 638px;
   top: 180px;
-  cursor: pointer;
-  transition:
-    right 1s ease-out,
-    transform .3s ease,
-    filter .3s ease;
 }
 
 /* ================= DIALOGUES ================= */
@@ -117,11 +121,11 @@ html, body {
 .dialogue-bubble {
   position: absolute;
   max-width: 560px;
-  background: #fdf4e3;
+  background: linear-gradient(#fff2d6, #e0b97a);
   color: #000;
-  border: 4px solid #8a5a20;
-  border-radius: 20px;
-  padding: 22px;
+  border: 5px solid #3b1b00;
+  border-radius: 22px;
+  padding: 24px;
   line-height: 1.45;
   box-shadow:
     0 6px 0 #3b1b00,
@@ -130,7 +134,7 @@ html, body {
   cursor: pointer;
 }
 
-/* ================= SKIP DIALOGUES ================= */
+/* ================= SKIP ================= */
 #skipDialoguesBtn {
   position: fixed;
   top: 20px;
@@ -205,7 +209,7 @@ html, body {
   font-weight: bold;
 }
 
-/* === Boutons pirate MINI JEU 1 === */
+/* Boutons pirate */
 #gameAnswers button {
   width: 100%;
   margin: 10px 0;
@@ -232,6 +236,22 @@ html, body {
   box-shadow: 0 1px 0 #3b1b00;
 }
 
+/* ================= BRAVO RAINBOW ================= */
+.winBravo {
+  font-size: 52px;
+  font-weight: 900;
+  animation: rainbowGlow 2.5s infinite linear;
+}
+
+@keyframes rainbowGlow {
+  0%   { color:red; text-shadow:0 0 20px red; }
+  20%  { color:orange; text-shadow:0 0 20px orange; }
+  40%  { color:yellow; text-shadow:0 0 20px yellow; }
+  60%  { color:lime; text-shadow:0 0 20px lime; }
+  80%  { color:cyan; text-shadow:0 0 20px cyan; }
+  100% { color:magenta; text-shadow:0 0 20px magenta; }
+}
+
 /* ================= LIVRE ================= */
 #bookContainer {
   position: fixed;
@@ -249,16 +269,7 @@ html, body {
   font-weight: 900;
   color: gold;
   margin-bottom: 26px;
-  text-shadow:
-    0 0 15px gold,
-    0 0 30px gold;
-  animation: glowPulse 2s infinite ease-in-out;
-}
-
-@keyframes glowPulse {
-  0%   { text-shadow: 0 0 10px gold; }
-  50%  { text-shadow: 0 0 35px gold, 0 0 60px #ffdf80; }
-  100% { text-shadow: 0 0 10px gold; }
+  text-shadow: 0 0 25px gold;
 }
 
 .book {
@@ -274,6 +285,15 @@ html, body {
   max-height: 520px;
   object-fit: contain;
   background: #1b1008;
+}
+
+.book.page-turn .page.right img {
+  animation: pageFlip .8s ease;
+}
+
+@keyframes pageFlip {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(-160deg); }
 }
 
 /* ================= CONTINUER ================= */
@@ -307,8 +327,8 @@ html, body {
   background: linear-gradient(#2b1a0d, #140a05);
   border: 6px solid #6b3e18;
   padding: 30px;
-  width: 90%;
   max-width: 620px;
+  width: 90%;
   text-align: center;
 }
 
@@ -331,30 +351,26 @@ html, body {
   cursor: pointer;
 }
 
-/* ================= BOUTON FINAL ================= */
-.finalBtn {
-  margin-top: 18px;
-  padding: 16px 26px;
-  font-size: 18px;
-  font-weight: bold;
+/* ================= BASE DE DONNÉES ================= */
+.dbTitle {
   color: #000;
-  border-radius: 20px;
-  border: 4px solid #3b1b00;
-  background: linear-gradient(#ffe08a, #c89b58);
-  box-shadow:
-    0 6px 0 #3b1b00,
-    inset 0 0 12px rgba(255,220,120,.6);
-  cursor: pointer;
-  transition: transform .15s ease, box-shadow .15s ease;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 900;
+  animation: goldPulse 2s infinite ease-in-out;
 }
 
-.finalBtn:hover {
-  transform: scale(1.06);
+@keyframes goldPulse {
+  0%   { text-shadow: 0 0 8px gold; }
+  50%  { text-shadow: 0 0 25px gold; }
+  100% { text-shadow: 0 0 8px gold; }
 }
 
-.finalBtn:active {
-  transform: translateY(5px);
-  box-shadow: 0 1px 0 #3b1b00;
+.dbSeparator {
+  height: 4px;
+  width: 60%;
+  margin: 12px auto 18px;
+  background: linear-gradient(to right, transparent, #3b1b00, transparent);
 }
 
 /* ================= RESPONSIVE ================= */
