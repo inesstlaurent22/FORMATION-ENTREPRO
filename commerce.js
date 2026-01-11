@@ -18,7 +18,7 @@ function showLoader(text, time = 800, cb) {
   fadeScreen.classList.remove("hidden");
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
-    cb && cb();
+    if (cb) cb();
   }, time);
 }
 
@@ -46,25 +46,39 @@ function endVideo(){
   showLoader("Chargement...", 800, showBackground);
 }
 
+
 /* =====================================================
    🌅 BACKGROUND + PIRATES
 ===================================================== */
 function showBackground() {
   background.classList.remove("hidden");
+
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
+
+  pirate2.style.display = "block";
+  pirate5.style.display = "block";
+
   enablePirate5();
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5
+   🏴‍☠️ PIRATE 5 — hover glow → clic stop
 ===================================================== */
 function enablePirate5() {
-  pirate5.addEventListener("mouseenter", () => pirate5.classList.add("glow"));
-  pirate5.addEventListener("mouseleave", () => pirate5.classList.remove("glow"));
+  pirate5.classList.add("interactive");
+
+  pirate5.addEventListener("mouseenter", () => {
+    pirate5.classList.add("glow");
+  });
+
+  pirate5.addEventListener("mouseleave", () => {
+    pirate5.classList.remove("glow");
+  });
 
   pirate5.addEventListener("click", () => {
     pirate5.classList.remove("glow");
+    pirate5.classList.add("locked");
     pirate5.style.pointerEvents = "none";
     startDialogues1();
   }, { once: true });
@@ -109,7 +123,6 @@ function renderDialogue() {
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = () => {
-    if (dialogueFinished) return;
     vibrate(10);
     dIndex++;
     dIndex < dialogues.length ? renderDialogue() : endDialogues();
@@ -125,9 +138,7 @@ function endDialogues() {
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
 
-  if (typeof onDialogueEnd === "function") {
-    onDialogueEnd();
-  }
+  if (onDialogueEnd) onDialogueEnd();
 }
 
 skipBtn.onclick = endDialogues;
@@ -189,6 +200,7 @@ function winMiniGame1() {
 
   let v = 0;
   const counter = document.getElementById("poCounter");
+
   const i = setInterval(() => {
     v += 100;
     counter.textContent = v;
@@ -203,7 +215,7 @@ function winMiniGame1() {
 }
 
 /* =====================================================
-   📖 LIVRE
+   📖 LIVRE — chargement images
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
@@ -222,17 +234,37 @@ let bookIndex = 0;
 function showBook() {
   bookContainer.classList.remove("hidden");
   bookIndex = 0;
-  renderBook();
+
+  const imgs = bookSteps.flatMap(s => [s.left, s.right]);
+  let loaded = 0;
+
+  imgs.forEach(src => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      loaded++;
+      if (loaded === imgs.length) {
+        renderBook();
+      }
+    };
+  });
 }
 
 function renderBook() {
-  const step = bookSteps[bookIndex];
-  leftPage.src = step.left;
-  rightPage.src = step.right;
-  continueBtn.classList.toggle("hidden", bookIndex !== bookSteps.length - 1);
+  book.classList.remove("page-turn");
+  void book.offsetWidth;
+  book.classList.add("page-turn");
+
+  leftPage.src = bookSteps[bookIndex].left;
+  rightPage.src = bookSteps[bookIndex].right;
+
+  continueBtn.classList.toggle(
+    "hidden",
+    bookIndex !== bookSteps.length - 1
+  );
 }
 
-book.addEventListener("click", (e) => {
+book.onclick = (e) => {
   const rect = book.getBoundingClientRect();
   const middle = rect.left + rect.width / 2;
 
@@ -245,31 +277,30 @@ book.addEventListener("click", (e) => {
     bookIndex--;
     renderBook();
   }
-});
+};
 
-continueBtn.addEventListener("click", () => {
+continueBtn.onclick = () => {
   bookContainer.classList.add("hidden");
   spawnPirate3Animated();
-});
+};
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3
+   🏴‍☠️ PIRATE 3 — animation propre vers X = 638
 ===================================================== */
 function spawnPirate3Animated() {
   pirate3.classList.remove("hidden");
   pirate3.style.transition = "none";
-  pirate3.style.right = "-300px";
+  pirate3.style.left = "-300px";
 
   requestAnimationFrame(() => {
-    pirate3.style.transition = "right 1s ease-out";
-    pirate3.style.right = "120px";
+    pirate3.style.transition = "left 1s ease-out";
+    pirate3.style.left = "638px";
   });
 
   pirate3.addEventListener("mouseenter", () => pirate3.classList.add("glow"));
   pirate3.addEventListener("mouseleave", () => pirate3.classList.remove("glow"));
 
   pirate3.addEventListener("click", () => {
-    pirate3.classList.remove("glow");
     pirate3.style.pointerEvents = "none";
     startDialogues2();
   }, { once: true });
@@ -333,7 +364,8 @@ function showDatabaseBox() {
   box.style.transform = "translate(-50%,-50%)";
 
   box.innerHTML = `
-    <h2 style="color:gold;text-align:center">📜 Base de données</h2>
+    <h2 class="dbTitle">📜 Base de données</h2>
+    <div class="dbSeparator"></div>
     <p>Elle te permet de fidéliser tes clients et de bâtir ton empire.</p>
     <button class="finalBtn">Sceller cette connaissance</button>
   `;
