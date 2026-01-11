@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   📌 ELEMENTS DOM (OBLIGATOIRE)
+   📌 ELEMENTS DOM
 ===================================================== */
 const background = document.getElementById("background");
 
@@ -66,7 +66,7 @@ function showBackground() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5
+   🏴‍☠️ PIRATE 5 (JAMAIS GRISÉ)
 ===================================================== */
 function enablePirate5() {
   pirate5.classList.add("interactive");
@@ -76,7 +76,6 @@ function enablePirate5() {
 
   pirate5.addEventListener("click", () => {
     pirate5.classList.remove("glow");
-    pirate5.classList.add("locked");
     pirate5.style.pointerEvents = "none";
     startDialogues1();
   }, { once: true });
@@ -210,10 +209,9 @@ function winMiniGame1() {
 }
 
 /* =====================================================
-   📖 LIVRE + SABLIER
+   📖 LIVRE
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
-const bookLoader = document.getElementById("bookLoader");
 const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
@@ -229,23 +227,8 @@ let bookIndex = 0;
 
 function showBook() {
   bookContainer.classList.remove("hidden");
-  bookLoader.classList.remove("hidden");
   bookIndex = 0;
-
-  const imgs = bookSteps.flatMap(s => [s.left, s.right]);
-  let loaded = 0;
-
-  imgs.forEach(src => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
-      loaded++;
-      if (loaded === imgs.length) {
-        bookLoader.classList.add("hidden");
-        renderBook();
-      }
-    };
-  });
+  renderBook();
 }
 
 function renderBook() {
@@ -255,7 +238,6 @@ function renderBook() {
 
   leftPage.src = bookSteps[bookIndex].left;
   rightPage.src = bookSteps[bookIndex].right;
-
   continueBtn.classList.toggle("hidden", bookIndex !== bookSteps.length - 1);
 }
 
@@ -284,13 +266,6 @@ continueBtn.onclick = () => {
 ===================================================== */
 function spawnPirate3Animated() {
   pirate3.classList.remove("hidden");
-  pirate3.style.transition = "none";
-  pirate3.style.left = "900px";
-
-  requestAnimationFrame(() => {
-    pirate3.style.transition = "left 1s ease-out";
-    pirate3.style.left = "638px";
-  });
 
   pirate3.addEventListener("mouseenter", () => pirate3.classList.add("glow"));
   pirate3.addEventListener("mouseleave", () => pirate3.classList.remove("glow"));
@@ -370,7 +345,7 @@ function showDatabaseBox() {
 }
 
 /* =====================================================
-   🏁 FIN
+   🏁 FIN COMMERCE
 ===================================================== */
 function winFinal() {
   bubbleContainer.innerHTML = "";
