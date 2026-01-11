@@ -1,20 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   📌 ELEMENTS DOM (OBLIGATOIRE)
+   📌 ELEMENTS DOM
 ===================================================== */
 const background = document.getElementById("background");
 
 const pirate2 = document.getElementById("pirate2bis");
 const pirate5 = document.getElementById("pirate5bis");
 const pirate3 = document.getElementById("pirate3bis");
-
-/* =====================================================
-   🔧 OUTILS
-===================================================== */
-function vibrate(p = 15) {
-  if (navigator.vibrate) navigator.vibrate(p);
-}
 
 /* =====================================================
    🌑 LOADER GLOBAL
@@ -32,7 +25,12 @@ function showLoader(text, time = 800, cb) {
 }
 
 /* =====================================================
-   🎬 VIDÉO
+   ⏳ SABLIER LIVRE (GLOBAL FIXE)
+===================================================== */
+const bookLoader = document.getElementById("bookLoader");
+
+/* =====================================================
+   🎬 VIDEO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
@@ -49,14 +47,14 @@ toggleSound.onclick = () => {
 questVideo.onended = endVideo;
 closeVideo.onclick = endVideo;
 
-function endVideo(){
+function endVideo() {
   questVideo.pause();
   videoContainer.style.display = "none";
   showLoader("Chargement...", 800, showBackground);
 }
 
 /* =====================================================
-   🌅 BACKGROUND + PIRATES
+   🌅 BACKGROUND + PIRATES INIT
 ===================================================== */
 function showBackground() {
   background.classList.remove("hidden");
@@ -76,14 +74,13 @@ function enablePirate5() {
 
   pirate5.addEventListener("click", () => {
     pirate5.classList.remove("glow");
-    pirate5.classList.add("locked");
     pirate5.style.pointerEvents = "none";
     startDialogues1();
   }, { once: true });
 }
 
 /* =====================================================
-   💬 DIALOGUES — SYSTÈME
+   💬 DIALOGUES SYSTEME
 ===================================================== */
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
@@ -121,7 +118,6 @@ function renderDialogue() {
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = () => {
-    vibrate(10);
     dIndex++;
     dIndex < dialogues.length ? renderDialogue() : endDialogues();
   };
@@ -180,40 +176,17 @@ function startMiniGame1() {
 }
 
 /* =====================================================
-   🏆 RÉUSSITE MINI-JEU 1
+   🏆 FIN MINI-JEU 1 → LIVRE
 ===================================================== */
 function winMiniGame1() {
   miniGame.classList.add("hidden");
-
-  loaderBox.innerHTML = `
-    <div class="winBravo">BRAVO 🎉</div>
-    <div class="winText">Tu as gagné</div>
-    <div class="winCounter"><span id="poCounter">0</span></div>
-    <div class="winText">pièces d’or 💰</div>
-    <div class="winText">et ton business plan 🎁</div>
-  `;
-  fadeScreen.classList.remove("hidden");
-
-  let v = 0;
-  const counter = document.getElementById("poCounter");
-  const i = setInterval(() => {
-    v += 100;
-    counter.textContent = v;
-    if (v >= 5000) {
-      clearInterval(i);
-      setTimeout(() => {
-        fadeScreen.classList.add("hidden");
-        showBook();
-      }, 1200);
-    }
-  }, 30);
+  showLoader("📖 Ouverture du grimoire...", 800, showBook);
 }
 
 /* =====================================================
    📖 LIVRE + SABLIER
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
-const bookLoader = document.getElementById("bookLoader");
 const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
@@ -228,9 +201,7 @@ const bookSteps = [
 let bookIndex = 0;
 
 function showBook() {
-  bookContainer.classList.remove("hidden");
   bookLoader.classList.remove("hidden");
-  bookIndex = 0;
 
   const imgs = bookSteps.flatMap(s => [s.left, s.right]);
   let loaded = 0;
@@ -242,6 +213,8 @@ function showBook() {
       loaded++;
       if (loaded === imgs.length) {
         bookLoader.classList.add("hidden");
+        bookContainer.classList.remove("hidden");
+        bookIndex = 0;
         renderBook();
       }
     };
@@ -261,14 +234,12 @@ function renderBook() {
 
 book.addEventListener("click", (e) => {
   const rect = book.getBoundingClientRect();
-  const middle = rect.left + rect.width / 2;
+  const mid = rect.left + rect.width / 2;
 
-  if (e.clientX > middle && bookIndex < bookSteps.length - 1) {
+  if (e.clientX > mid && bookIndex < bookSteps.length - 1) {
     bookIndex++;
     renderBook();
-  }
-
-  if (e.clientX < middle && bookIndex > 0) {
+  } else if (e.clientX < mid && bookIndex > 0) {
     bookIndex--;
     renderBook();
   }
@@ -280,7 +251,7 @@ continueBtn.onclick = () => {
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3
+   🏴‍☠️ PIRATE 3 APPARITION
 ===================================================== */
 function spawnPirate3Animated() {
   pirate3.classList.remove("hidden");
@@ -350,7 +321,6 @@ function startDialogues3() {
 ===================================================== */
 function showDatabaseBox() {
   bubbleContainer.innerHTML = "";
-  skipBtn.classList.add("hidden");
 
   const box = document.createElement("div");
   box.className = "dialogue-bubble";
@@ -362,7 +332,7 @@ function showDatabaseBox() {
     <h2 class="dbTitle">📜 Base de données</h2>
     <div class="dbSeparator"></div>
     <p>Elle te permet de fidéliser tes clients et de bâtir ton empire.</p>
-    <button class="finalBtn">Sceller cette connaissance</button>
+    <button class="finalBtn">Terminer la quête</button>
   `;
 
   box.querySelector("button").onclick = winFinal;
@@ -370,57 +340,13 @@ function showDatabaseBox() {
 }
 
 /* =====================================================
-   🏁 FIN
+   🏁 FIN + RETOUR MENU
 ===================================================== */
 function winFinal() {
   bubbleContainer.innerHTML = "";
-  showLoader("🎉 Bravo, tu as gagné cette quête", 2000, launchFireworks);
-}
-
-/* =====================================================
-   🎆 FEUX D’ARTIFICE
-===================================================== */
-function launchFireworks() {
-  const canvas = document.createElement("canvas");
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-  canvas.style.position = "fixed";
-  canvas.style.inset = 0;
-  canvas.style.pointerEvents = "none";
-  canvas.style.zIndex = 5000;
-  document.body.appendChild(canvas);
-
-  const ctx = canvas.getContext("2d");
-  let particles = [];
-
-  for (let i = 0; i < 180; i++) {
-    const a = Math.random() * Math.PI * 2;
-    const s = Math.random() * 8 + 4;
-    particles.push({
-      x: innerWidth / 2,
-      y: innerHeight / 2,
-      vx: Math.cos(a) * s,
-      vy: Math.sin(a) * s,
-      life: 100,
-      c: `hsl(${Math.random() * 360},100%,60%)`
-    });
-  }
-
-  function update() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.vy += 0.12;
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life--;
-      ctx.fillStyle = p.c;
-      ctx.fillRect(p.x, p.y, 3, 3);
-    });
-    particles = particles.filter(p => p.life > 0);
-    particles.length ? requestAnimationFrame(update) : canvas.remove();
-  }
-
-  update();
+  showLoader("🎉 Quête terminée", 2000, () => {
+    window.location.href = "menu.html";
+  });
 }
 
 });
