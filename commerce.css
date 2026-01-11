@@ -144,8 +144,10 @@ html, body {
 
 #pirate5bis {
   width: 143px;
-  left: 785px;
-  top: 397px;
+  left: 65%;          /* 👈 RESPONSIVE */
+  top: 420px;         /* 👈 TOUJOURS VISIBLE */
+  transform: translateX(0);
+  opacity: 1;
 }
 
 #pirate3bis {
