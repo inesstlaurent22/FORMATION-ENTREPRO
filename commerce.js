@@ -1,6 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
+   📌 ELEMENTS DOM (OBLIGATOIRE)
+===================================================== */
+const background = document.getElementById("background");
+
+const pirate2 = document.getElementById("pirate2bis");
+const pirate5 = document.getElementById("pirate5bis");
+const pirate3 = document.getElementById("pirate3bis");
+
+/* =====================================================
    🔧 OUTILS
 ===================================================== */
 function vibrate(p = 15) {
@@ -32,7 +41,7 @@ const closeVideo  = document.getElementById("closeVideo");
 
 questVideo.muted = true;
 
-toggleSound.onclick = ()=>{
+toggleSound.onclick = () => {
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
 };
@@ -57,7 +66,7 @@ function showBackground() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 (hover glow → clic stop → dialogues)
+   🏴‍☠️ PIRATE 5 (hover glow → clic → dialogues)
 ===================================================== */
 function enablePirate5() {
   pirate5.classList.add("interactive");
@@ -178,7 +187,7 @@ function startMiniGame1() {
 }
 
 /* =====================================================
-   🏆 RÉUSSITE MINI-JEU 1 (BRAVO rainbow)
+   🏆 RÉUSSITE MINI-JEU 1
 ===================================================== */
 function winMiniGame1() {
   miniGame.classList.add("hidden");
@@ -208,7 +217,7 @@ function winMiniGame1() {
 }
 
 /* =====================================================
-   📖 LIVRE — chargement images + page flip
+   📖 LIVRE
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
@@ -227,20 +236,7 @@ let bookIndex = 0;
 function showBook() {
   bookContainer.classList.remove("hidden");
   bookIndex = 0;
-
-  const imgs = bookSteps.flatMap(s => [s.left, s.right]);
-  let loaded = 0;
-
-  imgs.forEach(src => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
-      loaded++;
-      if (loaded === imgs.length) {
-        renderBook();
-      }
-    };
-  });
+  renderBook();
 }
 
 function renderBook() {
@@ -275,7 +271,7 @@ continueBtn.onclick = () => {
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 — X = 638
+   🏴‍☠️ PIRATE 3
 ===================================================== */
 function spawnPirate3Animated() {
   pirate3.classList.remove("hidden");
@@ -341,7 +337,7 @@ function startDialogues3() {
 }
 
 /* =====================================================
-   📦 BASE DE DONNÉES (UI pirate)
+   📦 BASE DE DONNÉES
 ===================================================== */
 function showDatabaseBox() {
   bubbleContainer.innerHTML = "";
