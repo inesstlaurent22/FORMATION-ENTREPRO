@@ -32,39 +32,6 @@ html, body {
   pointer-events: none;
 }
 
-#videoControls {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-  z-index: 3100;
-}
-
-#videoControls button {
-  padding: 12px 16px;
-  font-size: 16px;
-  border-radius: 14px;
-  border: 3px solid #3b1b00;
-  background: linear-gradient(#ffd27d, #c89b58);
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 0 #3b1b00;
-  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
-}
-
-#videoControls button:hover {
-  transform: scale(1.05);
-  filter: brightness(1.15);
-  box-shadow: 0 0 12px gold, 0 6px 0 #3b1b00;
-}
-
-#videoControls button:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 #3b1b00;
-}
-
 /* ================= BACKGROUND ================= */
 #background {
   position: fixed;
@@ -77,7 +44,6 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  pointer-events: none;
 }
 
 /* ================= PIRATES ================= */
@@ -85,21 +51,16 @@ html, body {
   position: absolute;
   z-index: 2500;
   cursor: pointer;
-  transition: transform .3s ease, filter .3s ease, opacity .3s ease;
+  transition: transform .4s ease, filter .4s ease, opacity .4s ease;
 }
 
+/* glow */
 .pirate.glow {
   filter: drop-shadow(0 0 30px gold);
   transform: scale(1.06);
 }
 
-.pirate.locked {
-  filter: none !important;
-  transform: none !important;
-  cursor: default;
-}
-
-/* ================= POSITIONS PIRATES ================= */
+/* ================= POSITIONS ================= */
 #pirate2bis {
   width: 186px;
   left: 520px;
@@ -112,10 +73,28 @@ html, body {
   top: 286px;
 }
 
+/* Pirate 3 – caché au départ */
 #pirate3bis {
   width: 235px;
-  left: 638px;
   top: 397px;
+  left: 120%;
+  opacity: 0;
+}
+
+/* Apparition depuis la droite */
+#pirate3bis.enter {
+  animation: pirateEnter 1.1s ease-out forwards;
+}
+
+@keyframes pirateEnter {
+  0% {
+    left: 120%;
+    opacity: 0;
+  }
+  100% {
+    left: 638px;
+    opacity: 1;
+  }
 }
 
 /* ================= DIALOGUES ================= */
@@ -137,23 +116,6 @@ html, body {
   line-height: 1.45;
   box-shadow: 0 6px 0 #3b1b00, 0 22px 45px rgba(0,0,0,.55);
   pointer-events: auto;
-  cursor: pointer;
-}
-
-/* ================= SKIP ================= */
-#skipDialoguesBtn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 16px;
-  border: 3px solid #3b1b00;
-  background: linear-gradient(#ffd27d, #c89b58);
-  color: #000;
-  z-index: 3500;
-  cursor: pointer;
 }
 
 /* ================= LOADER ================= */
@@ -189,7 +151,7 @@ html, body {
   100% { color: #ff00ff; text-shadow: 0 0 20px #ff00ff; }
 }
 
-/* ================= MINI JEU 1 ================= */
+/* ================= MINI JEU ================= */
 #miniGameContainer {
   position: fixed;
   inset: 0;
@@ -207,38 +169,13 @@ html, body {
   border: 6px solid #d6a756;
   padding: 30px;
   text-align: center;
-  box-shadow: 0 0 30px rgba(255,215,0,.35), inset 0 0 20px rgba(255,215,0,.15);
+  box-shadow: 0 0 30px rgba(255,215,0,.35);
 }
 
-.quizTitle {
-  font-size: 34px;
-  font-weight: 900;
-  color: #fff;
-  text-shadow: 0 0 25px gold;
-  margin-bottom: 18px;
-}
-
-#gameQuestion {
-  color: #ffffff;
-  font-size: 24px;
-  font-weight: 600;
-  text-shadow: 0 0 12px rgba(255,255,255,.4);
-  margin-bottom: 18px;
-}
-
+.quizTitle,
+#gameQuestion,
 #gameFeedback {
   color: #ffffff;
-  font-size: 22px;
-  font-weight: bold;
-  margin-top: 14px;
-}
-
-#gameFeedback.success {
-  text-shadow: 0 0 12px #00ff99, 0 0 22px #00ff99;
-}
-
-#gameFeedback.error {
-  text-shadow: 0 0 12px #ff5555, 0 0 22px #ff5555;
 }
 
 /* ================= LIVRE ================= */
@@ -253,27 +190,55 @@ html, body {
   z-index: 2200;
 }
 
-#bookTitle {
-  font-size: 48px;
-  font-weight: 900;
-  color: gold;
-  margin-bottom: 26px;
-  text-shadow: 0 0 25px gold;
-}
-
 .book {
   display: flex;
   border: 6px solid #6b3e18;
   border-radius: 18px;
   overflow: hidden;
   background: #2b1a0d;
+  perspective: 1400px;
 }
 
 .page img {
   max-width: 420px;
   max-height: 520px;
   object-fit: contain;
-  background: #1b1008;
+}
+
+/* PAGE TURN droite -> gauche */
+.book.page-turn .page.right {
+  transform-origin: right center;
+}
+
+.book.page-turn .page.right img {
+  animation: pageFlipRightToLeft 0.9s ease-in-out forwards;
+}
+
+@keyframes pageFlipRightToLeft {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(-180deg); }
+}
+
+/* ================= CONTINUER ================= */
+#continueQuestBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 18px;
+  border: 4px solid #3b1b00;
+  background: linear-gradient(#ffd27d, #c89b58);
+  color: #000; /* 🔥 TEXTE NOIR */
+  cursor: pointer;
+  z-index: 3300;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+#continueQuestBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px gold;
 }
 
 /* ================= TEXTE FINAL ================= */
@@ -286,30 +251,19 @@ html, body {
 }
 
 @keyframes lightPulse {
-  0% {
-    text-shadow: 0 0 8px rgba(255,255,255,.4), 0 0 18px rgba(255,215,0,.3);
-  }
-  50% {
-    text-shadow: 0 0 20px rgba(255,255,255,.9), 0 0 45px rgba(255,215,0,.9);
-  }
-  100% {
-    text-shadow: 0 0 8px rgba(255,255,255,.4), 0 0 18px rgba(255,215,0,.3);
-  }
+  0% { text-shadow: 0 0 8px #fff; }
+  50% { text-shadow: 0 0 40px gold; }
+  100% { text-shadow: 0 0 8px #fff; }
 }
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-  #pirate2bis { left: 15%; top: 380px; }
-  #pirate5bis { left: 65%; top: 380px; }
-  #pirate3bis { left: 50%; top: 380px; }
-
-  .dialogue-bubble {
-    max-width: 90vw;
-    left: 50% !important;
-    transform: translateX(-50%);
+  #pirate3bis.enter {
+    animation: pirateEnterMobile 1.1s ease-out forwards;
   }
 
-  .book {
-    transform: scale(.9);
+  @keyframes pirateEnterMobile {
+    from { left: 120%; opacity: 0; }
+    to   { left: 50%; transform: translateX(-50%); opacity: 1; }
   }
 }
