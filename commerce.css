@@ -57,11 +57,11 @@ body {
   object-fit: cover;
 }
 
-/* Boutons vidéo pirate */
+/* Boutons vidéo pirate – EN HAUT */
 #toggleSound,
 #closeVideo {
   position: absolute;
-  bottom: 30px;
+  top: 25px;
   padding: 12px 22px;
   font-size: 18px;
   background: linear-gradient(145deg, #e8c77a, #b48b3c);
@@ -70,6 +70,7 @@ body {
   color: #000;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0,0,0,0.6);
+  z-index: 2100;
 }
 
 #toggleSound { left: 30px; }
@@ -93,7 +94,7 @@ body {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES
+   🏴‍☠️ PIRATES – POSITIONS FIXES
 ===================================================== */
 #pirate2bis,
 #pirate3bis,
@@ -103,6 +104,31 @@ body {
   transition: transform 0.3s, filter 0.3s;
 }
 
+/* Pirate 2 */
+#pirate2bis {
+  left: 517px;
+  top: 406px;
+  width: 186px;
+  height: 178px;
+}
+
+/* Pirate 3 */
+#pirate3bis {
+  left: 638px;
+  top: 177px;
+  width: 235px;
+  height: 217px;
+}
+
+/* Pirate 5 */
+#pirate5bis {
+  left: 946px;
+  top: 286px;
+  width: 143px;
+  height: 187px;
+}
+
+/* Interactions */
 .interactive {
   cursor: pointer;
 }
@@ -112,9 +138,9 @@ body {
   transform: scale(1.05);
 }
 
+/* ⚠️ Pirate5bis ne sera jamais grisé */
 .locked {
-  filter: grayscale(100%);
-  opacity: 0.6;
+  display: none;
 }
 
 /* =====================================================
@@ -145,7 +171,7 @@ body {
   transform: scale(1.03);
 }
 
-/* Skip */
+/* Skip dialogues */
 #skipDialoguesBtn {
   position: fixed;
   bottom: 25px;
@@ -160,7 +186,7 @@ body {
 }
 
 /* =====================================================
-   🎮 MINI-JEUX – ENCADRÉ PIRATE
+   🎮 MINI-JEUX
 ===================================================== */
 #miniGameContainer,
 #merchantGame {
@@ -179,21 +205,18 @@ body {
   text-align: center;
 }
 
-/* Question */
 #gameQuestion,
 #clue {
   font-size: 20px;
   margin-bottom: 20px;
 }
 
-/* Réponses */
 #gameAnswers {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* Boutons pirate (texte noir) */
 #gameAnswers button,
 #merchantGame button,
 .finalBtn,
@@ -216,7 +239,6 @@ body {
   box-shadow: 0 0 14px rgba(255,215,100,0.8);
 }
 
-/* Feedback */
 #gameFeedback {
   margin-top: 18px;
   font-size: 18px;
@@ -260,10 +282,12 @@ body {
   to { transform: scale(1); }
 }
 
-#bookLoader {
-  position: absolute;
-  color: #fff;
-  font-size: 22px;
+/* Bouton poursuivre la quête – EN HAUT À DROITE */
+#continueQuestBtn {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  z-index: 3000;
 }
 
 /* =====================================================
