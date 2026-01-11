@@ -2,169 +2,89 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Quête – Le Marché des Trésors</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-  <!-- CSS -->
+  <title>Le Marché des Trésors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="commerce.css">
 </head>
 
 <body>
 
-<!-- =====================================================
-     🎬 VIDÉO D’INTRO
-===================================================== -->
+<!-- ================= VIDEO ================= -->
 <div id="videoContainer">
-  <video id="questVideo" autoplay muted playsinline preload="auto">
-    <source src="videos/Commercevideo.MOV" type="video/mp4">
-    Votre navigateur ne supporte pas la vidéo.
+  <video id="questVideo" autoplay muted playsinline>
+    <source src="video/intro.mp4" type="video/mp4">
   </video>
 
   <div id="videoControls">
     <button id="toggleSound">🔇</button>
-    <button id="closeVideo">Passer la vidéo</button>
+    <button id="closeVideo">✖</button>
   </div>
 </div>
 
-<!-- =====================================================
-     🌅 BACKGROUND
-===================================================== -->
-<div id="background" class="hidden">
-  <img
-    src="images/Commercefond.PNG"
-    class="fondImage"
-    alt="Marché pirate"
-  >
-</div>
-
-<!-- =====================================================
-     🏴‍☠️ PIRATES
-===================================================== -->
-<img
-  src="images/Pirate2.png"
-  id="pirate2bis"
-  class="pirate"
-  alt="Pirate apprenti"
->
-
-<img
-  src="images/Pirate5.png"
-  id="pirate5bis"
-  class="pirate"
-  alt="Maître pirate"
->
-
-<!-- Pirate client – apparition animée depuis la droite via JS -->
-<img
-  src="images/Pirateclients.png"
-  id="pirate3bis"
-  class="pirate hidden"
-  alt="Pirate client"
->
-
-<!-- =====================================================
-     💬 BULLES DE DIALOGUE
-===================================================== -->
-<div id="bubbleContainer"></div>
-
-<button id="skipDialoguesBtn" class="hidden">
-  Passer les dialogues
-</button>
-
-<!-- =====================================================
-     🌑 LOADER / TRANSITIONS
-===================================================== -->
+<!-- ================= LOADER GLOBAL ================= -->
 <div id="fadeScreen" class="hidden">
-  <div class="loaderBox">
-    Chargement…
-  </div>
+  <div class="loaderBox">Chargement...</div>
 </div>
 
-<!-- =====================================================
-     🎮 MINI-JEU 1 — BUSINESS PLAN
-===================================================== -->
+<!-- ================= SABLIER GLOBAL ================= -->
+<div id="bookLoader" class="hidden">
+  <div class="hourglass">⏳</div>
+  <div class="loaderText">Chargement du grimoire...</div>
+</div>
+
+<!-- ================= BACKGROUND ================= -->
+<div id="background" class="hidden">
+  <img src="images/fond.png" class="fondImage">
+</div>
+
+<!-- ================= PIRATES ================= -->
+<img id="pirate2bis" class="pirate hidden" src="images/pirate2.png">
+<img id="pirate5bis" class="pirate hidden" src="images/pirate5.png">
+<img id="pirate3bis" class="pirate hidden" src="images/pirate3.png">
+
+<!-- ================= DIALOGUES ================= -->
+<div id="bubbleContainer"></div>
+<button id="skipDialoguesBtn" class="hidden">Passer</button>
+
+<!-- ================= MINI JEU 1 ================= -->
 <div id="miniGameContainer" class="hidden">
   <div class="quizBox">
-
-    <div class="quizTitle">
-      La création de ton business plan
-    </div>
-
-    <div class="quizSeparator"></div>
-
-    <div id="gameQuestion"></div>
+    <div class="quizTitle">⚔️ Défi du capitaine</div>
+    <p id="gameQuestion"></p>
     <div id="gameAnswers"></div>
     <div id="gameFeedback"></div>
-
   </div>
 </div>
 
-<!-- =====================================================
-     📖 LIVRE DIGITAL
-===================================================== -->
+<!-- ================= LIVRE ================= -->
 <div id="bookContainer" class="hidden">
-
-  <div id="bookTitle">
-    Ton business plan est prêt
-  </div>
+  <h1 id="bookTitle">📖 Le Grimoire</h1>
 
   <div class="book">
     <div class="page left">
-      <img id="leftPage" alt="Page gauche">
+      <img id="leftPage">
     </div>
+
     <div class="page right">
-      <img id="rightPage" alt="Page droite">
+      <img id="rightPage">
+      <div class="pageCurl"></div>
     </div>
   </div>
 
-  <button id="continueQuestBtn" class="hidden">
-    Poursuivre ta quête
-  </button>
-
-<div id="bookLoader" class="bookLoader hidden">
-  ⏳
-  <div class="loaderText">Chargement du grimoire...</div>
-</div>
+  <button id="continueQuestBtn" class="hidden">Continuer</button>
 </div>
 
-<!-- =====================================================
-     🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHÉ
-===================================================== -->
+<!-- ================= MINI JEU 2 ================= -->
 <div id="merchantGame" class="hidden">
   <div id="game">
-
-    <h1>🧔‍♂️ Le Jugement du Marché</h1>
-
-    <p>
-      📦 Prix de l’objet :
-      <strong><span id="price">300</span> PO</strong>
-    </p>
-
-    <p>
-      🏷️ Prix des concurrents :
-      <strong><span id="exp">250</span> PO</strong>
-    </p>
-
-    <div id="dialogue">
-      <p id="clientText">
-        « J’ai vu cet objet à moitié prix dans un autre port… »
-      </p>
-    </div>
-
-    <div id="clue"></div>
-
-    <div id="buttons">
-      <button id="btnHint">💡 Indice</button>
-      <button id="btnLower">💰 Baisser le prix</button>
-      <button id="btnKeep">⚖️ Maintenir le prix</button>
-    </div>
-
+    <h1>⚖️ Le choix du marchand</h1>
+    <p id="clue"></p>
+    <button id="btnHint">Indice</button>
+    <button id="btnKeep">Maintenir le prix</button>
+    <button id="btnLower">Baisser le prix</button>
   </div>
 </div>
 
-<!-- =====================================================
-     📜 SCRIPT
-===================================================== -->
 <script src="commerce.js"></script>
 
 </body>
