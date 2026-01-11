@@ -64,11 +64,10 @@ function showBackground() {
 
   pirate5.classList.remove("hidden");
 
-  // 🔒 FORCE POSITION VISIBLE
-  pirate5.style.top = "420px";
-  pirate5.style.left = "65%";
-  pirate5.style.opacity = "0";
+  // RESET SAFE
+  pirate5.style.transition = "none";
   pirate5.style.transform = "translateX(300px)";
+  pirate5.style.opacity = "0";
 
   requestAnimationFrame(() => {
     pirate5.style.transition = "transform 1.2s ease-out, opacity 1.2s ease-out";
