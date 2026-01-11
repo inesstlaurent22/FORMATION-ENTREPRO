@@ -30,15 +30,9 @@ const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo  = document.getElementById("closeVideo");
 
-const background = document.getElementById("background");
-const pirate2 = document.getElementById("pirate2bis");
-const pirate5 = document.getElementById("pirate5bis");
-const pirate3 = document.getElementById("pirate3bis");
-
 questVideo.muted = true;
-toggleSound.textContent = "🔇";
 
-toggleSound.onclick = () => {
+toggleSound.onclick = ()=>{
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
 };
@@ -46,15 +40,9 @@ toggleSound.onclick = () => {
 questVideo.onended = endVideo;
 closeVideo.onclick = endVideo;
 
-let videoFinished = false;
-
-function endVideo() {
-  if (videoFinished) return;
-  videoFinished = true;
-
+function endVideo(){
   questVideo.pause();
   videoContainer.style.display = "none";
-
   showLoader("Chargement...", 800, showBackground);
 }
 
