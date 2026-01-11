@@ -75,50 +75,13 @@ html, body {
   text-align: center;
 }
 
-/* ================= SABLIER FIXE ================= */
-#bookLoader {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.96);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 5000;
-}
-
-#bookLoader .hourglass {
-  font-size: 72px;
-  color: gold;
-  text-shadow: 0 0 30px gold;
-  animation: hourglassFlip 1.4s infinite ease-in-out;
-}
-
-#bookLoader .loaderText {
-  margin-top: 20px;
-  font-size: 22px;
-  color: gold;
-  animation: pulseText 1.6s infinite ease-in-out;
-}
-
-@keyframes hourglassFlip {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(180deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes pulseText {
-  0% { opacity: .4; }
-  50% { opacity: 1; }
-  100% { opacity: .4; }
-}
-
 /* ================= BACKGROUND ================= */
 #background {
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  cursor: pointer;
 }
 
 .fondImage {
@@ -233,6 +196,45 @@ html, body {
   color: gold;
   text-shadow: 0 0 25px gold;
 }
+
+/* ================= SABLIER FIXE ================= */
+#bookLoader {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.96);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+
+#bookLoader .hourglass {
+  font-size: 72px;
+  color: gold;
+  text-shadow: 0 0 30px gold;
+  animation: hourglassFlip 1.4s infinite ease-in-out;
+}
+
+#bookLoader .loaderText {
+  margin-top: 20px;
+  font-size: 22px;
+  color: gold;
+  animation: pulseText 1.6s infinite ease-in-out;
+}
+
+@keyframes hourglassFlip {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulseText {
+  0% { opacity: .4; }
+  50% { opacity: 1; }
+  100% { opacity: .4; }
+}
+
 
 /* ================= LIVRE ================= */
 #bookContainer {
