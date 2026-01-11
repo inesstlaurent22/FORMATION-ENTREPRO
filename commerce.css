@@ -75,7 +75,10 @@ html, body {
 /* ================= PIRATES ================= */
 .pirate {
   position: absolute;
-  z-index: 100;
+  z-index: 200;                 /* AU-DESSUS DU FOND */
+  display: block;
+  visibility: visible;
+  pointer-events: auto;         /* 🔥 interactifs */
   transition: transform .3s ease, filter .3s ease;
 }
 
