@@ -146,7 +146,6 @@ html, body {
   width: 143px;
   left: 65%;          /* 👈 RESPONSIVE */
   top: 420px;         /* 👈 TOUJOURS VISIBLE */
-  transform: translateX(0);
   opacity: 1;
 }
 
