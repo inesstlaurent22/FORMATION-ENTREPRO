@@ -46,7 +46,6 @@ function endVideo(){
   showLoader("Chargement...", 800, showBackground);
 }
 
-
 /* =====================================================
    🌅 BACKGROUND + PIRATES
 ===================================================== */
@@ -58,42 +57,28 @@ function showBackground() {
 
   pirate2.style.display = "block";
   pirate5.style.display = "block";
+  pirate2.style.pointerEvents = "auto";
+  pirate5.style.pointerEvents = "auto";
 
   enablePirate5();
 }
-   
+
 /* =====================================================
-   🏴‍☠️ PIRATE 5 — hover glow → clic stop
+   🏴‍☠️ PIRATE 5 — hover glow → clic → dialogues
 ===================================================== */
 function enablePirate5() {
   pirate5.classList.add("interactive");
 
-  pirate5.addEventListener("mouseenter", () => {
-    pirate5.classList.add("glow");
-  });
+  pirate5.onmouseenter = () => pirate5.classList.add("glow");
+  pirate5.onmouseleave = () => pirate5.classList.remove("glow");
 
-  pirate5.addEventListener("mouseleave", () => {
-    pirate5.classList.remove("glow");
-  });
-
-  pirate5.addEventListener("click", () => {
+  pirate5.onclick = () => {
     pirate5.classList.remove("glow");
     pirate5.classList.add("locked");
     pirate5.style.pointerEvents = "none";
     startDialogues1();
-  }, { once: true });
+  };
 }
-
-/* =====================================================
-   🛟 SAFETY VISIBILITY (DEBUG + PROD)
-===================================================== */
-setTimeout(() => {
-  pirate2.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
-
-  pirate2.style.display = "block";
-  pirate5.style.display = "block";
-}, 500);
 
 /* =====================================================
    💬 DIALOGUES — SYSTÈME
@@ -111,7 +96,11 @@ function playDialogues(list, cb) {
   dIndex = 0;
   onDialogueEnd = cb;
   dialogueFinished = false;
+
   skipBtn.classList.remove("hidden");
+  skipBtn.style.pointerEvents = "auto";
+  bubbleContainer.style.pointerEvents = "auto";
+
   renderDialogue();
 }
 
@@ -134,6 +123,7 @@ function renderDialogue() {
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = () => {
+    if (dialogueFinished) return;
     vibrate(10);
     dIndex++;
     dIndex < dialogues.length ? renderDialogue() : endDialogues();
@@ -226,7 +216,7 @@ function winMiniGame1() {
 }
 
 /* =====================================================
-   📖 LIVRE — chargement images
+   📖 LIVRE — chargement images + animation
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
@@ -296,10 +286,12 @@ continueBtn.onclick = () => {
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 — animation propre vers X = 638
+   🏴‍☠️ PIRATE 3 — apparition animée
 ===================================================== */
 function spawnPirate3Animated() {
   pirate3.classList.remove("hidden");
+  pirate3.style.display = "block";
+  pirate3.style.pointerEvents = "auto";
   pirate3.style.transition = "none";
   pirate3.style.left = "-300px";
 
@@ -308,13 +300,13 @@ function spawnPirate3Animated() {
     pirate3.style.left = "638px";
   });
 
-  pirate3.addEventListener("mouseenter", () => pirate3.classList.add("glow"));
-  pirate3.addEventListener("mouseleave", () => pirate3.classList.remove("glow"));
+  pirate3.onmouseenter = () => pirate3.classList.add("glow");
+  pirate3.onmouseleave = () => pirate3.classList.remove("glow");
 
-  pirate3.addEventListener("click", () => {
+  pirate3.onclick = () => {
     pirate3.style.pointerEvents = "none";
     startDialogues2();
-  }, { once: true });
+  };
 }
 
 /* =====================================================
