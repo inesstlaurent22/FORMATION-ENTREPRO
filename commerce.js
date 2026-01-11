@@ -61,7 +61,7 @@ function showBackground() {
 
   enablePirate5();
 }
-
+   
 /* =====================================================
    🏴‍☠️ PIRATE 5 — hover glow → clic stop
 ===================================================== */
@@ -83,6 +83,17 @@ function enablePirate5() {
     startDialogues1();
   }, { once: true });
 }
+
+/* =====================================================
+   🛟 SAFETY VISIBILITY (DEBUG + PROD)
+===================================================== */
+setTimeout(() => {
+  pirate2.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
+
+  pirate2.style.display = "block";
+  pirate5.style.display = "block";
+}, 500);
 
 /* =====================================================
    💬 DIALOGUES — SYSTÈME
