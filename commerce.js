@@ -17,7 +17,7 @@ function vibrate(p = 15) {
 }
 
 /* =====================================================
-   🌑 LOADER
+   🌑 LOADER GLOBAL
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
@@ -66,18 +66,13 @@ function showBackground() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 (hover glow → clic → dialogues)
+   🏴‍☠️ PIRATE 5
 ===================================================== */
 function enablePirate5() {
   pirate5.classList.add("interactive");
 
-  pirate5.addEventListener("mouseenter", () => {
-    pirate5.classList.add("glow");
-  });
-
-  pirate5.addEventListener("mouseleave", () => {
-    pirate5.classList.remove("glow");
-  });
+  pirate5.addEventListener("mouseenter", () => pirate5.classList.add("glow"));
+  pirate5.addEventListener("mouseleave", () => pirate5.classList.remove("glow"));
 
   pirate5.addEventListener("click", () => {
     pirate5.classList.remove("glow");
@@ -137,10 +132,8 @@ function renderDialogue() {
 function endDialogues() {
   if (dialogueFinished) return;
   dialogueFinished = true;
-
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
-
   typeof onDialogueEnd === "function" && onDialogueEnd();
 }
 
@@ -217,9 +210,10 @@ function winMiniGame1() {
 }
 
 /* =====================================================
-   📖 LIVRE
+   📖 LIVRE + SABLIER
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
+const bookLoader = document.getElementById("bookLoader");
 const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
@@ -235,8 +229,23 @@ let bookIndex = 0;
 
 function showBook() {
   bookContainer.classList.remove("hidden");
+  bookLoader.classList.remove("hidden");
   bookIndex = 0;
-  renderBook();
+
+  const imgs = bookSteps.flatMap(s => [s.left, s.right]);
+  let loaded = 0;
+
+  imgs.forEach(src => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      loaded++;
+      if (loaded === imgs.length) {
+        bookLoader.classList.add("hidden");
+        renderBook();
+      }
+    };
+  });
 }
 
 function renderBook() {
