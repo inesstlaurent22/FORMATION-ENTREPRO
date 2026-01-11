@@ -18,7 +18,7 @@ function showLoader(text, time = 800, cb) {
   fadeScreen.classList.remove("hidden");
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
-    if (cb) cb();
+    cb && cb();
   }, time);
 }
 
@@ -30,15 +30,9 @@ const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo  = document.getElementById("closeVideo");
 
-const background = document.getElementById("background");
-const pirate2 = document.getElementById("pirate2bis");
-const pirate5 = document.getElementById("pirate5bis");
-const pirate3 = document.getElementById("pirate3bis");
-
 questVideo.muted = true;
-toggleSound.textContent = "🔇";
 
-toggleSound.onclick = () => {
+toggleSound.onclick = ()=>{
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
 };
@@ -46,15 +40,10 @@ toggleSound.onclick = () => {
 questVideo.onended = endVideo;
 closeVideo.onclick = endVideo;
 
-let videoFinished = false;
-
-function endVideo() {
-  if (videoFinished) return;
-  videoFinished = true;
-
+function endVideo(){
   questVideo.pause();
   videoContainer.style.display = "none";
-  showLoader("Chargement...", 600, showBackground);
+  showLoader("Chargement...", 800, showBackground);
 }
 
 /* =====================================================
@@ -62,18 +51,13 @@ function endVideo() {
 ===================================================== */
 function showBackground() {
   background.classList.remove("hidden");
-
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
-
-  pirate2.style.pointerEvents = "auto";
-  pirate5.style.pointerEvents = "auto";
-
   enablePirate5();
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 — HOVER + CLIC
+   🏴‍☠️ PIRATE 5 (hover glow → clic stop → dialogues)
 ===================================================== */
 function enablePirate5() {
   pirate5.classList.add("interactive");
@@ -88,6 +72,7 @@ function enablePirate5() {
 
   pirate5.addEventListener("click", () => {
     pirate5.classList.remove("glow");
+    pirate5.classList.add("locked");
     pirate5.style.pointerEvents = "none";
     startDialogues1();
   }, { once: true });
@@ -102,30 +87,30 @@ const skipBtn = document.getElementById("skipDialoguesBtn");
 let dialogues = [];
 let dIndex = 0;
 let onDialogueEnd = null;
+let dialogueFinished = false;
 
 function playDialogues(list, cb) {
   dialogues = list;
   dIndex = 0;
   onDialogueEnd = cb;
-
+  dialogueFinished = false;
   skipBtn.classList.remove("hidden");
-  skipBtn.onclick = endDialogues;
-
   renderDialogue();
 }
 
 function renderDialogue() {
-  bubbleContainer.innerHTML = "";
+  if (dialogueFinished) return;
 
+  bubbleContainer.innerHTML = "";
   const d = dialogues[dIndex];
   const r = d.anchor.getBoundingClientRect();
 
   const bubble = document.createElement("div");
   bubble.className = "dialogue-bubble";
-  bubble.textContent = d.text;
+  bubble.innerHTML = d.text;
 
   let top = r.top - 140;
-  if (top < 80) top = r.bottom + 20;
+  if (top < 20) top = r.bottom + 20;
 
   bubble.style.left = (r.left + r.width / 2) + "px";
   bubble.style.top = top + "px";
@@ -134,21 +119,23 @@ function renderDialogue() {
   bubble.onclick = () => {
     vibrate(10);
     dIndex++;
-    if (dIndex < dialogues.length) {
-      renderDialogue();
-    } else {
-      endDialogues();
-    }
+    dIndex < dialogues.length ? renderDialogue() : endDialogues();
   };
 
   bubbleContainer.appendChild(bubble);
 }
 
 function endDialogues() {
+  if (dialogueFinished) return;
+  dialogueFinished = true;
+
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
-  if (onDialogueEnd) onDialogueEnd();
+
+  typeof onDialogueEnd === "function" && onDialogueEnd();
 }
+
+skipBtn.onclick = endDialogues;
 
 /* =====================================================
    💬 DIALOGUES 1
@@ -157,7 +144,7 @@ function startDialogues1() {
   playDialogues([
     { text: "Moussaillon ! Bienvenue sur le marché des trésors.", anchor: pirate5 },
     { text: "Créons ton business plan.", anchor: pirate2 }
-  ], () => showLoader("Chargement...", 600, startMiniGame1));
+  ], () => showLoader("Chargement...", 800, startMiniGame1));
 }
 
 /* =====================================================
@@ -174,29 +161,24 @@ function startMiniGame1() {
   gameA.innerHTML = "";
   gameF.textContent = "";
 
-  [
-    "Acheter un bateau",
-    "Définir clairement son offre",
-    "Fixer les prix"
-  ].forEach((txt, i) => {
-    const btn = document.createElement("button");
-    btn.textContent = txt;
-
-    btn.onclick = () => {
-      if (i === 1) {
-        gameF.textContent = "✅ Bonne décision";
-        setTimeout(winMiniGame1, 800);
-      } else {
-        gameF.textContent = "❌ Mauvais choix";
-      }
-    };
-
-    gameA.appendChild(btn);
-  });
+  ["Acheter un bateau", "Définir clairement son offre", "Fixer les prix"]
+    .forEach((txt, i) => {
+      const b = document.createElement("button");
+      b.textContent = txt;
+      b.onclick = () => {
+        if (i === 1) {
+          gameF.textContent = "✅ Bonne décision";
+          setTimeout(winMiniGame1, 900);
+        } else {
+          gameF.textContent = "❌ Mauvais choix";
+        }
+      };
+      gameA.appendChild(b);
+    });
 }
 
 /* =====================================================
-   🏆 RÉUSSITE MINI-JEU 1
+   🏆 RÉUSSITE MINI-JEU 1 (BRAVO rainbow)
 ===================================================== */
 function winMiniGame1() {
   miniGame.classList.add("hidden");
@@ -204,44 +186,114 @@ function winMiniGame1() {
   loaderBox.innerHTML = `
     <div class="winBravo">BRAVO 🎉</div>
     <div class="winText">Tu as gagné</div>
-    <div class="winText">ton business plan 🎁</div>
+    <div class="winCounter"><span id="poCounter">0</span></div>
+    <div class="winText">pièces d’or 💰</div>
+    <div class="winText">et ton business plan 🎁</div>
   `;
-
   fadeScreen.classList.remove("hidden");
 
-  setTimeout(() => {
-    fadeScreen.classList.add("hidden");
-    showBook();
-  }, 1600);
+  let v = 0;
+  const counter = document.getElementById("poCounter");
+  const i = setInterval(() => {
+    v += 100;
+    counter.textContent = v;
+    if (v >= 5000) {
+      clearInterval(i);
+      setTimeout(() => {
+        fadeScreen.classList.add("hidden");
+        showBook();
+      }, 1200);
+    }
+  }, 30);
 }
 
 /* =====================================================
-   📖 LIVRE (simple)
+   📖 LIVRE — chargement images + page flip
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
+const leftPage = document.getElementById("leftPage");
+const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
+const book = document.querySelector(".book");
+
+const bookSteps = [
+  { left: "images/Businessplancov.png", right: "images/Businessplan1.jpg" },
+  { left: "images/Businessplancov.png", right: "images/Businessplan2.jpg" },
+  { left: "images/Businessplancov.png", right: "images/Businessplan3.jpg" }
+];
+
+let bookIndex = 0;
 
 function showBook() {
   bookContainer.classList.remove("hidden");
-  continueBtn.classList.remove("hidden");
+  bookIndex = 0;
+
+  const imgs = bookSteps.flatMap(s => [s.left, s.right]);
+  let loaded = 0;
+
+  imgs.forEach(src => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      loaded++;
+      if (loaded === imgs.length) {
+        renderBook();
+      }
+    };
+  });
 }
+
+function renderBook() {
+  book.classList.remove("page-turn");
+  void book.offsetWidth;
+  book.classList.add("page-turn");
+
+  leftPage.src = bookSteps[bookIndex].left;
+  rightPage.src = bookSteps[bookIndex].right;
+
+  continueBtn.classList.toggle("hidden", bookIndex !== bookSteps.length - 1);
+}
+
+book.addEventListener("click", (e) => {
+  const rect = book.getBoundingClientRect();
+  const middle = rect.left + rect.width / 2;
+
+  if (e.clientX > middle && bookIndex < bookSteps.length - 1) {
+    bookIndex++;
+    renderBook();
+  }
+
+  if (e.clientX < middle && bookIndex > 0) {
+    bookIndex--;
+    renderBook();
+  }
+});
 
 continueBtn.onclick = () => {
   bookContainer.classList.add("hidden");
-  spawnPirate3();
+  spawnPirate3Animated();
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3
+   🏴‍☠️ PIRATE 3 — X = 638
 ===================================================== */
-function spawnPirate3() {
+function spawnPirate3Animated() {
   pirate3.classList.remove("hidden");
-  pirate3.style.left = "638px";
-  pirate3.style.pointerEvents = "auto";
+  pirate3.style.transition = "none";
+  pirate3.style.left = "900px";
 
-  pirate3.onclick = () => {
+  requestAnimationFrame(() => {
+    pirate3.style.transition = "left 1s ease-out";
+    pirate3.style.left = "638px";
+  });
+
+  pirate3.addEventListener("mouseenter", () => pirate3.classList.add("glow"));
+  pirate3.addEventListener("mouseleave", () => pirate3.classList.remove("glow"));
+
+  pirate3.addEventListener("click", () => {
+    pirate3.style.pointerEvents = "none";
     startDialogues2();
-  };
+  }, { once: true });
 }
 
 /* =====================================================
@@ -249,9 +301,121 @@ function spawnPirate3() {
 ===================================================== */
 function startDialogues2() {
   playDialogues([
-    { text: "Le marché est exigeant.", anchor: pirate3 },
-    { text: "Observe avant d’agir.", anchor: pirate5 }
-  ], () => alert("Suite du jeu ici 🚀"));
+    { text: "Ces pierres inspirent confiance.", anchor: pirate3 },
+    { text: "Mais le marché est exigeant.", anchor: pirate5 }
+  ], () => showLoader("Chargement...", 800, startMiniGame2));
+}
+
+/* =====================================================
+   🎮 MINI-JEU 2
+===================================================== */
+const merchantGame = document.getElementById("merchantGame");
+const clueEl = document.getElementById("clue");
+
+function startMiniGame2() {
+  merchantGame.classList.remove("hidden");
+  clueEl.textContent = "Analyse le marché avant de décider.";
+}
+
+document.getElementById("btnHint").onclick = () => {
+  clueEl.textContent = "💡 Peu de concurrence sur ce port.";
+};
+
+document.getElementById("btnKeep").onclick = () => {
+  merchantGame.classList.add("hidden");
+  startDialogues3();
+};
+
+document.getElementById("btnLower").onclick = () => {
+  clueEl.textContent = "❌ Mauvaise décision.";
+};
+
+/* =====================================================
+   💬 DIALOGUES 3
+===================================================== */
+function startDialogues3() {
+  playDialogues([
+    { text: "Note les coordonnées de tes clients.", anchor: pirate5 },
+    { text: "C’est ta base de données.", anchor: pirate2 }
+  ], showDatabaseBox);
+}
+
+/* =====================================================
+   📦 BASE DE DONNÉES (UI pirate)
+===================================================== */
+function showDatabaseBox() {
+  bubbleContainer.innerHTML = "";
+  skipBtn.classList.add("hidden");
+
+  const box = document.createElement("div");
+  box.className = "dialogue-bubble";
+  box.style.left = "50%";
+  box.style.top = "50%";
+  box.style.transform = "translate(-50%,-50%)";
+
+  box.innerHTML = `
+    <h2 class="dbTitle">📜 Base de données</h2>
+    <div class="dbSeparator"></div>
+    <p>Elle te permet de fidéliser tes clients et de bâtir ton empire.</p>
+    <button class="finalBtn">Sceller cette connaissance</button>
+  `;
+
+  box.querySelector("button").onclick = winFinal;
+  bubbleContainer.appendChild(box);
+}
+
+/* =====================================================
+   🏁 FIN
+===================================================== */
+function winFinal() {
+  bubbleContainer.innerHTML = "";
+  showLoader("🎉 Bravo, tu as gagné cette quête", 2000, launchFireworks);
+}
+
+/* =====================================================
+   🎆 FEUX D’ARTIFICE
+===================================================== */
+function launchFireworks() {
+  const canvas = document.createElement("canvas");
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  canvas.style.position = "fixed";
+  canvas.style.inset = 0;
+  canvas.style.pointerEvents = "none";
+  canvas.style.zIndex = 5000;
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext("2d");
+  let particles = [];
+
+  for (let i = 0; i < 180; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const s = Math.random() * 8 + 4;
+    particles.push({
+      x: innerWidth / 2,
+      y: innerHeight / 2,
+      vx: Math.cos(a) * s,
+      vy: Math.sin(a) * s,
+      life: 100,
+      c: `hsl(${Math.random() * 360},100%,60%)`
+    });
+  }
+
+  function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.vy += 0.12;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life--;
+      ctx.fillStyle = p.c;
+      ctx.fillRect(p.x, p.y, 3, 3);
+    });
+    particles = particles.filter(p => p.life > 0);
+    particles.length ? requestAnimationFrame(update) : canvas.remove();
+  }
+
+  update();
 }
 
 });
