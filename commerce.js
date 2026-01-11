@@ -7,16 +7,29 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const vibrate = p => navigator.vibrate && navigator.vibrate(p);
 
 /* =====================================================
-   🎬 VIDEO INTRO
+   🎬 VIDÉO
 ===================================================== */
-const video = document.getElementById("questVideo");
 const videoContainer = document.getElementById("videoContainer");
+const questVideo = document.getElementById("questVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo  = document.getElementById("closeVideo");
 
-video.addEventListener("ended", async () => {
-  videoContainer.classList.add("hidden");
-  await sleep(600);
-  startQuest();
-});
+questVideo.muted = true;
+
+toggleSound.onclick = ()=>{
+  questVideo.muted = !questVideo.muted;
+  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+};
+
+questVideo.onended = endVideo;
+closeVideo.onclick = endVideo;
+
+function endVideo(){
+  questVideo.pause();
+  videoContainer.style.display = "none";
+  showLoader("Chargement...", 800, showBackground);
+}
+
 
 /* =====================================================
    🏴‍☠️ ELEMENTS
