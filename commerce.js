@@ -61,7 +61,21 @@ function showLoader(text, time = 1200, cb) {
 function showBackground() {
   background.classList.remove("hidden");
   pirate2.classList.remove("hidden");
+
   pirate5.classList.remove("hidden");
+
+  // 🔒 FORCE POSITION VISIBLE
+  pirate5.style.top = "420px";
+  pirate5.style.left = "65%";
+  pirate5.style.opacity = "0";
+  pirate5.style.transform = "translateX(300px)";
+
+  requestAnimationFrame(() => {
+    pirate5.style.transition = "transform 1.2s ease-out, opacity 1.2s ease-out";
+    pirate5.style.transform = "translateX(0)";
+    pirate5.style.opacity = "1";
+  });
+
   enablePirate5();
 }
 
