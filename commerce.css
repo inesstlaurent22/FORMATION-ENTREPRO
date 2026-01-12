@@ -1,11 +1,15 @@
-/* ================= RESET ================= */
+/* =====================================================
+   🔄 RESET
+===================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 
 body {
   font-family: "Trebuchet MS", serif;
@@ -13,7 +17,9 @@ body {
   overflow: hidden;
 }
 
-/* ================= LOADER ================= */
+/* =====================================================
+   🌑 FADE SCREEN / LOADER
+===================================================== */
 #fadeScreen {
   position: fixed;
   inset: 0;
@@ -35,9 +41,10 @@ body {
   box-shadow: 0 0 30px rgba(255,215,100,0.5);
 }
 
+/* Bravo animé */
 @keyframes goldPulse {
-  0% { text-shadow: 0 0 8px gold; transform: scale(1); }
-  50% { text-shadow: 0 0 30px gold; transform: scale(1.12); }
+  0%   { text-shadow: 0 0 8px gold; transform: scale(1); }
+  50%  { text-shadow: 0 0 30px gold; transform: scale(1.12); }
   100% { text-shadow: 0 0 8px gold; transform: scale(1); }
 }
 
@@ -47,10 +54,23 @@ body {
   animation: goldPulse 1.2s infinite;
 }
 
-/* ================= VIDÉO ================= */
-#videoContainer { position: fixed; inset: 0; z-index: 2000; }
-#questVideo { width: 100%; height: 100%; object-fit: cover; }
+/* =====================================================
+   🎬 VIDÉO
+===================================================== */
+#videoContainer {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 2000;
+}
 
+#questVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Boutons vidéo – effet clic */
 #toggleSound,
 #closeVideo {
   position: absolute;
@@ -61,19 +81,33 @@ body {
   border: 3px solid #3b240f;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.1s ease;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
 
 #toggleSound:active,
 #closeVideo:active {
   transform: translateY(4px) scale(0.96);
+  box-shadow: inset 0 4px 6px rgba(0,0,0,0.4);
 }
 
 #toggleSound { left: 30px; }
-#closeVideo { right: 30px; }
+#closeVideo  { right: 30px; }
 
-/* ================= PIRATES ================= */
-#pirate2bis, #pirate3bis, #pirate5bis {
+/* =====================================================
+   🌅 BACKGROUND
+===================================================== */
+#background {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+/* =====================================================
+   🏴‍☠️ PIRATES
+===================================================== */
+#pirate2bis,
+#pirate3bis,
+#pirate5bis {
   position: absolute;
   z-index: 10;
 }
@@ -83,80 +117,163 @@ body {
   transform: scale(1.05);
 }
 
-/* ================= BULLES ================= */
+/* =====================================================
+   💬 BULLES DE DIALOGUE
+===================================================== */
+#bubbleContainer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
 .dialogue-bubble {
+  position: absolute;
   max-width: 340px;
   padding: 16px 20px;
+  background: linear-gradient(145deg, #f3e4c8, #d2b48c);
+  border: 3px solid #5b3a1a;
+  border-radius: 14px;
+  color: #000;
   font-size: 16px;
+  pointer-events: auto;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  cursor: pointer;
 }
 
-/* rapprochement bulles */
-.dialogue-bubble {
-  margin-top: 40px;
-}
-
-/* Bouton skip dialogues */
+/* Bouton passer dialogues – PLUS GRAND */
 #skipDialoguesBtn {
-  top: 20px;
-  right: 20px;
-  font-size: 18px;
-  padding: 14px 24px;
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  padding: 16px 30px;
+  font-size: 20px;
+  background: linear-gradient(145deg, #e8c77a, #b48b3c);
+  border: 3px solid #3b240f;
+  border-radius: 10px;
+  cursor: pointer;
   z-index: 3000;
 }
 
-/* ================= MINI JEU 1 ================= */
+/* =====================================================
+   🎮 MINI-JEU 1 – TITRE PIRATE
+===================================================== */
 .quizTitle {
   font-size: 26px;
   color: gold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   text-shadow: 0 0 12px gold;
+  margin-bottom: 12px;
 }
 
 .quizSeparator {
   height: 3px;
   background: linear-gradient(to right, transparent, gold, transparent);
-  margin: 12px 0 20px;
+  margin-bottom: 20px;
 }
 
-/* ================= LIVRE ================= */
-#bookTitle {
-  top: 40px;
-  font-size: 28px;
+/* =====================================================
+   🎮 MINI-JEUX
+===================================================== */
+#miniGameContainer,
+#merchantGame {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  padding: 30px;
+  background: linear-gradient(145deg, #3b240f, #1f1208);
+  border: 5px solid #c9a24d;
+  border-radius: 18px;
+  z-index: 2000;
+  box-shadow: 0 0 35px rgba(255,215,100,0.4);
+  color: #fff;
+  text-align: center;
 }
 
-.book {
-  width: 680px;
-  height: 460px;
-}
-
-.book img {
-  object-fit: contain;
-  padding: 10px;
-}
-
-/* ================= MINI JEU 2 ================= */
+/* Jugement du marché + séparateur */
 #merchantGame h1 {
   font-size: 26px;
   color: gold;
+  margin-bottom: 12px;
 }
 
 #merchantGame h1::after {
   content: "";
   display: block;
   height: 3px;
-  margin: 12px auto 20px;
+  margin: 12px 0 18px;
   background: linear-gradient(to right, transparent, gold, transparent);
 }
 
-/* ================= BASE DE DONNÉES ================= */
+#gameQuestion,
+#clue {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+/* =====================================================
+   📖 LIVRE – PLUS GRAND
+===================================================== */
+#bookContainer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 2500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Titre plus proche du livre */
+#bookTitle {
+  position: absolute;
+  top: 30px;
+  font-size: 28px;
+  color: gold;
+  text-shadow: 0 0 18px rgba(255,215,100,0.9);
+}
+
+.book {
+  width: 720px;
+  height: 480px;
+  display: flex;
+  background: #2b1a0f;
+  border: 5px solid #c9a24d;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.book img {
+  width: 50%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+}
+
+/* Bouton poursuivre quête */
+#continueQuestBtn {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  z-index: 3000;
+}
+
+/* =====================================================
+   📦 BASE DE DONNÉES
+===================================================== */
 .dbTitle {
-  color: #000;
   font-size: 26px;
+  color: #000;
+  text-align: center;
   animation: illuminate 1.6s infinite alternate;
 }
 
 @keyframes illuminate {
-  from { text-shadow: 0 0 4px gold; }
-  to { text-shadow: 0 0 22px gold; }
+  from { text-shadow: 0 0 2px gold; }
+  to   { text-shadow: 0 0 20px gold; }
 }
 
 .dbSeparator {
@@ -165,9 +282,14 @@ body {
   margin: 12px 0 18px;
 }
 
+/* Bouton final centré */
 .finalBtn {
   display: block;
-  margin: 20px auto 0;
-  padding: 14px 28px;
+  margin: 25px auto 0;
+  padding: 16px 32px;
   font-size: 18px;
+  background: linear-gradient(145deg, #e8c77a, #b48b3c);
+  border: 3px solid #3b240f;
+  border-radius: 10px;
+  cursor: pointer;
 }
