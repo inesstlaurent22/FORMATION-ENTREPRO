@@ -82,14 +82,14 @@ function showBackground() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 (DÉCLENCHEUR)
+   🏴‍☠️ PIRATE 5
 ===================================================== */
 function enablePirate5() {
   pirate5.addEventListener("click", startDialogues1, { once: true });
 }
 
 /* =====================================================
-   💬 SYSTÈME DE DIALOGUES (STABLE)
+   💬 DIALOGUES
 ===================================================== */
 let dialogues = [];
 let dIndex = 0;
@@ -161,7 +161,7 @@ function startDialogues1() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 – BUSINESS PLAN
+   🎮 MINI-JEU 1
 ===================================================== */
 function launchMiniGame1() {
   showLoader("Préparation du mini-jeu...", 600, () => {
@@ -170,25 +170,20 @@ function launchMiniGame1() {
     gameA.innerHTML = "";
     gameF.textContent = "";
 
-    [
-      "Acheter un bateau",
-      "Définir clairement son offre",
-      "Fixer les prix"
-    ].forEach((txt, i) => {
-      const btn = document.createElement("button");
-      btn.textContent = txt;
-
-      btn.onclick = () => {
-        if (i === 1) {
-          gameF.textContent = "✅ Bonne décision";
-          setTimeout(winMiniGame1, 800);
-        } else {
-          gameF.textContent = "❌ Mauvais choix";
-        }
-      };
-
-      gameA.appendChild(btn);
-    });
+    ["Acheter un bateau","Définir clairement son offre","Fixer les prix"]
+      .forEach((txt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = txt;
+        btn.onclick = () => {
+          if (i === 1) {
+            gameF.textContent = "✅ Bonne décision";
+            setTimeout(winMiniGame1, 800);
+          } else {
+            gameF.textContent = "❌ Mauvais choix";
+          }
+        };
+        gameA.appendChild(btn);
+      });
   });
 }
 
@@ -224,7 +219,7 @@ function winMiniGame1() {
 }
 
 /* =====================================================
-   📖 LIVRE + LOADER ⏳
+   📖 LIVRE
 ===================================================== */
 const bookSteps = [
   { left: "images/Businessplancov.png", right: "images/Businessplan1.jpg" },
@@ -254,6 +249,7 @@ function showBook() {
       if (loaded === images.length) {
         loader.remove();
         renderBook();
+        enableBookNavigation();
       }
     };
   });
@@ -265,19 +261,24 @@ function renderBook() {
   continueBtn.classList.toggle("hidden", bookIndex !== bookSteps.length - 1);
 }
 
-document.querySelector(".book").onclick = (e) => {
-  const rect = e.currentTarget.getBoundingClientRect();
-  const mid = rect.left + rect.width / 2;
+function enableBookNavigation() {
+  const book = document.querySelector(".book");
+  if (!book) return;
 
-  if (e.clientX > mid && bookIndex < bookSteps.length - 1) {
-    bookIndex++;
-    renderBook();
-  }
-  if (e.clientX < mid && bookIndex > 0) {
-    bookIndex--;
-    renderBook();
-  }
-};
+  book.onclick = (e) => {
+    const rect = book.getBoundingClientRect();
+    const mid = rect.left + rect.width / 2;
+
+    if (e.clientX > mid && bookIndex < bookSteps.length - 1) {
+      bookIndex++;
+      renderBook();
+    }
+    if (e.clientX < mid && bookIndex > 0) {
+      bookIndex--;
+      renderBook();
+    }
+  };
+}
 
 continueBtn.onclick = () => {
   bookContainer.classList.add("hidden");
@@ -285,30 +286,19 @@ continueBtn.onclick = () => {
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 – SURVOL ACTIF
+   🏴‍☠️ PIRATE 3
 ===================================================== */
 function spawnPirate3() {
   pirate3.classList.remove("hidden");
   pirate3.style.left = "1200px";
   pirate3.style.transition = "left 1s ease-out";
 
-  requestAnimationFrame(() => {
-    pirate3.style.left = "638px";
-  });
+  requestAnimationFrame(() => pirate3.style.left = "638px");
 
-  const hoverOn = () => pirate3.classList.add("glow");
-  const hoverOff = () => pirate3.classList.remove("glow");
+  pirate3.addEventListener("mouseenter", () => pirate3.classList.add("glow"));
+  pirate3.addEventListener("mouseleave", () => pirate3.classList.remove("glow"));
 
-  pirate3.addEventListener("mouseenter", hoverOn);
-  pirate3.addEventListener("mouseleave", hoverOff);
-
-  pirate3.addEventListener("click", () => {
-    pirate3.classList.remove("glow");
-    pirate3.removeEventListener("mouseenter", hoverOn);
-    pirate3.removeEventListener("mouseleave", hoverOff);
-    pirate3.style.pointerEvents = "none";
-    startDialogues2();
-  }, { once: true });
+  pirate3.addEventListener("click", startDialogues2, { once: true });
 }
 
 /* =====================================================
@@ -322,7 +312,7 @@ function startDialogues2() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 – JUGEMENT DU MARCHÉ
+   🎮 MINI-JEU 2
 ===================================================== */
 function startMiniGame2() {
   merchantGame.classList.remove("hidden");
@@ -343,100 +333,21 @@ document.getElementById("btnLower").onclick = () => {
 };
 
 /* =====================================================
-   💬 DIALOGUES 3 → BASE DE DONNÉES
+   💬 DIALOGUES 3 → FIN
 ===================================================== */
 function startDialogues3() {
   playDialogues([
     { text: "Note les coordonnées de tes clients.", anchor: pirate5 },
     { text: "C’est ta base de données.", anchor: pirate2 }
-  ], showDatabaseBox);
+  ], winFinal);
 }
 
 /* =====================================================
-   📦 BASE DE DONNÉES
-===================================================== */
-function showDatabaseBox() {
-  bubbleContainer.innerHTML = "";
-  skipBtn.classList.add("hidden");
-
-  const box = document.createElement("div");
-  box.className = "dialogue-bubble database";
-  box.style.left = "50%";
-  box.style.top = "50%";
-  box.style.transform = "translate(-50%, -50%)";
-
-  box.innerHTML = `
-    <h2 class="dbTitle">Base de données</h2>
-    <div class="dbSeparator"></div>
-    <p>
-      Elle te permet de fidéliser tes clients<br>
-      et de bâtir ton empire commercial.
-    </p>
-    <button class="finalBtn">Terminer la quête</button>
-  `;
-
-  box.querySelector("button").onclick = winFinal;
-  bubbleContainer.appendChild(box);
-}
-
-/* =====================================================
-   🏁 FIN COMMERCE
+   🏁 FIN
 ===================================================== */
 function winFinal() {
-  bubbleContainer.innerHTML = "";
   showLoader("🎉 Bravo, tu as gagné cette quête", 2200);
-  launchGems();
-
-  setTimeout(() => {
-    localStorage.setItem("mpi_unlocked", "true");
-    window.location.href = "menu.html";
-  }, 2300);
-}
-
-/* =====================================================
-   💎 EXPLOSION DE GEMS
-===================================================== */
-function launchGems() {
-  const canvas = document.createElement("canvas");
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-  canvas.style.position = "fixed";
-  canvas.style.inset = 0;
-  canvas.style.pointerEvents = "none";
-  canvas.style.zIndex = 3100;
-  document.body.appendChild(canvas);
-
-  const ctx = canvas.getContext("2d");
-  let gems = [];
-
-  for (let i = 0; i < 200; i++) {
-    const a = Math.random() * Math.PI * 2;
-    const s = Math.random() * 10 + 4;
-    gems.push({
-      x: innerWidth / 2,
-      y: innerHeight / 2,
-      vx: Math.cos(a) * s,
-      vy: Math.sin(a) * s,
-      life: 90,
-      c: `hsl(${Math.random() * 360},100%,60%)`
-    });
-  }
-
-  function update() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    gems.forEach(g => {
-      g.vy += 0.15;
-      g.x += g.vx;
-      g.y += g.vy;
-      g.life--;
-      ctx.fillStyle = g.c;
-      ctx.fillRect(g.x, g.y, 4, 4);
-    });
-    gems = gems.filter(g => g.life > 0);
-    gems.length ? requestAnimationFrame(update) : canvas.remove();
-  }
-
-  update();
+  setTimeout(() => window.location.href = "menu.html", 2300);
 }
 
 });
