@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   📌 ÉLÉMENTS DOM
+   📌 ELEMENTS DOM
 ===================================================== */
 const background = document.getElementById("background");
 
@@ -11,6 +11,19 @@ const pirate3 = document.getElementById("pirate3bis");
 
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
+
+const miniGame = document.getElementById("miniGameContainer");
+const gameQ = document.getElementById("gameQuestion");
+const gameA = document.getElementById("gameAnswers");
+const gameF = document.getElementById("gameFeedback");
+
+const bookContainer = document.getElementById("bookContainer");
+const leftPage = document.getElementById("leftPage");
+const rightPage = document.getElementById("rightPage");
+const continueBtn = document.getElementById("continueQuestBtn");
+
+const merchantGame = document.getElementById("merchantGame");
+const clueEl = document.getElementById("clue");
 
 /* =====================================================
    🔧 OUTILS
@@ -25,42 +38,39 @@ function vibrate(p = 15) {
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
-function showLoader(text, time = 800, cb) {
+function showLoader(text, time = 700) {
   loaderBox.innerHTML = text;
   fadeScreen.classList.remove("hidden");
-
-  setTimeout(() => {
-    fadeScreen.classList.add("hidden");
-    if (typeof cb === "function") cb();
-  }, time);
+  setTimeout(() => fadeScreen.classList.add("hidden"), time);
 }
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   🎬 VIDEO INTRO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
-const closeVideo  = document.getElementById("closeVideo");
+const closeVideo = document.getElementById("closeVideo");
 
 questVideo.muted = true;
 
-toggleSound.addEventListener("click", () => {
+toggleSound.onclick = () => {
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-});
+};
 
-questVideo.addEventListener("ended", endVideo);
-closeVideo.addEventListener("click", endVideo);
+questVideo.onended = endVideo;
+closeVideo.onclick = endVideo;
 
 function endVideo() {
   questVideo.pause();
   videoContainer.style.display = "none";
-  showLoader("Chargement...", 800, showBackground);
+  showLoader("Chargement...", 600);
+  setTimeout(showBackground, 650);
 }
 
 /* =====================================================
-   🌅 BACKGROUND + PIRATES
+   🌅 BACKGROUND + PIRATES INITIAUX
 ===================================================== */
 function showBackground() {
   background.classList.remove("hidden");
@@ -70,46 +80,35 @@ function showBackground() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 – MAÎTRE
+   🏴‍☠️ PIRATE 5 (déclencheur)
 ===================================================== */
 function enablePirate5() {
-  pirate5.classList.add("interactive");
-
-  pirate5.addEventListener("mouseenter", () => pirate5.classList.add("glow"));
-  pirate5.addEventListener("mouseleave", () => pirate5.classList.remove("glow"));
-
-  pirate5.addEventListener("click", () => {
-    pirate5.style.pointerEvents = "none";
-    startDialogues1();
-  }, { once: true });
+  pirate5.addEventListener("click", startDialogues1, { once: true });
 }
 
 /* =====================================================
-   💬 DIALOGUES – SYSTÈME (STABLE / ANTI-BLOCAGE)
+   💬 SYSTEME DE DIALOGUES (STABLE)
 ===================================================== */
 let dialogues = [];
 let dIndex = 0;
-let onDialogueEnd = null;
-let dialogueFinished = false;
+let dialogueCallback = null;
 
 function playDialogues(list, cb) {
   dialogues = list;
   dIndex = 0;
-  onDialogueEnd = cb;
-  dialogueFinished = false;
+  dialogueCallback = cb;
   skipBtn.classList.remove("hidden");
   renderDialogue();
 }
 
 function renderDialogue() {
-  if (dialogueFinished) return;
+  bubbleContainer.innerHTML = "";
 
   if (dIndex >= dialogues.length) {
     endDialogues();
     return;
   }
 
-  bubbleContainer.innerHTML = "";
   const d = dialogues[dIndex];
   const anchor = d.anchor;
 
@@ -119,11 +118,8 @@ function renderDialogue() {
 
   if (anchor && !anchor.classList.contains("hidden")) {
     const r = anchor.getBoundingClientRect();
-    let top = r.top - 90;
-    if (top < 30) top = r.bottom + 15;
-
-    bubble.style.left = `${r.left + r.width / 2}px`;
-    bubble.style.top = `${top}px`;
+    bubble.style.left = r.left + r.width / 2 + "px";
+    bubble.style.top = (r.top - 90 > 30 ? r.top - 90 : r.bottom + 15) + "px";
     bubble.style.transform = "translateX(-50%)";
   } else {
     bubble.style.left = "50%";
@@ -132,7 +128,7 @@ function renderDialogue() {
   }
 
   bubble.onclick = () => {
-    vibrate(10);
+    vibrate();
     dIndex++;
     renderDialogue();
   };
@@ -141,63 +137,59 @@ function renderDialogue() {
 }
 
 function endDialogues() {
-  if (dialogueFinished) return;
-  dialogueFinished = true;
-
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
-
-  if (typeof onDialogueEnd === "function") {
-    setTimeout(onDialogueEnd, 300);
+  if (typeof dialogueCallback === "function") {
+    setTimeout(dialogueCallback, 300);
   }
 }
 
 skipBtn.onclick = endDialogues;
 
 /* =====================================================
-   💬 DIALOGUES 1 – INTRO
+   💬 DIALOGUES 1 → MINI JEU 1
 ===================================================== */
 function startDialogues1() {
   playDialogues([
     { text: "Moussaillon ! Bienvenue sur le marché des trésors.", anchor: pirate5 },
     { text: "Créons ton business plan.", anchor: pirate2 }
-  ], () => showLoader("Chargement...", 800, startMiniGame1));
+  ], launchMiniGame1);
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 – BUSINESS PLAN
+   🎮 MINI JEU 1 – BUSINESS PLAN
 ===================================================== */
-const miniGame = document.getElementById("miniGameContainer");
-const gameQ = document.getElementById("gameQuestion");
-const gameA = document.getElementById("gameAnswers");
-const gameF = document.getElementById("gameFeedback");
+function launchMiniGame1() {
+  showLoader("Préparation du mini-jeu...", 600);
 
-function startMiniGame1() {
-  miniGame.classList.remove("hidden");
-  gameQ.textContent = "Quelle est la première étape ?";
-  gameA.innerHTML = "";
-  gameF.textContent = "";
+  setTimeout(() => {
+    miniGame.classList.remove("hidden");
+    gameQ.textContent = "Quelle est la première étape ?";
+    gameA.innerHTML = "";
+    gameF.textContent = "";
 
-  ["Acheter un bateau", "Définir clairement son offre", "Fixer les prix"]
-    .forEach((txt, i) => {
+    [
+      "Acheter un bateau",
+      "Définir clairement son offre",
+      "Fixer les prix"
+    ].forEach((txt, i) => {
       const btn = document.createElement("button");
       btn.textContent = txt;
 
       btn.onclick = () => {
         if (i === 1) {
           gameF.textContent = "✅ Bonne décision";
-          setTimeout(winMiniGame1, 900);
+          setTimeout(winMiniGame1, 800);
         } else {
           gameF.textContent = "❌ Mauvais choix";
         }
       };
+
       gameA.appendChild(btn);
     });
+  }, 650);
 }
 
-/* =====================================================
-   🏆 RÉUSSITE MINI-JEU 1
-===================================================== */
 function winMiniGame1() {
   miniGame.classList.add("hidden");
 
@@ -208,20 +200,17 @@ function winMiniGame1() {
     <div class="winText">pièces d’or 💰</div>
     <div class="winText">et ton business plan 🎁</div>
   `;
-
   fadeScreen.classList.remove("hidden");
 
-  let value = 0;
+  let v = 0;
   const counter = document.getElementById("poCounter");
-  counter.style.transition = "transform .2s";
-
   const interval = setInterval(() => {
-    value += 100;
-    counter.textContent = value;
+    v += 100;
+    counter.textContent = v;
     counter.style.transform = "scale(1.25)";
     setTimeout(() => counter.style.transform = "scale(1)", 120);
 
-    if (value >= 5000) {
+    if (v >= 5000) {
       clearInterval(interval);
       setTimeout(() => {
         fadeScreen.classList.add("hidden");
@@ -232,14 +221,8 @@ function winMiniGame1() {
 }
 
 /* =====================================================
-   📖 LIVRE – BUSINESS PLAN
+   📖 LIVRE
 ===================================================== */
-const bookContainer = document.getElementById("bookContainer");
-const leftPage = document.getElementById("leftPage");
-const rightPage = document.getElementById("rightPage");
-const continueBtn = document.getElementById("continueQuestBtn");
-const book = document.querySelector(".book");
-
 const bookSteps = [
   { left: "images/Businessplancov.png", right: "images/Businessplan1.jpg" },
   { left: "images/Businessplancov.png", right: "images/Businessplan2.jpg" },
@@ -260,18 +243,19 @@ function renderBook() {
   continueBtn.classList.toggle("hidden", bookIndex !== bookSteps.length - 1);
 }
 
-book.addEventListener("click", (e) => {
-  const rect = book.getBoundingClientRect();
+document.querySelector(".book").onclick = (e) => {
+  const rect = e.currentTarget.getBoundingClientRect();
   const mid = rect.left + rect.width / 2;
 
   if (e.clientX > mid && bookIndex < bookSteps.length - 1) {
     bookIndex++;
     renderBook();
-  } else if (e.clientX < mid && bookIndex > 0) {
+  }
+  if (e.clientX < mid && bookIndex > 0) {
     bookIndex--;
     renderBook();
   }
-});
+};
 
 continueBtn.onclick = () => {
   bookContainer.classList.add("hidden");
@@ -279,43 +263,30 @@ continueBtn.onclick = () => {
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 – ARRIVÉE PAR LA DROITE
+   🏴‍☠️ PIRATE 3 → MINI JEU 2
 ===================================================== */
 function spawnPirate3() {
   pirate3.classList.remove("hidden");
-  pirate3.style.transition = "none";
   pirate3.style.left = "1200px";
+  pirate3.style.transition = "left 1s ease-out";
 
   requestAnimationFrame(() => {
-    pirate3.style.transition = "left 1s ease-out";
     pirate3.style.left = "638px";
   });
 
-  pirate3.addEventListener("mouseenter", () => pirate3.classList.add("glow"));
-  pirate3.addEventListener("mouseleave", () => pirate3.classList.remove("glow"));
-
-  pirate3.addEventListener("click", () => {
-    pirate3.style.pointerEvents = "none";
-    startDialogues2();
-  }, { once: true });
+  pirate3.onclick = () => startDialogues2();
 }
 
-/* =====================================================
-   💬 DIALOGUES 2
-===================================================== */
 function startDialogues2() {
   playDialogues([
     { text: "Ces pierres inspirent confiance.", anchor: pirate3 },
     { text: "Mais le marché est exigeant.", anchor: pirate5 }
-  ], () => showLoader("Chargement...", 800, startMiniGame2));
+  ], startMiniGame2);
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 – JUGEMENT DU MARCHÉ
+   🎮 MINI JEU 2 – JUGEMENT DU MARCHÉ
 ===================================================== */
-const merchantGame = document.getElementById("merchantGame");
-const clueEl = document.getElementById("clue");
-
 function startMiniGame2() {
   merchantGame.classList.remove("hidden");
   clueEl.textContent = "Analyse le marché avant de décider.";
@@ -335,7 +306,7 @@ document.getElementById("btnLower").onclick = () => {
 };
 
 /* =====================================================
-   💬 DIALOGUES 3
+   💬 DIALOGUES 3 → BASE DE DONNÉES
 ===================================================== */
 function startDialogues3() {
   playDialogues([
@@ -345,11 +316,10 @@ function startDialogues3() {
 }
 
 /* =====================================================
-   📦 BASE DE DONNÉES – FIN
+   📦 BASE DE DONNÉES
 ===================================================== */
 function showDatabaseBox() {
   bubbleContainer.innerHTML = "";
-  skipBtn.classList.add("hidden");
 
   const box = document.createElement("div");
   box.className = "dialogue-bubble";
@@ -369,11 +339,10 @@ function showDatabaseBox() {
 }
 
 /* =====================================================
-   🏁 FIN COMMERCE – GEMS PENDANT LE LOADER
+   🏁 FIN COMMERCE
 ===================================================== */
 function winFinal() {
   bubbleContainer.innerHTML = "";
-
   showLoader("🎉 Bravo, tu as gagné cette quête", 2200);
   launchGems();
 
@@ -384,7 +353,7 @@ function winFinal() {
 }
 
 /* =====================================================
-   💎 EXPLOSION DE GEMS
+   💎 GEMS
 ===================================================== */
 function launchGems() {
   const canvas = document.createElement("canvas");
@@ -400,33 +369,33 @@ function launchGems() {
   let gems = [];
 
   for (let i = 0; i < 200; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() * 10 + 4;
+    const a = Math.random() * Math.PI * 2;
+    const s = Math.random() * 10 + 4;
     gems.push({
       x: innerWidth / 2,
       y: innerHeight / 2,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
+      vx: Math.cos(a) * s,
+      vy: Math.sin(a) * s,
       life: 90,
-      color: `hsl(${Math.random() * 360},100%,60%)`
+      c: `hsl(${Math.random() * 360},100%,60%)`
     });
   }
 
-  function animate() {
+  function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     gems.forEach(g => {
       g.vy += 0.15;
       g.x += g.vx;
       g.y += g.vy;
       g.life--;
-      ctx.fillStyle = g.color;
+      ctx.fillStyle = g.c;
       ctx.fillRect(g.x, g.y, 4, 4);
     });
     gems = gems.filter(g => g.life > 0);
-    gems.length ? requestAnimationFrame(animate) : canvas.remove();
+    gems.length ? requestAnimationFrame(update) : canvas.remove();
   }
 
-  animate();
+  update();
 }
 
 });
