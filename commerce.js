@@ -160,9 +160,6 @@ function startDialogues1() {
   ], launchMiniGame1);
 }
 
-/* =====================================================
-   🎮 MINI-JEU 1 – BUSINESS PLAN
-===================================================== */
 function launchMiniGame1() {
   showLoader("Préparation du mini-jeu...", 600, () => {
     miniGame.classList.remove("hidden");
