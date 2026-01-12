@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   📌 ELEMENTS DOM
+   📌 ÉLÉMENTS DOM
 ===================================================== */
 const background = document.getElementById("background");
 
@@ -20,7 +20,7 @@ function vibrate(p = 15) {
 }
 
 /* =====================================================
-   🌑 LOADER GLOBAL
+   🌑 LOADER
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
@@ -28,9 +28,10 @@ const loaderBox = fadeScreen.querySelector(".loaderBox");
 function showLoader(text, time = 800, cb) {
   loaderBox.innerHTML = text;
   fadeScreen.classList.remove("hidden");
+
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
-    cb && cb();
+    if (typeof cb === "function") cb();
   }, time);
 }
 
@@ -44,13 +45,13 @@ const closeVideo  = document.getElementById("closeVideo");
 
 questVideo.muted = true;
 
-toggleSound.onclick = () => {
+toggleSound.addEventListener("click", () => {
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-};
+});
 
-questVideo.onended = endVideo;
-closeVideo.onclick = endVideo;
+questVideo.addEventListener("ended", endVideo);
+closeVideo.addEventListener("click", endVideo);
 
 function endVideo() {
   questVideo.pause();
@@ -69,7 +70,7 @@ function showBackground() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 (JAMAIS GRISÉ)
+   🏴‍☠️ PIRATE 5 (jamais grisé)
 ===================================================== */
 function enablePirate5() {
   pirate5.classList.add("interactive");
@@ -78,7 +79,6 @@ function enablePirate5() {
   pirate5.addEventListener("mouseleave", () => pirate5.classList.remove("glow"));
 
   pirate5.addEventListener("click", () => {
-    pirate5.classList.remove("glow");
     pirate5.style.pointerEvents = "none";
     startDialogues1();
   }, { once: true });
@@ -113,18 +113,18 @@ function renderDialogue() {
   bubble.innerHTML = d.text;
 
   /* bulles plus proches des pirates */
-  let top = r.top - 110;
+  let top = r.top - 90;
   if (top < 20) top = r.bottom + 10;
 
-  bubble.style.left = (r.left + r.width / 2) + "px";
-  bubble.style.top = top + "px";
+  bubble.style.left = `${r.left + r.width / 2}px`;
+  bubble.style.top = `${top}px`;
   bubble.style.transform = "translateX(-50%)";
 
-  bubble.onclick = () => {
+  bubble.addEventListener("click", () => {
     vibrate(10);
     dIndex++;
     dIndex < dialogues.length ? renderDialogue() : endDialogues();
-  };
+  });
 
   bubbleContainer.appendChild(bubble);
 }
@@ -134,10 +134,10 @@ function endDialogues() {
   dialogueFinished = true;
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
-  typeof onDialogueEnd === "function" && onDialogueEnd();
+  if (typeof onDialogueEnd === "function") onDialogueEnd();
 }
 
-skipBtn.onclick = endDialogues;
+skipBtn.addEventListener("click", endDialogues);
 
 /* =====================================================
    💬 DIALOGUES 1
@@ -165,9 +165,9 @@ function startMiniGame1() {
 
   ["Acheter un bateau", "Définir clairement son offre", "Fixer les prix"]
     .forEach((txt, i) => {
-      const b = document.createElement("button");
-      b.textContent = txt;
-      b.onclick = () => {
+      const btn = document.createElement("button");
+      btn.textContent = txt;
+      btn.onclick = () => {
         if (i === 1) {
           gameF.textContent = "✅ Bonne décision";
           setTimeout(winMiniGame1, 900);
@@ -175,12 +175,12 @@ function startMiniGame1() {
           gameF.textContent = "❌ Mauvais choix";
         }
       };
-      gameA.appendChild(b);
+      gameA.appendChild(btn);
     });
 }
 
 /* =====================================================
-   🏆 RÉUSSITE MINI-JEU 1
+   🏆 VICTOIRE MINI-JEU 1
 ===================================================== */
 function winMiniGame1() {
   miniGame.classList.add("hidden");
@@ -192,19 +192,20 @@ function winMiniGame1() {
     <div class="winText">pièces d’or 💰</div>
     <div class="winText">et ton business plan 🎁</div>
   `;
+
   fadeScreen.classList.remove("hidden");
 
-  let v = 0;
+  let value = 0;
   const counter = document.getElementById("poCounter");
-  const i = setInterval(() => {
-    v += 100;
-    counter.textContent = v;
-    if (v >= 5000) {
-      clearInterval(i);
+  const interval = setInterval(() => {
+    value += 100;
+    counter.textContent = value;
+    if (value >= 5000) {
+      clearInterval(interval);
       setTimeout(() => {
         fadeScreen.classList.add("hidden");
         showBook();
-      }, 1200);
+      }, 1000);
     }
   }, 30);
 }
@@ -240,27 +241,26 @@ function renderBook() {
 
 book.addEventListener("click", (e) => {
   const rect = book.getBoundingClientRect();
-  const middle = rect.left + rect.width / 2;
+  const mid = rect.left + rect.width / 2;
 
-  if (e.clientX > middle && bookIndex < bookSteps.length - 1) {
+  if (e.clientX > mid && bookIndex < bookSteps.length - 1) {
     bookIndex++;
     renderBook();
-  }
-  if (e.clientX < middle && bookIndex > 0) {
+  } else if (e.clientX < mid && bookIndex > 0) {
     bookIndex--;
     renderBook();
   }
 });
 
-continueBtn.onclick = () => {
+continueBtn.addEventListener("click", () => {
   bookContainer.classList.add("hidden");
-  spawnPirate3Animated();
-};
+  spawnPirate3();
+});
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 – ARRIVÉE PAR LA DROITE
+   🏴‍☠️ PIRATE 3 – ARRIVÉE DROITE
 ===================================================== */
-function spawnPirate3Animated() {
+function spawnPirate3() {
   pirate3.classList.remove("hidden");
   pirate3.style.transition = "none";
   pirate3.style.left = "1200px";
@@ -334,16 +334,16 @@ function showDatabaseBox() {
   box.className = "dialogue-bubble";
   box.style.left = "50%";
   box.style.top = "50%";
-  box.style.transform = "translate(-50%,-50%)";
+  box.style.transform = "translate(-50%, -50%)";
 
   box.innerHTML = `
-    <h2 class="dbTitle">📜 La base de données</h2>
+    <h2 class="dbTitle">La base de données</h2>
     <div class="dbSeparator"></div>
     <p>Elle te permet de fidéliser tes clients et de bâtir ton empire.</p>
     <button class="finalBtn">Terminer la quête</button>
   `;
 
-  box.querySelector("button").onclick = winFinal;
+  box.querySelector("button").addEventListener("click", winFinal);
   bubbleContainer.appendChild(box);
 }
 
@@ -359,7 +359,7 @@ function winFinal() {
   setTimeout(() => {
     localStorage.setItem("mpi_unlocked", "true");
     window.location.href = "menu.html";
-  }, 2400);
+  }, 2300);
 }
 
 /* =====================================================
@@ -372,40 +372,40 @@ function launchGems() {
   canvas.style.position = "fixed";
   canvas.style.inset = 0;
   canvas.style.pointerEvents = "none";
-  canvas.style.zIndex = 3200;
+  canvas.style.zIndex = 3100;
   document.body.appendChild(canvas);
 
   const ctx = canvas.getContext("2d");
   let gems = [];
 
   for (let i = 0; i < 200; i++) {
-    const a = Math.random() * Math.PI * 2;
-    const s = Math.random() * 10 + 4;
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 10 + 4;
     gems.push({
       x: innerWidth / 2,
       y: innerHeight / 2,
-      vx: Math.cos(a) * s,
-      vy: Math.sin(a) * s,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
       life: 90,
-      c: `hsl(${Math.random() * 360},100%,60%)`
+      color: `hsl(${Math.random() * 360},100%,60%)`
     });
   }
 
-  function update() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     gems.forEach(g => {
       g.vy += 0.15;
       g.x += g.vx;
       g.y += g.vy;
       g.life--;
-      ctx.fillStyle = g.c;
-      ctx.fillRect(g.x,g.y,4,4);
+      ctx.fillStyle = g.color;
+      ctx.fillRect(g.x, g.y, 4, 4);
     });
     gems = gems.filter(g => g.life > 0);
-    gems.length ? requestAnimationFrame(update) : canvas.remove();
+    gems.length ? requestAnimationFrame(animate) : canvas.remove();
   }
 
-  update();
+  animate();
 }
 
 });
