@@ -85,7 +85,7 @@ function enablePirate5() {
 }
 
 /* =====================================================
-   💬 DIALOGUES – SYSTÈME
+   💬 DIALOGUES – SYSTÈME (STABLE / ANTI-BLOCAGE)
 ===================================================== */
 let dialogues = [];
 let dIndex = 0;
@@ -104,27 +104,38 @@ function playDialogues(list, cb) {
 function renderDialogue() {
   if (dialogueFinished) return;
 
+  if (dIndex >= dialogues.length) {
+    endDialogues();
+    return;
+  }
+
   bubbleContainer.innerHTML = "";
   const d = dialogues[dIndex];
-  const r = d.anchor.getBoundingClientRect();
+  const anchor = d.anchor;
 
   const bubble = document.createElement("div");
   bubble.className = "dialogue-bubble";
   bubble.innerHTML = d.text;
 
-  /* bulles plus proches des pirates */
-  let top = r.top - 90;
-  if (top < 20) top = r.bottom + 10;
+  if (anchor && !anchor.classList.contains("hidden")) {
+    const r = anchor.getBoundingClientRect();
+    let top = r.top - 90;
+    if (top < 30) top = r.bottom + 15;
 
-  bubble.style.left = `${r.left + r.width / 2}px`;
-  bubble.style.top = `${top}px`;
-  bubble.style.transform = "translateX(-50%)";
+    bubble.style.left = `${r.left + r.width / 2}px`;
+    bubble.style.top = `${top}px`;
+    bubble.style.transform = "translateX(-50%)";
+  } else {
+    bubble.style.left = "50%";
+    bubble.style.top = "50%";
+    bubble.style.transform = "translate(-50%, -50%)";
+  }
 
-  bubble.addEventListener("click", () => {
+  bubble.onclick = () => {
     vibrate(10);
     dIndex++;
-    dIndex < dialogues.length ? renderDialogue() : endDialogues();
-  });
+    renderDialogue();
+  };
 
   bubbleContainer.appendChild(bubble);
 }
@@ -132,12 +143,16 @@ function renderDialogue() {
 function endDialogues() {
   if (dialogueFinished) return;
   dialogueFinished = true;
+
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
-  if (typeof onDialogueEnd === "function") onDialogueEnd();
+
+  if (typeof onDialogueEnd === "function") {
+    setTimeout(onDialogueEnd, 300);
+  }
 }
 
-skipBtn.addEventListener("click", endDialogues);
+skipBtn.onclick = endDialogues;
 
 /* =====================================================
    💬 DIALOGUES 1 – INTRO
@@ -167,8 +182,6 @@ function startMiniGame1() {
     .forEach((txt, i) => {
       const btn = document.createElement("button");
       btn.textContent = txt;
-      btn.addEventListener("mouseenter", () => btn.classList.add("glow"));
-      btn.addEventListener("mouseleave", () => btn.classList.remove("glow"));
 
       btn.onclick = () => {
         if (i === 1) {
@@ -260,10 +273,10 @@ book.addEventListener("click", (e) => {
   }
 });
 
-continueBtn.addEventListener("click", () => {
+continueBtn.onclick = () => {
   bookContainer.classList.add("hidden");
   spawnPirate3();
-});
+};
 
 /* =====================================================
    🏴‍☠️ PIRATE 3 – ARRIVÉE PAR LA DROITE
@@ -351,7 +364,7 @@ function showDatabaseBox() {
     <button class="finalBtn">Terminer la quête</button>
   `;
 
-  box.querySelector("button").addEventListener("click", winFinal);
+  box.querySelector("button").onclick = winFinal;
   bubbleContainer.appendChild(box);
 }
 
