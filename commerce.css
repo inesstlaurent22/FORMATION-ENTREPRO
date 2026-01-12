@@ -18,7 +18,7 @@ body {
 }
 
 /* =====================================================
-   🌑 LOADER
+   🌑 LOADER GLOBAL
 ===================================================== */
 #fadeScreen {
   position: fixed;
@@ -54,7 +54,7 @@ body {
 }
 
 /* =====================================================
-   🎬 VIDÉO
+   🎬 VIDÉO INTRO
 ===================================================== */
 #videoContainer {
   position: fixed;
@@ -69,7 +69,6 @@ body {
   object-fit: cover;
 }
 
-/* Boutons vidéo */
 #toggleSound,
 #closeVideo {
   position: absolute;
@@ -103,7 +102,7 @@ body {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES – POSITIONS VALIDÉES
+   🏴‍☠️ PIRATES – POSITIONS FIXES
 ===================================================== */
 #pirate2bis,
 #pirate3bis,
@@ -138,12 +137,12 @@ body {
 }
 
 .glow {
-  filter: drop-shadow(0 0 18px gold);
-  transform: scale(1.05);
+  filter: drop-shadow(0 0 22px gold);
+  transform: scale(1.06);
 }
 
 /* =====================================================
-   💬 DIALOGUES
+   💬 BULLES DE DIALOGUE
 ===================================================== */
 #bubbleContainer {
   position: fixed;
@@ -166,7 +165,7 @@ body {
   cursor: pointer;
 }
 
-/* Skip dialogues */
+/* Bouton passer dialogues */
 #skipDialoguesBtn {
   position: fixed;
   top: 25px;
@@ -182,7 +181,7 @@ body {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1
+   🎮 MINI-JEU 1 – BUSINESS PLAN
 ===================================================== */
 #miniGameContainer {
   position: fixed;
@@ -251,7 +250,7 @@ body {
 }
 
 /* =====================================================
-   📖 LIVRE
+   📖 LIVRE – CADRAN & TITRE
 ===================================================== */
 #bookContainer {
   position: fixed;
@@ -263,9 +262,10 @@ body {
   justify-content: center;
 }
 
+/* Titre au-dessus du cadran */
 #bookTitle {
   position: absolute;
-  top: 90px;
+  top: 130px;
   font-size: 28px;
   color: #fff;
   animation: bookGlow 1.5s infinite alternate;
@@ -276,9 +276,11 @@ body {
   to   { text-shadow: 0 0 28px gold; }
 }
 
+/* Cadran collé au livre */
 .book {
   width: 720px;
   height: 480px;
+  margin-top: 20px;
   display: flex;
   background: #1e1209;
   border: 6px solid #c9a24d;
@@ -294,7 +296,32 @@ body {
 }
 
 /* =====================================================
-   ⚖️ MINI-JEU 2
+   ⏳ LOADER DU LIVRE
+===================================================== */
+#bookLoader {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 2600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  color: gold;
+}
+
+#bookLoader span {
+  display: inline-block;
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* =====================================================
+   ⚖️ MINI-JEU 2 – JUGEMENT DU MARCHÉ
 ===================================================== */
 #merchantGame {
   position: fixed;
@@ -332,28 +359,43 @@ body {
 }
 
 /* =====================================================
-   📦 BASE DE DONNÉES
+   📦 BASE DE DONNÉES – STYLE PIRATE AVANCÉ
 ===================================================== */
-.dbTitle {
-  font-size: 26px;
-  color: #000;
+.dialogue-bubble.database {
+  background: linear-gradient(145deg, #f6e3b4, #d6b36a);
+  border: 4px solid #5b3a1a;
   text-align: center;
-  animation: illuminate 1.6s infinite alternate;
+  max-width: 420px;
 }
 
-@keyframes illuminate {
-  from { text-shadow: 0 0 4px gold; }
-  to   { text-shadow: 0 0 22px gold; }
+.dialogue-bubble.database .dbTitle {
+  color: #000;
+  font-size: 28px;
+  animation: pirateGlow 1.8s infinite alternate;
 }
 
-.dbSeparator {
-  height: 3px;
-  background: linear-gradient(to right, transparent, gold, transparent);
-  margin: 12px 0 18px;
+@keyframes pirateGlow {
+  from {
+    text-shadow: 0 0 0 gold;
+    transform: scale(1);
+  }
+  to {
+    text-shadow: 0 0 18px gold;
+    transform: scale(1.04);
+  }
+}
+
+.dialogue-bubble.database p {
+  margin: 15px 0;
+}
+
+.dialogue-bubble.database .finalBtn {
+  margin: 20px auto 0;
+  display: block;
 }
 
 /* =====================================================
-   🧭 CONTINUER QUÊTE
+   🧭 BOUTON CONTINUER QUÊTE
 ===================================================== */
 #continueQuestBtn {
   position: fixed;
