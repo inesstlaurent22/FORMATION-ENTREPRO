@@ -7,9 +7,7 @@
   box-sizing: border-box;
 }
 
-.hidden {
-  display: none !important;
-}
+.hidden { display: none !important; }
 
 body {
   font-family: "Trebuchet MS", serif;
@@ -18,7 +16,7 @@ body {
 }
 
 /* =====================================================
-   🌑 FADE SCREEN / LOADER
+   🌑 LOADER
 ===================================================== */
 #fadeScreen {
   position: fixed;
@@ -31,21 +29,20 @@ body {
 }
 
 .loaderBox {
-  padding: 30px 45px;
+  padding: 32px 48px;
   background: linear-gradient(145deg, #5b3a1a, #2e1a0d);
   border: 4px solid #c9a24d;
-  border-radius: 12px;
+  border-radius: 14px;
   color: #fff;
   font-size: 22px;
   text-align: center;
   box-shadow: 0 0 30px rgba(255,215,100,0.5);
 }
 
-/* Bravo animé */
 @keyframes goldPulse {
-  0%   { text-shadow: 0 0 8px gold; transform: scale(1); }
-  50%  { text-shadow: 0 0 30px gold; transform: scale(1.12); }
-  100% { text-shadow: 0 0 8px gold; transform: scale(1); }
+  0% { text-shadow: 0 0 6px gold; }
+  50% { text-shadow: 0 0 26px gold; }
+  100% { text-shadow: 0 0 6px gold; }
 }
 
 .winBravo {
@@ -60,7 +57,6 @@ body {
 #videoContainer {
   position: fixed;
   inset: 0;
-  background: #000;
   z-index: 2000;
 }
 
@@ -70,7 +66,7 @@ body {
   object-fit: cover;
 }
 
-/* Boutons vidéo – effet clic */
+/* Boutons vidéo – style pirate + clic */
 #toggleSound,
 #closeVideo {
   position: absolute;
@@ -79,7 +75,8 @@ body {
   font-size: 18px;
   background: linear-gradient(145deg, #e8c77a, #b48b3c);
   border: 3px solid #3b240f;
-  border-radius: 10px;
+  border-radius: 12px;
+  color: #000;
   cursor: pointer;
   transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
@@ -103,7 +100,7 @@ body {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES
+   🏴‍☠️ PIRATES – POSITIONS VALIDÉES
 ===================================================== */
 #pirate2bis,
 #pirate3bis,
@@ -112,13 +109,37 @@ body {
   z-index: 10;
 }
 
+/* Pirate 2 */
+#pirate2bis {
+  left: 517px;
+  top: 406px;
+  width: 186px;
+  height: 178px;
+}
+
+/* Pirate 3 */
+#pirate3bis {
+  left: 638px;
+  top: 177px;
+  width: 235px;
+  height: 217px;
+}
+
+/* Pirate 5 */
+#pirate5bis {
+  left: 946px;
+  top: 286px;
+  width: 143px;
+  height: 187px;
+}
+
 .glow {
   filter: drop-shadow(0 0 18px gold);
   transform: scale(1.05);
 }
 
 /* =====================================================
-   💬 BULLES DE DIALOGUE
+   💬 BULLES DE DIALOGUE – TEXTE NOIR
 ===================================================== */
 #bubbleContainer {
   position: fixed;
@@ -141,7 +162,7 @@ body {
   cursor: pointer;
 }
 
-/* Bouton passer dialogues – PLUS GRAND */
+/* Skip dialogues */
 #skipDialoguesBtn {
   position: fixed;
   top: 25px;
@@ -153,24 +174,6 @@ body {
   border-radius: 10px;
   cursor: pointer;
   z-index: 3000;
-}
-
-/* =====================================================
-   🎮 MINI-JEU 1 – TITRE PIRATE
-===================================================== */
-.quizTitle {
-  font-size: 26px;
-  color: gold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 0 0 12px gold;
-  margin-bottom: 12px;
-}
-
-.quizSeparator {
-  height: 3px;
-  background: linear-gradient(to right, transparent, gold, transparent);
-  margin-bottom: 20px;
 }
 
 /* =====================================================
@@ -188,34 +191,12 @@ body {
   border: 5px solid #c9a24d;
   border-radius: 18px;
   z-index: 2000;
-  box-shadow: 0 0 35px rgba(255,215,100,0.4);
   color: #fff;
   text-align: center;
 }
 
-/* Jugement du marché + séparateur */
-#merchantGame h1 {
-  font-size: 26px;
-  color: gold;
-  margin-bottom: 12px;
-}
-
-#merchantGame h1::after {
-  content: "";
-  display: block;
-  height: 3px;
-  margin: 12px 0 18px;
-  background: linear-gradient(to right, transparent, gold, transparent);
-}
-
-#gameQuestion,
-#clue {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
 /* =====================================================
-   📖 LIVRE – PLUS GRAND
+   📖 LIVRE – CADRAN UNIQUE
 ===================================================== */
 #bookContainer {
   position: fixed;
@@ -227,38 +208,38 @@ body {
   justify-content: center;
 }
 
-/* Titre plus proche du livre */
+/* Titre au-dessus du cadran */
 #bookTitle {
   position: absolute;
-  top: 30px;
-  font-size: 28px;
-  color: gold;
-  text-shadow: 0 0 18px rgba(255,215,100,0.9);
+  top: 40px;
+  font-size: 30px;
+  color: #fff;
+  animation: bookGlow 1.6s infinite alternate;
 }
 
+@keyframes bookGlow {
+  from { text-shadow: 0 0 6px gold; }
+  to   { text-shadow: 0 0 26px gold; }
+}
+
+/* Cadran unique (pas de séparation) */
 .book {
   width: 720px;
   height: 480px;
   display: flex;
-  background: #2b1a0f;
-  border: 5px solid #c9a24d;
-  border-radius: 14px;
+  background: #1e1209;
+  border: 6px solid #c9a24d;
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 0 40px rgba(255,215,100,0.4);
 }
 
+/* Images jointes */
 .book img {
   width: 50%;
   height: 100%;
   object-fit: contain;
-  padding: 10px;
-}
-
-/* Bouton poursuivre quête */
-#continueQuestBtn {
-  position: fixed;
-  top: 25px;
-  right: 25px;
-  z-index: 3000;
+  background: #000;
 }
 
 /* =====================================================
@@ -273,7 +254,7 @@ body {
 
 @keyframes illuminate {
   from { text-shadow: 0 0 2px gold; }
-  to   { text-shadow: 0 0 20px gold; }
+  to   { text-shadow: 0 0 22px gold; }
 }
 
 .dbSeparator {
@@ -282,7 +263,7 @@ body {
   margin: 12px 0 18px;
 }
 
-/* Bouton final centré */
+/* Bouton final */
 .finalBtn {
   display: block;
   margin: 25px auto 0;
@@ -292,4 +273,12 @@ body {
   border: 3px solid #3b240f;
   border-radius: 10px;
   cursor: pointer;
+}
+
+/* Bouton poursuivre quête */
+#continueQuestBtn {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  z-index: 3000;
 }
