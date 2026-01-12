@@ -112,8 +112,9 @@ function renderDialogue() {
   bubble.className = "dialogue-bubble";
   bubble.innerHTML = d.text;
 
-  let top = r.top - 140;
-  if (top < 20) top = r.bottom + 20;
+  /* bulles plus proches des pirates */
+  let top = r.top - 110;
+  if (top < 20) top = r.bottom + 10;
 
   bubble.style.left = (r.left + r.width / 2) + "px";
   bubble.style.top = top + "px";
@@ -336,10 +337,10 @@ function showDatabaseBox() {
   box.style.transform = "translate(-50%,-50%)";
 
   box.innerHTML = `
-    <h2 class="dbTitle">📜 Base de données</h2>
+    <h2 class="dbTitle">📜 La base de données</h2>
     <div class="dbSeparator"></div>
     <p>Elle te permet de fidéliser tes clients et de bâtir ton empire.</p>
-    <button class="finalBtn">Sceller cette connaissance</button>
+    <button class="finalBtn">Terminer la quête</button>
   `;
 
   box.querySelector("button").onclick = winFinal;
@@ -347,17 +348,18 @@ function showDatabaseBox() {
 }
 
 /* =====================================================
-   🏁 FIN COMMERCE – GEMS + MENU
+   🏁 FIN COMMERCE – GEMS PENDANT LOADER
 ===================================================== */
 function winFinal() {
   bubbleContainer.innerHTML = "";
-  showLoader("🎉 Bravo, tu as gagné cette quête", 1000, () => {
-    launchGems();
-    setTimeout(() => {
-      localStorage.setItem("mpi_unlocked", "true");
-      window.location.href = "menu.html";
-    }, 1800);
-  });
+
+  showLoader("🎉 Bravo, tu as gagné cette quête", 2200);
+  launchGems();
+
+  setTimeout(() => {
+    localStorage.setItem("mpi_unlocked", "true");
+    window.location.href = "menu.html";
+  }, 2400);
 }
 
 /* =====================================================
@@ -370,34 +372,34 @@ function launchGems() {
   canvas.style.position = "fixed";
   canvas.style.inset = 0;
   canvas.style.pointerEvents = "none";
-  canvas.style.zIndex = 5000;
+  canvas.style.zIndex = 3200;
   document.body.appendChild(canvas);
 
   const ctx = canvas.getContext("2d");
   let gems = [];
 
-  for (let i = 0; i < 160; i++) {
+  for (let i = 0; i < 200; i++) {
     const a = Math.random() * Math.PI * 2;
-    const s = Math.random() * 9 + 3;
+    const s = Math.random() * 10 + 4;
     gems.push({
       x: innerWidth / 2,
       y: innerHeight / 2,
       vx: Math.cos(a) * s,
       vy: Math.sin(a) * s,
-      life: 100,
+      life: 90,
       c: `hsl(${Math.random() * 360},100%,60%)`
     });
   }
 
   function update() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     gems.forEach(g => {
-      g.vy += 0.12;
+      g.vy += 0.15;
       g.x += g.vx;
       g.y += g.vy;
       g.life--;
       ctx.fillStyle = g.c;
-      ctx.fillRect(g.x, g.y, 4, 4);
+      ctx.fillRect(g.x,g.y,4,4);
     });
     gems = gems.filter(g => g.life > 0);
     gems.length ? requestAnimationFrame(update) : canvas.remove();
