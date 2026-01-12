@@ -249,6 +249,49 @@ body {
   box-shadow: 0 0 14px rgba(255,215,100,.8);
 }
 
+.mentor {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 9999;
+  animation: mentorFloat 3s ease-in-out infinite;
+}
+
+.mentor.hidden {
+  display: none;
+}
+
+.mentorAvatar {
+  font-size: 64px;
+  animation: mentorBreath 2.5s ease-in-out infinite;
+}
+
+.mentorBubble {
+  max-width: 260px;
+  background: #1a1a1a;
+  border: 2px solid #d4af37;
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 14px;
+  box-shadow: 0 0 12px rgba(212,175,55,0.4);
+}
+
+/* Animations */
+@keyframes mentorFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes mentorBreath {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
 /* =====================================================
    📖 LIVRE – CADRAN & TITRE
 ===================================================== */
