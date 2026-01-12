@@ -21,7 +21,7 @@ body {
 #fadeScreen {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.92);
+  background: rgba(0,0,0,0.9);
   z-index: 3000;
   display: flex;
   align-items: center;
@@ -40,9 +40,9 @@ body {
 }
 
 @keyframes goldPulse {
-  0% { text-shadow: 0 0 6px gold; }
-  50% { text-shadow: 0 0 26px gold; }
-  100% { text-shadow: 0 0 6px gold; }
+  0%   { transform: scale(1); text-shadow: 0 0 6px gold; }
+  50%  { transform: scale(1.15); text-shadow: 0 0 30px gold; }
+  100% { transform: scale(1); text-shadow: 0 0 6px gold; }
 }
 
 .winBravo {
@@ -52,7 +52,7 @@ body {
 }
 
 /* =====================================================
-   🎬 VIDÉO
+   🎬 VIDÉO + BOUTONS PIRATE
 ===================================================== */
 #videoContainer {
   position: fixed;
@@ -66,16 +66,15 @@ body {
   object-fit: cover;
 }
 
-/* Boutons vidéo – style pirate + clic */
 #toggleSound,
 #closeVideo {
   position: absolute;
   top: 25px;
-  padding: 14px 26px;
-  font-size: 18px;
+  padding: 12px 22px;
+  font-size: 16px;
   background: linear-gradient(145deg, #e8c77a, #b48b3c);
   border: 3px solid #3b240f;
-  border-radius: 12px;
+  border-radius: 10px;
   color: #000;
   cursor: pointer;
   transition: transform 0.08s ease, box-shadow 0.08s ease;
@@ -83,7 +82,7 @@ body {
 
 #toggleSound:active,
 #closeVideo:active {
-  transform: translateY(4px) scale(0.96);
+  transform: translateY(4px) scale(0.95);
   box-shadow: inset 0 4px 6px rgba(0,0,0,0.4);
 }
 
@@ -109,7 +108,6 @@ body {
   z-index: 10;
 }
 
-/* Pirate 2 */
 #pirate2bis {
   left: 517px;
   top: 406px;
@@ -117,7 +115,6 @@ body {
   height: 178px;
 }
 
-/* Pirate 3 */
 #pirate3bis {
   left: 638px;
   top: 177px;
@@ -125,7 +122,6 @@ body {
   height: 217px;
 }
 
-/* Pirate 5 */
 #pirate5bis {
   left: 946px;
   top: 286px;
@@ -139,7 +135,7 @@ body {
 }
 
 /* =====================================================
-   💬 BULLES DE DIALOGUE – TEXTE NOIR
+   💬 BULLES DE DIALOGUE
 ===================================================== */
 #bubbleContainer {
   position: fixed;
@@ -162,37 +158,58 @@ body {
   cursor: pointer;
 }
 
-/* Skip dialogues */
+/* Bouton passer les dialogues – petit, pirate, noir */
 #skipDialoguesBtn {
   position: fixed;
   top: 25px;
   right: 25px;
-  padding: 16px 30px;
-  font-size: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
   background: linear-gradient(145deg, #e8c77a, #b48b3c);
   border: 3px solid #3b240f;
-  border-radius: 10px;
+  border-radius: 8px;
+  color: #000;
   cursor: pointer;
   z-index: 3000;
 }
 
 /* =====================================================
-   🎮 MINI-JEUX
+   🎮 MINI-JEU 1 – BUSINESS PLAN
 ===================================================== */
-#miniGameContainer,
-#merchantGame {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 420px;
-  padding: 30px;
-  background: linear-gradient(145deg, #3b240f, #1f1208);
-  border: 5px solid #c9a24d;
-  border-radius: 18px;
-  z-index: 2000;
+.quizTitle {
+  font-size: 26px;
   color: #fff;
-  text-align: center;
+  animation: bookGlow 1.6s infinite alternate;
+  margin-bottom: 10px;
+}
+
+.quizSeparator {
+  height: 3px;
+  background: linear-gradient(to right, transparent, gold, transparent);
+  margin-bottom: 18px;
+}
+
+/* Boutons pirate (mini-jeux & global) */
+#gameAnswers button,
+#merchantGame button,
+.finalBtn,
+#continueQuestBtn {
+  padding: 12px 20px;
+  background: linear-gradient(145deg, #e8c77a, #b48b3c);
+  border: 3px solid #3b240f;
+  border-radius: 10px;
+  color: #000;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#gameAnswers button:hover,
+#merchantGame button:hover,
+.finalBtn:hover,
+#continueQuestBtn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 14px rgba(255,215,100,0.8);
 }
 
 /* =====================================================
@@ -208,38 +225,60 @@ body {
   justify-content: center;
 }
 
-/* Titre au-dessus du cadran */
+/* Titre du livre */
 #bookTitle {
   position: absolute;
-  top: 40px;
-  font-size: 30px;
+  top: 90px;
+  font-size: 28px;
   color: #fff;
-  animation: bookGlow 1.6s infinite alternate;
+  animation: bookGlow 1.5s infinite alternate;
 }
 
 @keyframes bookGlow {
   from { text-shadow: 0 0 6px gold; }
-  to   { text-shadow: 0 0 26px gold; }
+  to   { text-shadow: 0 0 28px gold; }
 }
 
-/* Cadran unique (pas de séparation) */
+/* Cadran collé aux images */
 .book {
   width: 720px;
   height: 480px;
   display: flex;
   background: #1e1209;
   border: 6px solid #c9a24d;
-  border-radius: 20px;
+  border-radius: 22px;
   overflow: hidden;
   box-shadow: 0 0 40px rgba(255,215,100,0.4);
 }
 
-/* Images jointes */
 .book img {
   width: 50%;
   height: 100%;
   object-fit: contain;
-  background: #000;
+}
+
+/* =====================================================
+   ⚖️ MINI-JEU 2 – JUGEMENT DU MARCHÉ
+===================================================== */
+#merchantGame h1 {
+  white-space: nowrap;
+  font-size: 26px;
+  color: gold;
+  animation: slideIn 0.8s ease;
+  margin-bottom: 12px;
+}
+
+#merchantGame h1::after {
+  content: "";
+  display: block;
+  height: 3px;
+  margin: 12px 0 18px;
+  background: linear-gradient(to right, transparent, gold, transparent);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* =====================================================
@@ -253,7 +292,7 @@ body {
 }
 
 @keyframes illuminate {
-  from { text-shadow: 0 0 2px gold; }
+  from { text-shadow: 0 0 4px gold; }
   to   { text-shadow: 0 0 22px gold; }
 }
 
@@ -265,17 +304,13 @@ body {
 
 /* Bouton final */
 .finalBtn {
-  display: block;
   margin: 25px auto 0;
-  padding: 16px 32px;
-  font-size: 18px;
-  background: linear-gradient(145deg, #e8c77a, #b48b3c);
-  border: 3px solid #3b240f;
-  border-radius: 10px;
-  cursor: pointer;
+  display: block;
 }
 
-/* Bouton poursuivre quête */
+/* =====================================================
+   🧭 BOUTON CONTINUER QUÊTE
+===================================================== */
 #continueQuestBtn {
   position: fixed;
   top: 25px;
