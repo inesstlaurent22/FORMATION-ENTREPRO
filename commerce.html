@@ -38,26 +38,9 @@
 <!-- =====================================================
      🏴‍☠️ PIRATES
 ===================================================== -->
-<img
-  src="images/Pirate2.png"
-  id="pirate2bis"
-  class="hidden"
-  alt="Pirate apprenti"
->
-
-<img
-  src="images/Pirate5.png"
-  id="pirate5bis"
-  class="hidden"
-  alt="Maître pirate"
->
-
-<img
-  src="images/Pirateclients.png"
-  id="pirate3bis"
-  class="hidden"
-  alt="Pirate client"
->
+<img src="images/Pirate2.png" id="pirate2bis" class="hidden" alt="Pirate apprenti">
+<img src="images/Pirate5.png" id="pirate5bis" class="hidden" alt="Maître pirate">
+<img src="images/Pirateclients.png" id="pirate3bis" class="hidden" alt="Pirate client">
 
 <!-- =====================================================
      💬 BULLES DE DIALOGUE
@@ -80,7 +63,7 @@
 <!-- =====================================================
      🎮 MINI-JEU 1 — BUSINESS PLAN
 ===================================================== -->
-<div id="miniGameContainer" class="hidden">
+<div id="miniGame" class="hidden">
   <div class="quizBox">
 
     <div class="quizTitle">
@@ -89,10 +72,21 @@
 
     <div class="quizSeparator"></div>
 
-    <div id="gameQuestion"></div>
-    <div id="gameAnswers"></div>
-    <div id="gameFeedback"></div>
+    <!-- IDs alignés avec le JS -->
+    <div id="gameQ"></div>
+    <div id="gameA"></div>
+    <div id="gameF"></div>
 
+  </div>
+</div>
+
+<!-- =====================================================
+     🏴‍☠️ PNJ PIRATE MENTOR
+===================================================== -->
+<div id="pirateMentor" class="mentor hidden">
+  <div class="mentorAvatar">🏴‍☠️</div>
+  <div class="mentorBubble" id="mentorText">
+    Réfléchis comme un vrai capitaine…
   </div>
 </div>
 
