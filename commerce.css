@@ -41,6 +41,28 @@ body {
   box-shadow: 0 0 25px rgba(255,215,100,0.4);
 }
 
+/* Bravo animé doré */
+@keyframes goldPulse {
+  0%   { text-shadow: 0 0 10px gold; transform: scale(1); }
+  50%  { text-shadow: 0 0 30px gold; transform: scale(1.1); }
+  100% { text-shadow: 0 0 10px gold; transform: scale(1); }
+}
+
+.winBravo {
+  font-size: 42px;
+  color: gold;
+  animation: goldPulse 1.2s infinite;
+}
+
+.winText {
+  margin-top: 10px;
+}
+
+.winCounter {
+  font-size: 32px;
+  margin: 15px 0;
+}
+
 /* =====================================================
    🎬 VIDÉO
 ===================================================== */
@@ -57,7 +79,7 @@ body {
   object-fit: cover;
 }
 
-/* Boutons vidéo pirate – EN HAUT */
+/* Boutons vidéo en haut */
 #toggleSound,
 #closeVideo {
   position: absolute;
@@ -76,20 +98,12 @@ body {
 #toggleSound { left: 30px; }
 #closeVideo { right: 30px; }
 
-#toggleSound:hover,
-#closeVideo:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255,215,100,0.7);
-}
-
 /* =====================================================
    🌅 BACKGROUND
 ===================================================== */
 #background {
   position: fixed;
   inset: 0;
-  background-size: cover;
-  background-position: center;
   z-index: 1;
 }
 
@@ -138,11 +152,6 @@ body {
   transform: scale(1.05);
 }
 
-/* ⚠️ Pirate5bis ne sera jamais grisé */
-.locked {
-  display: none;
-}
-
 /* =====================================================
    💬 BULLES DE DIALOGUE
 ===================================================== */
@@ -167,14 +176,10 @@ body {
   cursor: pointer;
 }
 
-.dialogue-bubble:hover {
-  transform: scale(1.03);
-}
-
-/* Skip dialogues */
+/* Bouton passer dialogues – haut droite */
 #skipDialoguesBtn {
   position: fixed;
-  bottom: 25px;
+  top: 25px;
   right: 25px;
   padding: 10px 18px;
   background: linear-gradient(145deg, #e8c77a, #b48b3c);
@@ -182,7 +187,25 @@ body {
   color: #000;
   border-radius: 8px;
   cursor: pointer;
-  z-index: 1200;
+  z-index: 3000;
+}
+
+/* =====================================================
+   🎮 MINI-JEU 1 – TITRE PIRATE
+===================================================== */
+.quizTitle {
+  font-size: 26px;
+  color: gold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 12px rgba(255,215,100,0.8);
+  margin-bottom: 12px;
+}
+
+.quizSeparator {
+  height: 3px;
+  background: linear-gradient(to right, transparent, gold, transparent);
+  margin-bottom: 20px;
 }
 
 /* =====================================================
@@ -205,12 +228,26 @@ body {
   text-align: center;
 }
 
+/* Titre Jugement du marché */
+#merchantGame h1 {
+  white-space: nowrap;
+  font-size: 26px;
+  color: gold;
+  animation: slideTitle 1.5s ease;
+}
+
+@keyframes slideTitle {
+  from { transform: translateY(-20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
 #gameQuestion,
 #clue {
   font-size: 20px;
   margin-bottom: 20px;
 }
 
+/* Boutons */
 #gameAnswers {
   display: flex;
   flex-direction: column;
@@ -228,20 +265,6 @@ body {
   color: #000;
   font-size: 16px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-#gameAnswers button:hover,
-#merchantGame button:hover,
-.finalBtn:hover,
-#continueQuestBtn:hover {
-  transform: scale(1.06);
-  box-shadow: 0 0 14px rgba(255,215,100,0.8);
-}
-
-#gameFeedback {
-  margin-top: 18px;
-  font-size: 18px;
 }
 
 /* =====================================================
@@ -257,6 +280,21 @@ body {
   justify-content: center;
 }
 
+/* Titre lumineux */
+#bookTitle {
+  position: absolute;
+  top: 60px;
+  font-size: 30px;
+  color: gold;
+  text-shadow: 0 0 18px rgba(255,215,100,0.9);
+  animation: titleGlow 1.8s infinite alternate;
+}
+
+@keyframes titleGlow {
+  from { opacity: 0.6; }
+  to   { opacity: 1; }
+}
+
 .book {
   width: 620px;
   height: 420px;
@@ -270,19 +308,11 @@ body {
 .book img {
   width: 50%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #000;
 }
 
-.page-turn {
-  animation: pageTurn 0.6s ease;
-}
-
-@keyframes pageTurn {
-  from { transform: scale(0.97); }
-  to { transform: scale(1); }
-}
-
-/* Bouton poursuivre la quête – EN HAUT À DROITE */
+/* Bouton poursuivre quête – haut droite */
 #continueQuestBtn {
   position: fixed;
   top: 25px;
@@ -291,18 +321,17 @@ body {
 }
 
 /* =====================================================
-   🏆 WIN
+   📦 BASE DE DONNÉES
 ===================================================== */
-.winBravo {
-  font-size: 36px;
+.dbTitle {
+  font-size: 26px;
   color: gold;
+  text-align: center;
+  animation: goldPulse 1.5s infinite;
 }
 
-.winText {
-  margin-top: 10px;
-}
-
-.winCounter {
-  font-size: 32px;
-  margin: 15px 0;
+.dbSeparator {
+  height: 3px;
+  background: linear-gradient(to right, transparent, gold, transparent);
+  margin: 12px 0 18px;
 }
