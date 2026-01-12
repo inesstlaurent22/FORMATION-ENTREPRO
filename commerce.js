@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   📌 ÉLÉMENTS DOM
+   📌 ELEMENTS DOM
 ===================================================== */
 const background = document.getElementById("background");
 
@@ -36,7 +36,7 @@ function showLoader(text, time = 800, cb) {
 }
 
 /* =====================================================
-   🎬 VIDÉO
+   🎬 VIDÉO INTRO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
@@ -70,7 +70,7 @@ function showBackground() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 (jamais grisé)
+   🏴‍☠️ PIRATE 5 – MAÎTRE
 ===================================================== */
 function enablePirate5() {
   pirate5.classList.add("interactive");
@@ -85,7 +85,7 @@ function enablePirate5() {
 }
 
 /* =====================================================
-   💬 DIALOGUES – SYSTÈME
+   💬 DIALOGUES – SYSTEME
 ===================================================== */
 let dialogues = [];
 let dIndex = 0;
@@ -140,7 +140,7 @@ function endDialogues() {
 skipBtn.addEventListener("click", endDialogues);
 
 /* =====================================================
-   💬 DIALOGUES 1
+   💬 DIALOGUES 1 – INTRO
 ===================================================== */
 function startDialogues1() {
   playDialogues([
@@ -150,7 +150,7 @@ function startDialogues1() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1
+   🎮 MINI-JEU 1 – BUSINESS PLAN
 ===================================================== */
 const miniGame = document.getElementById("miniGameContainer");
 const gameQ = document.getElementById("gameQuestion");
@@ -180,7 +180,7 @@ function startMiniGame1() {
 }
 
 /* =====================================================
-   🏆 VICTOIRE MINI-JEU 1
+   🏆 RÉUSSITE MINI-JEU 1
 ===================================================== */
 function winMiniGame1() {
   miniGame.classList.add("hidden");
@@ -211,7 +211,7 @@ function winMiniGame1() {
 }
 
 /* =====================================================
-   📖 LIVRE
+   📖 LIVRE – BUSINESS PLAN
 ===================================================== */
 const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
@@ -290,7 +290,7 @@ function startDialogues2() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2
+   🎮 MINI-JEU 2 – JUGEMENT DU MARCHÉ
 ===================================================== */
 const merchantGame = document.getElementById("merchantGame");
 const clueEl = document.getElementById("clue");
@@ -324,7 +324,7 @@ function startDialogues3() {
 }
 
 /* =====================================================
-   📦 BASE DE DONNÉES
+   📦 BASE DE DONNÉES – FIN
 ===================================================== */
 function showDatabaseBox() {
   bubbleContainer.innerHTML = "";
