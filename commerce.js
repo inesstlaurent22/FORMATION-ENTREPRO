@@ -149,6 +149,33 @@ function startDialogues1() {
   ], () => showLoader("Chargement...", 800, startMiniGame1));
 }
 
+const mentor = document.getElementById("pirateMentor");
+const mentorText = document.getElementById("mentorText");
+
+const mentorDialogs = [
+  "Tout bon projet commence par l’origine du trésor…",
+  "Un capitaine n’avance jamais sans équipage.",
+  "Garde ton objectif en tête, moussaillon !",
+  "Observe bien le marché avant d’agir.",
+  "Explique toujours la valeur de ton trésor.",
+  "Sans calcul, pas de bateau !",
+  "Démarque-toi des autres pirates.",
+  "Compte ton or avant de lever l’ancre.",
+  "Un trésor bien organisé évite les mutineries."
+];
+
+function showMentor(step) {
+  if (!mentor || !mentorText) return;
+
+  mentorText.textContent = mentorDialogs[step] || "Bonne chance, capitaine !";
+  mentor.classList.remove("hidden");
+}
+
+function hideMentor() {
+  if (!mentor) return;
+  mentor.classList.add("hidden");
+}
+
 /* =====================================================
    🎮 MINI-JEU 1
 ===================================================== */
