@@ -33,15 +33,18 @@ function vibrate(p = 15) {
 }
 
 /* =====================================================
-   🌑 LOADER
+   🌑 LOADER GLOBAL
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
-function showLoader(text, time = 700) {
+function showLoader(text, time = 700, cb) {
   loaderBox.innerHTML = text;
   fadeScreen.classList.remove("hidden");
-  setTimeout(() => fadeScreen.classList.add("hidden"), time);
+  setTimeout(() => {
+    fadeScreen.classList.add("hidden");
+    if (typeof cb === "function") cb();
+  }, time);
 }
 
 /* =====================================================
@@ -65,12 +68,11 @@ closeVideo.onclick = endVideo;
 function endVideo() {
   questVideo.pause();
   videoContainer.style.display = "none";
-  showLoader("Chargement...", 600);
-  setTimeout(showBackground, 650);
+  showLoader("Chargement...", 600, showBackground);
 }
 
 /* =====================================================
-   🌅 BACKGROUND + PIRATES INITIAUX
+   🌅 BACKGROUND + PIRATES INIT
 ===================================================== */
 function showBackground() {
   background.classList.remove("hidden");
@@ -80,14 +82,14 @@ function showBackground() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 (déclencheur)
+   🏴‍☠️ PIRATE 5 (DÉCLENCHEUR)
 ===================================================== */
 function enablePirate5() {
   pirate5.addEventListener("click", startDialogues1, { once: true });
 }
 
 /* =====================================================
-   💬 SYSTEME DE DIALOGUES (STABLE)
+   💬 SYSTÈME DE DIALOGUES (STABLE)
 ===================================================== */
 let dialogues = [];
 let dIndex = 0;
@@ -118,8 +120,10 @@ function renderDialogue() {
 
   if (anchor && !anchor.classList.contains("hidden")) {
     const r = anchor.getBoundingClientRect();
+    let top = r.top - 90;
+    if (top < 30) top = r.bottom + 15;
     bubble.style.left = r.left + r.width / 2 + "px";
-    bubble.style.top = (r.top - 90 > 30 ? r.top - 90 : r.bottom + 15) + "px";
+    bubble.style.top = top + "px";
     bubble.style.transform = "translateX(-50%)";
   } else {
     bubble.style.left = "50%";
@@ -147,7 +151,7 @@ function endDialogues() {
 skipBtn.onclick = endDialogues;
 
 /* =====================================================
-   💬 DIALOGUES 1 → MINI JEU 1
+   💬 DIALOGUES 1 → MINI-JEU 1
 ===================================================== */
 function startDialogues1() {
   playDialogues([
@@ -157,12 +161,10 @@ function startDialogues1() {
 }
 
 /* =====================================================
-   🎮 MINI JEU 1 – BUSINESS PLAN
+   🎮 MINI-JEU 1 – BUSINESS PLAN
 ===================================================== */
 function launchMiniGame1() {
-  showLoader("Préparation du mini-jeu...", 600);
-
-  setTimeout(() => {
+  showLoader("Préparation du mini-jeu...", 600, () => {
     miniGame.classList.remove("hidden");
     gameQ.textContent = "Quelle est la première étape ?";
     gameA.innerHTML = "";
@@ -187,7 +189,7 @@ function launchMiniGame1() {
 
       gameA.appendChild(btn);
     });
-  }, 650);
+  });
 }
 
 function winMiniGame1() {
@@ -204,6 +206,7 @@ function winMiniGame1() {
 
   let v = 0;
   const counter = document.getElementById("poCounter");
+
   const interval = setInterval(() => {
     v += 100;
     counter.textContent = v;
@@ -215,13 +218,13 @@ function winMiniGame1() {
       setTimeout(() => {
         fadeScreen.classList.add("hidden");
         showBook();
-      }, 1000);
+      }, 900);
     }
   }, 30);
 }
 
 /* =====================================================
-   📖 LIVRE
+   📖 LIVRE + LOADER ⏳
 ===================================================== */
 const bookSteps = [
   { left: "images/Businessplancov.png", right: "images/Businessplan1.jpg" },
@@ -232,9 +235,28 @@ const bookSteps = [
 let bookIndex = 0;
 
 function showBook() {
+  const loader = document.createElement("div");
+  loader.id = "bookLoader";
+  loader.innerHTML = "<span>⏳</span>";
+  document.body.appendChild(loader);
+
   bookContainer.classList.remove("hidden");
   bookIndex = 0;
-  renderBook();
+
+  const images = bookSteps.flatMap(s => [s.left, s.right]);
+  let loaded = 0;
+
+  images.forEach(src => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      loaded++;
+      if (loaded === images.length) {
+        loader.remove();
+        renderBook();
+      }
+    };
+  });
 }
 
 function renderBook() {
@@ -263,7 +285,7 @@ continueBtn.onclick = () => {
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 → MINI JEU 2
+   🏴‍☠️ PIRATE 3 – SURVOL ACTIF
 ===================================================== */
 function spawnPirate3() {
   pirate3.classList.remove("hidden");
@@ -274,9 +296,24 @@ function spawnPirate3() {
     pirate3.style.left = "638px";
   });
 
-  pirate3.onclick = () => startDialogues2();
+  const hoverOn = () => pirate3.classList.add("glow");
+  const hoverOff = () => pirate3.classList.remove("glow");
+
+  pirate3.addEventListener("mouseenter", hoverOn);
+  pirate3.addEventListener("mouseleave", hoverOff);
+
+  pirate3.addEventListener("click", () => {
+    pirate3.classList.remove("glow");
+    pirate3.removeEventListener("mouseenter", hoverOn);
+    pirate3.removeEventListener("mouseleave", hoverOff);
+    pirate3.style.pointerEvents = "none";
+    startDialogues2();
+  }, { once: true });
 }
 
+/* =====================================================
+   💬 DIALOGUES 2 → MINI-JEU 2
+===================================================== */
 function startDialogues2() {
   playDialogues([
     { text: "Ces pierres inspirent confiance.", anchor: pirate3 },
@@ -285,7 +322,7 @@ function startDialogues2() {
 }
 
 /* =====================================================
-   🎮 MINI JEU 2 – JUGEMENT DU MARCHÉ
+   🎮 MINI-JEU 2 – JUGEMENT DU MARCHÉ
 ===================================================== */
 function startMiniGame2() {
   merchantGame.classList.remove("hidden");
@@ -320,17 +357,21 @@ function startDialogues3() {
 ===================================================== */
 function showDatabaseBox() {
   bubbleContainer.innerHTML = "";
+  skipBtn.classList.add("hidden");
 
   const box = document.createElement("div");
-  box.className = "dialogue-bubble";
+  box.className = "dialogue-bubble database";
   box.style.left = "50%";
   box.style.top = "50%";
   box.style.transform = "translate(-50%, -50%)";
 
   box.innerHTML = `
-    <h2 class="dbTitle">La base de données</h2>
+    <h2 class="dbTitle">Base de données</h2>
     <div class="dbSeparator"></div>
-    <p>Elle te permet de fidéliser tes clients et de bâtir ton empire.</p>
+    <p>
+      Elle te permet de fidéliser tes clients<br>
+      et de bâtir ton empire commercial.
+    </p>
     <button class="finalBtn">Terminer la quête</button>
   `;
 
@@ -353,7 +394,7 @@ function winFinal() {
 }
 
 /* =====================================================
-   💎 GEMS
+   💎 EXPLOSION DE GEMS
 ===================================================== */
 function launchGems() {
   const canvas = document.createElement("canvas");
