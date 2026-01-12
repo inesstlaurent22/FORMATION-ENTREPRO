@@ -70,7 +70,7 @@ function showBackground() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 5 (jamais grisé)
+   🏴‍☠️ PIRATE 5
 ===================================================== */
 function enablePirate5() {
   pirate5.classList.add("interactive");
@@ -112,7 +112,6 @@ function renderDialogue() {
   bubble.className = "dialogue-bubble";
   bubble.innerHTML = d.text;
 
-  /* bulles plus proches des pirates */
   let top = r.top - 90;
   if (top < 20) top = r.bottom + 10;
 
@@ -149,25 +148,27 @@ function startDialogues1() {
   ], () => showLoader("Chargement...", 800, startMiniGame1));
 }
 
+/* =====================================================
+   🏴‍☠️ MENTOR
+===================================================== */
 const mentor = document.getElementById("pirateMentor");
 const mentorText = document.getElementById("mentorText");
 
 const mentorDialogs = [
   "Tout bon projet commence par l’origine du trésor…",
   "Un capitaine n’avance jamais sans équipage.",
-  "Garde ton objectif en tête, moussaillon !",
-  "Observe bien le marché avant d’agir.",
-  "Explique toujours la valeur de ton trésor.",
-  "Sans calcul, pas de bateau !",
+  "Garde ton objectif en tête.",
+  "Observe bien le marché.",
+  "Explique la valeur de ton trésor.",
+  "Sans calcul, pas de bateau.",
   "Démarque-toi des autres pirates.",
-  "Compte ton or avant de lever l’ancre.",
-  "Un trésor bien organisé évite les mutineries."
+  "Compte ton or avec soin.",
+  "Un projet clair évite les mutineries."
 ];
 
 function showMentor(step) {
-  if (!mentor || !mentorText) return;
-
-  mentorText.textContent = mentorDialogs[step] || "Bonne chance, capitaine !";
+  if (!mentor) return;
+  mentorText.textContent = mentorDialogs[step];
   mentor.classList.remove("hidden");
 }
 
@@ -177,33 +178,64 @@ function hideMentor() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1
+   🎮 MINI-JEU 1 — BUSINESS PLAN
 ===================================================== */
 const miniGame = document.getElementById("miniGameContainer");
 const gameQ = document.getElementById("gameQuestion");
 const gameA = document.getElementById("gameAnswers");
 const gameF = document.getElementById("gameFeedback");
 
+const steps = [
+  { question:"Comment les pirates ont-ils obtenu leurs pierres ?", answers:["Dans un coffre secret","Au marché","Un cadeau"], correct:0 },
+  { question:"Qui compose l’équipage ?", answers:["Capitaine et moussaillons","Capitaine seul","Toute la famille"], correct:0 },
+  { question:"Quel est l’objectif ?", answers:["Acheter un bateau","Partir en vacances","Décorer la cale"], correct:0 },
+  { question:"Que faut-il observer au marché ?", answers:["Les prix des concurrents","La météo","Les vêtements"], correct:0 },
+  { question:"Que décrire aux clients ?", answers:["Valeur et rareté","Couleur","Taille"], correct:0 },
+  { question:"À quoi sert le modèle économique ?", answers:["Savoir combien vendre","Nettoyer le pont","Compter les mouettes"], correct:0 },
+  { question:"Quelle stratégie est la meilleure ?", answers:["Bien présenter le trésor","Crier fort","Vendre sans prix"], correct:0 },
+  { question:"À quoi sert le plan financier ?", answers:["Vérifier l’or","Dessiner","Chanter"], correct:0 },
+  { question:"Pourquoi organiser l’activité ?", answers:["Éviter les conflits","Nommer le perroquet","Fabriquer des sabres"], correct:0 }
+];
+
+let currentStep = 0;
+
 function startMiniGame1() {
+  currentStep = 0;
   miniGame.classList.remove("hidden");
-  gameQ.textContent = "Quelle est la première étape ?";
+  loadMiniGameStep();
+}
+
+function loadMiniGameStep() {
+  showMentor(currentStep);
+
+  gameQ.textContent = steps[currentStep].question;
   gameA.innerHTML = "";
   gameF.textContent = "";
 
-  ["Acheter un bateau", "Définir clairement son offre", "Fixer les prix"]
-    .forEach((txt, i) => {
-      const btn = document.createElement("button");
-      btn.textContent = txt;
-      btn.onclick = () => {
-        if (i === 1) {
-          gameF.textContent = "✅ Bonne décision";
-          setTimeout(winMiniGame1, 900);
-        } else {
-          gameF.textContent = "❌ Mauvais choix";
-        }
-      };
-      gameA.appendChild(btn);
-    });
+  steps[currentStep].answers.forEach((txt, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = txt;
+
+    btn.onclick = () => {
+      if (i === steps[currentStep].correct) {
+        gameF.textContent = "✅ Bonne décision";
+
+        setTimeout(() => {
+          currentStep++;
+          if (currentStep < steps.length) {
+            loadMiniGameStep();
+          } else {
+            hideMentor();
+            winMiniGame1();
+          }
+        }, 700);
+      } else {
+        gameF.textContent = "❌ Mauvais choix";
+      }
+    };
+
+    gameA.appendChild(btn);
+  });
 }
 
 /* =====================================================
@@ -224,6 +256,7 @@ function winMiniGame1() {
 
   let value = 0;
   const counter = document.getElementById("poCounter");
+
   const interval = setInterval(() => {
     value += 100;
     counter.textContent = value;
@@ -232,7 +265,7 @@ function winMiniGame1() {
       setTimeout(() => {
         fadeScreen.classList.add("hidden");
         showBook();
-      }, 1000);
+      }, 900);
     }
   }, 30);
 }
@@ -247,9 +280,9 @@ const continueBtn = document.getElementById("continueQuestBtn");
 const book = document.querySelector(".book");
 
 const bookSteps = [
-  { left: "images/Businessplancov.png", right: "images/Businessplan1.jpg" },
-  { left: "images/Businessplancov.png", right: "images/Businessplan2.jpg" },
-  { left: "images/Businessplancov.png", right: "images/Businessplan3.jpg" }
+  { left:"images/Businessplancov.png", right:"images/Businessplan1.jpg" },
+  { left:"images/Businessplancov.png", right:"images/Businessplan2.jpg" },
+  { left:"images/Businessplancov.png", right:"images/Businessplan3.jpg" }
 ];
 
 let bookIndex = 0;
@@ -285,11 +318,10 @@ continueBtn.addEventListener("click", () => {
 });
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 – ARRIVÉE DROITE
+   🏴‍☠️ PIRATE 3 + SUITE
 ===================================================== */
 function spawnPirate3() {
   pirate3.classList.remove("hidden");
-  pirate3.style.transition = "none";
   pirate3.style.left = "1200px";
 
   requestAnimationFrame(() => {
@@ -297,22 +329,13 @@ function spawnPirate3() {
     pirate3.style.left = "638px";
   });
 
-  pirate3.addEventListener("mouseenter", () => pirate3.classList.add("glow"));
-  pirate3.addEventListener("mouseleave", () => pirate3.classList.remove("glow"));
-
-  pirate3.addEventListener("click", () => {
-    pirate3.style.pointerEvents = "none";
-    startDialogues2();
-  }, { once: true });
+  pirate3.addEventListener("click", () => startDialogues2(), { once: true });
 }
 
-/* =====================================================
-   💬 DIALOGUES 2
-===================================================== */
 function startDialogues2() {
   playDialogues([
-    { text: "Ces pierres inspirent confiance.", anchor: pirate3 },
-    { text: "Mais le marché est exigeant.", anchor: pirate5 }
+    { text:"Ces pierres inspirent confiance.", anchor: pirate3 },
+    { text:"Mais le marché est exigeant.", anchor: pirate5 }
   ], () => showLoader("Chargement...", 800, startMiniGame2));
 }
 
@@ -328,7 +351,7 @@ function startMiniGame2() {
 }
 
 document.getElementById("btnHint").onclick = () => {
-  clueEl.textContent = "💡 Peu de concurrence sur ce port.";
+  clueEl.textContent = "💡 Peu de concurrence ici.";
 };
 
 document.getElementById("btnKeep").onclick = () => {
@@ -341,21 +364,17 @@ document.getElementById("btnLower").onclick = () => {
 };
 
 /* =====================================================
-   💬 DIALOGUES 3
+   💬 DIALOGUES 3 + BASE DE DONNÉES
 ===================================================== */
 function startDialogues3() {
   playDialogues([
-    { text: "Note les coordonnées de tes clients.", anchor: pirate5 },
-    { text: "C’est ta base de données.", anchor: pirate2 }
+    { text:"Note les coordonnées de tes clients.", anchor: pirate5 },
+    { text:"C’est ta base de données.", anchor: pirate2 }
   ], showDatabaseBox);
 }
 
-/* =====================================================
-   📦 BASE DE DONNÉES
-===================================================== */
 function showDatabaseBox() {
   bubbleContainer.innerHTML = "";
-  skipBtn.classList.add("hidden");
 
   const box = document.createElement("div");
   box.className = "dialogue-bubble";
@@ -364,23 +383,21 @@ function showDatabaseBox() {
   box.style.transform = "translate(-50%, -50%)";
 
   box.innerHTML = `
-    <h2 class="dbTitle">La base de données</h2>
-    <div class="dbSeparator"></div>
-    <p>Elle te permet de fidéliser tes clients et de bâtir ton empire.</p>
-    <button class="finalBtn">Terminer la quête</button>
+    <h2>📦 Base de données</h2>
+    <p>Elle te permet de fidéliser tes clients.</p>
+    <button>Terminer la quête</button>
   `;
 
-  box.querySelector("button").addEventListener("click", winFinal);
+  box.querySelector("button").onclick = winFinal;
   bubbleContainer.appendChild(box);
 }
 
 /* =====================================================
-   🏁 FIN COMMERCE – GEMS PENDANT LOADER
+   🏁 FIN + GEMS
 ===================================================== */
 function winFinal() {
   bubbleContainer.innerHTML = "";
-
-  showLoader("🎉 Bravo, tu as gagné cette quête", 2200);
+  showLoader("🎉 Bravo, quête terminée !", 2200);
   launchGems();
 
   setTimeout(() => {
@@ -389,9 +406,6 @@ function winFinal() {
   }, 2300);
 }
 
-/* =====================================================
-   💎 EXPLOSION DE GEMS
-===================================================== */
 function launchGems() {
   const canvas = document.createElement("canvas");
   canvas.width = innerWidth;
@@ -399,20 +413,20 @@ function launchGems() {
   canvas.style.position = "fixed";
   canvas.style.inset = 0;
   canvas.style.pointerEvents = "none";
-  canvas.style.zIndex = 3100;
+  canvas.style.zIndex = 3000;
   document.body.appendChild(canvas);
 
   const ctx = canvas.getContext("2d");
   let gems = [];
 
   for (let i = 0; i < 200; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() * 10 + 4;
+    const a = Math.random() * Math.PI * 2;
+    const s = Math.random() * 10 + 4;
     gems.push({
       x: innerWidth / 2,
       y: innerHeight / 2,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
+      vx: Math.cos(a) * s,
+      vy: Math.sin(a) * s,
       life: 90,
       color: `hsl(${Math.random() * 360},100%,60%)`
     });
