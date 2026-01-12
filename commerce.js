@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   📌 ELEMENTS DOM
+   📌 ÉLÉMENTS DOM
 ===================================================== */
 const background = document.getElementById("background");
 
@@ -85,7 +85,7 @@ function enablePirate5() {
 }
 
 /* =====================================================
-   💬 DIALOGUES – SYSTEME
+   💬 DIALOGUES – SYSTÈME
 ===================================================== */
 let dialogues = [];
 let dIndex = 0;
@@ -167,6 +167,9 @@ function startMiniGame1() {
     .forEach((txt, i) => {
       const btn = document.createElement("button");
       btn.textContent = txt;
+      btn.addEventListener("mouseenter", () => btn.classList.add("glow"));
+      btn.addEventListener("mouseleave", () => btn.classList.remove("glow"));
+
       btn.onclick = () => {
         if (i === 1) {
           gameF.textContent = "✅ Bonne décision";
@@ -197,9 +200,14 @@ function winMiniGame1() {
 
   let value = 0;
   const counter = document.getElementById("poCounter");
+  counter.style.transition = "transform .2s";
+
   const interval = setInterval(() => {
     value += 100;
     counter.textContent = value;
+    counter.style.transform = "scale(1.25)";
+    setTimeout(() => counter.style.transform = "scale(1)", 120);
+
     if (value >= 5000) {
       clearInterval(interval);
       setTimeout(() => {
@@ -258,7 +266,7 @@ continueBtn.addEventListener("click", () => {
 });
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 – ARRIVÉE DROITE
+   🏴‍☠️ PIRATE 3 – ARRIVÉE PAR LA DROITE
 ===================================================== */
 function spawnPirate3() {
   pirate3.classList.remove("hidden");
@@ -348,7 +356,7 @@ function showDatabaseBox() {
 }
 
 /* =====================================================
-   🏁 FIN COMMERCE – GEMS PENDANT LOADER
+   🏁 FIN COMMERCE – GEMS PENDANT LE LOADER
 ===================================================== */
 function winFinal() {
   bubbleContainer.innerHTML = "";
