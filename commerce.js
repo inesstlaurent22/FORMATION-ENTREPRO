@@ -9,6 +9,9 @@ const pirate2 = document.getElementById("pirate2bis");
 const pirate5 = document.getElementById("pirate5bis");
 const pirate3 = document.getElementById("pirate3bis");
 
+const bubbleContainer = document.getElementById("bubbleContainer");
+const skipBtn = document.getElementById("skipDialoguesBtn");
+
 /* =====================================================
    🔧 OUTILS
 ===================================================== */
@@ -49,7 +52,7 @@ toggleSound.onclick = () => {
 questVideo.onended = endVideo;
 closeVideo.onclick = endVideo;
 
-function endVideo(){
+function endVideo() {
   questVideo.pause();
   videoContainer.style.display = "none";
   showLoader("Chargement...", 800, showBackground);
@@ -82,11 +85,8 @@ function enablePirate5() {
 }
 
 /* =====================================================
-   💬 DIALOGUES — SYSTÈME
+   💬 DIALOGUES – SYSTÈME
 ===================================================== */
-const bubbleContainer = document.getElementById("bubbleContainer");
-const skipBtn = document.getElementById("skipDialoguesBtn");
-
 let dialogues = [];
 let dIndex = 0;
 let onDialogueEnd = null;
@@ -185,7 +185,7 @@ function winMiniGame1() {
   miniGame.classList.add("hidden");
 
   loaderBox.innerHTML = `
-    <div class="winBravo">BRAVO 🎉</div>
+    <div class="winBravo">BRAVO</div>
     <div class="winText">Tu as gagné</div>
     <div class="winCounter"><span id="poCounter">0</span></div>
     <div class="winText">pièces d’or 💰</div>
@@ -232,10 +232,6 @@ function showBook() {
 }
 
 function renderBook() {
-  book.classList.remove("page-turn");
-  void book.offsetWidth;
-  book.classList.add("page-turn");
-
   leftPage.src = bookSteps[bookIndex].left;
   rightPage.src = bookSteps[bookIndex].right;
   continueBtn.classList.toggle("hidden", bookIndex !== bookSteps.length - 1);
@@ -249,7 +245,6 @@ book.addEventListener("click", (e) => {
     bookIndex++;
     renderBook();
   }
-
   if (e.clientX < middle && bookIndex > 0) {
     bookIndex--;
     renderBook();
@@ -262,10 +257,17 @@ continueBtn.onclick = () => {
 };
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3
+   🏴‍☠️ PIRATE 3 – ARRIVÉE PAR LA DROITE
 ===================================================== */
 function spawnPirate3Animated() {
   pirate3.classList.remove("hidden");
+  pirate3.style.transition = "none";
+  pirate3.style.left = "1200px";
+
+  requestAnimationFrame(() => {
+    pirate3.style.transition = "left 1s ease-out";
+    pirate3.style.left = "638px";
+  });
 
   pirate3.addEventListener("mouseenter", () => pirate3.classList.add("glow"));
   pirate3.addEventListener("mouseleave", () => pirate3.classList.remove("glow"));
@@ -345,17 +347,23 @@ function showDatabaseBox() {
 }
 
 /* =====================================================
-   🏁 FIN COMMERCE
+   🏁 FIN COMMERCE – GEMS + MENU
 ===================================================== */
 function winFinal() {
   bubbleContainer.innerHTML = "";
-  showLoader("🎉 Bravo, tu as gagné cette quête", 2000, launchFireworks);
+  showLoader("🎉 Bravo, tu as gagné cette quête", 1000, () => {
+    launchGems();
+    setTimeout(() => {
+      localStorage.setItem("mpi_unlocked", "true");
+      window.location.href = "menu.html";
+    }, 1800);
+  });
 }
 
 /* =====================================================
-   🎆 FEUX D’ARTIFICE
+   💎 EXPLOSION DE GEMS
 ===================================================== */
-function launchFireworks() {
+function launchGems() {
   const canvas = document.createElement("canvas");
   canvas.width = innerWidth;
   canvas.height = innerHeight;
@@ -366,12 +374,12 @@ function launchFireworks() {
   document.body.appendChild(canvas);
 
   const ctx = canvas.getContext("2d");
-  let particles = [];
+  let gems = [];
 
-  for (let i = 0; i < 180; i++) {
+  for (let i = 0; i < 160; i++) {
     const a = Math.random() * Math.PI * 2;
-    const s = Math.random() * 8 + 4;
-    particles.push({
+    const s = Math.random() * 9 + 3;
+    gems.push({
       x: innerWidth / 2,
       y: innerHeight / 2,
       vx: Math.cos(a) * s,
@@ -383,16 +391,16 @@ function launchFireworks() {
 
   function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.vy += 0.12;
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life--;
-      ctx.fillStyle = p.c;
-      ctx.fillRect(p.x, p.y, 3, 3);
+    gems.forEach(g => {
+      g.vy += 0.12;
+      g.x += g.vx;
+      g.y += g.vy;
+      g.life--;
+      ctx.fillStyle = g.c;
+      ctx.fillRect(g.x, g.y, 4, 4);
     });
-    particles = particles.filter(p => p.life > 0);
-    particles.length ? requestAnimationFrame(update) : canvas.remove();
+    gems = gems.filter(g => g.life > 0);
+    gems.length ? requestAnimationFrame(update) : canvas.remove();
   }
 
   update();
