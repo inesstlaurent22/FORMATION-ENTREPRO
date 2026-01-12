@@ -252,3 +252,112 @@ body {
 
 /* =====================================================
    📖 LIVRE
+===================================================== */
+#bookContainer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+  z-index: 2500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bookTitle {
+  position: absolute;
+  top: 90px;
+  font-size: 28px;
+  color: #fff;
+  animation: bookGlow 1.5s infinite alternate;
+}
+
+@keyframes bookGlow {
+  from { text-shadow: 0 0 6px gold; }
+  to   { text-shadow: 0 0 28px gold; }
+}
+
+.book {
+  width: 720px;
+  height: 480px;
+  display: flex;
+  background: #1e1209;
+  border: 6px solid #c9a24d;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(255,215,100,.4);
+}
+
+.book img {
+  width: 50%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* =====================================================
+   ⚖️ MINI-JEU 2
+===================================================== */
+#merchantGame {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  padding: 30px;
+  background: linear-gradient(145deg, #3b240f, #1f1208);
+  border: 5px solid #c9a24d;
+  border-radius: 18px;
+  z-index: 2000;
+  color: #fff;
+  text-align: center;
+}
+
+#merchantGame h1 {
+  white-space: nowrap;
+  color: gold;
+  font-size: 26px;
+  animation: slideIn .8s ease;
+}
+
+#merchantGame h1::after {
+  content: "";
+  display: block;
+  height: 3px;
+  margin: 12px 0 18px;
+  background: linear-gradient(to right, transparent, gold, transparent);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================================
+   📦 BASE DE DONNÉES
+===================================================== */
+.dbTitle {
+  font-size: 26px;
+  color: #000;
+  text-align: center;
+  animation: illuminate 1.6s infinite alternate;
+}
+
+@keyframes illuminate {
+  from { text-shadow: 0 0 4px gold; }
+  to   { text-shadow: 0 0 22px gold; }
+}
+
+.dbSeparator {
+  height: 3px;
+  background: linear-gradient(to right, transparent, gold, transparent);
+  margin: 12px 0 18px;
+}
+
+/* =====================================================
+   🧭 CONTINUER QUÊTE
+===================================================== */
+#continueQuestBtn {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  z-index: 3000;
+}
