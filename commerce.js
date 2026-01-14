@@ -56,14 +56,19 @@ const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
 questVideo.muted = true;
+questVideo.play().catch(()=>{});
 
 toggleSound.onclick = () => {
   questVideo.muted = !questVideo.muted;
   toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
 };
 
+closeVideo.onclick = () => {
+  closeVideo.classList.add("glowClick");
+  setTimeout(endVideo, 300);
+};
+
 questVideo.onended = endVideo;
-closeVideo.onclick = endVideo;
 
 function endVideo() {
   questVideo.pause();
@@ -85,6 +90,8 @@ function showBackground() {
    🏴‍☠️ PIRATE 5
 ===================================================== */
 function enablePirate5() {
+  pirate5.addEventListener("mouseenter", () => pirate5.classList.add("glow"));
+  pirate5.addEventListener("mouseleave", () => pirate5.classList.remove("glow"));
   pirate5.addEventListener("click", startDialogues1, { once: true });
 }
 
@@ -148,7 +155,14 @@ function endDialogues() {
   }
 }
 
-skipBtn.onclick = endDialogues;
+skipBtn.onclick = () => {
+  skipBtn.classList.add("glowClick");
+  vibrate(25);
+  setTimeout(() => {
+    skipBtn.classList.remove("glowClick");
+    endDialogues();
+  }, 200);
+};
 
 /* =====================================================
    💬 DIALOGUES 1 → MINI-JEU 1
@@ -297,7 +311,6 @@ function spawnPirate3() {
 
   pirate3.addEventListener("mouseenter", () => pirate3.classList.add("glow"));
   pirate3.addEventListener("mouseleave", () => pirate3.classList.remove("glow"));
-
   pirate3.addEventListener("click", startDialogues2, { once: true });
 }
 
@@ -343,11 +356,31 @@ function startDialogues3() {
 }
 
 /* =====================================================
-   🏁 FIN
+   🏁 FIN + EXPLOSION DE GEMS
 ===================================================== */
 function winFinal() {
-  showLoader("🎉 Bravo, tu as gagné cette quête", 2200);
-  setTimeout(() => window.location.href = "menu.html", 2300);
+  loaderBox.innerHTML = "🎉 Bravo, tu as gagné cette quête";
+  fadeScreen.classList.remove("hidden");
+
+  const gems = document.createElement("div");
+  gems.className = "gems";
+  fadeScreen.appendChild(gems);
+
+  for (let i = 0; i < 60; i++) {
+    const g = document.createElement("div");
+    g.className = "gem";
+    g.style.left = "50%";
+    g.style.top = "50%";
+    g.style.background = `hsl(${Math.random()*360},100%,60%)`;
+    g.style.setProperty("--x", `${(Math.random()-0.5)*600}px`);
+    g.style.setProperty("--y", `${(Math.random()-0.5)*600}px`);
+    gems.appendChild(g);
+  }
+
+  setTimeout(() => {
+    gems.remove();
+    window.location.href = "menu.html";
+  }, 2300);
 }
 
 });
