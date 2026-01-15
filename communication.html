@@ -5,15 +5,12 @@
   <title>Communication – La Criée Pirate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS PRINCIPAL -->
   <link rel="stylesheet" href="communication.css">
 </head>
 
 <body>
 
-  <!-- ========================= -->
-  <!-- 🎬 VIDÉO D’INTRO -->
-  <!-- ========================= -->
+  <!-- 🎬 VIDÉO INTRO -->
   <div id="videoIntro" class="fullscreen">
     <video
       id="introVideo"
@@ -28,43 +25,31 @@
     </div>
   </div>
 
-  <!-- ========================= -->
-  <!-- 🌊 SCÈNE BACKGROUND -->
-  <!-- ========================= -->
+  <!-- 🌊 SCÈNE AVEC BACKGROUND -->
   <div id="scene" class="hidden">
 
-    <!-- Pirate 2 (PNJ) -->
+    <!-- Pirate 2 -->
     <div id="pirate2" class="pirate npc"></div>
 
-    <!-- Pirate 5 (Interactif) -->
-    <div id="pirate5" class="pirate clickable"></div>
+    <!-- Pirate 5 -->
+    <div id="pirate3" class="pirate clickable"></div>
 
   </div>
 
-  <!-- ========================= -->
   <!-- ⏳ LOADER -->
-  <!-- ========================= -->
   <div id="loader" class="hidden">
     <span id="loaderText">Chargement…</span>
   </div>
 
-  <!-- ========================= -->
   <!-- 💬 DIALOGUES -->
-  <!-- ========================= -->
   <div id="dialogBox" class="hidden">
     <p id="dialogText"></p>
     <button id="nextDialog">Continuer</button>
   </div>
 
-  <!-- ========================= -->
   <!-- 🎮 MINI-JEUX -->
-  <!-- ========================= -->
   <div id="miniGameContainer" class="hidden"></div>
 
-  <!-- ========================= -->
-  <!-- 📜 SCRIPT -->
-  <!-- ========================= -->
   <script src="communication.js"></script>
-
 </body>
 </html>
