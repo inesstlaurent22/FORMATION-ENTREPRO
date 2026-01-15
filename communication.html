@@ -4,52 +4,48 @@
   <meta charset="UTF-8">
   <title>Communication – La Criée Pirate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="communication.css">
 </head>
 
 <body>
 
-  <!-- 🎬 VIDÉO INTRO -->
-  <div id="videoIntro" class="fullscreen">
-    <video
-      id="introVideo"
-      src="videos/Video1.MOV"
-      autoplay
-      playsinline
-    ></video>
+<!-- 🎬 VIDÉO INTRO -->
+<div id="videoIntro" class="fullscreen">
+  <video
+    id="introVideo"
+    src="intro-communication.mp4"
+    playsinline
+    muted
+  ></video>
 
-    <div class="video-controls">
-      <button id="toggleSound">🔊</button>
-      <button id="closeVideo">✖</button>
-    </div>
+  <div class="video-controls">
+    <button id="toggleSound" class="btn-pirate">🔊</button>
+    <button id="closeVideo" class="btn-pirate">✖</button>
   </div>
+</div>
 
-  <!-- 🌊 SCÈNE AVEC BACKGROUND -->
-  <div id="scene" class="hidden">
+<!-- ⏳ LOADER ENTRE VIDEO & SCÈNE -->
+<div id="loader" class="hidden">
+  <span id="loaderText">Chargement…</span>
+</div>
 
-    <!-- Pirate 2 -->
-    <div id="pirate2" class="pirate npc"></div>
+<!-- 🌊 SCÈNE -->
+<div id="scene" class="hidden">
 
-    <!-- Pirate 5 -->
-    <div id="pirate3" class="pirate clickable"></div>
-
-  </div>
-
-  <!-- ⏳ LOADER -->
-  <div id="loader" class="hidden">
-    <span id="loaderText">Chargement…</span>
-  </div>
+  <div id="pirate2" class="pirate npc"></div>
+  <div id="pirate3" class="pirate clickable"></div>
 
   <!-- 💬 DIALOGUES -->
   <div id="dialogBox" class="hidden">
     <p id="dialogText"></p>
-    <button id="nextDialog">Continuer</button>
+    <button id="nextDialog" class="btn-pirate white-text">Continuer</button>
   </div>
 
-  <!-- 🎮 MINI-JEUX -->
-  <div id="miniGameContainer" class="hidden"></div>
+</div>
 
-  <script src="communication.js"></script>
+<!-- 🎮 MINI JEU -->
+<div id="miniGameContainer" class="hidden"></div>
+
+<script src="communication.js"></script>
 </body>
 </html>
