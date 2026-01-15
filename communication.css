@@ -95,7 +95,7 @@ body{
   width:370px;
   height:604px;
 
-  background-image:url("images/Pirate5.png");
+  background-image:url("images/Pirate3.png");
   cursor:pointer;
   animation:pirateRise 1.2s ease forwards;
 }
