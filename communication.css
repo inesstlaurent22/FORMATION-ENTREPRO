@@ -78,19 +78,19 @@ body{
 
 /* Pirate 2 */
 #pirate2{
-  left:453px;
-  top:322px;
-  width:420px;
-  height:402px;
+  left:473px;
+  top:422px;
+  width:329px;
+  height:315px;
   background-image:url("images/Pirate2.png");
 }
 
 /* Pirate 3 */
 #pirate3{
-  left:1241px;
-  top:258px;
-  width:305px;
-  height:497px;
+  left:943px;
+  top:454px;
+  width:274px;
+  height:446px;
   background-image:url("images/Pirate3.png");
   cursor:pointer;
 }
