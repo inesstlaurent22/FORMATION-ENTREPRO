@@ -23,7 +23,6 @@ const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
 
 const merchantGame = document.getElementById("merchantGame");
-const clueEl = document.getElementById("clue");
 
 /* =====================================================
    🔧 OUTILS
@@ -32,20 +31,17 @@ function vibrate(p = 15) {
   if (navigator.vibrate) navigator.vibrate(p);
 }
 
+function triggerGlow(el) {
+  el.classList.remove("glowClick");
+  void el.offsetWidth; // force reflow
+  el.classList.add("glowClick");
+}
+
 /* =====================================================
    🌑 LOADER GLOBAL
 ===================================================== */
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
-
-function showLoader(text, time = 700, cb) {
-  loaderBox.innerHTML = text;
-  fadeScreen.classList.remove("hidden");
-  setTimeout(() => {
-    fadeScreen.classList.add("hidden");
-    if (typeof cb === "function") cb();
-  }, time);
-}
 
 /* =====================================================
    🎬 VIDEO INTRO
@@ -64,8 +60,8 @@ toggleSound.onclick = () => {
 };
 
 closeVideo.onclick = () => {
-  closeVideo.classList.add("glowClick");
-  setTimeout(endVideo, 300);
+  triggerGlow(closeVideo);
+  endVideo();
 };
 
 questVideo.onended = endVideo;
@@ -77,7 +73,19 @@ function endVideo() {
 }
 
 /* =====================================================
-   🌅 BACKGROUND + PIRATES INIT
+   🌑 LOADER
+===================================================== */
+function showLoader(text, time = 700, cb) {
+  loaderBox.innerHTML = text;
+  fadeScreen.classList.remove("hidden");
+  setTimeout(() => {
+    fadeScreen.classList.add("hidden");
+    if (typeof cb === "function") cb();
+  }, time);
+}
+
+/* =====================================================
+   🌅 BACKGROUND + PIRATES
 ===================================================== */
 function showBackground() {
   background.classList.remove("hidden");
@@ -96,7 +104,7 @@ function enablePirate5() {
 }
 
 /* =====================================================
-   💬 DIALOGUES
+   💬 DIALOGUES – MOTEUR
 ===================================================== */
 let dialogues = [];
 let dIndex = 0;
@@ -156,12 +164,9 @@ function endDialogues() {
 }
 
 skipBtn.onclick = () => {
-  skipBtn.classList.add("glowClick");
+  triggerGlow(skipBtn);
   vibrate(25);
-  setTimeout(() => {
-    skipBtn.classList.remove("glowClick");
-    endDialogues();
-  }, 200);
+  endDialogues();
 };
 
 /* =====================================================
@@ -184,7 +189,7 @@ function launchMiniGame1() {
     gameA.innerHTML = "";
     gameF.textContent = "";
 
-    ["Acheter un bateau","Définir clairement son offre","Fixer les prix"]
+    ["Acheter un bateau", "Définir clairement son offre", "Fixer les prix"]
       .forEach((txt, i) => {
         const btn = document.createElement("button");
         btn.textContent = txt;
@@ -325,25 +330,42 @@ function startDialogues2() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2
+   🎮 MINI-JEU 2 – JUGEMENT DU MARCHÉ
 ===================================================== */
 function startMiniGame2() {
   merchantGame.classList.remove("hidden");
-  clueEl.textContent = "Analyse le marché avant de décider.";
+
+  merchantGame.innerHTML = `
+    <h1>🧔‍♂️ Le Jugement du Marché</h1>
+
+    <p>📦 Prix de l’objet : <strong>300 PO</strong></p>
+    <p>🏷️ Prix des concurrents : <strong>250 PO</strong></p>
+
+    <p id="clientText">« J’ai vu cet objet à moitié prix dans un autre port… »</p>
+
+    <div id="clue">Analyse le marché avant de décider.</div>
+
+    <button id="btnHint">💡 Indice</button>
+
+    <div class="priceActions">
+      <button id="btnLower">💰 Baisser le prix</button>
+      <button id="btnKeep">⚖️ Maintenir le prix</button>
+    </div>
+  `;
+
+  document.getElementById("btnHint").onclick = () => {
+    document.getElementById("clue").textContent = "💡 Peu de concurrence sur ce port.";
+  };
+
+  document.getElementById("btnKeep").onclick = () => {
+    merchantGame.classList.add("hidden");
+    startDialogues3();
+  };
+
+  document.getElementById("btnLower").onclick = () => {
+    document.getElementById("clue").textContent = "❌ Mauvaise décision.";
+  };
 }
-
-document.getElementById("btnHint").onclick = () => {
-  clueEl.textContent = "💡 Peu de concurrence sur ce port.";
-};
-
-document.getElementById("btnKeep").onclick = () => {
-  merchantGame.classList.add("hidden");
-  startDialogues3();
-};
-
-document.getElementById("btnLower").onclick = () => {
-  clueEl.textContent = "❌ Mauvaise décision.";
-};
 
 /* =====================================================
    💬 DIALOGUES 3 → FIN
@@ -356,7 +378,7 @@ function startDialogues3() {
 }
 
 /* =====================================================
-   🏁 FIN + EXPLOSION DE GEMS
+   🏁 FIN – EXPLOSION DE GEMMES
 ===================================================== */
 function winFinal() {
   loaderBox.innerHTML = "🎉 Bravo, tu as gagné cette quête";
@@ -366,21 +388,22 @@ function winFinal() {
   gems.className = "gems";
   fadeScreen.appendChild(gems);
 
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i < 120; i++) {
     const g = document.createElement("div");
     g.className = "gem";
     g.style.left = "50%";
     g.style.top = "50%";
-    g.style.background = `hsl(${Math.random()*360},100%,60%)`;
-    g.style.setProperty("--x", `${(Math.random()-0.5)*600}px`);
-    g.style.setProperty("--y", `${(Math.random()-0.5)*600}px`);
+    g.style.background = `hsl(${Math.random()*360}, 90%, 60%)`;
+    g.style.setProperty("--x", `${(Math.random() - 0.5) * 900}px`);
+    g.style.setProperty("--y", `${(Math.random() - 0.5) * 700}px`);
+    g.style.transform = `rotate(${Math.random()*360}deg)`;
     gems.appendChild(g);
   }
 
   setTimeout(() => {
     gems.remove();
     window.location.href = "menu.html";
-  }, 2300);
+  }, 2400);
 }
 
 });
