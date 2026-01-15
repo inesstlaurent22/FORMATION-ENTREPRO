@@ -1,38 +1,31 @@
-/* =========================
-   🌍 RESET GLOBAL
-========================= */
+/* ===== RESET ===== */
 *{
-  box-sizing:border-box;
   margin:0;
   padding:0;
+  box-sizing:border-box;
 }
 
 body{
   width:100vw;
   height:100vh;
   overflow:hidden;
-  font-family: serif;
-  color:#fff;
+  font-family:serif;
+  background:#000; /* fallback ultime */
 }
 
-/* =========================
-   🔒 UTILITAIRES
-========================= */
 .hidden{
   display:none !important;
 }
 
-/* =========================
-   🎬 VIDÉO INTRO
-========================= */
+/* ===== VIDEO INTRO ===== */
 .fullscreen{
   position:fixed;
   inset:0;
   background:#000;
+  z-index:1000;
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:1000;
 }
 
 #introVideo{
@@ -59,55 +52,61 @@ body{
   cursor:pointer;
 }
 
-/* =========================
-   🌊 SCÈNE PRINCIPALE
-========================= */
+/* ===== SCÈNE + BACKGROUND ===== */
 #scene{
   position:fixed;
   inset:0;
   width:100vw;
   height:100vh;
-  background: url("images/Communicationfond.PNG") no-repeat center center / cover;
+
+  /* ✅ CORRECTION FOND BLANC */
+  background-color:#000;
+  background-image:url("images/Communicationfond.PNG");
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:cover;
+
   z-index:1;
 }
 
-/* =========================
-   🏴‍☠️ PIRATES (IMAGES)
-========================= */
+/* ===== PIRATES (IMAGES) ===== */
 .pirate{
   position:absolute;
-  bottom:0;
-  width:180px;
-  height:260px;
-  background-size:contain;
   background-repeat:no-repeat;
-  background-position:bottom center;
-  user-select:none;
+  background-size:contain;
+  background-position:center bottom;
 }
 
-/* Pirate 2 – PNJ */
+/* Pirate 2 — POSITION EXACTE */
 #pirate2{
-  left:12%;
+  left:429px;
+  top:219px;
+  width:530px;
+  height:507px;
+
   background-image:url("images/Pirate2.png");
-  filter:brightness(0.9);
+  filter:brightness(0.95);
 }
 
-/* Pirate 5 – interactif */
-#pirate5{
-  right:15%;
+/* Pirate 5 — POSITION EXACTE */
+#pirate3{
+  left:1006px;
+  top:337px;
+  width:370px;
+  height:604px;
+
   background-image:url("images/Pirate5.png");
   cursor:pointer;
   animation:pirateRise 1.2s ease forwards;
 }
 
-#pirate5:hover{
+#pirate3:hover{
   filter:
     drop-shadow(0 0 12px gold)
     drop-shadow(0 0 30px rgba(255,215,0,.6));
-  transform:scale(1.05);
+  transform:scale(1.04);
 }
 
-/* Animation apparition pirate */
 @keyframes pirateRise{
   from{
     transform:translateY(200px);
@@ -119,17 +118,15 @@ body{
   }
 }
 
-/* =========================
-   ⏳ LOADER
-========================= */
+/* ===== LOADER ===== */
 #loader{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.85);
+  z-index:900;
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:900;
 }
 
 #loaderText{
@@ -144,9 +141,7 @@ body{
   100%{opacity:.4}
 }
 
-/* =========================
-   💬 DIALOGUES
-========================= */
+/* ===== DIALOGUES ===== */
 #dialogBox{
   position:fixed;
   bottom:30px;
@@ -159,27 +154,19 @@ body{
   border-radius:16px;
   padding:18px;
   z-index:800;
-  box-shadow:0 0 30px rgba(0,0,0,.8);
-}
-
-#dialogText{
-  font-size:16px;
-  margin-bottom:12px;
 }
 
 #nextDialog{
-  background:#d4af37;
-  color:#000;
-  border:none;
+  margin-top:10px;
   padding:8px 14px;
+  border:none;
   border-radius:8px;
+  background:#d4af37;
   font-weight:bold;
   cursor:pointer;
 }
 
-/* =========================
-   🎮 MINI-JEUX
-========================= */
+/* ===== MINI-JEUX ===== */
 #miniGameContainer{
   position:fixed;
   inset:0;
@@ -190,95 +177,4 @@ body{
   justify-content:center;
   align-items:center;
   text-align:center;
-  padding:20px;
-}
-
-#miniGameContainer h2{
-  margin-bottom:16px;
-  color:#ffd700;
-}
-
-#miniGameContainer p{
-  max-width:500px;
-  margin-bottom:14px;
-  opacity:.85;
-}
-
-#miniGameContainer button{
-  margin:6px;
-  padding:10px 16px;
-  background:#222;
-  border:2px solid #555;
-  border-radius:10px;
-  color:#fff;
-  cursor:pointer;
-  transition:.2s;
-}
-
-#miniGameContainer button:hover{
-  border-color:#ffd700;
-  box-shadow:0 0 10px rgba(255,215,0,.4);
-  transform:scale(1.05);
-}
-
-#miniGameContainer button:disabled{
-  opacity:.4;
-  cursor:default;
-}
-
-/* =========================
-   📊 JAUGE (VENTES)
-========================= */
-.bar{
-  width:260px;
-  height:18px;
-  background:#333;
-  border-radius:10px;
-  overflow:hidden;
-  margin-top:12px;
-}
-
-.bar div{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#ff9800,#ffd700);
-  transition:width .8s ease;
-}
-
-/* =========================
-   🧾 ENCAPSULATION PROSPECTION
-========================= */
-.appear{
-  margin-top:14px;
-  max-width:240px;
-  animation:fadeUp .8s ease forwards;
-}
-
-@keyframes fadeUp{
-  from{
-    transform:translateY(20px);
-    opacity:0;
-  }
-  to{
-    transform:translateY(0);
-    opacity:1;
-  }
-}
-
-/* =========================
-   📱 RESPONSIVE
-========================= */
-@media(max-width:600px){
-
-  .pirate{
-    font-size:44px;
-  }
-
-  #dialogText{
-    font-size:14px;
-  }
-
-  #loaderText{
-    font-size:20px;
-  }
 }
