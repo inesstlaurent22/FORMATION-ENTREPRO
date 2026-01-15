@@ -1,30 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* =========================
+  /* =====================================================
      🎬 VIDEO INTRO
-  ========================= */
-  const videoIntro   = document.getElementById("videoIntro");
-  const introVideo   = document.getElementById("introVideo");
-  const toggleSound  = document.getElementById("toggleSound");
-  const closeVideo   = document.getElementById("closeVideo");
+  ===================================================== */
+  const videoIntro  = document.getElementById("videoIntro");
+  const introVideo  = document.getElementById("introVideo");
+  const toggleSound = document.getElementById("toggleSound");
+  const closeVideo  = document.getElementById("closeVideo");
 
-  const loader       = document.getElementById("loader");
-  const loaderText   = document.getElementById("loaderText");
+  const loader      = document.getElementById("loader");
+  const loaderText  = document.getElementById("loaderText");
 
-  const scene        = document.getElementById("scene");
-  const pirate3      = document.getElementById("pirate3");
+  const scene       = document.getElementById("scene");
+  const pirate3     = document.getElementById("pirate3");
 
-  const dialogBox    = document.getElementById("dialogBox");
-  const dialogText   = document.getElementById("dialogText");
-  const nextDialog   = document.getElementById("nextDialog");
+  const dialogBox   = document.getElementById("dialogBox");
+  const dialogText  = document.getElementById("dialogText");
+  const nextDialog  = document.getElementById("nextDialog");
 
-  const miniGame     = document.getElementById("miniGameContainer");
+  const miniGame    = document.getElementById("miniGameContainer");
 
-  /* =========================
-     🎬 VIDEO (iOS SAFE)
-  ========================= */
+  /* =====================================================
+     🎬 VIDEO (AUTOPLAY SAFE iOS)
+  ===================================================== */
   introVideo.muted = true;
-  introVideo.play().catch(()=>{});
+  introVideo.play().catch(() => {});
 
   toggleSound.addEventListener("click", () => {
     introVideo.muted = !introVideo.muted;
@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1500);
   }
 
-  /* =========================
-     💬 SYSTEME DE DIALOGUE
-  ========================= */
+  /* =====================================================
+     💬 SYSTÈME DE DIALOGUES
+  ===================================================== */
   let dialogs = [];
   let dialogIndex = 0;
   let dialogCallback = null;
@@ -71,153 +71,175 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  /* =========================
+  /* =====================================================
      🏴‍☠️ CLICK PIRATE 3
-  ========================= */
+  ===================================================== */
   pirate3.addEventListener("click", () => {
     playDialog([
       "🏴‍☠️ Pirate 3 : Capitaine, ton trésor est prêt…",
-      "🏴‍☠️ Pirate 2 : Mais si personne ne te connaît, personne ne viendra.",
-      "🏴‍☠️ Pirate 3 : Apprenons à faire parler de ta marque dans tout le marché."
+      "🏴‍☠️ Pirate 2 : Mais le marché doit d’abord te connaître.",
+      "🏴‍☠️ Pirate 3 : Apprenons à bien communiquer."
     ], startMiniGame1);
   });
 
-  /* =========================
-     🎮 MINI-JEU 1
-     COMPRENDRE LA COMMUNICATION
-  ========================= */
-  let mg1Step = 0;
+  /* =====================================================
+     🎮 MINI-JEU 1 – QUIZ PÉDAGOGIQUE
+  ===================================================== */
+
+  const quizSteps = [
+    {
+      title: "📣 Réseaux sociaux",
+      question: "Les réseaux sociaux servent principalement à :",
+      answers: [
+        { text: "Te faire découvrir", correct: true },
+        { text: "Montrer ton univers", correct: true },
+        { text: "Forcer la vente immédiate", correct: false }
+      ],
+      explanation:
+        "Les réseaux sociaux servent à créer de la visibilité et donner envie de découvrir ta marque."
+    },
+    {
+      title: "📜 Newsletter",
+      question: "Une newsletter permet de :",
+      answers: [
+        { text: "Rester présent dans l’esprit du client", correct: true },
+        { text: "Créer un lien dans le temps", correct: true },
+        { text: "Envoyer des promotions tous les jours", correct: false }
+      ],
+      explanation:
+        "La newsletter entretient la relation sans pression commerciale."
+    },
+    {
+      title: "🕊️ Phoning / Mailing",
+      question: "Le contact direct permet de :",
+      answers: [
+        { text: "Comprendre les besoins", correct: true },
+        { text: "Créer une relation humaine", correct: true },
+        { text: "Parler uniquement de prix", correct: false }
+      ],
+      explanation:
+        "Le contact direct bien utilisé crée de la confiance."
+    },
+    {
+      title: "⚓ Visite physique",
+      question: "Rencontrer un client en vrai permet de :",
+      answers: [
+        { text: "Rassurer et écouter", correct: true },
+        { text: "Créer une vraie connexion", correct: true },
+        { text: "Ignorer ses attentes", correct: false }
+      ],
+      explanation:
+        "La présence physique renforce fortement la crédibilité."
+    }
+  ];
+
+  let quizIndex = -2;
+  let selectedAnswers = [];
 
   function startMiniGame1(){
-    miniGame.innerHTML = `
-      <div class="mg1">
-
-        <!-- INTRO -->
-        <div id="mg1-step-0">
-          <h1>🏴‍☠️ Mission : Faire connaître ta marque</h1>
-          <p>
-            Ton produit est prêt.<br><br>
-            Mais dans le marché, les clients n’achètent que
-            ce qu’ils <strong>connaissent</strong> et ce en quoi
-            ils ont <strong>confiance</strong>.
-          </p>
-          <button class="btn-pirate" onclick="mg1Next()">Commencer</button>
-        </div>
-
-        <!-- OBJECTIF -->
-        <div id="mg1-step-1" class="hidden">
-          <h1>🎯 Objectif</h1>
-          <p>
-            Découvre les <strong>différents moyens</strong>
-            de communication.<br><br>
-            Chacun a un rôle précis :
-            <strong>faire connaître, rassurer, créer un lien</strong>.
-          </p>
-          <button class="btn-pirate" onclick="mg1Next()">Continuer</button>
-        </div>
-
-        <!-- RÉSEAUX -->
-        <div id="mg1-step-2" class="hidden">
-          <h1>📣 Réseaux sociaux</h1>
-          <p>
-            Les réseaux servent surtout à :
-          </p>
-          <button class="btn-pirate" onclick="mg1Explain(2)">
-            Montrer ton univers
-          </button>
-          <button class="btn-pirate" onclick="mg1Explain(2)">
-            Te faire découvrir
-          </button>
-          <div class="feedback hidden" id="mg1-feedback-2">
-            Les réseaux sociaux rendent ta marque visible.
-          </div>
-        </div>
-
-        <!-- NEWSLETTER -->
-        <div id="mg1-step-3" class="hidden">
-          <h1>📜 Newsletter</h1>
-          <p>
-            La newsletter sert à :
-          </p>
-          <button class="btn-pirate" onclick="mg1Explain(3)">
-            Rester présent dans l’esprit du client
-          </button>
-          <button class="btn-pirate" onclick="mg1Explain(3)">
-            Donner des nouvelles utiles
-          </button>
-          <div class="feedback hidden" id="mg1-feedback-3">
-            Le client ne t’oublie pas.
-          </div>
-        </div>
-
-        <!-- PHONING -->
-        <div id="mg1-step-4" class="hidden">
-          <h1>🕊️ Phoning & mailing</h1>
-          <p>
-            Contacter directement un client permet de :
-          </p>
-          <button class="btn-pirate" onclick="mg1Explain(4)">
-            Comprendre ses besoins
-          </button>
-          <button class="btn-pirate" onclick="mg1Explain(4)">
-            Créer une relation humaine
-          </button>
-          <div class="feedback hidden" id="mg1-feedback-4">
-            Le lien humain crée la confiance.
-          </div>
-        </div>
-
-        <!-- VISITE -->
-        <div id="mg1-step-5" class="hidden">
-          <h1>⚓ Visite physique</h1>
-          <p>
-            En rencontrant les clients :
-          </p>
-          <button class="btn-pirate" onclick="mg1Explain(5)">
-            Tu écoutes et rassures
-          </button>
-          <button class="btn-pirate" onclick="mg1Explain(5)">
-            Tu crées une vraie connexion
-          </button>
-          <div class="feedback hidden" id="mg1-feedback-5">
-            La confiance devient réelle.
-          </div>
-        </div>
-
-        <!-- FINAL -->
-        <div id="mg1-step-6" class="hidden">
-          <h1>🎉 Mission réussie</h1>
-          <p>
-            Une bonne communication utilise
-            <strong>plusieurs canaux</strong>.<br><br>
-            👉 Elle fait connaître.<br>
-            👉 Elle rassure.<br>
-            👉 Elle prépare la vente.
-          </p>
-          <button class="btn-pirate" onclick="endMiniGame1()">
-            Continuer l’aventure
-          </button>
-        </div>
-
-      </div>
-    `;
-
+    quizIndex = -2;
+    renderQuiz();
     miniGame.classList.remove("hidden");
-    mg1Step = 0;
   }
 
-  /* =========================
-     🎮 LOGIQUE MINI-JEU 1
-  ========================= */
-  window.mg1Next = function(){
-    document.getElementById(`mg1-step-${mg1Step}`).classList.add("hidden");
-    mg1Step++;
-    document.getElementById(`mg1-step-${mg1Step}`).classList.remove("hidden");
+  function renderQuiz(){
+
+    /* INTRO */
+    if(quizIndex === -2){
+      miniGame.innerHTML = `
+        <h2 class="quizTitle">🏴‍☠️ Mission : Communication</h2>
+        <div class="quizSeparator"></div>
+        <p>
+          Capitaine, pour vendre ton trésor,
+          le marché doit <strong>te connaître</strong>
+          et <strong>te faire confiance</strong>.
+        </p>
+        <button id="continueQuestBtn" onclick="nextQuiz()">Commencer</button>
+      `;
+      return;
+    }
+
+    /* OBJECTIF */
+    if(quizIndex === -1){
+      miniGame.innerHTML = `
+        <h2 class="quizTitle">🎯 Objectif</h2>
+        <div class="quizSeparator"></div>
+        <p>
+          Découvre comment chaque forme de communication
+          aide ta marque à gagner en visibilité et crédibilité.
+        </p>
+        <button id="continueQuestBtn" onclick="nextQuiz()">Continuer</button>
+      `;
+      return;
+    }
+
+    /* FIN */
+    if(quizIndex >= quizSteps.length){
+      miniGame.innerHTML = `
+        <h2 class="quizTitle">🎉 Mission réussie</h2>
+        <div class="quizSeparator"></div>
+        <p>
+          Tu l’as compris : une bonne communication
+          utilise <strong>plusieurs canaux</strong>
+          pour créer confiance et visibilité.
+        </p>
+        <button id="continueQuestBtn" onclick="endMiniGame1()">Continuer</button>
+      `;
+      return;
+    }
+
+    /* QUESTION */
+    selectedAnswers = [];
+    const step = quizSteps[quizIndex];
+
+    miniGame.innerHTML = `
+      <h2 class="quizTitle">${step.title}</h2>
+      <div class="quizSeparator"></div>
+      <p id="gameQuestion">${step.question}</p>
+
+      <div id="gameAnswers">
+        ${step.answers.map(
+          (a, i) => `<button onclick="selectAnswer(${i})">${a.text}</button>`
+        ).join("")}
+      </div>
+
+      <div id="gameFeedback"></div>
+
+      <button id="continueQuestBtn" class="hidden" onclick="nextQuiz()">
+        Continuer
+      </button>
+    `;
+  }
+
+  /* =====================================================
+     ✅ VALIDATION MULTI-RÉPONSES
+  ===================================================== */
+  window.selectAnswer = function(index){
+    if(!selectedAnswers.includes(index)){
+      selectedAnswers.push(index);
+    }
+
+    const step = quizSteps[quizIndex];
+    const correctIndexes = step.answers
+      .map((a, i) => a.correct ? i : null)
+      .filter(i => i !== null);
+
+    const allCorrect =
+      correctIndexes.every(i => selectedAnswers.includes(i)) &&
+      selectedAnswers.every(i => step.answers[i].correct);
+
+    if(allCorrect){
+      document.getElementById("gameFeedback").innerText = step.explanation;
+      document.getElementById("continueQuestBtn").classList.remove("hidden");
+    }
   };
 
-  window.mg1Explain = function(step){
-    document.getElementById(`mg1-feedback-${step}`).classList.remove("hidden");
-    setTimeout(mg1Next, 1600);
+  /* =====================================================
+     🔁 NAVIGATION QUIZ
+  ===================================================== */
+  window.nextQuiz = function(){
+    quizIndex++;
+    renderQuiz();
   };
 
   function endMiniGame1(){
@@ -225,9 +247,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     playDialog([
       "🏴‍☠️ Pirate 2 : Le marché commence à te reconnaître.",
-      "🏴‍☠️ Pirate 3 : Ta communication est en place."
+      "🏴‍☠️ Pirate 3 : Ta communication est maintenant claire."
     ], () => {
-      // ➜ prêt pour mini-jeu 2
+      // ➜ prêt pour le mini-jeu 2
     });
   }
 
