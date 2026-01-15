@@ -32,31 +32,31 @@ body {
 
 .loaderBox {
   position: relative;
-  padding: 30px 45px;
+  padding: 30px 50px;
   background: linear-gradient(145deg, #5b3a1a, #2e1a0d);
   border: 4px solid #c9a24d;
-  border-radius: 14px;
+  border-radius: 16px;
   color: #fff;
   font-size: 22px;
   text-align: center;
-  box-shadow: 0 0 30px rgba(255,215,100,0.5);
+  box-shadow: 0 0 40px rgba(255,215,100,.6);
   overflow: visible;
 }
 
 .winBravo {
-  font-size: 42px;
+  font-size: 44px;
   color: gold;
   animation: goldPulse 1.2s infinite;
 }
 
 @keyframes goldPulse {
   0%   { transform: scale(1); text-shadow: 0 0 6px gold; }
-  50%  { transform: scale(1.15); text-shadow: 0 0 28px gold; }
+  50%  { transform: scale(1.18); text-shadow: 0 0 30px gold; }
   100% { transform: scale(1); text-shadow: 0 0 6px gold; }
 }
 
 /* =====================================================
-   💎 EXPLOSION DE GEMS
+   💎 EXPLOSION DE GEMMES
 ===================================================== */
 .gems {
   position: absolute;
@@ -68,19 +68,19 @@ body {
 
 .gem {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  animation: explode 1.8s ease-out forwards;
+  width: 14px;
+  height: 14px;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  animation: explode 2.2s cubic-bezier(.15,.9,.3,1) forwards;
 }
 
 @keyframes explode {
   from {
-    transform: translate(0,0) scale(0);
+    transform: translate(0,0) scale(0) rotate(0deg);
     opacity: 1;
   }
   to {
-    transform: translate(var(--x), var(--y)) scale(1.4);
+    transform: translate(var(--x), var(--y)) scale(1.4) rotate(360deg);
     opacity: 0;
   }
 }
@@ -124,14 +124,14 @@ body {
   box-shadow: inset 0 4px 6px rgba(0,0,0,.4);
 }
 
-/* Illumination clic */
+/* Glow immédiat au clic */
 .glowClick {
   animation: glowClick .6s ease;
 }
 
 @keyframes glowClick {
-  0% { box-shadow: 0 0 0 rgba(255,215,100,0); }
-  50% { box-shadow: 0 0 35px rgba(255,215,100,1); }
+  0%   { box-shadow: 0 0 0 rgba(255,215,100,0); }
+  40%  { box-shadow: 0 0 45px rgba(255,215,100,1); }
   100% { box-shadow: 0 0 0 rgba(255,215,100,0); }
 }
 
@@ -177,7 +177,7 @@ body {
   height: 217px;
 }
 
-/* Pirate 5 */
+/* Pirate 5 – POSITION EXACTE */
 #pirate5bis {
   left: 946px;
   top: 286px;
@@ -185,14 +185,10 @@ body {
   height: 187px;
 }
 
-#pirate5bis:hover {
+#pirate5bis:hover,
+.glow {
   filter: drop-shadow(0 0 30px gold);
   transform: scale(1.08);
-}
-
-.glow {
-  filter: drop-shadow(0 0 26px gold);
-  transform: scale(1.06);
 }
 
 /* =====================================================
@@ -208,43 +204,42 @@ body {
 .dialogue-bubble {
   position: absolute;
   max-width: 360px;
-  padding: 16px 20px;
+  padding: 16px 22px;
   background: linear-gradient(145deg, #f3e4c8, #d2b48c);
   border: 3px solid #5b3a1a;
-  border-radius: 14px;
+  border-radius: 16px;
   color: #000;
   font-size: 16px;
   pointer-events: auto;
-  box-shadow: 0 0 15px rgba(0,0,0,.5);
+  box-shadow: 0 0 18px rgba(0,0,0,.55);
   cursor: pointer;
 }
 
 /* =====================================================
-   ⏭️ BOUTON PASSER DIALOGUES (3D + GLOW)
+   ⏭️ PASSER LES DIALOGUES – 3D + GLOW
 ===================================================== */
 #skipDialoguesBtn {
   position: fixed;
   top: 25px;
   right: 25px;
-  padding: 8px 16px;
+  padding: 10px 18px;
   font-size: 14px;
   background: linear-gradient(145deg, #e8c77a, #b48b3c);
   border: 3px solid #3b240f;
-  border-radius: 8px;
+  border-radius: 10px;
   color: #000;
   cursor: pointer;
   z-index: 3000;
   transform-style: preserve-3d;
-  transition: transform .1s;
 }
 
 #skipDialoguesBtn:active {
   transform: translateY(4px) rotateX(12deg);
-  box-shadow: inset 0 6px 10px rgba(0,0,0,.4);
+  box-shadow: inset 0 6px 10px rgba(0,0,0,.45);
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1
+   🎮 MINI-JEUX – CONTENEURS
 ===================================================== */
 #miniGameContainer,
 #merchantGame {
@@ -252,16 +247,19 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 420px;
+  width: 440px;
   padding: 30px;
   background: linear-gradient(145deg, #3b240f, #1f1208);
   border: 5px solid #c9a24d;
-  border-radius: 18px;
+  border-radius: 20px;
   z-index: 2000;
   color: #fff;
   text-align: center;
 }
 
+/* =====================================================
+   🎮 MINI-JEU 1
+===================================================== */
 .quizTitle {
   font-size: 26px;
   animation: bookGlow 1.6s infinite alternate;
@@ -273,14 +271,24 @@ body {
   margin: 12px 0 18px;
 }
 
-/* Boutons */
+#gameQuestion {
+  font-size: 20px;
+  margin-bottom: 18px;
+}
+
+#gameFeedback {
+  margin-top: 16px;
+  font-size: 18px;
+}
+
+/* Boutons génériques */
 #gameAnswers button,
 #merchantGame button,
 #continueQuestBtn {
-  padding: 12px 20px;
+  padding: 12px 22px;
   background: linear-gradient(145deg, #e8c77a, #b48b3c);
   border: 3px solid #3b240f;
-  border-radius: 10px;
+  border-radius: 12px;
   color: #000;
   font-size: 16px;
   cursor: pointer;
@@ -291,16 +299,35 @@ body {
 #merchantGame button:hover,
 #continueQuestBtn:hover {
   transform: scale(1.08);
-  box-shadow: 0 0 14px rgba(255,215,100,.8);
+  box-shadow: 0 0 18px rgba(255,215,100,.85);
 }
 
 /* =====================================================
-   📖 LIVRE – CADRAN PARFAITEMENT ALIGNÉ
+   ⚖️ MINI-JEU 2 – JUGEMENT DU MARCHÉ
+===================================================== */
+#merchantGame p,
+#merchantGame #clue {
+  margin-bottom: 18px;
+}
+
+#btnHint {
+  display: block;
+  margin: 10px auto 24px auto;
+}
+
+.priceActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* =====================================================
+   📖 LIVRE – CADRAN 2 PAGES
 ===================================================== */
 #bookContainer {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.8);
+  background: rgba(0,0,0,.85);
   z-index: 2500;
   display: flex;
   align-items: center;
@@ -317,24 +344,23 @@ body {
 
 @keyframes bookGlow {
   from { text-shadow: 0 0 6px gold; }
-  to   { text-shadow: 0 0 28px gold; }
+  to   { text-shadow: 0 0 32px gold; }
 }
 
 .book {
-  width: 720px;
-  height: 480px;
   display: flex;
-  background: #1e1209;
+  padding: 14px;
+  background: linear-gradient(145deg, #2b1a0d, #1a0f07);
   border: 6px solid #c9a24d;
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: 0 0 40px rgba(255,215,100,.4);
+  border-radius: 28px;
+  box-shadow: 0 0 50px rgba(255,215,100,.55);
 }
 
 .book img {
-  width: 50%;
-  height: 100%;
+  width: 360px;
+  height: 460px;
   object-fit: contain;
+  background: #1e1209;
 }
 
 /* =====================================================
@@ -362,7 +388,7 @@ body {
 }
 
 /* =====================================================
-   🧭 CONTINUER QUÊTE
+   🧭 CONTINUER LA QUÊTE
 ===================================================== */
 #continueQuestBtn {
   position: fixed;
