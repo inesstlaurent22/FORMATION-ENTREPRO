@@ -71,28 +71,39 @@ body{
 /* =========================
    🏴‍☠️ PIRATES
 ========================= */
+/* =========================
+   🏴‍☠️ PIRATES (IMAGES)
+========================= */
 .pirate{
   position:absolute;
   bottom:0;
-  font-size:56px;
+  width:180px;
+  height:260px;
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:bottom center;
   user-select:none;
 }
 
-.npc{
-  left:15%;
-  filter:brightness(.9);
+/* Pirate 2 – PNJ */
+#pirate2{
+  left:12%;
+  background-image:url("images/Pirate2.png");
+  filter:brightness(0.9);
 }
 
-.clickable{
-  right:20%;
+/* Pirate 5 – interactif */
+#pirate5{
+  right:15%;
+  background-image:url("images/Pirate5.png");
   cursor:pointer;
   animation:pirateRise 1.2s ease forwards;
 }
 
-.clickable:hover{
+#pirate5:hover{
   filter:
-    drop-shadow(0 0 10px gold)
-    drop-shadow(0 0 25px rgba(255,215,0,.6));
+    drop-shadow(0 0 12px gold)
+    drop-shadow(0 0 30px rgba(255,215,0,.6));
   transform:scale(1.05);
 }
 
