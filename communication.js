@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loaderText  = document.getElementById("loaderText");
 
   const scene       = document.getElementById("scene");
+  const pirate2     = document.getElementById("pirate2");
   const pirate3     = document.getElementById("pirate3");
 
   const dialogBox   = document.getElementById("dialogBox");
@@ -46,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     💬 SYSTÈME DE DIALOGUES
+     💬 SYSTÈME DE DIALOGUES AVEC POSITION DYNAMIQUE
   ===================================================== */
   let dialogs = [];
   let dialogIndex = 0;
@@ -58,27 +59,60 @@ document.addEventListener("DOMContentLoaded", () => {
     dialogCallback = callback;
 
     dialogBox.classList.remove("hidden");
-    dialogText.textContent = dialogs[dialogIndex];
+    showDialogLine();
+  }
 
-    nextDialog.onclick = () => {
-      dialogIndex++;
-      if(dialogIndex < dialogs.length){
-        dialogText.textContent = dialogs[dialogIndex];
-      }else{
-        dialogBox.classList.add("hidden");
-        if(dialogCallback) dialogCallback();
-      }
-    };
+  function showDialogLine(){
+    const current = dialogs[dialogIndex];
+
+    dialogText.textContent = current.text;
+    positionDialogAbove(current.speaker);
+  }
+
+  nextDialog.onclick = () => {
+    dialogIndex++;
+    if(dialogIndex < dialogs.length){
+      showDialogLine();
+    }else{
+      dialogBox.classList.add("hidden");
+      if(dialogCallback) dialogCallback();
+    }
+  };
+
+  function positionDialogAbove(speaker){
+    let target;
+
+    if(speaker === "pirate2") target = pirate2;
+    if(speaker === "pirate3") target = pirate3;
+    if(!target) return;
+
+    const rect = target.getBoundingClientRect();
+
+    const bubbleWidth = dialogBox.offsetWidth;
+    const left = rect.left + rect.width / 2 - bubbleWidth / 2;
+    const top  = rect.top - dialogBox.offsetHeight - 20;
+
+    dialogBox.style.left = `${left}px`;
+    dialogBox.style.top  = `${top}px`;
   }
 
   /* =====================================================
-     🏴‍☠️ CLICK PIRATE 3
+     🏴‍☠️ CLICK PIRATE 3 → LANCE LE JEU
   ===================================================== */
   pirate3.addEventListener("click", () => {
     playDialog([
-      "🏴‍☠️ Pirate 3 : Capitaine, ton trésor est prêt…",
-      "🏴‍☠️ Pirate 2 : Mais le marché doit d’abord te connaître.",
-      "🏴‍☠️ Pirate 3 : Apprenons à bien communiquer."
+      {
+        speaker: "pirate3",
+        text: "Capitaine, ton trésor est prêt… mais le marché ne te connaît pas."
+      },
+      {
+        speaker: "pirate2",
+        text: "Sans communication, personne ne viendra acheter."
+      },
+      {
+        speaker: "pirate3",
+        text: "Apprenons à faire parler de ta marque."
+      }
     ], startMiniGame1);
   });
 
@@ -144,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderQuiz(){
 
-    /* INTRO */
     if(quizIndex === -2){
       miniGame.innerHTML = `
         <h2 class="quizTitle">🏴‍☠️ Mission : Communication</h2>
@@ -159,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /* OBJECTIF */
     if(quizIndex === -1){
       miniGame.innerHTML = `
         <h2 class="quizTitle">🎯 Objectif</h2>
@@ -173,22 +205,19 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /* FIN */
     if(quizIndex >= quizSteps.length){
       miniGame.innerHTML = `
         <h2 class="quizTitle">🎉 Mission réussie</h2>
         <div class="quizSeparator"></div>
         <p>
           Tu l’as compris : une bonne communication
-          utilise <strong>plusieurs canaux</strong>
-          pour créer confiance et visibilité.
+          utilise <strong>plusieurs canaux</strong>.
         </p>
         <button id="continueQuestBtn" onclick="endMiniGame1()">Continuer</button>
       `;
       return;
     }
 
-    /* QUESTION */
     selectedAnswers = [];
     const step = quizSteps[quizIndex];
 
@@ -199,7 +228,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       <div id="gameAnswers">
         ${step.answers.map(
-          (a, i) => `<button onclick="selectAnswer(${i})">${a.text}</button>`
+          (a, i) =>
+            `<button onclick="selectAnswer(${i}, event)">${a.text}</button>`
         ).join("")}
       </div>
 
@@ -214,9 +244,10 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================================================
      ✅ VALIDATION MULTI-RÉPONSES
   ===================================================== */
-  window.selectAnswer = function(index){
+  window.selectAnswer = function(index, event){
     if(!selectedAnswers.includes(index)){
       selectedAnswers.push(index);
+      event.target.classList.add("selected");
     }
 
     const step = quizSteps[quizIndex];
@@ -246,10 +277,16 @@ document.addEventListener("DOMContentLoaded", () => {
     miniGame.classList.add("hidden");
 
     playDialog([
-      "🏴‍☠️ Pirate 2 : Le marché commence à te reconnaître.",
-      "🏴‍☠️ Pirate 3 : Ta communication est maintenant claire."
+      {
+        speaker: "pirate2",
+        text: "Le marché commence à te reconnaître."
+      },
+      {
+        speaker: "pirate3",
+        text: "Ta communication est maintenant claire."
+      }
     ], () => {
-      // ➜ prêt pour le mini-jeu 2
+      // prêt pour mini-jeu 2
     });
   }
 
