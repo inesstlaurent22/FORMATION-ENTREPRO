@@ -1,180 +1,112 @@
 /* ===== RESET ===== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:100vw;height:100vh;overflow:hidden;font-family:serif;background:#000}
+.hidden{display:none!important}
 
-body{
-  width:100vw;
-  height:100vh;
-  overflow:hidden;
-  font-family:serif;
-  background:#000; /* fallback ultime */
+/* ===== BOUTONS PIRATE ===== */
+.btn-pirate{
+  background:linear-gradient(145deg,#5a3b1e,#2b1a0e);
+  border:2px solid #d4af37;
+  color:#ffd700;
+  padding:8px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+  box-shadow:0 0 10px rgba(0,0,0,.6);
 }
-
-.hidden{
-  display:none !important;
+.btn-pirate:hover{
+  box-shadow:0 0 15px rgba(255,215,0,.6);
+  transform:scale(1.05);
 }
+.white-text{color:#fff}
 
-/* ===== VIDEO INTRO ===== */
+/* ===== VIDEO ===== */
 .fullscreen{
-  position:fixed;
-  inset:0;
+  position:fixed;inset:0;
   background:#000;
   z-index:1000;
   display:flex;
   justify-content:center;
   align-items:center;
 }
-
-#introVideo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.video-controls{
-  position:absolute;
-  top:20px;
-  right:20px;
-  display:flex;
-  gap:10px;
-}
-
-.video-controls button{
-  background:rgba(0,0,0,.6);
-  border:2px solid #d4af37;
-  color:#d4af37;
-  font-size:18px;
-  padding:6px 10px;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-/* ===== SCÈNE + BACKGROUND ===== */
-#scene{
-  position:fixed;
-  inset:0;
-  width:100vw;
-  height:100vh;
-
-  /* ✅ CORRECTION FOND BLANC */
-  background-color:#000;
-  background-image:url("images/Communicationfond.PNG");
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size:cover;
-
-  z-index:1;
-}
-
-/* ===== PIRATES (IMAGES) ===== */
-.pirate{
-  position:absolute;
-  background-repeat:no-repeat;
-  background-size:contain;
-  background-position:center bottom;
-}
-
-/* Pirate 2 — POSITION EXACTE */
-#pirate2{
-  left:429px;
-  top:219px;
-  width:530px;
-  height:507px;
-
-  background-image:url("images/Pirate2.png");
-  filter:brightness(0.95);
-}
-
-/* Pirate 5 — POSITION EXACTE */
-#pirate3{
-  left:1006px;
-  top:337px;
-  width:370px;
-  height:604px;
-
-  background-image:url("images/Pirate3.png");
-  cursor:pointer;
-  animation:pirateRise 1.2s ease forwards;
-}
-
-#pirate3:hover{
-  filter:
-    drop-shadow(0 0 12px gold)
-    drop-shadow(0 0 30px rgba(255,215,0,.6));
-  transform:scale(1.04);
-}
-
-@keyframes pirateRise{
-  from{
-    transform:translateY(200px);
-    opacity:0;
-  }
-  to{
-    transform:translateY(0);
-    opacity:1;
-  }
-}
+#introVideo{width:100%;height:100%;object-fit:cover}
+.video-controls{position:absolute;top:20px;right:20px;display:flex;gap:10px}
 
 /* ===== LOADER ===== */
 #loader{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.9);
   z-index:900;
   display:flex;
   justify-content:center;
   align-items:center;
 }
-
 #loaderText{
-  font-size:24px;
+  font-size:26px;
   color:#ffd700;
   animation:pulse 1.2s infinite;
 }
+@keyframes pulse{0%{opacity:.4}50%{opacity:1}100%{opacity:.4}}
 
-@keyframes pulse{
-  0%{opacity:.4}
-  50%{opacity:1}
-  100%{opacity:.4}
+/* ===== SCÈNE ===== */
+#scene{
+  position:fixed;inset:0;
+  background:url("images/Communicationfond.PNG") no-repeat center/cover;
+  z-index:1;
+}
+
+/* ===== PIRATES (POSITIONS EXACTES) ===== */
+.pirate{
+  position:absolute;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:bottom center;
+}
+
+/* Pirate 2 */
+#pirate2{
+  left:453px; top:322px;
+  width:420px; height:402px;
+  background-image:url("images/Pirate2.png");
+}
+
+/* Pirate 3 */
+#pirate3{
+  left:1241px; top:258px;
+  width:305px; height:497px;
+  background-image:url("images/Pirate3.png");
+  cursor:pointer;
+}
+#pirate3:hover{
+  filter:drop-shadow(0 0 15px gold);
 }
 
 /* ===== DIALOGUES ===== */
 #dialogBox{
-  position:fixed;
-  bottom:30px;
+  position:absolute;
+  bottom:420px;
   left:50%;
   transform:translateX(-50%);
-  width:90%;
-  max-width:640px;
-  background:#1b1b1b;
+  background:#fff;
+  color:#000;
   border:3px solid #d4af37;
-  border-radius:16px;
-  padding:18px;
-  z-index:800;
+  border-radius:18px;
+  padding:16px;
+  max-width:520px;
+  z-index:5;
+  box-shadow:0 0 20px rgba(0,0,0,.6);
 }
 
-#nextDialog{
-  margin-top:10px;
-  padding:8px 14px;
-  border:none;
-  border-radius:8px;
-  background:#d4af37;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-/* ===== MINI-JEUX ===== */
+/* ===== MINI JEU ===== */
 #miniGameContainer{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.92);
-  z-index:850;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.95);
+  z-index:950;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
   text-align:center;
+  color:#fff;
 }
+#miniGameContainer button{margin:8px}
