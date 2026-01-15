@@ -1,185 +1,273 @@
 /* =========================
-   🌍 RESET & BODY
+   🌍 RESET GLOBAL
 ========================= */
 *{
   box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 body{
-  margin:0;
-  min-height:100vh;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  font-family: serif;
+  color:#fff;
+}
+
+/* =========================
+   🔒 UTILITAIRES
+========================= */
+.hidden{
+  display:none !important;
+}
+
+/* =========================
+   🎬 VIDÉO INTRO
+========================= */
+.fullscreen{
+  position:fixed;
+  inset:0;
+  background:#000;
   display:flex;
   justify-content:center;
   align-items:center;
-  background:#000;
-  font-family: serif;
+  z-index:1000;
 }
 
-/* =========================
-   🏴‍☠️ CADRE PIRATE
-========================= */
-#pirateFrame{
-  position:relative;
-  padding:26px;
-  border-radius:24px;
-  background:linear-gradient(145deg,#3b2a17,#1e140b);
-  box-shadow:
-    0 0 0 4px #6d4420,
-    0 0 0 8px #d4af37,
-    0 30px 60px rgba(0,0,0,.85);
-}
-
-/* Coins décoratifs */
-#pirateFrame::before,
-#pirateFrame::after{
-  content:"☠️";
-  position:absolute;
-  font-size:22px;
-  color:#d4af37;
-  opacity:.85;
-}
-
-#pirateFrame::before{
-  top:10px;
-  left:14px;
-}
-
-#pirateFrame::after{
-  bottom:10px;
-  right:14px;
-}
-
-/* =========================
-   🎮 MINI-JEU
-========================= */
-#miniGameSocial{
-  position:relative;
-  z-index:2;
+#introVideo{
   width:100%;
-  max-width:720px;
-  padding:22px;
-  background:#1b1b1b;
-  border-radius:16px;
-  color:#fff;
-  text-align:center;
-}
-
-/* =========================
-   🏷️ TITRES
-========================= */
-.title{
-  font-size:26px;
-  margin-bottom:6px;
-}
-
-.subtitle{
-  font-size:14px;
-  opacity:.8;
-  margin-bottom:16px;
-}
-
-/* =========================
-   📊 RENOMMÉE
-========================= */
-.renommee-box{
-  margin:16px 0;
-}
-
-.bar{
-  width:100%;
-  height:18px;
-  background:#333;
-  border-radius:10px;
-  overflow:hidden;
-  margin:6px 0;
-}
-
-#renommeeFill{
-  width:0%;
   height:100%;
-  background:linear-gradient(90deg,#ff9800,#ffd700);
-  transition:width .3s ease;
+  object-fit:cover;
 }
 
-/* =========================
-   📣 RÉSEAUX PIRATES
-========================= */
-.networks{
+.video-controls{
+  position:absolute;
+  top:20px;
+  right:20px;
   display:flex;
-  justify-content:center;
   gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:16px;
 }
 
-.network{
-  padding:10px 14px;
-  background:#222;
-  border:2px solid #555;
+.video-controls button{
+  background:rgba(0,0,0,.6);
+  border:2px solid #d4af37;
+  color:#d4af37;
+  font-size:18px;
+  padding:6px 10px;
   border-radius:8px;
-  color:#fff;
   cursor:pointer;
-  font-size:14px;
-  transition:.2s;
-}
-
-.network:hover{
-  transform:scale(1.05);
-  border-color:#ffd700;
-  box-shadow:0 0 10px rgba(255,215,0,.3);
 }
 
 /* =========================
-   ⚓ PORT PIRATE
+   🌊 SCÈNE PRINCIPALE
 ========================= */
-#harbor{
-  min-height:130px;
-  background:#101010;
-  border:2px dashed #555;
-  border-radius:12px;
-  padding:10px;
+#scene{
   position:relative;
-  overflow:hidden;
-}
-
-.harbor-title{
-  font-size:13px;
-  opacity:.6;
+  width:100%;
+  height:100%;
 }
 
 /* =========================
    🏴‍☠️ PIRATES
 ========================= */
 .pirate{
-  font-size:26px;
   position:absolute;
-  bottom:8px;
-  animation:pop .4s ease;
+  bottom:0;
+  font-size:56px;
+  user-select:none;
 }
 
-@keyframes pop{
-  from{transform:scale(0);}
-  to{transform:scale(1);}
+.npc{
+  left:15%;
+  filter:brightness(.9);
+}
+
+.clickable{
+  right:20%;
+  cursor:pointer;
+  animation:pirateRise 1.2s ease forwards;
+}
+
+.clickable:hover{
+  filter:
+    drop-shadow(0 0 10px gold)
+    drop-shadow(0 0 25px rgba(255,215,0,.6));
+  transform:scale(1.05);
+}
+
+/* Animation apparition pirate */
+@keyframes pirateRise{
+  from{
+    transform:translateY(200px);
+    opacity:0;
+  }
+  to{
+    transform:translateY(0);
+    opacity:1;
+  }
 }
 
 /* =========================
-   💬 MESSAGE
+   ⏳ LOADER
 ========================= */
-#message{
-  margin-top:16px;
-  min-height:42px;
-  font-size:15px;
+#loader{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:900;
+}
+
+#loaderText{
+  font-size:24px;
+  color:#ffd700;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:.4}
+  50%{opacity:1}
+  100%{opacity:.4}
+}
+
+/* =========================
+   💬 DIALOGUES
+========================= */
+#dialogBox{
+  position:fixed;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  width:90%;
+  max-width:640px;
+  background:#1b1b1b;
+  border:3px solid #d4af37;
+  border-radius:16px;
+  padding:18px;
+  z-index:800;
+  box-shadow:0 0 30px rgba(0,0,0,.8);
+}
+
+#dialogText{
+  font-size:16px;
+  margin-bottom:12px;
+}
+
+#nextDialog{
+  background:#d4af37;
+  color:#000;
+  border:none;
+  padding:8px 14px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* =========================
+   🎮 MINI-JEUX
+========================= */
+#miniGameContainer{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  z-index:850;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+}
+
+#miniGameContainer h2{
+  margin-bottom:16px;
+  color:#ffd700;
+}
+
+#miniGameContainer p{
+  max-width:500px;
+  margin-bottom:14px;
+  opacity:.85;
+}
+
+#miniGameContainer button{
+  margin:6px;
+  padding:10px 16px;
+  background:#222;
+  border:2px solid #555;
+  border-radius:10px;
+  color:#fff;
+  cursor:pointer;
+  transition:.2s;
+}
+
+#miniGameContainer button:hover{
+  border-color:#ffd700;
+  box-shadow:0 0 10px rgba(255,215,0,.4);
+  transform:scale(1.05);
+}
+
+#miniGameContainer button:disabled{
+  opacity:.4;
+  cursor:default;
+}
+
+/* =========================
+   📊 JAUGE (VENTES)
+========================= */
+.bar{
+  width:260px;
+  height:18px;
+  background:#333;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.bar div{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#ff9800,#ffd700);
+  transition:width .8s ease;
+}
+
+/* =========================
+   🧾 ENCAPSULATION PROSPECTION
+========================= */
+.appear{
+  margin-top:14px;
+  max-width:240px;
+  animation:fadeUp .8s ease forwards;
+}
+
+@keyframes fadeUp{
+  from{
+    transform:translateY(20px);
+    opacity:0;
+  }
+  to{
+    transform:translateY(0);
+    opacity:1;
+  }
 }
 
 /* =========================
    📱 RESPONSIVE
 ========================= */
 @media(max-width:600px){
-  #miniGameSocial{
-    padding:16px;
+
+  .pirate{
+    font-size:44px;
   }
 
-  .title{
-    font-size:22px;
+  #dialogText{
+    font-size:14px;
+  }
+
+  #loaderText{
+    font-size:20px;
   }
 }
