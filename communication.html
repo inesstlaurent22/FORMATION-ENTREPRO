@@ -5,18 +5,16 @@
   <title>Communication – La Criée Pirate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS GLOBAL -->
+  <!-- CSS PRINCIPAL -->
   <link rel="stylesheet" href="communication.css">
 
-  <!-- Background spécifique -->
+  <!-- BACKGROUND -->
   <style>
     body{
       margin:0;
       min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background: url("images/Communicationfond.PNG") no-repeat center center / cover;
+      width:100vw;
+      background: url("Communicationfond.PNG") no-repeat center center / cover;
       overflow:hidden;
       font-family: serif;
     }
@@ -26,10 +24,15 @@
 <body>
 
   <!-- ========================= -->
-  <!-- 🎬 VIDÉO D’INTRODUCTION -->
+  <!-- 🎬 VIDÉO D’INTRO -->
   <!-- ========================= -->
   <div id="videoIntro" class="fullscreen">
-    <video id="introVideo" src="videos/Video1.MOV" autoplay></video>
+    <video
+      id="introVideo"
+      src="intro-communication.mp4"
+      autoplay
+      playsinline
+    ></video>
 
     <div class="video-controls">
       <button id="toggleSound">🔊</button>
@@ -38,13 +41,15 @@
   </div>
 
   <!-- ========================= -->
-  <!-- 🌊 SCÈNE PRINCIPALE -->
+  <!-- 🌊 SCÈNE BACKGROUND -->
   <!-- ========================= -->
   <div id="scene" class="hidden">
 
-    <!-- Pirates décor -->
-    <div id="pirate2" class="pirate npc">🏴‍☠️</div>
-    <div id="pirate3" class="pirate clickable">🏴‍☠️</div>
+    <!-- Pirate 2 (PNJ) -->
+    <div id="pirate2" class="pirate npc"></div>
+
+    <!-- Pirate 5 (Interactif) -->
+    <div id="pirate5" class="pirate clickable"></div>
 
   </div>
 
@@ -64,7 +69,7 @@
   </div>
 
   <!-- ========================= -->
-  <!-- 🎮 CONTENEUR MINI-JEUX -->
+  <!-- 🎮 MINI-JEUX -->
   <!-- ========================= -->
   <div id="miniGameContainer" class="hidden"></div>
 
