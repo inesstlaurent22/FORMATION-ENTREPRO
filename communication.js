@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function endVideo(){
     videoIntro.classList.add("hidden");
-
     loaderText.textContent = "Chargement…";
     loader.classList.remove("hidden");
 
@@ -47,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     💬 SYSTÈME DE DIALOGUES AVEC POSITION DYNAMIQUE
+     💬 SYSTÈME DE DIALOGUES
   ===================================================== */
   let dialogs = [];
   let dialogIndex = 0;
@@ -57,14 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
     dialogs = list;
     dialogIndex = 0;
     dialogCallback = callback;
-
     dialogBox.classList.remove("hidden");
     showDialogLine();
   }
 
   function showDialogLine(){
     const current = dialogs[dialogIndex];
-
     dialogText.textContent = current.text;
     positionDialogAbove(current.speaker);
   }
@@ -73,31 +70,25 @@ document.addEventListener("DOMContentLoaded", () => {
     dialogIndex++;
     if(dialogIndex < dialogs.length){
       showDialogLine();
-    }else{
+    } else {
       dialogBox.classList.add("hidden");
       if(dialogCallback) dialogCallback();
     }
   };
 
   function positionDialogAbove(speaker){
-    let target;
-
-    if(speaker === "pirate2") target = pirate2;
-    if(speaker === "pirate3") target = pirate3;
+    let target = speaker === "pirate2" ? pirate2 : pirate3;
     if(!target) return;
 
     const rect = target.getBoundingClientRect();
-
-    const bubbleWidth = dialogBox.offsetWidth;
-    const left = rect.left + rect.width / 2 - bubbleWidth / 2;
-    const top  = rect.top - dialogBox.offsetHeight - 20;
-
-    dialogBox.style.left = `${left}px`;
-    dialogBox.style.top  = `${top}px`;
+    dialogBox.style.left =
+      `${rect.left + rect.width / 2 - dialogBox.offsetWidth / 2}px`;
+    dialogBox.style.top =
+      `${rect.top - dialogBox.offsetHeight - 20}px`;
   }
 
   /* =====================================================
-     🏴‍☠️ CLICK PIRATE 3 → LANCE LE JEU
+     🏴‍☠️ DIALOGUES → MINI-JEU 1
   ===================================================== */
   pirate3.addEventListener("click", () => {
     playDialog([
@@ -117,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================================================
-     🎮 MINI-JEU 1 – QUIZ PÉDAGOGIQUE
+     🎮 MINI-JEU 1 – COMMUNICATION
   ===================================================== */
 
   const quizSteps = [
@@ -187,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
           le marché doit <strong>te connaître</strong>
           et <strong>te faire confiance</strong>.
         </p>
-        <button id="continueQuestBtn" onclick="nextQuiz()">Commencer</button>
+        <button onclick="nextQuiz()">Commencer</button>
       `;
       return;
     }
@@ -200,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
           Découvre comment chaque forme de communication
           aide ta marque à gagner en visibilité et crédibilité.
         </p>
-        <button id="continueQuestBtn" onclick="nextQuiz()">Continuer</button>
+        <button onclick="nextQuiz()">Continuer</button>
       `;
       return;
     }
@@ -213,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
           Tu l’as compris : une bonne communication
           utilise <strong>plusieurs canaux</strong>.
         </p>
-        <button id="continueQuestBtn" onclick="endMiniGame1()">Continuer</button>
+        <button onclick="endMiniGame1()">Continuer</button>
       `;
       return;
     }
@@ -227,23 +218,22 @@ document.addEventListener("DOMContentLoaded", () => {
       <p id="gameQuestion">${step.question}</p>
 
       <div id="gameAnswers">
-        ${step.answers.map(
-          (a, i) =>
-            `<button onclick="selectAnswer(${i}, event)">${a.text}</button>`
-        ).join("")}
+        ${step.answers
+          .sort(() => Math.random() - 0.5)
+          .map(
+            (a, i) =>
+              `<button onclick="selectAnswer(${i}, event)">${a.text}</button>`
+          ).join("")}
       </div>
 
       <div id="gameFeedback"></div>
 
-      <button id="continueQuestBtn" class="hidden" onclick="nextQuiz()">
+      <button id="continueBtn" class="hidden" onclick="nextQuiz()">
         Continuer
       </button>
     `;
   }
 
-  /* =====================================================
-     ✅ VALIDATION MULTI-RÉPONSES
-  ===================================================== */
   window.selectAnswer = function(index, event){
     if(!selectedAnswers.includes(index)){
       selectedAnswers.push(index);
@@ -260,14 +250,12 @@ document.addEventListener("DOMContentLoaded", () => {
       selectedAnswers.every(i => step.answers[i].correct);
 
     if(allCorrect){
-      document.getElementById("gameFeedback").innerText = step.explanation;
-      document.getElementById("continueQuestBtn").classList.remove("hidden");
+      document.getElementById("gameFeedback").innerText =
+        "✅ Bonne réponse ! " + step.explanation;
+      document.getElementById("continueBtn").classList.remove("hidden");
     }
   };
 
-  /* =====================================================
-     🔁 NAVIGATION QUIZ
-  ===================================================== */
   window.nextQuiz = function(){
     quizIndex++;
     renderQuiz();
@@ -275,19 +263,122 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function endMiniGame1(){
     miniGame.classList.add("hidden");
+    startClientsLoader();
+  }
 
-    playDialog([
-      {
-        speaker: "pirate2",
-        text: "Le marché commence à te reconnaître."
-      },
-      {
-        speaker: "pirate3",
-        text: "Ta communication est maintenant claire."
+  /* =====================================================
+     ⏳ LOADER CLIENTS
+  ===================================================== */
+  function startClientsLoader(){
+    loaderText.innerHTML = `
+      Bravo, <strong>2 clients</strong> sont entrés dans la boutique<br><br>
+      <div class="progressBar"><div class="progressFill"></div></div>
+      <div class="progressCount">0 / 10</div>
+    `;
+    loader.classList.remove("hidden");
+
+    let v = 0;
+    const fill = loader.querySelector(".progressFill");
+    const count = loader.querySelector(".progressCount");
+
+    const interval = setInterval(() => {
+      v++;
+      fill.style.width = `${v * 10}%`;
+      count.textContent = `${v} / 10`;
+      if(v >= 10){
+        clearInterval(interval);
+        loader.classList.add("hidden");
+        startFlyerDialogues();
       }
-    ], () => {
-      // prêt pour mini-jeu 2
-    });
+    }, 200);
+  }
+
+  /* =====================================================
+     💬 DIALOGUES FLYER
+  ===================================================== */
+  function startFlyerDialogues(){
+    playDialog([
+      { speaker: "pirate2", text: "Dis, tu trouves mon flyer correct ?" },
+      { speaker: "pirate3", text: "Voyons ça ensemble." }
+    ], showFlyer);
+  }
+
+  function showFlyer(){
+    const flyer = document.createElement("img");
+    flyer.src = "images/flyer.png";
+    flyer.id = "flyerCenter";
+    document.body.appendChild(flyer);
+
+    flyer.onclick = () => {
+      flyer.remove();
+      playDialog([
+        { speaker: "pirate3", text: "Il manque le logo et il y a trop de couleurs." },
+        { speaker: "pirate2", text: "Que devons-nous modifier ?" },
+        { speaker: "pirate3", text: "Nous allons créer une identité visuelle." },
+        { speaker: "pirate3", text: "Un logo, des couleurs et une typographie cohérentes." },
+        { speaker: "pirate2", text: "Pourquoi est-ce si important ?" },
+        { speaker: "pirate3", text: "Ainsi, les clients te reconnaîtront immédiatement." }
+      ], startMiniGame2);
+    };
+  }
+
+  /* =====================================================
+     🎨 MINI-JEU 2 – IDENTITÉ VISUELLE
+  ===================================================== */
+  function startMiniGame2(){
+    miniGame.classList.remove("hidden");
+    miniGame.innerHTML = `
+      <h2>🎨 Identité visuelle</h2>
+      <p>
+        1️⃣ L’identité visuelle permet de reconnaître une marque au premier coup d’œil.<br><br>
+        2️⃣ Elle est composée du logo, des couleurs, des écritures et du style graphique.<br><br>
+        👉 Choisis les bons éléments pour créer ton identité.
+      </p>
+      <button onclick="startVisualRound1()">Commencer</button>
+    `;
+  }
+
+  function startVisualRound1(){
+    miniGame.innerHTML = `
+      <h3>Choisis ton logo (choix libre)</h3>
+      <div class="choices">
+        <button onclick="startVisualRound2()">Logo A</button>
+        <button onclick="startVisualRound2()">Logo B</button>
+        <button onclick="startVisualRound2()">Logo C</button>
+      </div>
+    `;
+  }
+
+  function startVisualRound2(){
+    miniGame.innerHTML = `
+      <h3>Choisis les bonnes couleurs</h3>
+      <div class="choices">
+        <button onclick="startVisualRound3()">Noir & Or</button>
+        <button>Rose & Vert</button>
+        <button>Bleu & Rouge</button>
+      </div>
+    `;
+  }
+
+  function startVisualRound3(){
+    miniGame.innerHTML = `
+      <h3>Choisis la bonne typographie</h3>
+      <div class="choices">
+        <button onclick="endVisual()">Typographie élégante</button>
+        <button>Typographie fun</button>
+        <button>Typographie futuriste</button>
+      </div>
+    `;
+  }
+
+  function endVisual(){
+    miniGame.innerHTML = `
+      <h2>🎉 Identité visuelle créée !</h2>
+      <p>
+        Grâce à ton logo, tes couleurs et ton écriture,
+        les clients reconnaîtront ta marque au premier coup d’œil.
+      </p>
+    `;
   }
 
 });
