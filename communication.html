@@ -4,47 +4,60 @@
   <meta charset="UTF-8">
   <title>Communication – La Criée Pirate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="communication.css">
 </head>
 
 <body>
 
-<!-- 🎬 VIDÉO INTRO -->
-<div id="videoIntro" class="fullscreen">
-  <video
-    id="introVideo"
-    src="videos/Communicationvideo2.MOV"
-    playsinline
-    muted
-  ></video>
+  <!-- =====================================================
+       🎬 VIDÉO INTRO
+  ====================================================== -->
+  <div id="videoIntro" class="fullscreen">
+    <video
+      id="introVideo"
+      src="intro-communication.mp4"
+      playsinline
+      muted
+    ></video>
 
-  <div class="video-controls">
-    <button id="toggleSound" class="btn-pirate">🔊</button>
-    <button id="closeVideo" class="btn-pirate">❌</button>
-  </div>
-</div>
-
-<!-- ⏳ LOADER -->
-<div id="loader" class="hidden">
-  <span id="loaderText">Chargement…</span>
-</div>
-
-<!-- 🌊 SCÈNE -->
-<div id="scene" class="hidden">
-
-  <div id="pirate2" class="pirate"></div>
-  <div id="pirate3" class="pirate clickable"></div>
-
-  <!-- 💬 BULLE DE DIALOGUE (clic simple) -->
-  <div id="dialogBox" class="hidden">
-    <p id="dialogText"></p>
+    <div class="video-controls">
+      <button id="toggleSound" class="btn-pirate">🔊</button>
+      <button id="closeVideo" class="btn-pirate">✖</button>
+    </div>
   </div>
 
-</div>
+  <!-- =====================================================
+       ⏳ LOADER
+  ====================================================== -->
+  <div id="loader" class="hidden">
+    <span id="loaderText">Chargement…</span>
+  </div>
 
-<!-- 🎮 MINI-JEU -->
-<div id="miniGameContainer" class="hidden"></div>
+  <!-- =====================================================
+       🌊 SCÈNE PRINCIPALE
+  ====================================================== -->
+  <div id="scene" class="hidden">
 
-<script src="communication.js"></script>
+    <!-- Pirates -->
+    <div id="pirate2" class="pirate"></div>
+    <div id="pirate3" class="pirate clickable"></div>
+
+    <!-- 💬 BULLE DE DIALOGUE (clic pour continuer) -->
+    <div id="dialogBox" class="hidden">
+      <p id="dialogText"></p>
+    </div>
+
+  </div>
+
+  <!-- =====================================================
+       🎮 MINI-JEUX
+  ====================================================== -->
+  <div id="miniGameContainer" class="hidden"></div>
+
+  <!-- Scripts -->
+  <script src="communication.js"></script>
+
 </body>
 </html>
