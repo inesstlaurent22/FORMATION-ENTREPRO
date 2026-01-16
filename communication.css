@@ -1,260 +1,118 @@
-/* =====================================================
-   🌍 RESET GLOBAL
-===================================================== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
-  width:100vw;
-  height:100vh;
+  width:100vw;height:100vh;
   overflow:hidden;
   font-family:serif;
   background:#000;
 }
 
-.hidden{
-  display:none !important;
-}
+.hidden{display:none!important}
 
-/* =====================================================
-   🔘 BOUTONS – STYLE PIRATE GLOBAL
-===================================================== */
+/* BOUTONS */
 button{
   background:linear-gradient(145deg,#e8c77a,#b48b3c);
   border:3px solid #3b240f;
   border-radius:12px;
-  color:#000;
-  font-size:16px;
   font-weight:bold;
-  cursor:pointer;
   padding:12px 22px;
-  transition:transform .2s, box-shadow .2s;
-  box-shadow:inset 0 0 6px rgba(255,255,255,.4);
+  cursor:pointer;
+  transition:.2s;
 }
 
-button:hover{
-  transform:scale(1.08);
-  box-shadow:0 0 18px rgba(255,215,100,.85);
-}
+button:hover{transform:scale(1.08)}
+button.selected{box-shadow:0 0 18px gold}
 
-button.selected{
-  box-shadow:0 0 18px rgba(255,215,100,.9);
-  transform:scale(1.05);
-}
-
-/* =====================================================
-   🎬 VIDÉO INTRO
-===================================================== */
+/* VIDEO */
 .fullscreen{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:1000;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:#000;z-index:1000;
 }
 
-#introVideo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+#introVideo{width:100%;height:100%;object-fit:cover}
 
 .video-controls{
-  position:absolute;
-  top:20px;
-  right:20px;
-  display:flex;
-  gap:10px;
+  position:absolute;top:20px;right:20px;
+  display:flex;gap:10px;
 }
 
-/* =====================================================
-   ⏳ LOADER
-===================================================== */
+/* LOADER */
 #loader{
-  position:fixed;
-  inset:0;
+  position:fixed;inset:0;
   background:rgba(0,0,0,.92);
   z-index:900;
   display:flex;
   justify-content:center;
   align-items:center;
   flex-direction:column;
-  gap:18px;
 }
 
-#loaderText{
-  font-size:22px;
-  color:#ffd700;
-  text-align:center;
-  animation:pulse 1.2s infinite;
-}
+#loaderText{color:gold;font-size:22px;animation:pulse 1.2s infinite}
 
 @keyframes pulse{
-  0%{opacity:.4}
-  50%{opacity:1}
-  100%{opacity:.4}
+  0%{opacity:.4}50%{opacity:1}100%{opacity:.4}
 }
 
-/* Progress bar loader clients */
-.progressBar{
-  width:260px;
-  height:14px;
-  border:2px solid gold;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.progressFill{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,gold,#fff4b0);
-  transition:width .2s linear;
-}
-
-.progressCount{
-  color:#ffd700;
-  font-size:16px;
-}
-
-/* =====================================================
-   🌊 SCÈNE + BACKGROUND
-===================================================== */
+/* SCENE */
 #scene{
-  position:fixed;
-  inset:0;
-  width:100vw;
-  height:100vh;
-  background:
-    #000
-    url("images/Communicationfond.PNG")
-    no-repeat
-    center
-    / cover;
-  z-index:1;
+  position:fixed;inset:0;
+  background:url("images/Communicationfond.PNG") center/cover no-repeat;
 }
 
-/* =====================================================
-   🏴‍☠️ PIRATES (POSITIONS EXACTES)
-===================================================== */
-.pirate{
-  position:absolute;
-  background-repeat:no-repeat;
-  background-size:contain;
-  background-position:bottom center;
-}
+/* PIRATES */
+.pirate{position:absolute;background-size:contain;background-repeat:no-repeat}
 
-/* Pirate 2 */
 #pirate2{
-  left:473px;
-  top:422px;
-  width:329px;
-  height:315px;
+  left:473px;top:422px;
+  width:329px;height:315px;
   background-image:url("images/Pirate2.png");
 }
 
-/* Pirate 3 */
 #pirate3{
-  left:943px;
-  top:545px;
-  width:274px;
-  height:446px;
+  left:943px;top:545px;
+  width:274px;height:446px;
   background-image:url("images/Pirate3.png");
   cursor:pointer;
 }
 
-#pirate3:hover{
-  filter:
-    drop-shadow(0 0 12px gold)
-    drop-shadow(0 0 28px rgba(255,215,0,.6));
-  transform:scale(1.04);
-}
-
-/* =====================================================
-   💬 BULLE DE DIALOGUE
-===================================================== */
+/* DIALOGUE */
 #dialogBox{
   position:absolute;
   max-width:560px;
   background:#fff;
-  color:#000;
-  border:3px solid #d4af37;
+  border:3px solid gold;
   border-radius:22px;
   padding:18px 22px;
-  box-shadow:0 0 22px rgba(0,0,0,.6);
-  z-index:5;
+  cursor:pointer;
 }
 
-#dialogBox p,
-#dialogText{
-  font-size:16px;
-  line-height:1.55;
-  word-wrap:break-word;
-}
-
-/* =====================================================
-   🎮 MINI-JEU – CONTENEUR (STYLE LIVRE)
-===================================================== */
+/* MINI-JEU */
 #miniGameContainer{
   position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
   width:460px;
   padding:32px;
   background:linear-gradient(145deg,#3b240f,#1f1208);
-  border:5px solid #c9a24d;
+  border:5px solid gold;
   border-radius:20px;
-  z-index:2000;
   color:#fff;
   text-align:center;
-  box-shadow:0 0 35px rgba(0,0,0,.85);
+  z-index:2000;
 }
 
-/* =====================================================
-   🎮 MINI-JEU – TITRES & TEXTE
-===================================================== */
-.quizTitle{
-  font-size:26px;
-  margin-bottom:6px;
-  animation:bookGlow 1.6s infinite alternate;
-}
-
-@keyframes bookGlow{
-  from{
-    text-shadow:0 0 6px rgba(255,215,100,.4);
-  }
-  to{
-    text-shadow:0 0 14px rgba(255,215,100,.9);
-  }
+#miniGameContainer button{
+  margin-top:28px;
 }
 
 .quizSeparator{
   height:3px;
   background:linear-gradient(to right, transparent, gold, transparent);
-  margin:12px 0 18px;
+  margin:14px 0;
 }
 
-#gameQuestion{
-  font-size:20px;
-  margin-bottom:18px;
-  line-height:1.4;
-}
-
-#gameFeedback{
-  margin-top:16px;
-  font-size:17px;
-  color:#ffd77a;
-  font-style:italic;
-}
-
-/* =====================================================
-   🎮 MINI-JEU – RÉPONSES
-===================================================== */
 #gameAnswers{
   display:flex;
   flex-direction:column;
@@ -262,55 +120,10 @@ button.selected{
   margin-top:10px;
 }
 
-/* =====================================================
-   🖼️ FLYER CENTRAL CLIQUABLE
-===================================================== */
-#flyerCenter{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%) scale(.8);
-  width:320px;
-  max-width:80vw;
-  z-index:3000;
-  cursor:pointer;
-  animation:flyerIn .5s ease forwards;
-  box-shadow:0 0 35px rgba(255,215,100,.8);
-  border-radius:12px;
-}
+#gameFeedback{margin-top:14px;color:#ffd77a}
 
-@keyframes flyerIn{
-  to{
-    transform:translate(-50%, -50%) scale(1);
-  }
-}
-
-/* =====================================================
-   🎨 MINI-JEU 2 – CHOIX VISUELS
-===================================================== */
-.choices{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  margin-top:20px;
-}
-
-/* =====================================================
-   📱 RESPONSIVE (SÉCURITÉ)
-===================================================== */
+/* RESPONSIVE */
 @media(max-width:768px){
-
-  #miniGameContainer{
-    width:90%;
-    padding:24px;
-  }
-
-  #dialogBox{
-    max-width:90%;
-  }
-
-  #flyerCenter{
-    width:260px;
-  }
-
+  #miniGameContainer{width:90%}
+  #dialogBox{max-width:90%}
 }
