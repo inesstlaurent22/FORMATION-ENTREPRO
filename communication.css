@@ -83,7 +83,6 @@ button.selected{
   justify-content:center;
   align-items:center;
   flex-direction:column;
-  gap:18px;
 }
 
 #loaderText{
@@ -97,29 +96,6 @@ button.selected{
   0%{opacity:.4}
   50%{opacity:1}
   100%{opacity:.4}
-}
-
-/* =====================================================
-   ⏳ LOADER CLIENTS – BARRE DE PROGRESSION
-===================================================== */
-.progressBar{
-  width:260px;
-  height:14px;
-  border:2px solid gold;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.progressFill{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,gold,#fff4b0);
-  transition:width .2s linear;
-}
-
-.progressCount{
-  color:#ffd700;
-  font-size:16px;
 }
 
 /* =====================================================
@@ -176,7 +152,7 @@ button.selected{
 }
 
 /* =====================================================
-   💬 BULLE DE DIALOGUE (clic)
+   💬 BULLE DE DIALOGUE
 ===================================================== */
 #dialogBox{
   position:absolute;
@@ -225,35 +201,52 @@ button.selected{
 }
 
 /* =====================================================
-   🎮 MINI-JEU – SÉPARATEUR
+   🎮 MINI-JEU – TEXTE ROUGE
 ===================================================== */
-.quizSeparator{
-  height:3px;
-  background:linear-gradient(to right, transparent, gold, transparent);
-  margin:14px 0;
+.correctCount{
+  color:#ff4b4b;
+  font-size:14px;
+  margin-top:8px;
 }
 
 /* =====================================================
-   🖼️ FLYER CENTRAL CLIQUABLE
+   ⏳ JAUGE CLIENTS – À DROITE
 ===================================================== */
-#flyerCenter{
+.clientsGauge{
   position:fixed;
+  right:40px;
   top:50%;
-  left:50%;
-  transform:translate(-50%, -50%) scale(.8);
+  transform:translateY(-50%);
   width:320px;
-  max-width:80vw;
-  z-index:3000;
-  cursor:pointer;
-  animation:flyerIn .5s ease forwards;
-  box-shadow:0 0 35px rgba(255,215,100,.8);
-  border-radius:12px;
+  z-index:950;
+  text-align:left;
 }
 
-@keyframes flyerIn{
-  to{
-    transform:translate(-50%, -50%) scale(1);
-  }
+.clientsGaugeTitle{
+  color:#ffd700;
+  font-size:15px;
+  margin-bottom:8px;
+}
+
+.clientsProgressBar{
+  width:100%;
+  height:16px;
+  border:2px solid gold;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.clientsProgressFill{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,gold,#fff4b0);
+  transition:width .3s ease;
+}
+
+.clientsProgressCount{
+  margin-top:6px;
+  color:#ffd700;
+  font-size:14px;
 }
 
 /* =====================================================
@@ -270,7 +263,8 @@ button.selected{
     max-width:90%;
   }
 
-  #flyerCenter{
+  .clientsGauge{
+    right:20px;
     width:260px;
   }
 
