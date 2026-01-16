@@ -1,161 +1,277 @@
-document.addEventListener("DOMContentLoaded", () => {
+/* =====================================================
+   🌍 RESET GLOBAL
+===================================================== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-  const videoIntro = document.getElementById("videoIntro");
-  const introVideo = document.getElementById("introVideo");
-  const toggleSound = document.getElementById("toggleSound");
-  const closeVideo = document.getElementById("closeVideo");
+body{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  font-family:serif;
+  background:#000;
+}
 
-  const loader = document.getElementById("loader");
-  const loaderText = document.getElementById("loaderText");
+.hidden{
+  display:none !important;
+}
 
-  const scene = document.getElementById("scene");
-  const pirate2 = document.getElementById("pirate2");
-  const pirate3 = document.getElementById("pirate3");
+/* =====================================================
+   🔘 BOUTONS – STYLE PIRATE
+===================================================== */
+button{
+  background:linear-gradient(145deg,#e8c77a,#b48b3c);
+  border:3px solid #3b240f;
+  border-radius:12px;
+  color:#000;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  padding:12px 22px;
+  transition:transform .2s, box-shadow .2s;
+  box-shadow:inset 0 0 6px rgba(255,255,255,.4);
+}
 
-  const dialogBox = document.getElementById("dialogBox");
-  const dialogText = document.getElementById("dialogText");
+button:hover{
+  transform:scale(1.06);
+  box-shadow:0 0 18px rgba(255,215,100,.85);
+}
 
-  const miniGame = document.getElementById("miniGameContainer");
+button.selected{
+  box-shadow:0 0 18px rgba(255,215,100,.9);
+}
 
-  /* VIDEO */
-  introVideo.muted = true;
-  introVideo.play().catch(()=>{});
+/* =====================================================
+   🎬 VIDÉO INTRO
+===================================================== */
+.fullscreen{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:1000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
-  toggleSound.addEventListener("click", async () => {
-    introVideo.muted = !introVideo.muted;
-    await introVideo.play().catch(()=>{});
-    toggleSound.textContent = introVideo.muted ? "🔊" : "🔈";
-  });
+#introVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-  function endVideo(){
-    videoIntro.classList.add("hidden");
-    loader.classList.remove("hidden");
-    setTimeout(()=>{
-      loader.classList.add("hidden");
-      scene.classList.remove("hidden");
-    },1500);
+.video-controls{
+  position:absolute;
+  top:20px;
+  right:20px;
+  display:flex;
+  gap:10px;
+}
+
+/* =====================================================
+   ⏳ LOADER GÉNÉRAL
+===================================================== */
+#loader{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  z-index:900;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  gap:18px;
+}
+
+#loaderText{
+  font-size:22px;
+  color:#ffd700;
+  text-align:center;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:.4}
+  50%{opacity:1}
+  100%{opacity:.4}
+}
+
+/* =====================================================
+   ⏳ LOADER CLIENTS – BARRE DE PROGRESSION
+===================================================== */
+.progressBar{
+  width:260px;
+  height:14px;
+  border:2px solid gold;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progressFill{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,gold,#fff4b0);
+  transition:width .2s linear;
+}
+
+.progressCount{
+  color:#ffd700;
+  font-size:16px;
+}
+
+/* =====================================================
+   🌊 SCÈNE
+===================================================== */
+#scene{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  background:
+    #000
+    url("images/Communicationfond.PNG")
+    no-repeat
+    center
+    / cover;
+  z-index:1;
+}
+
+/* =====================================================
+   🏴‍☠️ PIRATES
+===================================================== */
+.pirate{
+  position:absolute;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:bottom center;
+}
+
+/* Pirate 2 */
+#pirate2{
+  left:473px;
+  top:422px;
+  width:329px;
+  height:315px;
+  background-image:url("images/Pirate2.png");
+}
+
+/* Pirate 3 */
+#pirate3{
+  left:943px;
+  top:545px;
+  width:274px;
+  height:446px;
+  background-image:url("images/Pirate3.png");
+  cursor:pointer;
+}
+
+#pirate3:hover{
+  filter:
+    drop-shadow(0 0 12px gold)
+    drop-shadow(0 0 28px rgba(255,215,0,.6));
+  transform:scale(1.04);
+}
+
+/* =====================================================
+   💬 BULLE DE DIALOGUE (clic)
+===================================================== */
+#dialogBox{
+  position:absolute;
+  max-width:560px;
+  background:#fff;
+  color:#000;
+  border:3px solid #d4af37;
+  border-radius:22px;
+  padding:18px 22px;
+  box-shadow:0 0 22px rgba(0,0,0,.6);
+  z-index:5;
+  cursor:pointer;
+}
+
+#dialogText{
+  font-size:16px;
+  line-height:1.55;
+}
+
+/* =====================================================
+   🎮 MINI-JEU – CONTENEUR
+===================================================== */
+#miniGameContainer{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:460px;
+  padding:32px;
+  background:linear-gradient(145deg,#3b240f,#1f1208);
+  border:5px solid #c9a24d;
+  border-radius:20px;
+  z-index:2000;
+  color:#fff;
+  text-align:center;
+  box-shadow:0 0 35px rgba(0,0,0,.85);
+}
+
+#miniGameContainer p{
+  margin-top:12px;
+  line-height:1.4;
+}
+
+#miniGameContainer button{
+  margin-top:28px;
+}
+
+/* =====================================================
+   🎮 MINI-JEU – SÉPARATEUR
+===================================================== */
+.quizSeparator{
+  height:3px;
+  background:linear-gradient(to right, transparent, gold, transparent);
+  margin:14px 0;
+}
+
+/* =====================================================
+   🖼️ FLYER CENTRAL CLIQUABLE
+===================================================== */
+#flyerCenter{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%) scale(.8);
+  width:320px;
+  max-width:80vw;
+  z-index:3000;
+  cursor:pointer;
+  animation:flyerIn .5s ease forwards;
+  box-shadow:0 0 35px rgba(255,215,100,.8);
+  border-radius:12px;
+}
+
+@keyframes flyerIn{
+  to{
+    transform:translate(-50%, -50%) scale(1);
+  }
+}
+
+/* =====================================================
+   📱 RESPONSIVE
+===================================================== */
+@media(max-width:768px){
+
+  #miniGameContainer{
+    width:90%;
+    padding:24px;
   }
 
-  closeVideo.onclick = endVideo;
-  introVideo.onended = endVideo;
-
-  /* DIALOGUES IMMERSIFS */
-  let dialogs=[], index=0, callback=null;
-
-  function playDialog(list, cb){
-    dialogs=list; index=0; callback=cb;
-    dialogBox.classList.remove("hidden");
-    showLine();
+  #dialogBox{
+    max-width:90%;
   }
 
-  function showLine(){
-    const d=dialogs[index];
-    dialogText.textContent=d.text;
-    const target=d.speaker==="pirate2"?pirate2:pirate3;
-    const r=target.getBoundingClientRect();
-    dialogBox.style.left=`${r.left+r.width/2-dialogBox.offsetWidth/2}px`;
-    dialogBox.style.top=`${r.top-dialogBox.offsetHeight-20}px`;
+  #flyerCenter{
+    width:260px;
   }
 
-  dialogBox.onclick=()=>{
-    index++;
-    if(index<dialogs.length) showLine();
-    else{
-      dialogBox.classList.add("hidden");
-      callback && callback();
-    }
-  };
-
-  pirate3.onclick=()=>{
-    playDialog([
-      {speaker:"pirate3",text:"Capitaine, ton trésor est prêt…"},
-      {speaker:"pirate2",text:"Sans communication, personne ne viendra."},
-      {speaker:"pirate3",text:"Voyons comment faire parler de ta marque."}
-    ], startMiniGame);
-  };
-
-  /* MINI-JEU */
-  const steps=[
-    {
-      title:"📣 Réseaux sociaux",
-      question:"Les réseaux sociaux servent principalement à :",
-      answers:[
-        {text:"Te faire découvrir",correct:true},
-        {text:"Montrer ton univers",correct:true},
-        {text:"Forcer la vente",correct:false}
-      ],
-      explanation:"Ils créent visibilité et envie."
-    }
-  ];
-
-  let q=-2, selected=[];
-
-  function startMiniGame(){ q=-2; miniGame.classList.remove("hidden"); render(); }
-
-  function render(){
-    if(q===-2){
-      miniGame.innerHTML=`
-        <h2>🏴‍☠️ Mission : Communication</h2>
-        <div class="quizSeparator"></div>
-        <p>Le marché doit te connaître et te faire confiance.</p>
-        <button onclick="next()">Commencer</button>`;
-      return;
-    }
-
-    if(q===-1){
-      miniGame.innerHTML=`
-        <h2>🎯 Objectif</h2>
-        <div class="quizSeparator"></div>
-        <p>Comprendre le rôle de chaque canal.</p>
-        <div class="quizSeparator"></div>
-        <p style="font-style:italic">💡 Chaque canal rassure différemment.</p>
-        <button onclick="next()">Continuer</button>`;
-      return;
-    }
-
-    if(q>=steps.length){
-      miniGame.innerHTML=`<h2>🎉 Mission réussie</h2>`;
-      return;
-    }
-
-    selected=[];
-    const s=steps[q];
-    const nb=s.answers.filter(a=>a.correct).length;
-
-    miniGame.innerHTML=`
-      <h2>${s.title}</h2>
-      <div class="quizSeparator"></div>
-      <p>${s.question}</p>
-      <p style="font-size:14px;opacity:.8">(${nb} bonne(s) réponse(s))</p>
-
-      <div id="gameAnswers">
-        ${s.answers.map((a,i)=>
-          `<button onclick="select(${i},event)">${a.text}</button>`
-        ).join("")}
-      </div>
-
-      <div id="gameFeedback"></div>
-      <button id="continueBtn" class="hidden" onclick="next()">Continuer</button>`;
-  }
-
-  window.select=function(i,e){
-    if(!selected.includes(i)){
-      selected.push(i);
-      e.target.classList.add("selected");
-    }
-
-    const s=steps[q];
-    const good=s.answers.map((a,i)=>a.correct?i:null).filter(i=>i!==null);
-    const ok=good.every(i=>selected.includes(i)) &&
-             selected.every(i=>s.answers[i].correct);
-
-    if(ok){
-      document.getElementById("gameFeedback").innerHTML=
-        `<strong>✅ Bonne réponse !</strong><br>${s.explanation}`;
-      document.getElementById("continueBtn").classList.remove("hidden");
-    }
-  }
-
-  window.next=function(){ q++; render(); }
-
-});
+}
