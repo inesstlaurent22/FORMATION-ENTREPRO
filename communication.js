@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleSound.addEventListener("click", () => {
     introVideo.muted = !introVideo.muted;
     introVideo.play().catch(() => {});
-    toggleSound.textContent = introVideo.muted ? "🔊" : "🔈";
+    toggleSound.textContent = introVideo.muted ? "🔊" : "🔇";
   });
 
   function endVideo(){
