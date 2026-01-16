@@ -20,12 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const miniGame    = document.getElementById("miniGameContainer");
 
+  /* =====================================================
+     🎬 VIDEO (iOS SAFE)
+  ===================================================== */
   introVideo.muted = true;
-  introVideo.play().catch(()=>{});
+  introVideo.play().catch(() => {});
 
   toggleSound.addEventListener("click", () => {
     introVideo.muted = !introVideo.muted;
-    introVideo.play().catch(()=>{});
+    introVideo.play().catch(() => {});
     toggleSound.textContent = introVideo.muted ? "🔊" : "🔈";
   });
 
@@ -33,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     videoIntro.classList.add("hidden");
     loader.classList.remove("hidden");
     loaderText.textContent = "Chargement…";
+
     setTimeout(() => {
       loader.classList.add("hidden");
       scene.classList.remove("hidden");
@@ -43,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   introVideo.addEventListener("ended", endVideo);
 
   /* =====================================================
-     💬 DIALOGUES IMMERSIFS (clic)
+     💬 DIALOGUES IMMERSIFS (clic sur la bulle)
   ===================================================== */
   let dialogs = [];
   let dialogIndex = 0;
@@ -60,11 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function showDialogLine(){
     const current = dialogs[dialogIndex];
     dialogText.textContent = current.text;
+
     const target = current.speaker === "pirate2" ? pirate2 : pirate3;
     const rect = target.getBoundingClientRect();
 
     dialogBox.style.left =
-      `${rect.left + rect.width/2 - dialogBox.offsetWidth/2}px`;
+      `${rect.left + rect.width / 2 - dialogBox.offsetWidth / 2}px`;
     dialogBox.style.top =
       `${rect.top - dialogBox.offsetHeight - 20}px`;
   }
@@ -81,9 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   pirate3.addEventListener("click", () => {
     playDialog([
-      { speaker:"pirate3", text:"Capitaine, ton trésor est prêt… mais personne ne le connaît." },
-      { speaker:"pirate2", text:"Sans communication, le marché restera vide." },
-      { speaker:"pirate3", text:"Apprenons à faire parler de ta marque." }
+      { speaker:"pirate3", text:"Capitaine, ton trésor est prêt…" },
+      { speaker:"pirate2", text:"Mais sans communication, personne ne viendra." },
+      { speaker:"pirate3", text:"Commençons par attirer les clients." }
     ], startMiniGame1);
   });
 
@@ -92,29 +97,20 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================================== */
   const quizSteps = [
     {
-      title:"📣 Réseaux sociaux",
-      question:"Les réseaux sociaux servent principalement à :",
-      answers:[
-        {text:"Te faire découvrir", correct:true},
-        {text:"Montrer ton univers", correct:true},
-        {text:"Forcer la vente immédiate", correct:false}
+      title: "📣 Réseaux sociaux",
+      question: "Les réseaux sociaux servent principalement à :",
+      answers: [
+        { text:"Te faire découvrir", correct:true },
+        { text:"Montrer ton univers", correct:true },
+        { text:"Forcer la vente immédiate", correct:false }
       ],
-      explanation:"Ils créent visibilité et attirent naturellement les clients."
-    },
-    {
-      title:"📜 Newsletter",
-      question:"Une newsletter permet de :",
-      answers:[
-        {text:"Rester présent dans l’esprit du client", correct:true},
-        {text:"Créer un lien dans le temps", correct:true},
-        {text:"Envoyer des promotions tous les jours", correct:false}
-      ],
-      explanation:"Elle entretient la relation sans pression commerciale."
+      explanation:
+        "Les réseaux sociaux servent à créer de la visibilité et donner envie de découvrir ta marque."
     }
   ];
 
   let quizIndex = -2;
-  let selected = [];
+  let selectedAnswers = [];
 
   function startMiniGame1(){
     miniGame.classList.remove("hidden");
@@ -127,47 +123,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if(quizIndex === -2){
       addText("🏴‍☠️ Mission : Communication");
-      addText("Le marché doit te connaître et te faire confiance.");
+      addText("Pour vendre ton trésor, le marché doit te connaître.");
       addButton("Commencer", nextQuiz);
       return;
     }
 
     if(quizIndex === -1){
       addText("🎯 Objectif");
-      addText("Comprendre le rôle de chaque canal.");
-      addText("💡 Chaque action rassure le client différemment.", true);
+      addText("Comprendre comment attirer les clients.");
+      addText("💡 Une bonne communication crée confiance et intérêt.", true);
       addButton("Continuer", nextQuiz);
       return;
     }
 
     if(quizIndex >= quizSteps.length){
-      addText("🎉 Mission réussie !");
-      addButton("Continuer", startClientsLoader);
+      miniGame.classList.add("hidden");
+      startClientsGauge();
       return;
     }
 
-    selected = [];
+    selectedAnswers = [];
     const step = quizSteps[quizIndex];
-    const count = step.answers.filter(a=>a.correct).length;
+    const goodCount = step.answers.filter(a => a.correct).length;
 
     addText(step.title);
     addText(step.question);
-    addText(`(${count} bonne(s) réponse(s))`, true);
+    addHTML(`<div class="correctCount">${goodCount} bonnes réponses</div>`);
 
-    step.answers.forEach((a,i)=>{
+    step.answers.forEach((a, i) => {
       addButton(a.text, () => selectAnswer(i));
     });
   }
 
-  function selectAnswer(i){
-    if(selected.includes(i)) return;
-    selected.push(i);
+  function selectAnswer(index){
+    if(selectedAnswers.includes(index)) return;
+    selectedAnswers.push(index);
 
     const step = quizSteps[quizIndex];
-    const good = step.answers.map((a,i)=>a.correct?i:null).filter(i=>i!==null);
+    const goodIndexes = step.answers
+      .map((a, i) => a.correct ? i : null)
+      .filter(i => i !== null);
 
-    if(good.every(i=>selected.includes(i)) &&
-       selected.every(i=>step.answers[i].correct)){
+    const allCorrect =
+      goodIndexes.every(i => selectedAnswers.includes(i)) &&
+      selectedAnswers.every(i => step.answers[i].correct);
+
+    if(allCorrect){
       addText("✅ Bonne réponse !");
       addText(step.explanation, true);
       addButton("Continuer", nextQuiz);
@@ -180,58 +181,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     ⏳ LOADER CLIENTS
+     ⏳ JAUGE CLIENTS (3 / 10) – À DROITE
   ===================================================== */
-  function startClientsLoader(){
-    miniGame.classList.add("hidden");
-    loader.classList.remove("hidden");
+  function startClientsGauge(){
+    const gauge = document.createElement("div");
+    gauge.className = "clientsGauge";
 
-    loaderText.innerHTML = `
-      Bravo, <strong>2 clients</strong> sont entrés dans la boutique<br><br>
-      <div class="progressBar"><div class="progressFill"></div></div>
-      <div class="progressCount">0 / 10</div>
+    gauge.innerHTML = `
+      <div class="clientsGaugeTitle">
+        Nombre de clients qui viennent d’entrer dans l’échoppe
+      </div>
+      <div class="clientsProgressBar">
+        <div class="clientsProgressFill"></div>
+      </div>
+      <div class="clientsProgressCount">0 / 10</div>
     `;
 
-    let v = 0;
-    const fill = loader.querySelector(".progressFill");
-    const count = loader.querySelector(".progressCount");
+    document.body.appendChild(gauge);
 
-    const interval = setInterval(()=>{
-      v++;
-      fill.style.width = `${v*10}%`;
-      count.textContent = `${v} / 10`;
-      if(v >= 10){
+    const fill  = gauge.querySelector(".clientsProgressFill");
+    const count = gauge.querySelector(".clientsProgressCount");
+
+    let value = 0;
+    const interval = setInterval(() => {
+      value++;
+      fill.style.width = `${value * 10}%`;
+      count.textContent = `${value} / 10`;
+
+      if(value === 3){
         clearInterval(interval);
-        loader.classList.add("hidden");
-        startFlyerDialog();
+        setTimeout(() => {
+          gauge.remove();
+          startMiniGame2();
+        }, 800);
       }
-    }, 200);
-  }
-
-  /* =====================================================
-     💬 FLYER + IDENTITÉ VISUELLE
-  ===================================================== */
-  function startFlyerDialog(){
-    playDialog([
-      { speaker:"pirate2", text:"Tu trouves mon flyer efficace ?" },
-      { speaker:"pirate3", text:"Voyons ça ensemble." }
-    ], showFlyer);
-  }
-
-  function showFlyer(){
-    const flyer = document.createElement("img");
-    flyer.src = "images/flyer.png";
-    flyer.id = "flyerCenter";
-    document.body.appendChild(flyer);
-
-    flyer.addEventListener("click", () => {
-      flyer.remove();
-      playDialog([
-        { speaker:"pirate3", text:"Il manque une identité claire." },
-        { speaker:"pirate2", text:"Que devons-nous faire ?" },
-        { speaker:"pirate3", text:"Créer une identité visuelle cohérente." }
-      ], startMiniGame2);
-    });
+    }, 400);
   }
 
   /* =====================================================
@@ -240,21 +224,84 @@ document.addEventListener("DOMContentLoaded", () => {
   function startMiniGame2(){
     miniGame.classList.remove("hidden");
     miniGame.innerHTML = "";
+
     addText("🎨 Identité visuelle");
-    addText("Choisis des éléments cohérents pour être reconnu.");
-    addButton("Créer mon identité", endVisual);
+    addText(
+      "L’identité visuelle permet aux clients de reconnaître une marque immédiatement.",
+      true
+    );
+    addText(
+      "🎯 Objectif : créer une identité visuelle dont les clients se souviendront."
+    );
+    addButton("Commencer", chooseLogo);
+  }
+
+  /* --- LOGO (choix libre) --- */
+  function chooseLogo(){
+    miniGame.innerHTML = "";
+    addText("Choisis ton logo (choix libre)");
+
+    ["Logo A", "Logo B", "Logo C"].forEach(() => {
+      addButton("Choisir ce logo", chooseColors);
+    });
+  }
+
+  /* --- COULEURS (1 seule bonne réponse) --- */
+  function chooseColors(){
+    miniGame.innerHTML = "";
+    addText("🎨 Les couleurs");
+
+    ["Palette 1", "Palette 2", "Palette 3"].forEach((label, index) => {
+      addButton(label, () => {
+        if(index === 0){
+          addText("✅ Bonne réponse !");
+          addText(
+            "Les couleurs doivent être cohérentes avec le style du logo. " +
+            "Ce seront tes couleurs obligatoires pour flyers, newsletters et réseaux sociaux.",
+            true
+          );
+          addButton("Continuer", chooseTypography);
+        }
+      });
+    });
+  }
+
+  /* --- TYPOGRAPHIE --- */
+  function chooseTypography(){
+    miniGame.innerHTML = "";
+    addText("✍️ Typographie");
+    addText(
+      "Le style d’écriture (polices, tons et mise en forme).",
+      true
+    );
+
+    ["Style 1", "Style 2", "Style 3"].forEach((label, index) => {
+      addButton(label, () => {
+        if(index === 0){
+          addText("✅ Bonne réponse !");
+          addText(
+            "La typographie est très importante. Comme le logo, " +
+            "tu devras la garder pour tous tes designs.",
+            true
+          );
+          addButton("Finaliser", endVisual);
+        }
+      });
+    });
   }
 
   function endVisual(){
     miniGame.innerHTML = "";
-    addText("🎉 Identité visuelle créée !");
-    addText("Les clients reconnaîtront désormais ta marque.", true);
+    addText(
+      "🎉 Maintenant que tu as créé ton identité visuelle, " +
+      "ta marque sera reconnue par tous et très rapidement."
+    );
   }
 
   /* =====================================================
      🧩 HELPERS UI
   ===================================================== */
-  function addText(text, subtle=false){
+  function addText(text, subtle = false){
     const p = document.createElement("p");
     p.textContent = text;
     if(subtle) p.style.opacity = ".8";
@@ -266,6 +313,12 @@ document.addEventListener("DOMContentLoaded", () => {
     b.textContent = label;
     b.addEventListener("click", action);
     miniGame.appendChild(b);
+  }
+
+  function addHTML(html){
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    miniGame.appendChild(div);
   }
 
 });
