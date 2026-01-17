@@ -72,7 +72,7 @@ button.selected{
 }
 
 /* =====================================================
-   ⏳ LOADER
+   ⏳ LOADER GLOBAL
 ===================================================== */
 #loader{
   position:fixed;
@@ -199,12 +199,13 @@ button.selected{
 }
 
 /* =====================================================
-   🧭 CADRAN PIRATE – JAUGE CLIENTS / INFOS
+   🧭 CADRAN PIRATE – JAUGE / HUD (CENTRÉ)
 ===================================================== */
 .piratePanel{
   position:fixed;
-  right:40px;
-  bottom:40px;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
   width:360px;
   padding:18px;
   background:linear-gradient(145deg,#3b240f,#1f1208);
@@ -244,74 +245,18 @@ button.selected{
 }
 
 /* =====================================================
-   🖼️ CHOIX VISUELS (LOGO / COULEURS / TYPO)
+   🔗 MINI-JEU 3 – CHOIX VISUELS (PLATEFORMES / OBJECTIFS)
 ===================================================== */
 .visualChoices{
   display:flex;
   justify-content:center;
   gap:16px;
   margin-top:20px;
+  flex-wrap:wrap;
 }
 
-.visualChoices img{
-  width:90px;
-  height:90px;
-  object-fit:cover;
-  border-radius:12px;
-  border:3px solid transparent;
-  cursor:pointer;
-  transition:.25s;
-}
-
-.visualChoices img:hover{
-  transform:scale(1.08);
-  border-color:gold;
-}
-
-/* =====================================================
-   🖼️ IMAGE IDENTITÉ VISUELLE (ANIMATION)
-===================================================== */
-#flyerCenter{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%) scale(.8);
-  width:320px;
-  max-width:80vw;
-  z-index:3000;
-  animation:flyerIn .5s ease forwards;
-  box-shadow:0 0 35px rgba(255,215,100,.8);
-  border-radius:12px;
-}
-
-@keyframes flyerIn{
-  to{
-    transform:translate(-50%, -50%) scale(1);
-  }
-}
-
-/* =====================================================
-   💎 EXPLOSION DE GEMS – FIN DE QUÊTE
-===================================================== */
-.gem{
-  position:fixed;
-  width:22px;
-  height:22px;
-  background:radial-gradient(circle,#fff,#00f6ff,#6f00ff);
-  border-radius:50%;
-  pointer-events:none;
-  animation:gemExplode 1.4s ease-out forwards;
-}
-
-@keyframes gemExplode{
-  from{
-    transform:scale(1) translate(0,0);
-    opacity:1;
-  }
-  to{
-    transform:scale(.2) translate(var(--x),var(--y));
-    opacity:0;
-  }
+.visualChoices button{
+  min-width:160px;
 }
 
 /* =====================================================
@@ -329,13 +274,11 @@ button.selected{
   }
 
   .piratePanel{
-    right:20px;
     width:280px;
   }
 
-  .visualChoices img{
-    width:70px;
-    height:70px;
+  .visualChoices button{
+    min-width:140px;
   }
 
 }
