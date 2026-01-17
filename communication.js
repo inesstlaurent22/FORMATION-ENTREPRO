@@ -24,12 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
      🎬 VIDEO (iOS SAFE)
   ===================================================== */
   introVideo.muted = true;
-  introVideo.play().catch(() => {});
+  introVideo.play().catch(()=>{});
 
   toggleSound.addEventListener("click", () => {
     introVideo.muted = !introVideo.muted;
-    introVideo.play().catch(() => {});
-    toggleSound.textContent = introVideo.muted ? "🔊" : "🔇";
+    introVideo.play().catch(()=>{});
+    toggleSound.textContent = introVideo.muted ? "🔊" : "🔈";
   });
 
   function endVideo(){
@@ -37,17 +37,17 @@ document.addEventListener("DOMContentLoaded", () => {
     loader.classList.remove("hidden");
     loaderText.textContent = "Chargement…";
 
-    setTimeout(() => {
+    setTimeout(()=>{
       loader.classList.add("hidden");
       scene.classList.remove("hidden");
-    }, 1500);
+    },1500);
   }
 
   closeVideo.addEventListener("click", endVideo);
   introVideo.addEventListener("ended", endVideo);
 
   /* =====================================================
-     💬 DIALOGUES IMMERSIFS (clic sur la bulle)
+     💬 SYSTÈME DE DIALOGUES (clic sur bulle)
   ===================================================== */
   let dialogs = [];
   let dialogIndex = 0;
@@ -62,16 +62,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showDialogLine(){
-    const current = dialogs[dialogIndex];
-    dialogText.textContent = current.text;
+    const d = dialogs[dialogIndex];
+    dialogText.textContent = d.text;
 
-    const target = current.speaker === "pirate2" ? pirate2 : pirate3;
-    const rect = target.getBoundingClientRect();
+    const target = d.speaker === "pirate2" ? pirate2 : pirate3;
+    const r = target.getBoundingClientRect();
 
     dialogBox.style.left =
-      `${rect.left + rect.width / 2 - dialogBox.offsetWidth / 2}px`;
+      `${r.left + r.width/2 - dialogBox.offsetWidth/2}px`;
     dialogBox.style.top =
-      `${rect.top - dialogBox.offsetHeight - 20}px`;
+      `${r.top - dialogBox.offsetHeight - 20}px`;
   }
 
   dialogBox.addEventListener("click", () => {
@@ -84,138 +84,82 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  /* =====================================================
+     🏴‍☠️ DÉBUT DE QUÊTE
+  ===================================================== */
   pirate3.addEventListener("click", () => {
     playDialog([
-      { speaker:"pirate3", text:"Capitaine, ton trésor est prêt…" },
-      { speaker:"pirate2", text:"Mais sans communication, personne ne viendra." },
-      { speaker:"pirate3", text:"Commençons par attirer les clients." }
+      { speaker:"pirate3", text:"Capitaine, ton trésor est prêt." },
+      { speaker:"pirate2", text:"Mais personne ne sait qu’il existe." },
+      { speaker:"pirate3", text:"Il est temps d’apprendre à communiquer." }
     ], startMiniGame1);
   });
 
   /* =====================================================
      🎮 MINI-JEU 1 – COMMUNICATION
   ===================================================== */
-  const quizSteps = [
-    {
-      title: "📣 Réseaux sociaux",
-      question: "Les réseaux sociaux servent principalement à :",
-      answers: [
-        { text:"Te faire découvrir", correct:true },
-        { text:"Montrer ton univers", correct:true },
-        { text:"Forcer la vente immédiate", correct:false }
-      ],
-      explanation:
-        "Les réseaux sociaux servent à créer de la visibilité et donner envie de découvrir ta marque."
-    }
-  ];
-
-  let quizIndex = -2;
-  let selectedAnswers = [];
-
   function startMiniGame1(){
     miniGame.classList.remove("hidden");
-    quizIndex = -2;
-    renderQuiz();
-  }
-
-  function renderQuiz(){
     miniGame.innerHTML = "";
 
-    if(quizIndex === -2){
-      addText("🏴‍☠️ Mission : Communication");
-      addText("Pour vendre ton trésor, le marché doit te connaître.");
-      addButton("Commencer", nextQuiz);
-      return;
-    }
+    addText("📣 La communication sert à faire connaître ta marque.");
+    addText(
+      "Sans visibilité, même le meilleur trésor reste invisible.",
+      true
+    );
 
-    if(quizIndex === -1){
-      addText("🎯 Objectif");
-      addText("Comprendre comment attirer les clients.");
-      addText("💡 Une bonne communication crée confiance et intérêt.", true);
-      addButton("Continuer", nextQuiz);
-      return;
-    }
-
-    if(quizIndex >= quizSteps.length){
-      miniGame.classList.add("hidden");
-      startClientsGauge();
-      return;
-    }
-
-    selectedAnswers = [];
-    const step = quizSteps[quizIndex];
-    const goodCount = step.answers.filter(a => a.correct).length;
-
-    addText(step.title);
-    addText(step.question);
-    addHTML(`<div class="correctCount">${goodCount} bonnes réponses</div>`);
-
-    step.answers.forEach((a, i) => {
-      addButton(a.text, () => selectAnswer(i));
-    });
+    addButton("Continuer", endMiniGame1);
   }
 
-  function selectAnswer(index){
-    if(selectedAnswers.includes(index)) return;
-    selectedAnswers.push(index);
-
-    const step = quizSteps[quizIndex];
-    const goodIndexes = step.answers
-      .map((a, i) => a.correct ? i : null)
-      .filter(i => i !== null);
-
-    const allCorrect =
-      goodIndexes.every(i => selectedAnswers.includes(i)) &&
-      selectedAnswers.every(i => step.answers[i].correct);
-
-    if(allCorrect){
-      addText("✅ Bonne réponse !");
-      addText(step.explanation, true);
-      addButton("Continuer", nextQuiz);
-    }
-  }
-
-  function nextQuiz(){
-    quizIndex++;
-    renderQuiz();
+  function endMiniGame1(){
+    miniGame.classList.add("hidden");
+    startClientsGauge();
   }
 
   /* =====================================================
-     ⏳ JAUGE CLIENTS (3 / 10) – À DROITE
+     🧭 JAUGE CLIENTS (CADRAN PIRATE)
   ===================================================== */
   function startClientsGauge(){
-    const gauge = document.createElement("div");
-    gauge.className = "clientsGauge";
+    const panel = document.createElement("div");
+    panel.className = "piratePanel";
 
-    gauge.innerHTML = `
-      <div class="clientsGaugeTitle">
-        Nombre de clients qui viennent d’entrer dans l’échoppe
+    panel.innerHTML = `
+      <h4>Clients attirés par ta communication</h4>
+      <div class="pirateProgressBar">
+        <div class="pirateProgressFill"></div>
       </div>
-      <div class="clientsProgressBar">
-        <div class="clientsProgressFill"></div>
-      </div>
-      <div class="clientsProgressCount">0 / 10</div>
+      <div class="pirateProgressText">0 / 10</div>
     `;
 
-    document.body.appendChild(gauge);
+    document.body.appendChild(panel);
 
-    const fill  = gauge.querySelector(".clientsProgressFill");
-    const count = gauge.querySelector(".clientsProgressCount");
+    const fill = panel.querySelector(".pirateProgressFill");
+    const txt  = panel.querySelector(".pirateProgressText");
 
-    let value = 0;
-    const interval = setInterval(() => {
-      value++;
-      fill.style.width = `${value * 10}%`;
-      count.textContent = `${value} / 10`;
+    let v = 0;
+    const interval = setInterval(()=>{
+      v++;
+      fill.style.width = `${v * 10}%`;
+      txt.textContent = `${v} / 10`;
 
-      if(value === 3){
+      if(v === 3){
         clearInterval(interval);
-        setTimeout(() => {
-          gauge.remove();
-          startMiniGame2();
-        }, 800);
+        setTimeout(()=>{
+          panel.remove();
+          betweenMiniGamesDialog();
+        },800);
       }
-    }, 400);
+    },400);
+  }
+
+  /* =====================================================
+     💬 DIALOGUES ENTRE MINI-JEUX
+  ===================================================== */
+  function betweenMiniGamesDialog(){
+    playDialog([
+      { speaker:"pirate3", text:"Les clients commencent à venir." },
+      { speaker:"pirate2", text:"Mais pour rester dans leur esprit, il faut une identité." }
+    ], startMiniGame2);
   }
 
   /* =====================================================
@@ -233,26 +177,23 @@ document.addEventListener("DOMContentLoaded", () => {
     addText(
       "🎯 Objectif : créer une identité visuelle dont les clients se souviendront."
     );
+
     addButton("Commencer", chooseLogo);
   }
 
-  /* --- LOGO (choix libre) --- */
   function chooseLogo(){
     miniGame.innerHTML = "";
     addText("Choisis ton logo (choix libre)");
-
-    ["Logo A", "Logo B", "Logo C"].forEach(() => {
-      addButton("Choisir ce logo", chooseColors);
-    });
+    addImages(["logo1.png","logo2.png","logo3.png"], chooseColors);
   }
 
-  /* --- COULEURS (1 seule bonne réponse) --- */
   function chooseColors(){
     miniGame.innerHTML = "";
     addText("🎨 Les couleurs");
 
-    ["Palette 1", "Palette 2", "Palette 3"].forEach((label, index) => {
-      addButton(label, () => {
+    addImages(
+      ["colors_good.png","colors_bad1.png","colors_bad2.png"],
+      (index)=>{
         if(index === 0){
           addText("✅ Bonne réponse !");
           addText(
@@ -262,11 +203,10 @@ document.addEventListener("DOMContentLoaded", () => {
           );
           addButton("Continuer", chooseTypography);
         }
-      });
-    });
+      }
+    );
   }
 
-  /* --- TYPOGRAPHIE --- */
   function chooseTypography(){
     miniGame.innerHTML = "";
     addText("✍️ Typographie");
@@ -275,33 +215,130 @@ document.addEventListener("DOMContentLoaded", () => {
       true
     );
 
-    ["Style 1", "Style 2", "Style 3"].forEach((label, index) => {
-      addButton(label, () => {
+    addImages(
+      ["typo_good.png","typo_bad1.png","typo_bad2.png"],
+      (index)=>{
         if(index === 0){
           addText("✅ Bonne réponse !");
           addText(
-            "La typographie est très importante. Comme le logo, " +
-            "tu devras la garder pour tous tes designs.",
+            "La typographie est très importante. " +
+            "Comme le logo, tu devras la garder pour tous tes designs.",
             true
           );
-          addButton("Finaliser", endVisual);
+          addButton("Finaliser", endMiniGame2);
         }
-      });
-    });
+      }
+    );
   }
 
-  function endVisual(){
+  function endMiniGame2(){
     miniGame.innerHTML = "";
     addText(
       "🎉 Maintenant que tu as créé ton identité visuelle, " +
       "ta marque sera reconnue par tous et très rapidement."
     );
+
+    setTimeout(()=>{
+      animateIdentityVisual();
+    },800);
+  }
+
+  /* =====================================================
+     🖼️ ANIMATION IDENTITÉ VISUELLE
+  ===================================================== */
+  function animateIdentityVisual(){
+    const img = document.createElement("img");
+    img.src = "images/identity-final.png";
+    img.id = "flyerCenter";
+    document.body.appendChild(img);
+
+    setTimeout(()=>{
+      img.remove();
+      socialMediaDialog();
+    },1800);
+  }
+
+  /* =====================================================
+     💬 DIALOGUES – RÉSEAUX & CAMPAGNES
+  ===================================================== */
+  function socialMediaDialog(){
+    playDialog([
+      { speaker:"pirate3", text:"Les réseaux sociaux boostent ta visibilité." },
+      { speaker:"pirate2", text:"Et les campagnes bien ciblées attirent les bons clients." }
+    ], startMiniGame3);
+  }
+
+  /* =====================================================
+     🎮 MINI-JEU 3 – PLATEFORMES
+  ===================================================== */
+  function startMiniGame3(){
+    miniGame.classList.remove("hidden");
+    miniGame.innerHTML = "";
+
+    addText("📲 Associe chaque plateforme à son rôle");
+
+    addButton("TikTok / Instagram", ()=>{
+      addText("👉 Faire connaître la marque", true);
+
+      addButton("Shopify", ()=>{
+        addText("👉 Vendre en BtoC", true);
+
+        addButton("Facebook / LinkedIn", ()=>{
+          addText("👉 Vendre en BtoB et se faire connaître", true);
+          showBtoPanel();
+        });
+      });
+    });
+  }
+
+  /* =====================================================
+     📘 CADRAN BtoB / BtoC
+  ===================================================== */
+  function showBtoPanel(){
+    miniGame.innerHTML = "";
+
+    addText("📘 Différence BtoB / BtoC");
+    addText("BtoC : vente directe aux particuliers.", true);
+    addText("BtoB : vente à d’autres entreprises.", true);
+
+    addButton("Continuer", endQuest);
+  }
+
+  /* =====================================================
+     💎 FIN DE QUÊTE – GEMS + REDIRECTION
+  ===================================================== */
+  function endQuest(){
+    miniGame.classList.add("hidden");
+
+    loader.classList.remove("hidden");
+    loaderText.textContent = "Bravo, tu as gagné cette quête";
+
+    explodeGems();
+
+    localStorage.setItem("pirate5Unlocked", "true");
+
+    setTimeout(()=>{
+      window.location.href = "menu.html";
+    },2500);
+  }
+
+  function explodeGems(){
+    for(let i=0;i<28;i++){
+      const g = document.createElement("div");
+      g.className = "gem";
+      g.style.left = "50%";
+      g.style.top  = "50%";
+      g.style.setProperty("--x",`${Math.random()*400-200}px`);
+      g.style.setProperty("--y",`${Math.random()*400-200}px`);
+      document.body.appendChild(g);
+      setTimeout(()=>g.remove(),1400);
+    }
   }
 
   /* =====================================================
      🧩 HELPERS UI
   ===================================================== */
-  function addText(text, subtle = false){
+  function addText(text, subtle=false){
     const p = document.createElement("p");
     p.textContent = text;
     if(subtle) p.style.opacity = ".8";
@@ -315,9 +352,17 @@ document.addEventListener("DOMContentLoaded", () => {
     miniGame.appendChild(b);
   }
 
-  function addHTML(html){
+  function addImages(list, callback){
     const div = document.createElement("div");
-    div.innerHTML = html;
+    div.className = "visualChoices";
+
+    list.forEach((src, i)=>{
+      const img = document.createElement("img");
+      img.src = `images/${src}`;
+      img.addEventListener("click", ()=>callback(i));
+      div.appendChild(img);
+    });
+
     miniGame.appendChild(div);
   }
 
