@@ -18,7 +18,7 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   VIDÉO INTRO – SON
+   VIDÉO INTRO
 ===================================================== */
 introVideo.muted = true;
 introVideo.play().catch(()=>{});
@@ -76,13 +76,13 @@ dialogBox.onclick=()=>{
 pirate3.onclick=()=>{
   playDialog([
     {speaker:"pirate3",text:"Capitaine, ton trésor est prêt."},
-    {speaker:"pirate2",text:"Mais personne ne sait qu’il existe."},
-    {speaker:"pirate3",text:"Commençons par apprendre à communiquer."}
+    {speaker:"pirate2",text:"Mais sans communication, personne ne viendra."},
+    {speaker:"pirate3",text:"Voyons comment attirer le marché."}
   ], startMiniGame1);
 };
 
 /* =====================================================
-   🎮 MINI-JEU 1 – QCM COMMUNICATION
+   🎮 MINI-JEU 1 — QCM COMMUNICATION (COMPLET)
 ===================================================== */
 const quizSteps = [
   {
@@ -93,7 +93,8 @@ const quizSteps = [
       {text:"Montrer ton univers",correct:true},
       {text:"Forcer la vente immédiate",correct:false}
     ],
-    explanation:"Ils servent à créer de la visibilité et donner envie de découvrir ta marque."
+    explanation:
+      "Les réseaux sociaux servent avant tout à créer de la visibilité et à donner envie de découvrir ta marque."
   },
   {
     title:"📜 Newsletter",
@@ -103,7 +104,8 @@ const quizSteps = [
       {text:"Créer un lien dans le temps",correct:true},
       {text:"Envoyer des promotions tous les jours",correct:false}
     ],
-    explanation:"La newsletter entretient la relation sans pression commerciale."
+    explanation:
+      "La newsletter entretient une relation durable sans pression commerciale."
   },
   {
     title:"🕊️ Phoning / Mailing",
@@ -113,7 +115,8 @@ const quizSteps = [
       {text:"Créer une relation humaine",correct:true},
       {text:"Parler uniquement de prix",correct:false}
     ],
-    explanation:"Le contact direct bien utilisé crée de la confiance."
+    explanation:
+      "Un contact direct bien utilisé crée de la confiance."
   },
   {
     title:"⚓ Visite physique",
@@ -123,12 +126,13 @@ const quizSteps = [
       {text:"Créer une vraie connexion",correct:true},
       {text:"Ignorer ses attentes",correct:false}
     ],
-    explanation:"La présence physique renforce fortement la crédibilité."
+    explanation:
+      "La présence physique renforce fortement la crédibilité."
   }
 ];
 
 let quizIndex = 0;
-let selected = [];
+let selectedAnswers = [];
 
 function startMiniGame1(){
   quizIndex = 0;
@@ -137,43 +141,43 @@ function startMiniGame1(){
 }
 
 function renderQuiz(){
-  miniGame.innerHTML="";
-  selected=[];
+  miniGame.innerHTML = "";
+  selectedAnswers = [];
 
-  const step=quizSteps[quizIndex];
+  const step = quizSteps[quizIndex];
   addTitle(step.title);
   addText(step.question);
   addText("🔴 2 bonnes réponses", true);
 
   step.answers.forEach((a,i)=>{
-    const b=document.createElement("button");
-    b.textContent=a.text;
-    b.onclick=()=>{
-      if(!selected.includes(i)){
-        selected.push(i);
-        b.classList.add("selected");
+    const btn = document.createElement("button");
+    btn.textContent = a.text;
+    btn.onclick = ()=>{
+      if(!selectedAnswers.includes(i)){
+        selectedAnswers.push(i);
+        btn.classList.add("selected");
       }
       checkQuiz(step);
     };
-    miniGame.appendChild(b);
+    miniGame.appendChild(btn);
   });
 }
 
 function checkQuiz(step){
-  const correct=step.answers
+  const correctIndexes = step.answers
     .map((a,i)=>a.correct?i:null)
     .filter(i=>i!==null);
 
-  const ok =
-    correct.every(i=>selected.includes(i)) &&
-    selected.every(i=>step.answers[i].correct);
+  const valid =
+    correctIndexes.every(i=>selectedAnswers.includes(i)) &&
+    selectedAnswers.every(i=>step.answers[i].correct);
 
-  if(ok){
+  if(valid){
     addText("✅ Bonne réponse");
     addText(step.explanation);
-    addButton("Continuer",()=>{
+    addButton("Continuer", ()=>{
       quizIndex++;
-      if(quizIndex<quizSteps.length){
+      if(quizIndex < quizSteps.length){
         renderQuiz();
       } else {
         hideMiniGame();
@@ -186,7 +190,7 @@ function checkQuiz(step){
 function afterMiniGame1Dialog(){
   playDialog([
     {speaker:"pirate2",text:"Tu sais maintenant comment attirer l’attention."},
-    {speaker:"pirate3",text:"Passons à l’identité visuelle."}
+    {speaker:"pirate3",text:"Créons maintenant une identité mémorable."}
   ], startMiniGame2);
 }
 
@@ -216,7 +220,7 @@ function validateIdentity(){
 
   miniGame.innerHTML="";
   const img=document.createElement("img");
-  img.src="images/identity-final.png";
+  img.src="images/identiteevisuelle.JPG";
   img.style.width="220px";
   img.style.margin="20px auto";
   img.style.display="block";
