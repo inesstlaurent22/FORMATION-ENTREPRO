@@ -18,13 +18,14 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   VIDÉO INTRO
+   VIDÉO INTRO – SON
 ===================================================== */
 introVideo.muted = true;
 introVideo.play().catch(()=>{});
 
 toggleSound.onclick = () => {
   introVideo.muted = !introVideo.muted;
+  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
   introVideo.play().catch(()=>{});
 };
 
@@ -37,7 +38,7 @@ function endVideo(){
 }
 
 /* =====================================================
-   DIALOGUES (clic pour continuer)
+   DIALOGUES
 ===================================================== */
 let dialogs=[], dialogIndex=0, dialogCallback=null;
 
@@ -46,21 +47,23 @@ function playDialog(list, callback){
   dialogIndex=0;
   dialogCallback=callback;
   dialogBox.classList.remove("hidden");
-  showLine();
+  showDialog();
 }
 
-function showLine(){
+function showDialog(){
   const d=dialogs[dialogIndex];
   dialogText.textContent=d.text;
+
   const target=d.speaker==="pirate2"?pirate2:pirate3;
   const r=target.getBoundingClientRect();
+
   dialogBox.style.left=`${r.left+r.width/2-dialogBox.offsetWidth/2}px`;
   dialogBox.style.top=`${r.top-dialogBox.offsetHeight-20}px`;
 }
 
 dialogBox.onclick=()=>{
   dialogIndex++;
-  if(dialogIndex<dialogs.length) showLine();
+  if(dialogIndex<dialogs.length) showDialog();
   else{
     dialogBox.classList.add("hidden");
     dialogCallback && dialogCallback();
@@ -73,13 +76,13 @@ dialogBox.onclick=()=>{
 pirate3.onclick=()=>{
   playDialog([
     {speaker:"pirate3",text:"Capitaine, ton trésor est prêt."},
-    {speaker:"pirate2",text:"Mais personne ne le connaît."},
+    {speaker:"pirate2",text:"Mais personne ne sait qu’il existe."},
     {speaker:"pirate3",text:"Commençons par apprendre à communiquer."}
   ], startMiniGame1);
 };
 
 /* =====================================================
-   MINI-JEU 1 — COMMUNICATION (QCM COMPLET)
+   🎮 MINI-JEU 1 – QCM COMMUNICATION
 ===================================================== */
 const quizSteps = [
   {
@@ -90,8 +93,7 @@ const quizSteps = [
       {text:"Montrer ton univers",correct:true},
       {text:"Forcer la vente immédiate",correct:false}
     ],
-    explanation:
-      "Les réseaux sociaux servent avant tout à créer de la visibilité et donner envie de découvrir ta marque."
+    explanation:"Ils servent à créer de la visibilité et donner envie de découvrir ta marque."
   },
   {
     title:"📜 Newsletter",
@@ -101,8 +103,7 @@ const quizSteps = [
       {text:"Créer un lien dans le temps",correct:true},
       {text:"Envoyer des promotions tous les jours",correct:false}
     ],
-    explanation:
-      "La newsletter entretient la relation sans pression commerciale."
+    explanation:"La newsletter entretient la relation sans pression commerciale."
   },
   {
     title:"🕊️ Phoning / Mailing",
@@ -112,8 +113,7 @@ const quizSteps = [
       {text:"Créer une relation humaine",correct:true},
       {text:"Parler uniquement de prix",correct:false}
     ],
-    explanation:
-      "Le contact direct bien utilisé crée de la confiance."
+    explanation:"Le contact direct bien utilisé crée de la confiance."
   },
   {
     title:"⚓ Visite physique",
@@ -123,13 +123,12 @@ const quizSteps = [
       {text:"Créer une vraie connexion",correct:true},
       {text:"Ignorer ses attentes",correct:false}
     ],
-    explanation:
-      "La présence physique renforce fortement la crédibilité."
+    explanation:"La présence physique renforce fortement la crédibilité."
   }
 ];
 
 let quizIndex = 0;
-let selectedAnswers = [];
+let selected = [];
 
 function startMiniGame1(){
   quizIndex = 0;
@@ -138,117 +137,109 @@ function startMiniGame1(){
 }
 
 function renderQuiz(){
-  miniGame.innerHTML = "";
-  const step = quizSteps[quizIndex];
-  selectedAnswers = [];
+  miniGame.innerHTML="";
+  selected=[];
 
+  const step=quizSteps[quizIndex];
   addTitle(step.title);
   addText(step.question);
   addText("🔴 2 bonnes réponses", true);
-
-  const answersWrap = document.createElement("div");
-  answersWrap.className="visualChoices";
 
   step.answers.forEach((a,i)=>{
     const b=document.createElement("button");
     b.textContent=a.text;
     b.onclick=()=>{
-      if(!selectedAnswers.includes(i)){
-        selectedAnswers.push(i);
+      if(!selected.includes(i)){
+        selected.push(i);
         b.classList.add("selected");
       }
       checkQuiz(step);
     };
-    answersWrap.appendChild(b);
+    miniGame.appendChild(b);
   });
-
-  miniGame.appendChild(answersWrap);
-
-  const feedback=document.createElement("div");
-  feedback.id="quizFeedback";
-  miniGame.appendChild(feedback);
 }
 
 function checkQuiz(step){
-  const correctIndexes = step.answers
+  const correct=step.answers
     .map((a,i)=>a.correct?i:null)
     .filter(i=>i!==null);
 
-  const allCorrect =
-    correctIndexes.every(i=>selectedAnswers.includes(i)) &&
-    selectedAnswers.every(i=>step.answers[i].correct);
+  const ok =
+    correct.every(i=>selected.includes(i)) &&
+    selected.every(i=>step.answers[i].correct);
 
-  if(allCorrect){
-    const f=document.getElementById("quizFeedback");
-    f.innerHTML = `
-      <p style="color:gold;font-weight:bold">✅ Bonne réponse</p>
-      <p>${step.explanation}</p>
-    `;
+  if(ok){
+    addText("✅ Bonne réponse");
+    addText(step.explanation);
     addButton("Continuer",()=>{
       quizIndex++;
       if(quizIndex<quizSteps.length){
         renderQuiz();
       } else {
         hideMiniGame();
-        startMiniGame2();
+        afterMiniGame1Dialog();
       }
     });
   }
 }
 
+function afterMiniGame1Dialog(){
+  playDialog([
+    {speaker:"pirate2",text:"Tu sais maintenant comment attirer l’attention."},
+    {speaker:"pirate3",text:"Passons à l’identité visuelle."}
+  ], startMiniGame2);
+}
+
 /* =====================================================
-   MINI-JEU 2 — IDENTITÉ VISUELLE (IMAGES)
+   🎨 MINI-JEU 2 – IDENTITÉ VISUELLE (HORIZONTAL)
 ===================================================== */
+let identityDone=false;
+
 function startMiniGame2(){
   showMiniGame();
   addTitle("🎨 Identité visuelle");
-  addText("Une marque mémorable repose sur 3 piliers.");
+  addText("Logo, couleurs et typographie doivent être cohérents.");
 
-  addText("1️⃣ Choisis ton logo (choix libre)");
-  addImages(
-    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
-    ()=>stepColors()
-  );
+  const row=document.createElement("div");
+  row.className="visualChoices";
+
+  addImageGroup(["images/logo1.png","images/logo2.png","images/logo3.png"],row,()=>{});
+  addImageGroup(["images/colors1.png","images/colors2.png","images/colors3.png"],row,(i)=>{if(i===1)validateIdentity();});
+  addImageGroup(["images/typo1.png","images/typo2.png","images/typo3.png"],row,(i)=>{if(i===0)validateIdentity();});
+
+  miniGame.appendChild(row);
 }
 
-function stepColors(){
-  showMiniGame();
-  addText("2️⃣ Choisis les bonnes couleurs");
+function validateIdentity(){
+  if(identityDone) return;
+  identityDone=true;
 
-  addImages(
-    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
-    (i)=>{
-      if(i===1){
-        addSuccess(
-          "Les couleurs doivent être cohérentes avec le style du logo. " +
-          "Elles seront utilisées sur flyers, newsletters et réseaux sociaux."
-        );
-        addButton("Continuer", stepTypo);
-      }
-    }
-  );
+  miniGame.innerHTML="";
+  const img=document.createElement("img");
+  img.src="images/identity-final.png";
+  img.style.width="220px";
+  img.style.margin="20px auto";
+  img.style.display="block";
+  miniGame.appendChild(img);
+
+  addText("✅ Identité visuelle créée !");
+  addText("Les clients reconnaîtront immédiatement ta marque.");
+
+  setTimeout(()=>{
+    hideMiniGame();
+    afterIdentityDialog();
+  },1500);
 }
 
-function stepTypo(){
-  showMiniGame();
-  addText("3️⃣ Choisis la typographie");
-
-  addImages(
-    ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
-    (i)=>{
-      if(i===0){
-        addSuccess(
-          "La typographie est très importante. " +
-          "Comme le logo, elle doit rester la même sur tous tes designs."
-        );
-        addButton("Continuer", startMiniGame3);
-      }
-    }
-  );
+function afterIdentityDialog(){
+  playDialog([
+    {speaker:"pirate2",text:"On te reconnaît désormais au premier regard."},
+    {speaker:"pirate3",text:"Voyons maintenant où communiquer."}
+  ], startMiniGame3);
 }
 
 /* =====================================================
-   MINI-JEU 3 — RELIER PLATEFORMES & OBJECTIFS
+   🎮 MINI-JEU 3 – LIER PLATEFORMES
 ===================================================== */
 function startMiniGame3(){
   showMiniGame();
@@ -307,22 +298,21 @@ function startMiniGame3(){
 }
 
 /* =====================================================
-   FIN — LOADER + GEMS
+   FIN
 ===================================================== */
 function endQuest(){
   hideMiniGame();
   showWinLoader();
   explodeGems();
-  setTimeout(()=>window.location.href="menu.html",3000);
+  setTimeout(()=>window.location.href="menu.html",2500);
 }
 
 /* =====================================================
-   HELPERS UI
+   HELPERS
 ===================================================== */
 function showMiniGame(){
   miniGame.innerHTML="";
   miniGame.classList.remove("hidden");
-  miniGame.scrollTop=0;
 }
 
 function hideMiniGame(){
@@ -349,30 +339,19 @@ function addButton(label,action){
   miniGame.appendChild(b);
 }
 
-function addImages(images,callback){
-  const wrap=document.createElement("div");
-  wrap.className="visualChoices";
+function addImageGroup(images,container,callback){
+  const block=document.createElement("div");
+  block.style.display="flex";
+  block.style.gap="10px";
   images.forEach((src,i)=>{
     const img=document.createElement("img");
     img.src=src;
     img.onclick=()=>callback(i);
-    wrap.appendChild(img);
+    block.appendChild(img);
   });
-  miniGame.appendChild(wrap);
+  container.appendChild(block);
 }
 
-function addSuccess(text){
-  const p=document.createElement("p");
-  p.style.color="gold";
-  p.style.fontWeight="bold";
-  p.textContent="✅ Bonne réponse";
-  miniGame.appendChild(p);
-  addText(text);
-}
-
-/* =====================================================
-   SVG LINE
-===================================================== */
 function drawLine(svg,from,to){
   const r1=from.getBoundingClientRect();
   const r2=to.getBoundingClientRect();
@@ -383,13 +362,10 @@ function drawLine(svg,from,to){
   line.setAttribute("x2",r2.left+r2.width/2-r.left);
   line.setAttribute("y2",r2.top-r.top);
   line.setAttribute("stroke","gold");
-  line.setAttribute("stroke-width","4");
+  line.setAttribute("stroke-width","3");
   svg.appendChild(line);
 }
 
-/* =====================================================
-   LOADER DE VICTOIRE
-===================================================== */
 function showWinLoader(){
   const fade=document.createElement("div");
   fade.id="fadeScreen";
@@ -404,15 +380,15 @@ function showWinLoader(){
 }
 
 function explodeGems(){
-  for(let i=0;i<30;i++){
+  for(let i=0;i<20;i++){
     const g=document.createElement("div");
     g.className="gem";
     g.style.left="50%";
     g.style.top="50%";
-    g.style.setProperty("--x",`${Math.random()*400-200}px`);
-    g.style.setProperty("--y",`${Math.random()*400-200}px`);
+    g.style.setProperty("--x",`${Math.random()*300-150}px`);
+    g.style.setProperty("--y",`${Math.random()*300-150}px`);
     document.body.appendChild(g);
-    setTimeout(()=>g.remove(),1500);
+    setTimeout(()=>g.remove(),1200);
   }
 }
 
