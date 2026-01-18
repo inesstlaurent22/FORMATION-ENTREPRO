@@ -24,31 +24,6 @@ body{
 }
 
 /* =====================================================
-   🔘 BOUTONS – STYLE PIRATE GLOBAL
-===================================================== */
-button{
-  background:linear-gradient(145deg,#e8c77a,#b48b3c);
-  border:3px solid #3b240f;
-  border-radius:12px;
-  color:#000;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-  padding:12px 22px;
-  transition:transform .2s ease, box-shadow .2s ease;
-  box-shadow:inset 0 0 6px rgba(255,255,255,.4);
-}
-
-button:hover{
-  transform:scale(1.06);
-  box-shadow:0 0 18px rgba(255,215,100,.85);
-}
-
-button.selected{
-  box-shadow:0 0 18px rgba(255,215,100,.9);
-}
-
-/* =====================================================
    🎬 VIDÉO INTRO
 ===================================================== */
 .fullscreen{
@@ -77,7 +52,42 @@ button.selected{
 }
 
 /* =====================================================
-   🌊 SCÈNE PRINCIPALE
+   🔘 BOUTONS – STYLE PIRATE
+===================================================== */
+button{
+  background:linear-gradient(145deg,#e8c77a,#b48b3c);
+  border:3px solid #3b240f;
+  border-radius:12px;
+  color:#000;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  padding:12px 22px;
+  transition:transform .2s, box-shadow .2s;
+  box-shadow:inset 0 0 6px rgba(255,255,255,.4);
+}
+
+button:hover{
+  transform:scale(1.06);
+  box-shadow:0 0 18px rgba(255,215,100,.85);
+}
+
+/* Plateformes (mini-jeu 3) */
+.btn-platform{
+  background:linear-gradient(145deg,#7aaae8,#3c6db4);
+  border-color:#10243b;
+  color:#000;
+}
+
+/* Objectifs (mini-jeu 3) */
+.btn-target{
+  background:linear-gradient(145deg,#e8a37a,#b45a3c);
+  border-color:#3b1c10;
+  color:#000;
+}
+
+/* =====================================================
+   🌊 SCÈNE
 ===================================================== */
 #scene{
   position:fixed;
@@ -161,6 +171,7 @@ button.selected{
   border:5px solid #c9a24d;
   border-radius:20px;
   z-index:2000;
+  color:#fff;
   text-align:center;
   box-shadow:0 0 35px rgba(0,0,0,.85);
 }
@@ -176,53 +187,8 @@ button.selected{
   line-height:1.45;
 }
 
-#miniGameContainer button{
-  margin-top:18px;
-}
-
 /* =====================================================
-   🔔 NOTIFICATIONS (MINI-JEU 1)
-===================================================== */
-.notification{
-  position:fixed;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  width:90%;
-  max-width:520px;
-  padding:18px;
-  background:rgba(0,0,0,.95);
-  border-radius:14px;
-  text-align:center;
-  z-index:5000;
-  font-size:16px;
-}
-
-.notification.success{
-  border:3px solid limegreen;
-}
-
-.notification.error{
-  border:3px solid red;
-}
-
-/* =====================================================
-   💥 VIBRATION ÉCRAN (MAUVAISE RÉPONSE)
-===================================================== */
-body.shake{
-  animation:shake .35s;
-}
-
-@keyframes shake{
-  0%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  50%{transform:translateX(6px)}
-  75%{transform:translateX(-6px)}
-  100%{transform:translateX(0)}
-}
-
-/* =====================================================
-   🎨 MINI-JEU 2 – IMAGES
+   🖼️ CHOIX VISUELS (mini-jeu 2 & 3)
 ===================================================== */
 .visualChoices{
   display:flex;
@@ -242,34 +208,52 @@ body.shake{
 }
 
 .visualChoices img:hover{
-  transform:scale(1.1);
+  transform:scale(1.08);
   border-color:gold;
-  box-shadow:0 0 14px rgba(255,215,100,.8);
+  box-shadow:0 0 16px rgba(255,215,100,.8);
 }
 
 /* =====================================================
-   🧭 MINI-JEU 3 – STYLES DIFFÉRENCIÉS
+   🔔 NOTIFICATIONS (mini-jeu 1)
 ===================================================== */
-.btn-platform{
-  background:linear-gradient(145deg,#7aaae8,#3c6db4);
-  border-color:#10243b;
-  color:#000;
+.notification{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:16px 24px;
+  background:#111;
+  border-radius:14px;
+  z-index:4000;
+  font-size:16px;
+  box-shadow:0 0 20px rgba(0,0,0,.8);
 }
 
-.btn-target{
-  background:linear-gradient(145deg,#e8a37a,#b45a3c);
-  border-color:#3b1c10;
-  color:#000;
+.notification.success{
+  border:3px solid #00ff88;
 }
 
-/* SVG traits */
-svg{
-  pointer-events:none;
-  z-index:3000;
+.notification.error{
+  border:3px solid #ff3b3b;
 }
 
 /* =====================================================
-   🌑 LOADER FIN DE QUÊTE
+   📳 VIBRATION ÉCRAN (MAUVAISE RÉPONSE)
+===================================================== */
+.shake{
+  animation:shake .35s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-6px)}
+  100%{transform:translateX(0)}
+}
+
+/* =====================================================
+   🌑 LOADER / OVERLAY (IDENTITÉ & FIN)
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -282,12 +266,12 @@ svg{
 }
 
 .loaderBox{
-  padding:26px 38px;
+  padding:26px 36px;
   background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
   border:4px solid #c9a24d;
-  border-radius:16px;
+  border-radius:18px;
+  color:#fff;
   font-size:22px;
-  color:gold;
   text-align:center;
   box-shadow:0 0 40px rgba(255,215,100,.6);
 }
@@ -296,16 +280,17 @@ svg{
    📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
+
   #miniGameContainer{
     width:90%;
     padding:24px;
   }
 
-  .visualChoices img{
-    width:100px;
-  }
-
   #dialogBox{
     max-width:90%;
+  }
+
+  .visualChoices img{
+    width:90px;
   }
 }
