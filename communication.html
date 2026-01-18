@@ -11,58 +11,51 @@
 
 <body>
 
-  <!-- =====================================================
-       🎬 VIDÉO INTRO
-  ====================================================== -->
-  <div id="videoIntro" class="fullscreen">
-    <video
-      id="introVideo"
-      src="videos/Communicationvideo2.MOV"
-      playsinline
-      muted
-    ></video>
+<!-- =====================================================
+     🎬 VIDÉO INTRO
+====================================================== -->
+<div id="videoIntro" class="fullscreen">
+  <video
+    id="introVideo"
+    src="videos/Communicationvideo2.MOV"
+    playsinline
+    muted
+  ></video>
 
-    <div class="video-controls">
-      <button id="toggleSound" class="btn-pirate">🔊</button>
-      <button id="closeVideo" class="btn-pirate">✖</button>
-    </div>
+  <div class="video-controls">
+    <button id="toggleSound" class="btn-pirate">🔊</button>
+    <button id="closeVideo" class="btn-pirate">✖</button>
+  </div>
+</div>
+
+<!-- =====================================================
+     🌊 SCÈNE PRINCIPALE
+====================================================== -->
+<div id="scene" class="hidden">
+
+  <!-- Pirates -->
+  <div id="pirate2" class="pirate"></div>
+  <div id="pirate3" class="pirate clickable"></div>
+
+  <!-- =================================================
+       💬 BULLE DE DIALOGUE
+       (clic sur la bulle pour continuer)
+  ================================================== -->
+  <div id="dialogBox" class="hidden">
+    <p id="dialogText"></p>
   </div>
 
-  <!-- =====================================================
-       ⏳ LOADER GLOBAL
-  ====================================================== -->
-  <div id="loader" class="hidden">
-    <span id="loaderText">Chargement…</span>
-  </div>
+</div>
 
-  <!-- =====================================================
-       🌊 SCÈNE PRINCIPALE
-  ====================================================== -->
-  <div id="scene" class="hidden">
+<!-- =====================================================
+     🎮 CONTENEUR MINI-JEUX
+====================================================== -->
+<div id="miniGameContainer" class="hidden"></div>
 
-    <!-- Pirates -->
-    <div id="pirate2" class="pirate"></div>
-    <div id="pirate3" class="pirate clickable"></div>
-
-    <!-- =================================================
-         💬 BULLE DE DIALOGUE
-         (clic sur la bulle pour continuer)
-    ================================================== -->
-    <div id="dialogBox" class="hidden">
-      <p id="dialogText"></p>
-    </div>
-
-  </div>
-
-  <!-- =====================================================
-       🎮 CONTENEUR MINI-JEUX
-  ====================================================== -->
-  <div id="miniGameContainer" class="hidden"></div>
-
-  <!-- =====================================================
-       📜 SCRIPT PRINCIPAL
-  ====================================================== -->
-  <script src="communication.js"></script>
+<!-- =====================================================
+     📜 SCRIPT PRINCIPAL
+====================================================== -->
+<script src="communication.js"></script>
 
 </body>
 </html>
