@@ -112,7 +112,18 @@ function addText(t,cls=""){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 – COMMUNICATION
+   🔔 NOTIFICATION (MINI-JEU 1)
+===================================================== */
+function showNotification(text){
+  const n=document.createElement("div");
+  n.className="notification";
+  n.textContent=text;
+  document.body.appendChild(n);
+  setTimeout(()=>n.remove(),2200);
+}
+
+/* =====================================================
+   🎮 MINI-JEU 1 – COMMUNICATION (NOTIFICATIONS)
 ===================================================== */
 const quizSteps = [
   {
@@ -157,9 +168,7 @@ const quizSteps = [
   }
 ];
 
-let quizIndex=0;
-let selected=[];
-let locked=false;
+let quizIndex=0, selected=[], locked=false;
 
 function startMiniGame1(){
   quizIndex=0;
@@ -194,20 +203,13 @@ function renderQuiz(){
 }
 
 function checkQuiz(step){
-  const correct=step.answers
-    .map((a,i)=>a.correct?i:null)
-    .filter(i=>i!==null);
-
-  const ok=
-    correct.every(i=>selected.includes(i)) &&
-    selected.every(i=>step.answers[i].correct);
+  const correct=step.answers.map((a,i)=>a.correct?i:null).filter(i=>i!==null);
+  const ok=correct.every(i=>selected.includes(i)) &&
+           selected.every(i=>step.answers[i].correct);
 
   if(ok){
     locked=true;
-    miniGame.innerHTML="";
-
-    addText("Bravo !","bravoText");
-    addText(step.explanation,"explainText");
+    showNotification(step.explanation);
 
     setTimeout(()=>{
       quizIndex++;
@@ -217,7 +219,7 @@ function checkQuiz(step){
         hideMiniGame();
         afterMiniGame1Dialog();
       }
-    },1600);
+    },1800);
   }
 }
 
@@ -226,19 +228,18 @@ function checkQuiz(step){
 ===================================================== */
 function afterMiniGame1Dialog(){
   playDialog([
-    {speaker:"pirate2",text:"Tu sais maintenant comment attirer l’attention."},
-    {speaker:"pirate3",text:"Passons à l’identité visuelle."}
+    {speaker:"pirate2",text:"Parfait. Tu maîtrises la communication."},
+    {speaker:"pirate3",text:"Créons maintenant ton identité visuelle."}
   ], startMiniGame2);
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 – IDENTITÉ VISUELLE
+   🎨 MINI-JEU 2 – IMAGES + SABLIER BLOQUANT
 ===================================================== */
 function startMiniGame2(){
   showMiniGame();
   addTitle("🎨 Identité visuelle");
   addText("Choisis ton logo.");
-
   loadImages(
     ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
     ()=>startColorsStep()
@@ -246,14 +247,14 @@ function startMiniGame2(){
 }
 
 function loadImages(images,callback){
-  const hourglass=document.createElement("div");
-  hourglass.className="hourglass";
-  hourglass.textContent="⏳";
-  miniGame.appendChild(hourglass);
+  const overlay=document.createElement("div");
+  overlay.className="imageLoader";
+  overlay.innerHTML="⏳";
+  miniGame.appendChild(overlay);
 
   let loaded=0;
   const wrap=document.createElement("div");
-  wrap.className="visualChoices";
+  wrap.className="visualChoices hidden";
 
   images.forEach((src,i)=>{
     const img=new Image();
@@ -261,7 +262,8 @@ function loadImages(images,callback){
     img.onload=()=>{
       loaded++;
       if(loaded===images.length){
-        hourglass.remove();
+        overlay.remove();
+        wrap.classList.remove("hidden");
       }
     };
     img.onclick=()=>callback(i);
@@ -287,8 +289,7 @@ function startColorsStep(){
     ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
     (i)=>{
       if(i===1){
-        addText("Bravo !","bravoText");
-        setTimeout(startTypoStep,1200);
+        setTimeout(startTypoStep,800);
       }
     }
   );
@@ -309,6 +310,9 @@ function startTypoStep(){
   );
 }
 
+/* =====================================================
+   🔎 ZOOM IMAGE IDENTITÉ
+===================================================== */
 function showIdentityResult(){
   const fade=document.createElement("div");
   fade.id="fadeScreen";
@@ -316,15 +320,23 @@ function showIdentityResult(){
   const box=document.createElement("div");
   box.className="loaderBox";
 
-  const title=document.createElement("div");
-  title.className="winBravo softGlow";
-  title.textContent="L’identité visuelle est prête";
+  const zoomBtn=document.createElement("button");
+  zoomBtn.textContent="🔎";
 
   const img=document.createElement("img");
-  img.src="images/Identiteevisuelle.JPG";
+  img.src="images/identiteevisuelle.JPG";
   img.style.width="220px";
-  img.style.marginTop="20px";
-  img.style.cursor="pointer";
+  img.style.marginTop="10px";
+
+  zoomBtn.onclick=()=>{
+    const z=document.createElement("div");
+    z.className="zoomOverlay";
+    const zi=document.createElement("img");
+    zi.src=img.src;
+    z.appendChild(zi);
+    z.onclick=()=>z.remove();
+    document.body.appendChild(z);
+  };
 
   img.onclick=()=>{
     fade.remove();
@@ -332,7 +344,7 @@ function showIdentityResult(){
     afterMiniGame2Dialog();
   };
 
-  box.appendChild(title);
+  box.appendChild(zoomBtn);
   box.appendChild(img);
   fade.appendChild(box);
   document.body.appendChild(fade);
@@ -343,24 +355,23 @@ function showIdentityResult(){
 ===================================================== */
 function afterMiniGame2Dialog(){
   playDialog([
-    {speaker:"pirate2",text:"Ta marque est maintenant reconnaissable."},
-    {speaker:"pirate3",text:"Voyons quel type de communication utiliser."}
+    {speaker:"pirate2",text:"Ton identité visuelle est prête."},
+    {speaker:"pirate3",text:"Voyons maintenant les canaux de communication."}
   ], startMiniGame3);
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3
+   🎮 MINI-JEU 3 – LIGNES ENTRE BOUTONS
 ===================================================== */
 function startMiniGame3(){
   showMiniGame();
   addTitle("Choisis le bon type de communication");
 
-  addText(
-    "Indice : BtoB = entreprise à entreprise / BtoC = entreprise à particulier"
-  );
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.classList.add("linkLayer");
+  miniGame.appendChild(svg);
 
-  let selected=null;
-  let done=0;
+  let selected=null, done=0;
 
   const platforms=[
     {label:"Instagram & TikTok",target:"know"},
@@ -378,22 +389,21 @@ function startMiniGame3(){
     const b=document.createElement("button");
     b.className="btn-platform";
     b.textContent=p.label;
-    b.onclick=()=>selected=p;
+    b.onclick=()=>selected=b;
     miniGame.appendChild(b);
   });
 
-  const sep=document.createElement("div");
-  sep.className="separator";
-  miniGame.appendChild(sep);
+  miniGame.appendChild(document.createElement("hr"));
 
   Object.keys(targets).forEach(k=>{
     const b=document.createElement("button");
     b.className="btn-target";
     b.textContent=targets[k];
     b.onclick=()=>{
-      if(selected && selected.target===k){
-        done++;
+      if(selected){
+        drawLine(svg,selected,b);
         selected=null;
+        done++;
         if(done===3) showQuestWinLoader();
       }
     };
@@ -402,28 +412,33 @@ function startMiniGame3(){
 }
 
 /* =====================================================
+   🖊️ DESSIN LIGNE
+===================================================== */
+function drawLine(svg,a,b){
+  const ra=a.getBoundingClientRect();
+  const rb=b.getBoundingClientRect();
+  const rm=miniGame.getBoundingClientRect();
+
+  const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+  line.setAttribute("x1",ra.left+ra.width/2-rm.left);
+  line.setAttribute("y1",ra.top+ra.height/2-rm.top);
+  line.setAttribute("x2",rb.left+rb.width/2-rm.left);
+  line.setAttribute("y2",rb.top+rb.height/2-rm.top);
+  line.setAttribute("stroke","gold");
+  line.setAttribute("stroke-width","3");
+  svg.appendChild(line);
+}
+
+/* =====================================================
    🏆 FIN
 ===================================================== */
 function showQuestWinLoader(){
   hideMiniGame();
-
   const fade=document.createElement("div");
   fade.id="fadeScreen";
-
-  const box=document.createElement("div");
-  box.className="loaderBox";
-
-  const t=document.createElement("div");
-  t.className="winBravo softGlow";
-  t.textContent="Bravo, tu as terminé cette quête";
-
-  box.appendChild(t);
-  fade.appendChild(box);
+  fade.innerHTML="<div class='loaderBox'>🏆 Bravo, quête terminée</div>";
   document.body.appendChild(fade);
-
-  setTimeout(()=>{
-    window.location.href="menu.html";
-  },2500);
+  setTimeout(()=>window.location.href="menu.html",2500);
 }
 
 });
