@@ -187,12 +187,15 @@ button.selected{
   margin-top:6px;
 }
 
+/* “Bravo !” en jaune, non gras */
 .bravoText{
+  color:gold;
   margin-bottom:16px;
   font-size:18px;
   font-weight:normal;
 }
 
+/* Explications plus grandes et en gras */
 .explainText{
   font-size:19px;
   font-weight:bold;
@@ -246,7 +249,7 @@ button.selected{
 }
 
 /* =====================================================
-   ⏳ LOADER SABLIER
+   ⏳ LOADER SABLIER (chargement réel)
 ===================================================== */
 .hourglass{
   font-size:42px;
@@ -283,23 +286,26 @@ button.selected{
   box-shadow:0 0 40px rgba(255,215,100,.6);
 }
 
+/* Animation douce pour “L’identité visuelle est prête” */
 .winBravo{
   font-size:34px;
   color:gold;
-  animation:goldPulse 1.2s infinite;
 }
 
-@keyframes goldPulse{
-  0%{transform:scale(1);text-shadow:0 0 6px gold}
-  50%{transform:scale(1.12);text-shadow:0 0 26px gold}
-  100%{transform:scale(1);text-shadow:0 0 6px gold}
+.softGlow{
+  animation:softGlow 2.6s infinite ease-in-out;
+}
+
+@keyframes softGlow{
+  0%{text-shadow:0 0 4px rgba(255,215,100,.35)}
+  50%{text-shadow:0 0 10px rgba(255,215,100,.7)}
+  100%{text-shadow:0 0 4px rgba(255,215,100,.35)}
 }
 
 /* =====================================================
    📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
-
   #miniGameContainer{
     width:90%;
     padding:24px;
@@ -312,5 +318,4 @@ button.selected{
   #dialogBox{
     max-width:90%;
   }
-
 }
