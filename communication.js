@@ -247,22 +247,28 @@ function checkQuiz(step){
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 – IDENTITÉ VISUELLE (VERSION FINALE)
+   💬 DIALOGUES APRÈS MINI-JEU 1
 ===================================================== */
-
-let identityDone = false;
+function afterMiniGame1Dialog(){
+  playDialog([
+    { speaker:"pirate2", text:"Parfait. Tu sais maintenant comment attirer l’attention." },
+    { speaker:"pirate3", text:"Mais pour être reconnu, il faut une identité forte." }
+  ], startMiniGame2);
+}
 
 /* =====================================================
-   INTRO – DÉFINITION
+   🎨 MINI-JEU 2 – IDENTITÉ VISUELLE (SÉQUENTIEL)
 ===================================================== */
+let identityDone = false;
+
+/* INTRO */
 function startMiniGame2(){
   identityDone = false;
   showMiniGame();
 
   addTitle("🎨 Identité visuelle");
   addText(
-    "L’identité visuelle représente l’apparence de ta marque. " +
-    "Elle permet aux clients de te reconnaître immédiatement."
+    "L’identité visuelle permet aux clients de reconnaître ta marque au premier regard."
   );
   addText(
     "Elle est composée du logo, des couleurs et de la typographie."
@@ -275,9 +281,7 @@ function startMiniGame2(){
   };
 }
 
-/* =====================================================
-   ÉTAPE 1 – LOGO (CHOIX LIBRE)
-===================================================== */
+/* LOGO – choix libre */
 function startLogoStep(){
   showMiniGame();
   addTitle("🎨 Identité visuelle");
@@ -289,9 +293,7 @@ function startLogoStep(){
   );
 }
 
-/* =====================================================
-   ÉTAPE 2 – COULEURS
-===================================================== */
+/* COULEURS – 1 bonne réponse */
 function startColorsStep(){
   showMiniGame();
   addTitle("🎨 Identité visuelle");
@@ -304,7 +306,7 @@ function startColorsStep(){
         addText("✅ Bonne réponse");
         addText(
           "Les couleurs doivent être cohérentes avec le style du logo. " +
-          "Ce seront tes couleurs principales pour les flyers, newsletters et réseaux sociaux."
+          "Ce seront tes couleurs principales pour tous tes supports."
         );
         setTimeout(startTypoStep, 1200);
       }
@@ -312,9 +314,7 @@ function startColorsStep(){
   );
 }
 
-/* =====================================================
-   ÉTAPE 3 – TYPOGRAPHIE
-===================================================== */
+/* TYPO – 1 bonne réponse */
 function startTypoStep(){
   showMiniGame();
   addTitle("🎨 Identité visuelle");
@@ -326,8 +326,8 @@ function startTypoStep(){
       if(i === 0){
         addText("✅ Bonne réponse");
         addText(
-          "La typographie est très importante. " +
-          "Comme le logo, elle doit rester la même sur tous tes supports."
+          "La typographie est essentielle. " +
+          "Elle doit rester la même sur tous tes designs."
         );
         setTimeout(showIdentityLoader, 1200);
       }
@@ -335,9 +335,7 @@ function startTypoStep(){
   );
 }
 
-/* =====================================================
-   LOADER FINAL + IMAGE IDENTITÉ VISUELLE
-===================================================== */
+/* LOADER + IMAGE IDENTITÉ */
 function showIdentityLoader(){
   if(identityDone) return;
   identityDone = true;
@@ -366,70 +364,75 @@ function showIdentityLoader(){
   setTimeout(()=>{
     fade.remove();
     hideMiniGame();
-    afterIdentityDialog();
-  }, 2000);
+    afterMiniGame2Dialog();
+  }, 2200);
 }
 
 /* =====================================================
-   DIALOGUES APRÈS MINI-JEU 2
+   💬 DIALOGUES APRÈS MINI-JEU 2
 ===================================================== */
-function afterIdentityDialog(){
+function afterMiniGame2Dialog(){
   playDialog([
-    {speaker:"pirate2", text:"Ta marque est maintenant reconnaissable."},
-    {speaker:"pirate3", text:"Voyons comment la faire connaître au plus grand nombre."}
+    { speaker:"pirate2", text:"On reconnaîtra désormais ta marque en un instant." },
+    { speaker:"pirate3", text:"Voyons maintenant où communiquer efficacement." }
   ], startMiniGame3);
 }
-   
+
 /* =====================================================
-   🎮 MINI-JEU 3 – LIER PLATEFORMES
+   🎮 MINI-JEU 3 – RELIER PLATEFORMES & OBJECTIFS
 ===================================================== */
 function startMiniGame3(){
   showMiniGame();
   addTitle("📲 Canaux de communication");
   addText("Relie chaque plateforme à son objectif.");
 
-  let selected=null, done=0;
+  let selected = null;
+  let done = 0;
 
-  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
-  svg.style.position="absolute";
-  svg.style.inset="0";
-  svg.style.pointerEvents="none";
+  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.style.position = "absolute";
+  svg.style.inset = "0";
+  svg.style.pointerEvents = "none";
   miniGame.appendChild(svg);
 
-  const platforms=[
-    {label:"Instagram & TikTok",target:"know"},
-    {label:"Shopify",target:"btoc"},
-    {label:"LinkedIn & Facebook",target:"btob"}
+  const platforms = [
+    { label:"Instagram & TikTok", target:"know" },
+    { label:"Shopify", target:"btoc" },
+    { label:"LinkedIn & Facebook", target:"btob" }
   ];
 
-  const targets={
+  const targets = {
     know:"Se faire connaître",
     btoc:"Vendre en BtoC",
     btob:"Vendre en BtoB (et se faire connaître)"
   };
 
-  const top=document.createElement("div");
-  top.className="visualChoices";
+  const top = document.createElement("div");
+  top.className = "visualChoices";
+
   platforms.forEach(p=>{
-    const b=document.createElement("button");
-    b.className="btn-platform";
-    b.textContent=p.label;
-    b.onclick=()=>selected={btn:b,...p};
+    const b = document.createElement("button");
+    b.className = "btn-platform";
+    b.textContent = p.label;
+    b.onclick = () => selected = { btn:b, ...p };
     top.appendChild(b);
   });
 
-  const bottom=document.createElement("div");
-  bottom.className="visualChoices";
+  const bottom = document.createElement("div");
+  bottom.className = "visualChoices";
+
   Object.keys(targets).forEach(k=>{
-    const b=document.createElement("button");
-    b.className="btn-target";
-    b.textContent=targets[k];
-    b.onclick=()=>{
-      if(selected && selected.target===k){
-        drawLine(svg,selected.btn,b);
-        selected=null;
+    const b = document.createElement("button");
+    b.className = "btn-target";
+    b.textContent = targets[k];
+    b.onclick = () => {
+      if(selected && selected.target === k){
+        drawLine(svg, selected.btn, b);
+        selected = null;
         done++;
-        if(done===3) endQuest();
+        if(done === 3){
+          setTimeout(showQuestWinLoader, 800);
+        }
       }
     };
     bottom.appendChild(b);
@@ -440,98 +443,28 @@ function startMiniGame3(){
 }
 
 /* =====================================================
-   FIN
+   🏆 LOADER FINAL – FIN DE QUÊTE
 ===================================================== */
-function endQuest(){
+function showQuestWinLoader(){
   hideMiniGame();
-  showWinLoader();
-  explodeGems();
-  setTimeout(()=>window.location.href="menu.html",2500);
-}
 
-/* =====================================================
-   HELPERS
-===================================================== */
-function showMiniGame(){
-  miniGame.innerHTML="";
-  miniGame.classList.remove("hidden");
-}
+  const fade = document.createElement("div");
+  fade.id = "fadeScreen";
 
-function hideMiniGame(){
-  miniGame.classList.add("hidden");
-}
+  const box = document.createElement("div");
+  box.className = "loaderBox";
 
-function addTitle(t){
-  const h=document.createElement("h3");
-  h.textContent=t;
-  miniGame.appendChild(h);
-}
+  const title = document.createElement("div");
+  title.className = "winBravo";
+  title.textContent = "Bravo, tu as terminé cette quête";
 
-function addText(t,red=false){
-  const p=document.createElement("p");
-  p.textContent=t;
-  if(red) p.style.color="red";
-  miniGame.appendChild(p);
-}
-
-function addButton(label,action){
-  const b=document.createElement("button");
-  b.textContent=label;
-  b.onclick=action;
-  miniGame.appendChild(b);
-}
-
-function addImageGroup(images,container,callback){
-  const block=document.createElement("div");
-  block.style.display="flex";
-  block.style.gap="10px";
-  images.forEach((src,i)=>{
-    const img=document.createElement("img");
-    img.src=src;
-    img.onclick=()=>callback(i);
-    block.appendChild(img);
-  });
-  container.appendChild(block);
-}
-
-function drawLine(svg,from,to){
-  const r1=from.getBoundingClientRect();
-  const r2=to.getBoundingClientRect();
-  const r=svg.getBoundingClientRect();
-  const line=document.createElementNS("http://www.w3.org/2000/svg","line");
-  line.setAttribute("x1",r1.left+r1.width/2-r.left);
-  line.setAttribute("y1",r1.bottom-r.top);
-  line.setAttribute("x2",r2.left+r2.width/2-r.left);
-  line.setAttribute("y2",r2.top-r.top);
-  line.setAttribute("stroke","gold");
-  line.setAttribute("stroke-width","3");
-  svg.appendChild(line);
-}
-
-function showWinLoader(){
-  const fade=document.createElement("div");
-  fade.id="fadeScreen";
-  const box=document.createElement("div");
-  box.className="loaderBox";
-  const t=document.createElement("div");
-  t.className="winBravo";
-  t.textContent="Bravo, tu as gagné la quête";
-  box.appendChild(t);
+  box.appendChild(title);
   fade.appendChild(box);
   document.body.appendChild(fade);
-}
 
-function explodeGems(){
-  for(let i=0;i<20;i++){
-    const g=document.createElement("div");
-    g.className="gem";
-    g.style.left="50%";
-    g.style.top="50%";
-    g.style.setProperty("--x",`${Math.random()*300-150}px`);
-    g.style.setProperty("--y",`${Math.random()*300-150}px`);
-    document.body.appendChild(g);
-    setTimeout(()=>g.remove(),1200);
-  }
-}
+  explodeGems();
 
-});
+  setTimeout(()=>{
+    window.location.href = "menu.html";
+  }, 2500);
+}
