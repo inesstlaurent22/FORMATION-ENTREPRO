@@ -20,26 +20,30 @@ const miniGame = document.getElementById("miniGameContainer");
 /* =====================================================
    VIDÉO INTRO (SÉCURISÉE)
 ===================================================== */
-introVideo.muted = true;
-introVideo.play().catch(()=>{});
+const videoContainer = document.getElementById("videoContainer");
+const questVideo = document.getElementById("questVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo = document.getElementById("closeVideo");
 
-toggleSound.addEventListener("click", (e)=>{
-  e.stopPropagation();
-  introVideo.muted = !introVideo.muted;
-  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-  introVideo.play().catch(()=>{});
-});
+questVideo.muted = true;
+questVideo.play().catch(()=>{});
 
-closeVideo.addEventListener("click", (e)=>{
-  e.stopPropagation();
+toggleSound.onclick = () => {
+  questVideo.muted = !questVideo.muted;
+  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+};
+
+closeVideo.onclick = () => {
+  triggerGlow(closeVideo);
   endVideo();
-});
+};
 
-introVideo.addEventListener("ended", endVideo);
+questVideo.onended = endVideo;
 
-function endVideo(){
-  videoIntro.classList.add("hidden");
-  scene.classList.remove("hidden");
+function endVideo() {
+  questVideo.pause();
+  videoContainer.style.display = "none";
+  showLoader("Chargement...", 600, showBackground);
 }
 
 /* =====================================================
