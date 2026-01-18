@@ -247,12 +247,38 @@ function checkQuiz(step){
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 – IDENTITÉ VISUELLE (HORIZONTAL)
+   🎨 MINI-JEU 2 – IDENTITÉ VISUELLE (VERSION FINALE)
 ===================================================== */
+
 let identityDone = false;
 
+/* =====================================================
+   INTRO – DÉFINITION
+===================================================== */
 function startMiniGame2(){
   identityDone = false;
+  showMiniGame();
+
+  addTitle("🎨 Identité visuelle");
+  addText(
+    "L’identité visuelle représente l’apparence de ta marque. " +
+    "Elle permet aux clients de te reconnaître immédiatement."
+  );
+  addText(
+    "Elle est composée du logo, des couleurs et de la typographie."
+  );
+  addText("Clique n’importe où pour commencer.");
+
+  miniGame.onclick = () => {
+    miniGame.onclick = null;
+    startLogoStep();
+  };
+}
+
+/* =====================================================
+   ÉTAPE 1 – LOGO (CHOIX LIBRE)
+===================================================== */
+function startLogoStep(){
   showMiniGame();
   addTitle("🎨 Identité visuelle");
   addText("1️⃣ Choisis ton logo (choix libre)");
@@ -264,7 +290,7 @@ function startMiniGame2(){
 }
 
 /* =====================================================
-   🎨 ÉTAPE 2 – COULEURS
+   ÉTAPE 2 – COULEURS
 ===================================================== */
 function startColorsStep(){
   showMiniGame();
@@ -278,7 +304,7 @@ function startColorsStep(){
         addText("✅ Bonne réponse");
         addText(
           "Les couleurs doivent être cohérentes avec le style du logo. " +
-          "Elles seront utilisées sur tous tes supports."
+          "Ce seront tes couleurs principales pour les flyers, newsletters et réseaux sociaux."
         );
         setTimeout(startTypoStep, 1200);
       }
@@ -287,7 +313,7 @@ function startColorsStep(){
 }
 
 /* =====================================================
-   ✒️ ÉTAPE 3 – TYPOGRAPHIE
+   ÉTAPE 3 – TYPOGRAPHIE
 ===================================================== */
 function startTypoStep(){
   showMiniGame();
@@ -300,52 +326,60 @@ function startTypoStep(){
       if(i === 0){
         addText("✅ Bonne réponse");
         addText(
-          "La typographie est essentielle. " +
-          "Elle doit rester la même sur tous tes designs."
+          "La typographie est très importante. " +
+          "Comme le logo, elle doit rester la même sur tous tes supports."
         );
-        setTimeout(showIdentityResult, 1200);
+        setTimeout(showIdentityLoader, 1200);
       }
     }
   );
 }
 
 /* =====================================================
-   🖼️ RÉSULTAT – IDENTITÉ VISUELLE
+   LOADER FINAL + IMAGE IDENTITÉ VISUELLE
 ===================================================== */
-function showIdentityResult(){
+function showIdentityLoader(){
   if(identityDone) return;
   identityDone = true;
 
-  showMiniGame();
+  const fade = document.createElement("div");
+  fade.id = "fadeScreen";
+
+  const box = document.createElement("div");
+  box.className = "loaderBox";
+
+  const title = document.createElement("div");
+  title.className = "winBravo";
+  title.textContent = "L’identité visuelle de ta marque est prête";
 
   const img = document.createElement("img");
   img.src = "images/identiteevisuelle.JPG";
   img.style.width = "220px";
-  img.style.margin = "20px auto";
-  img.style.display = "block";
-  miniGame.appendChild(img);
+  img.style.marginTop = "20px";
+  img.style.borderRadius = "12px";
 
-  addText("✅ Identité visuelle créée !");
-  addText(
-    "Maintenant que tu as créé ton identité visuelle, " +
-    "ta marque sera reconnue par tous et très rapidement."
-  );
+  box.appendChild(title);
+  box.appendChild(img);
+  fade.appendChild(box);
+  document.body.appendChild(fade);
 
   setTimeout(()=>{
+    fade.remove();
     hideMiniGame();
     afterIdentityDialog();
-  }, 1500);
+  }, 2000);
 }
 
 /* =====================================================
-   💬 DIALOGUES APRÈS MINI-JEU 2
+   DIALOGUES APRÈS MINI-JEU 2
 ===================================================== */
 function afterIdentityDialog(){
   playDialog([
-    {speaker:"pirate2", text:"On te reconnaît désormais au premier regard."},
-    {speaker:"pirate3", text:"Voyons maintenant où communiquer."}
+    {speaker:"pirate2", text:"Ta marque est maintenant reconnaissable."},
+    {speaker:"pirate3", text:"Voyons comment la faire connaître au plus grand nombre."}
   ], startMiniGame3);
 }
+   
 /* =====================================================
    🎮 MINI-JEU 3 – LIER PLATEFORMES
 ===================================================== */
