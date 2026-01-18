@@ -7,9 +7,12 @@
   box-sizing:border-box;
 }
 
+html, body{
+  width:100%;
+  height:100%;
+}
+
 body{
-  width:100vw;
-  height:100vh;
   overflow:hidden;
   font-family:serif;
   background:#000;
@@ -31,13 +34,17 @@ button{
   font-weight:bold;
   cursor:pointer;
   padding:12px 22px;
-  transition:transform .2s, box-shadow .2s;
+  transition:transform .2s ease, box-shadow .2s ease;
   box-shadow:inset 0 0 6px rgba(255,255,255,.4);
 }
 
 button:hover{
-  transform:scale(1.06);
+  transform:scale(1.05);
   box-shadow:0 0 18px rgba(255,215,100,.85);
+}
+
+button.selected{
+  box-shadow:0 0 18px rgba(255,215,100,.9);
 }
 
 /* =====================================================
@@ -73,7 +80,7 @@ button:hover{
 #fadeScreen{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.92);
+  background:rgba(0,0,0,.92);
   z-index:3000;
   display:flex;
   align-items:center;
@@ -82,25 +89,25 @@ button:hover{
 
 .loaderBox{
   position:relative;
-  padding:30px 50px;
+  padding:24px 36px; /* réduit (était trop grand) */
   background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
   border:4px solid #c9a24d;
   border-radius:16px;
   color:#fff;
-  font-size:22px;
+  font-size:20px;
   text-align:center;
   box-shadow:0 0 40px rgba(255,215,100,.6);
 }
 
 .winBravo{
-  font-size:44px;
+  font-size:34px; /* réduit */
   color:gold;
   animation:goldPulse 1.2s infinite;
 }
 
 @keyframes goldPulse{
   0%{transform:scale(1);text-shadow:0 0 6px gold}
-  50%{transform:scale(1.18);text-shadow:0 0 30px gold}
+  50%{transform:scale(1.12);text-shadow:0 0 26px gold}
   100%{transform:scale(1);text-shadow:0 0 6px gold}
 }
 
@@ -146,7 +153,9 @@ button:hover{
 }
 
 #pirate3:hover{
-  filter:drop-shadow(0 0 12px gold);
+  filter:
+    drop-shadow(0 0 12px gold)
+    drop-shadow(0 0 28px rgba(255,215,0,.6));
   transform:scale(1.04);
 }
 
@@ -162,7 +171,7 @@ button:hover{
   border-radius:22px;
   padding:18px 22px;
   box-shadow:0 0 22px rgba(0,0,0,.6);
-  z-index:5;
+  z-index:1500; /* au-dessus mini-jeu */
   cursor:pointer;
 }
 
@@ -181,7 +190,7 @@ button:hover{
   transform:translate(-50%,-50%);
   width:460px;
   max-height:80vh;
-  overflow:auto;
+  overflow-y:auto; /* important */
   padding:32px;
   background:linear-gradient(145deg,#3b240f,#1f1208);
   border:5px solid #c9a24d;
@@ -194,11 +203,11 @@ button:hover{
 
 #miniGameContainer p{
   margin-top:14px;
-  line-height:1.4;
+  line-height:1.45;
 }
 
 #miniGameContainer button{
-  margin-top:26px;
+  margin-top:22px;
 }
 
 /* =====================================================
@@ -241,7 +250,7 @@ button:hover{
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3 – DIFFÉRENCIATION VISUELLE
+   🎮 MINI-JEU 2 & 3 – VISUELS
 ===================================================== */
 .visualChoices{
   display:flex;
@@ -251,6 +260,22 @@ button:hover{
   flex-wrap:wrap;
 }
 
+.visualChoices img{
+  width:90px;
+  height:auto;
+  cursor:pointer;
+  border-radius:8px;
+  border:3px solid transparent;
+  transition:transform .2s, box-shadow .2s, border .2s;
+}
+
+.visualChoices img:hover{
+  transform:scale(1.08);
+  border-color:gold;
+  box-shadow:0 0 12px rgba(255,215,100,.8);
+}
+
+/* Boutons plateformes / objectifs */
 .btn-platform{
   background:linear-gradient(145deg,#7aaae8,#3c6db4);
   border-color:#10243b;
