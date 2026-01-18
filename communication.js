@@ -84,55 +84,60 @@ pirate3.onclick=()=>{
 /* =====================================================
    🎮 MINI-JEU 1 — QCM COMMUNICATION (COMPLET)
 ===================================================== */
+/* =====================================================
+   🎮 MINI-JEU 1 – COMMUNICATION (VERSION FINALE)
+===================================================== */
+
 const quizSteps = [
   {
-    title:"📣 Réseaux sociaux",
-    question:"Les réseaux sociaux servent principalement à :",
+    title:"⚓ Visite physique",
+    question:"Rencontrer un client en vrai permet de :",
     answers:[
-      {text:"Te faire découvrir",correct:true},
-      {text:"Montrer ton univers",correct:true},
-      {text:"Forcer la vente immédiate",correct:false}
+      {text:"Rassurer et écouter", correct:true},
+      {text:"Créer une vraie connexion", correct:true},
+      {text:"Ignorer ses attentes", correct:false}
     ],
     explanation:
-      "Les réseaux sociaux servent avant tout à créer de la visibilité et à donner envie de découvrir ta marque."
-  },
-  {
-    title:"📜 Newsletter",
-    question:"Une newsletter permet de :",
-    answers:[
-      {text:"Rester présent dans l’esprit du client",correct:true},
-      {text:"Créer un lien dans le temps",correct:true},
-      {text:"Envoyer des promotions tous les jours",correct:false}
-    ],
-    explanation:
-      "La newsletter entretient une relation durable sans pression commerciale."
+      "La présence physique renforce fortement la crédibilité et la confiance."
   },
   {
     title:"🕊️ Phoning / Mailing",
     question:"Le contact direct permet de :",
     answers:[
-      {text:"Comprendre les besoins",correct:true},
-      {text:"Créer une relation humaine",correct:true},
-      {text:"Parler uniquement de prix",correct:false}
+      {text:"Comprendre les besoins", correct:true},
+      {text:"Créer une relation humaine", correct:true},
+      {text:"Parler uniquement de prix", correct:false}
     ],
     explanation:
-      "Un contact direct bien utilisé crée de la confiance."
+      "Le contact direct bien utilisé crée une relation de confiance."
   },
   {
-    title:"⚓ Visite physique",
-    question:"Rencontrer un client en vrai permet de :",
+    title:"📣 Réseaux sociaux",
+    question:"Les réseaux sociaux servent principalement à :",
     answers:[
-      {text:"Rassurer et écouter",correct:true},
-      {text:"Créer une vraie connexion",correct:true},
-      {text:"Ignorer ses attentes",correct:false}
+      {text:"Te faire découvrir", correct:true},
+      {text:"Montrer ton univers", correct:true},
+      {text:"Forcer la vente immédiate", correct:false}
     ],
     explanation:
-      "La présence physique renforce fortement la crédibilité."
+      "Les réseaux sociaux servent avant tout à créer de la visibilité et à donner envie de découvrir ta marque."
+  },
+  {
+    title:"📜 Newsletters",
+    question:"Une newsletter permet de :",
+    answers:[
+      {text:"Rester présent dans l’esprit du client", correct:true},
+      {text:"Créer un lien dans le temps", correct:true},
+      {text:"Envoyer des promotions tous les jours", correct:false}
+    ],
+    explanation:
+      "La newsletter entretient la relation sans pression commerciale."
   }
 ];
 
 let quizIndex = 0;
 let selectedAnswers = [];
+let canContinue = false;
 
 function startMiniGame1(){
   quizIndex = 0;
@@ -143,39 +148,52 @@ function startMiniGame1(){
 function renderQuiz(){
   miniGame.innerHTML = "";
   selectedAnswers = [];
+  canContinue = false;
 
   const step = quizSteps[quizIndex];
-  addTitle(step.title);
-  addText(step.question);
-  addText("🔴 2 bonnes réponses", true);
 
+  /* Titre lumineux */
+  const title = document.createElement("h3");
+  title.textContent = step.title;
+  title.style.color = "gold";
+  title.style.textShadow = "0 0 12px gold";
+  title.style.animation = "goldPulse 1.2s infinite";
+  miniGame.appendChild(title);
+
+  /* Question */
+  const q = document.createElement("p");
+  q.textContent = step.question;
+  q.style.marginTop = "12px";
+  miniGame.appendChild(q);
+
+  /* Indication */
+  const hint = document.createElement("p");
+  hint.textContent = "🔴 2 bonnes réponses";
+  hint.style.color = "red";
+  hint.style.marginTop = "8px";
+  miniGame.appendChild(hint);
+
+  /* Réponses */
   step.answers.forEach((a,i)=>{
     const btn = document.createElement("button");
     btn.textContent = a.text;
-    btn.onclick = ()=>{
+    btn.style.marginTop = "10px";
+
+    btn.onclick = () => {
+      if(canContinue) return;
       if(!selectedAnswers.includes(i)){
         selectedAnswers.push(i);
         btn.classList.add("selected");
       }
       checkQuiz(step);
     };
+
     miniGame.appendChild(btn);
   });
-}
 
-function checkQuiz(step){
-  const correctIndexes = step.answers
-    .map((a,i)=>a.correct?i:null)
-    .filter(i=>i!==null);
-
-  const valid =
-    correctIndexes.every(i=>selectedAnswers.includes(i)) &&
-    selectedAnswers.every(i=>step.answers[i].correct);
-
-  if(valid){
-    addText("✅ Bonne réponse");
-    addText(step.explanation);
-    addButton("Continuer", ()=>{
+  /* Clic global pour continuer */
+  miniGame.onclick = () => {
+    if(canContinue){
       quizIndex++;
       if(quizIndex < quizSteps.length){
         renderQuiz();
@@ -183,15 +201,49 @@ function checkQuiz(step){
         hideMiniGame();
         afterMiniGame1Dialog();
       }
-    });
-  }
+    }
+  };
 }
 
-function afterMiniGame1Dialog(){
-  playDialog([
-    {speaker:"pirate2",text:"Tu sais maintenant comment attirer l’attention."},
-    {speaker:"pirate3",text:"Créons maintenant une identité mémorable."}
-  ], startMiniGame2);
+function checkQuiz(step){
+  const correctIndexes = step.answers
+    .map((a,i)=>a.correct ? i : null)
+    .filter(i=>i !== null);
+
+  const isValid =
+    correctIndexes.every(i => selectedAnswers.includes(i)) &&
+    selectedAnswers.every(i => step.answers[i].correct);
+
+  if(isValid){
+    canContinue = true;
+
+    /* Bonne réponse */
+    const ok = document.createElement("p");
+    ok.textContent = "✅ Bonne réponse !";
+    ok.style.color = "gold";
+    ok.style.fontSize = "20px";
+    ok.style.marginTop = "18px";
+    miniGame.appendChild(ok);
+
+    /* Encadré explicatif */
+    const box = document.createElement("div");
+    box.textContent = step.explanation;
+    box.style.marginTop = "10px";
+    box.style.padding = "14px";
+    box.style.background = "rgba(0,0,0,.4)";
+    box.style.border = "2px solid gold";
+    box.style.borderRadius = "12px";
+    box.style.fontSize = "14px";
+    miniGame.appendChild(box);
+
+    /* Hint */
+    const next = document.createElement("p");
+    next.textContent = "Clique n’importe où pour continuer";
+    next.style.fontSize = "12px";
+    next.style.opacity = ".8";
+    next.style.marginTop = "10px";
+    miniGame.appendChild(next);
+  }
 }
 
 /* =====================================================
@@ -199,9 +251,6 @@ function afterMiniGame1Dialog(){
 ===================================================== */
 let identityDone = false;
 
-/* =====================================================
-   🎨 MINI-JEU 2 – IDENTITÉ VISUELLE (ÉTAPES)
-===================================================== */
 function startMiniGame2(){
   identityDone = false;
   showMiniGame();
