@@ -23,18 +23,18 @@ const miniGame = document.getElementById("miniGameContainer");
 introVideo.muted = true;
 introVideo.play().catch(()=>{});
 
-toggleSound.addEventListener("click", (e)=>{
+toggleSound.onclick = (e)=>{
   e.stopPropagation();
   introVideo.muted = !introVideo.muted;
   toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-});
+};
 
-closeVideo.addEventListener("click", (e)=>{
+closeVideo.onclick = (e)=>{
   e.stopPropagation();
   endVideo();
-});
+};
 
-introVideo.addEventListener("ended", endVideo);
+introVideo.onended = endVideo;
 
 function endVideo(){
   introVideo.pause();
@@ -90,7 +90,7 @@ pirate3.onclick = ()=>{
 };
 
 /* =====================================================
-   HELPERS MINI-JEUX
+   HELPERS
 ===================================================== */
 function showMiniGame(){
   miniGame.innerHTML="";
@@ -245,7 +245,6 @@ function startMiniGame2(){
   );
 }
 
-/* Chargement réel des images avec sablier */
 function loadImages(images,callback){
   const hourglass=document.createElement("div");
   hourglass.className="hourglass";
@@ -289,11 +288,7 @@ function startColorsStep(){
     (i)=>{
       if(i===1){
         addText("Bravo !","bravoText");
-        addText(
-          "Les couleurs doivent être cohérentes avec le style du logo.",
-          "explainText"
-        );
-        setTimeout(startTypoStep,1400);
+        setTimeout(startTypoStep,1200);
       }
     }
   );
@@ -322,8 +317,8 @@ function showIdentityResult(){
   box.className="loaderBox";
 
   const title=document.createElement("div");
-  title.className="winBravo";
-  title.textContent="L’identité visuelle de ta marque est prête";
+  title.className="winBravo softGlow";
+  title.textContent="L’identité visuelle est prête";
 
   const img=document.createElement("img");
   img.src="images/identiteevisuelle.JPG";
@@ -354,7 +349,7 @@ function afterMiniGame2Dialog(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3 – CANAUX
+   🎮 MINI-JEU 3
 ===================================================== */
 function startMiniGame3(){
   showMiniGame();
@@ -419,7 +414,7 @@ function showQuestWinLoader(){
   box.className="loaderBox";
 
   const t=document.createElement("div");
-  t.className="winBravo";
+  t.className="winBravo softGlow";
   t.textContent="Bravo, tu as terminé cette quête";
 
   box.appendChild(t);
