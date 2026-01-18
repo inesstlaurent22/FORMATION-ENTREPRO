@@ -24,7 +24,7 @@ body{
 }
 
 /* =====================================================
-   🔘 BOUTONS – STYLE PIRATE GÉNÉRAL
+   🔘 BOUTONS – STYLE PIRATE
 ===================================================== */
 button{
   background:linear-gradient(145deg,#e8c77a,#b48b3c);
@@ -34,14 +34,14 @@ button{
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
-  padding:12px 22px;
+  padding:10px 18px;
   transition:transform .2s ease, box-shadow .2s ease;
   box-shadow:inset 0 0 6px rgba(255,255,255,.4);
 }
 
 button:hover{
   transform:scale(1.05);
-  box-shadow:0 0 18px rgba(255,215,100,.85);
+  box-shadow:0 0 16px rgba(255,215,100,.85);
 }
 
 button.selected{
@@ -77,16 +77,12 @@ button.selected{
 }
 
 /* =====================================================
-   🌊 SCÈNE PRINCIPALE
+   🌊 SCÈNE
 ===================================================== */
 #scene{
   position:fixed;
   inset:0;
-  background:
-    #000
-    url("images/Communicationfond.PNG")
-    no-repeat
-    center / cover;
+  background:#000 url("images/Communicationfond.PNG") no-repeat center / cover;
   z-index:1;
 }
 
@@ -118,9 +114,7 @@ button.selected{
 }
 
 #pirate3:hover{
-  filter:
-    drop-shadow(0 0 12px gold)
-    drop-shadow(0 0 28px rgba(255,215,0,.6));
+  filter:drop-shadow(0 0 14px gold);
   transform:scale(1.04);
 }
 
@@ -156,7 +150,7 @@ button.selected{
   width:480px;
   max-height:80vh;
   overflow-y:auto;
-  padding:32px;
+  padding:30px;
   background:linear-gradient(145deg,#3b240f,#1f1208);
   border:5px solid #c9a24d;
   border-radius:20px;
@@ -167,41 +161,41 @@ button.selected{
 
 #miniGameContainer h3{
   color:gold;
-  text-shadow:0 0 12px gold;
+  text-shadow:0 0 10px gold;
   margin-bottom:10px;
 }
 
 #miniGameContainer p{
-  margin-top:14px;
+  margin-top:12px;
   line-height:1.45;
 }
 
 /* =====================================================
-   🔔 NOTIFICATION (MINI-JEU 1)
+   🔔 NOTIFICATIONS (MINI-JEU 1)
 ===================================================== */
 .notification{
   position:fixed;
-  bottom:40px;
+  top:20px;
   left:50%;
   transform:translateX(-50%);
-  background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
-  border:3px solid gold;
+  background:linear-gradient(145deg,#5b1a1a,#2e0d0d);
+  border:3px solid red;
   border-radius:14px;
   padding:14px 22px;
   color:#fff;
   font-size:15px;
-  box-shadow:0 0 25px rgba(255,215,100,.8);
+  box-shadow:0 0 25px rgba(255,80,80,.8);
   z-index:4000;
-  animation:fadeNotif .3s ease;
+  animation:slideDown .35s ease;
 }
 
-@keyframes fadeNotif{
-  from{opacity:0;transform:translate(-50%,10px)}
+@keyframes slideDown{
+  from{opacity:0;transform:translate(-50%,-20px)}
   to{opacity:1;transform:translate(-50%,0)}
 }
 
 /* =====================================================
-   ⏳ SABLIER CHARGEMENT IMAGES
+   ⏳ LOADER SABLIER (IMAGES)
 ===================================================== */
 .imageLoader{
   position:absolute;
@@ -213,23 +207,36 @@ button.selected{
   font-size:46px;
   color:gold;
   z-index:10;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
 }
 
 /* =====================================================
-   🖼️ CHOIX VISUELS (MINI-JEU 2 & 3)
+   🖼️ CHOIX VISUELS (MINI-JEU 2)
 ===================================================== */
 .visualChoices{
   display:flex;
   justify-content:center;
-  gap:20px;
+  gap:22px;
   margin-top:24px;
   flex-wrap:wrap;
 }
 
+.visualChoices > div{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+
 .visualChoices img{
   width:120px;
-  cursor:pointer;
   border-radius:10px;
+  cursor:pointer;
   border:3px solid transparent;
   transition:transform .2s, box-shadow .2s, border .2s;
 }
@@ -240,8 +247,14 @@ button.selected{
   box-shadow:0 0 16px rgba(255,215,100,.8);
 }
 
+/* Bouton loupe */
+.visualChoices button{
+  padding:6px 10px;
+  font-size:14px;
+}
+
 /* =====================================================
-   🔎 ZOOM IMAGE IDENTITÉ VISUELLE
+   🔎 ZOOM IMAGE
 ===================================================== */
 .zoomOverlay{
   position:fixed;
@@ -261,7 +274,7 @@ button.selected{
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3 – PLATEFORMES VS OBJECTIFS
+   🎮 MINI-JEU 3 – PLATEFORMES / OBJECTIFS
 ===================================================== */
 .btn-platform{
   background:linear-gradient(145deg,#7aaae8,#3c6db4);
@@ -314,12 +327,12 @@ hr{
   font-size:26px;
   text-align:center;
   box-shadow:0 0 40px rgba(255,215,100,.6);
-  animation:goldPulse 1.4s infinite;
+  animation:softPulse 2s infinite;
 }
 
-@keyframes goldPulse{
+@keyframes softPulse{
   0%{transform:scale(1)}
-  50%{transform:scale(1.06)}
+  50%{transform:scale(1.04)}
   100%{transform:scale(1)}
 }
 
@@ -327,18 +340,16 @@ hr{
    📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
-
   #miniGameContainer{
     width:90%;
-    padding:24px;
-  }
-
-  #dialogBox{
-    max-width:90%;
+    padding:22px;
   }
 
   .visualChoices img{
     width:95px;
   }
 
+  #dialogBox{
+    max-width:90%;
+  }
 }
