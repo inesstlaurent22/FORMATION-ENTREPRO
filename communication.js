@@ -321,7 +321,7 @@ function showIdentityResult(){
   title.textContent="L’identité visuelle est prête";
 
   const img=document.createElement("img");
-  img.src="images/identiteevisuelle.JPG";
+  img.src="images/Identiteevisuelle.JPG";
   img.style.width="220px";
   img.style.marginTop="20px";
   img.style.cursor="pointer";
