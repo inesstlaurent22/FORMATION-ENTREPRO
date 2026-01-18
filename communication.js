@@ -207,9 +207,9 @@ function startMiniGame2(){
   const row=document.createElement("div");
   row.className="visualChoices";
 
-  addImageGroup(["images/logo1.png","images/logo2.png","images/logo3.png"],row,()=>{});
-  addImageGroup(["images/colors1.png","images/colors2.png","images/colors3.png"],row,(i)=>{if(i===1)validateIdentity();});
-  addImageGroup(["images/typo1.png","images/typo2.png","images/typo3.png"],row,(i)=>{if(i===0)validateIdentity();});
+  addImageGroup(["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],row,()=>{});
+  addImageGroup(["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],row,(i)=>{if(i===1)validateIdentity();});
+  addImageGroup(["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],row,(i)=>{if(i===0)validateIdentity();});
 
   miniGame.appendChild(row);
 }
