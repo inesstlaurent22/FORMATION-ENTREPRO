@@ -197,51 +197,106 @@ function afterMiniGame1Dialog(){
 /* =====================================================
    🎨 MINI-JEU 2 – IDENTITÉ VISUELLE (HORIZONTAL)
 ===================================================== */
-let identityDone=false;
+let identityDone = false;
 
+/* =====================================================
+   🎨 MINI-JEU 2 – IDENTITÉ VISUELLE (ÉTAPES)
+===================================================== */
 function startMiniGame2(){
+  identityDone = false;
   showMiniGame();
   addTitle("🎨 Identité visuelle");
-  addText("Logo, couleurs et typographie doivent être cohérents.");
+  addText("1️⃣ Choisis ton logo (choix libre)");
 
-  const row=document.createElement("div");
-  row.className="visualChoices";
-
-  addImageGroup(["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],row,()=>{});
-  addImageGroup(["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],row,(i)=>{if(i===1)validateIdentity();});
-  addImageGroup(["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],row,(i)=>{if(i===0)validateIdentity();});
-
-  miniGame.appendChild(row);
+  addImages(
+    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+    () => startColorsStep()
+  );
 }
 
-function validateIdentity(){
-  if(identityDone) return;
-  identityDone=true;
+/* =====================================================
+   🎨 ÉTAPE 2 – COULEURS
+===================================================== */
+function startColorsStep(){
+  showMiniGame();
+  addTitle("🎨 Identité visuelle");
+  addText("2️⃣ Choisis les bonnes couleurs");
 
-  miniGame.innerHTML="";
-  const img=document.createElement("img");
-  img.src="images/identiteevisuelle.JPG";
-  img.style.width="220px";
-  img.style.margin="20px auto";
-  img.style.display="block";
+  addImages(
+    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+    (i)=>{
+      if(i === 1){
+        addText("✅ Bonne réponse");
+        addText(
+          "Les couleurs doivent être cohérentes avec le style du logo. " +
+          "Elles seront utilisées sur tous tes supports."
+        );
+        setTimeout(startTypoStep, 1200);
+      }
+    }
+  );
+}
+
+/* =====================================================
+   ✒️ ÉTAPE 3 – TYPOGRAPHIE
+===================================================== */
+function startTypoStep(){
+  showMiniGame();
+  addTitle("🎨 Identité visuelle");
+  addText("3️⃣ Choisis la typographie");
+
+  addImages(
+    ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
+    (i)=>{
+      if(i === 0){
+        addText("✅ Bonne réponse");
+        addText(
+          "La typographie est essentielle. " +
+          "Elle doit rester la même sur tous tes designs."
+        );
+        setTimeout(showIdentityResult, 1200);
+      }
+    }
+  );
+}
+
+/* =====================================================
+   🖼️ RÉSULTAT – IDENTITÉ VISUELLE
+===================================================== */
+function showIdentityResult(){
+  if(identityDone) return;
+  identityDone = true;
+
+  showMiniGame();
+
+  const img = document.createElement("img");
+  img.src = "images/identiteevisuelle.JPG";
+  img.style.width = "220px";
+  img.style.margin = "20px auto";
+  img.style.display = "block";
   miniGame.appendChild(img);
 
   addText("✅ Identité visuelle créée !");
-  addText("Les clients reconnaîtront immédiatement ta marque.");
+  addText(
+    "Maintenant que tu as créé ton identité visuelle, " +
+    "ta marque sera reconnue par tous et très rapidement."
+  );
 
   setTimeout(()=>{
     hideMiniGame();
     afterIdentityDialog();
-  },1500);
+  }, 1500);
 }
 
+/* =====================================================
+   💬 DIALOGUES APRÈS MINI-JEU 2
+===================================================== */
 function afterIdentityDialog(){
   playDialog([
-    {speaker:"pirate2",text:"On te reconnaît désormais au premier regard."},
-    {speaker:"pirate3",text:"Voyons maintenant où communiquer."}
+    {speaker:"pirate2", text:"On te reconnaît désormais au premier regard."},
+    {speaker:"pirate3", text:"Voyons maintenant où communiquer."}
   ], startMiniGame3);
 }
-
 /* =====================================================
    🎮 MINI-JEU 3 – LIER PLATEFORMES
 ===================================================== */
