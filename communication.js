@@ -206,7 +206,7 @@ function startMiniGame2(){
 
   addText("1️⃣ Choisis ton logo (choix libre)");
   addImages(
-    ["images/logo1.png","images/logo2.png","images/logo3.png"],
+    ["images/Logo1.png","images/Logo2.png","images/Logo3.png"],
     ()=>stepColors()
   );
 }
