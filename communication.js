@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   RÉFÉRENCES
+   RÉFÉRENCES (ALIGNÉES HTML)
 ===================================================== */
 const videoIntro  = document.getElementById("videoIntro");
 const introVideo  = document.getElementById("introVideo");
@@ -18,32 +18,28 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   VIDÉO INTRO (SÉCURISÉE)
+   🎬 VIDÉO INTRO — FONCTIONNELLE
 ===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const questVideo = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
+introVideo.muted = true;
+introVideo.play().catch(()=>{});
 
-questVideo.muted = true;
-questVideo.play().catch(()=>{});
+toggleSound.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  introVideo.muted = !introVideo.muted;
+  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+});
 
-toggleSound.onclick = () => {
-  questVideo.muted = !questVideo.muted;
-  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-};
-
-closeVideo.onclick = () => {
-  triggerGlow(closeVideo);
+closeVideo.addEventListener("click", (e)=>{
+  e.stopPropagation();
   endVideo();
-};
+});
 
-questVideo.onended = endVideo;
+introVideo.addEventListener("ended", endVideo);
 
-function endVideo() {
-  questVideo.pause();
-  videoContainer.style.display = "none";
-  showLoader("Chargement...", 600, showBackground);
+function endVideo(){
+  introVideo.pause();
+  videoIntro.classList.add("hidden");
+  scene.classList.remove("hidden");
 }
 
 /* =====================================================
@@ -60,20 +56,22 @@ function playDialog(list, callback){
 }
 
 function showDialog(){
-  const d=dialogs[dialogIndex];
-  dialogText.textContent=d.text;
+  const d = dialogs[dialogIndex];
+  dialogText.textContent = d.text;
 
-  const target=d.speaker==="pirate2"?pirate2:pirate3;
-  const r=target.getBoundingClientRect();
+  const target = d.speaker==="pirate2"?pirate2:pirate3;
+  const r = target.getBoundingClientRect();
 
-  dialogBox.style.left=`${r.left+r.width/2-dialogBox.offsetWidth/2}px`;
-  dialogBox.style.top=`${r.top-dialogBox.offsetHeight-20}px`;
+  dialogBox.style.left =
+    `${r.left + r.width/2 - dialogBox.offsetWidth/2}px`;
+  dialogBox.style.top =
+    `${r.top - dialogBox.offsetHeight - 20}px`;
 }
 
-dialogBox.onclick=(e)=>{
+dialogBox.onclick = (e)=>{
   e.stopPropagation();
   dialogIndex++;
-  if(dialogIndex<dialogs.length){
+  if(dialogIndex < dialogs.length){
     showDialog();
   } else {
     dialogBox.classList.add("hidden");
@@ -84,7 +82,7 @@ dialogBox.onclick=(e)=>{
 /* =====================================================
    DÉBUT DE QUÊTE
 ===================================================== */
-pirate3.onclick=(e)=>{
+pirate3.onclick = (e)=>{
   e.stopPropagation();
   playDialog([
     {speaker:"pirate3",text:"Capitaine, ton trésor est prêt."},
@@ -92,6 +90,41 @@ pirate3.onclick=(e)=>{
     {speaker:"pirate3",text:"Voyons comment attirer le marché."}
   ], startMiniGame1);
 };
+
+/* =====================================================
+   🧠 HELPERS MINI-JEUX
+===================================================== */
+function showMiniGame(){
+  miniGame.innerHTML="";
+  miniGame.classList.remove("hidden");
+}
+function hideMiniGame(){
+  miniGame.classList.add("hidden");
+}
+function addTitle(t){
+  const h=document.createElement("h3");
+  h.textContent=t;
+  miniGame.appendChild(h);
+}
+function addText(t){
+  const p=document.createElement("p");
+  p.textContent=t;
+  miniGame.appendChild(p);
+}
+function addImages(images,cb){
+  const wrap=document.createElement("div");
+  wrap.className="visualChoices";
+  images.forEach((src,i)=>{
+    const img=document.createElement("img");
+    img.src=src;
+    img.onclick=(e)=>{
+      e.stopPropagation();
+      cb(i);
+    };
+    wrap.appendChild(img);
+  });
+  miniGame.appendChild(wrap);
+}
 
 /* =====================================================
    🎮 MINI-JEU 1 – COMMUNICATION
