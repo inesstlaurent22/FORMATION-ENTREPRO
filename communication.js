@@ -23,13 +23,13 @@ const miniGame = document.getElementById("miniGameContainer");
 introVideo.muted = true;
 introVideo.play().catch(()=>{});
 
-toggleSound.onclick = (e)=>{
+toggleSound.onclick = e => {
   e.stopPropagation();
   introVideo.muted = !introVideo.muted;
   toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
 };
 
-closeVideo.onclick = (e)=>{
+closeVideo.onclick = e => {
   e.stopPropagation();
   endVideo();
 };
@@ -68,11 +68,10 @@ function showDialog(){
 
 dialogBox.onclick=()=>{
   dialogIndex++;
-  if(dialogIndex<dialogs.length) showDialog();
-  else{
-    dialogBox.classList.add("hidden");
-    dialogCallback && dialogCallback();
-  }
+  dialogIndex<dialogs.length ? showDialog() : (
+    dialogBox.classList.add("hidden"),
+    dialogCallback && dialogCallback()
+  );
 };
 
 /* =====================================================
@@ -82,30 +81,32 @@ function showMiniGame(){
   miniGame.innerHTML="";
   miniGame.classList.remove("hidden");
 }
-
 function hideMiniGame(){
   miniGame.classList.add("hidden");
 }
-
 function addTitle(t){
   const h=document.createElement("h3");
   h.textContent=t;
   miniGame.appendChild(h);
 }
-
-function addText(t, cls){
+function addText(t){
   const p=document.createElement("p");
   p.textContent=t;
-  if(cls) p.className=cls;
   miniGame.appendChild(p);
 }
 
-function showNotification(text){
+/* =====================================================
+   🔔 NOTIFICATIONS (HAUT DE L’ÉCRAN)
+===================================================== */
+function showTopNotification(text){
   const n=document.createElement("div");
   n.className="notification";
+  n.style.top="20px";
+  n.style.bottom="auto";
+  n.style.border="3px solid red";
   n.textContent=text;
   document.body.appendChild(n);
-  setTimeout(()=>n.remove(),1800);
+  setTimeout(()=>n.remove(),2000);
 }
 
 /* =====================================================
@@ -126,30 +127,46 @@ const quizSteps=[
   {
     title:"Visite physique",
     question:"Rencontrer un client permet de :",
-    answers:[0,1],
-    options:["Rassurer","Créer une connexion","Ignorer ses attentes"],
-    explanation:"La présence physique renforce fortement la confiance."
+    good:[0,1],
+    answers:[
+      "Rassurer",
+      "Créer une connexion",
+      "Ignorer ses attentes"
+    ],
+    explanation:"La présence physique rassure et crée une vraie relation."
   },
   {
     title:"Phoning / Mailing",
     question:"Le contact direct sert à :",
-    answers:[0,1],
-    options:["Comprendre les besoins","Créer une relation","Parler prix"],
-    explanation:"Le contact direct crée une relation humaine."
+    good:[0,1],
+    answers:[
+      "Comprendre les besoins",
+      "Créer une relation humaine",
+      "Parler uniquement de prix"
+    ],
+    explanation:"Le contact direct permet d’adapter son discours."
   },
   {
     title:"Réseaux sociaux",
-    question:"Ils servent à :",
-    answers:[0,1],
-    options:["Se faire connaître","Montrer son univers","Vendre immédiatement"],
-    explanation:"Ils créent de la visibilité."
+    question:"Ils servent surtout à :",
+    good:[0,1],
+    answers:[
+      "Se faire connaître",
+      "Montrer son univers",
+      "Vendre immédiatement"
+    ],
+    explanation:"Les réseaux servent d’abord à créer de la visibilité."
   },
   {
     title:"Newsletters",
     question:"Une newsletter permet de :",
-    answers:[0,1],
-    options:["Rester présent","Créer un lien","Spam permanent"],
-    explanation:"Elle entretient la relation client."
+    good:[0,1],
+    answers:[
+      "Rester présent",
+      "Créer un lien",
+      "Envoyer du spam"
+    ],
+    explanation:"La newsletter entretient la relation dans le temps."
   }
 ];
 
@@ -167,35 +184,39 @@ function showQuestion(){
 
   addTitle(q.title);
   addText(q.question);
-  addText("🔴 2 bonnes réponses","hint");
+  addText("🔴 2 bonnes réponses");
 
-  q.options.forEach((o,i)=>{
+  q.answers.forEach((txt,i)=>{
     const b=document.createElement("button");
-    b.textContent=o;
+    b.textContent=txt;
     b.onclick=()=>{
       if(!selected.includes(i)) selected.push(i);
-      if(checkAnswer(q)){
+      if(check(q)){
         hideMiniGame();
-        showNotification(q.explanation);
+        showTopNotification("Bonne réponse");
         setTimeout(()=>{
+          showTopNotification(q.explanation);
           qi++;
           qi<quizSteps.length ? showQuestion() : afterMiniGame1();
-        },1200);
+        },800);
+      } else if(selected.length>=2){
+        showTopNotification("❌ Mauvaise réponse : ce choix ne permet pas d’atteindre l’objectif");
+        selected=[];
       }
     };
     miniGame.appendChild(b);
   });
 }
 
-function checkAnswer(q){
-  return q.answers.every(a=>selected.includes(a)) &&
-         selected.every(s=>q.answers.includes(s));
+function check(q){
+  return q.good.every(i=>selected.includes(i)) &&
+         selected.every(i=>q.good.includes(i));
 }
 
 function afterMiniGame1(){
   playDialog([
-    {speaker:"pirate2",text:"Bien joué."},
-    {speaker:"pirate3",text:"Créons ton identité visuelle."}
+    {speaker:"pirate2",text:"Bien vu."},
+    {speaker:"pirate3",text:"Créons maintenant ton identité visuelle."}
   ], startMiniGame2);
 }
 
@@ -206,7 +227,6 @@ function startMiniGame2(){
   showMiniGame();
   addTitle("Identité visuelle");
   addText("Choisis ton logo");
-
   loadImages(
     ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
     ()=>startColors()
@@ -216,29 +236,22 @@ function startMiniGame2(){
 function startColors(){
   showMiniGame();
   addTitle("Couleurs");
-
-  const hintBtn=document.createElement("button");
-  hintBtn.textContent="Indice";
-  hintBtn.onclick=()=>showNotification("Les couleurs doivent être cohérentes avec le logo");
-  miniGame.appendChild(hintBtn);
-
   loadImages(
     ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
-    (i)=> i===1 && startTypo()
+    i=> i===1 && startTypo()
   );
 }
 
 function startTypo(){
   showMiniGame();
   addTitle("Typographie");
-
   loadImages(
     ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
-    (i)=> i===0 && showIdentity()
+    i=> i===0 && showIdentity()
   );
 }
 
-/* Loader images */
+/* Loader + images + loupe */
 function loadImages(images,callback){
   const loader=document.createElement("div");
   loader.className="imageLoader";
@@ -250,6 +263,9 @@ function loadImages(images,callback){
   wrap.className="visualChoices";
 
   images.forEach((src,i)=>{
+    const box=document.createElement("div");
+    box.style.textAlign="center";
+
     const img=new Image();
     img.src=src;
     img.onload=()=>{
@@ -257,21 +273,28 @@ function loadImages(images,callback){
       if(loaded===images.length) loader.remove();
     };
     img.onclick=()=>callback(i);
-    wrap.appendChild(img);
+
+    const zoom=document.createElement("button");
+    zoom.textContent="🔎";
+    zoom.onclick=e=>{
+      e.stopPropagation();
+      openZoom(src);
+    };
+
+    box.appendChild(img);
+    box.appendChild(zoom);
+    wrap.appendChild(box);
   });
 
   miniGame.appendChild(wrap);
 }
 
 /* =====================================================
-   🖼️ IDENTITÉ VISUELLE (CLIC = SUITE)
+   🖼️ IDENTITÉ VISUELLE
 ===================================================== */
 function showIdentity(){
   showMiniGame();
-
-  const zoomBtn=document.createElement("button");
-  zoomBtn.textContent="🔎";
-  miniGame.appendChild(zoomBtn);
+  addTitle("Identité visuelle créée");
 
   const img=document.createElement("img");
   img.src="images/identiteevisuelle.JPG";
@@ -279,13 +302,11 @@ function showIdentity(){
   img.style.cursor="pointer";
   miniGame.appendChild(img);
 
-  zoomBtn.onclick=()=>openZoom(img.src);
-
   img.onclick=()=>{
     hideMiniGame();
     playDialog([
       {speaker:"pirate2",text:"Ta marque est reconnaissable."},
-      {speaker:"pirate3",text:"Voyons maintenant où communiquer."}
+      {speaker:"pirate3",text:"Voyons où communiquer."}
     ], startMiniGame3);
   };
 }
@@ -349,14 +370,11 @@ function startMiniGame3(){
     };
     miniGame.appendChild(b);
   });
-
-  addText("Indice : BtoB = entreprise → entreprise | BtoC = entreprise → particulier");
 }
 
 function drawLine(svg,a,b){
   const r1=a.getBoundingClientRect();
   const r2=b.getBoundingClientRect();
-
   const line=document.createElementNS("http://www.w3.org/2000/svg","line");
   line.setAttribute("x1",r1.left+r1.width/2);
   line.setAttribute("y1",r1.top+r1.height/2);
