@@ -206,7 +206,7 @@ function startMiniGame2(){
 
   addText("1️⃣ Choisis ton logo (choix libre)");
   addImages(
-    ["images/Logo1.png","images/Logo2.png","images/Logo3.png"],
+    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
     ()=>stepColors()
   );
 }
@@ -216,7 +216,7 @@ function stepColors(){
   addText("2️⃣ Choisis les bonnes couleurs");
 
   addImages(
-    ["images/colors1.png","images/colors2.png","images/colors3.png"],
+    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
     (i)=>{
       if(i===1){
         addSuccess(
@@ -234,7 +234,7 @@ function stepTypo(){
   addText("3️⃣ Choisis la typographie");
 
   addImages(
-    ["images/typo1.png","images/typo2.png","images/typo3.png"],
+    ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
     (i)=>{
       if(i===0){
         addSuccess(
