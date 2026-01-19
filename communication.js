@@ -18,37 +18,23 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   🎬 VIDÉO INTRO — CORRIGÉ
+   VIDÉO INTRO
 ===================================================== */
-
-// Sécurité iOS / Safari
 introVideo.muted = true;
-introVideo.playsInline = true;
+introVideo.play().catch(()=>{});
 
-// Autoplay safe
-introVideo.play().catch(() => {});
-
-// 🔊 Bouton son
-toggleSound.addEventListener("click", (e) => {
-  e.preventDefault();
+toggleSound.onclick = e => {
   e.stopPropagation();
-
   introVideo.muted = !introVideo.muted;
   toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+};
 
-  // iOS : relance après interaction
-  introVideo.play().catch(() => {});
-});
-
-// ✖ Bouton fermer
-closeVideo.addEventListener("click", (e) => {
-  e.preventDefault();
+closeVideo.onclick = e => {
   e.stopPropagation();
   endVideo();
-});
+};
 
-// Fin automatique
-introVideo.addEventListener("ended", endVideo);
+introVideo.onended = endVideo;
 
 function endVideo(){
   introVideo.pause();
@@ -463,15 +449,7 @@ function finish(){
   b.textContent="Bravo, tu as gagné cette quête";
   f.appendChild(b);
   document.body.appendChild(f);
-
-setTimeout(() => {
-
-  // 🔓 Débloque le pirate 5 au retour menu
-  sessionStorage.setItem("unlock_pirate5", "true");
-
-  // 🔁 Retour au menu
-  window.location.href = "menu.html";
-
-}, 2500);
+  setTimeout(()=>location.href="menu.html",2500);
+}
 
 });
