@@ -18,32 +18,42 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   🎬 VIDEO INTRO
+   🎬 VIDÉO INTRO — CORRIGÉ
 ===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const questVideo = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
 
-questVideo.muted = true;
-questVideo.play().catch(()=>{});
+// Sécurité iOS / Safari
+introVideo.muted = true;
+introVideo.playsInline = true;
 
-toggleSound.onclick = () => {
-  questVideo.muted = !questVideo.muted;
-  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-};
+// Autoplay safe
+introVideo.play().catch(() => {});
 
-closeVideo.onclick = () => {
-  triggerGlow(closeVideo);
+// 🔊 Bouton son
+toggleSound.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  introVideo.muted = !introVideo.muted;
+  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+
+  // iOS : relance après interaction
+  introVideo.play().catch(() => {});
+});
+
+// ✖ Bouton fermer
+closeVideo.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
   endVideo();
-};
+});
 
-questVideo.onended = endVideo;
+// Fin automatique
+introVideo.addEventListener("ended", endVideo);
 
-function endVideo() {
-  questVideo.pause();
-  videoContainer.style.display = "none";
-  showLoader("Chargement...", 600, showBackground);
+function endVideo(){
+  introVideo.pause();
+  videoIntro.classList.add("hidden");
+  scene.classList.remove("hidden");
 }
 
 /* =====================================================
