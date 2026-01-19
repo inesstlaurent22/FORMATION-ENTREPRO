@@ -18,23 +18,37 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   VIDÉO INTRO
+   VIDÉO INTRO — CORRIGÉ
 ===================================================== */
-introVideo.muted = true;
-introVideo.play().catch(()=>{});
 
-toggleSound.onclick = e => {
+// Sécurité iOS / Safari
+introVideo.muted = true;
+introVideo.playsInline = true;
+
+// Autoplay safe
+introVideo.play().catch(() => {});
+
+// 🔊 Bouton son
+toggleSound.addEventListener("click", (e) => {
+  e.preventDefault();
   e.stopPropagation();
+
   introVideo.muted = !introVideo.muted;
   toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-};
 
-closeVideo.onclick = e => {
+  // Relance nécessaire sur iOS après interaction
+  introVideo.play().catch(() => {});
+});
+
+// ✖ Bouton fermer
+closeVideo.addEventListener("click", (e) => {
+  e.preventDefault();
   e.stopPropagation();
   endVideo();
-};
+});
 
-introVideo.onended = endVideo;
+// Fin automatique de la vidéo
+introVideo.addEventListener("ended", endVideo);
 
 function endVideo(){
   introVideo.pause();
