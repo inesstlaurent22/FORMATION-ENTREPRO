@@ -18,26 +18,49 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   VIDÉO INTRO
+   🎬 VIDÉO INTRO — VERSION SÛRE
 ===================================================== */
-introVideo.muted = true;
-introVideo.play().catch(()=>{});
 
-toggleSound.onclick = e => {
+// état interne
+let videoEnded = false;
+
+// autoplay silencieux (autorisé)
+introVideo.muted = true;
+introVideo.playsInline = true;
+introVideo.play().catch(() => {
+  // normal sur mobile : la vidéo attend une interaction
+});
+
+// 🔊 Bouton son
+toggleSound.addEventListener("click", (e) => {
+  e.preventDefault();
   e.stopPropagation();
+
   introVideo.muted = !introVideo.muted;
   toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-};
 
-closeVideo.onclick = e => {
+  // iOS / Safari : relance si nécessaire
+  introVideo.play().catch(() => {});
+});
+
+// ✖ Bouton fermer
+closeVideo.addEventListener("click", (e) => {
+  e.preventDefault();
   e.stopPropagation();
-  endVideo();
-};
+  if (!videoEnded) endVideo();
+});
 
-introVideo.onended = endVideo;
+// fin naturelle de la vidéo
+introVideo.addEventListener("ended", () => {
+  if (!videoEnded) endVideo();
+});
 
 function endVideo(){
+  videoEnded = true;
+
   introVideo.pause();
+  introVideo.currentTime = 0;
+
   videoIntro.classList.add("hidden");
   scene.classList.remove("hidden");
 }
