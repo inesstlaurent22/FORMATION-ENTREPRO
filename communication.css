@@ -48,12 +48,11 @@ body{
   right:20px;
   display:flex;
   gap:10px;
-  pointer-events:auto;
   z-index:3000;
 }
 
 /* =====================================================
-   🔘 BOUTONS – STYLE PIRATE GLOBAL
+   🔘 BOUTONS – STYLE PIRATE
 ===================================================== */
 button{
   background:linear-gradient(145deg,#e8c77a,#b48b3c);
@@ -77,14 +76,12 @@ button:hover{
 .btn-platform{
   background:linear-gradient(145deg,#7aaae8,#3c6db4);
   border-color:#10243b;
-  color:#000;
 }
 
 /* Boutons objectifs (marron) */
 .btn-target{
   background:linear-gradient(145deg,#e8a37a,#b45a3c);
   border-color:#3b1c10;
-  color:#000;
 }
 
 /* =====================================================
@@ -164,7 +161,7 @@ button:hover{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:520px;
+  width:560px;
   max-height:80vh;
   overflow-y:auto;
   padding:32px;
@@ -180,11 +177,11 @@ button:hover{
 #miniGameContainer h3{
   color:gold;
   text-shadow:0 0 12px gold;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 #miniGameContainer p{
-  margin-top:12px;
+  margin-top:10px;
   line-height:1.45;
 }
 
@@ -194,9 +191,8 @@ button:hover{
 .visualChoices{
   display:flex;
   justify-content:space-between;
-  gap:32px;
-  margin-top:28px;
-  flex-wrap:wrap;
+  gap:28px;
+  margin-top:26px;
 }
 
 .visualChoices > div{
@@ -221,18 +217,35 @@ button:hover{
   box-shadow:0 0 16px rgba(255,215,100,.8);
 }
 
-/* Bouton loupe 🔎 */
+/* Bouton loupe */
 .visualChoices button{
   padding:6px 10px;
   font-size:14px;
 }
 
 /* =====================================================
-   🔔 NOTIFICATIONS (MINI-JEU 1)
+   🔔 NOTIFICATIONS – MINI-JEU 1
 ===================================================== */
+.notif-hint{
+  position:fixed;
+  top:50px;
+  left:50%;
+  transform:translateX(-50%);
+  color:gold;
+  font-size:15px;
+  animation:pulseHint 1.2s infinite;
+  z-index:4100;
+}
+
+@keyframes pulseHint{
+  0%{opacity:.6}
+  50%{opacity:1}
+  100%{opacity:.6}
+}
+
 .notification{
   position:fixed;
-  top:80px;
+  top:90px;
   left:50%;
   transform:translateX(-50%);
   padding:16px 26px;
@@ -241,6 +254,7 @@ button:hover{
   z-index:4000;
   font-size:16px;
   box-shadow:0 0 20px rgba(0,0,0,.8);
+  cursor:pointer;
 }
 
 .notification.success{
@@ -252,7 +266,7 @@ button:hover{
 }
 
 /* =====================================================
-   📳 VIBRATION ÉCRAN (MAUVAISE RÉPONSE)
+   📳 VIBRATION ÉCRAN
 ===================================================== */
 .shake{
   animation:shake .35s;
@@ -267,7 +281,7 @@ button:hover{
 }
 
 /* =====================================================
-   🌑 LOADER / OVERLAY (IDENTITÉ & FIN)
+   🌑 OVERLAY / ZOOM / FIN
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -280,7 +294,6 @@ button:hover{
 }
 
 .loaderBox{
-  position:relative;
   padding:26px 36px;
   background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
   border:4px solid #c9a24d;
@@ -289,17 +302,6 @@ button:hover{
   font-size:22px;
   text-align:center;
   box-shadow:0 0 40px rgba(255,215,100,.6);
-}
-
-/* =====================================================
-   💎 GEMS – EXPLOSION FIN DE QUÊTE
-===================================================== */
-#fadeScreen .gem{
-  position:absolute;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  pointer-events:none;
 }
 
 /* =====================================================
@@ -317,10 +319,11 @@ button:hover{
   }
 
   .visualChoices{
-    justify-content:center;
+    flex-direction:column;
+    align-items:center;
   }
 
   .visualChoices img{
-    width:110px;
+    width:120px;
   }
 }
