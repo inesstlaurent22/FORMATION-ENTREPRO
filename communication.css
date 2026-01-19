@@ -52,7 +52,7 @@ body{
 }
 
 /* =====================================================
-   🔘 BOUTONS – STYLE PIRATE
+   🔘 BOUTONS – STYLE PIRATE GLOBAL
 ===================================================== */
 button{
   background:linear-gradient(145deg,#e8c77a,#b48b3c);
@@ -72,14 +72,14 @@ button:hover{
   box-shadow:0 0 18px rgba(255,215,100,.85);
 }
 
-/* Plateformes (mini-jeu 3) */
+/* Boutons plateformes (bleus) */
 .btn-platform{
   background:linear-gradient(145deg,#7aaae8,#3c6db4);
   border-color:#10243b;
   color:#000;
 }
 
-/* Objectifs (mini-jeu 3) */
+/* Boutons objectifs (marron) */
 .btn-target{
   background:linear-gradient(145deg,#e8a37a,#b45a3c);
   border-color:#3b1c10;
@@ -163,7 +163,7 @@ button:hover{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:480px;
+  width:520px;
   max-height:80vh;
   overflow-y:auto;
   padding:32px;
@@ -188,18 +188,25 @@ button:hover{
 }
 
 /* =====================================================
-   🖼️ CHOIX VISUELS (mini-jeu 2 & 3)
+   🖼️ CHOIX VISUELS (MINI-JEU 2 & 3)
 ===================================================== */
 .visualChoices{
   display:flex;
-  justify-content:center;
-  gap:20px;
-  margin-top:24px;
+  justify-content:space-between;
+  gap:32px;
+  margin-top:28px;
   flex-wrap:wrap;
 }
 
+.visualChoices > div{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+
 .visualChoices img{
-  width:120px;
+  width:140px;
   height:auto;
   cursor:pointer;
   border-radius:10px;
@@ -213,15 +220,21 @@ button:hover{
   box-shadow:0 0 16px rgba(255,215,100,.8);
 }
 
+/* Bouton loupe 🔎 */
+.visualChoices button{
+  padding:6px 10px;
+  font-size:14px;
+}
+
 /* =====================================================
-   🔔 NOTIFICATIONS (mini-jeu 1)
+   🔔 NOTIFICATIONS (MINI-JEU 1)
 ===================================================== */
 .notification{
   position:fixed;
-  top:20px;
+  top:80px;
   left:50%;
   transform:translateX(-50%);
-  padding:16px 24px;
+  padding:16px 26px;
   background:#111;
   border-radius:14px;
   z-index:4000;
@@ -266,6 +279,7 @@ button:hover{
 }
 
 .loaderBox{
+  position:relative;
   padding:26px 36px;
   background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
   border:4px solid #c9a24d;
@@ -274,6 +288,17 @@ button:hover{
   font-size:22px;
   text-align:center;
   box-shadow:0 0 40px rgba(255,215,100,.6);
+}
+
+/* =====================================================
+   💎 GEMS – EXPLOSION FIN DE QUÊTE
+===================================================== */
+#fadeScreen .gem{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  pointer-events:none;
 }
 
 /* =====================================================
@@ -290,7 +315,11 @@ button:hover{
     max-width:90%;
   }
 
+  .visualChoices{
+    justify-content:center;
+  }
+
   .visualChoices img{
-    width:90px;
+    width:110px;
   }
 }
