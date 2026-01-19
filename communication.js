@@ -18,42 +18,32 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   VIDÉO INTRO — CORRIGÉ
+   🎬 VIDEO INTRO
 ===================================================== */
+const videoContainer = document.getElementById("videoContainer");
+const questVideo = document.getElementById("questVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo = document.getElementById("closeVideo");
 
-// Sécurité iOS / Safari
-introVideo.muted = true;
-introVideo.playsInline = true;
+questVideo.muted = true;
+questVideo.play().catch(()=>{});
 
-// Autoplay safe
-introVideo.play().catch(() => {});
+toggleSound.onclick = () => {
+  questVideo.muted = !questVideo.muted;
+  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+};
 
-// 🔊 Bouton son
-toggleSound.addEventListener("click", (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-
-  introVideo.muted = !introVideo.muted;
-  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-
-  // Relance nécessaire sur iOS après interaction
-  introVideo.play().catch(() => {});
-});
-
-// ✖ Bouton fermer
-closeVideo.addEventListener("click", (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+closeVideo.onclick = () => {
+  triggerGlow(closeVideo);
   endVideo();
-});
+};
 
-// Fin automatique de la vidéo
-introVideo.addEventListener("ended", endVideo);
+questVideo.onended = endVideo;
 
-function endVideo(){
-  introVideo.pause();
-  videoIntro.classList.add("hidden");
-  scene.classList.remove("hidden");
+function endVideo() {
+  questVideo.pause();
+  videoContainer.style.display = "none";
+  showLoader("Chargement...", 600, showBackground);
 }
 
 /* =====================================================
