@@ -18,7 +18,7 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   🎬 VIDÉO INTRO — STABLE
+   🎬 VIDÉO INTRO
 ===================================================== */
 introVideo.muted = true;
 introVideo.play().catch(()=>{});
@@ -48,17 +48,16 @@ function endVideo(){
 let dialogs=[], dialogIndex=0, dialogCallback=null;
 
 function playDialog(list, callback){
-  dialogs = list;
-  dialogIndex = 0;
-  dialogCallback = callback;
+  dialogs=list;
+  dialogIndex=0;
+  dialogCallback=callback;
   dialogBox.classList.remove("hidden");
   showDialog();
 }
 
 function showDialog(){
   dialogText.textContent = dialogs[dialogIndex].text;
-  const speaker = dialogs[dialogIndex].speaker;
-  const target = speaker === "pirate2" ? pirate2 : pirate3;
+  const target = dialogs[dialogIndex].speaker === "pirate2" ? pirate2 : pirate3;
   const r = target.getBoundingClientRect();
 
   dialogBox.style.left =
@@ -81,7 +80,7 @@ dialogBox.onclick = () => {
    HELPERS
 ===================================================== */
 function showMiniGame(){
-  miniGame.innerHTML = "";
+  miniGame.innerHTML="";
   miniGame.classList.remove("hidden");
 }
 function hideMiniGame(){
@@ -99,9 +98,10 @@ function addText(t){
 }
 
 /* =====================================================
-   🔔 NOTIFICATIONS (CLIQUABLES)
+   🔔 NOTIFICATION CLIQUABLE (MINI-JEU 1)
 ===================================================== */
 function notify(text, success, onNext){
+
   const hint=document.createElement("div");
   hint.className="notif-hint";
   hint.textContent="👇 Clique sur la notification pour continuer";
@@ -109,12 +109,12 @@ function notify(text, success, onNext){
 
   const n=document.createElement("div");
   n.className=`notification ${success?"success":"error"}`;
-  n.innerHTML=success
+  n.innerHTML = success
     ? `<div style="color:gold">Bravo</div>
        <div style="margin-top:8px;font-size:18px;font-weight:bold">${text}</div>`
     : `<div>${text}</div>`;
 
-  n.onclick=()=>{
+  n.onclick = () => {
     n.remove();
     hint.remove();
     onNext && onNext();
@@ -188,6 +188,7 @@ function showQuestion(){
   showMiniGame();
   selected=[];
   const s=quizSteps[qi];
+
   addTitle(s.title);
   addText(s.q);
   addText("🔴 2 bonnes réponses");
@@ -197,13 +198,14 @@ function showQuestion(){
     b.textContent=t;
     b.onclick=()=>{
       if(!selected.includes(i)) selected.push(i);
+
       if(check(s)){
         notify(s.goodTxt,true,()=>{
           qi++;
           qi<quizSteps.length ? showQuestion() : afterMiniGame1();
         });
       } else if(selected.length>=2){
-        notify(s.badTxt,false,()=>{selected=[];});
+        notify(s.badTxt,false,()=>{ selected=[]; });
       }
     };
     miniGame.appendChild(b);
@@ -226,8 +228,17 @@ function afterMiniGame1(){
 /* =====================================================
    🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
-function imageGroup(images, cb){
+function startMiniGame2(){
   showMiniGame();
+  addTitle("🎨 Identité visuelle");
+  addText("Logo, couleurs et typographie doivent être cohérents.");
+  const b=document.createElement("button");
+  b.textContent="Commencer";
+  b.onclick=startLogo;
+  miniGame.appendChild(b);
+}
+
+function imageGroup(images, cb){
   const loader=document.createElement("div");
   loader.textContent="⏳";
   loader.style.fontSize="32px";
@@ -236,8 +247,8 @@ function imageGroup(images, cb){
   let loaded=0;
   const wrap=document.createElement("div");
   wrap.className="visualChoices";
-  wrap.style.flexWrap="nowrap";
   wrap.style.justifyContent="center";
+  wrap.style.flexWrap="nowrap";
 
   images.forEach((src,i)=>{
     const img=new Image();
@@ -285,18 +296,10 @@ function showZoom(src){
   document.body.appendChild(f);
 }
 
-function startMiniGame2(){
-  showMiniGame();
-  addTitle("🎨 Identité visuelle");
-  addText("Logo, couleurs et typographie doivent être cohérents.");
-  const b=document.createElement("button");
-  b.textContent="Commencer";
-  b.onclick=startLogo;
-  miniGame.appendChild(b);
-}
-
 function startLogo(){
+  showMiniGame();
   addTitle("Choisis ton logo");
+  addText("Le choix est libre");
   imageGroup(
     ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
     ()=>startColors()
@@ -304,15 +307,8 @@ function startLogo(){
 }
 
 function startColors(){
+  showMiniGame();
   addTitle("Choisis les couleurs");
-  const hint=document.createElement("button");
-  hint.textContent="Indice";
-  const txt=document.createElement("p");
-  hint.onclick=()=>txt.textContent=
-    "Les couleurs doivent être cohérentes avec le logo.";
-  miniGame.appendChild(hint);
-  miniGame.appendChild(txt);
-
   imageGroup(
     ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
     i=>{ if(i===1) startTypo(); }
@@ -320,6 +316,7 @@ function startColors(){
 }
 
 function startTypo(){
+  showMiniGame();
   addTitle("Choisis la typographie");
   imageGroup(
     ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
@@ -363,16 +360,6 @@ function startMiniGame3(){
   showMiniGame();
   addTitle("Choisis le bon type de communication");
 
-  const hint=document.createElement("button");
-  hint.textContent="Indice";
-  const txt=document.createElement("p");
-  hint.onclick=()=>{
-    txt.textContent=
-      "BtoB : entreprise à entreprise / BtoC : entreprise à particulier";
-  };
-  miniGame.appendChild(hint);
-  miniGame.appendChild(txt);
-
   const left=document.createElement("div");
   const right=document.createElement("div");
   left.className="visualChoices";
@@ -389,9 +376,9 @@ function startMiniGame3(){
   let sel=null, ok=0;
 
   [
-    {l:"Instagram & TikTok",k:"know"},
+    {l:"Instagram",k:"know"},
     {l:"Shopify",k:"btoc"},
-    {l:"LinkedIn & Facebook",k:"btob"}
+    {l:"Facebook",k:"btob"}
   ].forEach(p=>{
     const b=document.createElement("button");
     b.className="btn-platform";
