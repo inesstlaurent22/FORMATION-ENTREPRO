@@ -449,7 +449,15 @@ function finish(){
   b.textContent="Bravo, tu as gagné cette quête";
   f.appendChild(b);
   document.body.appendChild(f);
-  setTimeout(()=>location.href="menu.html",2500);
-}
+
+setTimeout(() => {
+
+  // 🔓 Débloque le pirate 5 au retour menu
+  sessionStorage.setItem("unlock_pirate5", "true");
+
+  // 🔁 Retour au menu
+  window.location.href = "menu.html";
+
+}, 2500);
 
 });
