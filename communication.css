@@ -49,6 +49,7 @@ body{
   display:flex;
   gap:10px;
   z-index:3000;
+  pointer-events:auto;
 }
 
 /* =====================================================
@@ -63,12 +64,12 @@ button{
   font-weight:bold;
   cursor:pointer;
   padding:12px 22px;
-  transition:transform .2s, box-shadow .2s;
+  transition:transform .2s ease, box-shadow .2s ease;
   box-shadow:inset 0 0 6px rgba(255,255,255,.4);
 }
 
 button:hover{
-  transform:scale(1.06);
+  transform:scale(1.05);
   box-shadow:0 0 18px rgba(255,215,100,.85);
 }
 
@@ -161,7 +162,7 @@ button:hover{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:560px;
+  width:520px;
   max-height:80vh;
   overflow-y:auto;
   padding:32px;
@@ -177,84 +178,42 @@ button:hover{
 #miniGameContainer h3{
   color:gold;
   text-shadow:0 0 12px gold;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
 #miniGameContainer p{
-  margin-top:10px;
+  margin-top:12px;
   line-height:1.45;
 }
 
-/* =====================================================
-   🖼️ CHOIX VISUELS (MINI-JEU 2 & 3)
-===================================================== */
-.visualChoices{
-  display:flex;
-  justify-content:space-between;
-  gap:28px;
-  margin-top:26px;
+/* Texte "2 bonnes réponses" lumineux */
+.glow-text{
+  color:#ff4d4d;
+  animation:glowPulse 1.2s infinite;
 }
 
-.visualChoices > div{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-}
-
-.visualChoices img{
-  width:140px;
-  height:auto;
-  cursor:pointer;
-  border-radius:10px;
-  border:3px solid transparent;
-  transition:transform .2s, box-shadow .2s, border .2s;
-}
-
-.visualChoices img:hover{
-  transform:scale(1.08);
-  border-color:gold;
-  box-shadow:0 0 16px rgba(255,215,100,.8);
-}
-
-/* Bouton loupe */
-.visualChoices button{
-  padding:6px 10px;
-  font-size:14px;
+@keyframes glowPulse{
+  0%{text-shadow:0 0 4px #ff4d4d}
+  50%{text-shadow:0 0 16px #ff4d4d}
+  100%{text-shadow:0 0 4px #ff4d4d}
 }
 
 /* =====================================================
-   🔔 NOTIFICATIONS – MINI-JEU 1
+   🔔 NOTIFICATIONS MINI-JEU 1
 ===================================================== */
-.notif-hint{
-  position:fixed;
-  top:50px;
-  left:50%;
-  transform:translateX(-50%);
-  color:gold;
-  font-size:15px;
-  animation:pulseHint 1.2s infinite;
-  z-index:4100;
-}
-
-@keyframes pulseHint{
-  0%{opacity:.6}
-  50%{opacity:1}
-  100%{opacity:.6}
-}
-
 .notification{
   position:fixed;
-  top:90px;
+  top:100px;
   left:50%;
   transform:translateX(-50%);
-  padding:16px 26px;
+  padding:16px 28px;
   background:#111;
   border-radius:14px;
   z-index:4000;
   font-size:16px;
   box-shadow:0 0 20px rgba(0,0,0,.8);
   cursor:pointer;
+  text-align:center;
 }
 
 .notification.success{
@@ -263,6 +222,18 @@ button:hover{
 
 .notification.error{
   border:3px solid #ff3b3b;
+}
+
+/* Message "Clique sur la notif" */
+.notif-hint{
+  position:fixed;
+  top:60px;
+  left:50%;
+  transform:translateX(-50%);
+  color:gold;
+  font-weight:bold;
+  animation:goldPulse 1.2s infinite;
+  z-index:4100;
 }
 
 /* =====================================================
@@ -278,6 +249,48 @@ button:hover{
   50%{transform:translateX(6px)}
   75%{transform:translateX(-6px)}
   100%{transform:translateX(0)}
+}
+
+/* =====================================================
+   🖼️ CHOIX VISUELS – MINI-JEU 2
+===================================================== */
+.visualChoices{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  margin-top:24px;
+  flex-wrap:wrap;
+}
+
+.visualChoices.row{
+  flex-wrap:nowrap;
+}
+
+.visualChoices > div{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+
+.visualChoices img{
+  width:140px;
+  border-radius:10px;
+  border:3px solid transparent;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.visualChoices img:hover{
+  transform:scale(1.08);
+  border-color:gold;
+  box-shadow:0 0 16px rgba(255,215,100,.8);
+}
+
+/* Bouton loupe */
+.visualChoices button{
+  padding:6px 10px;
+  font-size:14px;
 }
 
 /* =====================================================
@@ -304,11 +317,44 @@ button:hover{
   box-shadow:0 0 40px rgba(255,215,100,.6);
 }
 
+.loaderBox.glow{
+  animation:goldPulse 1.4s infinite;
+}
+
+/* =====================================================
+   📲 MINI-JEU 3 – LIENS
+===================================================== */
+.linkGame{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:30px;
+}
+
+.linkGame .side{
+  display:flex;
+  gap:14px;
+}
+
+.linkGame .left{
+  justify-content:flex-start;
+}
+
+.linkGame .right{
+  justify-content:flex-end;
+}
+
+.linkGame svg.lines{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
 /* =====================================================
    📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
-
   #miniGameContainer{
     width:90%;
     padding:24px;
@@ -318,12 +364,8 @@ button:hover{
     max-width:90%;
   }
 
-  .visualChoices{
+  .linkGame{
     flex-direction:column;
-    align-items:center;
-  }
-
-  .visualChoices img{
-    width:120px;
+    gap:20px;
   }
 }
