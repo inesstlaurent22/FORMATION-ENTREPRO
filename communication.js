@@ -23,18 +23,18 @@ const miniGame = document.getElementById("miniGameContainer");
 introVideo.muted = true;
 introVideo.play().catch(()=>{});
 
-toggleSound.onclick = e => {
+toggleSound.addEventListener("click", e => {
   e.stopPropagation();
   introVideo.muted = !introVideo.muted;
   toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-};
+});
 
-closeVideo.onclick = e => {
+closeVideo.addEventListener("click", e => {
   e.stopPropagation();
   endVideo();
-};
+});
 
-introVideo.onended = endVideo;
+introVideo.addEventListener("ended", endVideo);
 
 function endVideo(){
   introVideo.pause();
@@ -43,27 +43,29 @@ function endVideo(){
 }
 
 /* =====================================================
-   💬 DIALOGUES (AU-DESSUS DES PIRATES)
+   💬 DIALOGUES
 ===================================================== */
 let dialogs=[], dialogIndex=0, dialogCallback=null;
 
 function playDialog(list, callback){
-  dialogs=list;
-  dialogIndex=0;
-  dialogCallback=callback;
+  dialogs = list;
+  dialogIndex = 0;
+  dialogCallback = callback;
   dialogBox.classList.remove("hidden");
   showDialog();
 }
 
 function showDialog(){
-  dialogText.textContent = dialogs[dialogIndex].text;
-  const target = dialogs[dialogIndex].speaker === "pirate2" ? pirate2 : pirate3;
+  const d = dialogs[dialogIndex];
+  dialogText.textContent = d.text;
+
+  const target = d.speaker === "pirate2" ? pirate2 : pirate3;
   const r = target.getBoundingClientRect();
 
   dialogBox.style.left =
     `${r.left + r.width/2 - dialogBox.offsetWidth/2}px`;
   dialogBox.style.top =
-    `${r.top - dialogBox.offsetHeight - 18}px`;
+    `${r.top - dialogBox.offsetHeight - 25}px`;
 }
 
 dialogBox.onclick = () => {
@@ -80,47 +82,50 @@ dialogBox.onclick = () => {
    HELPERS
 ===================================================== */
 function showMiniGame(){
-  miniGame.innerHTML="";
+  miniGame.innerHTML = "";
   miniGame.classList.remove("hidden");
 }
 function hideMiniGame(){
   miniGame.classList.add("hidden");
 }
 function addTitle(t){
-  const h=document.createElement("h3");
-  h.textContent=t;
+  const h = document.createElement("h3");
+  h.textContent = t;
   miniGame.appendChild(h);
 }
-function addText(t){
-  const p=document.createElement("p");
-  p.textContent=t;
+function addText(t, cls){
+  const p = document.createElement("p");
+  p.textContent = t;
+  if(cls) p.className = cls;
   miniGame.appendChild(p);
 }
 
 /* =====================================================
-   🔔 NOTIFICATION CLIQUABLE (MINI-JEU 1)
+   🔔 NOTIFICATION (CLIQUABLE)
 ===================================================== */
-function notify(text, success, onNext){
+function notify(text, success, first=false, onClick){
+  const n = document.createElement("div");
+  n.className = `notification ${success ? "success" : "error"}`;
 
-  const hint=document.createElement("div");
-  hint.className="notif-hint";
-  hint.textContent="👇 Clique sur la notification pour continuer";
-  document.body.appendChild(hint);
+  if(first){
+    const hint = document.createElement("div");
+    hint.textContent = "⬇ Clique sur la notification pour continuer ⬇";
+    hint.className = "notif-hint";
+    document.body.appendChild(hint);
+    setTimeout(()=>hint.remove(),2500);
+  }
 
-  const n=document.createElement("div");
-  n.className=`notification ${success?"success":"error"}`;
   n.innerHTML = success
     ? `<div style="color:gold">Bravo</div>
-       <div style="margin-top:8px;font-size:18px;font-weight:bold">${text}</div>`
+       <div style="margin-top:10px;font-size:18px;font-weight:bold">${text}</div>`
     : `<div>${text}</div>`;
+
+  document.body.appendChild(n);
 
   n.onclick = () => {
     n.remove();
-    hint.remove();
-    onNext && onNext();
+    onClick && onClick();
   };
-
-  document.body.appendChild(n);
 
   if(!success){
     document.body.classList.add("shake");
@@ -129,7 +134,7 @@ function notify(text, success, onNext){
 }
 
 /* =====================================================
-   DÉBUT DE QUÊTE
+   🚀 DÉBUT
 ===================================================== */
 pirate3.onclick = () => {
   playDialog([
@@ -140,9 +145,9 @@ pirate3.onclick = () => {
 };
 
 /* =====================================================
-   🎮 MINI-JEU 1 — COMMUNICATION
+   🎮 MINI-JEU 1 – QCM
 ===================================================== */
-const quizSteps=[
+const quizSteps = [
   {
     title:"⚓ Visite physique",
     q:"Rencontrer un client permet de :",
@@ -177,35 +182,41 @@ const quizSteps=[
   }
 ];
 
-let qi=0, selected=[];
+let qi = 0;
+let selected = [];
 
 function startMiniGame1(){
-  qi=0;
+  qi = 0;
   showQuestion();
 }
 
 function showQuestion(){
   showMiniGame();
-  selected=[];
-  const s=quizSteps[qi];
+  selected = [];
 
+  const s = quizSteps[qi];
   addTitle(s.title);
   addText(s.q);
-  addText("🔴 2 bonnes réponses");
+  addText("🔴 2 bonnes réponses","glow-text");
 
   s.opts.forEach((t,i)=>{
-    const b=document.createElement("button");
-    b.textContent=t;
-    b.onclick=()=>{
+    const b = document.createElement("button");
+    b.textContent = t;
+    b.onclick = () => {
       if(!selected.includes(i)) selected.push(i);
 
       if(check(s)){
-        notify(s.goodTxt,true,()=>{
-          qi++;
-          qi<quizSteps.length ? showQuestion() : afterMiniGame1();
-        });
-      } else if(selected.length>=2){
-        notify(s.badTxt,false,()=>{ selected=[]; });
+        notify(
+          s.goodTxt,
+          true,
+          qi === 0,
+          () => {
+            qi++;
+            qi < quizSteps.length ? showQuestion() : afterMiniGame1();
+          }
+        );
+      } else if(selected.length >= 2){
+        notify(s.badTxt,false,false,()=>{ selected=[]; });
       }
     };
     miniGame.appendChild(b);
@@ -213,83 +224,69 @@ function showQuestion(){
 }
 
 function check(s){
-  return s.good.every(i=>selected.includes(i)) &&
-         selected.every(i=>s.good.includes(i));
+  return s.good.every(i => selected.includes(i)) &&
+         selected.every(i => s.good.includes(i));
 }
 
 function afterMiniGame1(){
   hideMiniGame();
   playDialog([
     {speaker:"pirate2",text:"Parfait. Tu sais attirer l’attention."},
-    {speaker:"pirate3",text:"Mais pour être reconnu, il faut une identité forte."}
+    {speaker:"pirate3",text:"Créons maintenant ton identité visuelle."}
   ], startMiniGame2);
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
+   🎨 MINI-JEU 2 – IDENTITÉ VISUELLE
 ===================================================== */
 function startMiniGame2(){
   showMiniGame();
   addTitle("🎨 Identité visuelle");
   addText("Logo, couleurs et typographie doivent être cohérents.");
-  const b=document.createElement("button");
-  b.textContent="Commencer";
-  b.onclick=startLogo;
+
+  const b = document.createElement("button");
+  b.textContent = "Commencer";
+  b.onclick = startLogo;
   miniGame.appendChild(b);
 }
 
 function imageGroup(images, cb){
-  const loader=document.createElement("div");
-  loader.textContent="⏳";
-  loader.style.fontSize="32px";
-  miniGame.appendChild(loader);
-
-  let loaded=0;
-  const wrap=document.createElement("div");
-  wrap.className="visualChoices";
-  wrap.style.justifyContent="center";
-  wrap.style.flexWrap="nowrap";
+  const wrap = document.createElement("div");
+  wrap.className = "visualChoices row";
 
   images.forEach((src,i)=>{
-    const img=new Image();
-    img.src=src;
-    img.onload=()=>{
-      loaded++;
-      if(loaded===images.length){
-        loader.remove();
-        miniGame.appendChild(wrap);
-      }
-    };
+    const box = document.createElement("div");
 
-    const box=document.createElement("div");
-    const im=document.createElement("img");
-    im.src=src;
-    im.onclick=()=>cb(i);
+    const img = document.createElement("img");
+    img.src = src;
+    img.onclick = ()=>cb(i);
 
-    const zoom=document.createElement("button");
-    zoom.textContent="🔎";
-    zoom.onclick=e=>{
+    const zoom = document.createElement("button");
+    zoom.textContent = "🔎";
+    zoom.onclick = e => {
       e.stopPropagation();
       showZoom(src);
     };
 
-    box.appendChild(im);
+    box.appendChild(img);
     box.appendChild(zoom);
     wrap.appendChild(box);
   });
+
+  miniGame.appendChild(wrap);
 }
 
 function showZoom(src){
-  const f=document.createElement("div");
-  f.id="fadeScreen";
-  const box=document.createElement("div");
-  box.className="loaderBox";
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
 
-  const img=document.createElement("img");
-  img.src=src;
-  img.style.width="320px";
-  img.style.borderRadius="14px";
-  img.onclick=()=>f.remove();
+  const box = document.createElement("div");
+  box.className = "loaderBox glow";
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.style.width = "260px";
+  img.onclick = ()=>f.remove();
 
   box.appendChild(img);
   f.appendChild(box);
@@ -309,9 +306,19 @@ function startLogo(){
 function startColors(){
   showMiniGame();
   addTitle("Choisis les couleurs");
+
+  const hint = document.createElement("button");
+  hint.textContent = "Indice";
+  const txt = document.createElement("p");
+  hint.onclick = ()=>txt.textContent =
+    "Les couleurs doivent avoir de la cohérence avec le logo.";
+
+  miniGame.appendChild(hint);
+  miniGame.appendChild(txt);
+
   imageGroup(
     ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
-    i=>{ if(i===1) startTypo(); }
+    i => { if(i === 1) startTypo(); }
   );
 }
 
@@ -320,65 +327,63 @@ function startTypo(){
   addTitle("Choisis la typographie");
   imageGroup(
     ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
-    i=>{ if(i===0) showIdentity(); }
+    i => { if(i === 0) showIdentity(); }
   );
 }
 
 function showIdentity(){
   hideMiniGame();
-  const f=document.createElement("div");
-  f.id="fadeScreen";
-  const box=document.createElement("div");
-  box.className="loaderBox";
-  box.innerHTML="<div>L’identité visuelle est prête</div>";
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
 
-  const img=document.createElement("img");
-  img.src="images/identiteevisuelle.JPG";
-  img.style.width="260px";
-  img.style.cursor="pointer";
-  img.onclick=()=>{
+  const b = document.createElement("div");
+  b.className = "loaderBox glow";
+  b.innerHTML = "<div>L’identité visuelle est prête</div>";
+
+  const img = document.createElement("img");
+  img.src = "images/identiteevisuelle.JPG";
+  img.style.width = "260px";
+  img.onclick = ()=>{
     f.remove();
     afterMiniGame2();
   };
 
-  box.appendChild(img);
-  f.appendChild(box);
+  b.appendChild(img);
+  f.appendChild(b);
   document.body.appendChild(f);
 }
 
 function afterMiniGame2(){
   playDialog([
     {speaker:"pirate2",text:"Ta marque est désormais reconnaissable."},
-    {speaker:"pirate3",text:"Voyons maintenant comment diffuser ton message."}
+    {speaker:"pirate3",text:"Voyons comment diffuser ton message."}
   ], startMiniGame3);
 }
 
 /* =====================================================
-   📲 MINI-JEU 3 — CANAUX
+   📲 MINI-JEU 3 – CANAUX
 ===================================================== */
 function startMiniGame3(){
   showMiniGame();
   addTitle("Choisis le bon type de communication");
 
-  const left=document.createElement("div");
-  const right=document.createElement("div");
-  left.className="visualChoices";
-  right.className="visualChoices";
-  left.style.flexDirection="column";
-  right.style.flexDirection="column";
+  const container = document.createElement("div");
+  container.className = "linkGame";
 
-  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
-  svg.style.position="absolute";
-  svg.style.inset="0";
-  svg.style.pointerEvents="none";
-  miniGame.appendChild(svg);
+  const left = document.createElement("div");
+  const right = document.createElement("div");
+  left.className = "side left";
+  right.className = "side right";
+
+  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.classList.add("lines");
 
   let sel=null, ok=0;
 
   [
     {l:"Instagram",k:"know"},
-    {l:"Shopify",k:"btoc"},
-    {l:"Facebook",k:"btob"}
+    {l:"Facebook",k:"btob"},
+    {l:"Shopify",k:"btoc"}
   ].forEach(p=>{
     const b=document.createElement("button");
     b.className="btn-platform";
@@ -398,16 +403,17 @@ function startMiniGame3(){
     b.onclick=()=>{
       if(sel && sel.k===t.k){
         draw(svg,sel.b,b);
-        sel=null;
-        ok++;
+        ok++; sel=null;
         if(ok===3) finish();
       }
     };
     right.appendChild(b);
   });
 
-  miniGame.appendChild(left);
-  miniGame.appendChild(right);
+  container.appendChild(left);
+  container.appendChild(svg);
+  container.appendChild(right);
+  miniGame.appendChild(container);
 }
 
 function draw(svg,a,b){
@@ -420,20 +426,20 @@ function draw(svg,a,b){
   l.setAttribute("x2",r2.left+r2.width/2-s.left);
   l.setAttribute("y2",r2.top+r2.height/2-s.top);
   l.setAttribute("stroke","gold");
-  l.setAttribute("stroke-width","5");
+  l.setAttribute("stroke-width","4");
   svg.appendChild(l);
 }
 
 /* =====================================================
-   🏁 FIN DE QUÊTE
+   🏆 FIN
 ===================================================== */
 function finish(){
   hideMiniGame();
   const f=document.createElement("div");
   f.id="fadeScreen";
   const b=document.createElement("div");
-  b.className="loaderBox";
-  b.textContent="Bravo, tu as gagné cette quête";
+  b.className="loaderBox glow";
+  b.textContent="Bravo, tu as terminé cette quête";
   f.appendChild(b);
   document.body.appendChild(f);
 
