@@ -72,17 +72,17 @@ button:hover{
   box-shadow:0 0 18px rgba(255,215,100,.85);
 }
 
-/* Plateformes – marron foncé */
+/* Boutons plateformes (marron foncé) */
 .btn-platform{
-  background:linear-gradient(145deg,#8b5a2b,#5a3718);
-  border-color:#2e1a0d;
+  background:linear-gradient(145deg,#6b4a2b,#3b240f);
+  border-color:#2a1609;
   color:#fff;
 }
 
-/* Objectifs – beige clair uniforme */
+/* Boutons objectifs (beige clair) */
 .btn-target{
-  background:#e8d3a1;
-  border-color:#bfa46a;
+  background:linear-gradient(145deg,#f3deb1,#d2b67a);
+  border-color:#8b6a2a;
   color:#000;
 }
 
@@ -163,9 +163,7 @@ button:hover{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:540px;
-  max-height:80vh;
-  overflow:hidden; /* mini-jeu 3 non scrollable */
+  width:560px;
   padding:32px;
   background:linear-gradient(145deg,#3b240f,#1f1208);
   border:5px solid #c9a24d;
@@ -179,46 +177,33 @@ button:hover{
 #miniGameContainer h3{
   color:gold;
   text-shadow:0 0 12px gold;
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 
 #miniGameContainer p{
   margin-top:12px;
-  line-height:1.45;
-}
-
-/* Texte "2 bonnes réponses" lumineux */
-#miniGameContainer p:nth-of-type(2){
-  animation:glowText 1.4s infinite;
-}
-
-@keyframes glowText{
-  0%{text-shadow:0 0 6px gold}
-  50%{text-shadow:0 0 18px gold}
-  100%{text-shadow:0 0 6px gold}
+  line-height:1.5;
 }
 
 /* =====================================================
-   🧠 MINI-JEU 1 – BOUTONS
-===================================================== */
-#miniGameContainer button{
-  display:block;
-  margin:12px auto;
-}
-
-/* =====================================================
-   🖼️ MINI-JEU 2 – VISUELS
+   🖼️ VISUELS (MINI-JEU 2 & 3)
 ===================================================== */
 .visualChoices{
   display:flex;
-  justify-content:center;
-  gap:24px;
+  justify-content:space-between;
+  gap:28px;
   margin-top:28px;
 }
 
+.visualChoices > div{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+
 .visualChoices img{
-  width:130px;
-  height:auto;
+  width:140px;
   cursor:pointer;
   border-radius:10px;
   border:3px solid transparent;
@@ -231,29 +216,39 @@ button:hover{
   box-shadow:0 0 16px rgba(255,215,100,.8);
 }
 
+/* Bouton loupe 🔎 */
+.visualChoices button{
+  padding:6px 10px;
+  font-size:14px;
+}
+
 /* =====================================================
-   🔔 NOTIFICATIONS
+   🔔 NOTIFICATIONS (MINI-JEU 1)
 ===================================================== */
 .notification{
   position:fixed;
-  top:100px;
+  top:90px;
   left:50%;
   transform:translateX(-50%);
-  padding:16px 26px;
+  padding:18px 26px;
   background:#111;
   border-radius:14px;
   z-index:4000;
   font-size:16px;
   box-shadow:0 0 20px rgba(0,0,0,.8);
   cursor:pointer;
+  text-align:center;
 }
 
 .notification.success{
   border:3px solid #00ff88;
 }
 
-.notification.error{
-  border:3px solid #ff3b3b;
+/* Message lumineux */
+@keyframes glowText{
+  0%{color:gold;text-shadow:0 0 6px gold}
+  50%{color:#fff4b0;text-shadow:0 0 22px gold}
+  100%{color:gold;text-shadow:0 0 6px gold}
 }
 
 /* =====================================================
@@ -271,7 +266,7 @@ button:hover{
 
 .loaderBox{
   position:relative;
-  padding:26px 36px;
+  padding:28px 40px;
   background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
   border:4px solid #c9a24d;
   border-radius:18px;
@@ -282,24 +277,33 @@ button:hover{
 }
 
 /* =====================================================
+   💎 GEMS – EXPLOSION FINALE
+===================================================== */
+.gem{
+  position:absolute;
+  width:10px;
+  height:14px;
+  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+  opacity:.9;
+}
+
+/* =====================================================
    📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
 
   #miniGameContainer{
-    width:90%;
+    width:92%;
     padding:24px;
   }
 
-  #dialogBox{
-    max-width:90%;
-  }
-
   .visualChoices{
-    flex-wrap:wrap;
+    flex-direction:column;
+    align-items:center;
   }
 
   .visualChoices img{
-    width:110px;
+    width:120px;
   }
+
 }
