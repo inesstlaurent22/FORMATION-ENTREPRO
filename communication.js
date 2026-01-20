@@ -286,74 +286,104 @@ function afterMiniGame2(){
 }
 
 /* =====================================================
-   MINI JEU 3 – LIGNES VISIBLES
+   MINI-JEU 3 – CANAUX DE COMMUNICATION
 ===================================================== */
 function startMiniGame3(){
   showMiniGame();
-  title("Choisis le bon type de communication");
+  addTitle("Choisis le bon type de communication");
 
-  const left=document.createElement("div");
-  left.className="leftCol";
-  const right=document.createElement("div");
-  right.className="rightCol";
+  // Colonnes
+  const left = document.createElement("div");
+  left.className = "leftCol";
 
-  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
-  svg.style.position="absolute";
-  svg.style.inset="0";
-  svg.style.pointerEvents="none";
+  const right = document.createElement("div");
+  right.className = "rightCol";
+
+  // SVG pour les traits
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("width", "100%");
+  svg.setAttribute("height", "100%");
+  svg.style.position = "absolute";
+  svg.style.top = "0";
+  svg.style.left = "0";
+  svg.style.pointerEvents = "none";
+  svg.style.zIndex = "1";
+
   miniGame.appendChild(svg);
 
-  let selected=null, count=0;
+  let selected = null;
+  let validated = 0;
 
-  const platforms=[
-    ["Instagram & TikTok","know"],
-    ["Site de vente en ligne","btoc"],
-    ["Facebook & LinkedIn","btob"]
+  /* --------- PLATEFORMES (GAUCHE) --------- */
+  const platforms = [
+    { label: "Instagram & Tik Tok", key: "know" },
+    { label: "Site de vente en ligne", key: "btoc" },
+    { label: "Facebook & LinkedIn", key: "btob" }
   ];
 
-  const targets=[
-    ["Se faire connaître","know"],
-    ["Vendre en BtoC","btoc"],
-    ["Vendre en BtoB","btob"]
-  ];
+  platforms.forEach(p => {
+    const btn = document.createElement("button");
+    btn.className = "btn-platform";
+    btn.textContent = p.label;
 
-  platforms.forEach(p=>{
-    const b=document.createElement("button");
-    b.className="btn-platform";
-    b.textContent=p[0];
-    b.onclick=()=>selected={b:b,k:p[1]};
-    left.appendChild(b);
+    btn.onclick = () => {
+      selected = { button: btn, key: p.key };
+    };
+
+    left.appendChild(btn);
   });
 
-  targets.forEach(t=>{
-    const b=document.createElement("button");
-    b.className="btn-target";
-    b.textContent=t[0];
-    b.onclick=()=>{
-      if(selected && selected.k===t[1]){
-        drawLine(svg,selected.b,b);
-        count++;
-        if(count===3) finish();
+  /* --------- OBJECTIFS (DROITE) --------- */
+  const targets = [
+    { label: "Se faire connaître", key: "know" },
+    { label: "Vendre en BtoC", key: "btoc" },
+    { label: "Vendre en BtoB", key: "btob" }
+  ];
+
+  targets.forEach(t => {
+    const btn = document.createElement("button");
+    btn.className = "btn-target";
+    btn.textContent = t.label;
+
+    btn.onclick = () => {
+      if (selected && selected.key === t.key) {
+        drawConnection(svg, selected.button, btn);
+        validated++;
+        selected = null;
+
+        if (validated === 3) {
+          finish(); // fin de quête
+        }
       }
     };
-    right.appendChild(b);
+
+    right.appendChild(btn);
   });
 
-  miniGame.append(left,right);
+  miniGame.appendChild(left);
+  miniGame.appendChild(right);
 }
 
-function drawLine(svg,a,b){
-  const r1=a.getBoundingClientRect();
-  const r2=b.getBoundingClientRect();
-  const s=svg.getBoundingClientRect();
-  const l=document.createElementNS("http://www.w3.org/2000/svg","line");
-  l.setAttribute("x1",r1.left+r1.width/2-s.left);
-  l.setAttribute("y1",r1.top+r1.height/2-s.top);
-  l.setAttribute("x2",r2.left+r2.width/2-s.left);
-  l.setAttribute("y2",r2.top+r2.height/2-s.top);
-  l.setAttribute("stroke","gold");
-  l.setAttribute("stroke-width","4");
-  svg.appendChild(l);
+/* =====================================================
+   DESSIN DU TRAIT ENTRE DEUX BOUTONS
+===================================================== */
+function drawConnection(svg, btnA, btnB){
+  const r1 = btnA.getBoundingClientRect();
+  const r2 = btnB.getBoundingClientRect();
+  const s  = svg.getBoundingClientRect();
+
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+
+  line.setAttribute("x1", r1.left + r1.width / 2 - s.left);
+  line.setAttribute("y1", r1.top  + r1.height / 2 - s.top);
+  line.setAttribute("x2", r2.left + r2.width / 2 - s.left);
+  line.setAttribute("y2", r2.top  + r2.height / 2 - s.top);
+
+  line.setAttribute("stroke", "gold");
+  line.setAttribute("stroke-width", "4");
+  line.setAttribute("stroke-linecap", "round");
+
+  svg.appendChild(line);
 }
 
 /* =====================================================
