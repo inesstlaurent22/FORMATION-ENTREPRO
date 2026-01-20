@@ -1,5 +1,5 @@
 /* =====================================================
-   RESET GLOBAL
+   🌍 RESET GLOBAL
 ===================================================== */
 *{
   margin:0;
@@ -13,10 +13,10 @@ html, body{
 }
 
 body{
+  overflow:hidden;
   font-family:serif;
   background:#000;
   color:#fff;
-  overflow:hidden;
 }
 
 .hidden{
@@ -24,7 +24,7 @@ body{
 }
 
 /* =====================================================
-   VIDÉO INTRO
+   🎬 VIDÉO INTRO
 ===================================================== */
 .fullscreen{
   position:fixed;
@@ -47,23 +47,24 @@ body{
   top:20px;
   right:20px;
   display:flex;
-  gap:12px;
-  z-index:2000;
+  gap:10px;
+  z-index:3000;
 }
 
 /* =====================================================
-   BOUTONS GÉNÉRAUX
+   🔘 BOUTONS – STYLE PIRATE
 ===================================================== */
 button{
-  background:linear-gradient(145deg,#e6c46a,#b48b3c);
+  background:linear-gradient(145deg,#e8c77a,#b48b3c);
   border:3px solid #3b240f;
-  border-radius:14px;
-  padding:12px 22px;
-  font-size:15px;
+  border-radius:12px;
+  color:#000;
+  font-size:16px;
   font-weight:bold;
   cursor:pointer;
-  box-shadow:inset 0 0 6px rgba(255,255,255,.35);
+  padding:12px 22px;
   transition:.2s;
+  box-shadow:inset 0 0 6px rgba(255,255,255,.4);
 }
 
 button:hover{
@@ -71,35 +72,37 @@ button:hover{
   box-shadow:0 0 18px rgba(255,215,100,.85);
 }
 
-/* Boutons plateformes – marron foncé */
+/* Boutons plateformes (marron foncé) */
 .btn-platform{
-  background:linear-gradient(145deg,#6b4a2d,#3b2615);
+  background:linear-gradient(145deg,#7b4a1e,#3a220f);
+  border-color:#1d1006;
   color:#fff;
 }
 
-/* Boutons objectifs – beige clair */
+/* Boutons objectifs (beige clair) */
 .btn-target{
-  background:linear-gradient(145deg,#f0d7a6,#d6b77d);
+  background:#f3e4c7;
+  border-color:#c9a24d;
   color:#000;
 }
 
 /* =====================================================
-   SCÈNE
+   🌊 SCÈNE
 ===================================================== */
 #scene{
   position:fixed;
   inset:0;
-  background:url("images/Communicationfond.PNG") no-repeat center / cover;
+  background:#000 url("images/Communicationfond.PNG") no-repeat center/cover;
   z-index:1;
 }
 
 /* =====================================================
-   PIRATES
+   🏴‍☠️ PIRATES
 ===================================================== */
 .pirate{
   position:absolute;
-  background-size:contain;
   background-repeat:no-repeat;
+  background-size:contain;
   background-position:bottom center;
 }
 
@@ -107,38 +110,33 @@ button:hover{
   left:460px;
   top:420px;
   width:330px;
-  height:310px;
+  height:320px;
   background-image:url("images/Pirate2.png");
 }
 
 #pirate3{
-  left:950px;
-  top:530px;
-  width:270px;
-  height:440px;
+  left:940px;
+  top:540px;
+  width:280px;
+  height:450px;
   background-image:url("images/Pirate3.png");
   cursor:pointer;
 }
 
-#pirate3:hover{
-  filter:drop-shadow(0 0 18px gold);
-  transform:scale(1.05);
-}
-
 /* =====================================================
-   BULLE DE DIALOGUE
+   💬 DIALOGUE
 ===================================================== */
 #dialogBox{
   position:absolute;
-  max-width:520px;
+  max-width:560px;
   background:#fff;
   color:#000;
-  border:4px solid gold;
+  border:3px solid gold;
   border-radius:22px;
   padding:18px 22px;
+  box-shadow:0 0 22px rgba(0,0,0,.6);
   z-index:1500;
   cursor:pointer;
-  box-shadow:0 0 30px rgba(0,0,0,.6);
 }
 
 #dialogText{
@@ -147,7 +145,7 @@ button:hover{
 }
 
 /* =====================================================
-   MINI-JEUX CONTENEUR
+   🎮 MINI-GAME CONTAINER
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -155,136 +153,133 @@ button:hover{
   left:50%;
   transform:translate(-50%,-50%);
   width:560px;
-  max-height:80vh;
+  max-height:85vh;
   overflow-y:auto;
-  padding:32px;
+  padding:30px;
   background:linear-gradient(145deg,#3b240f,#1f1208);
   border:5px solid #c9a24d;
-  border-radius:22px;
+  border-radius:20px;
   z-index:2000;
   text-align:center;
-  box-shadow:0 0 40px rgba(0,0,0,.85);
+  box-shadow:0 0 35px rgba(0,0,0,.85);
 }
 
 #miniGameContainer h3{
   color:gold;
-  margin-bottom:12px;
-  text-shadow:0 0 14px gold;
+  text-shadow:0 0 12px gold;
+  margin-bottom:14px;
 }
 
 #miniGameContainer p{
   margin-top:12px;
-  line-height:1.5;
+  line-height:1.45;
 }
 
-/* =====================================================
-   MINI JEU 1
-===================================================== */
-.twoAnswers{
-  margin:16px 0 22px;
-  font-weight:bold;
-  color:#ffb3b3;
-  animation:glowText 1.2s infinite alternate;
-}
-
-@keyframes glowText{
-  from{ text-shadow:0 0 6px rgba(255,150,150,.4); }
-  to{ text-shadow:0 0 18px rgba(255,150,150,.9); }
-}
-
-/* Boutons vertical */
+/* Boutons mini-jeux → vertical */
 #miniGameContainer button{
   display:block;
   margin:12px auto;
 }
 
 /* =====================================================
-   NOTIFICATION MINI JEU 1
+   ✨ TEXTE LUMINEUX (2 bonnes réponses)
+===================================================== */
+.glowText{
+  color:#ff8c8c;
+  font-weight:bold;
+  margin:14px 0;
+  text-shadow:
+    0 0 6px rgba(255,120,120,.8),
+    0 0 16px rgba(255,90,90,.6);
+  animation:glowPulse 1.2s infinite alternate;
+}
+
+@keyframes glowPulse{
+  from{ text-shadow:0 0 6px rgba(255,120,120,.6); }
+  to{ text-shadow:0 0 18px rgba(255,90,90,1); }
+}
+
+/* =====================================================
+   🔔 NOTIFICATIONS
 ===================================================== */
 .notification{
   position:fixed;
-  top:90px;
+  top:80px;
   left:50%;
   transform:translateX(-50%);
-  padding:18px 28px;
+  padding:16px 26px;
   background:#111;
-  border-radius:16px;
-  border:3px solid #00ff99;
+  border-radius:14px;
   z-index:4000;
-  text-align:center;
-  box-shadow:0 0 22px rgba(0,0,0,.8);
-}
-
-/* =====================================================
-   INFO BOX – MINI JEU 2
-===================================================== */
-.infoBox{
-  margin:18px 0;
-  padding:20px;
-  border:3px solid gold;
-  border-radius:18px;
-  background:rgba(0,0,0,.35);
+  font-size:16px;
+  box-shadow:0 0 20px rgba(0,0,0,.8);
   cursor:pointer;
 }
 
-.infoBox button{
-  margin:14px auto;
+.notification.success{
+  border:3px solid #00ff88;
 }
 
 /* =====================================================
-   CHOIX VISUELS
+   📦 ENCARTS EXPLICATIFS (Mini-jeu 2)
+===================================================== */
+.infoBox{
+  margin:20px 0;
+  padding:20px;
+  border:3px solid gold;
+  border-radius:16px;
+  background:rgba(0,0,0,.4);
+  box-shadow:0 0 18px rgba(255,215,100,.4);
+  cursor:pointer;
+}
+
+.infoBox strong{
+  color:gold;
+  display:block;
+  margin-bottom:8px;
+}
+
+/* Bulle interne */
+.info-bubble{
+  margin-top:12px;
+  padding:14px;
+  border:2px solid gold;
+  border-radius:12px;
+  background:rgba(0,0,0,.6);
+}
+
+/* =====================================================
+   🖼️ CHOIX VISUELS
 ===================================================== */
 .visualChoices{
   display:flex;
-  justify-content:space-between;
+  justify-content:center;
   gap:24px;
-  margin-top:24px;
+  margin-top:22px;
 }
 
-.visualChoices div{
+.visualChoices > div{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:10px;
+  gap:6px;
 }
 
 .visualChoices img{
-  width:140px;
-  border-radius:12px;
-  border:3px solid transparent;
+  width:130px;
+  border-radius:10px;
   cursor:pointer;
+  border:3px solid transparent;
   transition:.2s;
 }
 
 .visualChoices img:hover{
+  transform:scale(1.07);
   border-color:gold;
-  box-shadow:0 0 18px rgba(255,215,100,.8);
-  transform:scale(1.08);
 }
 
 /* =====================================================
-   MINI JEU 3 – COLONNES
-===================================================== */
-.leftCol, .rightCol{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.leftCol{
-  position:absolute;
-  left:30px;
-  top:120px;
-}
-
-.rightCol{
-  position:absolute;
-  right:30px;
-  top:120px;
-}
-
-/* =====================================================
-   OVERLAY / IDENTITÉ / FIN
+   🔍 ZOOM IMAGE
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -297,32 +292,41 @@ button:hover{
 }
 
 .loaderBox{
-  position:relative;
-  padding:28px 38px;
+  padding:26px 36px;
   background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
   border:4px solid gold;
-  border-radius:22px;
+  border-radius:18px;
   color:#fff;
   font-size:22px;
   text-align:center;
-  box-shadow:0 0 40px rgba(255,215,100,.7);
-  z-index:10;
-}
-
-.loaderBox img{
-  display:block;
-  margin:16px auto 0;
-  cursor:pointer;
+  box-shadow:0 0 40px rgba(255,215,100,.6);
 }
 
 /* =====================================================
-   GEMS – EXPLOSION
+   🔗 MINI-JEU 3 – COLONNES
+===================================================== */
+.leftCol, .rightCol{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.leftCol{
+  float:left;
+}
+
+.rightCol{
+  float:right;
+}
+
+/* =====================================================
+   💎 GEMS – EXPLOSION FINALE
 ===================================================== */
 .gem{
   position:absolute;
   width:12px;
   height:12px;
-  border-radius:3px;
+  border-radius:4px;
   animation:explode 1.2s ease-out forwards;
 }
 
@@ -332,27 +336,21 @@ button:hover{
     opacity:1;
   }
   to{
-    transform:translate(var(--x),var(--y)) scale(0);
+    transform:
+      translate(
+        calc(var(--x) * 1px),
+        calc(var(--y) * 1px)
+      )
+      scale(0);
     opacity:0;
   }
 }
 
 /* =====================================================
-   RESPONSIVE
+   📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
   #miniGameContainer{
     width:90%;
-    padding:24px;
-  }
-
-  .visualChoices{
-    flex-wrap:wrap;
-    justify-content:center;
-  }
-
-  .leftCol, .rightCol{
-    position:static;
-    margin-top:20px;
   }
 }
