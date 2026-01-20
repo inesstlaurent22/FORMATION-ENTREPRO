@@ -201,143 +201,273 @@ function afterMiniGame1(){
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (ENCARTS COMPLETS)
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (FINAL)
 ===================================================== */
+
 function startMiniGame2(){
   showMiniGame();
+
   addTitle("L’identité visuelle : Avant de commencer");
   addText("Avant de faire un logo, de choisir des couleurs ou une écriture, il faut d’abord savoir ce que tu veux montrer.");
 
-  const btn=document.createElement("button");
-  btn.textContent="Voici les points importants à décider";
-  const bubble=document.createElement("div");
-  bubble.className="info-bubble hidden";
-  bubble.innerHTML=`
-  • À qui tu parles : enfants, ados, adultes<br>
-  • Ce que tu veux dire : ton idée principale<br>
-  • Ce que tu veux faire ressentir : joie, confiance, énergie, calme<br>
-  • Ton style : fun, sérieux, moderne ou créatif
-  `;
-  btn.onclick=()=>bubble.classList.toggle("hidden");
+  const btn = document.createElement("button");
+  btn.textContent = "Voici les points importants à décider";
 
-  miniGame.append(btn,bubble);
+  const bubble = document.createElement("div");
+  bubble.className = "info-bubble hidden";
+  bubble.innerHTML = `
+    • À qui tu parles : des enfants, des ados, des adultes<br>
+    • Ce que tu veux dire : ton idée principale<br>
+    • Ce que tu veux faire ressentir : joie, confiance, énergie, calme<br>
+    • Ton style : plutôt fun, sérieux, moderne ou créatif
+  `;
+
+  btn.onclick = () => bubble.classList.toggle("hidden");
+
+  miniGame.append(btn, bubble);
+
   addText("👉 Si tu sais répondre à ces questions, ton identité visuelle sera plus simple, rapide à créer et facile à reconnaître.");
 
-  miniGame.onclick=()=>startLogo();
+  const next = document.createElement("div");
+  next.className = "info-bubble";
+  next.style.cursor = "pointer";
+  next.innerHTML = "<strong>Clique ici pour continuer</strong>";
+  next.onclick = startLogo;
+  miniGame.appendChild(next);
 }
 
-/* === GROUP IMAGES AVEC LOADER === */
-function imageGroup(list,cb){
-  miniGame.innerHTML+="<div class='loader'>⏳</div>";
-  let loaded=0;
-  const wrap=document.createElement("div");
-  wrap.className="visualChoices";
+/* =====================================================
+   🖼️ GROUP IMAGES AVEC LOADER
+===================================================== */
+function imageGroup(list, cb){
+  const loader = document.createElement("div");
+  loader.className = "loader";
+  loader.textContent = "⏳";
+  miniGame.appendChild(loader);
+
+  let loaded = 0;
+  const wrap = document.createElement("div");
+  wrap.className = "visualChoices";
 
   list.forEach(src=>{
-    const box=document.createElement("div");
-    const img=new Image();
-    img.src=src;
-    img.onload=()=>{
+    const box = document.createElement("div");
+
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
       loaded++;
-      if(loaded===list.length){
-        miniGame.querySelector(".loader")?.remove();
+      if(loaded === list.length){
+        loader.remove();
         miniGame.appendChild(wrap);
       }
     };
-    img.onclick=()=>cb();
-    const z=document.createElement("button");
-    z.textContent="🔎";
-    z.onclick=e=>{e.stopPropagation();zoom(src);};
-    box.append(img,z);
+    img.onclick = () => cb();
+
+    const zoom = document.createElement("button");
+    zoom.textContent = "🔎";
+    zoom.onclick = e => {
+      e.stopPropagation();
+      zoomImage(src);
+    };
+
+    box.append(img, zoom);
     wrap.appendChild(box);
   });
 }
 
-function zoom(src){
-  const f=document.createElement("div");
-  f.id="fadeScreen";
-  const b=document.createElement("div");
-  b.className="loaderBox";
-  const img=document.createElement("img");
-  img.src=src;
-  img.style.width="320px";
-  img.onclick=()=>f.remove();
+function zoomImage(src){
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
+
+  const b = document.createElement("div");
+  b.className = "loaderBox";
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.style.width = "320px";
+
   b.appendChild(img);
   f.appendChild(b);
   document.body.appendChild(f);
+
+  f.onclick = () => f.remove();
 }
 
-/* LOGO */
+/* =====================================================
+   🧩 LOGO
+===================================================== */
 function startLogo(){
   showMiniGame();
   addTitle("Ton logo");
   addText("Le choix est libre");
-  imageGroup(["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],afterLogo);
+
+  imageGroup(
+    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+    afterLogo
+  );
 }
 
 function afterLogo(){
   showMiniGame();
   addTitle("Logo - Explication");
   addText("Le logo, c’est le dessin principal qui permet de reconnaître ton projet.");
-  const b=document.createElement("button");
-  b.textContent="À retenir";
-  const bubble=document.createElement("div");
-  bubble.className="info-bubble hidden";
-  bubble.innerHTML=`
-  • Simple<br>• Reconnaissable<br>• Lisible petit/grand<br>• Pas chargé
+
+  const btn = document.createElement("button");
+  btn.textContent = "À retenir";
+
+  const bubble = document.createElement("div");
+  bubble.className = "info-bubble hidden";
+  bubble.innerHTML = `
+    • Un logo doit être simple<br>
+    • On doit le reconnaître rapidement<br>
+    • Il doit fonctionner en petit et en grand<br>
+    • Il ne doit pas être trop chargé
   `;
-  b.onclick=()=>bubble.classList.toggle("hidden");
-  miniGame.append(b,bubble);
+
+  btn.onclick = () => bubble.classList.toggle("hidden");
+
+  miniGame.append(btn, bubble);
   addText("👉 Astuce : si tu peux dessiner ton logo en 5 secondes, c’est validé.");
-  miniGame.onclick=()=>startColors();
+
+  const next = document.createElement("div");
+  next.className = "info-bubble";
+  next.style.cursor = "pointer";
+  next.innerHTML = "<strong>Clique ici pour continuer</strong>";
+  next.onclick = startColors;
+  miniGame.appendChild(next);
 }
 
-/* COULEURS */
+/* =====================================================
+   🎨 COULEURS
+===================================================== */
 function startColors(){
   showMiniGame();
   addTitle("Les couleurs");
-  addText("Indice : les couleurs doivent être en cohérence avec ton logo");
-  imageGroup(["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],afterColors);
+
+  const indice = document.createElement("button");
+  indice.textContent = "Indice";
+
+  const bubble = document.createElement("div");
+  bubble.className = "info-bubble hidden";
+  bubble.innerHTML = "Les couleurs doivent être en cohérence avec le logo";
+
+  indice.onclick = () => bubble.classList.toggle("hidden");
+
+  miniGame.append(indice, bubble);
+
+  imageGroup(
+    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+    afterColors
+  );
 }
 
 function afterColors(){
   showMiniGame();
   addTitle("Les couleurs - Explication");
   addText("Les couleurs servent à montrer une émotion.");
-  const b=document.createElement("button");
-  b.textContent="À retenir";
-  const bubble=document.createElement("div");
-  bubble.className="info-bubble hidden";
-  bubble.innerHTML=`
-  • 2 à 4 couleurs max<br>• 1 principale<br>• Complémentaires<br>• Harmonie
+
+  const btn = document.createElement("button");
+  btn.textContent = "À retenir";
+
+  const bubble = document.createElement("div");
+  bubble.className = "info-bubble hidden";
+  bubble.innerHTML = `
+    • Choisis 2 à 4 couleurs maximum<br>
+    • Une couleur principale<br>
+    • Une ou deux couleurs pour compléter<br>
+    • Les couleurs doivent aller bien ensemble
   `;
-  b.onclick=()=>bubble.classList.toggle("hidden");
-  miniGame.append(b,bubble);
-  addText("👉 Trop de couleurs = confusion. Peu = impact.");
-  miniGame.onclick=()=>startTypo();
+
+  btn.onclick = () => bubble.classList.toggle("hidden");
+
+  miniGame.append(btn, bubble);
+  addText("👉 Trop de couleurs = on ne comprend plus. Peu de couleurs = plus clair et plus fort.");
+
+  const next = document.createElement("div");
+  next.className = "info-bubble";
+  next.style.cursor = "pointer";
+  next.innerHTML = "<strong>Clique ici pour continuer</strong>";
+  next.onclick = startTypo;
+  miniGame.appendChild(next);
 }
 
-/* TYPO */
+/* =====================================================
+   🔤 TYPOGRAPHIE
+===================================================== */
 function startTypo(){
   showMiniGame();
   addTitle("La typographie");
-  addText("Indice : elle doit refléter le style de ton produit");
-  imageGroup(["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],showIdentity);
+
+  const indice = document.createElement("button");
+  indice.textContent = "Indice";
+
+  const bubble = document.createElement("div");
+  bubble.className = "info-bubble hidden";
+  bubble.innerHTML = "La typographie doit être en cohérence avec le thème de ton activité";
+
+  indice.onclick = () => bubble.classList.toggle("hidden");
+
+  miniGame.append(indice, bubble);
+
+  imageGroup(
+    ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
+    afterTypo
+  );
 }
 
+function afterTypo(){
+  showMiniGame();
+  addTitle("La typographie - Explication");
+  addText("La typographie, c’est la forme des lettres que tu utilises.");
+
+  const btn = document.createElement("button");
+  btn.textContent = "À retenir";
+
+  const bubble = document.createElement("div");
+  bubble.className = "info-bubble hidden";
+  bubble.innerHTML = `
+    • Elle doit être facile à lire<br>
+    • Elle doit correspondre à ton style<br>
+    • Utilise 1 ou 2 écritures maximum<br>
+    • La même écriture partout
+  `;
+
+  btn.onclick = () => bubble.classList.toggle("hidden");
+
+  miniGame.append(btn, bubble);
+  addText("👉 Une bonne écriture rend ton projet plus sérieux et plus facile à comprendre.");
+
+  const next = document.createElement("div");
+  next.className = "info-bubble";
+  next.style.cursor = "pointer";
+  next.innerHTML = "<strong>Clique ici pour valider ton identité visuelle</strong>";
+  next.onclick = showIdentity;
+  miniGame.appendChild(next);
+}
+
+/* =====================================================
+   🖼️ IDENTITÉ VISUELLE FINALE
+===================================================== */
 function showIdentity(){
-  const f=document.createElement("div");
-  f.id="fadeScreen";
-  const b=document.createElement("div");
-  b.className="loaderBox";
-  b.innerHTML="<strong>L’identité visuelle est prête</strong><br>";
-  const img=document.createElement("img");
-  img.src="images/Identiteevisuelle.PNG";
-  img.style.width="260px";
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
+
+  const b = document.createElement("div");
+  b.className = "loaderBox";
+  b.innerHTML = "<strong>L’identité visuelle est prête</strong><br><br>";
+
+  const img = document.createElement("img");
+  img.src = "images/Identiteevisuelle.PNG";
+  img.style.width = "260px";
+
   b.appendChild(img);
   f.appendChild(b);
   document.body.appendChild(f);
-  f.onclick=()=>{f.remove();afterMiniGame2();};
+
+  f.onclick = () => {
+    f.remove();
+    afterMiniGame2();
+  };
 }
 
 /* =====================================================
