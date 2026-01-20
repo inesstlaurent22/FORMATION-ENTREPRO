@@ -51,13 +51,39 @@ body{
   z-index:3000;
 }
 
-.btn-pirate{
+/* =====================================================
+   🔘 BOUTONS – STYLE PIRATE
+===================================================== */
+button{
   background:linear-gradient(145deg,#e8c77a,#b48b3c);
   border:3px solid #3b240f;
   border-radius:12px;
-  font-size:18px;
-  padding:10px 14px;
+  color:#000;
+  font-size:16px;
+  font-weight:bold;
   cursor:pointer;
+  padding:12px 22px;
+  transition:transform .2s, box-shadow .2s;
+  box-shadow:inset 0 0 6px rgba(255,255,255,.4);
+}
+
+button:hover{
+  transform:scale(1.06);
+  box-shadow:0 0 18px rgba(255,215,100,.85);
+}
+
+/* Plateformes – marron foncé */
+.btn-platform{
+  background:linear-gradient(145deg,#8b5a2b,#5a3718);
+  border-color:#2e1a0d;
+  color:#fff;
+}
+
+/* Objectifs – beige clair uniforme */
+.btn-target{
+  background:#e8d3a1;
+  border-color:#bfa46a;
+  color:#000;
 }
 
 /* =====================================================
@@ -66,7 +92,11 @@ body{
 #scene{
   position:fixed;
   inset:0;
-  background:url("images/Communicationfond.PNG") center/cover no-repeat;
+  background:
+    #000
+    url("images/Communicationfond.PNG")
+    no-repeat
+    center / cover;
   z-index:1;
 }
 
@@ -77,28 +107,31 @@ body{
   position:absolute;
   background-repeat:no-repeat;
   background-size:contain;
+  background-position:bottom center;
 }
 
 #pirate2{
-  width:330px;
-  height:320px;
-  left:450px;
-  top:420px;
+  left:473px;
+  top:422px;
+  width:329px;
+  height:315px;
   background-image:url("images/Pirate2.png");
 }
 
 #pirate3{
-  width:280px;
-  height:450px;
-  left:920px;
-  top:540px;
+  left:943px;
+  top:545px;
+  width:274px;
+  height:446px;
   background-image:url("images/Pirate3.png");
   cursor:pointer;
 }
 
 #pirate3:hover{
-  filter:drop-shadow(0 0 18px gold);
-  transform:scale(1.05);
+  filter:
+    drop-shadow(0 0 12px gold)
+    drop-shadow(0 0 28px rgba(255,215,0,.6));
+  transform:scale(1.04);
 }
 
 /* =====================================================
@@ -106,7 +139,7 @@ body{
 ===================================================== */
 #dialogBox{
   position:absolute;
-  max-width:520px;
+  max-width:560px;
   background:#fff;
   color:#000;
   border:3px solid #d4af37;
@@ -130,20 +163,22 @@ body{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:560px;
+  width:540px;
   max-height:80vh;
+  overflow:hidden; /* mini-jeu 3 non scrollable */
   padding:32px;
   background:linear-gradient(145deg,#3b240f,#1f1208);
   border:5px solid #c9a24d;
   border-radius:20px;
   z-index:2000;
+  color:#fff;
   text-align:center;
   box-shadow:0 0 35px rgba(0,0,0,.85);
 }
 
 #miniGameContainer h3{
   color:gold;
-  text-shadow:0 0 14px gold;
+  text-shadow:0 0 12px gold;
   margin-bottom:12px;
 }
 
@@ -152,89 +187,65 @@ body{
   line-height:1.45;
 }
 
-/* Texte clignotant */
-.pulse{
-  animation:pulseGlow 1.6s infinite;
+/* Texte "2 bonnes réponses" lumineux */
+#miniGameContainer p:nth-of-type(2){
+  animation:glowText 1.4s infinite;
 }
 
-@keyframes pulseGlow{
-  0%,100%{text-shadow:0 0 6px gold}
+@keyframes glowText{
+  0%{text-shadow:0 0 6px gold}
   50%{text-shadow:0 0 18px gold}
+  100%{text-shadow:0 0 6px gold}
 }
 
 /* =====================================================
-   🔘 BOUTONS PIRATE
+   🧠 MINI-JEU 1 – BOUTONS
 ===================================================== */
-button{
-  background:linear-gradient(145deg,#e8c77a,#b48b3c);
-  border:3px solid #3b240f;
-  border-radius:12px;
-  color:#000;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-  padding:12px 22px;
-  transition:transform .2s, box-shadow .2s;
-}
-
-button:hover{
-  transform:scale(1.06);
-  box-shadow:0 0 18px rgba(255,215,100,.85);
-}
-
-/* Boutons plateformes (marron foncé) */
-.btn-platform{
-  background:linear-gradient(145deg,#6b3f1f,#3a1e0f);
-  color:#fff;
-}
-
-/* Boutons objectifs (marron clair) */
-.btn-target{
-  background:linear-gradient(145deg,#e8a37a,#b45a3c);
+#miniGameContainer button{
+  display:block;
+  margin:12px auto;
 }
 
 /* =====================================================
-   🖼️ CHOIX VISUELS (MINI-JEU 2 & 3)
+   🖼️ MINI-JEU 2 – VISUELS
 ===================================================== */
 .visualChoices{
   display:flex;
   justify-content:center;
-  gap:28px;
-  margin-top:26px;
-}
-
-.visualChoices > div{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
+  gap:24px;
+  margin-top:28px;
 }
 
 .visualChoices img{
-  width:140px;
-  border-radius:12px;
-  border:3px solid transparent;
+  width:130px;
+  height:auto;
   cursor:pointer;
+  border-radius:10px;
+  border:3px solid transparent;
+  transition:transform .2s, box-shadow .2s, border .2s;
 }
 
 .visualChoices img:hover{
+  transform:scale(1.08);
   border-color:gold;
   box-shadow:0 0 16px rgba(255,215,100,.8);
 }
 
 /* =====================================================
-   🔔 NOTIFICATIONS MINI-JEU 1
+   🔔 NOTIFICATIONS
 ===================================================== */
 .notification{
   position:fixed;
-  top:120px;
+  top:100px;
   left:50%;
   transform:translateX(-50%);
-  padding:18px 26px;
+  padding:16px 26px;
   background:#111;
   border-radius:14px;
   z-index:4000;
-  text-align:center;
+  font-size:16px;
+  box-shadow:0 0 20px rgba(0,0,0,.8);
+  cursor:pointer;
 }
 
 .notification.success{
@@ -243,32 +254,6 @@ button:hover{
 
 .notification.error{
   border:3px solid #ff3b3b;
-}
-
-/* Message "Clique sur la notif" */
-.notifHint{
-  position:fixed;
-  top:80px;
-  left:50%;
-  transform:translateX(-50%);
-  color:gold;
-  animation:pulseGlow 1.5s infinite;
-  z-index:4100;
-}
-
-/* =====================================================
-   📳 VIBRATION ÉCRAN
-===================================================== */
-.shake{
-  animation:shake .35s;
-}
-
-@keyframes shake{
-  0%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  50%{transform:translateX(6px)}
-  75%{transform:translateX(-6px)}
-  100%{transform:translateX(0)}
 }
 
 /* =====================================================
@@ -285,23 +270,15 @@ button:hover{
 }
 
 .loaderBox{
+  position:relative;
   padding:26px 36px;
   background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
   border:4px solid #c9a24d;
   border-radius:18px;
+  color:#fff;
   font-size:22px;
   text-align:center;
   box-shadow:0 0 40px rgba(255,215,100,.6);
-}
-
-/* =====================================================
-   💎 GEMS – FIN DE QUÊTE
-===================================================== */
-.gem{
-  width:10px;
-  height:10px;
-  position:absolute;
-  border-radius:50%;
 }
 
 /* =====================================================
@@ -312,6 +289,10 @@ button:hover{
   #miniGameContainer{
     width:90%;
     padding:24px;
+  }
+
+  #dialogBox{
+    max-width:90%;
   }
 
   .visualChoices{
