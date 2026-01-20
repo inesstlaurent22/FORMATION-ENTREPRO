@@ -219,6 +219,20 @@ button:hover{
 }
 
 /* =====================================================
+   ⏳ LOADER IMAGES
+===================================================== */
+.loader{
+  font-size:32px;
+  margin:28px 0;
+  animation:spin 1.2s infinite linear;
+}
+
+@keyframes spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+/* =====================================================
    🔔 NOTIFICATIONS
 ===================================================== */
 .notification{
@@ -268,7 +282,7 @@ button:hover{
 }
 
 /* =====================================================
-   🌑 OVERLAY / LOADER
+   🌑 OVERLAY / LOADER FINAL
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -292,15 +306,15 @@ button:hover{
 }
 
 /* =====================================================
-   ℹ️ BULLES INFO
+   ℹ️ BULLES INFO (ENCARTS)
 ===================================================== */
 .info-bubble{
-  margin-top:14px;
-  padding:14px;
+  margin-top:16px;
+  padding:16px;
   border:2px solid gold;
   border-radius:14px;
-  background:rgba(0,0,0,.4);
-  line-height:1.5;
+  background:rgba(0,0,0,.45);
+  line-height:1.55;
 }
 
 /* =====================================================
@@ -313,22 +327,15 @@ button:hover{
   width:45%;
 }
 
-.leftCol{
-  float:left;
-}
+.leftCol{ float:left; }
+.rightCol{ float:right; }
 
-.rightCol{
-  float:right;
-}
-
-/* Plateformes (marron foncé) */
 .btn-platform{
   background:linear-gradient(145deg,#6b3f1d,#3a1f0c);
   border-color:#2b1507;
   color:#fff;
 }
 
-/* Objectifs (beige clair) */
 .btn-target{
   background:linear-gradient(145deg,#e6d2a2,#c9a24d);
   border-color:#6b4f1a;
