@@ -47,12 +47,12 @@ body{
   top:20px;
   right:20px;
   display:flex;
-  gap:10px;
+  gap:12px;
   z-index:3000;
 }
 
 /* =====================================================
-   🔘 BOUTONS – STYLE PIRATE GLOBAL
+   🔘 BOUTONS – STYLE PIRATE
 ===================================================== */
 button{
   background:linear-gradient(145deg,#e8c77a,#b48b3c);
@@ -70,6 +70,20 @@ button{
 button:hover{
   transform:scale(1.05);
   box-shadow:0 0 18px rgba(255,215,100,.85);
+}
+
+/* Boutons plateformes (marron foncé) */
+.btn-platform{
+  background:linear-gradient(145deg,#6a4a2f,#3d2414);
+  border-color:#2a1408;
+  color:#fff;
+}
+
+/* Boutons objectifs (marron clair) */
+.btn-target{
+  background:linear-gradient(145deg,#e8a37a,#b45a3c);
+  border-color:#3b1c10;
+  color:#000;
 }
 
 /* =====================================================
@@ -97,24 +111,26 @@ button:hover{
 }
 
 #pirate2{
-  left:470px;
-  top:420px;
-  width:330px;
+  left:473px;
+  top:422px;
+  width:329px;
   height:315px;
   background-image:url("images/Pirate2.png");
 }
 
 #pirate3{
-  left:940px;
+  left:943px;
   top:545px;
-  width:275px;
-  height:445px;
+  width:274px;
+  height:446px;
   background-image:url("images/Pirate3.png");
   cursor:pointer;
 }
 
 #pirate3:hover{
-  filter:drop-shadow(0 0 12px gold);
+  filter:
+    drop-shadow(0 0 12px gold)
+    drop-shadow(0 0 28px rgba(255,215,0,.6));
   transform:scale(1.04);
 }
 
@@ -168,67 +184,73 @@ button:hover{
 
 #miniGameContainer p{
   margin-top:12px;
-  line-height:1.45;
+  line-height:1.5;
 }
 
-/* Boutons verticaux mini-jeu 1 */
-#miniGameContainer button{
-  margin-top:14px;
-  display:block;
-  width:100%;
+/* Animation lumineuse */
+.pulse{
+  color:#ff4;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  0%{text-shadow:0 0 6px gold}
+  50%{text-shadow:0 0 18px gold}
+  100%{text-shadow:0 0 6px gold}
 }
 
 /* =====================================================
-   🖼️ VISUAL CHOICES (MINI-JEU 2 & 3)
+   🖼️ CHOIX VISUELS (MINI-JEU 2)
 ===================================================== */
 .visualChoices{
   display:flex;
-  justify-content:space-between;
-  gap:32px;
-  margin-top:26px;
+  justify-content:center;
+  gap:28px;
+  margin-top:24px;
+  flex-wrap:nowrap;
 }
 
 .visualChoices > div{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:10px;
+  gap:8px;
 }
 
 .visualChoices img{
-  width:140px;
-  cursor:pointer;
+  width:130px;
   border-radius:12px;
   border:3px solid transparent;
-  transition:transform .2s, box-shadow .2s, border .2s;
+  cursor:pointer;
+  transition:.25s;
 }
 
 .visualChoices img:hover{
-  transform:scale(1.07);
+  transform:scale(1.06);
   border-color:gold;
-  box-shadow:0 0 18px rgba(255,215,100,.8);
+  box-shadow:0 0 16px rgba(255,215,100,.8);
 }
 
-/* Bouton loupe 🔎 */
 .visualChoices button{
   padding:6px 10px;
   font-size:14px;
 }
 
 /* =====================================================
-   🔔 NOTIFICATIONS MINI-JEU 1
+   🔔 NOTIFICATIONS (MINI-JEU 1)
 ===================================================== */
 .notification{
   position:fixed;
-  top:110px;
+  top:100px;
   left:50%;
   transform:translateX(-50%);
-  padding:16px 26px;
+  padding:18px 28px;
   background:#111;
-  border-radius:14px;
+  border-radius:16px;
   z-index:4000;
   font-size:16px;
-  box-shadow:0 0 20px rgba(0,0,0,.8);
+  text-align:center;
+  box-shadow:0 0 22px rgba(0,0,0,.9);
   cursor:pointer;
 }
 
@@ -240,34 +262,17 @@ button:hover{
   border:3px solid #ff3b3b;
 }
 
-/* =====================================================
-   📳 SHAKE (MAUVAISE RÉPONSE)
-===================================================== */
-.shake{
-  animation:shake .35s;
-}
-
-@keyframes shake{
-  0%{transform:translateX(0)}
-  25%{transform:translateX(-6px)}
-  50%{transform:translateX(6px)}
-  75%{transform:translateX(-6px)}
-  100%{transform:translateX(0)}
-}
-
-/* =====================================================
-   🎮 MINI-JEU 3 – DIFFÉRENCIATION
-===================================================== */
-.btn-platform{
-  background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
-  border-color:#2a1408;
-  color:#fff;
-}
-
-.btn-target{
-  background:linear-gradient(145deg,#e8a37a,#b45a3c);
-  border-color:#3b1c10;
-  color:#000;
+/* Message au-dessus de la notif */
+.notifHint{
+  position:fixed;
+  top:60px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:15px;
+  color:gold;
+  text-shadow:0 0 14px gold;
+  animation:pulse 1.2s infinite;
+  z-index:4100;
 }
 
 /* =====================================================
@@ -294,10 +299,24 @@ button:hover{
   box-shadow:0 0 40px rgba(255,215,100,.6);
 }
 
-.loaderBox img{
-  margin-top:16px;
-  border-radius:12px;
-  box-shadow:0 0 22px rgba(255,215,100,.7);
+/* =====================================================
+   🎮 MINI-JEU 3 – COLONNES
+===================================================== */
+.column{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  margin-top:24px;
+}
+
+.column.left{
+  position:absolute;
+  left:24px;
+}
+
+.column.right{
+  position:absolute;
+  right:24px;
 }
 
 /* =====================================================
@@ -306,20 +325,16 @@ button:hover{
 @media(max-width:768px){
 
   #miniGameContainer{
-    width:90%;
+    width:92%;
     padding:24px;
   }
 
   .visualChoices{
-    flex-direction:column;
+    flex-wrap:wrap;
+  }
+
+  .column{
+    position:static;
     align-items:center;
-  }
-
-  .visualChoices img{
-    width:120px;
-  }
-
-  #dialogBox{
-    max-width:90%;
   }
 }
