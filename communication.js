@@ -226,11 +226,12 @@ function startMiniGame2(){
   addTitle("🎨 L’identité visuelle : Avant de commencer");
 
   infoBox(
-    "Avant de faire un logo",
-    `À qui tu parles<br>
-     Ce que tu veux dire<br>
-     Ce que tu veux faire ressentir<br>
-     Ton style<br><br>
+    "Avant de faire un logo, de choisir des couleurs ou une écriture, il faut d’abord savoir ce que tu veux montrer.",
+    `Voici les points importants à décider :<br><br>
+     À qui tu parles : des enfants, des ados, des adultes<br>
+	  Ce que tu veux dire : ton idée principale<br>
+	  Ce que tu veux faire ressentir : joie, confiance, énergie, calme<br>
+	  Ton style : plutôt fun, sérieux, moderne ou créatif<br><br>
      👉 Si tu sais répondre à ces questions, ton identité sera plus claire.`
   );
 
@@ -297,7 +298,12 @@ function afterLogo(){
   showMiniGame();
   infoBox(
     "Le logo : la base de ton identité visuelle",
-    `Simple, reconnaissable, lisible.<br>
+    `c’est le dessin principal qui permet de reconnaître ton projet.<br>
+    À retenir :<br><br>
+	Un logo doit être simple<br>
+	On doit le reconnaître rapidement<br>
+	Il doit fonctionner en petit et en grand<br>
+   Il ne doit pas être trop chargé<br><br>
      👉 Si tu peux le dessiner en 5 secondes, c’est validé.`
   );
   setTimeout(startColors,1200);
@@ -317,8 +323,15 @@ function afterColors(){
   showMiniGame();
   infoBox(
     "Les couleurs",
-    `2 à 4 couleurs maximum.<br>
-     Trop de couleurs = confusion.`
+    `Les couleurs servent à montrer une émotion.<br>
+    À retenir :<br><br>
+    Choisis 2 à 4 couleurs maximum<br>
+    Une couleur principale (la plus importante)<br>
+    Une ou deux couleurs pour compléter<br>
+    Les couleurs doivent aller bien ensemble<br><br>
+
+   👉 Trop de couleurs = on ne comprend plus.<br>
+   Peu de couleurs = c’est plus clair et plus fort.`
   );
   setTimeout(startTypo,1200);
 }
@@ -333,6 +346,21 @@ function startTypo(){
   );
 }
 
+function afterTypo(){
+  showMiniGame();
+  infoBox(
+    "La Typographie",
+    `La typographie, c’est la forme des lettres que tu utilises.<br>
+     À retenir :<br><br>
+     Elle doit être facile à lire<br>
+     Elle doit correspondre à ton style<br>
+     Utilise 1 ou 2 écritures maximum<br>
+     La même écriture partout<br><br>
+👉 Une bonne écriture rend ton projet plus sérieux et plus facile à comprendre.`
+  );
+  setTimeout(startTypo,1200);
+}
+
 function showIdentity(){
   hideMiniGame();
   const f=document.createElement("div");
@@ -343,7 +371,7 @@ function showIdentity(){
   b.innerHTML="<strong>L’identité visuelle est prête</strong>";
 
   const img=document.createElement("img");
-  img.src="images/identiteevisuelle.JPG";
+  img.src="images/Identiteevisuelle.JPG";
   img.style.width="260px";
   img.onclick=()=>{
     f.remove();
