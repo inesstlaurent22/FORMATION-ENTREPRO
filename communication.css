@@ -49,11 +49,10 @@ body{
   display:flex;
   gap:10px;
   z-index:3000;
-  pointer-events:auto;
 }
 
 /* =====================================================
-   🔘 BOUTONS – STYLE PIRATE
+   🔘 BOUTONS – STYLE PIRATE GLOBAL
 ===================================================== */
 button{
   background:linear-gradient(145deg,#e8c77a,#b48b3c);
@@ -64,25 +63,13 @@ button{
   font-weight:bold;
   cursor:pointer;
   padding:12px 22px;
-  transition:transform .2s ease, box-shadow .2s ease;
+  transition:transform .2s, box-shadow .2s;
   box-shadow:inset 0 0 6px rgba(255,255,255,.4);
 }
 
 button:hover{
   transform:scale(1.05);
   box-shadow:0 0 18px rgba(255,215,100,.85);
-}
-
-/* Boutons plateformes (bleus) */
-.btn-platform{
-  background:linear-gradient(145deg,#7aaae8,#3c6db4);
-  border-color:#10243b;
-}
-
-/* Boutons objectifs (marron) */
-.btn-target{
-  background:linear-gradient(145deg,#e8a37a,#b45a3c);
-  border-color:#3b1c10;
 }
 
 /* =====================================================
@@ -110,26 +97,24 @@ button:hover{
 }
 
 #pirate2{
-  left:473px;
-  top:422px;
-  width:329px;
+  left:470px;
+  top:420px;
+  width:330px;
   height:315px;
   background-image:url("images/Pirate2.png");
 }
 
 #pirate3{
-  left:943px;
+  left:940px;
   top:545px;
-  width:274px;
-  height:446px;
+  width:275px;
+  height:445px;
   background-image:url("images/Pirate3.png");
   cursor:pointer;
 }
 
 #pirate3:hover{
-  filter:
-    drop-shadow(0 0 12px gold)
-    drop-shadow(0 0 28px rgba(255,215,0,.6));
+  filter:drop-shadow(0 0 12px gold);
   transform:scale(1.04);
 }
 
@@ -162,13 +147,13 @@ button:hover{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:520px;
+  width:560px;
   max-height:80vh;
   overflow-y:auto;
   padding:32px;
   background:linear-gradient(145deg,#3b240f,#1f1208);
   border:5px solid #c9a24d;
-  border-radius:20px;
+  border-radius:22px;
   z-index:2000;
   color:#fff;
   text-align:center;
@@ -186,16 +171,48 @@ button:hover{
   line-height:1.45;
 }
 
-/* Texte "2 bonnes réponses" lumineux */
-.glow-text{
-  color:#ff4d4d;
-  animation:glowPulse 1.2s infinite;
+/* Boutons verticaux mini-jeu 1 */
+#miniGameContainer button{
+  margin-top:14px;
+  display:block;
+  width:100%;
 }
 
-@keyframes glowPulse{
-  0%{text-shadow:0 0 4px #ff4d4d}
-  50%{text-shadow:0 0 16px #ff4d4d}
-  100%{text-shadow:0 0 4px #ff4d4d}
+/* =====================================================
+   🖼️ VISUAL CHOICES (MINI-JEU 2 & 3)
+===================================================== */
+.visualChoices{
+  display:flex;
+  justify-content:space-between;
+  gap:32px;
+  margin-top:26px;
+}
+
+.visualChoices > div{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+
+.visualChoices img{
+  width:140px;
+  cursor:pointer;
+  border-radius:12px;
+  border:3px solid transparent;
+  transition:transform .2s, box-shadow .2s, border .2s;
+}
+
+.visualChoices img:hover{
+  transform:scale(1.07);
+  border-color:gold;
+  box-shadow:0 0 18px rgba(255,215,100,.8);
+}
+
+/* Bouton loupe 🔎 */
+.visualChoices button{
+  padding:6px 10px;
+  font-size:14px;
 }
 
 /* =====================================================
@@ -203,17 +220,16 @@ button:hover{
 ===================================================== */
 .notification{
   position:fixed;
-  top:100px;
+  top:110px;
   left:50%;
   transform:translateX(-50%);
-  padding:16px 28px;
+  padding:16px 26px;
   background:#111;
   border-radius:14px;
   z-index:4000;
   font-size:16px;
   box-shadow:0 0 20px rgba(0,0,0,.8);
   cursor:pointer;
-  text-align:center;
 }
 
 .notification.success{
@@ -224,20 +240,8 @@ button:hover{
   border:3px solid #ff3b3b;
 }
 
-/* Message "Clique sur la notif" */
-.notif-hint{
-  position:fixed;
-  top:60px;
-  left:50%;
-  transform:translateX(-50%);
-  color:gold;
-  font-weight:bold;
-  animation:goldPulse 1.2s infinite;
-  z-index:4100;
-}
-
 /* =====================================================
-   📳 VIBRATION ÉCRAN
+   📳 SHAKE (MAUVAISE RÉPONSE)
 ===================================================== */
 .shake{
   animation:shake .35s;
@@ -252,45 +256,18 @@ button:hover{
 }
 
 /* =====================================================
-   🖼️ CHOIX VISUELS – MINI-JEU 2
+   🎮 MINI-JEU 3 – DIFFÉRENCIATION
 ===================================================== */
-.visualChoices{
-  display:flex;
-  justify-content:center;
-  gap:24px;
-  margin-top:24px;
-  flex-wrap:wrap;
+.btn-platform{
+  background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
+  border-color:#2a1408;
+  color:#fff;
 }
 
-.visualChoices.row{
-  flex-wrap:nowrap;
-}
-
-.visualChoices > div{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-}
-
-.visualChoices img{
-  width:140px;
-  border-radius:10px;
-  border:3px solid transparent;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.visualChoices img:hover{
-  transform:scale(1.08);
-  border-color:gold;
-  box-shadow:0 0 16px rgba(255,215,100,.8);
-}
-
-/* Bouton loupe */
-.visualChoices button{
-  padding:6px 10px;
-  font-size:14px;
+.btn-target{
+  background:linear-gradient(145deg,#e8a37a,#b45a3c);
+  border-color:#3b1c10;
+  color:#000;
 }
 
 /* =====================================================
@@ -317,55 +294,32 @@ button:hover{
   box-shadow:0 0 40px rgba(255,215,100,.6);
 }
 
-.loaderBox.glow{
-  animation:goldPulse 1.4s infinite;
-}
-
-/* =====================================================
-   📲 MINI-JEU 3 – LIENS
-===================================================== */
-.linkGame{
-  position:relative;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:30px;
-}
-
-.linkGame .side{
-  display:flex;
-  gap:14px;
-}
-
-.linkGame .left{
-  justify-content:flex-start;
-}
-
-.linkGame .right{
-  justify-content:flex-end;
-}
-
-.linkGame svg.lines{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
+.loaderBox img{
+  margin-top:16px;
+  border-radius:12px;
+  box-shadow:0 0 22px rgba(255,215,100,.7);
 }
 
 /* =====================================================
    📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
+
   #miniGameContainer{
     width:90%;
     padding:24px;
   }
 
-  #dialogBox{
-    max-width:90%;
+  .visualChoices{
+    flex-direction:column;
+    align-items:center;
   }
 
-  .linkGame{
-    flex-direction:column;
-    gap:20px;
+  .visualChoices img{
+    width:120px;
+  }
+
+  #dialogBox{
+    max-width:90%;
   }
 }
