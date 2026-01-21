@@ -234,207 +234,180 @@ function afterMiniGame1(){
 }
 
 /* =====================================================
-   MINI-JEU 2 – IDENTITÉ VISUELLE
+   MINI-JEU 2 – IDENTITÉ VISUELLE (STRUCTURE LINÉAIRE)
 ===================================================== */
 function startMiniGame2(){
   showMiniGame();
+  showIdentityIntro();
+}
+
+/* ========= ÉTAPE 1 – INTRO IDENTITÉ VISUELLE ========= */
+function showIdentityIntro(){
+  showMiniGame();
+
   addTitle("L’identité visuelle : Avant de commencer");
-  addText("Avant de faire un logo, de choisir des couleurs ou une écriture, il faut d’abord savoir ce que tu veux montrer.");
+  addText(
+    "Avant de faire un logo, de choisir des couleurs ou une écriture, " +
+    "il faut d’abord savoir ce que tu veux montrer."
+  );
 
-  const btn=document.createElement("button");
-  btn.textContent="Voici les points importants à décider";
-  btn.style.margin="18px 0";
+  const btn = document.createElement("button");
+  btn.textContent = "Voici les points importants à décider";
+  btn.style.margin = "18px 0";
 
-  const bubble=infoBubble(`
+  const bubble = infoBubble(`
     • À qui tu parles : enfants, ados, adultes<br>
     • Ce que tu veux dire : ton idée principale<br>
     • Ce que tu veux faire ressentir : joie, confiance, énergie, calme<br>
     • Ton style : fun, sérieux, moderne ou créatif
   `);
 
-  btn.onclick=()=>bubble.classList.toggle("hidden");
+  btn.onclick = () => bubble.classList.toggle("hidden");
 
-  miniGame.append(btn,bubble);
-  addText("👉 Si tu sais répondre à ces questions, ton identité visuelle sera plus simple, rapide à créer et facile à reconnaître.");
+  miniGame.append(btn, bubble);
 
-  miniGame.onclick=()=>startLogo();
+  addText(
+    "👉 Si tu sais répondre à ces questions, ton identité visuelle sera " +
+    "plus simple, rapide à créer et facile à reconnaître."
+  );
+
+  miniGame.onclick = () => showLogoChoice();
 }
 
-/* ===== IMAGE GROUP AVEC LOADER ===== */
-function imageGroup(list,cb){
-  const loader=document.createElement("div");
-  loader.textContent="⏳";
-  loader.style.fontSize="32px";
-  miniGame.appendChild(loader);
-
-  let loaded=0;
-  const wrap=document.createElement("div");
-  wrap.className="visualChoices";
-
-  list.forEach(src=>{
-    const box=document.createElement("div");
-    const img=new Image();
-    img.src=src;
-    img.onload=()=>{
-      loaded++;
-      if(loaded===list.length){
-        loader.remove();
-        miniGame.appendChild(wrap);
-      }
-    };
-    img.onclick=()=>cb();
-    const z=document.createElement("button");
-    z.textContent="🔎";
-    z.onclick=e=>{
-      e.stopPropagation();
-      zoom(src);
-    };
-    box.append(img,z);
-    wrap.appendChild(box);
-  });
-}
-
-function zoom(src){
-  const f=document.createElement("div");
-  f.id="fadeScreen";
-  const b=document.createElement("div");
-  b.className="loaderBox";
-  const img=document.createElement("img");
-  img.src=src;
-  img.style.width="320px";
-  b.appendChild(img);
-  f.appendChild(b);
-  document.body.appendChild(f);
-  f.onclick=()=>f.remove();
-}
-
-/* ===== LOGO ===== */
-function startLogo(){
+/* ========= ÉTAPE 2 – CHOIX LOGOS ========= */
+function showLogoChoice(){
   showMiniGame();
+
   addTitle("Ton logo");
   addText("Le choix est libre");
-  imageGroup(["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],showLogoExplanation);
+
+  imageGroup(
+    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+    showColorsIntro
+  );
 }
 
-function showLogoExplanation(){
+/* ========= ÉTAPE 3 – TEXTE COULEURS ========= */
+function showColorsIntro(){
   showMiniGame();
-  addTitle("Logo - Explication");
-  addText("Le logo, c’est le dessin principal qui permet de reconnaître ton projet.");
 
-  const b=document.createElement("button");
-  b.textContent="À retenir";
-  const bubble=infoBubble(`
-    • Un logo doit être simple<br>
-    • Reconnaissable rapidement<br>
-    • Fonctionne en petit et en grand<br>
-    • Pas trop chargé
-  `);
-  b.onclick=()=>bubble.classList.toggle("hidden");
-
-  miniGame.append(b,bubble);
-  addText("👉 Astuce : si tu peux dessiner ton logo en 5 secondes, c’est validé.");
-
-  miniGame.onclick=()=>startColors();
-}
-
-/* ===== COULEURS ===== */
-function startColors(){
-  showMiniGame();
   addTitle("Les couleurs");
-
-  const btn=document.createElement("button");
-  btn.textContent="Indice";
-  btn.style.margin="18px 0";
-  const bubble=infoBubble("Les couleurs doivent être en cohérence avec le logo");
-  btn.onclick=()=>bubble.classList.toggle("hidden");
-
-  miniGame.append(btn,bubble);
-  imageGroup(["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],showColorsExplanation);
-}
-
-function showColorsExplanation(){
-  showMiniGame();
-  addTitle("Les couleurs - Explication");
   addText("Les couleurs servent à montrer une émotion.");
 
-  const b=document.createElement("button");
-  b.textContent="À retenir";
-  const bubble=infoBubble(`
-    • 2 à 4 couleurs maximum<br>
+  const btn = document.createElement("button");
+  btn.textContent = "À retenir";
+  btn.style.margin = "18px 0";
+
+  const bubble = infoBubble(`
+    • Choisis 2 à 4 couleurs maximum<br>
     • Une couleur principale<br>
-    • Une ou deux couleurs complémentaires<br>
-    • Une bonne harmonie
+    • Une ou deux couleurs pour compléter<br>
+    • Les couleurs doivent aller bien ensemble
   `);
-  b.onclick=()=>bubble.classList.toggle("hidden");
 
-  miniGame.append(b,bubble);
-  addText("👉 Trop de couleurs = on ne comprend plus. Peu = c’est plus clair.");
+  btn.onclick = () => bubble.classList.toggle("hidden");
 
-  miniGame.onclick=()=>startTypo();
+  miniGame.append(btn, bubble);
+
+  addText(
+    "👉 Trop de couleurs = on ne comprend plus.<br>" +
+    "Peu de couleurs = c’est plus clair et plus fort."
+  );
+
+  miniGame.onclick = () => showColorChoice();
 }
 
-/* ===== TYPO ===== */
-function startTypo(){
+/* ========= ÉTAPE 4 – CHOIX COULEURS ========= */
+function showColorChoice(){
   showMiniGame();
+
+  addTitle("Choisis les couleurs");
+
+  imageGroup(
+    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+    showTypoIntro
+  );
+}
+
+/* ========= ÉTAPE 5 – TEXTE TYPOGRAPHIE ========= */
+function showTypoIntro(){
+  showMiniGame();
+
   addTitle("La typographie");
-
-  const btn=document.createElement("button");
-  btn.textContent="Indice";
-  btn.style.margin="18px 0";
-  const bubble=infoBubble("La typographie doit être en cohérence avec le thème de ton activité");
-  btn.onclick=()=>bubble.classList.toggle("hidden");
-
-  miniGame.append(btn,bubble);
-  imageGroup(["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],showTypoExplanation);
-}
-
-function showTypoExplanation(){
-  showMiniGame();
-  addTitle("La typographie - Explication");
   addText("La typographie, c’est la forme des lettres que tu utilises.");
 
-  const b=document.createElement("button");
-  b.textContent="À retenir";
-  const bubble=infoBubble(`
-    • Facile à lire<br>
-    • Correspond au style<br>
-    • 1 ou 2 écritures maximum<br>
-    • La même partout
+  const btn = document.createElement("button");
+  btn.textContent = "À retenir";
+  btn.style.margin = "18px 0";
+
+  const bubble = infoBubble(`
+    • Elle doit être facile à lire<br>
+    • Elle doit correspondre à ton style<br>
+    • Utilise 1 ou 2 écritures maximum<br>
+    • La même écriture partout
   `);
-  b.onclick=()=>bubble.classList.toggle("hidden");
 
-  miniGame.append(b,bubble);
-  addText("👉 Une bonne écriture rend ton projet plus sérieux et plus clair.");
+  btn.onclick = () => bubble.classList.toggle("hidden");
 
-  miniGame.onclick=showIdentity;
+  miniGame.append(btn, bubble);
+
+  addText(
+    "👉 Une bonne écriture rend ton projet plus sérieux " +
+    "et plus facile à comprendre."
+  );
+
+  miniGame.onclick = () => showTypoChoice();
 }
 
-/* ===== IDENTITÉ VISUELLE ===== */
-function showIdentity(){
-  const f=document.createElement("div");
-  f.id="fadeScreen";
-  const b=document.createElement("div");
-  b.className="loaderBox";
-  b.innerHTML="<strong>L’identité visuelle est prête</strong><br>";
-  const img=document.createElement("img");
-  img.src="images/Identiteevisuelle.PNG";
-  img.style.width="260px";
+/* ========= ÉTAPE 6 – CHOIX TYPO ========= */
+function showTypoChoice(){
+  showMiniGame();
+
+  addTitle("Choisis la typographie");
+
+  imageGroup(
+    ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
+    showIdentityFinal
+  );
+}
+
+/* ========= ÉTAPE 7 – IDENTITÉ VISUELLE FINALE ========= */
+function showIdentityFinal(){
+  hideMiniGame();
+
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
+
+  const b = document.createElement("div");
+  b.className = "loaderBox";
+  b.innerHTML = "<strong>L’identité visuelle est prête</strong><br>";
+
+  const img = document.createElement("img");
+  img.src = "images/Identiteevisuelle.PNG";
+  img.style.width = "260px";
+
   b.appendChild(img);
   f.appendChild(b);
   document.body.appendChild(f);
-  f.onclick=()=>{
+
+  /* 👉 clic n’importe où = suite */
+  f.onclick = () => {
     f.remove();
     afterMiniGame2();
   };
 }
 
+/* ========= SORTIE MINI-JEU 2 ========= */
 function afterMiniGame2(){
-  playDialog([
-    {speaker:"pirate2",text:"Ta marque est prête."},
-    {speaker:"pirate3",text:"Choisissons les bons canaux."}
-  ], startMiniGame3);
+  playDialog(
+    [
+      { speaker:"pirate2", text:"Ta marque est désormais reconnaissable." },
+      { speaker:"pirate3", text:"Passons maintenant aux bons canaux." }
+    ],
+    startMiniGame3
+  );
 }
-
+   
 /* =====================================================
    MINI-JEU 3 – CANAUX
 ===================================================== */
