@@ -181,10 +181,10 @@ function identityIntro(){
   btn.style.margin="20px 0";
 
   const bubble=infoBubble(`
-    • À qui tu parles<br>
-    • Ton message principal<br>
-    • L’émotion à transmettre<br>
-    • Ton style visuel
+    • À qui tu parles : ta cible <br>
+    • Ton message principal - en relation avec ton prduit<br>
+    • L’émotion à transmettre (la joie, le luxe, le moderne)<br>
+    • Ton style visuel (futuriste avant-gardiste, traditionnel)
   `);
 
   btn.onclick=()=>bubble.classList.toggle("hidden");
