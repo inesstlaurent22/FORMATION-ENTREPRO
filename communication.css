@@ -146,7 +146,7 @@ button:hover{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:560px;
+  width:580px;
   max-height:80vh;
   overflow-y:auto;
   padding:32px;
@@ -166,7 +166,7 @@ button:hover{
 
 #miniGameContainer p{
   margin-top:12px;
-  line-height:1.5;
+  line-height:1.55;
 }
 
 /* =====================================================
@@ -175,15 +175,15 @@ button:hover{
 .glow-red{
   display:block;
   margin:18px 0;
-  color:#ff8080;
+  color:#ff8a8a;
   font-weight:bold;
   animation:glowRed 1.4s infinite;
 }
 
 @keyframes glowRed{
-  0%{text-shadow:0 0 6px #ff8080}
-  50%{text-shadow:0 0 18px #ffb3b3}
-  100%{text-shadow:0 0 6px #ff8080}
+  0%{text-shadow:0 0 6px #ff8a8a}
+  50%{text-shadow:0 0 20px #ffc0c0}
+  100%{text-shadow:0 0 6px #ff8a8a}
 }
 
 /* =====================================================
@@ -216,20 +216,6 @@ button:hover{
   transform:scale(1.08);
   border-color:gold;
   box-shadow:0 0 16px rgba(255,215,100,.8);
-}
-
-/* =====================================================
-   ⏳ LOADER IMAGES
-===================================================== */
-.loader{
-  font-size:32px;
-  margin:28px 0;
-  animation:spin 1.2s infinite linear;
-}
-
-@keyframes spin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
 }
 
 /* =====================================================
@@ -282,7 +268,7 @@ button:hover{
 }
 
 /* =====================================================
-   🌑 OVERLAY / LOADER FINAL
+   🌑 OVERLAY / LOADER
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -305,12 +291,24 @@ button:hover{
   box-shadow:0 0 40px rgba(255,215,100,.6);
 }
 
+/* Loader sablier */
+.loader{
+  font-size:32px;
+  margin-top:24px;
+  animation:spin 1.4s infinite linear;
+}
+
+@keyframes spin{
+  0%{transform:rotate(0deg)}
+  100%{transform:rotate(360deg)}
+}
+
 /* =====================================================
-   ℹ️ BULLES INFO (ENCARTS)
+   ℹ️ BULLES INFO
 ===================================================== */
 .info-bubble{
-  margin-top:16px;
-  padding:16px;
+  margin-top:14px;
+  padding:14px;
   border:2px solid gold;
   border-radius:14px;
   background:rgba(0,0,0,.45);
@@ -327,15 +325,22 @@ button:hover{
   width:45%;
 }
 
-.leftCol{ float:left; }
-.rightCol{ float:right; }
+.leftCol{
+  float:left;
+}
 
+.rightCol{
+  float:right;
+}
+
+/* Plateformes (marron foncé) */
 .btn-platform{
   background:linear-gradient(145deg,#6b3f1d,#3a1f0c);
   border-color:#2b1507;
   color:#fff;
 }
 
+/* Objectifs (beige clair) */
 .btn-target{
   background:linear-gradient(145deg,#e6d2a2,#c9a24d);
   border-color:#6b4f1a;
@@ -343,20 +348,26 @@ button:hover{
 }
 
 /* =====================================================
-   💎 GEMS
+   💎 GEMS — EXPLOSION FINALE
 ===================================================== */
 .gem{
   position:absolute;
-  width:10px;
-  height:10px;
+  width:12px;
+  height:12px;
   border-radius:3px;
   pointer-events:none;
   animation:explode 1.6s ease-out forwards;
 }
 
 @keyframes explode{
-  from{transform:translate(0,0) scale(1);opacity:1}
-  to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}
+  from{
+    transform:translate(0,0) scale(1);
+    opacity:1;
+  }
+  to{
+    transform:translate(var(--x),var(--y)) scale(0);
+    opacity:0;
+  }
 }
 
 /* =====================================================
