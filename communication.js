@@ -110,7 +110,7 @@ function infoBubble(text){
 }
 
 /* =====================================================
-   🔔 NOTIFICATION CLIQUABLE (MINI JEU 1)
+   🔔 NOTIFICATIONS MINI-JEU 1
 ===================================================== */
 function showNotification(text, onClick){
   const n = document.createElement("div");
@@ -139,7 +139,7 @@ function showError(){
 }
 
 /* =====================================================
-   DÉBUT
+   DÉBUT DE LA QUÊTE
 ===================================================== */
 pirate3.onclick = () => {
   playDialog([
@@ -211,7 +211,7 @@ function showQuestion(){
           qi++;
           qi<quiz.length ? showQuestion() : afterMiniGame1();
         });
-      }else if(selected.length>=2){
+      } else if(selected.length>=2){
         showError();
         selected=[];
       }
@@ -234,15 +234,17 @@ function afterMiniGame1(){
 }
 
 /* =====================================================
-   MINI-JEU 2 – IDENTITÉ VISUELLE
+   MINI-JEU 2 – IDENTITÉ VISUELLE (STRICT)
 ===================================================== */
 function startMiniGame2(){
   showMiniGame();
+
   addTitle("L’identité visuelle : Avant de commencer");
   addText("Avant de faire un logo, de choisir des couleurs ou une écriture, il faut d’abord savoir ce que tu veux montrer.");
 
   const btn=document.createElement("button");
   btn.textContent="Voici les points importants à décider";
+  btn.style.margin="18px 0";
 
   const bubble=infoBubble(`
     • À qui tu parles : enfants, ados, adultes<br>
@@ -251,15 +253,22 @@ function startMiniGame2(){
     • Ton style : fun, sérieux, moderne ou créatif
   `);
 
-  btn.onclick=()=>bubble.classList.toggle("hidden");
+  btn.onclick=e=>{
+    e.stopPropagation();
+    bubble.classList.toggle("hidden");
+  };
 
   miniGame.append(btn,bubble);
+
   addText("👉 Si tu sais répondre à ces questions, ton identité visuelle sera plus simple, rapide à créer et facile à reconnaître.");
 
-  miniGame.onclick=()=>startLogo();
+  miniGame.onclick = () => {
+    miniGame.onclick=null;
+    startLogo();
+  };
 }
 
-/* === GROUP IMAGES AVEC LOADER === */
+/* === IMAGES AVEC LOADER === */
 function imageGroup(list,cb){
   const loader=document.createElement("div");
   loader.textContent="⏳";
@@ -333,7 +342,7 @@ function afterLogo(){
   miniGame.append(b,bubble);
   addText("👉 Astuce : si tu peux dessiner ton logo en 5 secondes, c’est validé.");
 
-  miniGame.onclick=()=>startColors();
+  miniGame.onclick=()=>{miniGame.onclick=null;startColors();};
 }
 
 /* COULEURS */
@@ -368,7 +377,7 @@ function afterColors(){
   miniGame.append(b,bubble);
   addText("👉 Trop de couleurs = confusion. Peu = impact.");
 
-  miniGame.onclick=()=>startTypo();
+  miniGame.onclick=()=>{miniGame.onclick=null;startTypo();};
 }
 
 /* TYPOGRAPHIE */
@@ -403,10 +412,10 @@ function afterTypo(){
   miniGame.append(b,bubble);
   addText("👉 Une bonne écriture rend ton projet plus sérieux et plus clair.");
 
-  miniGame.onclick=showIdentity;
+  miniGame.onclick=()=>{miniGame.onclick=null;showIdentity();};
 }
 
-/* IDENTITÉ VISUELLE */
+/* ✅ IDENTITÉ VISUELLE – FIN DU MINI-JEU 2 UNIQUEMENT */
 function showIdentity(){
   const f=document.createElement("div");
   f.id="fadeScreen";
@@ -433,7 +442,7 @@ function afterMiniGame2(){
 }
 
 /* =====================================================
-   MINI-JEU 3 – CANAUX (LIGNES OK)
+   MINI-JEU 3 – CANAUX
 ===================================================== */
 function startMiniGame3(){
   showMiniGame();
