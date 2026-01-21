@@ -201,21 +201,27 @@ function logoExplanation(){
   addTitle("Le logo");
   addText("Le logo permet de reconnaître ton projet.");
 
-  const btn=document.createElement("button");
-  btn.textContent="À retenir";
-  const bubble=infoBubble(`
-    • Simple<br>
-    • Reconnaissable rapidement<br>
-    • Lisible petit et grand<br>
-    • Pas trop chargé
-  `);
-  btn.onclick=()=>bubble.classList.toggle("hidden");
+const btn=document.createElement("button");
+btn.textContent="Voici les points importants à décider";
+btn.style.margin="20px 0";
 
-  miniGame.append(btn,bubble);
-  addText("👉 Si tu peux le dessiner en 5 secondes, c’est validé.");
+const bubble=document.createElement("div");
+bubble.className="info-bubble hidden";
+bubble.innerHTML = `
+  <ul style="text-align:left; padding-left:18px; line-height:1.6;">
+    <li>À qui tu parles</li>
+    <li>Ton message principal</li>
+    <li>L’émotion à transmettre</li>
+    <li>Ton style visuel</li>
+  </ul>
+`;
 
-  miniGame.onclick=()=>logoChoice();
-}
+btn.onclick = (e) => {
+  e.stopPropagation();          // empêche le passage à l’étape suivante
+  bubble.classList.toggle("hidden");
+};
+
+miniGame.append(btn, bubble);
 
 /* === 3. CHOIX LOGO === */
 function logoChoice(){
