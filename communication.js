@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   🔗 RÉFÉRENCES
+   RÉFÉRENCES
 ===================================================== */
 const videoIntro  = document.getElementById("videoIntro");
 const introVideo  = document.getElementById("introVideo");
@@ -18,7 +18,7 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   VIDÉO INTRO
 ===================================================== */
 introVideo.muted = true;
 introVideo.play().catch(()=>{});
@@ -43,7 +43,7 @@ function endVideo(){
 }
 
 /* =====================================================
-   💬 DIALOGUES
+   DIALOGUES
 ===================================================== */
 let dialogs=[], dialogIndex=0, dialogCallback=null;
 
@@ -77,20 +77,23 @@ dialogBox.onclick=()=>{
 };
 
 /* =====================================================
-   🧠 HELPERS
+   HELPERS
 ===================================================== */
 function showMiniGame(){
   miniGame.innerHTML="";
   miniGame.classList.remove("hidden");
 }
+
 function hideMiniGame(){
   miniGame.classList.add("hidden");
 }
+
 function addTitle(t){
   const h=document.createElement("h3");
   h.textContent=t;
   miniGame.appendChild(h);
 }
+
 function addText(t){
   const p=document.createElement("p");
   p.innerHTML=t;
@@ -98,26 +101,23 @@ function addText(t){
 }
 
 /* =====================================================
-   🔔 NOTIFICATION CLIQUABLE
+   NOTIFICATIONS MINI-JEU 1
 ===================================================== */
-function notification(text, cb){
+function notification(text, onClick){
   const n=document.createElement("div");
   n.className="notification success";
   n.innerHTML=`
     <div class="glow-text">Clique sur la notification pour continuer</div>
-    <div style="margin-top:8px;font-size:18px">${text}</div>
+    <div style="margin-top:8px">${text}</div>
   `;
   n.onclick=()=>{
     n.remove();
-    cb && cb();
+    onClick && onClick();
   };
   document.body.appendChild(n);
 }
 
-/* =====================================================
-   💥 ERREUR
-===================================================== */
-function errorShake(){
+function errorNotif(){
   const f=document.createElement("div");
   f.id="fadeScreen";
   const b=document.createElement("div");
@@ -125,16 +125,17 @@ function errorShake(){
   b.textContent="Tu t’es trompé 💥";
   f.appendChild(b);
   document.body.appendChild(f);
-
   document.body.classList.add("shake");
+
   setTimeout(()=>{
     document.body.classList.remove("shake");
     f.remove();
-  },900);
+    showQuestion();
+  },1200);
 }
 
 /* =====================================================
-   🚀 DÉPART
+   DÉBUT
 ===================================================== */
 pirate3.onclick=()=>{
   playDialog([
@@ -145,13 +146,23 @@ pirate3.onclick=()=>{
 };
 
 /* =====================================================
-   🎮 MINI-JEU 1 — COMMUNICATION
+   MINI-JEU 1 – COMMUNICATION
 ===================================================== */
 const quiz=[
-  {t:"⚓ Visite physique",q:"Rencontrer un client permet de :",o:["Rassurer","Créer une connexion","Ignorer ses attentes"],g:[0,1],txt:"La visite physique crée une relation de confiance."},
-  {t:"🕊️ Phoning / Mailing",q:"Le contact direct sert à :",o:["Comprendre les besoins","Créer une relation","Parler uniquement de prix"],g:[0,1],txt:"Le contact humain est essentiel."},
-  {t:"📣 Réseaux sociaux",q:"Ils servent surtout à :",o:["Se faire connaître","Montrer son univers","Vendre immédiatement"],g:[0,1],txt:"Les réseaux sociaux créent de la visibilité."},
-  {t:"📜 Newsletters",q:"Une newsletter permet de :",o:["Rester présent","Créer un lien","Envoyer du spam"],g:[0,1],txt:"La newsletter entretient la relation."}
+  {
+    t:"⚓ Visite physique",
+    q:"Rencontrer un client permet de :",
+    o:["Rassurer","Créer une connexion","Ignorer ses attentes"],
+    g:[0,1],
+    txt:"La visite physique crée une relation de confiance."
+  },
+  {
+    t:"📣 Réseaux sociaux",
+    q:"Ils servent surtout à :",
+    o:["Se faire connaître","Montrer son univers","Vendre immédiatement"],
+    g:[0,1],
+    txt:"Les réseaux sociaux créent de la visibilité."
+  }
 ];
 
 let qi=0, sel=[];
@@ -165,9 +176,16 @@ function showQuestion(){
   showMiniGame();
   sel=[];
   const s=quiz[qi];
+
   addTitle(s.t);
   addText(s.q);
-  addText(`<span class="glow-red">2 bonnes réponses</span>`);
+  addText("<span class='glow-red'>2 bonnes réponses</span>");
+
+  const col=document.createElement("div");
+  col.style.display="flex";
+  col.style.flexDirection="column";
+  col.style.gap="12px";
+  col.style.marginTop="16px";
 
   s.o.forEach((txt,i)=>{
     const b=document.createElement("button");
@@ -177,15 +195,16 @@ function showQuestion(){
       if(check(s)){
         notification(s.txt,()=>{
           qi++;
-          qi<quiz.length?showQuestion():afterMiniGame1();
+          qi<quiz.length ? showQuestion() : afterMiniGame1();
         });
       }else if(sel.length>=2){
-        errorShake();
-        sel=[];
+        errorNotif();
       }
     };
-    miniGame.appendChild(b);
+    col.appendChild(b);
   });
+
+  miniGame.appendChild(col);
 }
 
 function check(s){
@@ -195,20 +214,23 @@ function check(s){
 function afterMiniGame1(){
   hideMiniGame();
   playDialog([
-    {speaker:"pirate2",text:"Bien joué."},
-    {speaker:"pirate3",text:"Créons ton identité visuelle."}
+    {speaker:"pirate2",text:"Parfait."},
+    {speaker:"pirate3",text:"Créons maintenant ton identité visuelle."}
   ],startMiniGame2);
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (FINAL)
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (AVEC CADRANS)
 ===================================================== */
 
 function startMiniGame2(){
   showMiniGame();
 
   addTitle("L’identité visuelle : Avant de commencer");
-  addText("Avant de faire un logo, de choisir des couleurs ou une écriture, il faut d’abord savoir ce que tu veux montrer.");
+  addText(
+    "Avant de faire un logo, de choisir des couleurs ou une écriture, " +
+    "il faut d’abord savoir ce que tu veux montrer."
+  );
 
   const btn = document.createElement("button");
   btn.textContent = "Voici les points importants à décider";
@@ -222,22 +244,24 @@ function startMiniGame2(){
     • Ton style : plutôt fun, sérieux, moderne ou créatif
   `;
 
-  btn.onclick = () => bubble.classList.toggle("hidden");
+  btn.onclick = (e) => {
+    e.stopPropagation();
+    bubble.classList.toggle("hidden");
+  };
 
   miniGame.append(btn, bubble);
 
-  addText("👉 Si tu sais répondre à ces questions, ton identité visuelle sera plus simple, rapide à créer et facile à reconnaître.");
+  addText(
+    "👉 Si tu sais répondre à ces questions, ton identité visuelle sera " +
+    "plus simple, rapide à créer et facile à reconnaître."
+  );
 
-  const next = document.createElement("div");
-  next.className = "info-bubble";
-  next.style.cursor = "pointer";
-  next.innerHTML = "<strong>Clique ici pour continuer</strong>";
-  next.onclick = startLogo;
-  miniGame.appendChild(next);
+  // clic sur l’encart = suite
+  miniGame.onclick = () => startLogo();
 }
 
 /* =====================================================
-   🖼️ GROUP IMAGES AVEC LOADER
+   🖼️ OUTIL IMAGES + LOADER
 ===================================================== */
 function imageGroup(list, cb){
   const loader = document.createElement("div");
@@ -267,7 +291,7 @@ function imageGroup(list, cb){
     zoom.textContent = "🔎";
     zoom.onclick = e => {
       e.stopPropagation();
-      zoomImage(src);
+      zoomImg(src);
     };
 
     box.append(img, zoom);
@@ -275,7 +299,7 @@ function imageGroup(list, cb){
   });
 }
 
-function zoomImage(src){
+function zoomImg(src){
   const f = document.createElement("div");
   f.id = "fadeScreen";
 
@@ -309,8 +333,11 @@ function startLogo(){
 
 function afterLogo(){
   showMiniGame();
-  addTitle("Logo - Explication");
-  addText("Le logo, c’est le dessin principal qui permet de reconnaître ton projet.");
+
+  addTitle("Logo – Explication");
+  addText(
+    "Le logo, c’est le dessin principal qui permet de reconnaître ton projet."
+  );
 
   const btn = document.createElement("button");
   btn.textContent = "À retenir";
@@ -324,17 +351,18 @@ function afterLogo(){
     • Il ne doit pas être trop chargé
   `;
 
-  btn.onclick = () => bubble.classList.toggle("hidden");
+  btn.onclick = e => {
+    e.stopPropagation();
+    bubble.classList.toggle("hidden");
+  };
 
   miniGame.append(btn, bubble);
-  addText("👉 Astuce : si tu peux dessiner ton logo en 5 secondes, c’est validé.");
 
-  const next = document.createElement("div");
-  next.className = "info-bubble";
-  next.style.cursor = "pointer";
-  next.innerHTML = "<strong>Clique ici pour continuer</strong>";
-  next.onclick = startColors;
-  miniGame.appendChild(next);
+  addText(
+    "👉 Astuce : si tu peux dessiner ton logo en 5 secondes, c’est validé."
+  );
+
+  miniGame.onclick = () => startColors();
 }
 
 /* =====================================================
@@ -344,16 +372,19 @@ function startColors(){
   showMiniGame();
   addTitle("Les couleurs");
 
-  const indice = document.createElement("button");
-  indice.textContent = "Indice";
+  const hint = document.createElement("button");
+  hint.textContent = "Indice";
 
-  const bubble = document.createElement("div");
-  bubble.className = "info-bubble hidden";
-  bubble.innerHTML = "Les couleurs doivent être en cohérence avec le logo";
+  const hintTxt = document.createElement("div");
+  hintTxt.className = "info-bubble hidden";
+  hintTxt.textContent = "Les couleurs doivent être en cohérence avec le logo";
 
-  indice.onclick = () => bubble.classList.toggle("hidden");
+  hint.onclick = e => {
+    e.stopPropagation();
+    hintTxt.classList.toggle("hidden");
+  };
 
-  miniGame.append(indice, bubble);
+  miniGame.append(hint, hintTxt);
 
   imageGroup(
     ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
@@ -363,7 +394,8 @@ function startColors(){
 
 function afterColors(){
   showMiniGame();
-  addTitle("Les couleurs - Explication");
+
+  addTitle("Les couleurs – Explication");
   addText("Les couleurs servent à montrer une émotion.");
 
   const btn = document.createElement("button");
@@ -373,41 +405,47 @@ function afterColors(){
   bubble.className = "info-bubble hidden";
   bubble.innerHTML = `
     • Choisis 2 à 4 couleurs maximum<br>
-    • Une couleur principale<br>
+    • Une couleur principale (la plus importante)<br>
     • Une ou deux couleurs pour compléter<br>
     • Les couleurs doivent aller bien ensemble
   `;
 
-  btn.onclick = () => bubble.classList.toggle("hidden");
+  btn.onclick = e => {
+    e.stopPropagation();
+    bubble.classList.toggle("hidden");
+  };
 
   miniGame.append(btn, bubble);
-  addText("👉 Trop de couleurs = on ne comprend plus. Peu de couleurs = plus clair et plus fort.");
 
-  const next = document.createElement("div");
-  next.className = "info-bubble";
-  next.style.cursor = "pointer";
-  next.innerHTML = "<strong>Clique ici pour continuer</strong>";
-  next.onclick = startTypo;
-  miniGame.appendChild(next);
+  addText(
+    "👉 Trop de couleurs = on ne comprend plus.<br>" +
+    "Peu de couleurs = c’est plus clair et plus fort."
+  );
+
+  miniGame.onclick = () => startTypo();
 }
 
 /* =====================================================
-   🔤 TYPOGRAPHIE
+   ✒️ TYPOGRAPHIE
 ===================================================== */
 function startTypo(){
   showMiniGame();
   addTitle("La typographie");
 
-  const indice = document.createElement("button");
-  indice.textContent = "Indice";
+  const hint = document.createElement("button");
+  hint.textContent = "Indice";
 
-  const bubble = document.createElement("div");
-  bubble.className = "info-bubble hidden";
-  bubble.innerHTML = "La typographie doit être en cohérence avec le thème de ton activité";
+  const hintTxt = document.createElement("div");
+  hintTxt.className = "info-bubble hidden";
+  hintTxt.textContent =
+    "La typographie doit être en cohérence avec le thème de ton activité";
 
-  indice.onclick = () => bubble.classList.toggle("hidden");
+  hint.onclick = e => {
+    e.stopPropagation();
+    hintTxt.classList.toggle("hidden");
+  };
 
-  miniGame.append(indice, bubble);
+  miniGame.append(hint, hintTxt);
 
   imageGroup(
     ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
@@ -417,8 +455,11 @@ function startTypo(){
 
 function afterTypo(){
   showMiniGame();
-  addTitle("La typographie - Explication");
-  addText("La typographie, c’est la forme des lettres que tu utilises.");
+
+  addTitle("La typographie – Explication");
+  addText(
+    "La typographie, c’est la forme des lettres que tu utilises."
+  );
 
   const btn = document.createElement("button");
   btn.textContent = "À retenir";
@@ -432,17 +473,18 @@ function afterTypo(){
     • La même écriture partout
   `;
 
-  btn.onclick = () => bubble.classList.toggle("hidden");
+  btn.onclick = e => {
+    e.stopPropagation();
+    bubble.classList.toggle("hidden");
+  };
 
   miniGame.append(btn, bubble);
-  addText("👉 Une bonne écriture rend ton projet plus sérieux et plus facile à comprendre.");
 
-  const next = document.createElement("div");
-  next.className = "info-bubble";
-  next.style.cursor = "pointer";
-  next.innerHTML = "<strong>Clique ici pour valider ton identité visuelle</strong>";
-  next.onclick = showIdentity;
-  miniGame.appendChild(next);
+  addText(
+    "👉 Une bonne écriture rend ton projet plus sérieux et plus facile à comprendre."
+  );
+
+  miniGame.onclick = () => showIdentity();
 }
 
 /* =====================================================
@@ -454,7 +496,7 @@ function showIdentity(){
 
   const b = document.createElement("div");
   b.className = "loaderBox";
-  b.innerHTML = "<strong>L’identité visuelle est prête</strong><br><br>";
+  b.innerHTML = "<strong>L’identité visuelle est prête</strong>";
 
   const img = document.createElement("img");
   img.src = "images/Identiteevisuelle.PNG";
@@ -471,15 +513,15 @@ function showIdentity(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3 — CANAUX AVEC TRAITS
+   MINI-JEU 3 – CANAUX
 ===================================================== */
 function startMiniGame3(){
   showMiniGame();
   addTitle("Choisis le bon type de communication");
 
   const left=document.createElement("div");
-  const right=document.createElement("div");
   left.className="leftCol";
+  const right=document.createElement("div");
   right.className="rightCol";
 
   const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
@@ -488,27 +530,37 @@ function startMiniGame3(){
   svg.style.pointerEvents="none";
   miniGame.appendChild(svg);
 
-  let selected=null,ok=0;
+  let sel=null, ok=0;
 
-  [["Instagram & Tik Tok","know"],["Site de vente en ligne","btoc"],["Facebook & LinkedIn","btob"]]
-  .forEach(p=>{
+  const platforms=[
+    ["Instagram & Tik Tok","know"],
+    ["Site de vente en ligne","btoc"],
+    ["Facebook & LinkedIn","btob"]
+  ];
+
+  const targets=[
+    ["Se faire connaître","know"],
+    ["Vendre en BtoC","btoc"],
+    ["Vendre en BtoB","btob"]
+  ];
+
+  platforms.forEach(p=>{
     const b=document.createElement("button");
     b.className="btn-platform";
     b.textContent=p[0];
-    b.onclick=()=>selected={b:b,k:p[1]};
+    b.onclick=()=>sel={b:b,k:p[1]};
     left.appendChild(b);
   });
 
-  [["Se faire connaître","know"],["Vendre en BtoC","btoc"],["Vendre en BtoB","btob"]]
-  .forEach(t=>{
+  targets.forEach(t=>{
     const b=document.createElement("button");
     b.className="btn-target";
     b.textContent=t[0];
     b.onclick=()=>{
-      if(selected && selected.k===t[1]){
-        draw(svg,selected.b,b);
+      if(sel && sel.k===t[1]){
+        drawLine(svg,sel.b,b);
         ok++;
-        if(ok===3)finish();
+        if(ok===3) finish();
       }
     };
     right.appendChild(b);
@@ -517,7 +569,7 @@ function startMiniGame3(){
   miniGame.append(left,right);
 }
 
-function draw(svg,a,b){
+function drawLine(svg,a,b){
   const r1=a.getBoundingClientRect();
   const r2=b.getBoundingClientRect();
   const s=svg.getBoundingClientRect();
@@ -532,7 +584,7 @@ function draw(svg,a,b){
 }
 
 /* =====================================================
-   🏆 FIN + GEMS
+   FIN + GEMS
 ===================================================== */
 function finish(){
   hideMiniGame();
@@ -540,19 +592,18 @@ function finish(){
   f.id="fadeScreen";
   const b=document.createElement("div");
   b.className="loaderBox";
-  b.textContent="Bravo tu as gagné cette quête";
+  b.textContent="Bravo, tu as gagné cette quête";
+  f.appendChild(b);
 
   for(let i=0;i<40;i++){
     const g=document.createElement("div");
     g.className="gem";
     g.style.background=`hsl(${Math.random()*360},80%,60%)`;
-    g.style.left="50%";
-    g.style.top="50%";
-    g.style.transform=`translate(${Math.random()*300-150}px,${Math.random()*300-150}px)`;
+    g.style.setProperty("--x",`${Math.random()*400-200}px`);
+    g.style.setProperty("--y",`${Math.random()*400-200}px`);
     f.appendChild(g);
   }
 
-  f.appendChild(b);
   document.body.appendChild(f);
 
   setTimeout(()=>{
