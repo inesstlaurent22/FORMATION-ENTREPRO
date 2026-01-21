@@ -3,7 +3,11 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    RÉFÉRENCES
 ===================================================== */
-
+const videoIntro  = document.getElementById("videoIntro");
+const introVideo  = document.getElementById("introVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo  = document.getElementById("closeVideo");
+   
 const scene     = document.getElementById("scene");
 const pirate2   = document.getElementById("pirate2");
 const pirate3   = document.getElementById("pirate3");
@@ -14,19 +18,9 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   VIDÉO INTRO
-===================================================== */
-/* =====================================================
    🎬 VIDÉO INTRO – AUTOPLAY
 ===================================================== */
-const videoIntro  = document.getElementById("videoIntro");
-const introVideo  = document.getElementById("introVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo  = document.getElementById("closeVideo");
-const scene       = document.getElementById("scene");
-
 introVideo.muted = true;
-introVideo.playsInline = true;
 introVideo.play().catch(()=>{});
 
 toggleSound.onclick = e => {
@@ -47,7 +41,6 @@ function endVideo(){
   videoIntro.classList.add("hidden");
   scene.classList.remove("hidden");
 }
-
 
 /* =====================================================
    DIALOGUES
