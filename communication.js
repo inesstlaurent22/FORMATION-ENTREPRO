@@ -16,15 +16,28 @@ const dialogText  = document.getElementById("dialogText");
 const miniGame    = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   VIDÉO
 ===================================================== */
 introVideo.muted = true;
 introVideo.play().catch(()=>{});
 
-introVideo.onended = () => {
+toggleSound.onclick = e => {
+  e.stopPropagation();
+  introVideo.muted = !introVideo.muted;
+};
+
+closeVideo.onclick = e => {
+  e.stopPropagation();
+  endVideo();
+};
+
+introVideo.onended = endVideo;
+
+function endVideo(){
   videoIntro.classList.add("hidden");
   scene.classList.remove("hidden");
-};
+}
+
 
 /* =====================================================
    💬 SYSTÈME DE DIALOGUES
