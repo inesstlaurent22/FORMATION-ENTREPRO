@@ -68,7 +68,7 @@ button{
 }
 
 button:hover{
-  transform:scale(1.06);
+  transform:scale(1.07);
   box-shadow:0 0 18px rgba(255,215,100,.85);
 }
 
@@ -139,23 +139,29 @@ button:hover{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX CONTENEUR
+   🎮 MINI-JEUX CONTENEUR (CORRIGÉ)
 ===================================================== */
 #miniGameContainer{
   position:fixed;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:560px;
+
+  width:600px;
   max-height:80vh;
   overflow-y:auto;
   padding:32px;
+
   background:linear-gradient(145deg,#3b240f,#1f1208);
   border:5px solid #c9a24d;
   border-radius:22px;
+
   z-index:2000;
   text-align:center;
   box-shadow:0 0 35px rgba(0,0,0,.85);
+
+  /* ✅ ESSENTIEL POUR SVG / TRAITS / GEMS */
+  position:relative;
 }
 
 #miniGameContainer h3{
@@ -170,7 +176,7 @@ button:hover{
 }
 
 /* =====================================================
-   🔴 TEXTE ANIMÉ (2 bonnes réponses)
+   🔴 TEXTE ANIMÉ — 2 BONNES RÉPONSES
 ===================================================== */
 .glow-red{
   display:block;
@@ -187,7 +193,7 @@ button:hover{
 }
 
 /* =====================================================
-   🖼️ CHOIX VISUELS
+   🖼️ CHOIX VISUELS (LOGO / COULEURS / TYPO)
 ===================================================== */
 .visualChoices{
   display:flex;
@@ -219,21 +225,7 @@ button:hover{
 }
 
 /* =====================================================
-   ⏳ LOADER
-===================================================== */
-.loader{
-  margin:20px 0;
-  font-size:32px;
-  animation:spin 1.4s infinite linear;
-}
-
-@keyframes spin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
-}
-
-/* =====================================================
-   🔔 NOTIFICATIONS
+   🔔 NOTIFICATIONS MINI-JEU 1
 ===================================================== */
 .notification{
   position:fixed;
@@ -254,13 +246,6 @@ button:hover{
   border:3px solid #00ff88;
 }
 
-.notification.error{
-  border:3px solid #ff4d4d;
-}
-
-/* =====================================================
-   ✨ TEXTE LUMINEUX
-===================================================== */
 .glow-text{
   color:#ffd700;
   font-weight:bold;
@@ -313,19 +298,19 @@ button:hover{
 }
 
 /* =====================================================
-   ℹ️ BULLES INFO
+   ℹ️ BULLES INFO (ENCARTS EXPLICATIFS)
 ===================================================== */
 .info-bubble{
-  margin-top:14px;
-  padding:14px;
+  margin-top:16px;
+  padding:16px;
   border:2px solid gold;
   border-radius:14px;
-  background:rgba(0,0,0,.45);
+  background:rgba(0,0,0,.4);
   line-height:1.5;
 }
 
 /* =====================================================
-   🧭 MINI-JEU 3 COLONNES
+   🧭 MINI-JEU 3 — COLONNES
 ===================================================== */
 .leftCol, .rightCol{
   display:flex;
@@ -369,8 +354,14 @@ button:hover{
 }
 
 @keyframes explode{
-  from{transform:translate(0,0) scale(1);opacity:1}
-  to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}
+  from{
+    transform:translate(0,0) scale(1);
+    opacity:1;
+  }
+  to{
+    transform:translate(var(--x),var(--y)) scale(0);
+    opacity:0;
+  }
 }
 
 /* =====================================================
