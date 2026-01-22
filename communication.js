@@ -18,7 +18,7 @@ const dialogText = document.getElementById("dialogText");
 const miniGame = document.getElementById("miniGameContainer");
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   VIDÉO INTRO
 ===================================================== */
 introVideo.muted = true;
 introVideo.play().catch(()=>{});
@@ -26,6 +26,7 @@ introVideo.play().catch(()=>{});
 toggleSound.onclick = e => {
   e.stopPropagation();
   introVideo.muted = !introVideo.muted;
+  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
 };
 
 closeVideo.onclick = e => {
@@ -41,7 +42,7 @@ function endVideo(){
 }
 
 /* =====================================================
-   💬 DIALOGUES
+   DIALOGUES
 ===================================================== */
 let dialogs=[], dialogIndex=0, dialogCallback=null;
 
@@ -77,15 +78,21 @@ dialogBox.onclick = () => {
 };
 
 /* =====================================================
-   🧰 HELPERS
+   HELPERS
 ===================================================== */
+function clearMiniGameClick(){
+  miniGame.onclick = null;
+}
+
 function showMiniGame(){
   miniGame.innerHTML = "";
   miniGame.classList.remove("hidden");
+  clearMiniGameClick();
 }
 
 function hideMiniGame(){
   miniGame.classList.add("hidden");
+  clearMiniGameClick();
 }
 
 function addTitle(t){
@@ -108,44 +115,24 @@ function infoBox(html){
 }
 
 /* =====================================================
-   🚀 DÉMARRAGE
+   DÉMARRAGE
 ===================================================== */
 pirate3.onclick = () => {
   playDialog([
     {speaker:"pirate3", text:"Capitaine, ton trésor est prêt."},
     {speaker:"pirate2", text:"Mais sans communication, personne ne viendra."},
-    {speaker:"pirate3", text:"Commençons par apprendre à communiquer."}
+    {speaker:"pirate3", text:"Voyons comment attirer le marché."}
   ], startMiniGame1);
 };
 
 /* =====================================================
-   🎯 MINI-JEU 1 — COMMUNICATION
+   MINI-JEU 1 — COMMUNICATION
 ===================================================== */
 const quiz = [
-  {
-    t:"⚓ Visite physique",
-    q:"Rencontrer un client permet de :",
-    o:["Rassurer","Créer une connexion","Ignorer ses attentes"],
-    g:[0,1]
-  },
-  {
-    t:"📞 Phoning",
-    q:"Le contact direct sert à :",
-    o:["Comprendre les besoins","Créer une relation","Parler uniquement de prix"],
-    g:[0,1]
-  },
-  {
-    t:"📣 Réseaux sociaux",
-    q:"Ils servent surtout à :",
-    o:["Se faire connaître","Montrer son univers","Vendre immédiatement"],
-    g:[0,1]
-  },
-  {
-    t:"📧 Newsletter",
-    q:"Une newsletter permet de :",
-    o:["Rester présent","Créer un lien","Envoyer du spam"],
-    g:[0,1]
-  }
+  {t:"⚓ Visite physique", q:"Rencontrer un client permet de :", o:["Rassurer","Créer une connexion","Ignorer ses attentes"], g:[0,1]},
+  {t:"📞 Phoning", q:"Le contact direct sert à :", o:["Comprendre les besoins","Créer une relation","Parler uniquement de prix"], g:[0,1]},
+  {t:"📣 Réseaux sociaux", q:"Ils servent surtout à :", o:["Se faire connaître","Montrer son univers","Vendre immédiatement"], g:[0,1]},
+  {t:"📧 Newsletter", q:"Une newsletter permet de :", o:["Rester présent","Créer un lien","Envoyer du spam"], g:[0,1]}
 ];
 
 let qi=0, selected=[];
@@ -191,27 +178,51 @@ function afterMiniGame1(){
   hideMiniGame();
   playDialog([
     {speaker:"pirate2",text:"Bien joué."},
-    {speaker:"pirate3",text:"Créons maintenant ton identité visuelle."}
+    {speaker:"pirate3",text:"Créons ton identité visuelle."}
   ], startIdentityIntro);
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
+   MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
 function startIdentityIntro(){
   showMiniGame();
   addTitle("L’identité visuelle");
   infoBox(`
-    Avant de créer un logo, des couleurs ou une typographie, tu dois savoir :
-    <br><br>
+    Avant de créer un logo, des couleurs ou une typographie, tu dois savoir :<br><br>
     • À qui tu parles<br>
-    • Ce que tu veux dire<br>
-    • Ce que tu veux faire ressentir<br>
-    • Le style de ta marque
-    <br><br>
-    👉 Si tu sais répondre à ces questions, ton identité sera plus forte.
+    • Ton message principal<br>
+    • L’émotion à transmettre<br>
+    • Ton style visuel<br><br>
+    👉 Si tu sais répondre à ces questions, ton identité visuelle sera plus simple et plus forte.
   `);
   miniGame.onclick=startLogo;
+}
+
+/* === IMAGES AVEC LOADER === */
+function imageGroup(list, cb){
+  const loader=document.createElement("div");
+  loader.textContent="⏳";
+  loader.style.fontSize="32px";
+  miniGame.appendChild(loader);
+
+  let loaded=0;
+  const wrap=document.createElement("div");
+  wrap.className="visualChoices";
+
+  list.forEach(src=>{
+    const img=new Image();
+    img.src=src;
+    img.onload=()=>{
+      loaded++;
+      if(loaded===list.length){
+        loader.remove();
+        miniGame.appendChild(wrap);
+      }
+    };
+    img.onclick=cb;
+    wrap.appendChild(img);
+  });
 }
 
 /* LOGO */
@@ -219,24 +230,21 @@ function startLogo(){
   showMiniGame();
   addTitle("Ton logo");
   addText("Choisis un logo",true);
-
-  ["Logo1","Logo2","Logo3"].forEach(()=>{
-    const b=document.createElement("button");
-    b.textContent="Logo";
-    b.onclick=logoExplanation;
-    miniGame.appendChild(b);
-  });
+  imageGroup(
+    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+    logoExplanation
+  );
 }
 
 function logoExplanation(){
   showMiniGame();
   addTitle("Logo – Explication");
   infoBox(`
-    Le logo permet de reconnaître ton projet.
-    <br><br>
+    Le logo permet de reconnaître ton projet.<br><br>
     • Simple<br>
-    • Lisible<br>
-    • Reconnaissable rapidement
+    • Reconnaissable rapidement<br>
+    • Lisible en petit et en grand<br><br>
+    👉 Astuce : si tu peux le dessiner en 5 secondes, c’est validé.
   `);
   miniGame.onclick=startColors;
 }
@@ -246,24 +254,20 @@ function startColors(){
   showMiniGame();
   addTitle("Les couleurs");
   addText("Choisis des couleurs",true);
-
-  ["Couleur 1","Couleur 2","Couleur 3"].forEach(()=>{
-    const b=document.createElement("button");
-    b.textContent="Couleur";
-    b.onclick=colorsExplanation;
-    miniGame.appendChild(b);
-  });
+  imageGroup(
+    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+    colorsExplanation
+  );
 }
 
 function colorsExplanation(){
   showMiniGame();
   addTitle("Couleurs – Explication");
   infoBox(`
-    Les couleurs doivent être en cohérence avec le logo.
-    <br><br>
+    Les couleurs doivent être en cohérence avec le logo.<br><br>
     • 2 à 4 maximum<br>
     • Une couleur principale<br>
-    • Harmonie visuelle
+    • Une harmonie claire
   `);
   miniGame.onclick=startTypo;
 }
@@ -273,21 +277,17 @@ function startTypo(){
   showMiniGame();
   addTitle("La typographie");
   addText("Choisis une écriture",true);
-
-  ["Typo 1","Typo 2","Typo 3"].forEach(()=>{
-    const b=document.createElement("button");
-    b.textContent="Typographie";
-    b.onclick=typoExplanation;
-    miniGame.appendChild(b);
-  });
+  imageGroup(
+    ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
+    typoExplanation
+  );
 }
 
 function typoExplanation(){
   showMiniGame();
   addTitle("Typographie – Explication");
   infoBox(`
-    La typographie doit rester cohérente avec ta marque.
-    <br><br>
+    La typographie doit rester cohérente avec ta marque.<br><br>
     • Lisible<br>
     • 1 ou 2 maximum<br>
     • Même style partout
@@ -314,22 +314,12 @@ function showIdentity(){
 }
 
 /* =====================================================
-   💬 DIALOGUES AVANT MINI-JEU 3
-===================================================== */
-function afterMiniGame2(){
-  playDialog([
-    {speaker:"pirate2",text:"Ton identité est prête."},
-    {speaker:"pirate3",text:"Voyons comment la diffuser."}
-  ], startMiniGame3);
-}
-
-/* =====================================================
-   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
+   MINI-JEU 3 — RÉSEAUX SOCIAUX
 ===================================================== */
 function startMiniGame3(){
   showMiniGame();
   addTitle("Les réseaux sociaux");
-  addText("Trouve les bons enjeux pour chaque réseau.");
+  addText("Trouve les bons enjeux de ces réseaux sociaux.");
 
   const left=document.createElement("div");
   left.className="leftCol";
@@ -354,7 +344,10 @@ function startMiniGame3(){
     const b=document.createElement("button");
     b.className="btn-platform";
     b.textContent=p[0];
-    b.onclick=()=>selected={btn:b,key:p[1]};
+    b.onclick=e=>{
+      e.stopPropagation();
+      selected={btn:b,key:p[1]};
+    };
     left.appendChild(b);
   });
 
@@ -362,7 +355,8 @@ function startMiniGame3(){
     const b=document.createElement("button");
     b.className="btn-target";
     b.textContent=t[0];
-    b.onclick=()=>{
+    b.onclick=e=>{
+      e.stopPropagation();
       if(selected && selected.key===t[1]){
         selected.btn.remove();
         b.remove();
@@ -378,7 +372,7 @@ function startMiniGame3(){
 }
 
 /* =====================================================
-   🏁 FIN
+   FIN
 ===================================================== */
 function finish(){
   hideMiniGame();
