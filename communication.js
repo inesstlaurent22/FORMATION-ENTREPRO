@@ -205,14 +205,14 @@ function startIdentityIntro(){
   addText("Avant de créer un logo, des couleurs ou une typographie, tu dois savoir :",true);
 
   const btn=document.createElement("button");
-  btn.textContent="En savoir plus";
+  btn.textContent="Les points importants de l'identité visuelle";
   btn.style.margin="16px auto";
 
   const bubble=infoBubble(`
-    • À qui tu parles<br>
-    • Ton message principal<br>
-    • L’émotion à transmettre<br>
-    • Ton style visuel
+   • À qui tu parles : des enfants, des ados, des adultes<br>
+	• Ce que tu veux dire : ton idée principale<br>
+	• Ce que tu veux faire ressentir : joie, confiance, énergie, calme<br>
+   • Ton style : plutôt fun, sérieux, moderne ou créatif 
   `);
 
   btn.onclick=e=>{
@@ -225,36 +225,8 @@ function startIdentityIntro(){
   addText("👉 Une bonne identité visuelle rend ta marque reconnaissable.");
 
   const next=document.createElement("button");
-  next.textContent="Continuer";
   next.onclick=logoExplanation;
   miniGame.appendChild(next);
-}
-
-/* HELPER IMAGES + LOADER */
-function imageGroup(list, cb){
-  const loader=document.createElement("div");
-  loader.textContent="⏳";
-  loader.style.fontSize="32px";
-  loader.style.margin="18px 0";
-  miniGame.appendChild(loader);
-
-  let loaded=0;
-  const wrap=document.createElement("div");
-  wrap.className="visualChoices";
-
-  list.forEach(src=>{
-    const img=new Image();
-    img.src=src;
-    img.onload=()=>{
-      loaded++;
-      if(loaded===list.length){
-        loader.remove();
-        miniGame.appendChild(wrap);
-      }
-    };
-    img.onclick=cb;
-    wrap.appendChild(img);
-  });
 }
 
 /* LOGO */
@@ -267,16 +239,19 @@ function logoExplanation(){
   btn.textContent="En savoir plus";
 
   const bubble=infoBubble(`
-    • Simple<br>
-    • Reconnaissable<br>
-    • Lisible partout
+  Il faut qu'il soit<br><br>
+   • Un logo doit être simple<br>
+	• On doit le reconnaître rapidement<br>
+	• Il doit fonctionner en petit et en grand<br>
+   • Il ne doit pas être trop chargé<br>
   `);
 
   btn.onclick=()=>bubble.classList.toggle("hidden");
   miniGame.append(btn,bubble);
 
+  addText("👉 Astuce : si tu peux dessiner ton logo en 5 secondes, c’est validé.");
+
   const next=document.createElement("button");
-  next.textContent="Choisir un logo";
   next.onclick=startLogo;
   miniGame.appendChild(next);
 }
@@ -293,18 +268,33 @@ function startLogo(){
 /* COULEURS */
 function colorsExplanation(){
   clearMiniGame();
-  addTitle("Les couleurs");
-  addText("Les couleurs doivent être cohérentes avec ton logo.",true);
+  addTitle("La palette de couleur");
+  addText("Les couleurs doivent être en cohérene avec le logo.",true);
 
+  const btn=document.createElement("button");
+  btn.textContent="En savoir plus";
+
+  const bubble=infoBubble(`
+  Il faut qu'il soit<br><br>
+   • Choisis 2 à 4 couleurs maximum
+	• Une couleur principale (la plus importante)
+	• Une ou deux couleurs pour compléter
+   • Les couleurs doivent aller bien ensemble 
+  `);
+
+  btn.onclick=()=>bubble.classList.toggle("hidden");
+  miniGame.append(btn,bubble);
+
+addText("👉 Trop de couleurs = on ne comprend plus.<br>Peu de couleurs = c’est plus clair et plus fort.");
+   
   const next=document.createElement("button");
-  next.textContent="Choisir les couleurs";
   next.onclick=startColors;
   miniGame.appendChild(next);
 }
 
 function startColors(){
   clearMiniGame();
-  addTitle("Choisis tes couleurs");
+  addTitle("Choisis ta palette");
   imageGroup(
     ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
     typoExplanation
@@ -314,11 +304,26 @@ function startColors(){
 /* TYPO */
 function typoExplanation(){
   clearMiniGame();
-  addTitle("La typographie");
-  addText("La typographie reflète la personnalité de ta marque.",true);
+  addTitle("La typographue");
+  addText("La typographie reflète l'univers de ta marque.",true);
+
+  const btn=document.createElement("button");
+  btn.textContent="En savoir plus";
+
+  const bubble=infoBubble(`
+  Il faut qu'il soit<br><br>
+   • La même écriture partout 
+   • Elle doit être facile à lire
+	• Elle doit correspondre à ton style
+	• Utilise 1 ou 2 écritures maximum 
+  `);
+
+  btn.onclick=()=>bubble.classList.toggle("hidden");
+  miniGame.append(btn,bubble);
+
+addText("👉 Une bonne écriture rend ton projet plus sérieux et plus facile à comprendre.");
 
   const next=document.createElement("button");
-  next.textContent="Choisir la typographie";
   next.onclick=startTypo;
   miniGame.appendChild(next);
 }
@@ -348,6 +353,33 @@ function showIdentity(){
     f.remove();
     afterMiniGame2();
   };
+}
+
+/* HELPER IMAGES + LOADER */
+function imageGroup(list, cb){
+  const loader=document.createElement("div");
+  loader.textContent="⏳";
+  loader.style.fontSize="32px";
+  loader.style.margin="18px 0";
+  miniGame.appendChild(loader);
+
+  let loaded=0;
+  const wrap=document.createElement("div");
+  wrap.className="visualChoices";
+
+  list.forEach(src=>{
+    const img=new Image();
+    img.src=src;
+    img.onload=()=>{
+      loaded++;
+      if(loaded===list.length){
+        loader.remove();
+        miniGame.appendChild(wrap);
+      }
+    };
+    img.onclick=cb;
+    wrap.appendChild(img);
+  });
 }
 
 /* =====================================================
