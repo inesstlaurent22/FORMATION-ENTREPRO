@@ -183,53 +183,118 @@ function afterMiniGame1(){
 }
 
 /* =====================================================
-   MINI-JEU 2 — IDENTITÉ VISUELLE
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (COMPLET & STABLE)
 ===================================================== */
+
+/* ===============================
+   INTRO IDENTITÉ VISUELLE
+================================ */
 function startIdentityIntro(){
   showMiniGame();
+
   addTitle("L’identité visuelle");
-  infoBox(`
-    Avant de créer un logo, des couleurs ou une typographie, tu dois savoir :<br><br>
+
+  addText(
+    "Avant de créer un logo, des couleurs ou une typographie, tu dois d’abord savoir ce que tu veux montrer.",
+    true
+  );
+
+  const btn = document.createElement("button");
+  btn.textContent = "Voici les points importants à décider";
+  btn.style.margin = "18px auto";
+
+  const bubble = document.createElement("div");
+  bubble.className = "info-bubble hidden";
+  bubble.innerHTML = `
     • À qui tu parles<br>
     • Ton message principal<br>
     • L’émotion à transmettre<br>
-    • Ton style visuel<br><br>
-    👉 Si tu sais répondre à ces questions, ton identité visuelle sera plus simple et plus forte.
-  `);
-  miniGame.onclick=startLogo;
+    • Ton style visuel
+  `;
+
+  btn.onclick = e => {
+    e.stopPropagation();
+    bubble.classList.toggle("hidden");
+  };
+
+  miniGame.append(btn, bubble);
+
+  addText(
+    "👉 Si tu sais répondre à ces questions, ton identité visuelle sera plus simple, rapide à créer et facile à reconnaître."
+  );
+
+  miniGame.onclick = startLogo;
 }
 
-/* === IMAGES AVEC LOADER === */
+/* ===============================
+   HELPER — IMAGES + LOADER
+================================ */
 function imageGroup(list, cb){
-  const loader=document.createElement("div");
-  loader.textContent="⏳";
-  loader.style.fontSize="32px";
+  const loader = document.createElement("div");
+  loader.textContent = "⏳";
+  loader.style.fontSize = "32px";
+  loader.style.marginTop = "18px";
   miniGame.appendChild(loader);
 
-  let loaded=0;
-  const wrap=document.createElement("div");
-  wrap.className="visualChoices";
+  let loaded = 0;
+  const wrap = document.createElement("div");
+  wrap.className = "visualChoices";
 
   list.forEach(src=>{
-    const img=new Image();
-    img.src=src;
-    img.onload=()=>{
+    const box = document.createElement("div");
+
+    const img = new Image();
+    img.src = src;
+
+    img.onload = ()=>{
       loaded++;
-      if(loaded===list.length){
+      if(loaded === list.length){
         loader.remove();
         miniGame.appendChild(wrap);
       }
     };
-    img.onclick=cb;
-    wrap.appendChild(img);
+
+    img.onclick = cb;
+
+    const zoom = document.createElement("button");
+    zoom.textContent = "🔎";
+    zoom.onclick = e=>{
+      e.stopPropagation();
+      zoomImage(src);
+    };
+
+    box.append(img, zoom);
+    wrap.appendChild(box);
   });
 }
 
-/* LOGO */
+function zoomImage(src){
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
+
+  const b = document.createElement("div");
+  b.className = "loaderBox";
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.style.width = "300px";
+
+  b.appendChild(img);
+  f.appendChild(b);
+  document.body.appendChild(f);
+
+  f.onclick = ()=>f.remove();
+}
+
+/* ===============================
+   LOGO
+================================ */
 function startLogo(){
   showMiniGame();
+
   addTitle("Ton logo");
-  addText("Choisis un logo",true);
+  addText("Le choix est libre", true);
+
   imageGroup(
     ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
     logoExplanation
@@ -238,22 +303,49 @@ function startLogo(){
 
 function logoExplanation(){
   showMiniGame();
-  addTitle("Logo – Explication");
-  infoBox(`
-    Le logo permet de reconnaître ton projet.<br><br>
-    • Simple<br>
-    • Reconnaissable rapidement<br>
-    • Lisible en petit et en grand<br><br>
-    👉 Astuce : si tu peux le dessiner en 5 secondes, c’est validé.
-  `);
-  miniGame.onclick=startColors;
+
+  addTitle("Logo — Explication");
+  addText(
+    "Le logo est le symbole principal qui permet de reconnaître ton projet.",
+    true
+  );
+
+  const btn = document.createElement("button");
+  btn.textContent = "En savoir plus";
+
+  const bubble = document.createElement("div");
+  bubble.className = "info-bubble hidden";
+  bubble.innerHTML = `
+    • Un logo doit être simple<br>
+    • On doit le reconnaître rapidement<br>
+    • Il doit fonctionner en petit et en grand<br>
+    • Il ne doit pas être trop chargé
+  `;
+
+  btn.onclick = e=>{
+    e.stopPropagation();
+    bubble.classList.toggle("hidden");
+  };
+
+  miniGame.append(btn, bubble);
+
+  addText("👉 Astuce : si tu peux dessiner ton logo en 5 secondes, c’est validé.");
+
+  miniGame.onclick = startColors;
 }
 
-/* COULEURS */
+/* ===============================
+   COULEURS
+================================ */
 function startColors(){
   showMiniGame();
+
   addTitle("Les couleurs");
-  addText("Choisis des couleurs",true);
+  addText(
+    "Les couleurs doivent être en cohérence avec le logo de la marque.",
+    true
+  );
+
   imageGroup(
     ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
     colorsExplanation
@@ -262,21 +354,47 @@ function startColors(){
 
 function colorsExplanation(){
   showMiniGame();
-  addTitle("Couleurs – Explication");
-  infoBox(`
-    Les couleurs doivent être en cohérence avec le logo.<br><br>
-    • 2 à 4 maximum<br>
+
+  addTitle("Les couleurs — Explication");
+
+  const btn = document.createElement("button");
+  btn.textContent = "En savoir plus";
+
+  const bubble = document.createElement("div");
+  bubble.className = "info-bubble hidden";
+  bubble.innerHTML = `
+    • Choisis 2 à 4 couleurs maximum<br>
     • Une couleur principale<br>
-    • Une harmonie claire
-  `);
-  miniGame.onclick=startTypo;
+    • Une ou deux couleurs pour compléter<br>
+    • Les couleurs doivent aller bien ensemble
+  `;
+
+  btn.onclick = e=>{
+    e.stopPropagation();
+    bubble.classList.toggle("hidden");
+  };
+
+  miniGame.append(btn, bubble);
+
+  addText(
+    "👉 Trop de couleurs = on ne comprend plus. Peu de couleurs = plus clair et plus fort."
+  );
+
+  miniGame.onclick = startTypo;
 }
 
-/* TYPO */
+/* ===============================
+   TYPOGRAPHIE
+================================ */
 function startTypo(){
   showMiniGame();
+
   addTitle("La typographie");
-  addText("Choisis une écriture",true);
+  addText(
+    "La typographie doit rester en cohérence avec l’univers de ta marque.",
+    true
+  );
+
   imageGroup(
     ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
     typoExplanation
@@ -285,90 +403,226 @@ function startTypo(){
 
 function typoExplanation(){
   showMiniGame();
-  addTitle("Typographie – Explication");
-  infoBox(`
-    La typographie doit rester cohérente avec ta marque.<br><br>
-    • Lisible<br>
-    • 1 ou 2 maximum<br>
-    • Même style partout
-  `);
-  miniGame.onclick=showIdentity;
+
+  addTitle("La typographie — Explication");
+
+  const btn = document.createElement("button");
+  btn.textContent = "En savoir plus";
+
+  const bubble = document.createElement("div");
+  bubble.className = "info-bubble hidden";
+  bubble.innerHTML = `
+    • Elle doit être facile à lire<br>
+    • Elle doit correspondre à ton style<br>
+    • Utilise 1 ou 2 écritures maximum<br>
+    • La même écriture partout
+  `;
+
+  btn.onclick = e=>{
+    e.stopPropagation();
+    bubble.classList.toggle("hidden");
+  };
+
+  miniGame.append(btn, bubble);
+
+  addText(
+    "👉 Une bonne écriture rend ton projet plus sérieux et plus facile à comprendre."
+  );
+
+  miniGame.onclick = showIdentity;
 }
 
-/* IDENTITÉ VISUELLE FINALE */
+/* ===============================
+   IDENTITÉ VISUELLE FINALE
+================================ */
 function showIdentity(){
   hideMiniGame();
-  const f=document.createElement("div");
-  f.id="fadeScreen";
-  f.innerHTML=`
-    <div class="loaderBox">
-      <strong>Bravo, tu as créé ton identité visuelle</strong><br><br>
-      <img src="images/Identiteevisuelle.PNG" width="260">
-    </div>
+
+  const overlay = document.createElement("div");
+  overlay.id = "fadeScreen";
+
+  const box = document.createElement("div");
+  box.className = "loaderBox";
+
+  box.innerHTML = `
+    <strong>Bravo, tu as créé ton identité visuelle</strong><br><br>
+    <img 
+      src="images/Identiteevisuelle.jpg"
+      style="
+        width:260px;
+        border-radius:14px;
+        box-shadow:0 0 25px rgba(255,215,100,.7);
+        margin-bottom:14px;
+      "
+    >
+    <p style="font-size:14px;opacity:.8;">
+      Clique n’importe où pour continuer
+    </p>
   `;
-  document.body.appendChild(f);
-  f.onclick=()=>{
-    f.remove();
-    afterMiniGame2();
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  overlay.onclick = ()=>{
+    overlay.remove();
+    afterMiniGame2(); // ➜ dialogues puis mini-jeu 3
   };
 }
 
 /* =====================================================
-   MINI-JEU 3 — RÉSEAUX SOCIAUX
+   💬 DIALOGUES — APRÈS IDENTITÉ VISUELLE
+===================================================== */
+
+function afterMiniGame2(){
+  playDialog([
+    {
+      speaker: "pirate2",
+      text: "Parfait. Ton identité visuelle est maintenant claire et reconnaissable."
+    },
+    {
+      speaker: "pirate3",
+      text: "Mais une identité seule ne suffit pas, capitaine."
+    },
+    {
+      speaker: "pirate2",
+      text: "Il faut maintenant la diffuser aux bonnes personnes."
+    },
+    {
+      speaker: "pirate3",
+      text: "Voyons quels réseaux utiliser selon l’objectif."
+    }
+  ], startMiniGame3);
+}
+
+/* =====================================================
+   MINI-JEU 3 — RÉSEAUX SOCIAUX (VERSION FINALE)
 ===================================================== */
 function startMiniGame3(){
   showMiniGame();
   addTitle("Les réseaux sociaux");
-  addText("Trouve les bons enjeux de ces réseaux sociaux.");
+  addText("Trouve les bons enjeux pour chaque réseau social.");
 
-  const left=document.createElement("div");
-  left.className="leftCol";
-  const right=document.createElement("div");
-  right.className="rightCol";
+  const left = document.createElement("div");
+  left.className = "leftCol";
 
-  let selected=null, ok=0;
+  const right = document.createElement("div");
+  right.className = "rightCol";
 
-  const platforms=[
-    ["Instagram & TikTok","know"],
-    ["Facebook & LinkedIn","btob"],
-    ["Les sites de vente en ligne","btoc"]
+  // SVG POUR LES TRAITS + FLÈCHES
+  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.style.position = "absolute";
+  svg.style.inset = "0";
+  svg.style.pointerEvents = "none";
+  miniGame.appendChild(svg);
+
+  let selectedPlatform = null;
+  let success = 0;
+
+  const platforms = [
+    { label:"Instagram & TikTok", key:"know" },
+    { label:"Facebook & LinkedIn", key:"btob" },
+    { label:"Les sites de vente en ligne", key:"btoc" }
   ];
 
-  const targets=[
-    ["Se faire connaître","know"],
-    ["Vendre en BtoB","btob"],
-    ["Vendre en BtoC","btoc"]
+  const targets = [
+    { label:"Se faire connaître", key:"know" },
+    { label:"Vendre en BtoB", key:"btob" },
+    { label:"Vendre en BtoC", key:"btoc" }
   ];
 
   platforms.forEach(p=>{
-    const b=document.createElement("button");
-    b.className="btn-platform";
-    b.textContent=p[0];
-    b.onclick=e=>{
+    const btn = document.createElement("button");
+    btn.className = "btn-platform";
+    btn.textContent = p.label;
+    btn.onclick = e=>{
       e.stopPropagation();
-      selected={btn:b,key:p[1]};
+      selectedPlatform = { btn, key:p.key };
     };
-    left.appendChild(b);
+    left.appendChild(btn);
   });
 
   targets.forEach(t=>{
-    const b=document.createElement("button");
-    b.className="btn-target";
-    b.textContent=t[0];
-    b.onclick=e=>{
+    const btn = document.createElement("button");
+    btn.className = "btn-target";
+    btn.textContent = t.label;
+    btn.onclick = e=>{
       e.stopPropagation();
-      if(selected && selected.key===t[1]){
-        selected.btn.remove();
-        b.remove();
-        selected=null;
-        ok++;
-        if(ok===3) finish();
+
+      if(!selectedPlatform) return;
+
+      if(selectedPlatform.key === t.key){
+        drawArrow(svg, selectedPlatform.btn, btn);
+        selectedPlatform.btn.remove();
+        btn.remove();
+        selectedPlatform = null;
+        success++;
+
+        if(success === 3){
+          setTimeout(finish, 800);
+        }
+      } else {
+        selectedPlatform = null;
+        showWrong();
       }
     };
-    right.appendChild(b);
+    right.appendChild(btn);
   });
 
-  miniGame.append(left,right);
+  miniGame.append(left, right);
+}
+
+/* =====================================================
+   DESSIN FLÈCHE + TRAIT
+===================================================== */
+function drawArrow(svg, fromBtn, toBtn){
+  const r1 = fromBtn.getBoundingClientRect();
+  const r2 = toBtn.getBoundingClientRect();
+  const s  = svg.getBoundingClientRect();
+
+  const x1 = r1.right - s.left;
+  const y1 = r1.top + r1.height/2 - s.top;
+  const x2 = r2.left - s.left;
+  const y2 = r2.top + r2.height/2 - s.top;
+
+  const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+  line.setAttribute("x1",x1);
+  line.setAttribute("y1",y1);
+  line.setAttribute("x2",x2);
+  line.setAttribute("y2",y2);
+  line.setAttribute("stroke","gold");
+  line.setAttribute("stroke-width","4");
+
+  const arrow = document.createElementNS("http://www.w3.org/2000/svg","polygon");
+  arrow.setAttribute("points",`
+    ${x2},${y2}
+    ${x2-12},${y2-6}
+    ${x2-12},${y2+6}
+  `);
+  arrow.setAttribute("fill","gold");
+
+  svg.appendChild(line);
+  svg.appendChild(arrow);
+}
+
+/* =====================================================
+   ERREUR — SHAKE + LOADER
+===================================================== */
+function showWrong(){
+  document.body.classList.add("shake");
+
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
+  f.innerHTML = `
+    <div class="loaderBox">
+      ❌ Non, tu t’es trompé 💥
+    </div>
+  `;
+  document.body.appendChild(f);
+
+  setTimeout(()=>{
+    document.body.classList.remove("shake");
+    f.remove();
+  },1200);
 }
 
 /* =====================================================
