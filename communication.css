@@ -68,7 +68,7 @@ button{
 }
 
 button:hover{
-  transform:scale(1.07);
+  transform:scale(1.06);
   box-shadow:0 0 18px rgba(255,215,100,.85);
 }
 
@@ -139,7 +139,7 @@ button:hover{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX CONTENEUR (CORRIGÉ)
+   🎮 MINI-JEUX CONTENEUR (BASE STABLE)
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -160,7 +160,7 @@ button:hover{
   text-align:center;
   box-shadow:0 0 35px rgba(0,0,0,.85);
 
-  /* ✅ ESSENTIEL POUR SVG / TRAITS / GEMS */
+  /* ESSENTIEL pour SVG / traits */
   position:relative;
 }
 
@@ -171,12 +171,12 @@ button:hover{
 }
 
 #miniGameContainer p{
-  margin-top:12px;
-  line-height:1.5;
+  margin-top:14px;
+  line-height:1.55;
 }
 
 /* =====================================================
-   🔴 TEXTE ANIMÉ — 2 BONNES RÉPONSES
+   🔴 TEXTE ANIMÉ — MINI-JEU 1
 ===================================================== */
 .glow-red{
   display:block;
@@ -201,13 +201,6 @@ button:hover{
   gap:28px;
   margin-top:28px;
   flex-wrap:wrap;
-}
-
-.visualChoices > div{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
 }
 
 .visualChoices img{
@@ -259,7 +252,7 @@ button:hover{
 }
 
 /* =====================================================
-   📳 SHAKE ERREUR
+   📳 ERREUR — SHAKE
 ===================================================== */
 .shake{
   animation:shake .35s;
@@ -298,23 +291,24 @@ button:hover{
 }
 
 /* =====================================================
-   ℹ️ BULLES INFO (ENCARTS EXPLICATIFS)
+   ℹ️ ENCARTS EXPLICATIFS
 ===================================================== */
 .info-bubble{
   margin-top:16px;
   padding:16px;
   border:2px solid gold;
   border-radius:14px;
-  background:rgba(0,0,0,.4);
-  line-height:1.5;
+  background:rgba(0,0,0,.45);
+  line-height:1.55;
 }
 
 /* =====================================================
-   🧭 MINI-JEU 3 — COLONNES
+   🔗 MINI-JEU 3 — COLONNES VERTICALES
 ===================================================== */
-.leftCol, .rightCol{
+.leftCol,
+.rightCol{
   display:flex;
-  flex-direction:column;
+  flex-direction:column; /* VERTICAL */
   gap:16px;
   width:45%;
 }
@@ -327,22 +321,24 @@ button:hover{
   float:right;
 }
 
-/* Plateformes (marron foncé) */
+/* Boutons réseaux sociaux — marron foncé */
 .btn-platform{
   background:linear-gradient(145deg,#6b3f1d,#3a1f0c);
   border-color:#2b1507;
   color:#fff;
+  width:100%;
 }
 
-/* Objectifs (beige clair) */
+/* Boutons enjeux — beige clair uni */
 .btn-target{
-  background:linear-gradient(145deg,#e6d2a2,#c9a24d);
-  border-color:#6b4f1a;
+  background:#e6d2a2;
+  border:3px solid #6b4f1a;
   color:#000;
+  width:100%;
 }
 
 /* =====================================================
-   💎 GEMS — EXPLOSION
+   💎 GEMS — EXPLOSION FINALE
 ===================================================== */
 .gem{
   position:absolute;
@@ -373,7 +369,8 @@ button:hover{
     padding:24px;
   }
 
-  .leftCol,.rightCol{
+  .leftCol,
+  .rightCol{
     width:100%;
     float:none;
   }
