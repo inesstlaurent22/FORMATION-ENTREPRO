@@ -14,120 +14,150 @@ document.addEventListener("DOMContentLoaded", () => {
   const financeGame = document.getElementById("financeGame");
 
   // Autoplay sécurisé iOS
-  video.muted = true;
-  video.play().catch(() => {});
+  if (video) {
+    video.muted = true;
+    video.play().catch(() => {});
+  }
 
-  toggleSoundBtn.addEventListener("click", () => {
-    video.muted = !video.muted;
-    toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
-  });
+  if (toggleSoundBtn && video) {
+    toggleSoundBtn.addEventListener("click", () => {
+      video.muted = !video.muted;
+      toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
+    });
+  }
 
-  closeVideoBtn.addEventListener("click", endVideo);
-  video.addEventListener("ended", endVideo);
+  if (closeVideoBtn) closeVideoBtn.addEventListener("click", endVideo);
+  if (video) video.addEventListener("ended", endVideo);
 
   function endVideo() {
-    video.pause();
-    videoContainer.classList.add("hidden");
+    if (video) video.pause();
+    if (videoContainer) videoContainer.classList.add("hidden");
 
     setTimeout(() => {
-      background.classList.remove("hidden");
-      pirate2.classList.remove("hidden");
-      pirate5.classList.remove("hidden");
-      financeGame.classList.remove("hidden");
-    }, 400);
+      if (background) background.classList.remove("hidden");
+      setTimeout(() => pirate2 && pirate2.classList.remove("hidden"), 400);
+      setTimeout(() => pirate5 && pirate5.classList.remove("hidden"), 900);
+      setTimeout(() => financeGame && financeGame.classList.remove("hidden"), 1300);
+    }, 300);
   }
 
   // ===============================
   // 🧮 CALCULATRICE (VRAI CALCUL)
   // ===============================
   const calc = document.getElementById("calc");
-  calc.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      try {
-        calc.value = Function("return " + calc.value)();
-      } catch {
-        calc.value = "Erreur";
+  if (calc) {
+    calc.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        try {
+          const result = Function("return " + calc.value)();
+          calc.value = result;
+        } catch {
+          calc.value = "Erreur";
+        }
       }
-    }
-  });
+    });
+  }
 });
+
 
 // ===============================
 // 📖 MINI-JEU FINANCE
 // ===============================
 
 let selectedClient = null;
+let billViewed = false;
 
 // 🧮 Toggle calculatrice
 function toggleCalc() {
-  document.getElementById("calc").classList.toggle("hidden");
+  const calc = document.getElementById("calc");
+  if (calc) calc.classList.toggle("hidden");
 }
 
 // ===============================
 // 🧾 PARTIE 1 – CLIENTS
 // ===============================
+
+// 🧾 Affiche uniquement les infos
 function showBill(client) {
   const bill = document.getElementById("bill");
+  if (!bill) return;
+
+  billViewed = true;
+  selectedClient = client;
 
   if (client === "A") {
-    bill.innerHTML = "📜 Barbe-Cuivre : 300 + 400 + 250 ";
-  }
-  if (client === "B") {
-    bill.innerHTML = "📜 Vent-Noir : 200 + 350 + 300 ";
+    bill.innerHTML =
+      "📜 Barbe-Cuivre<br>300 + 400 + 250 = <strong>950</strong> pièces d’or";
   }
 
-  selectedClient = client;
+  if (client === "B") {
+    bill.innerHTML =
+      "📜 Vent-Noir<br>200 + 350 + 300 = <strong>850</strong> pièces d’or";
+  }
 }
 
+// ✅ Validation du choix client
 function chooseClient() {
-  if (!selectedClient) {
-    document.getElementById("msg1").innerHTML =
-      "❌ Consulte d’abord un client.";
+  const msg1 = document.getElementById("msg1");
+  const part1 = document.getElementById("part1");
+  const part2 = document.getElementById("part2");
+
+  if (!billViewed || !selectedClient) {
+    msg1.innerHTML = "❌ Consulte d’abord la fiche 🧾 d’un client.";
     return;
   }
 
-  document.getElementById("part1").classList.add("hidden");
-  document.getElementById("part2").classList.remove("hidden");
+  part1.classList.add("hidden");
+  part2.classList.remove("hidden");
 }
 
 // ===============================
 // 💰 PARTIE 2 – RÉSULTAT
 // ===============================
 function checkResult(correct) {
+  const msg2 = document.getElementById("msg2");
+  const part2 = document.getElementById("part2");
+  const part3 = document.getElementById("part3");
+
   if (!correct) {
-    document.getElementById("msg2").innerHTML =
-      "❌ Mauvais calcul.";
+    msg2.innerHTML = "❌ Mauvais calcul. Réessaie.";
     return;
   }
 
-  document.getElementById("part2").classList.add("hidden");
-  document.getElementById("part3").classList.remove("hidden");
+  part2.classList.add("hidden");
+  part3.classList.remove("hidden");
 }
 
 // ===============================
 // 🛠️ PARTIE 3 – QUESTION 1
+// Prix d’achat − provision
 // ===============================
 function checkAmortBase(correct) {
+  const msg3 = document.getElementById("msg3");
+  const amortMonth = document.getElementById("amortMonth");
+
   if (!correct) {
-    document.getElementById("msg3").innerHTML =
-      "❌ Ce n’est pas le bon montant.";
+    msg3.innerHTML = "❌ Ce n’est pas le bon montant.";
     return;
   }
 
-  document.getElementById("msg3").innerHTML =
-    "✅ Correct : 350 pièces d’or à amortir.";
-  document.getElementById("amortMonth").classList.remove("hidden");
+  msg3.innerHTML =
+    "✅ Correct. 500 − 150 = <strong>350</strong> pièces d’or à amortir.";
+  amortMonth.classList.remove("hidden");
 }
 
 // ===============================
 // 📆 PARTIE 3 – QUESTION 2
+// Amortissement mensuel
 // ===============================
 function checkMonthlyAmort(correct) {
+  const msgMonth = document.getElementById("msgMonth");
+
   if (correct) {
-    document.getElementById("msgMonth").innerHTML =
-      "🎉 Exact : 117 € par mois.";
+    msgMonth.innerHTML =
+      "🎉 Exact. Les amortissements mensuels sont de <strong>117 €</strong>.";
+    // 🔗 Hook fin de quête possible ici
   } else {
-    document.getElementById("msgMonth").innerHTML =
-      "❌ Mauvais montant.";
+    msgMonth.innerHTML = "❌ Ce n’est pas le bon montant.";
   }
 }
