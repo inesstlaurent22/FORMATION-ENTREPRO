@@ -1,5 +1,5 @@
 /* ===============================
-   🔧 RESET
+   🔧 RESET & BASE
 ================================ */
 * {
   box-sizing: border-box;
@@ -20,13 +20,13 @@ html, body {
 }
 
 /* ===============================
-   🎬 VIDÉO
+   🎬 VIDÉO INTRO
 ================================ */
 #videoContainer {
   position: fixed;
   inset: 0;
-  background: black;
   z-index: 1000;
+  background: black;
 }
 
 #questVideo {
@@ -49,6 +49,7 @@ html, body {
   border: 2px solid gold;
   padding: 10px 14px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 /* ===============================
@@ -57,12 +58,16 @@ html, body {
 #background {
   position: fixed;
   inset: 0;
+  overflow: hidden;
 }
 
 .fondImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  z-index: 1;
 }
 
 /* ===============================
@@ -71,7 +76,8 @@ html, body {
 .pirate {
   position: absolute;
   z-index: 3;
-  animation: fadeIn 0.8s ease forwards;
+  cursor: pointer;
+  animation: fadeInUp 0.8s ease forwards;
 }
 
 #pirate5bis {
@@ -88,13 +94,44 @@ html, body {
   height: 496px;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===============================
-   📖 MINI-JEU (FOND MOINS TRANSPARENT)
+   💬 DIALOGUE PIRATE
+================================ */
+#dialogueBox {
+  background: #1a1208;
+  border: 3px solid gold;
+  border-radius: 14px;
+  padding: 16px 20px;
+  color: #f5e6c8;
+  font-size: 16px;
+  box-shadow: 0 0 20px rgba(255,215,0,0.4);
+}
+
+/* ===============================
+   ⏳ LOADER
+================================ */
+#loader {
+  background: #1a1208;
+  border: 3px solid gold;
+  border-radius: 12px;
+  padding: 18px 26px;
+  font-size: 22px;
+  box-shadow: 0 0 25px rgba(255,215,0,0.5);
+}
+
+/* ===============================
+   📖 MINI-JEU FINANCE
 ================================ */
 #financeGame {
   position: absolute;
@@ -106,39 +143,47 @@ html, body {
   overflow-y: auto;
   z-index: 5;
 
-  background: #120b05; /* ← CHANGEMENT VISIBLE */
+  background: #120b05;
   border: 4px solid #caa14a;
   border-radius: 18px;
   padding: 28px;
-  box-shadow: 0 0 40px rgba(255, 215, 0, 0.45);
+  box-shadow: 0 0 40px rgba(255,215,0,0.45);
 }
 
 #financeGame h2 {
   text-align: center;
   color: gold;
+  margin-top: 0;
+}
+
+#financeGame h3 {
+  color: #ffd56b;
+  margin-bottom: 10px;
 }
 
 /* ===============================
-   🧮 BOUTON CALCULATRICE (FORCÉ)
+   🏴‍☠️ BOUTONS — STYLE PIRATE GLOBAL
 ================================ */
-/* premier bouton de la partie 1 */
-#part1 > button:first-of-type {
+button,
+.pirateBtn {
   background: linear-gradient(145deg, #7b4a12, #caa14a);
   border: 3px solid #3b2208;
   color: #1a0f05;
   font-weight: bold;
-  font-size: 16px;
-  padding: 12px 16px;
+  font-size: 15px;
+  padding: 10px 14px;
   border-radius: 14px;
   cursor: pointer;
-  box-shadow: inset 0 0 6px rgba(255,215,0,0.7),
-              0 4px 0 #3b2208;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,0.7),
+    0 4px 0 #3b2208;
 }
 
-#part1 > button:first-of-type:hover {
+button:hover {
   transform: translateY(2px);
-  box-shadow: inset 0 0 6px rgba(255,215,0,0.9),
-              0 2px 0 #3b2208;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,0.9),
+    0 2px 0 #3b2208;
 }
 
 /* ===============================
@@ -150,35 +195,15 @@ html, body {
   gap: 16px;
 }
 
-/* boutons 🧾 */
-.clients button {
-  background: rgba(255, 215, 0, 0.15);
-  border: 2px solid #caa14a;
-  color: #f5e6c8;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 6px;
-}
-
-/* bouton “Je choisis ce client” = 2ᵉ bouton */
-.clients button:nth-of-type(2n) {
-  background: linear-gradient(#d4af37, #b8962e);
-  color: black;
-  font-weight: bold;
-}
-
-/* ===============================
-   📜 FICHE CLIENT (FOND PLUS OPAQUE)
-================================ */
 .bill {
   margin-top: 15px;
   padding: 14px;
-  background: #1a1208; /* ← CHANGEMENT VISIBLE */
+  background: #1a1208;
   border-left: 5px solid gold;
 }
 
 /* ===============================
-   🧮 INPUT CALCULATRICE
+   🧮 CALCULATRICE
 ================================ */
 #calc {
   width: 100%;
@@ -199,10 +224,14 @@ html, body {
 }
 
 /* ===============================
-   📱 MOBILE
+   📱 RESPONSIVE
 ================================ */
 @media (max-width: 768px) {
   .pirate {
     display: none;
+  }
+
+  #financeGame {
+    padding: 18px;
   }
 }
