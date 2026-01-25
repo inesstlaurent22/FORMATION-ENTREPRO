@@ -28,29 +28,119 @@
      🌅 BACKGROUND + PIRATES
 ===================================================== -->
 <div id="background" class="hidden">
-  <img
-    src="images/Fondfinance.PNG"
-    class="fondImage"
-    alt="Fond du marché pirate"
-  >
+
+  <img src="images/Fondfinance.PNG" class="fondImage" alt="Fond du marché pirate">
 
   <!-- Pirate apprenti -->
-  <img
-    id="pirate2bis"
-    class="pirate hidden"
-    src="images/Pirate2.png"
-    alt="Pirate apprenti"
-  >
+  <img id="pirate2bis" class="pirate hidden" src="images/Pirate2.png" alt="Pirate apprenti">
 
   <!-- Pirate maître -->
-  <img
-    id="pirate5bis"
-    class="pirate hidden"
-    src="images/Piratefinance.png"
-    alt="Pirate maître"
-  >
+  <img id="pirate5bis" class="pirate hidden" src="images/Piratefinance.png" alt="Pirate maître">
+
+  <!-- =====================================================
+       📖 MINI-JEU FINANCE
+  ===================================================== -->
+  <div id="financeGame" class="panel hidden">
+
+    <h2>📖 Le Livre du Trésor</h2>
+
+    <!-- ================= PARTIE 1 ================= -->
+    <div id="part1">
+      <h3>🧾 Partie 1 – Trouver le meilleur client</h3>
+
+      <p>Clique sur 🧾 pour consulter les achats mensuels.</p>
+
+      <button onclick="toggleCalc()">🧮 Calculatrice</button>
+      <input id="calc" class="hidden" type="text" placeholder="Tes calculs ici">
+
+      <div class="clients">
+        <button onclick="showBill('A')">☠️ Barbe-Cuivre 🧾</button>
+        <button onclick="showBill('B')">🏴‍☠️ Vent-Noir 🧾</button>
+        <button onclick="validateClient()">⚓ Crâne-Doré</button>
+      </div>
+
+      <div id="bill" class="bill"></div>
+      <div id="msg1"></div>
+    </div>
+
+    <!-- ================= PARTIE 2 ================= -->
+    <div id="part2" class="hidden">
+      <h3>💰 Partie 2 – Résultat annuel</h3>
+
+      <p>
+        Ventes : <strong>12 000</strong> pièces d’or<br>
+        Charges : <strong>8 500</strong> pièces d’or
+      </p>
+
+      <p>Quel est le bon calcul ?</p>
+
+      <button onclick="checkResult(false)">Charges + Produits</button>
+      <button onclick="checkResult(true)">Produits − Charges</button>
+      <button onclick="checkResult(false)">Charges × Produits</button>
+
+      <div id="msg2"></div>
+    </div>
+
+    <!-- ================= PARTIE 3 ================= -->
+    <div id="part3" class="hidden">
+      <h3>🛠️ Partie 3 – Amortissement & provisions</h3>
+
+      <p>
+        Machine : <strong>500</strong> pièces d’or<br>
+        Provisions utilisées : <strong>150</strong><br>
+        Amortissement : <strong>3 ans</strong>
+      </p>
+
+      <p>Quel est le total payé sur 3 ans ?</p>
+
+      <button onclick="checkAmort(false)">500 pièces</button>
+      <button onclick="checkAmort(true)">350 pièces</button>
+      <button onclick="checkAmort(false)">150 pièces</button>
+
+      <div id="msg3"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =====================================================
+     📜 LOGIQUE MINI-JEU
+===================================================== -->
+<script>
+function toggleCalc() {
+  document.getElementById("calc").classList.toggle("hidden");
+}
+
+function showBill(client) {
+  const bill = document.getElementById("bill");
+  if (client === "A") {
+    bill.innerHTML = "📜 Barbe-Cuivre : 300 + 400 + 250 = 950";
+  } else {
+    bill.innerHTML = "📜 Vent-Noir : 200 + 350 + 300 = 850";
+  }
+}
+
+function validateClient() {
+  document.getElementById("msg1").innerHTML = "✅ Bon client sélectionné.";
+  document.getElementById("part2").classList.remove("hidden");
+}
+
+function checkResult(ok) {
+  if (ok) {
+    document.getElementById("msg2").innerHTML = "🏆 Exact.";
+    document.getElementById("part3").classList.remove("hidden");
+  } else {
+    document.getElementById("msg2").innerHTML = "❌ Mauvais calcul.";
+  }
+}
+
+function checkAmort(ok) {
+  document.getElementById("msg3").innerHTML = ok
+    ? "🎉 Trésor équilibré. Mission réussie."
+    : "❌ Ce n’est pas le bon montant.";
+}
+</script>
 
 <script src="finance.js"></script>
-
 </body>
 </html>
