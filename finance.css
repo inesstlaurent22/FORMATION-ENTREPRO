@@ -72,24 +72,29 @@ html, body {
 }
 
 /* ===============================
-   🏴‍☠️ PIRATES
+   🏴‍☠️ PIRATES – POSITIONS PERSONNALISÉES
 ================================ */
 .pirate {
   position: absolute;
-  bottom: 0;
-  width: 220px;
   z-index: 3;
   opacity: 0;
   animation: fadeInUp 0.8s ease forwards;
 }
 
-#pirate2bis {
-  left: 5%;
+/* 🏴‍☠️ Pirate maître */
+#pirate5bis {
+  left: 480px;
+  top: 189px;
+  width: 440px;
+  height: 415px;
 }
 
-#pirate5bis {
-  right: 5%;
-  width: 260px;
+/* 🏴‍☠️ Pirate apprenti */
+#pirate2bis {
+  left: 944px;
+  top: 486px;
+  width: 518px;
+  height: 496px;
 }
 
 @keyframes fadeInUp {
@@ -202,7 +207,7 @@ html, body {
 }
 
 /* ===============================
-   🛠️ PARTIE 3 BIS – AMORTISSEMENT MENSUEL
+   🛠️ PARTIE 3 BIS – AMORTISSEMENT
 ================================ */
 #amortMonth {
   margin-top: 20px;
@@ -223,35 +228,7 @@ html, body {
   font-weight: bold;
 }
 
-#msg1 {
-  color: #00ff9c;
-}
-
-#msg2 {
-  color: #00d9ff;
-}
-
-#msg3 {
-  color: #ffd700;
-}
-
-#msgMonth {
-  color: #00ffcc;
-}
-
-/* ===============================
-   📱 RESPONSIVE
-================================ */
-@media (max-width: 768px) {
-  .pirate {
-    width: 160px;
-  }
-
-  #pirate5bis {
-    width: 190px;
-  }
-
-  #financeGame {
-    padding: 18px;
-  }
-}
+#msg1 { color: #00ff9c; }
+#msg2 { color: #00d9ff; }
+#msg3 { color: #ffd700; }
+#msgMonth { color: #00ffcc; }
