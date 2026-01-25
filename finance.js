@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate5 = document.getElementById("pirate5bis");
   const financeGame = document.getElementById("financeGame");
 
-  // Autoplay sécurisé iOS
+  // Sécurité autoplay iOS
   if (video) {
     video.muted = true;
     video.play().catch(() => {});
@@ -35,10 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       if (background) background.classList.remove("hidden");
-      setTimeout(() => pirate2 && pirate2.classList.remove("hidden"), 400);
-      setTimeout(() => pirate5 && pirate5.classList.remove("hidden"), 900);
-      setTimeout(() => financeGame && financeGame.classList.remove("hidden"), 1300);
-    }, 300);
+      if (pirate2) pirate2.classList.remove("hidden");
+      if (pirate5) pirate5.classList.remove("hidden");
+      if (financeGame) financeGame.classList.remove("hidden");
+    }, 400);
   }
 
   // ===============================
@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-
 // ===============================
 // 📖 MINI-JEU FINANCE
 // ===============================
@@ -77,7 +76,7 @@ function toggleCalc() {
 // 🧾 PARTIE 1 – CLIENTS
 // ===============================
 
-// 🧾 Affiche uniquement les infos
+// 🧾 Affiche uniquement les informations
 function showBill(client) {
   const bill = document.getElementById("bill");
   if (!bill) return;
@@ -156,7 +155,7 @@ function checkMonthlyAmort(correct) {
   if (correct) {
     msgMonth.innerHTML =
       "🎉 Exact. Les amortissements mensuels sont de <strong>117 €</strong>.";
-    // 🔗 Hook fin de quête possible ici
+    // 🔗 Fin de quête possible ici
   } else {
     msgMonth.innerHTML = "❌ Ce n’est pas le bon montant.";
   }
