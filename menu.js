@@ -160,13 +160,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   pirate4.addEventListener("click", () => {
     if (!pirate4.classList.contains("locked")) {
-      window.location.href = "finance.html";
+      window.location.href = "legal.html";
     }
   });
 
   pirate5.addEventListener("click", () => {
     if (!pirate5.classList.contains("locked")) {
-      window.location.href = "legal.html";
+      window.location.href = "finance.html";
     }
   });
 
