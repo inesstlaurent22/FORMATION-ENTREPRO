@@ -74,31 +74,33 @@ html, body {
 }
 
 /* ===============================
-   🏴‍☠️ PIRATES
+   🏴‍☠️ PIRATES – POSITIONS FIXES
 ================================ */
 .pirate {
   position: absolute;
-  bottom: 0;
-  max-height: 80%;
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-#pirate2bis {
-  left: 5%;
+/* Pirate maître */
+#pirate5bis {
+  left: 480px;
+  top: 189px;
+  width: 440px;
+  height: 415px;
 }
 
-#pirate5bis {
-  right: 5%;
+/* Pirate apprenti */
+#pirate2bis {
+  left: 944px;
+  top: 486px;
+  width: 518px;
+  height: 496px;
 }
 
 /* ===============================
-   📱 RESPONSIVE
+   📱 RESPONSIVE (optionnel)
 ================================ */
 @media (max-width: 768px) {
-  .pirate {
-    max-height: 65%;
-  }
-
   #videoControls {
     bottom: 10px;
     right: 10px;
