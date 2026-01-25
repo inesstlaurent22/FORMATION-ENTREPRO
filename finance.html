@@ -9,9 +9,9 @@
 
 <body>
 
-<!-- =====================================================
+<!-- ===============================
      🎬 VIDÉO D’INTRO
-===================================================== -->
+================================ -->
 <div id="videoContainer">
   <video id="questVideo" autoplay muted playsinline preload="auto">
     <source src="videos/Financevideo.MOV" type="video/mp4">
@@ -24,9 +24,9 @@
   </div>
 </div>
 
-<!-- =====================================================
+<!-- ===============================
      🌅 BACKGROUND + PIRATES
-===================================================== -->
+================================ -->
 <div id="background" class="hidden">
 
   <img
@@ -35,7 +35,7 @@
     alt="Fond pirate"
   >
 
-  <!-- Pirate maître (déclencheur du mini-jeu) -->
+  <!-- Pirate maître (déclencheur) -->
   <img
     id="pirate5bis"
     class="pirate hidden"
@@ -51,9 +51,9 @@
     alt="Pirate apprenti"
   >
 
-  <!-- =====================================================
+  <!-- ===============================
        📖 MINI-JEU FINANCE
-  ===================================================== -->
+  ================================ -->
   <div id="financeGame" class="hidden">
 
     <h2>📖 Le Livre du Trésor</h2>
@@ -64,7 +64,7 @@
       <h3>🧾 Partie 1 – Choisir le meilleur client</h3>
 
       <p>
-        Consulte les registres 🧾, puis choisis le client
+        Consulte les registres 🧾, puis choisis le pirate
         qui achète le plus.
       </p>
 
@@ -77,16 +77,17 @@
         placeholder="Ex : 300-150 puis Entrée"
       >
 
+      <!-- ⚠️ STRUCTURE IMPORTANTE POUR LE CSS -->
       <div class="clients">
 
         <div>
           <button onclick="showBill('A')">🧾 Barbe-Cuivre</button>
-          <button onclick="chooseClient()">Je choisis ce client</button>
+          <button onclick="chooseClient()">Je choisis ce pirate</button>
         </div>
 
         <div>
           <button onclick="showBill('B')">🧾 Vent-Noir</button>
-          <button onclick="chooseClient()">Je choisis ce client</button>
+          <button onclick="chooseClient()">Je choisis ce pirate</button>
         </div>
 
       </div>
@@ -153,9 +154,9 @@
   </div>
 </div>
 
-<!-- =====================================================
+<!-- ===============================
      📜 SCRIPT
-===================================================== -->
+================================ -->
 <script src="finance.js"></script>
 
 </body>
