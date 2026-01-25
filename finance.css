@@ -106,9 +106,13 @@ html, body {
 }
 
 /* ===============================
-   💬 DIALOGUE PIRATE
+   💬 DIALOGUES PIRATE
 ================================ */
 #dialogueBox {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   background: #1a1208;
   border: 3px solid gold;
   border-radius: 14px;
@@ -116,18 +120,26 @@ html, body {
   color: #f5e6c8;
   font-size: 16px;
   box-shadow: 0 0 20px rgba(255,215,0,0.4);
+  cursor: pointer;
+  z-index: 10;
 }
 
 /* ===============================
    ⏳ LOADER
 ================================ */
 #loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: #1a1208;
   border: 3px solid gold;
   border-radius: 12px;
-  padding: 18px 26px;
+  padding: 20px 28px;
   font-size: 22px;
+  color: gold;
   box-shadow: 0 0 25px rgba(255,215,0,0.5);
+  z-index: 10;
 }
 
 /* ===============================
@@ -161,11 +173,14 @@ html, body {
   margin-bottom: 10px;
 }
 
+#financeGame p {
+  line-height: 1.5;
+}
+
 /* ===============================
-   🏴‍☠️ BOUTONS — STYLE PIRATE GLOBAL
+   🏴‍☠️ BOUTONS – STYLE PIRATE GLOBAL
 ================================ */
-button,
-.pirateBtn {
+button {
   background: linear-gradient(145deg, #7b4a12, #caa14a);
   border: 3px solid #3b2208;
   color: #1a0f05;
@@ -195,6 +210,9 @@ button:hover {
   gap: 16px;
 }
 
+/* ===============================
+   📜 FICHE CLIENT
+================================ */
 .bill {
   margin-top: 15px;
   padding: 14px;
@@ -212,6 +230,7 @@ button:hover {
   font-size: 16px;
   border-radius: 8px;
   border: none;
+  outline: none;
 }
 
 /* ===============================
