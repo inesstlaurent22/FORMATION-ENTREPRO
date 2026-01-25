@@ -202,9 +202,23 @@ html, body {
 }
 
 /* ===============================
+   🛠️ PARTIE 3 BIS – AMORTISSEMENT MENSUEL
+================================ */
+#amortMonth {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 2px dashed rgba(255, 215, 0, 0.4);
+}
+
+#amortMonth p {
+  color: #ffe08a;
+  font-weight: bold;
+}
+
+/* ===============================
    ✅ MESSAGES
 ================================ */
-#msg1, #msg2, #msg3 {
+#msg1, #msg2, #msg3, #msgMonth {
   margin-top: 15px;
   font-weight: bold;
 }
@@ -219,6 +233,10 @@ html, body {
 
 #msg3 {
   color: #ffd700;
+}
+
+#msgMonth {
+  color: #00ffcc;
 }
 
 /* ===============================
