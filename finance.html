@@ -29,10 +29,14 @@
 ===================================================== -->
 <div id="background" class="hidden">
 
+  <img src="images/Fondfinance.PNG" class="fondImage" alt="Fond pirate">
+
+  <!-- Pirate maître -->
   <img
-    src="images/Fondfinance.PNG"
-    class="fondImage"
-    alt="Fond du marché pirate"
+    id="pirate5bis"
+    class="pirate hidden"
+    src="images/Piratefinance.png"
+    alt="Pirate maître"
   >
 
   <!-- Pirate apprenti -->
@@ -41,14 +45,6 @@
     class="pirate hidden"
     src="images/Pirate2.png"
     alt="Pirate apprenti"
-  >
-
-  <!-- Pirate maître -->
-  <img
-    id="pirate5bis"
-    class="pirate hidden"
-    src="images/Piratefinance.png"
-    alt="Pirate maître"
   >
 
   <!-- =====================================================
@@ -60,22 +56,35 @@
 
     <!-- ================= PARTIE 1 ================= -->
     <div id="part1">
-      <h3>🧾 Partie 1 – Trouver le meilleur client</h3>
 
-      <p>Clique sur 🧾 pour consulter les achats mensuels des clients pirates.</p>
+      <h3>🧾 Partie 1 – Choisir le meilleur client</h3>
+
+      <p>
+        Consulte les achats mensuels 🧾 puis choisis le client
+        qui achète le plus.
+      </p>
 
       <button onclick="toggleCalc()">🧮 Calculatrice</button>
+
       <input
         id="calc"
         class="hidden"
         type="text"
-        placeholder="Fais tes calculs ici"
+        placeholder="Ex : 300-150 puis Entrée"
       >
 
       <div class="clients">
-        <button onclick="showBill('A')">☠️ Barbe-Cuivre 🧾</button>
-        <button onclick="showBill('B')">🏴‍☠️ Vent-Noir 🧾</button>
-        <button onclick="validateClient()">⚓ Crâne-Doré</button>
+
+        <div>
+          <button onclick="showBill('A')">🧾 Barbe-Cuivre</button>
+          <button onclick="chooseClient()">Je choisis ce client</button>
+        </div>
+
+        <div>
+          <button onclick="showBill('B')">🧾 Vent-Noir</button>
+          <button onclick="chooseClient()">Je choisis ce client</button>
+        </div>
+
       </div>
 
       <div id="bill" class="bill"></div>
@@ -84,14 +93,15 @@
 
     <!-- ================= PARTIE 2 ================= -->
     <div id="part2" class="hidden">
+
       <h3>💰 Partie 2 – Résultat annuel</h3>
 
       <p>
-        💰 Ventes annuelles : <strong>12 000</strong> pièces d’or<br>
-        💸 Charges annuelles : <strong>8 500</strong> pièces d’or
+        Ventes : <strong>12 000</strong> pièces d’or<br>
+        Charges : <strong>8 500</strong> pièces d’or
       </p>
 
-      <p>Quel est le bon calcul comptable ?</p>
+      <p>Quel est le bon calcul ?</p>
 
       <button onclick="checkResult(false)">Charges + Produits</button>
       <button onclick="checkResult(true)">Produits − Charges</button>
@@ -102,21 +112,38 @@
 
     <!-- ================= PARTIE 3 ================= -->
     <div id="part3" class="hidden">
-      <h3>🛠️ Partie 3 – Amortissement & provisions</h3>
+
+      <h3>🛠️ Partie 3 – Amortissements</h3>
 
       <p>
-        🛠️ Machine achetée : <strong>500</strong> pièces d’or<br>
-        🪙 Provisions utilisées : <strong>150</strong> pièces d’or<br>
-        📆 Amortissement sur <strong>3 ans</strong>
+        Prix d’achat : <strong>500</strong> pièces d’or<br>
+        Provisions utilisées : <strong>150</strong> pièces d’or
       </p>
 
-      <p>Quel est le total réellement payé sur 3 ans ?</p>
+      <p>
+        Combien reste-t-il à amortir ?
+      </p>
 
-      <button onclick="checkAmort(false)">500 pièces d’or</button>
-      <button onclick="checkAmort(true)">350 pièces d’or</button>
-      <button onclick="checkAmort(false)">150 pièces d’or</button>
+      <button onclick="checkAmortBase(false)">500</button>
+      <button onclick="checkAmortBase(true)">350</button>
+      <button onclick="checkAmortBase(false)">150</button>
 
       <div id="msg3"></div>
+
+      <!-- ===== Partie 3 – Question 2 ===== -->
+      <div id="amortMonth" class="hidden">
+
+        <p>
+          De combien sont les amortissements mensuels ?
+        </p>
+
+        <button onclick="checkMonthlyAmort(false)">97 €</button>
+        <button onclick="checkMonthlyAmort(true)">117 €</button>
+        <button onclick="checkMonthlyAmort(false)">150 €</button>
+
+        <div id="msgMonth"></div>
+      </div>
+
     </div>
 
   </div>
