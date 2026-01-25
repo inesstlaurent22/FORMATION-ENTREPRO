@@ -13,49 +13,120 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate5 = document.getElementById("pirate5bis");
   const financeGame = document.getElementById("financeGame");
 
-  // Sécurité autoplay iOS
+  // Autoplay sécurisé iOS
   if (video) {
     video.muted = true;
     video.play().catch(() => {});
   }
 
-  if (toggleSoundBtn && video) {
-    toggleSoundBtn.addEventListener("click", () => {
-      video.muted = !video.muted;
-      toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
-    });
-  }
+  toggleSoundBtn.addEventListener("click", () => {
+    video.muted = !video.muted;
+    toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
+  });
 
-  if (closeVideoBtn) closeVideoBtn.addEventListener("click", endVideo);
-  if (video) video.addEventListener("ended", endVideo);
+  closeVideoBtn.addEventListener("click", endVideo);
+  video.addEventListener("ended", endVideo);
 
   function endVideo() {
-    if (video) video.pause();
-    if (videoContainer) videoContainer.classList.add("hidden");
+    video.pause();
+    videoContainer.classList.add("hidden");
 
     setTimeout(() => {
-      if (background) background.classList.remove("hidden");
-      if (pirate2) pirate2.classList.remove("hidden");
-      if (pirate5) pirate5.classList.remove("hidden");
-      if (financeGame) financeGame.classList.remove("hidden");
+      background.classList.remove("hidden");
+      pirate2.classList.remove("hidden");
+      pirate5.classList.remove("hidden");
     }, 400);
   }
 
   // ===============================
-  // 🧮 CALCULATRICE (VRAI CALCUL)
+  // 🏴‍☠️ STYLE PIRATE POUR TOUS LES BOUTONS
+  // ===============================
+  document.querySelectorAll("button").forEach(btn => {
+    btn.classList.add("pirateBtn");
+  });
+
+  // ===============================
+  // 🧮 CALCULATRICE
   // ===============================
   const calc = document.getElementById("calc");
   if (calc) {
-    calc.addEventListener("keydown", (e) => {
+    calc.addEventListener("keydown", e => {
       if (e.key === "Enter") {
         try {
-          const result = Function("return " + calc.value)();
-          calc.value = result;
+          calc.value = Function("return " + calc.value)();
         } catch {
           calc.value = "Erreur";
         }
       }
     });
+  }
+
+  // ===============================
+  // 💬 DIALOGUES PIRATE 5
+  // ===============================
+  const dialogues = [
+    "🏴‍☠️ Ah… te voilà enfin.",
+    "Ce trésor n’est pas fait pour les ignorants.",
+    "Si tu veux commercer comme un vrai pirate…",
+    "…tu dois savoir compter ton or.",
+    "Prépare-toi. Le livre des comptes va s’ouvrir."
+  ];
+
+  let dialogueIndex = 0;
+
+  const dialogueBox = document.createElement("div");
+  dialogueBox.id = "dialogueBox";
+  dialogueBox.style.position = "absolute";
+  dialogueBox.style.bottom = "20px";
+  dialogueBox.style.left = "50%";
+  dialogueBox.style.transform = "translateX(-50%)";
+  dialogueBox.style.background = "#1a1208";
+  dialogueBox.style.border = "3px solid gold";
+  dialogueBox.style.borderRadius = "12px";
+  dialogueBox.style.padding = "16px";
+  dialogueBox.style.color = "#f5e6c8";
+  dialogueBox.style.maxWidth = "80%";
+  dialogueBox.style.cursor = "pointer";
+  dialogueBox.style.zIndex = "10";
+
+  const loader = document.createElement("div");
+  loader.id = "loader";
+  loader.innerHTML = "⏳ Chargement…";
+  loader.style.position = "absolute";
+  loader.style.top = "50%";
+  loader.style.left = "50%";
+  loader.style.transform = "translate(-50%, -50%)";
+  loader.style.fontSize = "24px";
+  loader.style.color = "gold";
+  loader.style.display = "none";
+  loader.style.zIndex = "10";
+
+  background.appendChild(dialogueBox);
+  background.appendChild(loader);
+
+  pirate5.addEventListener("click", () => {
+    dialogueIndex = 0;
+    dialogueBox.textContent = dialogues[dialogueIndex];
+    dialogueBox.style.display = "block";
+
+    dialogueBox.onclick = () => {
+      dialogueIndex++;
+      if (dialogueIndex < dialogues.length) {
+        dialogueBox.textContent = dialogues[dialogueIndex];
+      } else {
+        dialogueBox.style.display = "none";
+        startLoader();
+      }
+    };
+  });
+
+  function startLoader() {
+    loader.style.display = "block";
+
+    setTimeout(() => {
+      loader.style.display = "none";
+      financeGame.classList.remove("hidden");
+    }, 2000);
   }
 });
 
@@ -66,97 +137,62 @@ document.addEventListener("DOMContentLoaded", () => {
 let selectedClient = null;
 let billViewed = false;
 
-// 🧮 Toggle calculatrice
 function toggleCalc() {
-  const calc = document.getElementById("calc");
-  if (calc) calc.classList.toggle("hidden");
+  document.getElementById("calc").classList.toggle("hidden");
 }
 
-// ===============================
-// 🧾 PARTIE 1 – CLIENTS
-// ===============================
-
-// 🧾 Affiche uniquement les informations
+// 🧾 INFOS CLIENT
 function showBill(client) {
   const bill = document.getElementById("bill");
-  if (!bill) return;
-
   billViewed = true;
   selectedClient = client;
 
   if (client === "A") {
-    bill.innerHTML =
-      "📜 Barbe-Cuivre<br>300 + 400 + 250 = <strong>950</strong> pièces d’or";
+    bill.innerHTML = "📜 Barbe-Cuivre : 300 + 400 + 250 = <strong>950</strong>";
   }
-
   if (client === "B") {
-    bill.innerHTML =
-      "📜 Vent-Noir<br>200 + 350 + 300 = <strong>850</strong> pièces d’or";
+    bill.innerHTML = "📜 Vent-Noir : 200 + 350 + 300 = <strong>850</strong>";
   }
 }
 
-// ✅ Validation du choix client
+// ✅ CHOIX CLIENT
 function chooseClient() {
-  const msg1 = document.getElementById("msg1");
-  const part1 = document.getElementById("part1");
-  const part2 = document.getElementById("part2");
-
-  if (!billViewed || !selectedClient) {
-    msg1.innerHTML = "❌ Consulte d’abord la fiche 🧾 d’un client.";
+  if (!billViewed) {
+    document.getElementById("msg1").innerHTML =
+      "❌ Consulte d’abord les registres 🧾.";
     return;
   }
 
-  part1.classList.add("hidden");
-  part2.classList.remove("hidden");
+  document.getElementById("part1").classList.add("hidden");
+  document.getElementById("part2").classList.remove("hidden");
 }
 
-// ===============================
-// 💰 PARTIE 2 – RÉSULTAT
-// ===============================
+// 💰 PARTIE 2
 function checkResult(correct) {
-  const msg2 = document.getElementById("msg2");
-  const part2 = document.getElementById("part2");
-  const part3 = document.getElementById("part3");
-
   if (!correct) {
-    msg2.innerHTML = "❌ Mauvais calcul. Réessaie.";
+    document.getElementById("msg2").innerHTML = "❌ Mauvais calcul.";
     return;
   }
 
-  part2.classList.add("hidden");
-  part3.classList.remove("hidden");
+  document.getElementById("part2").classList.add("hidden");
+  document.getElementById("part3").classList.remove("hidden");
 }
 
-// ===============================
-// 🛠️ PARTIE 3 – QUESTION 1
-// Prix d’achat − provision
-// ===============================
+// 🛠️ PARTIE 3 – Q1
 function checkAmortBase(correct) {
-  const msg3 = document.getElementById("msg3");
-  const amortMonth = document.getElementById("amortMonth");
-
   if (!correct) {
-    msg3.innerHTML = "❌ Ce n’est pas le bon montant.";
+    document.getElementById("msg3").innerHTML = "❌ Mauvais montant.";
     return;
   }
 
-  msg3.innerHTML =
-    "✅ Correct. 500 − 150 = <strong>350</strong> pièces d’or à amortir.";
-  amortMonth.classList.remove("hidden");
+  document.getElementById("msg3").innerHTML =
+    "✅ Il reste 350 pièces d’or à amortir.";
+  document.getElementById("amortMonth").classList.remove("hidden");
 }
 
-// ===============================
-// 📆 PARTIE 3 – QUESTION 2
-// Amortissement mensuel
-// ===============================
+// 📆 PARTIE 3 – Q2
 function checkMonthlyAmort(correct) {
-  const msgMonth = document.getElementById("msgMonth");
-
-  if (correct) {
-    msgMonth.innerHTML =
-      "🎉 Exact. Les amortissements mensuels sont de <strong>117 €</strong>.";
-    // 🔗 Fin de quête possible ici
-  } else {
-    msgMonth.innerHTML = "❌ Ce n’est pas le bon montant.";
-  }
+  document.getElementById("msgMonth").innerHTML = correct
+    ? "🏆 Exact : 117 € par mois."
+    : "❌ Mauvais montant.";
 }
