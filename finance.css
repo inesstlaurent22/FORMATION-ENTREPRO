@@ -1,18 +1,18 @@
 /* ===============================
-   RESET & BASE
+   🔧 RESET & BASE
 ================================ */
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
 html, body {
+  margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
-  font-family: 'Trebuchet MS', sans-serif;
-  overflow: hidden;
+  font-family: "Trebuchet MS", serif;
   background: black;
+  color: #f5e6c8;
 }
 
 .hidden {
@@ -25,8 +25,8 @@ html, body {
 #videoContainer {
   position: fixed;
   inset: 0;
-  background: black;
   z-index: 1000;
+  background: black;
 }
 
 #questVideo {
@@ -35,88 +35,205 @@ html, body {
   object-fit: cover;
 }
 
-/* Boutons vidéo – haut droite */
 #videoControls {
   position: absolute;
-  top: 20px;
+  bottom: 20px;
   right: 20px;
   display: flex;
-  gap: 12px;
-  z-index: 1100;
+  gap: 10px;
 }
 
 #videoControls button {
-  background: rgba(0,0,0,0.6);
-  border: 1px solid #d4af37;
-  color: #fff;
+  background: rgba(0, 0, 0, 0.75);
+  color: gold;
+  border: 2px solid gold;
   padding: 10px 14px;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
 }
 
-#videoControls button:hover {
-  background: rgba(212,175,55,0.8);
-  color: black;
-}
-
 /* ===============================
-   🌅 BACKGROUND FINANCE
+   🌅 BACKGROUND
 ================================ */
 #background {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  overflow: hidden;
 }
 
 .fondImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  z-index: 1;
 }
 
 /* ===============================
-   🏴‍☠️ PIRATES – POSITIONS FIXES
+   🏴‍☠️ PIRATES
 ================================ */
 .pirate {
   position: absolute;
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  bottom: 0;
+  width: 220px;
+  z-index: 3;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
 }
 
-/* Pirate maître */
-#pirate5bis {
-  left: 400px;
-  top: 149px;
-  width: 440px;
-  height: 415px;
-  transition:
-    opacity 0.8s ease,
-    transform 0.6s ease,
-    filter 0.6s ease,
-    box-shadow 0.6s ease;
-}
-
-/* ✨ Illumination au survol */
-#pirate5bis:hover {
-  filter: brightness(1.2) drop-shadow(0 0 18px rgba(212,175,55,0.9));
-  transform: scale(1.03);
-  cursor: pointer;
-}
-
-/* Pirate apprenti */
 #pirate2bis {
-  left: 884px;
-  top: 446px;
-  width: 518px;
-  height: 496px;
+  left: 5%;
+}
+
+#pirate5bis {
+  right: 5%;
+  width: 260px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===============================
-   📱 RESPONSIVE (optionnel)
+   📖 MINI-JEU FINANCE
+================================ */
+#financeGame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92%, 900px);
+  max-height: 90%;
+  overflow-y: auto;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.75);
+  border: 3px solid gold;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.25);
+}
+
+#financeGame h2 {
+  text-align: center;
+  color: gold;
+  margin-top: 0;
+}
+
+#financeGame h3 {
+  color: #ffd56b;
+  margin-bottom: 10px;
+}
+
+#financeGame p {
+  line-height: 1.5;
+}
+
+/* ===============================
+   🧾 PARTIE 1 – CLIENTS
+================================ */
+.clients {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.clients button {
+  background: rgba(255, 215, 0, 0.1);
+  border: 2px solid #caa14a;
+  color: #f5e6c8;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.clients button:hover {
+  background: rgba(255, 215, 0, 0.25);
+  transform: scale(1.05);
+}
+
+.bill {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  border-left: 4px solid gold;
+}
+
+/* ===============================
+   🧮 CALCULATRICE
+================================ */
+#calc {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+/* ===============================
+   💰 RÉPONSES & BOUTONS
+================================ */
+#financeGame button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background: linear-gradient(#d4af37, #b8962e);
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  color: black;
+}
+
+#financeGame button:hover {
+  filter: brightness(1.1);
+}
+
+/* ===============================
+   ✅ MESSAGES
+================================ */
+#msg1, #msg2, #msg3 {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+#msg1 {
+  color: #00ff9c;
+}
+
+#msg2 {
+  color: #00d9ff;
+}
+
+#msg3 {
+  color: #ffd700;
+}
+
+/* ===============================
+   📱 RESPONSIVE
 ================================ */
 @media (max-width: 768px) {
-  #videoControls {
-    top: 10px;
-    right: 10px;
+  .pirate {
+    width: 160px;
+  }
+
+  #pirate5bis {
+    width: 190px;
+  }
+
+  #financeGame {
+    padding: 18px;
   }
 }
