@@ -1,9 +1,7 @@
 /* ===============================
    🔧 RESET & BASE
 ================================ */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html, body {
   margin: 0;
@@ -15,12 +13,11 @@ html, body {
   color: #f5e6c8;
 }
 
-.hidden {
-  display: none !important;
-}
+.hidden { display: none !important; }
 
 /* ===============================
    🎬 VIDÉO INTRO
+   (boutons en HAUT À DROITE)
 ================================ */
 #videoContainer {
   position: fixed;
@@ -37,10 +34,11 @@ html, body {
 
 #videoControls {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
+  top: 20px;          /* ← CHANGEMENT */
+  right: 20px;       /* ← CHANGEMENT */
   display: flex;
   gap: 10px;
+  z-index: 1001;
 }
 
 #videoControls button {
@@ -77,7 +75,6 @@ html, body {
   position: absolute;
   z-index: 3;
   cursor: pointer;
-  animation: fadeInUp 0.8s ease forwards;
 }
 
 #pirate5bis {
@@ -94,36 +91,26 @@ html, body {
   height: 496px;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* ===============================
-   💬 DIALOGUES – AU-DESSUS DES PIRATES
+   💬 DIALOGUES
+   (AU-DESSUS DES PIRATES)
 ================================ */
 #dialogueBox {
   position: absolute;
-  bottom: 520px; /* ← AU-DESSUS DES PIRATES */
+  top: 30px;                 /* ← AU-DESSUS DES PIRATES */
   left: 50%;
   transform: translateX(-50%);
+  max-width: 70%;
   background: #1a1208;
   border: 3px solid gold;
   border-radius: 14px;
   padding: 18px 22px;
   color: #f5e6c8;
   font-size: 16px;
+  text-align: center;
   box-shadow: 0 0 25px rgba(255,215,0,0.45);
   cursor: pointer;
   z-index: 6;
-  text-align: center;
-  max-width: 70%;
 }
 
 /* ===============================
@@ -147,6 +134,7 @@ html, body {
 
 /* ===============================
    📖 MINI-JEU FINANCE
+   (TEXTES CENTRÉS)
 ================================ */
 #financeGame {
   position: absolute;
@@ -164,7 +152,7 @@ html, body {
   padding: 28px;
   box-shadow: 0 0 40px rgba(255,215,0,0.45);
 
-  text-align: center; /* ← TEXTE CENTRÉ */
+  text-align: center;       /* ← TEXTE CENTRÉ */
 }
 
 #financeGame h2,
@@ -175,52 +163,52 @@ html, body {
 }
 
 /* ===============================
-   🏴‍☠️ BOUTONS – STYLE GLOBAL
+   🏴‍☠️ BOUTONS – STYLE PIRATE GLOBAL
 ================================ */
 button {
-  border-radius: 14px;
-  font-weight: bold;
-  padding: 10px 14px;
-  cursor: pointer;
-  margin: 6px auto;
-}
-
-/* ===============================
-   🧾 PARTIE 1 – BOUTONS DIFFÉRENCIÉS
-================================ */
-
-/* 🧾 Boutons infos client */
-.clients button:nth-of-type(1),
-.clients button:nth-of-type(3) {
-  background: linear-gradient(#3a2a1a, #6b4a2a);
-  border: 2px solid #caa14a;
-  color: #f5e6c8;
-  box-shadow: inset 0 0 4px rgba(0,0,0,0.6);
-}
-
-/* 🏴‍☠️ Boutons validation client */
-.clients button:nth-of-type(2),
-.clients button:nth-of-type(4) {
-  background: linear-gradient(#d4af37, #b8962e);
+  background: linear-gradient(145deg, #7b4a12, #caa14a);
   border: 3px solid #3b2208;
   color: #1a0f05;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  margin: 6px auto;
   box-shadow:
     inset 0 0 6px rgba(255,215,0,0.7),
     0 4px 0 #3b2208;
 }
 
-.clients button:nth-of-type(4):hover,
-.clients button:nth-of-type(2):hover {
+button:hover {
   transform: translateY(2px);
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,0.9),
+    0 2px 0 #3b2208;
 }
 
 /* ===============================
-   🧾 CLIENTS
+   🧾 PARTIE 1 – BOUTONS DIFFÉRENCIÉS
 ================================ */
 .clients {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
+}
+
+/* 🧾 Bouton info (1er bouton de chaque client) */
+.clients > div > button:first-child {
+  background: linear-gradient(#2c1c10, #5a3a1a);
+  border: 2px solid #caa14a;
+  color: #f5e6c8;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.6);
+}
+
+/* 🏴‍☠️ Bouton validation (2e bouton) */
+.clients > div > button:last-child {
+  background: linear-gradient(#d4af37, #b8962e);
+  border: 3px solid #3b2208;
+  color: #1a0f05;
 }
 
 /* ===============================
@@ -262,12 +250,9 @@ button {
    📱 RESPONSIVE
 ================================ */
 @media (max-width: 768px) {
-  .pirate {
-    display: none;
-  }
+  .pirate { display: none; }
 
   #dialogueBox {
-    bottom: auto;
     top: 20px;
     max-width: 90%;
   }
