@@ -31,41 +31,38 @@ document.addEventListener("DOMContentLoaded", () => {
       background.classList.remove("hidden");
       pirate2.classList.remove("hidden");
       pirate5.classList.remove("hidden");
-      enablePirateHover();
+      enablePirate5Hover();
     }, 400);
   }
 
   // ===============================
-  // ✨ ILLUMINATION PIRATES (HOVER)
+  // ✨ HOVER UNIQUEMENT PIRATE 5
   // ===============================
-  function enablePirateHover() {
-    [pirate2, pirate5].forEach(pirate => {
-      pirate.addEventListener("mouseenter", () => {
-        pirate.style.filter = "drop-shadow(0 0 25px gold)";
-      });
-      pirate.addEventListener("mouseleave", () => {
-        pirate.style.filter = "";
-      });
+  function enablePirate5Hover() {
+    pirate5.addEventListener("mouseenter", () => {
+      pirate5.style.filter = "drop-shadow(0 0 30px gold)";
+    });
+
+    pirate5.addEventListener("mouseleave", () => {
+      pirate5.style.filter = "";
     });
   }
 
-  function disablePirateHover() {
-    [pirate2, pirate5].forEach(pirate => {
-      pirate.style.filter = "";
-      pirate.onmouseenter = null;
-      pirate.onmouseleave = null;
-    });
+  function disablePirate5Hover() {
+    pirate5.style.filter = "";
+    pirate5.onmouseenter = null;
+    pirate5.onmouseleave = null;
   }
 
   // ===============================
-  // 💬 DIALOGUES AVEC BULLES ANCRÉES
+  // 💬 DIALOGUES AVEC BULLES
   // ===============================
   const dialogues = [
     { speaker: pirate5, text: "🏴‍☠️ Te voilà enfin…" },
-    { speaker: pirate2, text: "Capitaine ! C’est lui dont je te parlais !" },
-    { speaker: pirate5, text: "L’or ne se compte pas au hasard." },
-    { speaker: pirate2, text: "Alors il doit apprendre à compter." },
-    { speaker: pirate5, text: "Très bien. Que le Livre des Comptes s’ouvre." }
+    { speaker: pirate2, text: "Capitaine, il veut apprendre à gérer son or !" },
+    { speaker: pirate5, text: "Alors il devra faire les bons calculs." },
+    { speaker: pirate2, text: "Même moi j’ai du mal avec les comptes…" },
+    { speaker: pirate5, text: "Silence. Le Livre du Trésor s’ouvre." }
   ];
 
   let dialogueIndex = 0;
@@ -82,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   background.appendChild(loader);
 
   pirate5.onclick = () => {
-    disablePirateHover();
+    disablePirate5Hover();
     dialogueIndex = 0;
     showDialogue();
   };
@@ -92,10 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
     bubble.textContent = current.text;
     bubble.classList.remove("hidden");
 
-    // Positionner la bulle sur le pirate qui parle
     const rect = current.speaker.getBoundingClientRect();
     bubble.style.left = rect.left + rect.width / 2 + "px";
-    bubble.style.top = rect.top - 80 + "px";
+    bubble.style.top = rect.top - 90 + "px";
     bubble.style.transform = "translateX(-50%)";
 
     bubble.onclick = () => {
@@ -119,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===============================
-  // 🧮 CALCULATRICE (GLOBALE)
+  // 🧮 CALCULATRICE (PARTIE 1, 2, 3)
   // ===============================
   const calc = document.getElementById("calc");
   if (calc) {
@@ -136,9 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ===============================
-// 📖 MINI-JEU – LOGIQUE PAR PARTIE
+// 📖 MINI-JEU – PROGRESSION
 // ===============================
-let selectedClient = null;
 let billViewed = false;
 
 function toggleCalc() {
@@ -147,19 +142,21 @@ function toggleCalc() {
 
 // ---------- PARTIE 1 ----------
 function showBill(client) {
-  const bill = document.getElementById("bill");
   billViewed = true;
-  selectedClient = client;
+  const bill = document.getElementById("bill");
 
-  bill.innerHTML =
-    client === "A"
-      ? "📜 Barbe-Cuivre : 300 + 400 + 250 = <strong>950</strong>"
-      : "📜 Vent-Noir : 200 + 350 + 300 = <strong>850</strong>";
+  const data = {
+    A: "🧾 Barbe-Cuivre : 300 + 400 + 250 = <strong>950</strong>",
+    B: "🧾 Vent-Noir : 200 + 350 + 300 = <strong>850</strong>",
+    C: "🧾 Crâne-Rouge : 150 + 200 + 180 = <strong>530</strong>"
+  };
+
+  bill.innerHTML = data[client];
 }
 
 function chooseClient() {
   if (!billViewed) {
-    msg1.textContent = "❌ Consulte d’abord le registre 🧾.";
+    msg1.textContent = "❌ Consulte d’abord un registre 🧾.";
     return;
   }
   part1.classList.add("hidden");
@@ -182,7 +179,7 @@ function checkAmortBase(ok) {
     msg3.textContent = "❌ Mauvais montant.";
     return;
   }
-  msg3.textContent = "✅ Il reste 350 pièces à amortir.";
+  msg3.textContent = "✅ Il reste 350 à amortir.";
   amortMonth.classList.remove("hidden");
 }
 
