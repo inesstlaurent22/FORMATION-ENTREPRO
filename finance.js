@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     pirate5.addEventListener("mouseenter", () => {
       pirate5.style.filter = "drop-shadow(0 0 30px gold)";
     });
-
     pirate5.addEventListener("mouseleave", () => {
       pirate5.style.filter = "";
     });
@@ -55,14 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===============================
-  // 💬 DIALOGUES AVEC BULLES
+  // 💬 BULLES DE DIALOGUE
   // ===============================
   const dialogues = [
     { speaker: pirate5, text: "🏴‍☠️ Te voilà enfin…" },
     { speaker: pirate2, text: "Capitaine, il veut apprendre à gérer son or !" },
     { speaker: pirate5, text: "Alors il devra faire les bons calculs." },
-    { speaker: pirate2, text: "Même moi j’ai du mal avec les comptes…" },
-    { speaker: pirate5, text: "Silence. Le Livre du Trésor s’ouvre." }
+    { speaker: pirate5, text: "Que le Livre du Trésor s’ouvre." }
   ];
 
   let dialogueIndex = 0;
@@ -99,23 +97,19 @@ document.addEventListener("DOMContentLoaded", () => {
       if (dialogueIndex < dialogues.length) {
         showDialogue();
       } else {
-        endDialogues();
+        bubble.classList.add("hidden");
+        loader.classList.remove("hidden");
+
+        setTimeout(() => {
+          loader.classList.add("hidden");
+          financeGame.classList.remove("hidden");
+        }, 2000);
       }
     };
   }
 
-  function endDialogues() {
-    bubble.classList.add("hidden");
-    loader.classList.remove("hidden");
-
-    setTimeout(() => {
-      loader.classList.add("hidden");
-      financeGame.classList.remove("hidden");
-    }, 2000);
-  }
-
   // ===============================
-  // 🧮 CALCULATRICE (PARTIE 1, 2, 3)
+  // 🧮 CALCULATRICE (GLOBALE)
   // ===============================
   const calc = document.getElementById("calc");
   if (calc) {
@@ -171,6 +165,9 @@ function checkResult(ok) {
   }
   part2.classList.add("hidden");
   part3.classList.remove("hidden");
+
+  // 👉 Calculatrice visible dès la 1re question de la partie 3
+  document.getElementById("calc").classList.remove("hidden");
 }
 
 // ---------- PARTIE 3 ----------
@@ -179,12 +176,38 @@ function checkAmortBase(ok) {
     msg3.textContent = "❌ Mauvais montant.";
     return;
   }
-  msg3.textContent = "✅ Il reste 350 à amortir.";
+  msg3.textContent = "✅ Il reste 350 pièces à amortir.";
   amortMonth.classList.remove("hidden");
 }
 
 function checkMonthlyAmort(ok) {
-  msgMonth.textContent = ok
-    ? "🏆 Exact : 117 € par mois."
-    : "❌ Mauvais montant.";
+  if (!ok) {
+    msgMonth.textContent = "❌ Mauvais montant.";
+    return;
+  }
+
+  msgMonth.textContent = "🏆 Exact : 117 € par mois.";
+
+  // 👉 FIN DU MINI-JEU
+  setTimeout(showFinalDialogue, 1000);
+}
+
+// ===============================
+// 🏴‍☠️ DIALOGUE FINAL
+// ===============================
+function showFinalDialogue() {
+  const financeGame = document.getElementById("financeGame");
+  financeGame.classList.add("hidden");
+
+  const pirate5 = document.getElementById("pirate5bis");
+  const bubble = document.getElementById("dialogueBox");
+
+  bubble.textContent =
+    "Bravo, tu commences à connaître les particularités comptables.";
+  bubble.classList.remove("hidden");
+
+  const rect = pirate5.getBoundingClientRect();
+  bubble.style.left = rect.left + rect.width / 2 + "px";
+  bubble.style.top = rect.top - 90 + "px";
+  bubble.style.transform = "translateX(-50%)";
 }
