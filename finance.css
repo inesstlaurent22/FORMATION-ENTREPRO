@@ -1,7 +1,9 @@
 /* ===============================
-   🔧 RESET & BASE
+   RESET & BASE
 ================================ */
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   margin: 0;
@@ -13,17 +15,19 @@ html, body {
   color: #f5e6c8;
 }
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 
 /* ===============================
    🎬 VIDÉO INTRO
-   (boutons en HAUT À DROITE)
+   Boutons en HAUT À DROITE
 ================================ */
 #videoContainer {
   position: fixed;
   inset: 0;
-  z-index: 1000;
   background: black;
+  z-index: 1000;
 }
 
 #questVideo {
@@ -34,8 +38,8 @@ html, body {
 
 #videoControls {
   position: absolute;
-  top: 20px;          /* ← CHANGEMENT */
-  right: 20px;       /* ← CHANGEMENT */
+  top: 20px;
+  right: 20px;
   display: flex;
   gap: 10px;
   z-index: 1001;
@@ -75,8 +79,10 @@ html, body {
   position: absolute;
   z-index: 3;
   cursor: pointer;
+  transition: filter 0.3s ease, transform 0.3s ease;
 }
 
+/* positions données */
 #pirate5bis {
   left: 480px;
   top: 189px;
@@ -92,25 +98,40 @@ html, body {
 }
 
 /* ===============================
-   💬 DIALOGUES
-   (AU-DESSUS DES PIRATES)
+   ✨ ILLUMINATION (HOVER)
+   (le JS ajoute / retire le filter)
+================================ */
+/* rien de plus ici : transition gérée ci-dessus */
+
+/* ===============================
+   💬 BULLES DE DIALOGUE
+   (positionnées par le JS)
 ================================ */
 #dialogueBox {
   position: absolute;
-  top: 30px;                 /* ← AU-DESSUS DES PIRATES */
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 70%;
   background: #1a1208;
   border: 3px solid gold;
-  border-radius: 14px;
-  padding: 18px 22px;
+  border-radius: 16px;
+  padding: 16px 22px;
   color: #f5e6c8;
   font-size: 16px;
+  max-width: 320px;
   text-align: center;
   box-shadow: 0 0 25px rgba(255,215,0,0.45);
-  cursor: pointer;
   z-index: 6;
+  cursor: pointer;
+}
+
+/* petite flèche de bulle */
+#dialogueBox::after {
+  content: "";
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 14px 12px 0 12px;
+  border-style: solid;
+  border-color: gold transparent transparent transparent;
 }
 
 /* ===============================
@@ -123,18 +144,18 @@ html, body {
   transform: translate(-50%, -50%);
   background: #1a1208;
   border: 3px solid gold;
-  border-radius: 12px;
-  padding: 20px 28px;
+  border-radius: 14px;
+  padding: 20px 30px;
   font-size: 22px;
   color: gold;
-  box-shadow: 0 0 25px rgba(255,215,0,0.5);
+  box-shadow: 0 0 30px rgba(255,215,0,0.6);
   z-index: 10;
   text-align: center;
 }
 
 /* ===============================
    📖 MINI-JEU FINANCE
-   (TEXTES CENTRÉS)
+   Textes centrés
 ================================ */
 #financeGame {
   position: absolute;
@@ -148,11 +169,11 @@ html, body {
 
   background: #120b05;
   border: 4px solid #caa14a;
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 28px;
   box-shadow: 0 0 40px rgba(255,215,0,0.45);
 
-  text-align: center;       /* ← TEXTE CENTRÉ */
+  text-align: center;
 }
 
 #financeGame h2,
@@ -163,7 +184,7 @@ html, body {
 }
 
 /* ===============================
-   🏴‍☠️ BOUTONS – STYLE PIRATE GLOBAL
+   🏴‍☠️ BOUTONS — STYLE PIRATE GLOBAL
 ================================ */
 button {
   background: linear-gradient(145deg, #7b4a12, #caa14a);
@@ -178,6 +199,7 @@ button {
   box-shadow:
     inset 0 0 6px rgba(255,215,0,0.7),
     0 4px 0 #3b2208;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 button:hover {
@@ -188,15 +210,22 @@ button:hover {
 }
 
 /* ===============================
-   🧾 PARTIE 1 – BOUTONS DIFFÉRENCIÉS
+   🧾 PARTIE 1 — STRUCTURE CLIENT
+   🧾 AU-DESSUS / VALIDATION EN BAS
 ================================ */
 .clients {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
 
-/* 🧾 Bouton info (1er bouton de chaque client) */
+.clients > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 🧾 bouton info */
 .clients > div > button:first-child {
   background: linear-gradient(#2c1c10, #5a3a1a);
   border: 2px solid #caa14a;
@@ -204,7 +233,7 @@ button:hover {
   box-shadow: inset 0 0 4px rgba(0,0,0,0.6);
 }
 
-/* 🏴‍☠️ Bouton validation (2e bouton) */
+/* 🏴‍☠️ bouton validation */
 .clients > div > button:last-child {
   background: linear-gradient(#d4af37, #b8962e);
   border: 3px solid #3b2208;
@@ -237,7 +266,7 @@ button:hover {
 }
 
 /* ===============================
-   🛠️ PARTIE 3 BIS
+   🛠️ PARTIE 3
 ================================ */
 #amortMonth {
   margin-top: 20px;
@@ -250,14 +279,15 @@ button:hover {
    📱 RESPONSIVE
 ================================ */
 @media (max-width: 768px) {
-  .pirate { display: none; }
-
-  #dialogueBox {
-    top: 20px;
-    max-width: 90%;
+  .pirate {
+    display: none;
   }
 
   #financeGame {
     padding: 18px;
+  }
+
+  #dialogueBox {
+    max-width: 90%;
   }
 }
