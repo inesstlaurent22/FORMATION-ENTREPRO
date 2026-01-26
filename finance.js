@@ -12,22 +12,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate5 = document.getElementById("pirate5bis");
   const pirate2 = document.getElementById("pirate2bis");
 
-  const miniGame0 = document.getElementById("miniGame0");
+  const miniGame1 = document.getElementById("miniGame0"); // REGISTRES
   const financeGame = document.getElementById("financeGame");
-  const part1 = document.getElementById("part1");
-  const part2 = document.getElementById("part2");
-  const part3 = document.getElementById("part3");
+
+  const partClients = document.getElementById("part1");
+  const partResult = document.getElementById("part2");
+  const partAmort = document.getElementById("part3");
 
   const calc = document.getElementById("calc");
 
+  /* =====================================================
+     🎬 VIDÉO LOGIQUE
+  ===================================================== */
   video.muted = true;
   video.play().catch(() => {});
-
   toggleSoundBtn.onclick = () => {
     video.muted = !video.muted;
     toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
   };
-
   closeVideoBtn.onclick = endVideo;
   video.onended = endVideo;
 
@@ -51,23 +53,22 @@ document.addEventListener("DOMContentLoaded", () => {
     { s: pirate5, t: "Alors qu’il fasse ses preuves." }
   ];
 
-  const dialoguesAfterMini0 = [
+  const dialoguesAfterRegisters = [
     { s: pirate5, t: "Bien. Tu maîtrises les registres." },
-    { s: pirate2, t: "Passons maintenant aux clients." }
+    { s: pirate2, t: "Voyons maintenant la gestion de la boutique." }
   ];
 
   const dialoguesEBE = [
-    { s: pirate5, t: "Avec ces calculs, on peut parler d’EBE." },
-    { s: pirate5, t: "L’Excédent Brut d’Exploitation mesure la richesse créée." },
-    { s: pirate5, t: "Avant amortissements, impôts et charges financières." }
+    { s: pirate5, t: "Tu viens de terminer les calculs essentiels." },
+    { s: pirate5, t: "L’EBE, ou Excédent Brut d’Exploitation," },
+    { s: pirate5, t: "mesure la richesse créée par l’activité, avant amortissements et charges." }
   ];
 
   const dialogueFinal = [
-    { s: pirate5, t: "Bravo. Tu comprends désormais les bases de la comptabilité pirate." }
+    { s: pirate5, t: "Bravo. Tu maîtrises désormais la comptabilité pirate." }
   ];
 
-  let dArr = [];
-  let dIndex = 0;
+  let dArr = [], dIndex = 0;
 
   const bubble = document.createElement("div");
   bubble.id = "dialogueBox";
@@ -76,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   pirate5.onclick = () => {
     pirate5.style.filter = "";
-    startDialogues(dialoguesIntro, startMiniGame0);
+    startDialogues(dialoguesIntro, startMiniGame1);
   };
 
   function startDialogues(arr, cb) {
@@ -96,19 +97,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bubble.onclick = () => {
       dIndex++;
-      if (dIndex < dArr.length) {
-        showDialogue(cb);
-      } else {
-        bubble.classList.add("hidden");
-        cb && cb();
-      }
+      dIndex < dArr.length ? showDialogue(cb) : (bubble.classList.add("hidden"), cb && cb());
     };
   }
 
   /* =====================================================
-     📘 MINI-JEU 0 — REGISTRES
+     📘 MINI-JEU 1 — REGISTRES
   ===================================================== */
-  miniGame0.innerHTML = `
+  miniGame1.innerHTML = `
     <h3>📘 Épreuve des registres</h3>
     <p id="qText"></p>
     <div id="qChoices"></div>
@@ -135,16 +131,15 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       q: "À quoi sert le Compte de Résultat ?",
-      good: ["À mesurer le résultat net de l’entreprise (son chiffre d’affaires)"],
+      good: ["À mesurer le résultat net de l’entreprise"],
       bad: ["À compter les pirates"]
     }
   ];
 
-  let qIndex = 0;
-  let goodCount = 0;
+  let qIndex = 0, goodCount = 0;
 
-  function startMiniGame0() {
-    miniGame0.classList.remove("hidden");
+  function startMiniGame1() {
+    miniGame1.classList.remove("hidden");
     qIndex = 0;
     showQuestion();
   }
@@ -154,55 +149,44 @@ document.addEventListener("DOMContentLoaded", () => {
     qText.textContent = questions[qIndex].q;
     qChoices.innerHTML = "";
 
-    const all = [
-      ...questions[qIndex].good.map(t => ({ t, ok: true })),
-      ...questions[qIndex].bad.map(t => ({ t, ok: false }))
-    ].sort(() => Math.random() - 0.5);
-
-    all.forEach(choice => {
-      const btn = document.createElement("button");
-      btn.textContent = choice.t;
-      btn.onclick = () => {
-        if (choice.ok) {
-          btn.disabled = true;
-          btn.style.opacity = 0.6;
-          goodCount++;
-          if (goodCount === questions[qIndex].good.length) {
-            qIndex++;
-            qIndex < questions.length
-              ? showQuestion()
-              : finishMiniGame0();
-          }
-        } else {
-          screenShake();
-        }
-      };
-      qChoices.appendChild(btn);
-    });
+    [...questions[qIndex].good.map(t => ({ t, ok: true })),
+     ...questions[qIndex].bad.map(t => ({ t, ok: false }))]
+      .sort(() => Math.random() - 0.5)
+      .forEach(c => {
+        const btn = document.createElement("button");
+        btn.textContent = c.t;
+        btn.onclick = () => {
+          if (c.ok) {
+            btn.disabled = true;
+            goodCount++;
+            if (goodCount === questions[qIndex].good.length) {
+              qIndex++;
+              qIndex < questions.length ? showQuestion() : finishMiniGame1();
+            }
+          } else screenShake();
+        };
+        qChoices.appendChild(btn);
+      });
   }
 
-  function finishMiniGame0() {
-    miniGame0.classList.add("hidden");
-    startDialogues(dialoguesAfterMini0, startMiniGame1);
+  function finishMiniGame1() {
+    miniGame1.classList.add("hidden");
+    startDialogues(dialoguesAfterRegisters, startMiniGame2);
   }
 
   /* =====================================================
-     🧾 MINI-JEU 1 — CLIENTS
+     🧾 MINI-JEU 2 — CLIENTS → RÉSULTAT → AMORTISSEMENTS
   ===================================================== */
   let viewedClients = { A:false, B:false, C:false };
 
-  function startMiniGame1() {
+  function startMiniGame2() {
     financeGame.classList.remove("hidden");
-    part1.classList.remove("hidden");
-
-    document
-      .querySelectorAll(".clients button:last-child")
-      .forEach(btn => btn.disabled = true);
+    partClients.classList.remove("hidden");
+    document.querySelectorAll(".clients button:last-child").forEach(b => b.disabled = true);
   }
 
   window.showBill = client => {
     viewedClients[client] = true;
-
     bill.innerHTML = {
       A: "🧾 Barbe-Cuivre : TOTAL 950",
       B: "🧾 Vent-Noir : TOTAL 850",
@@ -210,55 +194,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }[client];
 
     if (Object.values(viewedClients).every(v => v)) {
-      document
-        .querySelectorAll(".clients button:last-child")
-        .forEach(btn => btn.disabled = false);
+      document.querySelectorAll(".clients button:last-child").forEach(b => b.disabled = false);
     }
   };
 
   window.chooseClient = client => {
     if (client === "A") {
-      part1.classList.add("hidden");
-      part2.classList.remove("hidden");
+      partClients.classList.add("hidden");
+      partResult.classList.remove("hidden");
     } else {
-      msg1.textContent = "❌ Mauvais choix, recommence.";
+      msg1.textContent = "❌ Mauvais choix.";
       screenShake();
     }
   };
 
-  /* =====================================================
-     💰 MINI-JEU 2 — RÉSULTAT ANNUEL
-  ===================================================== */
   window.checkResult = ok => {
     if (!ok) {
       msg2.textContent = "❌ Mauvais calcul.";
       screenShake();
       return;
     }
-    part2.classList.add("hidden");
-    part3.classList.remove("hidden");
+    partResult.classList.add("hidden");
+    partAmort.classList.remove("hidden");
     calc.classList.remove("hidden");
   };
 
-  /* =====================================================
-     🛠️ MINI-JEU 3 — AMORTISSEMENTS
-  ===================================================== */
   window.checkAmortBase = ok => {
-    if (!ok) {
-      msg3.textContent = "❌ Mauvais montant.";
-      screenShake();
-      return;
-    }
+    if (!ok) return screenShake();
     msg3.textContent = "✅ Base amortissable : 350 pièces d’or.";
     amortMonth.classList.remove("hidden");
   };
 
   window.checkMonthlyAmort = ok => {
-    if (!ok) {
-      msgMonth.textContent = "❌ Mauvais montant.";
-      screenShake();
-      return;
-    }
+    if (!ok) return screenShake();
     startDialogues(dialoguesEBE, () =>
       startDialogues(dialogueFinal)
     );
@@ -269,11 +237,8 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================================== */
   calc.addEventListener("keydown", e => {
     if (e.key === "Enter") {
-      try {
-        calc.value = Function("return " + calc.value)();
-      } catch {
-        calc.value = "Erreur";
-      }
+      try { calc.value = Function("return " + calc.value)(); }
+      catch { calc.value = "Erreur"; }
     }
   });
 
