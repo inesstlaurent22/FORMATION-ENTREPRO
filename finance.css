@@ -135,6 +135,7 @@ html, body {
 
 /* ===============================
    📘 MINI-JEU 0 – ÉPREUVE DES REGISTRES
+   (APPARAÎT DIRECTEMENT, SANS LOADER)
 ================================ */
 #miniGame0 {
   position: absolute;
@@ -160,7 +161,7 @@ html, body {
 }
 
 /* ===============================
-   📖 MINI-JEU GLOBAL (1-2-3)
+   📖 MINI-JEUX 1–2–3
 ================================ */
 #financeGame {
   position: absolute;
@@ -260,17 +261,14 @@ button[onclick*="toggleCalc"]:hover {
   align-items: center;
 }
 
-/* 🧾 Boutons info */
 .clients > div > button:first-child {
   background: linear-gradient(#2c1c10, #5a3a1a);
   border: 2px solid #caa14a;
   color: #f5e6c8;
   font-size: 17px;
   padding: 14px 18px;
-  box-shadow: inset 0 0 4px rgba(0,0,0,0.6);
 }
 
-/* 🏴‍☠️ Boutons validation */
 .clients > div > button:last-child {
   background: linear-gradient(#d4af37, #b8962e);
   border: 3px solid #3b2208;
