@@ -9,24 +9,25 @@
 
 <body>
 
-<!-- ===============================
+<!-- =====================================================
      🎬 VIDÉO D’INTRO
-================================ -->
+===================================================== -->
 <div id="videoContainer">
   <video id="questVideo" autoplay muted playsinline preload="auto">
     <source src="videos/Financevideo.MOV" type="video/mp4">
     Votre navigateur ne supporte pas la vidéo.
   </video>
 
+  <!-- Boutons vidéo (haut à droite via CSS) -->
   <div id="videoControls">
     <button id="toggleSound">🔇</button>
     <button id="closeVideo">Passer la vidéo</button>
   </div>
 </div>
 
-<!-- ===============================
+<!-- =====================================================
      🌅 BACKGROUND + PIRATES
-================================ -->
+===================================================== -->
 <div id="background" class="hidden">
 
   <img
@@ -35,7 +36,7 @@
     alt="Fond pirate"
   >
 
-  <!-- Pirate maître (déclencheur) -->
+  <!-- Pirate maître (déclenche les dialogues) -->
   <img
     id="pirate5bis"
     class="pirate hidden"
@@ -51,9 +52,9 @@
     alt="Pirate apprenti"
   >
 
-  <!-- ===============================
+  <!-- =====================================================
        📖 MINI-JEU FINANCE
-  ================================ -->
+  ===================================================== -->
   <div id="financeGame" class="hidden">
 
     <h2>📖 Le Livre du Trésor</h2>
@@ -77,7 +78,7 @@
         placeholder="Ex : 300-150 puis Entrée"
       >
 
-      <!-- ⚠️ STRUCTURE IMPORTANTE POUR LE CSS -->
+      <!-- STRUCTURE IMPORTANTE POUR LE CSS -->
       <div class="clients">
 
         <div>
@@ -154,9 +155,9 @@
   </div>
 </div>
 
-<!-- ===============================
+<!-- =====================================================
      📜 SCRIPT
-================================ -->
+===================================================== -->
 <script src="finance.js"></script>
 
 </body>
