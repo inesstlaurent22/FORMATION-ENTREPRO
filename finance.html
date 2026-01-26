@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Quête Finance</title>
+  <title>Quête Finance – KIT IN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="stylesheet" href="finance.css">
 </head>
@@ -25,14 +25,15 @@
 </div>
 
 <!-- =====================================================
-     🌅 BACKGROUND + PIRATES
+     🌅 SCÈNE FINANCE
 ===================================================== -->
 <div id="background" class="hidden">
 
+  <!-- Fond -->
   <img
     src="images/Fondfinance.PNG"
     class="fondImage"
-    alt="Fond du marché pirate"
+    alt="Marché pirate – Finance"
   >
 
   <!-- Pirate maître -->
@@ -53,53 +54,39 @@
 
   <!-- =====================================================
        📘 MINI-JEU 0 – ÉPREUVE DES REGISTRES
-       (le contenu est piloté par le JS)
   ===================================================== -->
   <div id="miniGame0" class="hidden">
-    <!-- JS injecte les questions ici -->
+    <!-- Contenu injecté par JS -->
   </div>
 
   <!-- =====================================================
-       📖 MINI-JEUX 1–2–3
+       📖 MINI-JEUX FINANCE
   ===================================================== -->
   <div id="financeGame" class="hidden">
 
     <h2>📖 Le Livre du Trésor</h2>
 
     <!-- ================= MINI-JEU 1 ================= -->
-    <div id="part1">
+    <div id="part1" class="hidden">
 
-      <h3>🧾 Partie 1 – Choisir le meilleur client</h3>
-
-      <p>
-        Consulte les registres 🧾, puis choisis le pirate
-        qui achète le plus.
-      </p>
-
-      <button onclick="toggleCalc()">🧮 Calculatrice</button>
-
-      <input
-        id="calc"
-        class="hidden"
-        type="text"
-        placeholder="Ex : 300-150 puis Entrée"
-      >
+      <h3>🧾 Partie 1 – Choisir le bon client</h3>
+      <p>Analyse les registres et sélectionne le pirate le plus rentable.</p>
 
       <div class="clients">
 
         <div>
           <button onclick="showBill('A')">🧾 Barbe-Cuivre</button>
-          <button onclick="chooseClient()">Je choisis ce pirate</button>
+          <button disabled>Je choisis ce pirate</button>
         </div>
 
         <div>
           <button onclick="showBill('B')">🧾 Vent-Noir</button>
-          <button onclick="chooseClient()">Je choisis ce pirate</button>
+          <button disabled>Je choisis ce pirate</button>
         </div>
 
         <div>
           <button onclick="showBill('C')">🧾 Crâne-Rouge</button>
-          <button onclick="chooseClient()">Je choisis ce pirate</button>
+          <button disabled>Je choisis ce pirate</button>
         </div>
 
       </div>
@@ -114,11 +101,9 @@
       <h3>💰 Partie 2 – Résultat annuel</h3>
 
       <p>
-        Ventes : <strong>12 000</strong> pièces d’or<br>
-        Charges : <strong>8 500</strong> pièces d’or
+        Ventes annuelles : <strong>12 000</strong> pièces d’or<br>
+        Charges annuelles : <strong>8 500</strong> pièces d’or
       </p>
-
-      <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
       <p>Quel est le bon calcul comptable ?</p>
 
@@ -141,9 +126,14 @@
 
       <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
-      <p>
-        Combien reste-t-il à amortir ?
-      </p>
+      <input
+        id="calc"
+        class="hidden"
+        type="text"
+        placeholder="Ex : 500-150 puis Entrée"
+      >
+
+      <p>Combien reste-t-il à amortir ?</p>
 
       <button onclick="checkAmortBase(false)">500</button>
       <button onclick="checkAmortBase(true)">350</button>
@@ -152,10 +142,7 @@
       <div id="msg3"></div>
 
       <div id="amortMonth" class="hidden">
-
-        <p>
-          De combien sont les amortissements mensuels ?
-        </p>
+        <p>Quel est le montant de l’amortissement mensuel ?</p>
 
         <button onclick="checkMonthlyAmort(false)">97 €</button>
         <button onclick="checkMonthlyAmort(true)">117 €</button>
