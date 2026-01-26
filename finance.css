@@ -1,7 +1,9 @@
 /* ===============================
    RESET & BASE
 ================================ */
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   margin: 0;
@@ -13,12 +15,16 @@ html, body {
   color: #f5e6c8;
 }
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 
 /* ===============================
    SHAKE (ERREUR)
 ================================ */
-.shake { animation: shake 0.4s; }
+.shake {
+  animation: shake 0.4s;
+}
 
 @keyframes shake {
   0%   { transform: translateX(0); }
@@ -135,7 +141,6 @@ html, body {
 
 /* ===============================
    📘 MINI-JEU 0 – ÉPREUVE DES REGISTRES
-   (APPARAÎT DIRECTEMENT, SANS LOADER)
 ================================ */
 #miniGame0 {
   position: absolute;
@@ -161,7 +166,7 @@ html, body {
 }
 
 /* ===============================
-   📖 MINI-JEUX 1–2–3
+   📖 MINI-JEUX 1–2–3 (CONTENEUR)
 ================================ */
 #financeGame {
   position: absolute;
@@ -290,10 +295,16 @@ button[onclick*="toggleCalc"]:hover {
    📱 RESPONSIVE
 ================================ */
 @media (max-width: 768px) {
-  .pirate { display: none; }
+  .pirate {
+    display: none;
+  }
 
   #financeGame {
     padding: 18px;
+  }
+
+  #miniGame0 {
+    width: 95%;
   }
 
   #dialogueBox {
