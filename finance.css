@@ -1,36 +1,27 @@
-/* ===============================
+/* =====================================================
    RESET & BASE
-================================ */
-* { box-sizing: border-box; }
+===================================================== */
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  font-family: "Trebuchet MS", serif;
+  font-family: "Trebuchet MS", Arial, sans-serif;
   background: black;
   color: #f5e6c8;
 }
 
-.hidden { display: none !important; }
-
-/* ===============================
-   SHAKE (ERREUR)
-================================ */
-.shake { animation: shake 0.4s; }
-
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  50% { transform: translateX(6px); }
-  75% { transform: translateX(-6px); }
-  100% { transform: translateX(0); }
+.hidden {
+  display: none !important;
 }
 
-/* ===============================
-   🎬 VIDÉO INTRO
-================================ */
+/* =====================================================
+   🎬 VIDÉO
+===================================================== */
 #videoContainer {
   position: fixed;
   inset: 0;
@@ -46,8 +37,8 @@ html, body {
 
 #videoControls {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   display: flex;
   gap: 10px;
   z-index: 1001;
@@ -57,14 +48,15 @@ html, body {
   background: #1a1208;
   color: gold;
   border: 2px solid gold;
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 10px;
   cursor: pointer;
+  font-weight: bold;
 }
 
-/* ===============================
+/* =====================================================
    🌅 BACKGROUND
-================================ */
+===================================================== */
 #background {
   position: fixed;
   inset: 0;
@@ -80,14 +72,14 @@ html, body {
   z-index: 1;
 }
 
-/* ===============================
+/* =====================================================
    🏴‍☠️ PIRATES
-================================ */
+===================================================== */
 .pirate {
   position: absolute;
   z-index: 3;
   cursor: pointer;
-  transition: filter 0.35s ease;
+  transition: filter 0.3s ease;
 }
 
 #pirate5bis {
@@ -104,73 +96,105 @@ html, body {
   height: 496px;
 }
 
-/* ===============================
-   💬 BULLES DE DIALOGUE
-================================ */
+/* =====================================================
+   💬 BULLE DE DIALOGUE
+===================================================== */
 #dialogueBox {
   position: absolute;
+  z-index: 10;
+  max-width: 420px;
   background: #1a1208;
   border: 3px solid gold;
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 16px 22px;
-  color: #f5e6c8;
-  font-size: 16px;
-  max-width: 360px;
   text-align: center;
-  box-shadow: 0 0 25px rgba(255,215,0,0.45);
-  z-index: 6;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
   cursor: pointer;
 }
 
-/* ===============================
-   📘 MINI-JEU 0 – REGISTRES
-================================ */
+/* =====================================================
+   🎮 MINI-JEU 1 — QCM REGISTRES
+===================================================== */
 #miniGame0 {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(92%, 720px);
+  width: min(90%, 720px);
   background: #120b05;
   border: 4px solid #caa14a;
   border-radius: 22px;
-  padding: 26px;
+  padding: 28px;
+  z-index: 6;
   text-align: center;
   box-shadow: 0 0 40px rgba(255,215,0,0.45);
-  z-index: 6;
 }
 
 #qChoices {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  margin-top: 20px;
 }
 
-/* ===============================
-   📖 MINI-JEUX (CONTENEUR)
-================================ */
+/* =====================================================
+   🎮 MINI-JEU 2 — CONTENEUR GLOBAL
+===================================================== */
 #financeGame {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: min(92%, 900px);
-  max-height: 90%;
-  overflow-y: auto;
-  z-index: 5;
   background: #120b05;
   border: 4px solid #caa14a;
   border-radius: 22px;
-  padding: 28px;
+  padding: 30px;
+  z-index: 6;
   box-shadow: 0 0 40px rgba(255,215,0,0.45);
   text-align: center;
 }
 
-/* ===============================
-   🏴‍☠️ BOUTONS (GLOBAL)
-================================ */
+/* =====================================================
+   🧾 PARTIE CLIENTS
+===================================================== */
+.clients {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.clients > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bill {
+  margin-top: 18px;
+  padding: 14px;
+  background: #1a1208;
+  border-left: 5px solid gold;
+}
+
+/* =====================================================
+   🛠️ AMORTISSEMENTS
+===================================================== */
+#calc {
+  margin: 16px auto;
+  padding: 10px;
+  width: 220px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+}
+
+/* =====================================================
+   🏴‍☠️ BOUTONS – STYLE PIRATE
+===================================================== */
 button {
   background: linear-gradient(145deg, #7b4a12, #caa14a);
   border: 3px solid #3b2208;
@@ -180,96 +204,53 @@ button {
   padding: 10px 16px;
   border-radius: 14px;
   cursor: pointer;
-  margin: 6px;
   box-shadow:
-    inset 0 0 6px rgba(255,215,0,0.7),
+    inset 0 0 6px rgba(255,215,0,0.6),
     0 4px 0 #3b2208;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 
 button:hover {
   transform: translateY(2px);
 }
 
-/* ===============================
-   🧮 CALCULATRICE
-================================ */
-button[onclick*="toggleCalc"] {
-  background: linear-gradient(#2b2b2b, #1a1a1a);
-  border: 2px solid #666;
-  color: #eaeaea;
-  font-family: monospace;
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-#calc {
-  width: 100%;
-  margin: 16px 0 28px 0;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-  text-align: center;
+/* =====================================================
+   🧯 SHAKE (ERREUR)
+===================================================== */
+.shake {
+  animation: shake 0.4s;
 }
 
-/* ===============================
-   🧾 MINI-JEU 1 – LIVRE DU TRÉSOR
-   (ALIGNEMENT HORIZONTAL GARANTI)
-================================ */
-.clients {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-top: 20px;
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
 }
 
-/* Colonne par pirate */
-.clients > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Boutons 🧾 (ligne du haut) */
-.clients > div > button:first-child {
-  background: linear-gradient(#2c1c10, #5a3a1a);
-  border: 2px solid #caa14a;
-  color: #f5e6c8;
-  font-size: 16px;
-  padding: 14px 18px;
-}
-
-/* Boutons “je choisis ce pirate” (ligne du bas) */
-.clients > div > button:last-child {
-  background: linear-gradient(#d4af37, #b8962e);
-  border: 3px solid #3b2208;
-  color: #1a0f05;
-  width: 100%;
-}
-
-/* ===============================
-   📜 FICHE CLIENT
-================================ */
-.bill {
-  margin-top: 18px;
-  padding: 14px;
-  background: #1a1208;
-  border-left: 5px solid gold;
-  text-align: center;
-}
-
-/* ===============================
+/* =====================================================
    📱 RESPONSIVE
-================================ */
+===================================================== */
 @media (max-width: 900px) {
   .clients {
     flex-direction: column;
-    align-items: center;
   }
 }
 
 @media (max-width: 768px) {
-  .pirate { display: none; }
-  #financeGame { padding: 18px; }
-  #miniGame0 { width: 95%; }
+  .pirate {
+    display: none;
+  }
+
+  #financeGame,
+  #miniGame0 {
+    width: 95%;
+    padding: 20px;
+  }
 }
