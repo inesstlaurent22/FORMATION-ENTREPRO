@@ -53,38 +53,35 @@
   >
 
   <!-- =====================================================
-       📘 MINI-JEU 1 – REGISTRES
+       📘 MINI-JEU 1 — QCM REGISTRES
   ===================================================== -->
   <div id="miniGame0" class="hidden">
-    <!-- Injecté par JS -->
+    <!-- Contenu injecté par JS -->
   </div>
 
   <!-- =====================================================
-       📖 MINI-JEU 2 (CLIENTS → RÉSULTAT → AMORTISSEMENTS)
+       🎮 MINI-JEU 2 — GESTION (3 PARTIES)
   ===================================================== -->
   <div id="financeGame" class="hidden">
 
-    <!-- ================= CLIENTS ================= -->
+    <!-- ================= PARTIE A : CLIENTS ================= -->
     <div id="part1" class="hidden">
 
-      <h3>🧾 Le Livre du Trésor – Clients</h3>
-      <p>Consulte tous les registres 🧾, puis choisis le bon pirate.</p>
+      <h3>🧾 Analyse des clients</h3>
+      <p>Consulte chaque registre 🧾 puis choisis le pirate le plus rentable.</p>
 
       <div class="clients">
 
-        <!-- Pirate gauche -->
         <div>
           <button onclick="showBill('A')">🧾 Barbe-Cuivre</button>
           <button onclick="chooseClient(this)">Je choisis ce pirate</button>
         </div>
 
-        <!-- Pirate centre -->
         <div>
           <button onclick="showBill('B')">🧾 Vent-Noir</button>
           <button onclick="chooseClient(this)">Je choisis ce pirate</button>
         </div>
 
-        <!-- Pirate droite (SEUL BON) -->
         <div>
           <button onclick="showBill('C')">🧾 Crâne-Rouge</button>
           <button onclick="chooseClient(this)">Je choisis ce pirate</button>
@@ -93,16 +90,15 @@
       </div>
 
       <div id="bill" class="bill"></div>
-      <div id="msg1"></div>
     </div>
 
-    <!-- ================= RÉSULTAT ANNUEL ================= -->
+    <!-- ================= PARTIE B : RÉSULTAT ================= -->
     <div id="part2" class="hidden">
 
       <h3>💰 Résultat annuel</h3>
 
       <p>
-        Ventes : <strong>12 000</strong> pièces d’or<br>
+        Chiffre d’affaires : <strong>12 000</strong> pièces d’or<br>
         Charges : <strong>8 500</strong> pièces d’or
       </p>
 
@@ -111,27 +107,23 @@
       <button onclick="checkResult(false)">Charges + Produits</button>
       <button onclick="checkResult(true)">Produits − Charges</button>
       <button onclick="checkResult(false)">Charges × Produits</button>
-
-      <div id="msg2"></div>
     </div>
 
-    <!-- ================= AMORTISSEMENTS ================= -->
+    <!-- ================= PARTIE C : AMORTISSEMENTS ================= -->
     <div id="part3" class="hidden">
 
-      <h3>🛠️ Amortissements</h3>
+      <h3>🛠️ Amortissements et provisions</h3>
 
       <p>
         Prix d’achat : <strong>500</strong> pièces d’or<br>
-        Provisions : <strong>150</strong> pièces d’or
+        Provision utilisée : <strong>150</strong> pièces d’or
       </p>
-
-      <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
       <input
         id="calc"
         class="hidden"
         type="text"
-        placeholder="Ex : 500-150 puis Entrée"
+        placeholder="Ex : 500 - 150 puis Entrée"
       >
 
       <p>Combien reste-t-il à amortir ?</p>
@@ -140,16 +132,12 @@
       <button onclick="checkAmortBase(true)">350</button>
       <button onclick="checkAmortBase(false)">150</button>
 
-      <div id="msg3"></div>
-
       <div id="amortMonth" class="hidden">
-        <p>Quel est l’amortissement mensuel ?</p>
+        <p>Quel est le montant de l’amortissement mensuel ?</p>
 
         <button onclick="checkMonthlyAmort(false)">97 €</button>
         <button onclick="checkMonthlyAmort(true)">117 €</button>
         <button onclick="checkMonthlyAmort(false)">150 €</button>
-
-        <div id="msgMonth"></div>
       </div>
 
     </div>
