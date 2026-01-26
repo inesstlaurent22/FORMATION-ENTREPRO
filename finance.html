@@ -18,7 +18,6 @@
     Votre navigateur ne supporte pas la vidéo.
   </video>
 
-  <!-- Boutons vidéo (haut à droite via CSS) -->
   <div id="videoControls">
     <button id="toggleSound">🔇</button>
     <button id="closeVideo">Passer la vidéo</button>
@@ -36,7 +35,7 @@
     alt="Fond du marché pirate"
   >
 
-  <!-- Pirate maître (SEUL avec hover + déclencheur) -->
+  <!-- Pirate maître (hover + clic) -->
   <img
     id="pirate5bis"
     class="pirate hidden"
@@ -44,7 +43,7 @@
     alt="Pirate maître"
   >
 
-  <!-- Pirate apprenti (sans hover) -->
+  <!-- Pirate apprenti -->
   <img
     id="pirate2bis"
     class="pirate hidden"
@@ -54,6 +53,7 @@
 
   <!-- =====================================================
        📖 MINI-JEU FINANCE
+       (Mini-jeu 0 est injecté par le JS)
   ===================================================== -->
   <div id="financeGame" class="hidden">
 
@@ -69,7 +69,7 @@
         qui achète le plus.
       </p>
 
-      <!-- Calculatrice (Partie 1) -->
+      <!-- Calculatrice -->
       <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
       <input
@@ -79,7 +79,7 @@
         placeholder="Ex : 300-150 puis Entrée"
       >
 
-      <!-- 3 CLIENTS : 🧾 AU-DESSUS DU BOUTON DE VALIDATION -->
+      <!-- ESPACE GÉRÉ VIA CSS -->
       <div class="clients">
 
         <div>
@@ -113,7 +113,6 @@
         Charges : <strong>8 500</strong> pièces d’or
       </p>
 
-      <!-- Calculatrice (Partie 2) -->
       <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
       <p>Quel est le bon calcul comptable ?</p>
@@ -135,6 +134,9 @@
         Provisions utilisées : <strong>150</strong> pièces d’or
       </p>
 
+      <!-- 🔥 Calculatrice visible dès cette question -->
+      <button onclick="toggleCalc()">🧮 Calculatrice</button>
+
       <p>
         Combien reste-t-il à amortir ?
       </p>
@@ -145,10 +147,8 @@
 
       <div id="msg3"></div>
 
-      <!-- ===== QUESTION 2 + CALCULATRICE (PARTIE 3) ===== -->
+      <!-- ===== QUESTION 2 ===== -->
       <div id="amortMonth" class="hidden">
-
-        <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
         <p>
           De combien sont les amortissements mensuels ?
