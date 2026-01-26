@@ -1,7 +1,6 @@
 // ===============================
-// 🎬 VIDÉO INTRO – FINANCE
+// 🎬 VIDÉO INTRO
 // ===============================
-
 document.addEventListener("DOMContentLoaded", () => {
   const video = document.getElementById("questVideo");
   const videoContainer = document.getElementById("videoContainer");
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate5 = document.getElementById("pirate5bis");
   const financeGame = document.getElementById("financeGame");
 
-  // Autoplay sécurisé iOS
   video.muted = true;
   video.play().catch(() => {});
 
@@ -33,29 +31,49 @@ document.addEventListener("DOMContentLoaded", () => {
       background.classList.remove("hidden");
       pirate2.classList.remove("hidden");
       pirate5.classList.remove("hidden");
+      enablePirateHover();
     }, 400);
   }
 
   // ===============================
-  // 💬 DIALOGUES ALTERNÉS
+  // ✨ ILLUMINATION PIRATES (HOVER)
   // ===============================
+  function enablePirateHover() {
+    [pirate2, pirate5].forEach(pirate => {
+      pirate.addEventListener("mouseenter", () => {
+        pirate.style.filter = "drop-shadow(0 0 25px gold)";
+      });
+      pirate.addEventListener("mouseleave", () => {
+        pirate.style.filter = "";
+      });
+    });
+  }
 
+  function disablePirateHover() {
+    [pirate2, pirate5].forEach(pirate => {
+      pirate.style.filter = "";
+      pirate.onmouseenter = null;
+      pirate.onmouseleave = null;
+    });
+  }
+
+  // ===============================
+  // 💬 DIALOGUES AVEC BULLES ANCRÉES
+  // ===============================
   const dialogues = [
-    { pirate: "pirate5", text: "🏴‍☠️ Te voilà enfin…" },
-    { pirate: "pirate2", text: "😮 Capitaine, c’est lui dont je parlais !" },
-    { pirate: "pirate5", text: "L’or ne se compte pas au hasard." },
-    { pirate: "pirate2", text: "On doit vraiment tenir un livre de comptes ?" },
-    { pirate: "pirate5", text: "Oui. Sinon les maires pirates prendront tout." },
-    { pirate: "pirate2", text: "Alors apprends-lui, capitaine." },
-    { pirate: "pirate5", text: "Très bien. Que le Livre des Comptes s’ouvre." }
+    { speaker: pirate5, text: "🏴‍☠️ Te voilà enfin…" },
+    { speaker: pirate2, text: "Capitaine ! C’est lui dont je te parlais !" },
+    { speaker: pirate5, text: "L’or ne se compte pas au hasard." },
+    { speaker: pirate2, text: "Alors il doit apprendre à compter." },
+    { speaker: pirate5, text: "Très bien. Que le Livre des Comptes s’ouvre." }
   ];
 
   let dialogueIndex = 0;
 
-  const dialogueBox = document.createElement("div");
-  dialogueBox.id = "dialogueBox";
-  dialogueBox.classList.add("hidden");
-  background.appendChild(dialogueBox);
+  const bubble = document.createElement("div");
+  bubble.id = "dialogueBox";
+  bubble.classList.add("hidden");
+  background.appendChild(bubble);
 
   const loader = document.createElement("div");
   loader.id = "loader";
@@ -64,20 +82,23 @@ document.addEventListener("DOMContentLoaded", () => {
   background.appendChild(loader);
 
   pirate5.onclick = () => {
+    disablePirateHover();
     dialogueIndex = 0;
     showDialogue();
   };
 
   function showDialogue() {
     const current = dialogues[dialogueIndex];
-    dialogueBox.textContent = current.text;
-    dialogueBox.classList.remove("hidden");
+    bubble.textContent = current.text;
+    bubble.classList.remove("hidden");
 
-    // Marque visuelle du pirate qui parle (optionnel)
-    pirate5.style.filter = current.pirate === "pirate5" ? "brightness(1.2)" : "brightness(0.8)";
-    pirate2.style.filter = current.pirate === "pirate2" ? "brightness(1.2)" : "brightness(0.8)";
+    // Positionner la bulle sur le pirate qui parle
+    const rect = current.speaker.getBoundingClientRect();
+    bubble.style.left = rect.left + rect.width / 2 + "px";
+    bubble.style.top = rect.top - 80 + "px";
+    bubble.style.transform = "translateX(-50%)";
 
-    dialogueBox.onclick = () => {
+    bubble.onclick = () => {
       dialogueIndex++;
       if (dialogueIndex < dialogues.length) {
         showDialogue();
@@ -88,10 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function endDialogues() {
-    dialogueBox.classList.add("hidden");
-    pirate5.style.filter = "";
-    pirate2.style.filter = "";
-
+    bubble.classList.add("hidden");
     loader.classList.remove("hidden");
 
     setTimeout(() => {
@@ -101,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===============================
-  // 🧮 CALCULATRICE
+  // 🧮 CALCULATRICE (GLOBALE)
   // ===============================
   const calc = document.getElementById("calc");
   if (calc) {
@@ -118,9 +136,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ===============================
-// 📖 MINI-JEU FINANCE
+// 📖 MINI-JEU – LOGIQUE PAR PARTIE
 // ===============================
-
 let selectedClient = null;
 let billViewed = false;
 
@@ -128,7 +145,7 @@ function toggleCalc() {
   document.getElementById("calc").classList.toggle("hidden");
 }
 
-// 🧾 Infos client
+// ---------- PARTIE 1 ----------
 function showBill(client) {
   const bill = document.getElementById("bill");
   billViewed = true;
@@ -140,18 +157,16 @@ function showBill(client) {
       : "📜 Vent-Noir : 200 + 350 + 300 = <strong>850</strong>";
 }
 
-// Validation client
 function chooseClient() {
   if (!billViewed) {
-    document.getElementById("msg1").textContent =
-      "❌ Consulte d’abord les registres 🧾.";
+    msg1.textContent = "❌ Consulte d’abord le registre 🧾.";
     return;
   }
   part1.classList.add("hidden");
   part2.classList.remove("hidden");
 }
 
-// Partie 2
+// ---------- PARTIE 2 ----------
 function checkResult(ok) {
   if (!ok) {
     msg2.textContent = "❌ Mauvais calcul.";
@@ -161,17 +176,16 @@ function checkResult(ok) {
   part3.classList.remove("hidden");
 }
 
-// Partie 3 – Q1
+// ---------- PARTIE 3 ----------
 function checkAmortBase(ok) {
   if (!ok) {
     msg3.textContent = "❌ Mauvais montant.";
     return;
   }
-  msg3.textContent = "✅ Il reste 350 à amortir.";
+  msg3.textContent = "✅ Il reste 350 pièces à amortir.";
   amortMonth.classList.remove("hidden");
 }
 
-// Partie 3 – Q2
 function checkMonthlyAmort(ok) {
   msgMonth.textContent = ok
     ? "🏆 Exact : 117 € par mois."
