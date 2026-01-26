@@ -18,7 +18,7 @@
     Votre navigateur ne supporte pas la vidéo.
   </video>
 
-  <!-- Boutons vidéo (haut à droite via CSS) -->
+  <!-- Boutons vidéo (positionnés en haut à droite via CSS) -->
   <div id="videoControls">
     <button id="toggleSound">🔇</button>
     <button id="closeVideo">Passer la vidéo</button>
@@ -33,10 +33,10 @@
   <img
     src="images/Fondfinance.PNG"
     class="fondImage"
-    alt="Fond pirate"
+    alt="Fond du marché pirate"
   >
 
-  <!-- Pirate maître (déclenche les dialogues) -->
+  <!-- Pirate maître (déclencheur des dialogues) -->
   <img
     id="pirate5bis"
     class="pirate hidden"
@@ -69,6 +69,7 @@
         qui achète le plus.
       </p>
 
+      <!-- Calculatrice -->
       <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
       <input
@@ -78,7 +79,7 @@
         placeholder="Ex : 300-150 puis Entrée"
       >
 
-      <!-- STRUCTURE IMPORTANTE POUR LE CSS -->
+      <!-- STRUCTURE IMPORTANTE : 🧾 AU-DESSUS DU BOUTON DE VALIDATION -->
       <div class="clients">
 
         <div>
@@ -136,8 +137,11 @@
 
       <div id="msg3"></div>
 
-      <!-- ===== Question 2 ===== -->
+      <!-- ===== QUESTION 2 + CALCULATRICE ===== -->
       <div id="amortMonth" class="hidden">
+
+        <!-- Calculatrice disponible aussi en partie 3 -->
+        <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
         <p>
           De combien sont les amortissements mensuels ?
