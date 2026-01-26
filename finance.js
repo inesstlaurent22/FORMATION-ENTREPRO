@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================================================
-     🎬 VIDÉO
+     🎬 VIDEO
   ===================================================== */
   const video = document.getElementById("questVideo");
   const videoContainer = document.getElementById("videoContainer");
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate5 = document.getElementById("pirate5bis");
   const pirate2 = document.getElementById("pirate2bis");
 
-  const miniGame1 = document.getElementById("miniGame0"); // REGISTRES
+  const miniGame1 = document.getElementById("miniGame0"); // QCM
   const financeGame = document.getElementById("financeGame");
 
   const partClients = document.getElementById("part1");
@@ -21,9 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const calc = document.getElementById("calc");
 
-  /* =====================================================
-     🎬 VIDÉO
-  ===================================================== */
   video.muted = true;
   video.play().catch(() => {});
   toggleSoundBtn.onclick = () => {
@@ -36,59 +33,31 @@ document.addEventListener("DOMContentLoaded", () => {
   function endVideo() {
     video.pause();
     videoContainer.classList.add("hidden");
-    setTimeout(() => {
-      background.classList.remove("hidden");
-      pirate5.classList.remove("hidden");
-      pirate2.classList.remove("hidden");
-      pirate5.style.filter = "drop-shadow(0 0 30px gold)";
-    }, 300);
+    background.classList.remove("hidden");
+    pirate5.classList.remove("hidden");
+    pirate2.classList.remove("hidden");
+    pirate5.style.filter = "drop-shadow(0 0 30px gold)";
   }
 
   /* =====================================================
-     💬 DIALOGUES
+     💬 DIALOGUES SYSTEM
   ===================================================== */
-  const dialoguesIntro = [
-    { s: pirate5, t: "🏴‍☠️ Te voilà enfin…" },
-    { s: pirate2, t: "Il veut apprendre à gérer l’or, capitaine." },
-    { s: pirate5, t: "Alors qu’il fasse ses preuves." }
-  ];
-
-  const dialoguesAfterRegisters = [
-    { s: pirate5, t: "Bien. Tu maîtrises les registres." },
-    { s: pirate2, t: "Voyons maintenant la gestion de la boutique." }
-  ];
-
-  const dialoguesEBE = [
-    { s: pirate5, t: "Tu as terminé tous les calculs." },
-    { s: pirate5, t: "L’EBE mesure la richesse créée par l’activité." },
-    { s: pirate5, t: "Avant amortissements et charges." }
-  ];
-
-  const dialogueFinal = [
-    { s: pirate5, t: "Bravo. Tu maîtrises désormais la comptabilité pirate." }
-  ];
-
-  let dArr = [], dIndex = 0;
-
   const bubble = document.createElement("div");
   bubble.id = "dialogueBox";
   bubble.classList.add("hidden");
   background.appendChild(bubble);
 
-  pirate5.onclick = () => {
-    pirate5.style.filter = "";
-    startDialogues(dialoguesIntro, startMiniGame1);
-  };
+  let dialogues = [], dIndex = 0;
 
-  function startDialogues(arr, cb) {
-    dArr = arr;
+  function playDialogues(arr, callback) {
+    dialogues = arr;
     dIndex = 0;
     bubble.classList.remove("hidden");
-    showDialogue(cb);
+    showDialogue(callback);
   }
 
-  function showDialogue(cb) {
-    const d = dArr[dIndex];
+  function showDialogue(callback) {
+    const d = dialogues[dIndex];
     bubble.textContent = d.t;
     const r = d.s.getBoundingClientRect();
     bubble.style.left = r.left + r.width / 2 + "px";
@@ -97,12 +66,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bubble.onclick = () => {
       dIndex++;
-      dIndex < dArr.length ? showDialogue(cb) : (bubble.classList.add("hidden"), cb && cb());
+      if (dIndex < dialogues.length) showDialogue(callback);
+      else {
+        bubble.classList.add("hidden");
+        callback && callback();
+      }
     };
   }
 
+  pirate5.onclick = () => {
+    pirate5.style.filter = "";
+    playDialogues(dialoguesDocs, startMiniGame1);
+  };
+
   /* =====================================================
-     📘 MINI-JEU 1 — REGISTRES
+     💬 DIALOGUES – DOCUMENTS COMPTABLES
+  ===================================================== */
+  const dialoguesDocs = [
+    { s: pirate5, t: "Pour gérer une boutique, il faut des documents comptables." },
+    { s: pirate5, t: "Le journal des ventes sert à noter chaque vente quotidienne." },
+    { s: pirate5, t: "Le grand livre regroupe toutes les opérations par compte." },
+    { s: pirate5, t: "La balance permet de vérifier l’équilibre des comptes." },
+    { s: pirate5, t: "Et le compte de résultat montre si l’activité est rentable." }
+  ];
+
+  /* =====================================================
+     🎮 MINI-JEU 1 — QCM (4 QUESTIONS)
   ===================================================== */
   miniGame1.innerHTML = `
     <h3>📘 Épreuve des registres</h3>
@@ -112,27 +101,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const questions = [
     {
-      q: "À quoi sert le journal périodique des ventes ?",
-      good: ["Pour noter toutes les ventes de la journée"],
-      bad: ["Pour compter l’or", "Pour payer les impôts"]
+      q: "À quoi sert le journal des ventes ?",
+      good: ["À noter toutes les ventes de la journée"],
+      bad: ["À payer les impôts", "À gérer les stocks"]
     },
     {
-      q: "Pourquoi faut-il un livre des comptes mensuels ?",
-      good: [
-        "Pour comparer les ventes des différents mois",
-        "Pour avoir un point de vue extérieur sur les ventes du mois"
-      ],
+      q: "Pourquoi tenir un grand livre ?",
+      good: ["Pour regrouper les opérations par compte"],
       bad: ["Pour décorer la boutique"]
     },
     {
-      q: "Quels sont les deux livres des comptes annuels ?",
-      good: ["Le bilan comptable", "Le Compte de Résultat"],
-      bad: ["Le journal de bord"]
+      q: "À quoi sert la balance ?",
+      good: ["À vérifier l’équilibre des comptes"],
+      bad: ["À compter les pirates"]
     },
     {
-      q: "À quoi sert le Compte de Résultat ?",
-      good: ["À mesurer le résultat net de l’entreprise"],
-      bad: ["À compter les pirates"]
+      q: "À quoi sert le compte de résultat ?",
+      good: ["À mesurer la rentabilité de l’activité"],
+      bad: ["À ranger les factures"]
     }
   ];
 
@@ -161,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
             goodCount++;
             if (goodCount === questions[qIndex].good.length) {
               qIndex++;
-              qIndex < questions.length ? showQuestion() : finishMiniGame1();
+              qIndex < questions.length ? showQuestion() : endMiniGame1();
             }
           } else screenShake();
         };
@@ -169,56 +155,48 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  function finishMiniGame1() {
+  function endMiniGame1() {
     miniGame1.classList.add("hidden");
-    startDialogues(dialoguesAfterRegisters, startMiniGame2);
+    playDialogues(dialoguesAnalysis, startMiniGame2);
   }
 
   /* =====================================================
-     🧾 MINI-JEU 2 — CLIENTS (BOUTON DROIT = VALIDATION)
+     💬 DIALOGUES – ANALYSE & CONCEPTS
   ===================================================== */
-  let viewedClients = { A:false, B:false, C:false };
+  const dialoguesAnalysis = [
+    { s: pirate5, t: "Tenir ses comptes permet d’analyser ses clients." },
+    { s: pirate5, t: "On peut suivre le chiffre d’affaires et les charges." },
+    { s: pirate5, t: "Les provisions anticipent des pertes ou dépenses futures." },
+    { s: pirate5, t: "Les amortissements étalent le coût des équipements dans le temps." }
+  ];
 
+  /* =====================================================
+     🎮 MINI-JEU 2 — GESTION (3 PARTIES)
+  ===================================================== */
   function startMiniGame2() {
     financeGame.classList.remove("hidden");
     partClients.classList.remove("hidden");
-
-    document
-      .querySelectorAll(".clients button:last-child")
-      .forEach(b => b.disabled = true);
   }
 
-  window.showBill = client => {
-    viewedClients[client] = true;
-    bill.innerHTML = {
-      A: "🧾 Barbe-Cuivre : TOTAL 950",
-      B: "🧾 Vent-Noir : TOTAL 850",
-      C: "🧾 Crâne-Rouge : TOTAL 530"
-    }[client];
+  let viewed = { A:false, B:false, C:false };
 
-    if (Object.values(viewedClients).every(v => v)) {
-      document
-        .querySelectorAll(".clients button:last-child")
-        .forEach(b => b.disabled = false);
-    }
+  window.showBill = c => {
+    viewed[c] = true;
+    bill.textContent = {
+      A: "Barbe-Cuivre : 950",
+      B: "Vent-Noir : 850",
+      C: "Crâne-Rouge : 530"
+    }[c];
   };
 
-  window.chooseClient = (buttonEl) => {
+  window.chooseClient = btn => {
     const buttons = [...document.querySelectorAll(".clients button:last-child")];
-    const rightMostButton = buttons[buttons.length - 1];
-
-    if (buttonEl === rightMostButton) {
+    if (btn === buttons[buttons.length - 1]) {
       partClients.classList.add("hidden");
       partResult.classList.remove("hidden");
-    } else {
-      msg1.textContent = "❌ Mauvais choix.";
-      screenShake();
-    }
+    } else screenShake();
   };
 
-  /* =====================================================
-     💰 RÉSULTAT → AMORTISSEMENTS
-  ===================================================== */
   window.checkResult = ok => {
     if (!ok) return screenShake();
     partResult.classList.add("hidden");
@@ -228,16 +206,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.checkAmortBase = ok => {
     if (!ok) return screenShake();
-    msg3.textContent = "✅ Base amortissable : 350 pièces d’or.";
     amortMonth.classList.remove("hidden");
   };
 
   window.checkMonthlyAmort = ok => {
     if (!ok) return screenShake();
-    startDialogues(dialoguesEBE, () =>
-      startDialogues(dialogueFinal)
-    );
+    playDialogues(dialoguesEBE);
   };
+
+  /* =====================================================
+     💬 DIALOGUES – EBE
+  ===================================================== */
+  const dialoguesEBE = [
+    { s: pirate5, t: "L’EBE mesure la richesse créée par l’activité." },
+    { s: pirate5, t: "Il se calcule avant amortissements et charges financières." },
+    { s: pirate5, t: "C’est un indicateur clé de la performance." }
+  ];
 
   /* =====================================================
      🧮 CALCULATRICE
@@ -252,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =====================================================
-   🧯 SHAKE
+   SHAKE
 ===================================================== */
 function screenShake() {
   document.body.classList.add("shake");
