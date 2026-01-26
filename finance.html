@@ -18,7 +18,7 @@
     Votre navigateur ne supporte pas la vidéo.
   </video>
 
-  <!-- Boutons vidéo (positionnés en haut à droite via CSS) -->
+  <!-- Boutons vidéo (haut à droite via CSS) -->
   <div id="videoControls">
     <button id="toggleSound">🔇</button>
     <button id="closeVideo">Passer la vidéo</button>
@@ -36,7 +36,7 @@
     alt="Fond du marché pirate"
   >
 
-  <!-- Pirate maître (déclencheur des dialogues) -->
+  <!-- Pirate maître (SEUL avec hover + déclencheur) -->
   <img
     id="pirate5bis"
     class="pirate hidden"
@@ -44,7 +44,7 @@
     alt="Pirate maître"
   >
 
-  <!-- Pirate apprenti -->
+  <!-- Pirate apprenti (sans hover) -->
   <img
     id="pirate2bis"
     class="pirate hidden"
@@ -69,7 +69,7 @@
         qui achète le plus.
       </p>
 
-      <!-- Calculatrice -->
+      <!-- Calculatrice (Partie 1) -->
       <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
       <input
@@ -79,7 +79,7 @@
         placeholder="Ex : 300-150 puis Entrée"
       >
 
-      <!-- STRUCTURE IMPORTANTE : 🧾 AU-DESSUS DU BOUTON DE VALIDATION -->
+      <!-- 3 CLIENTS : 🧾 AU-DESSUS DU BOUTON DE VALIDATION -->
       <div class="clients">
 
         <div>
@@ -89,6 +89,11 @@
 
         <div>
           <button onclick="showBill('B')">🧾 Vent-Noir</button>
+          <button onclick="chooseClient()">Je choisis ce pirate</button>
+        </div>
+
+        <div>
+          <button onclick="showBill('C')">🧾 Crâne-Rouge</button>
           <button onclick="chooseClient()">Je choisis ce pirate</button>
         </div>
 
@@ -107,6 +112,9 @@
         Ventes : <strong>12 000</strong> pièces d’or<br>
         Charges : <strong>8 500</strong> pièces d’or
       </p>
+
+      <!-- Calculatrice (Partie 2) -->
+      <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
       <p>Quel est le bon calcul comptable ?</p>
 
@@ -137,10 +145,9 @@
 
       <div id="msg3"></div>
 
-      <!-- ===== QUESTION 2 + CALCULATRICE ===== -->
+      <!-- ===== QUESTION 2 + CALCULATRICE (PARTIE 3) ===== -->
       <div id="amortMonth" class="hidden">
 
-        <!-- Calculatrice disponible aussi en partie 3 -->
         <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
         <p>
