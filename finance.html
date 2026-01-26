@@ -35,7 +35,7 @@
     alt="Fond du marché pirate"
   >
 
-  <!-- Pirate maître (hover + clic) -->
+  <!-- Pirate maître -->
   <img
     id="pirate5bis"
     class="pirate hidden"
@@ -52,14 +52,21 @@
   >
 
   <!-- =====================================================
+       📘 MINI-JEU 0 – ÉPREUVE DES REGISTRES
+       (le contenu est piloté par le JS)
+  ===================================================== -->
+  <div id="miniGame0" class="hidden">
+    <!-- JS injecte les questions ici -->
+  </div>
+
+  <!-- =====================================================
        📖 MINI-JEUX 1–2–3
-       (Mini-jeu 0 est injecté par le JS)
   ===================================================== -->
   <div id="financeGame" class="hidden">
 
     <h2>📖 Le Livre du Trésor</h2>
 
-    <!-- ================= PARTIE 1 ================= -->
+    <!-- ================= MINI-JEU 1 ================= -->
     <div id="part1">
 
       <h3>🧾 Partie 1 – Choisir le meilleur client</h3>
@@ -69,7 +76,6 @@
         qui achète le plus.
       </p>
 
-      <!-- Calculatrice -->
       <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
       <input
@@ -102,7 +108,7 @@
       <div id="msg1"></div>
     </div>
 
-    <!-- ================= PARTIE 2 ================= -->
+    <!-- ================= MINI-JEU 2 ================= -->
     <div id="part2" class="hidden">
 
       <h3>💰 Partie 2 – Résultat annuel</h3>
@@ -123,7 +129,7 @@
       <div id="msg2"></div>
     </div>
 
-    <!-- ================= PARTIE 3 ================= -->
+    <!-- ================= MINI-JEU 3 ================= -->
     <div id="part3" class="hidden">
 
       <h3>🛠️ Partie 3 – Amortissements</h3>
@@ -133,7 +139,6 @@
         Provisions utilisées : <strong>150</strong> pièces d’or
       </p>
 
-      <!-- Calculatrice visible dès cette question -->
       <button onclick="toggleCalc()">🧮 Calculatrice</button>
 
       <p>
@@ -146,7 +151,6 @@
 
       <div id="msg3"></div>
 
-      <!-- ===== QUESTION 2 ===== -->
       <div id="amortMonth" class="hidden">
 
         <p>
