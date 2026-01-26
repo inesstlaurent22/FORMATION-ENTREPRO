@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const calc = document.getElementById("calc");
 
   /* =====================================================
-     🎬 VIDÉO LOGIQUE
+     🎬 VIDÉO
   ===================================================== */
   video.muted = true;
   video.play().catch(() => {});
@@ -59,9 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const dialoguesEBE = [
-    { s: pirate5, t: "Tu viens de terminer les calculs essentiels." },
-    { s: pirate5, t: "L’EBE, ou Excédent Brut d’Exploitation," },
-    { s: pirate5, t: "mesure la richesse créée par l’activité, avant amortissements et charges." }
+    { s: pirate5, t: "Tu as terminé tous les calculs." },
+    { s: pirate5, t: "L’EBE mesure la richesse créée par l’activité." },
+    { s: pirate5, t: "Avant amortissements et charges." }
   ];
 
   const dialogueFinal = [
@@ -175,14 +175,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     🧾 MINI-JEU 2 — CLIENTS → RÉSULTAT → AMORTISSEMENTS
+     🧾 MINI-JEU 2 — CLIENTS (BOUTON DROIT = VALIDATION)
   ===================================================== */
   let viewedClients = { A:false, B:false, C:false };
 
   function startMiniGame2() {
     financeGame.classList.remove("hidden");
     partClients.classList.remove("hidden");
-    document.querySelectorAll(".clients button:last-child").forEach(b => b.disabled = true);
+
+    document
+      .querySelectorAll(".clients button:last-child")
+      .forEach(b => b.disabled = true);
   }
 
   window.showBill = client => {
@@ -194,12 +197,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }[client];
 
     if (Object.values(viewedClients).every(v => v)) {
-      document.querySelectorAll(".clients button:last-child").forEach(b => b.disabled = false);
+      document
+        .querySelectorAll(".clients button:last-child")
+        .forEach(b => b.disabled = false);
     }
   };
 
-  window.chooseClient = client => {
-    if (client === "A") {
+  window.chooseClient = (buttonEl) => {
+    const buttons = [...document.querySelectorAll(".clients button:last-child")];
+    const rightMostButton = buttons[buttons.length - 1];
+
+    if (buttonEl === rightMostButton) {
       partClients.classList.add("hidden");
       partResult.classList.remove("hidden");
     } else {
@@ -208,12 +216,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  /* =====================================================
+     💰 RÉSULTAT → AMORTISSEMENTS
+  ===================================================== */
   window.checkResult = ok => {
-    if (!ok) {
-      msg2.textContent = "❌ Mauvais calcul.";
-      screenShake();
-      return;
-    }
+    if (!ok) return screenShake();
     partResult.classList.add("hidden");
     partAmort.classList.remove("hidden");
     calc.classList.remove("hidden");
