@@ -12,41 +12,78 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate2 = document.getElementById("pirate2bis");
   const financeGame = document.getElementById("financeGame");
 
+  // ---------- Fondu + écran de réussite ----------
+  const fade = document.createElement("div");
+  fade.id = "fadeOverlay";
+  Object.assign(fade.style, {
+    position: "fixed",
+    inset: 0,
+    background: "black",
+    opacity: 0,
+    pointerEvents: "none",
+    transition: "opacity 0.6s ease",
+    zIndex: 9999
+  });
+  document.body.appendChild(fade);
+
+  const success = document.createElement("div");
+  success.id = "successScreen";
+  Object.assign(success.style, {
+    position: "fixed",
+    inset: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    background: "rgba(0,0,0,0.85)",
+    color: "#f5e6c8",
+    fontSize: "24px",
+    opacity: 0,
+    pointerEvents: "none",
+    transition: "opacity 0.4s ease",
+    zIndex: 10000
+  });
+  document.body.appendChild(success);
+
+  function fadeIn() { fade.style.opacity = 1; }
+  function fadeOut() { fade.style.opacity = 0; }
+
+  function showSuccess(text, cb) {
+    success.innerHTML = `<div><h2>✅ Réussite</h2><p>${text}</p></div>`;
+    success.style.opacity = 1;
+    success.style.pointerEvents = "auto";
+    setTimeout(() => {
+      success.style.opacity = 0;
+      success.style.pointerEvents = "none";
+      cb && cb();
+    }, 1200);
+  }
+
+  // ---------- Vidéo ----------
   video.muted = true;
   video.play().catch(() => {});
-
   toggleSoundBtn.onclick = () => {
     video.muted = !video.muted;
     toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
   };
-
   closeVideoBtn.onclick = endVideo;
   video.onended = endVideo;
 
   function endVideo() {
     video.pause();
     videoContainer.classList.add("hidden");
-
     setTimeout(() => {
       background.classList.remove("hidden");
       pirate5.classList.remove("hidden");
       pirate2.classList.remove("hidden");
       enablePirate5Hover();
-    }, 400);
+    }, 300);
   }
 
-  // ===============================
-  // ✨ HOVER PIRATE 5
-  // ===============================
   function enablePirate5Hover() {
-    pirate5.addEventListener("mouseenter", () => {
-      pirate5.style.filter = "drop-shadow(0 0 30px gold)";
-    });
-    pirate5.addEventListener("mouseleave", () => {
-      pirate5.style.filter = "";
-    });
+    pirate5.addEventListener("mouseenter", () => pirate5.style.filter = "drop-shadow(0 0 30px gold)");
+    pirate5.addEventListener("mouseleave", () => pirate5.style.filter = "");
   }
-
   function disablePirate5Hover() {
     pirate5.style.filter = "";
     pirate5.onmouseenter = null;
@@ -57,26 +94,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // 💬 DIALOGUES
   // ===============================
   const dialogueIntro = [
-    { speaker: pirate5, text: "🏴‍☠️ Te voilà enfin…" },
-    { speaker: pirate2, text: "Capitaine, il veut apprendre à gérer l’or !" },
-    { speaker: pirate5, text: "Alors qu’il fasse ses preuves." }
+    { s: pirate5, t: "🏴‍☠️ Te voilà enfin…" },
+    { s: pirate2, t: "Capitaine, il veut apprendre à gérer l’or !" },
+    { s: pirate5, t: "Alors qu’il fasse ses preuves." }
   ];
 
   const dialogueAfterRegisters = [
-    { speaker: pirate5, text: "Tu connais les registres…" },
-    { speaker: pirate2, text: "Voyons s’il sait choisir ses clients." }
+    { s: pirate5, t: "Bien… tu maîtrises les registres." },
+    { s: pirate2, t: "Passons aux clients !" }
+  ];
+
+  const dialogueEBE = [
+    { s: pirate5, t: "Parlons maintenant d’un indicateur clé : l’EBE." },
+    { s: pirate5, t: "L’EBE signifie Excédent Brut d’Exploitation." },
+    { s: pirate5, t: "Il mesure la performance économique avant amortissements et impôts." },
+    { s: pirate5, t: "C’est la richesse réellement créée par l’activité." }
   ];
 
   const dialogueFinal = [
-    {
-      speaker: pirate5,
-      text: "Bravo, tu commences à connaître les particularités comptables."
-    }
+    { s: pirate5, t: "Bravo, tu commences à connaître les particularités comptables." }
   ];
 
-  let dialogueIndex = 0;
-  let currentDialogue = [];
-
+  let dIdx = 0, dArr = [];
   const bubble = document.createElement("div");
   bubble.id = "dialogueBox";
   bubble.classList.add("hidden");
@@ -87,30 +126,22 @@ document.addEventListener("DOMContentLoaded", () => {
     startDialogues(dialogueIntro, startMiniGame0);
   };
 
-  function startDialogues(dialogueArray, callback) {
-    currentDialogue = dialogueArray;
-    dialogueIndex = 0;
+  function startDialogues(arr, cb) {
+    dArr = arr; dIdx = 0;
     bubble.classList.remove("hidden");
-    showDialogue(callback);
+    showDialogue(cb);
   }
-
-  function showDialogue(callback) {
-    const d = currentDialogue[dialogueIndex];
-    bubble.textContent = d.text;
-
-    const rect = d.speaker.getBoundingClientRect();
-    bubble.style.left = rect.left + rect.width / 2 + "px";
-    bubble.style.top = rect.top - 90 + "px";
+  function showDialogue(cb) {
+    const d = dArr[dIdx];
+    bubble.textContent = d.t;
+    const r = d.s.getBoundingClientRect();
+    bubble.style.left = r.left + r.width / 2 + "px";
+    bubble.style.top = r.top - 90 + "px";
     bubble.style.transform = "translateX(-50%)";
-
     bubble.onclick = () => {
-      dialogueIndex++;
-      if (dialogueIndex < currentDialogue.length) {
-        showDialogue(callback);
-      } else {
-        bubble.classList.add("hidden");
-        callback(); // 🔥 DIRECTEMENT, sans loader
-      }
+      dIdx++;
+      if (dIdx < dArr.length) showDialogue(cb);
+      else { bubble.classList.add("hidden"); cb && cb(); }
     };
   }
 
@@ -120,75 +151,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const miniGame0 = document.createElement("div");
   miniGame0.id = "miniGame0";
   miniGame0.classList.add("hidden");
-  miniGame0.innerHTML = `
-    <h3>📘 Épreuve des registres</h3>
-    <p id="qText"></p>
-    <div id="qChoices"></div>
-  `;
+  miniGame0.innerHTML = `<h3>📘 Épreuve des registres</h3><p id="qText"></p><div id="qChoices"></div>`;
   background.appendChild(miniGame0);
 
   const questions = [
-    {
-      q: "À quoi sert le journal périodique des ventes ?",
-      good: ["Pour noter toutes les ventes de la journée"],
-      bad: ["Pour compter l’or", "Pour payer les impôts"]
-    },
-    {
-      q: "Pourquoi faut-il un livre des comptes mensuels ?",
-      good: [
-        "Pour avoir un point de vue extérieur sur les ventes du mois",
-        "Pour comparer les ventes des différents mois"
-      ],
-      bad: ["Pour décorer la boutique"]
-    },
-    {
-      q: "Quels sont les deux livres des comptes annuels ?",
-      good: ["Le bilan comptable", "Le Compte de Résultat"],
-      bad: ["Le journal de bord"]
-    },
-    {
-      q: "À quoi sert le Compte de Résultat ?",
-      good: [
-        "À mesurer le résultat net de l’entreprise (son chiffre d’affaires)"
-      ],
-      bad: ["À compter les pirates"]
-    }
+    { q:"À quoi sert le journal périodique des ventes ?", g:["Pour noter toutes les ventes de la journée"], b:["Pour compter l’or","Pour payer les impôts"] },
+    { q:"Pourquoi faut-il un livre des comptes mensuels ?", g:["Pour avoir un point de vue extérieur sur les ventes du mois","Pour comparer les ventes des différents mois"], b:["Pour décorer la boutique"] },
+    { q:"Quels sont les deux livres des comptes annuels ?", g:["Le bilan comptable","Le Compte de Résultat"], b:["Le journal de bord"] },
+    { q:"À quoi sert le Compte de Résultat ?", g:["À mesurer le résultat net de l’entreprise (son chiffre d’affaires)"], b:["À compter les pirates"] }
   ];
-
-  let qIndex = 0;
+  let qIdx = 0;
 
   function startMiniGame0() {
     miniGame0.classList.remove("hidden");
-    qIndex = 0;
-    showQuestion();
+    qIdx = 0; showQuestion();
   }
-
   function showQuestion() {
-    const q = questions[qIndex];
+    const q = questions[qIdx];
     document.getElementById("qText").textContent = q.q;
-    const choices = document.getElementById("qChoices");
-    choices.innerHTML = "";
-
-    [...q.good.map(t => ({ t, ok: true })), ...q.bad.map(t => ({ t, ok: false }))]
-      .sort(() => Math.random() - 0.5)
-      .forEach(choice => {
-        const btn = document.createElement("button");
-        btn.textContent = choice.t;
-        btn.onclick = () => {
-          if (choice.ok) {
-            qIndex++;
-            if (qIndex < questions.length) {
-              showQuestion();
-            } else {
-              miniGame0.classList.add("hidden");
-              startDialogues(dialogueAfterRegisters, startMiniGame1);
-            }
-          } else {
-            screenShake();
-          }
-        };
-        choices.appendChild(btn);
+    const c = document.getElementById("qChoices"); c.innerHTML = "";
+    [...q.g.map(t=>({t,ok:true})), ...q.b.map(t=>({t,ok:false}))].sort(()=>Math.random()-0.5)
+      .forEach(x=>{
+        const b=document.createElement("button");
+        b.textContent=x.t;
+        b.onclick=()=> x.ok ? nextQ() : screenShake();
+        c.appendChild(b);
       });
+  }
+  function nextQ() {
+    qIdx++;
+    if (qIdx < questions.length) showQuestion();
+    else {
+      miniGame0.classList.add("hidden");
+      showSuccess("Épreuve des registres réussie", () =>
+        startDialogues(dialogueAfterRegisters, startMiniGame1)
+      );
+    }
   }
 
   // ===============================
@@ -206,11 +204,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (calc) {
     calc.addEventListener("keydown", e => {
       if (e.key === "Enter") {
-        try {
-          calc.value = Function("return " + calc.value)();
-        } catch {
-          calc.value = "Erreur";
-        }
+        try { calc.value = Function("return " + calc.value)(); }
+        catch { calc.value = "Erreur"; }
       }
     });
   }
@@ -220,14 +215,67 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===============================
   window.showFinalDialogue = function () {
     financeGame.classList.add("hidden");
-    startDialogues(dialogueFinal, () => {});
+    showSuccess("Mini-jeu terminé", () =>
+      startDialogues(dialogueFinal, ()=>{})
+    );
   };
 });
 
 // ===============================
+// 🧾 MINI-JEU 1 – CLIENTS
+// ===============================
+let billViewed=false;
+function toggleCalc(){ document.getElementById("calc").classList.toggle("hidden"); }
+function showBill(c){
+  billViewed=true;
+  bill.innerHTML={A:"🧾 Barbe-Cuivre : TOTAL 950",B:"🧾 Vent-Noir : TOTAL 850",C:"🧾 Crâne-Rouge : TOTAL 530"}[c];
+}
+function chooseClient(){
+  if(!billViewed)return;
+  if(bill.textContent.includes("Barbe-Cuivre")){
+    showSuccess("Bon client sélectionné", ()=>{
+      part1.classList.add("hidden"); part2.classList.remove("hidden");
+    });
+  } else { screenShake(); msg1.textContent="❌ Mauvais client, recommence."; }
+}
+
+// ===============================
+// 💰 MINI-JEU 2
+// ===============================
+function checkResult(ok){
+  if(!ok){ msg2.textContent="❌ Mauvais calcul."; screenShake(); return; }
+  showSuccess("Résultat annuel validé", ()=>{
+    startEBEDialogues();
+  });
+}
+function startEBEDialogues(){
+  startDialogues([
+    { s: pirate5, t: "Parlons maintenant d’un indicateur clé : l’EBE." },
+    { s: pirate5, t: "Il mesure la performance économique avant amortissements et impôts." },
+    { s: pirate5, t: "C’est la richesse créée par l’activité." }
+  ], ()=>{
+    part2.classList.add("hidden"); part3.classList.remove("hidden");
+    document.getElementById("calc").classList.remove("hidden");
+  });
+}
+
+// ===============================
+// 🛠️ MINI-JEU 3
+// ===============================
+function checkAmortBase(ok){
+  if(!ok){ msg3.textContent="❌ Mauvais montant."; screenShake(); return; }
+  msg3.textContent="✅ Il reste 350 pièces à amortir.";
+  amortMonth.classList.remove("hidden");
+}
+function checkMonthlyAmort(ok){
+  if(!ok){ msgMonth.textContent="❌ Mauvais montant."; screenShake(); return; }
+  showSuccess("Amortissements maîtrisés", ()=> window.showFinalDialogue());
+}
+
+// ===============================
 // 🧯 SHAKE
 // ===============================
-function screenShake() {
+function screenShake(){
   document.body.classList.add("shake");
-  setTimeout(() => document.body.classList.remove("shake"), 400);
+  setTimeout(()=>document.body.classList.remove("shake"),400);
 }
