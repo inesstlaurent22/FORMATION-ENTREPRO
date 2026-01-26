@@ -1,5 +1,5 @@
 // ===============================
-// 🎬 VIDÉO INTRO
+// 🎬 VIDÉO + DIALOGUES
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
   const video = document.getElementById("questVideo");
@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeVideoBtn = document.getElementById("closeVideo");
 
   const background = document.getElementById("background");
-  const pirate2 = document.getElementById("pirate2bis");
   const pirate5 = document.getElementById("pirate5bis");
+  const pirate2 = document.getElementById("pirate2bis");
   const financeGame = document.getElementById("financeGame");
 
   video.muted = true;
@@ -29,15 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       background.classList.remove("hidden");
-      pirate2.classList.remove("hidden");
       pirate5.classList.remove("hidden");
+      pirate2.classList.remove("hidden");
       enablePirate5Hover();
     }, 400);
   }
 
-  // ===============================
-  // ✨ HOVER UNIQUEMENT PIRATE 5
-  // ===============================
   function enablePirate5Hover() {
     pirate5.addEventListener("mouseenter", () => {
       pirate5.style.filter = "drop-shadow(0 0 30px gold)";
@@ -54,13 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===============================
-  // 💬 BULLES DE DIALOGUE
+  // 💬 DIALOGUES
   // ===============================
   const dialogues = [
     { speaker: pirate5, text: "🏴‍☠️ Te voilà enfin…" },
-    { speaker: pirate2, text: "Capitaine, il veut apprendre à gérer son or !" },
-    { speaker: pirate5, text: "Alors il devra faire les bons calculs." },
-    { speaker: pirate5, text: "Que le Livre du Trésor s’ouvre." }
+    { speaker: pirate2, text: "Capitaine, il veut apprendre à compter l’or !" },
+    { speaker: pirate5, text: "Alors il devra prouver sa valeur." }
   ];
 
   let dialogueIndex = 0;
@@ -70,24 +66,17 @@ document.addEventListener("DOMContentLoaded", () => {
   bubble.classList.add("hidden");
   background.appendChild(bubble);
 
-  const loader = document.createElement("div");
-  loader.id = "loader";
-  loader.textContent = "⏳ Chargement…";
-  loader.classList.add("hidden");
-  background.appendChild(loader);
-
   pirate5.onclick = () => {
     disablePirate5Hover();
-    dialogueIndex = 0;
     showDialogue();
   };
 
   function showDialogue() {
-    const current = dialogues[dialogueIndex];
-    bubble.textContent = current.text;
+    const d = dialogues[dialogueIndex];
+    bubble.textContent = d.text;
     bubble.classList.remove("hidden");
 
-    const rect = current.speaker.getBoundingClientRect();
+    const rect = d.speaker.getBoundingClientRect();
     bubble.style.left = rect.left + rect.width / 2 + "px";
     bubble.style.top = rect.top - 90 + "px";
     bubble.style.transform = "translateX(-50%)";
@@ -98,18 +87,87 @@ document.addEventListener("DOMContentLoaded", () => {
         showDialogue();
       } else {
         bubble.classList.add("hidden");
-        loader.classList.remove("hidden");
-
-        setTimeout(() => {
-          loader.classList.add("hidden");
-          financeGame.classList.remove("hidden");
-        }, 2000);
+        startMiniGame0();
       }
     };
   }
 
   // ===============================
-  // 🧮 CALCULATRICE (GLOBALE)
+  // 🎮 MINI-JEU 0 — QCM COMPTA
+  // ===============================
+  const miniGame0 = document.createElement("div");
+  miniGame0.id = "miniGame0";
+  miniGame0.innerHTML = `
+    <h3>📘 Épreuve des registres</h3>
+    <p id="qText"></p>
+    <div id="qChoices"></div>
+  `;
+  miniGame0.classList.add("miniGame");
+  background.appendChild(miniGame0);
+
+  const questions = [
+    {
+      q: "À quoi sert le journal périodique des ventes ?",
+      a: ["Pour noter toutes les ventes de la journée"],
+      w: ["Pour compter l’or", "Pour payer les impôts"]
+    },
+    {
+      q: "Pourquoi faut-il un livre des comptes mensuels ?",
+      a: [
+        "Pour avoir un point de vue extérieur sur les ventes du mois",
+        "Pour comparer les ventes des différents mois"
+      ],
+      w: ["Pour décorer la boutique"]
+    },
+    {
+      q: "Quels sont les deux livres des comptes annuels ?",
+      a: ["Le bilan comptable", "Le Compte de Résultat"],
+      w: ["Le journal de bord"]
+    },
+    {
+      q: "À quoi sert le Compte de Résultat ?",
+      a: ["À mesurer le résultat net de l’entreprise (son chiffre d’affaires)"],
+      w: ["À compter les pirates"]
+    }
+  ];
+
+  let qIndex = 0;
+
+  function startMiniGame0() {
+    miniGame0.classList.remove("hidden");
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = questions[qIndex];
+    document.getElementById("qText").textContent = q.q;
+    const choices = document.getElementById("qChoices");
+    choices.innerHTML = "";
+
+    [...q.a.map(t => ({ t, ok: true })), ...q.w.map(t => ({ t, ok: false }))]
+      .sort(() => Math.random() - 0.5)
+      .forEach(choice => {
+        const btn = document.createElement("button");
+        btn.textContent = choice.t;
+        btn.onclick = () => {
+          if (choice.ok) {
+            qIndex++;
+            if (qIndex < questions.length) {
+              showQuestion();
+            } else {
+              miniGame0.classList.add("hidden");
+              financeGame.classList.remove("hidden");
+            }
+          } else {
+            screenShake();
+          }
+        };
+        choices.appendChild(btn);
+      });
+  }
+
+  // ===============================
+  // 🧮 CALCULATRICE
   // ===============================
   const calc = document.getElementById("calc");
   if (calc) {
@@ -126,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ===============================
-// 📖 MINI-JEU – PROGRESSION
+// 📖 MINI-JEU 1
 // ===============================
 let billViewed = false;
 
@@ -134,80 +192,29 @@ function toggleCalc() {
   document.getElementById("calc").classList.toggle("hidden");
 }
 
-// ---------- PARTIE 1 ----------
 function showBill(client) {
   billViewed = true;
-  const bill = document.getElementById("bill");
-
-  const data = {
-    A: "🧾 Barbe-Cuivre : 300 + 400 + 250 = <strong>950</strong>",
-    B: "🧾 Vent-Noir : 200 + 350 + 300 = <strong>850</strong>",
-    C: "🧾 Crâne-Rouge : 150 + 200 + 180 = <strong>530</strong>"
-  };
-
-  bill.innerHTML = data[client];
+  document.getElementById("bill").innerHTML = client === "A"
+    ? "🧾 Barbe-Cuivre : TOTAL 950"
+    : "🧾 Mauvais client";
 }
 
 function chooseClient() {
-  if (!billViewed) {
-    msg1.textContent = "❌ Consulte d’abord un registre 🧾.";
-    return;
+  if (!billViewed) return;
+
+  if (document.getElementById("bill").textContent.includes("Barbe")) {
+    part1.classList.add("hidden");
+    part2.classList.remove("hidden");
+  } else {
+    screenShake();
+    msg1.textContent = "❌ Mauvais client, recommence.";
   }
-  part1.classList.add("hidden");
-  part2.classList.remove("hidden");
-}
-
-// ---------- PARTIE 2 ----------
-function checkResult(ok) {
-  if (!ok) {
-    msg2.textContent = "❌ Mauvais calcul.";
-    return;
-  }
-  part2.classList.add("hidden");
-  part3.classList.remove("hidden");
-
-  // 👉 Calculatrice visible dès la 1re question de la partie 3
-  document.getElementById("calc").classList.remove("hidden");
-}
-
-// ---------- PARTIE 3 ----------
-function checkAmortBase(ok) {
-  if (!ok) {
-    msg3.textContent = "❌ Mauvais montant.";
-    return;
-  }
-  msg3.textContent = "✅ Il reste 350 pièces à amortir.";
-  amortMonth.classList.remove("hidden");
-}
-
-function checkMonthlyAmort(ok) {
-  if (!ok) {
-    msgMonth.textContent = "❌ Mauvais montant.";
-    return;
-  }
-
-  msgMonth.textContent = "🏆 Exact : 117 € par mois.";
-
-  // 👉 FIN DU MINI-JEU
-  setTimeout(showFinalDialogue, 1000);
 }
 
 // ===============================
-// 🏴‍☠️ DIALOGUE FINAL
+// 🧯 UTILITAIRE : SHAKE
 // ===============================
-function showFinalDialogue() {
-  const financeGame = document.getElementById("financeGame");
-  financeGame.classList.add("hidden");
-
-  const pirate5 = document.getElementById("pirate5bis");
-  const bubble = document.getElementById("dialogueBox");
-
-  bubble.textContent =
-    "Bravo, tu commences à connaître les particularités comptables.";
-  bubble.classList.remove("hidden");
-
-  const rect = pirate5.getBoundingClientRect();
-  bubble.style.left = rect.left + rect.width / 2 + "px";
-  bubble.style.top = rect.top - 90 + "px";
-  bubble.style.transform = "translateX(-50%)";
+function screenShake() {
+  document.body.classList.add("shake");
+  setTimeout(() => document.body.classList.remove("shake"), 400);
 }
