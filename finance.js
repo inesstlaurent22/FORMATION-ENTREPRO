@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===============================
-  // 💬 DIALOGUES – SÉQUENCES
+  // 💬 DIALOGUES
   // ===============================
   const dialogueIntro = [
     { speaker: pirate5, text: "🏴‍☠️ Te voilà enfin…" },
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const dialogueAfterRegisters = [
-    { speaker: pirate5, text: "Hmm… tu connais les registres." },
+    { speaker: pirate5, text: "Tu connais les registres…" },
     { speaker: pirate2, text: "Voyons s’il sait choisir ses clients." }
   ];
 
@@ -109,13 +109,13 @@ document.addEventListener("DOMContentLoaded", () => {
         showDialogue(callback);
       } else {
         bubble.classList.add("hidden");
-        callback();
+        callback(); // 🔥 DIRECTEMENT, sans loader
       }
     };
   }
 
   // ===============================
-  // 📘 MINI-JEU 0 — ÉPREUVE DES REGISTRES
+  // 📘 MINI-JEU 0 – ÉPREUVE DES REGISTRES
   // ===============================
   const miniGame0 = document.createElement("div");
   miniGame0.id = "miniGame0";
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===============================
-  // 🧾 MINI-JEU 1 → 2 → 3
+  // 🧾 MINI-JEUX 1 → 2 → 3
   // ===============================
   function startMiniGame1() {
     financeGame.classList.remove("hidden");
@@ -216,84 +216,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===============================
-  // 🏁 FIN DU JEU
+  // 🏁 FIN
   // ===============================
   window.showFinalDialogue = function () {
     financeGame.classList.add("hidden");
     startDialogues(dialogueFinal, () => {});
   };
 });
-
-// ===============================
-// 🧾 MINI-JEU 1 – CLIENTS
-// ===============================
-let billViewed = false;
-
-function toggleCalc() {
-  document.getElementById("calc").classList.toggle("hidden");
-}
-
-function showBill(client) {
-  billViewed = true;
-  const bill = document.getElementById("bill");
-
-  const data = {
-    A: "🧾 Barbe-Cuivre : TOTAL 950",
-    B: "🧾 Vent-Noir : TOTAL 850",
-    C: "🧾 Crâne-Rouge : TOTAL 530"
-  };
-
-  bill.innerHTML = data[client];
-}
-
-function chooseClient() {
-  if (!billViewed) return;
-
-  if (document.getElementById("bill").textContent.includes("Barbe-Cuivre")) {
-    part1.classList.add("hidden");
-    part2.classList.remove("hidden");
-  } else {
-    screenShake();
-    msg1.textContent = "❌ Mauvais client, recommence.";
-  }
-}
-
-// ===============================
-// 💰 MINI-JEU 2
-// ===============================
-function checkResult(ok) {
-  if (!ok) {
-    msg2.textContent = "❌ Mauvais calcul.";
-    screenShake();
-    return;
-  }
-  part2.classList.add("hidden");
-  part3.classList.remove("hidden");
-  document.getElementById("calc").classList.remove("hidden");
-}
-
-// ===============================
-// 🛠️ MINI-JEU 3
-// ===============================
-function checkAmortBase(ok) {
-  if (!ok) {
-    msg3.textContent = "❌ Mauvais montant.";
-    screenShake();
-    return;
-  }
-  msg3.textContent = "✅ Il reste 350 pièces à amortir.";
-  amortMonth.classList.remove("hidden");
-}
-
-function checkMonthlyAmort(ok) {
-  if (!ok) {
-    msgMonth.textContent = "❌ Mauvais montant.";
-    screenShake();
-    return;
-  }
-  msgMonth.textContent = "🏆 Exact : 117 € par mois.";
-  setTimeout(() => window.showFinalDialogue(), 1200);
-}
 
 // ===============================
 // 🧯 SHAKE
