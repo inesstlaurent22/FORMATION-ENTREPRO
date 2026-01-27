@@ -21,6 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const calc = document.getElementById("calc");
 
+  /* =====================================================
+     🎬 VIDEO LOGIC
+  ===================================================== */
   video.muted = true;
   video.play().catch(() => {});
   toggleSoundBtn.onclick = () => {
@@ -39,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     ✨ ILLUMINATION PIRATE 5 (HOVER)
+     ✨ PIRATE 5 HOVER ILLUMINATION
   ===================================================== */
   pirate5.addEventListener("mouseenter", () => {
     pirate5.style.filter = "drop-shadow(0 0 30px gold)";
@@ -77,7 +80,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bubble.onclick = () => {
       dIndex++;
-      dIndex < dialogues.length ? showDialogue(callback) : (bubble.classList.add("hidden"), callback && callback());
+      if (dIndex < dialogues.length) {
+        showDialogue(callback);
+      } else {
+        bubble.classList.add("hidden");
+        callback && callback();
+      }
     };
   }
 
@@ -97,29 +105,23 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   /* =====================================================
-     ⏳ LOADER + INTRO MINI-JEU 1
+     ⏳ LOADER MINI-JEU 1
   ===================================================== */
   function startLoaderMiniGame1() {
     const loader = document.createElement("div");
     loader.id = "loader";
-    loader.innerHTML = `<h2>Chargement…</h2><p>Épreuve des registres</p>`;
+    loader.innerHTML = "<h2>Chargement…</h2><p>Épreuve des registres</p>";
     background.appendChild(loader);
 
     setTimeout(() => {
       loader.remove();
       startMiniGame1();
-    }, 1500);
+    }, 1400);
   }
 
   /* =====================================================
-     🎮 MINI-JEU 1 — QCM (3 CHOIX)
+     🎮 MINI-JEU 1 — QCM
   ===================================================== */
-  miniGame1.innerHTML = `
-    <h3>📘 Épreuve des registres</h3>
-    <p id="qText"></p>
-    <div id="qChoices"></div>
-  `;
-
   const questions = [
     {
       q: "À quoi sert le journal des ventes ?",
@@ -143,8 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
-  let qIndex = 0;
-  let goodCount = 0;
+  let qIndex = 0, goodCount = 0;
 
   function startMiniGame1() {
     miniGame1.classList.remove("hidden");
@@ -165,7 +166,6 @@ document.addEventListener("DOMContentLoaded", () => {
     answers.forEach(ans => {
       const btn = document.createElement("button");
       btn.textContent = ans.t;
-
       btn.onclick = () => {
         if (ans.ok) {
           btn.classList.add("pressed");
@@ -175,11 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
             qIndex++;
             qIndex < questions.length ? showQuestion() : endMiniGame1();
           }
-        } else {
-          screenShake();
-        }
+        } else screenShake();
       };
-
       qChoices.appendChild(btn);
     });
   }
@@ -205,6 +202,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function startMiniGame2() {
     financeGame.classList.remove("hidden");
     partClients.classList.remove("hidden");
+    addCalcButton(partClients);
+  }
+
+  function addCalcButton(container) {
+    if (container.querySelector(".calcBtn")) return;
+    const btn = document.createElement("button");
+    btn.className = "calcBtn";
+    btn.textContent = "🧮";
+    btn.onclick = () => calc.classList.remove("hidden");
+    container.prepend(btn);
   }
 
   window.showBill = c => {
@@ -220,6 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btn === buttons[buttons.length - 1]) {
       partClients.classList.add("hidden");
       partResult.classList.remove("hidden");
+      addCalcButton(partResult);
     } else screenShake();
   };
 
@@ -227,6 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!ok) return screenShake();
     partResult.classList.add("hidden");
     partAmort.classList.remove("hidden");
+    addCalcButton(partAmort);
   };
 
   window.checkAmortBase = ok => {
@@ -236,6 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.checkMonthlyAmort = ok => {
     if (!ok) return screenShake();
+    financeGame.classList.add("hidden"); // 👈 DISPARITION MINI-JEU 2
     playDialogues(dialoguesEBE);
   };
 
