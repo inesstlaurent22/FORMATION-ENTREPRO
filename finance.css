@@ -145,4 +145,58 @@ button.selectedAnswer {
   background: #2b2b2b;
   color: #f5f5f5;
   border: 2px solid #888;
-  border-radius: 8px
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-family: monospace;
+}
+.calcInput {
+  display: block;
+  margin: 10px auto 0;
+  width: 220px;
+  padding: 8px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 6px;
+  border: none;
+}
+
+/* ===============================
+   BOUTONS
+================================ */
+button {
+  background: linear-gradient(145deg,#7b4a12,#caa14a);
+  border: 3px solid #3b2208;
+  border-radius: 14px;
+  padding: 10px 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ===============================
+   SUCCÈS / ERREUR
+================================ */
+.successOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: gold;
+  font-size: 28px;
+  animation: fade 2.2s forwards;
+}
+@keyframes fade {
+  0% { opacity: 0 }
+  20% { opacity: 1 }
+  80% { opacity: 1 }
+  100% { opacity: 0 }
+}
+.shake { animation: shake .4s }
+@keyframes shake {
+  0% { transform: translateX(0) }
+  25% { transform: translateX(-6px) }
+  50% { transform: translateX(6px) }
+  75% { transform: translateX(-6px) }
+  100% { transform: translateX(0) }
+}
