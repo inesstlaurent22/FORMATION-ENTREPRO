@@ -53,23 +53,29 @@
   >
 
   <!-- =====================================================
-       🎮 MINI-JEU 1 — QCM (REGISTRES)
-       (contenu injecté par JS après loader)
+       🎮 MINI-JEU 1 — QCM REGISTRES
+       (contenu injecté par JS)
   ===================================================== -->
-  <div id="miniGame0" class="hidden">
-    <!-- Injecté dynamiquement par finance.js -->
-  </div>
+  <div id="miniGame0" class="hidden"></div>
 
   <!-- =====================================================
        🎮 MINI-JEU 2 — GESTION (3 PARTIES)
   ===================================================== -->
   <div id="financeGame" class="hidden">
 
-    <!-- ================= PARTIE A : CLIENTS ================= -->
+    <!-- ================= PARTIE 1 : CLIENTS ================= -->
     <div id="part1" class="hidden">
 
       <h3>🧾 Analyse des clients</h3>
       <p>Consulte chaque registre 🧾 puis choisis le pirate le plus rentable.</p>
+
+      <!-- Calculatrice (affichée via bouton 🧮 ajouté par JS) -->
+      <input
+        id="calc"
+        class="hidden"
+        type="text"
+        placeholder="Ex : 300 + 650 puis Entrée"
+      >
 
       <div class="clients">
 
@@ -93,7 +99,7 @@
       <div id="bill" class="bill"></div>
     </div>
 
-    <!-- ================= PARTIE B : RÉSULTAT ================= -->
+    <!-- ================= PARTIE 2 : RÉSULTAT ================= -->
     <div id="part2" class="hidden">
 
       <h3>💰 Résultat annuel</h3>
@@ -110,7 +116,7 @@
       <button onclick="checkResult(false)">Charges × Produits</button>
     </div>
 
-    <!-- ================= PARTIE C : AMORTISSEMENTS ================= -->
+    <!-- ================= PARTIE 3 : AMORTISSEMENTS ================= -->
     <div id="part3" class="hidden">
 
       <h3>🛠️ Amortissements et provisions</h3>
@@ -121,7 +127,7 @@
         Durée d’amortissement : <strong>3 ans</strong>
       </p>
 
-      <!-- La calculatrice est révélée via le bouton 🧮 (ajouté par JS) -->
+      <!-- Calculatrice (réutilisée ici) -->
       <input
         id="calc"
         class="hidden"
