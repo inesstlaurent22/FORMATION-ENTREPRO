@@ -56,8 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bubble.classList.add("hidden");
   background.appendChild(bubble);
 
-  let dialogues = [];
-  let dIndex = 0;
+  let dialogues = [], dIndex = 0;
 
   function playDialogues(arr, callback) {
     dialogues = arr;
@@ -94,19 +93,19 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================================== */
   const dialoguesDocs = [
     { s: pirate5, t: "Pour gérer une boutique, il faut des documents comptables." },
-    { s: pirate2, t: "Le journal des ventes note chaque vente." },
+    { s: pirate2, t: "Le journal des ventes note chaque vente quotidienne." },
     { s: pirate5, t: "Le grand livre classe les comptes." },
     { s: pirate2, t: "La balance vérifie l’équilibre." },
     { s: pirate5, t: "Le compte de résultat mesure la rentabilité." }
   ];
 
   /* =====================================================
-     ⏳ LOADER
+     ⏳ LOADER (TEXTE SIMPLIFIÉ)
   ===================================================== */
   function showLoaderMiniGame1() {
     const loader = document.createElement("div");
     loader.id = "loader";
-    loader.innerHTML = "<h2>Chargement…</h2><p>Épreuve des registres</p>";
+    loader.innerHTML = "<h2>Chargement…</h2>";
     background.appendChild(loader);
 
     setTimeout(() => {
@@ -116,13 +115,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     🎮 MINI-JEU 1 — QCM
+     🎮 MINI-JEU 1 — QCM (MULTI BONNES RÉPONSES)
   ===================================================== */
   const questions = [
     {
       q: "À quoi sert le journal des ventes ?",
-      good: ["À noter toutes les ventes de la journée"],
-      bad: ["À gérer les stocks", "À payer les impôts"]
+      good: [
+        "À noter toutes les ventes de la journée",
+        "À suivre l’activité quotidienne"
+      ],
+      bad: ["À payer les impôts"]
     },
     {
       q: "Pourquoi tenir un grand livre ?",
@@ -131,8 +133,11 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       q: "À quoi sert la balance ?",
-      good: ["À vérifier l’équilibre des comptes"],
-      bad: ["À compter les pirates", "À gérer la caisse"]
+      good: [
+        "À vérifier l’équilibre des comptes",
+        "À contrôler les totaux débit/crédit"
+      ],
+      bad: ["À gérer la caisse"]
     },
     {
       q: "À quoi sert le compte de résultat ?",
@@ -175,11 +180,11 @@ document.addEventListener("DOMContentLoaded", () => {
           goodCount++;
           if (goodCount === questions[qIndex].good.length) {
             qIndex++;
-            qIndex < questions.length ? showQuestion() : endMiniGame1();
+            qIndex < questions.length
+              ? showQuestion()
+              : endMiniGame1();
           }
-        } else {
-          screenShake();
-        }
+        } else screenShake();
       };
       qChoices.appendChild(btn);
     });
@@ -187,7 +192,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function endMiniGame1() {
     miniGame1.classList.add("hidden");
-    playDialogues(dialoguesAnalysis, startMiniGame2);
+    showSuccess("📘 Registres maîtrisés !");
+    setTimeout(() => {
+      playDialogues(dialoguesAnalysis, startMiniGame2);
+    }, 1200);
   }
 
   /* =====================================================
@@ -195,8 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================================== */
   const dialoguesAnalysis = [
     { s: pirate5, t: "Analyser ses comptes permet de mieux gérer ses clients." },
-    { s: pirate2, t: "Et de comparer le chiffre d’affaires et les charges." },
-    { s: pirate5, t: "Voyons cela en pratique." }
+    { s: pirate2, t: "On peut comparer chiffre d’affaires et charges." },
+    { s: pirate5, t: "Passons à la pratique." }
   ];
 
   /* =====================================================
@@ -231,10 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btn === buttons[buttons.length - 1]) {
       part1.classList.add("hidden");
       part2.classList.remove("hidden");
-      addCalcButton(part2);
-    } else {
-      screenShake();
-    }
+    } else screenShake();
   };
 
   /* -------- PARTIE 2 : RÉSULTAT -------- */
@@ -254,7 +259,10 @@ document.addEventListener("DOMContentLoaded", () => {
   window.checkMonthlyAmort = ok => {
     if (!ok) return screenShake();
     financeGame.classList.add("hidden");
-    playDialogues(dialoguesEBE);
+    showSuccess("💰 Gestion réussie !");
+    setTimeout(() => {
+      playDialogues(dialoguesEBE);
+    }, 1200);
   };
 
   /* =====================================================
@@ -265,6 +273,17 @@ document.addEventListener("DOMContentLoaded", () => {
     { s: pirate2, t: "Avant amortissements et charges financières." },
     { s: pirate5, t: "C’est un indicateur clé de performance." }
   ];
+
+  /* =====================================================
+     🎉 ANIMATION DE RÉUSSITE
+  ===================================================== */
+  function showSuccess(text) {
+    const success = document.createElement("div");
+    success.className = "successOverlay";
+    success.textContent = text;
+    background.appendChild(success);
+    setTimeout(() => success.remove(), 1000);
+  }
 
   /* =====================================================
      🧮 CALCULATRICE
