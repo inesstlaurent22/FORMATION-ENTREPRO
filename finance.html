@@ -9,9 +9,7 @@
 
 <body>
 
-<!-- ===============================
-     🎬 VIDÉO D’INTRO
-================================ -->
+<!-- 🎬 VIDÉO -->
 <div id="videoContainer">
   <video id="questVideo" autoplay muted playsinline preload="auto">
     <source src="videos/Financevideo.MOV" type="video/mp4">
@@ -23,9 +21,7 @@
   </div>
 </div>
 
-<!-- ===============================
-     🌅 SCÈNE FINANCE
-================================ -->
+<!-- 🌅 SCÈNE -->
 <div id="background" class="hidden">
 
   <img src="images/Fondfinance.PNG" class="fondImage" alt="Marché pirate">
@@ -34,21 +30,15 @@
   <img id="pirate5bis" class="pirate hidden" src="images/Piratefinance.png" alt="Pirate maître">
   <img id="pirate2bis" class="pirate hidden" src="images/Pirate2.png" alt="Pirate apprenti">
 
-  <!-- ===============================
-       🎮 MINI-JEU 1 — QCM
-       (injecté par JS)
-  ================================ -->
+  <!-- 🎮 MINI-JEU 1 -->
   <div id="miniGame0" class="hidden"></div>
 
-  <!-- ===============================
-       🎮 MINI-JEU 2 — GESTION
-  ================================ -->
+  <!-- 🎮 MINI-JEU 2 -->
   <div id="financeGame" class="hidden">
 
-    <!-- PARTIE 1 : CLIENTS -->
     <div id="part1" class="hidden">
       <h3>🧾 Analyse des clients</h3>
-      <p>Consulte les registres puis choisis le pirate le plus rentable.</p>
+      <p>Analyse les registres et choisis le pirate le plus rentable.</p>
 
       <div class="clients">
         <div>
@@ -68,10 +58,8 @@
       <div id="bill"></div>
     </div>
 
-    <!-- PARTIE 2 : RÉSULTAT -->
     <div id="part2" class="hidden">
       <h3>💰 Résultat annuel</h3>
-
       <p>Chiffre d’affaires : <strong>12 000</strong></p>
       <p>Charges : <strong>8 500</strong></p>
 
@@ -80,15 +68,12 @@
       <button onclick="checkResult(false)">Charges × Produits</button>
     </div>
 
-    <!-- PARTIE 3 : AMORTISSEMENTS -->
     <div id="part3" class="hidden">
       <h3>🛠️ Amortissements</h3>
 
-      <p>Prix d’achat : <strong>500</strong></p>
-      <p>Provision : <strong>150</strong></p>
-      <p>Durée : <strong>3 ans</strong></p>
-
-      <p>Combien reste-t-il à amortir ?</p>
+      <p>Prix d’achat : 500</p>
+      <p>Provision : 150</p>
+      <p>Durée : 3 ans</p>
 
       <button onclick="checkAmortBase(false)">500</button>
       <button onclick="checkAmortBase(true)">350</button>
