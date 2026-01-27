@@ -53,19 +53,17 @@
   >
 
   <!-- =====================================================
-       🎮 MINI-JEU 1 — QCM REGISTRES
-       (injecté dynamiquement par JS)
+       🎮 MINI-JEU 1 — QCM (injecté par JS)
   ===================================================== -->
   <div id="miniGame0" class="hidden"></div>
 
   <!-- =====================================================
-       🎮 MINI-JEU 2 — GESTION (3 PARTIES)
+       🎮 MINI-JEU 2 — GESTION
   ===================================================== -->
   <div id="financeGame" class="hidden">
 
     <!-- ================= PARTIE 1 : ANALYSE CLIENTS ================= -->
     <div id="part1" class="hidden">
-
       <h3>🧾 Analyse des clients</h3>
       <p>Consulte chaque registre 🧾 puis choisis le pirate le plus rentable.</p>
 
@@ -78,22 +76,18 @@
       >
 
       <div class="clients">
-
         <div>
           <button onclick="showBill('A')">🧾 Barbe-Cuivre</button>
           <button onclick="chooseClient(this)">Je choisis ce pirate</button>
         </div>
-
         <div>
           <button onclick="showBill('B')">🧾 Vent-Noir</button>
           <button onclick="chooseClient(this)">Je choisis ce pirate</button>
         </div>
-
         <div>
           <button onclick="showBill('C')">🧾 Crâne-Rouge</button>
           <button onclick="chooseClient(this)">Je choisis ce pirate</button>
         </div>
-
       </div>
 
       <div id="bill" class="bill"></div>
@@ -101,14 +95,11 @@
 
     <!-- ================= PARTIE 2 : RÉSULTAT ================= -->
     <div id="part2" class="hidden">
-
       <h3>💰 Résultat annuel</h3>
-
       <p>
         Chiffre d’affaires : <strong>12 000</strong> pièces d’or<br>
         Charges : <strong>8 500</strong> pièces d’or
       </p>
-
       <p>Quel est le bon calcul ?</p>
 
       <button onclick="checkResult(false)">Charges + Produits</button>
@@ -118,7 +109,6 @@
 
     <!-- ================= PARTIE 3 : AMORTISSEMENTS ================= -->
     <div id="part3" class="hidden">
-
       <h3>🛠️ Amortissements et provisions</h3>
 
       <p>
@@ -143,12 +133,10 @@
 
       <div id="amortMonth" class="hidden">
         <p>Quel est le montant de l’amortissement mensuel ?</p>
-
         <button onclick="checkMonthlyAmort(false)">97 €</button>
         <button onclick="checkMonthlyAmort(true)">117 €</button>
         <button onclick="checkMonthlyAmort(false)">150 €</button>
       </div>
-
     </div>
 
   </div>
