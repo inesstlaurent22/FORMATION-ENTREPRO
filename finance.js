@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate5 = document.getElementById("pirate5bis");
   const pirate2 = document.getElementById("pirate2bis");
 
-  const miniGame0 = document.getElementById("miniGame0");
+  const miniGame1 = document.getElementById("miniGame0");
   const financeGame = document.getElementById("financeGame");
   const part1 = document.getElementById("part1");
   const part2 = document.getElementById("part2");
@@ -22,12 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   video.muted = true;
   video.play().catch(() => {});
-
   toggleSoundBtn.onclick = () => {
     video.muted = !video.muted;
     toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
   };
-
   closeVideoBtn.onclick = endVideo;
   video.onended = endVideo;
 
@@ -37,17 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
     background.classList.remove("hidden");
     pirate5.classList.remove("hidden");
     pirate2.classList.remove("hidden");
+    startDialogues(dialoguesIntro, startMiniGame1);
   }
-
-  /* =====================================================
-     ✨ PIRATE 5 – SURVOL
-  ===================================================== */
-  pirate5.onmouseenter = () => {
-    if (!dialogueActive) pirate5.style.filter = "drop-shadow(0 0 30px gold)";
-  };
-  pirate5.onmouseleave = () => {
-    pirate5.style.filter = "";
-  };
 
   /* =====================================================
      💬 SYSTÈME DE DIALOGUES
@@ -59,17 +48,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let dialogues = [];
   let dIndex = 0;
+  let afterDialogues = null;
 
-  function playDialogues(arr, cb) {
+  function startDialogues(arr, cb) {
     dialogueActive = true;
-    pirate5.style.filter = "";
     dialogues = arr;
     dIndex = 0;
+    afterDialogues = cb;
     bubble.classList.remove("hidden");
-    showDialogue(cb);
+    showDialogue();
   }
 
-  function showDialogue(cb) {
+  function showDialogue() {
     const d = dialogues[dIndex];
     bubble.textContent = d.t;
 
@@ -81,59 +71,42 @@ document.addEventListener("DOMContentLoaded", () => {
     bubble.onclick = () => {
       dIndex++;
       if (dIndex < dialogues.length) {
-        showDialogue(cb);
+        showDialogue();
       } else {
         bubble.classList.add("hidden");
         dialogueActive = false;
-        cb && cb();
+        afterDialogues && afterDialogues();
       }
     };
   }
 
-  pirate5.onclick = () => {
-    if (dialogueActive) return;
-    playDialogues(dialoguesDocs, showLoaderMiniGame1);
-  };
-
   /* =====================================================
-     📚 DIALOGUES – DOCUMENTS
+     💬 DIALOGUES 1 — INTRO COMPTABLE
   ===================================================== */
-  const dialoguesDocs = [
-    { s: pirate5, t: "Pour gérer une boutique pirate, il faut des registres." },
-    { s: pirate2, t: "Le journal des ventes note chaque transaction." },
-    { s: pirate5, t: "Le grand livre regroupe les comptes." },
-    { s: pirate2, t: "La balance vérifie l’équilibre." },
-    { s: pirate5, t: "Et le compte de résultat mesure la rentabilité." }
+  const dialoguesIntro = [
+    { s: pirate5, t: "Avant de compter l’or, il faut tenir ses registres." },
+    { s: pirate2, t: "Journal des ventes, grand livre, balance…" },
+    { s: pirate5, t: "Et surtout le compte de résultat, moussaillon." }
   ];
 
   /* =====================================================
-     ⏳ LOADER
-  ===================================================== */
-  function showLoaderMiniGame1() {
-    const loader = document.createElement("div");
-    loader.id = "loader";
-    loader.textContent = "Chargement…";
-    background.appendChild(loader);
-
-    setTimeout(() => {
-      loader.remove();
-      startMiniGame1();
-    }, 1400);
-  }
-
-  /* =====================================================
-     🎮 MINI-JEU 1 — QCM
+     🎮 MINI-JEU 1 — QCM REGISTRES
   ===================================================== */
   const questions = [
     {
       q: "À quoi sert le journal des ventes ?",
-      good: ["À noter toutes les ventes", "À suivre l’activité quotidienne"],
-      bad: ["À payer les impôts"]
+      good: ["À noter toutes les ventes de la journée"],
+      bad: ["À payer les impôts", "À compter les pirates"]
     },
     {
-      q: "À quoi sert la balance comptable ?",
-      good: ["À vérifier l’équilibre", "À contrôler débit et crédit"],
-      bad: ["À gérer la caisse"]
+      q: "À quoi sert le grand livre ?",
+      good: ["À regrouper les opérations par compte"],
+      bad: ["À stocker l’or", "À écrire des lettres"]
+    },
+    {
+      q: "À quoi sert la balance ?",
+      good: ["À vérifier l’équilibre des comptes"],
+      bad: ["À peser l’or", "À gérer les stocks"]
     }
   ];
 
@@ -141,12 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let goodCount = 0;
 
   function startMiniGame1() {
-    miniGame0.innerHTML = `
+    miniGame1.innerHTML = `
       <h3>📘 Épreuve des registres</h3>
       <p id="qText"></p>
       <div id="qChoices"></div>
     `;
-    miniGame0.classList.remove("hidden");
+    miniGame1.classList.remove("hidden");
     qIndex = 0;
     showQuestion();
   }
@@ -171,7 +144,9 @@ document.addEventListener("DOMContentLoaded", () => {
           goodCount++;
           if (goodCount === questions[qIndex].good.length) {
             qIndex++;
-            qIndex < questions.length ? showQuestion() : endMiniGame1();
+            qIndex < questions.length
+              ? showQuestion()
+              : endMiniGame1();
           }
         } else {
           screenShake();
@@ -182,13 +157,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function endMiniGame1() {
-    miniGame0.classList.add("hidden");
+    miniGame1.classList.add("hidden");
     showSuccess("📘 Registres maîtrisés !");
-    setTimeout(() => startMiniGame2(), 2200);
+    setTimeout(() => {
+      startDialogues(dialoguesAnalysis, startMiniGame2);
+    }, 2000);
   }
 
   /* =====================================================
-     🎮 MINI-JEU 2 — GESTION + CALCULATRICE
+     💬 DIALOGUES 2 — ANALYSE & AMORTISSEMENTS
+  ===================================================== */
+  const dialoguesAnalysis = [
+    { s: pirate5, t: "Bien tenir ses comptes permet d’analyser ses clients." },
+    { s: pirate2, t: "Mais aussi les charges, les produits…" },
+    { s: pirate5, t: "Et l’amortissement des équipements !" }
+  ];
+
+  /* =====================================================
+     🎮 MINI-JEU 2 — GESTION + 🧮 CALCULATRICE
   ===================================================== */
   function startMiniGame2() {
     financeGame.classList.remove("hidden");
@@ -208,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const input = document.createElement("input");
     input.className = "calcInput hidden";
-    input.placeholder = "Ex : 300-150 puis Entrée";
+    input.placeholder = "Ex : 500 - 150 puis Entrée";
 
     btn.onclick = () => input.classList.toggle("hidden");
 
@@ -241,9 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
       part1.classList.add("hidden");
       part2.classList.remove("hidden");
       injectCalculator(part2);
-    } else {
-      screenShake();
-    }
+    } else screenShake();
   };
 
   window.checkResult = ok => {
@@ -262,7 +246,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!ok) return screenShake();
     financeGame.classList.add("hidden");
     showSuccess("💰 Gestion réussie !");
+    setTimeout(() => {
+      startDialogues(dialoguesEBE);
+    }, 2000);
   };
+
+  /* =====================================================
+     💬 DIALOGUES 3 — EBE
+  ===================================================== */
+  const dialoguesEBE = [
+    { s: pirate5, t: "L’EBE mesure la richesse créée par l’activité." },
+    { s: pirate2, t: "Avant impôts, intérêts et amortissements." },
+    { s: pirate5, t: "Tu raisonnes comme un vrai capitaine." }
+  ];
 
   /* =====================================================
      🎉 SUCCÈS / SHAKE
