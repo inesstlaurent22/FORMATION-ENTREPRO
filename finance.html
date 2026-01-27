@@ -9,13 +9,12 @@
 
 <body>
 
-<!-- =====================================================
+<!-- ===============================
      🎬 VIDÉO D’INTRO
-===================================================== -->
+================================ -->
 <div id="videoContainer">
   <video id="questVideo" autoplay muted playsinline preload="auto">
     <source src="videos/Financevideo.MOV" type="video/mp4">
-    Votre navigateur ne supporte pas la vidéo.
   </video>
 
   <div id="videoControls">
@@ -24,56 +23,32 @@
   </div>
 </div>
 
-<!-- =====================================================
+<!-- ===============================
      🌅 SCÈNE FINANCE
-===================================================== -->
+================================ -->
 <div id="background" class="hidden">
 
-  <!-- Fond -->
-  <img
-    src="images/Fondfinance.PNG"
-    class="fondImage"
-    alt="Marché pirate – Finance"
-  >
+  <img src="images/Fondfinance.PNG" class="fondImage" alt="Marché pirate">
 
-  <!-- Pirate maître -->
-  <img
-    id="pirate5bis"
-    class="pirate hidden"
-    src="images/Piratefinance.png"
-    alt="Pirate maître"
-  >
+  <!-- Pirates -->
+  <img id="pirate5bis" class="pirate hidden" src="images/Piratefinance.png" alt="Pirate maître">
+  <img id="pirate2bis" class="pirate hidden" src="images/Pirate2.png" alt="Pirate apprenti">
 
-  <!-- Pirate apprenti -->
-  <img
-    id="pirate2bis"
-    class="pirate hidden"
-    src="images/Pirate2.png"
-    alt="Pirate apprenti"
-  >
-
-  <!-- =====================================================
-       🎮 MINI-JEU 1 — QCM (injecté par JS)
-  ===================================================== -->
+  <!-- ===============================
+       🎮 MINI-JEU 1 — QCM
+       (injecté par JS)
+  ================================ -->
   <div id="miniGame0" class="hidden"></div>
 
-  <!-- =====================================================
+  <!-- ===============================
        🎮 MINI-JEU 2 — GESTION
-  ===================================================== -->
+  ================================ -->
   <div id="financeGame" class="hidden">
 
-    <!-- ================= PARTIE 1 : ANALYSE CLIENTS ================= -->
+    <!-- PARTIE 1 : CLIENTS -->
     <div id="part1" class="hidden">
       <h3>🧾 Analyse des clients</h3>
-      <p>Consulte chaque registre 🧾 puis choisis le pirate le plus rentable.</p>
-
-      <!-- Calculatrice (affichée via bouton 🧮 injecté par JS) -->
-      <input
-        id="calc"
-        class="hidden"
-        type="text"
-        placeholder="Ex : 300 + 650 puis Entrée"
-      >
+      <p>Consulte les registres puis choisis le pirate le plus rentable.</p>
 
       <div class="clients">
         <div>
@@ -90,40 +65,28 @@
         </div>
       </div>
 
-      <div id="bill" class="bill"></div>
+      <div id="bill"></div>
     </div>
 
-    <!-- ================= PARTIE 2 : RÉSULTAT ================= -->
+    <!-- PARTIE 2 : RÉSULTAT -->
     <div id="part2" class="hidden">
       <h3>💰 Résultat annuel</h3>
-      <p>
-        Chiffre d’affaires : <strong>12 000</strong> pièces d’or<br>
-        Charges : <strong>8 500</strong> pièces d’or
-      </p>
-      <p>Quel est le bon calcul ?</p>
+
+      <p>Chiffre d’affaires : <strong>12 000</strong></p>
+      <p>Charges : <strong>8 500</strong></p>
 
       <button onclick="checkResult(false)">Charges + Produits</button>
       <button onclick="checkResult(true)">Produits − Charges</button>
       <button onclick="checkResult(false)">Charges × Produits</button>
     </div>
 
-    <!-- ================= PARTIE 3 : AMORTISSEMENTS ================= -->
+    <!-- PARTIE 3 : AMORTISSEMENTS -->
     <div id="part3" class="hidden">
-      <h3>🛠️ Amortissements et provisions</h3>
+      <h3>🛠️ Amortissements</h3>
 
-      <p>
-        Prix d’achat : <strong>500</strong> pièces d’or<br>
-        Provision utilisée : <strong>150</strong> pièces d’or<br>
-        Durée d’amortissement : <strong>3 ans</strong>
-      </p>
-
-      <!-- Calculatrice (réutilisée ici) -->
-      <input
-        id="calc"
-        class="hidden"
-        type="text"
-        placeholder="Ex : 500 - 150 puis Entrée"
-      >
+      <p>Prix d’achat : <strong>500</strong></p>
+      <p>Provision : <strong>150</strong></p>
+      <p>Durée : <strong>3 ans</strong></p>
 
       <p>Combien reste-t-il à amortir ?</p>
 
@@ -132,7 +95,7 @@
       <button onclick="checkAmortBase(false)">150</button>
 
       <div id="amortMonth" class="hidden">
-        <p>Quel est le montant de l’amortissement mensuel ?</p>
+        <p>Amortissement mensuel ?</p>
         <button onclick="checkMonthlyAmort(false)">97 €</button>
         <button onclick="checkMonthlyAmort(true)">117 €</button>
         <button onclick="checkMonthlyAmort(false)">150 €</button>
@@ -142,10 +105,6 @@
   </div>
 </div>
 
-<!-- =====================================================
-     📜 SCRIPT
-===================================================== -->
 <script src="finance.js"></script>
-
 </body>
 </html>
