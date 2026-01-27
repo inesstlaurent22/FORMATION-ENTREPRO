@@ -109,7 +109,7 @@ html, body {
 }
 
 /* =====================================================
-   ⏳ LOADER (SIMPLIFIÉ)
+   ⏳ LOADER
 ===================================================== */
 #loader {
   position: absolute;
@@ -124,7 +124,7 @@ html, body {
 }
 
 /* =====================================================
-   🎉 OVERLAY DE RÉUSSITE
+   🎉 OVERLAY DE RÉUSSITE (PLUS LONG)
 ===================================================== */
 .successOverlay {
   position: absolute;
@@ -133,17 +133,17 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0,0,0,0.7);
   color: gold;
   font-size: 28px;
   font-weight: bold;
   text-align: center;
-  animation: successFade 1s ease forwards;
+  animation: successFade 2.2s ease forwards;
 }
 
 @keyframes successFade {
   0%   { opacity: 0; transform: scale(0.95); }
-  20%  { opacity: 1; transform: scale(1); }
+  15%  { opacity: 1; transform: scale(1); }
   80%  { opacity: 1; }
   100% { opacity: 0; }
 }
@@ -179,12 +179,12 @@ html, body {
   max-width: 420px;
 }
 
-/* Bouton bonne réponse (enfoncé) */
-button.pressed {
-  transform: translateY(4px);
+/* Bouton sélectionné (PLUS FONCÉ, PAS VERT) */
+button.selectedAnswer {
+  background: linear-gradient(145deg, #3a2a18, #6b4b24);
+  color: #f5e6c8;
+  transform: translateY(3px);
   box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
-  background: linear-gradient(145deg, #3b7a2f, #6cc04a);
-  color: #0e2406;
 }
 
 /* =====================================================
@@ -221,7 +221,7 @@ button.pressed {
   gap: 10px;
 }
 
-/* Boutons 🧾 (consultation) */
+/* Boutons 🧾 */
 .clients button:first-child {
   background: linear-gradient(145deg, #2c1c10, #5a3a1a);
   border: 2px solid #caa14a;
@@ -286,7 +286,7 @@ button:disabled {
 }
 
 /* =====================================================
-   🧯 SHAKE (ERREUR)
+   🧯 SHAKE
 ===================================================== */
 .shake { animation: shake 0.4s; }
 
