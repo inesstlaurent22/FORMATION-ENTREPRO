@@ -56,7 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
   bubble.classList.add("hidden");
   background.appendChild(bubble);
 
-  let dialogues = [], dIndex = 0;
+  let dialogues = [];
+  let dIndex = 0;
 
   function playDialogues(arr, callback) {
     dialogues = arr;
@@ -89,13 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================================================
-     💬 DIALOGUES – DOCUMENTS
+     💬 DIALOGUES – DOCUMENTS COMPTABLES
   ===================================================== */
   const dialoguesDocs = [
     { s: pirate5, t: "Pour gérer une boutique, il faut des documents comptables." },
     { s: pirate2, t: "Le journal des ventes note chaque vente quotidienne." },
-    { s: pirate5, t: "Le grand livre classe les comptes." },
-    { s: pirate2, t: "La balance vérifie l’équilibre." },
+    { s: pirate5, t: "Le grand livre regroupe les opérations par compte." },
+    { s: pirate2, t: "La balance vérifie l’équilibre des comptes." },
     { s: pirate5, t: "Le compte de résultat mesure la rentabilité." }
   ];
 
@@ -115,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     🎮 MINI-JEU 1 — QCM
+     🎮 MINI-JEU 1 — QCM COMPLET
   ===================================================== */
   const questions = [
     {
@@ -127,12 +128,22 @@ document.addEventListener("DOMContentLoaded", () => {
       bad: ["À payer les impôts"]
     },
     {
-      q: "À quoi sert la balance ?",
+      q: "Pourquoi tenir un grand livre ?",
+      good: ["Pour regrouper les opérations par compte"],
+      bad: ["Pour décorer la boutique", "Pour compter les clients"]
+    },
+    {
+      q: "À quoi sert la balance comptable ?",
       good: [
         "À vérifier l’équilibre des comptes",
-        "À contrôler les totaux débit/crédit"
+        "À contrôler les totaux débit et crédit"
       ],
       bad: ["À gérer la caisse"]
+    },
+    {
+      q: "À quoi sert le compte de résultat ?",
+      good: ["À mesurer la rentabilité de l’entreprise"],
+      bad: ["À ranger les factures", "À noter les stocks"]
     }
   ];
 
@@ -173,9 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
             qIndex++;
             qIndex < questions.length ? showQuestion() : endMiniGame1();
           }
-        } else {
-          screenShake();
-        }
+        } else screenShake();
       };
 
       qChoices.appendChild(btn);
@@ -195,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================================== */
   const dialoguesAnalysis = [
     { s: pirate5, t: "Analyser ses comptes permet de mieux gérer ses clients." },
-    { s: pirate2, t: "Voyons cela avec des chiffres concrets." }
+    { s: pirate2, t: "Passons à l’analyse financière." }
   ];
 
   /* =====================================================
@@ -261,18 +270,18 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================================== */
   const dialoguesEBE = [
     { s: pirate5, t: "L’EBE mesure la richesse créée par l’activité." },
-    { s: pirate2, t: "C’est un indicateur clé de performance." }
+    { s: pirate2, t: "Avant amortissements et charges financières." }
   ];
 
   /* =====================================================
-     🎉 SUCCÈS
+     🎉 OVERLAY SUCCÈS
   ===================================================== */
   function showSuccess(text) {
     const success = document.createElement("div");
     success.className = "successOverlay";
     success.textContent = text;
     background.appendChild(success);
-    setTimeout(() => success.remove(), 2000);
+    setTimeout(() => success.remove(), 2200);
   }
 
   /* =====================================================
