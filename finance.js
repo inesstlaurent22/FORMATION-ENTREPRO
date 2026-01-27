@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================================================
-     🎬 VIDEO
+     🎬 VIDÉO
   ===================================================== */
   const video = document.getElementById("questVideo");
   const videoContainer = document.getElementById("videoContainer");
@@ -12,25 +12,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate5 = document.getElementById("pirate5bis");
   const pirate2 = document.getElementById("pirate2bis");
 
-  const miniGame1 = document.getElementById("miniGame0");
+  const miniGame0 = document.getElementById("miniGame0");
   const financeGame = document.getElementById("financeGame");
-
   const part1 = document.getElementById("part1");
   const part2 = document.getElementById("part2");
   const part3 = document.getElementById("part3");
 
   let dialogueActive = false;
-  let calcInput = null;
 
-  /* =====================================================
-     VIDEO LOGIC
-  ===================================================== */
   video.muted = true;
   video.play().catch(() => {});
+
   toggleSoundBtn.onclick = () => {
     video.muted = !video.muted;
     toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
   };
+
   closeVideoBtn.onclick = endVideo;
   video.onended = endVideo;
 
@@ -43,25 +40,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     ✨ PIRATE 5 HOVER
+     ✨ PIRATE 5 – SURVOL
   ===================================================== */
   pirate5.onmouseenter = () => {
     if (!dialogueActive) pirate5.style.filter = "drop-shadow(0 0 30px gold)";
   };
-  pirate5.onmouseleave = () => pirate5.style.filter = "";
+  pirate5.onmouseleave = () => {
+    pirate5.style.filter = "";
+  };
 
   /* =====================================================
-     💬 DIALOGUES
+     💬 SYSTÈME DE DIALOGUES
   ===================================================== */
   const bubble = document.createElement("div");
   bubble.id = "dialogueBox";
   bubble.classList.add("hidden");
   background.appendChild(bubble);
 
-  let dialogues = [], dIndex = 0;
+  let dialogues = [];
+  let dIndex = 0;
 
   function playDialogues(arr, cb) {
     dialogueActive = true;
+    pirate5.style.filter = "";
     dialogues = arr;
     dIndex = 0;
     bubble.classList.remove("hidden");
@@ -71,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showDialogue(cb) {
     const d = dialogues[dIndex];
     bubble.textContent = d.t;
+
     const r = d.s.getBoundingClientRect();
     bubble.style.left = r.left + r.width / 2 + "px";
     bubble.style.top = r.top - 90 + "px";
@@ -78,8 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bubble.onclick = () => {
       dIndex++;
-      if (dIndex < dialogues.length) showDialogue(cb);
-      else {
+      if (dIndex < dialogues.length) {
+        showDialogue(cb);
+      } else {
         bubble.classList.add("hidden");
         dialogueActive = false;
         cb && cb();
@@ -93,12 +96,14 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================================================
-     💬 DIALOGUES – DOCUMENTS
+     📚 DIALOGUES – DOCUMENTS
   ===================================================== */
   const dialoguesDocs = [
-    { s: pirate5, t: "Pour gérer une boutique, il faut des documents comptables." },
-    { s: pirate2, t: "Journal, grand livre, balance et compte de résultat." },
-    { s: pirate5, t: "Voyons si tu sais les utiliser." }
+    { s: pirate5, t: "Pour gérer une boutique pirate, il faut des registres." },
+    { s: pirate2, t: "Le journal des ventes note chaque transaction." },
+    { s: pirate5, t: "Le grand livre regroupe les comptes." },
+    { s: pirate2, t: "La balance vérifie l’équilibre." },
+    { s: pirate5, t: "Et le compte de résultat mesure la rentabilité." }
   ];
 
   /* =====================================================
@@ -107,12 +112,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function showLoaderMiniGame1() {
     const loader = document.createElement("div");
     loader.id = "loader";
-    loader.innerHTML = "<h2>Chargement…</h2>";
+    loader.textContent = "Chargement…";
     background.appendChild(loader);
+
     setTimeout(() => {
       loader.remove();
       startMiniGame1();
-    }, 1200);
+    }, 1400);
   }
 
   /* =====================================================
@@ -131,15 +137,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
-  let qIndex = 0, goodCount = 0;
+  let qIndex = 0;
+  let goodCount = 0;
 
   function startMiniGame1() {
-    miniGame1.innerHTML = `
+    miniGame0.innerHTML = `
       <h3>📘 Épreuve des registres</h3>
       <p id="qText"></p>
       <div id="qChoices"></div>
     `;
-    miniGame1.classList.remove("hidden");
+    miniGame0.classList.remove("hidden");
     qIndex = 0;
     showQuestion();
   }
@@ -149,28 +156,33 @@ document.addEventListener("DOMContentLoaded", () => {
     qText.textContent = questions[qIndex].q;
     qChoices.innerHTML = "";
 
-    [...questions[qIndex].good.map(t => ({t, ok:true})),
-     ...questions[qIndex].bad.map(t => ({t, ok:false}))].sort(() => Math.random()-0.5)
-    .forEach(a => {
-      const b = document.createElement("button");
-      b.textContent = a.t;
-      b.onclick = () => {
+    const answers = [
+      ...questions[qIndex].good.map(t => ({ t, ok: true })),
+      ...questions[qIndex].bad.map(t => ({ t, ok: false }))
+    ].sort(() => Math.random() - 0.5);
+
+    answers.forEach(a => {
+      const btn = document.createElement("button");
+      btn.textContent = a.t;
+      btn.onclick = () => {
         if (a.ok) {
-          b.classList.add("selectedAnswer");
-          b.disabled = true;
+          btn.classList.add("selectedAnswer");
+          btn.disabled = true;
           goodCount++;
           if (goodCount === questions[qIndex].good.length) {
             qIndex++;
             qIndex < questions.length ? showQuestion() : endMiniGame1();
           }
-        } else screenShake();
+        } else {
+          screenShake();
+        }
       };
-      qChoices.appendChild(b);
+      qChoices.appendChild(btn);
     });
   }
 
   function endMiniGame1() {
-    miniGame1.classList.add("hidden");
+    miniGame0.classList.add("hidden");
     showSuccess("📘 Registres maîtrisés !");
     setTimeout(() => startMiniGame2(), 2200);
   }
@@ -194,43 +206,44 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.className = "calcToggle";
     btn.textContent = "🧮 Calculatrice";
 
-    calcInput = document.createElement("input");
-    calcInput.type = "text";
-    calcInput.placeholder = "Ex : 300-150 puis Entrée";
-    calcInput.className = "calcInput hidden";
+    const input = document.createElement("input");
+    input.className = "calcInput hidden";
+    input.placeholder = "Ex : 300-150 puis Entrée";
 
-    btn.onclick = () => calcInput.classList.toggle("hidden");
+    btn.onclick = () => input.classList.toggle("hidden");
 
-    calcInput.addEventListener("keydown", e => {
+    input.addEventListener("keydown", e => {
       if (e.key === "Enter") {
         try {
-          calcInput.value = Function("return " + calcInput.value)();
+          input.value = Function("return " + input.value)();
         } catch {
-          calcInput.value = "Erreur";
+          input.value = "Erreur";
         }
       }
     });
 
     wrap.appendChild(btn);
-    wrap.appendChild(calcInput);
+    wrap.appendChild(input);
     container.prepend(wrap);
   }
 
   window.showBill = c => {
     bill.textContent = {
-      A:"🧾 Barbe-Cuivre : 950",
-      B:"🧾 Vent-Noir : 850",
-      C:"🧾 Crâne-Rouge : 530"
+      A: "🧾 Barbe-Cuivre : 950",
+      B: "🧾 Vent-Noir : 850",
+      C: "🧾 Crâne-Rouge : 530"
     }[c];
   };
 
   window.chooseClient = btn => {
     const all = [...document.querySelectorAll(".clients button:last-child")];
-    if (btn === all[all.length-1]) {
+    if (btn === all[all.length - 1]) {
       part1.classList.add("hidden");
       part2.classList.remove("hidden");
       injectCalculator(part2);
-    } else screenShake();
+    } else {
+      screenShake();
+    }
   };
 
   window.checkResult = ok => {
@@ -252,12 +265,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================================================
-     🎉 SUCCÈS & SHAKE
+     🎉 SUCCÈS / SHAKE
   ===================================================== */
-  function showSuccess(t) {
+  function showSuccess(text) {
     const s = document.createElement("div");
     s.className = "successOverlay";
-    s.textContent = t;
+    s.textContent = text;
     background.appendChild(s);
     setTimeout(() => s.remove(), 2200);
   }
