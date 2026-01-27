@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   /* =====================================================
-     ⏳ LOADER (TEXTE SIMPLIFIÉ)
+     ⏳ LOADER MINI-JEU 1
   ===================================================== */
   function showLoaderMiniGame1() {
     const loader = document.createElement("div");
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     🎮 MINI-JEU 1 — QCM (MULTI BONNES RÉPONSES)
+     🎮 MINI-JEU 1 — QCM
   ===================================================== */
   const questions = [
     {
@@ -127,22 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
       bad: ["À payer les impôts"]
     },
     {
-      q: "Pourquoi tenir un grand livre ?",
-      good: ["Pour regrouper les opérations par compte"],
-      bad: ["Pour décorer la boutique", "Pour compter les clients"]
-    },
-    {
       q: "À quoi sert la balance ?",
       good: [
         "À vérifier l’équilibre des comptes",
         "À contrôler les totaux débit/crédit"
       ],
       bad: ["À gérer la caisse"]
-    },
-    {
-      q: "À quoi sert le compte de résultat ?",
-      good: ["À mesurer la rentabilité"],
-      bad: ["À ranger les factures", "À noter les stocks"]
     }
   ];
 
@@ -168,24 +158,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const answers = [
       ...questions[qIndex].good.map(t => ({ t, ok: true })),
       ...questions[qIndex].bad.map(t => ({ t, ok: false }))
-    ].slice(0, 3).sort(() => Math.random() - 0.5);
+    ].sort(() => Math.random() - 0.5);
 
     answers.forEach(ans => {
       const btn = document.createElement("button");
       btn.textContent = ans.t;
+
       btn.onclick = () => {
         if (ans.ok) {
-          btn.classList.add("pressed");
+          btn.classList.add("selectedAnswer");
           btn.disabled = true;
           goodCount++;
           if (goodCount === questions[qIndex].good.length) {
             qIndex++;
-            qIndex < questions.length
-              ? showQuestion()
-              : endMiniGame1();
+            qIndex < questions.length ? showQuestion() : endMiniGame1();
           }
-        } else screenShake();
+        } else {
+          screenShake();
+        }
       };
+
       qChoices.appendChild(btn);
     });
   }
@@ -195,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showSuccess("📘 Registres maîtrisés !");
     setTimeout(() => {
       playDialogues(dialoguesAnalysis, startMiniGame2);
-    }, 1200);
+    }, 2200);
   }
 
   /* =====================================================
@@ -203,12 +195,11 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================================== */
   const dialoguesAnalysis = [
     { s: pirate5, t: "Analyser ses comptes permet de mieux gérer ses clients." },
-    { s: pirate2, t: "On peut comparer chiffre d’affaires et charges." },
-    { s: pirate5, t: "Passons à la pratique." }
+    { s: pirate2, t: "Voyons cela avec des chiffres concrets." }
   ];
 
   /* =====================================================
-     🎮 MINI-JEU 2 — GESTION (3 PARTIES)
+     🎮 MINI-JEU 2 — GESTION
   ===================================================== */
   function startMiniGame2() {
     financeGame.classList.remove("hidden");
@@ -262,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showSuccess("💰 Gestion réussie !");
     setTimeout(() => {
       playDialogues(dialoguesEBE);
-    }, 1200);
+    }, 2500);
   };
 
   /* =====================================================
@@ -270,19 +261,18 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================================== */
   const dialoguesEBE = [
     { s: pirate5, t: "L’EBE mesure la richesse créée par l’activité." },
-    { s: pirate2, t: "Avant amortissements et charges financières." },
-    { s: pirate5, t: "C’est un indicateur clé de performance." }
+    { s: pirate2, t: "C’est un indicateur clé de performance." }
   ];
 
   /* =====================================================
-     🎉 ANIMATION DE RÉUSSITE
+     🎉 SUCCÈS
   ===================================================== */
   function showSuccess(text) {
     const success = document.createElement("div");
     success.className = "successOverlay";
     success.textContent = text;
     background.appendChild(success);
-    setTimeout(() => success.remove(), 1000);
+    setTimeout(() => success.remove(), 2000);
   }
 
   /* =====================================================
