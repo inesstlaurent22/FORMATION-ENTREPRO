@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const calc = document.getElementById("calc");
 
+  let dialogueActive = false;
+
   /* =====================================================
      VIDEO LOGIC
   ===================================================== */
@@ -42,11 +44,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     ✨ PIRATE 5 HOVER
+     ✨ PIRATE 5 HOVER (UNIQUEMENT HORS DIALOGUES)
   ===================================================== */
-  pirate5.onmouseenter = () =>
-    pirate5.style.filter = "drop-shadow(0 0 30px gold)";
-  pirate5.onmouseleave = () => pirate5.style.filter = "";
+  pirate5.onmouseenter = () => {
+    if (!dialogueActive) {
+      pirate5.style.filter = "drop-shadow(0 0 30px gold)";
+    }
+  };
+  pirate5.onmouseleave = () => {
+    if (!dialogueActive) {
+      pirate5.style.filter = "";
+    }
+  };
 
   /* =====================================================
      💬 DIALOGUES SYSTEM
@@ -60,6 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let dIndex = 0;
 
   function playDialogues(arr, callback) {
+    dialogueActive = true;
+    pirate5.style.filter = ""; // stop glow
     dialogues = arr;
     dIndex = 0;
     bubble.classList.remove("hidden");
@@ -77,15 +88,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bubble.onclick = () => {
       dIndex++;
-      if (dIndex < dialogues.length) showDialogue(callback);
-      else {
+      if (dIndex < dialogues.length) {
+        showDialogue(callback);
+      } else {
         bubble.classList.add("hidden");
+        dialogueActive = false;
         callback && callback();
       }
     };
   }
 
   pirate5.onclick = () => {
+    if (dialogueActive) return;
     playDialogues(dialoguesDocs, showLoaderMiniGame1);
   };
 
@@ -116,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     🎮 MINI-JEU 1 — QCM COMPLET
+     🎮 MINI-JEU 1 — QCM
   ===================================================== */
   const questions = [
     {
@@ -184,7 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
             qIndex++;
             qIndex < questions.length ? showQuestion() : endMiniGame1();
           }
-        } else screenShake();
+        } else {
+          screenShake();
+        }
       };
 
       qChoices.appendChild(btn);
