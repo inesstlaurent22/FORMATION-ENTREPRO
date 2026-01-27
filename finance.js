@@ -19,9 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const part2 = document.getElementById("part2");
   const part3 = document.getElementById("part3");
 
-  const calc = document.getElementById("calc");
-
   let dialogueActive = false;
+  let calcInput = null;
 
   /* =====================================================
      VIDEO LOGIC
@@ -44,43 +43,34 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     ✨ PIRATE 5 HOVER (UNIQUEMENT HORS DIALOGUES)
+     ✨ PIRATE 5 HOVER
   ===================================================== */
   pirate5.onmouseenter = () => {
-    if (!dialogueActive) {
-      pirate5.style.filter = "drop-shadow(0 0 30px gold)";
-    }
+    if (!dialogueActive) pirate5.style.filter = "drop-shadow(0 0 30px gold)";
   };
-  pirate5.onmouseleave = () => {
-    if (!dialogueActive) {
-      pirate5.style.filter = "";
-    }
-  };
+  pirate5.onmouseleave = () => pirate5.style.filter = "";
 
   /* =====================================================
-     💬 DIALOGUES SYSTEM
+     💬 DIALOGUES
   ===================================================== */
   const bubble = document.createElement("div");
   bubble.id = "dialogueBox";
   bubble.classList.add("hidden");
   background.appendChild(bubble);
 
-  let dialogues = [];
-  let dIndex = 0;
+  let dialogues = [], dIndex = 0;
 
-  function playDialogues(arr, callback) {
+  function playDialogues(arr, cb) {
     dialogueActive = true;
-    pirate5.style.filter = ""; // stop glow
     dialogues = arr;
     dIndex = 0;
     bubble.classList.remove("hidden");
-    showDialogue(callback);
+    showDialogue(cb);
   }
 
-  function showDialogue(callback) {
+  function showDialogue(cb) {
     const d = dialogues[dIndex];
     bubble.textContent = d.t;
-
     const r = d.s.getBoundingClientRect();
     bubble.style.left = r.left + r.width / 2 + "px";
     bubble.style.top = r.top - 90 + "px";
@@ -88,12 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bubble.onclick = () => {
       dIndex++;
-      if (dIndex < dialogues.length) {
-        showDialogue(callback);
-      } else {
+      if (dIndex < dialogues.length) showDialogue(cb);
+      else {
         bubble.classList.add("hidden");
         dialogueActive = false;
-        callback && callback();
+        cb && cb();
       }
     };
   }
@@ -104,25 +93,22 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================================================
-     💬 DIALOGUES – DOCUMENTS COMPTABLES
+     💬 DIALOGUES – DOCUMENTS
   ===================================================== */
   const dialoguesDocs = [
     { s: pirate5, t: "Pour gérer une boutique, il faut des documents comptables." },
-    { s: pirate2, t: "Le journal des ventes note chaque vente quotidienne." },
-    { s: pirate5, t: "Le grand livre regroupe les opérations par compte." },
-    { s: pirate2, t: "La balance vérifie l’équilibre des comptes." },
-    { s: pirate5, t: "Le compte de résultat mesure la rentabilité." }
+    { s: pirate2, t: "Journal, grand livre, balance et compte de résultat." },
+    { s: pirate5, t: "Voyons si tu sais les utiliser." }
   ];
 
   /* =====================================================
-     ⏳ LOADER MINI-JEU 1
+     ⏳ LOADER
   ===================================================== */
   function showLoaderMiniGame1() {
     const loader = document.createElement("div");
     loader.id = "loader";
     loader.innerHTML = "<h2>Chargement…</h2>";
     background.appendChild(loader);
-
     setTimeout(() => {
       loader.remove();
       startMiniGame1();
@@ -135,34 +121,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const questions = [
     {
       q: "À quoi sert le journal des ventes ?",
-      good: [
-        "À noter toutes les ventes de la journée",
-        "À suivre l’activité quotidienne"
-      ],
+      good: ["À noter toutes les ventes", "À suivre l’activité quotidienne"],
       bad: ["À payer les impôts"]
     },
     {
-      q: "Pourquoi tenir un grand livre ?",
-      good: ["Pour regrouper les opérations par compte"],
-      bad: ["Pour décorer la boutique", "Pour compter les clients"]
-    },
-    {
       q: "À quoi sert la balance comptable ?",
-      good: [
-        "À vérifier l’équilibre des comptes",
-        "À contrôler les totaux débit et crédit"
-      ],
+      good: ["À vérifier l’équilibre", "À contrôler débit et crédit"],
       bad: ["À gérer la caisse"]
-    },
-    {
-      q: "À quoi sert le compte de résultat ?",
-      good: ["À mesurer la rentabilité de l’entreprise"],
-      bad: ["À ranger les factures", "À noter les stocks"]
     }
   ];
 
-  let qIndex = 0;
-  let goodCount = 0;
+  let qIndex = 0, goodCount = 0;
 
   function startMiniGame1() {
     miniGame1.innerHTML = `
@@ -180,93 +149,97 @@ document.addEventListener("DOMContentLoaded", () => {
     qText.textContent = questions[qIndex].q;
     qChoices.innerHTML = "";
 
-    const answers = [
-      ...questions[qIndex].good.map(t => ({ t, ok: true })),
-      ...questions[qIndex].bad.map(t => ({ t, ok: false }))
-    ].sort(() => Math.random() - 0.5);
-
-    answers.forEach(ans => {
-      const btn = document.createElement("button");
-      btn.textContent = ans.t;
-
-      btn.onclick = () => {
-        if (ans.ok) {
-          btn.classList.add("selectedAnswer");
-          btn.disabled = true;
+    [...questions[qIndex].good.map(t => ({t, ok:true})),
+     ...questions[qIndex].bad.map(t => ({t, ok:false}))].sort(() => Math.random()-0.5)
+    .forEach(a => {
+      const b = document.createElement("button");
+      b.textContent = a.t;
+      b.onclick = () => {
+        if (a.ok) {
+          b.classList.add("selectedAnswer");
+          b.disabled = true;
           goodCount++;
           if (goodCount === questions[qIndex].good.length) {
             qIndex++;
             qIndex < questions.length ? showQuestion() : endMiniGame1();
           }
-        } else {
-          screenShake();
-        }
+        } else screenShake();
       };
-
-      qChoices.appendChild(btn);
+      qChoices.appendChild(b);
     });
   }
 
   function endMiniGame1() {
     miniGame1.classList.add("hidden");
     showSuccess("📘 Registres maîtrisés !");
-    setTimeout(() => {
-      playDialogues(dialoguesAnalysis, startMiniGame2);
-    }, 2200);
+    setTimeout(() => startMiniGame2(), 2200);
   }
 
   /* =====================================================
-     💬 DIALOGUES – ANALYSE
-  ===================================================== */
-  const dialoguesAnalysis = [
-    { s: pirate5, t: "Analyser ses comptes permet de mieux gérer ses clients." },
-    { s: pirate2, t: "Passons à l’analyse financière." }
-  ];
-
-  /* =====================================================
-     🎮 MINI-JEU 2 — GESTION
+     🎮 MINI-JEU 2 — GESTION + CALCULATRICE
   ===================================================== */
   function startMiniGame2() {
     financeGame.classList.remove("hidden");
     part1.classList.remove("hidden");
-    addCalcButton(part1);
+    injectCalculator(part1);
   }
 
-  function addCalcButton(container) {
-    if (container.querySelector(".calcBtn")) return;
+  function injectCalculator(container) {
+    if (container.querySelector(".calcWrapper")) return;
+
+    const wrap = document.createElement("div");
+    wrap.className = "calcWrapper";
+
     const btn = document.createElement("button");
-    btn.className = "calcBtn";
-    btn.textContent = "🧮";
-    btn.onclick = () => calc.classList.remove("hidden");
-    container.prepend(btn);
+    btn.className = "calcToggle";
+    btn.textContent = "🧮 Calculatrice";
+
+    calcInput = document.createElement("input");
+    calcInput.type = "text";
+    calcInput.placeholder = "Ex : 300-150 puis Entrée";
+    calcInput.className = "calcInput hidden";
+
+    btn.onclick = () => calcInput.classList.toggle("hidden");
+
+    calcInput.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        try {
+          calcInput.value = Function("return " + calcInput.value)();
+        } catch {
+          calcInput.value = "Erreur";
+        }
+      }
+    });
+
+    wrap.appendChild(btn);
+    wrap.appendChild(calcInput);
+    container.prepend(wrap);
   }
 
-  /* -------- PARTIE 1 : CLIENTS -------- */
   window.showBill = c => {
     bill.textContent = {
-      A: "🧾 Barbe-Cuivre : 950",
-      B: "🧾 Vent-Noir : 850",
-      C: "🧾 Crâne-Rouge : 530"
+      A:"🧾 Barbe-Cuivre : 950",
+      B:"🧾 Vent-Noir : 850",
+      C:"🧾 Crâne-Rouge : 530"
     }[c];
   };
 
   window.chooseClient = btn => {
-    const buttons = [...document.querySelectorAll(".clients button:last-child")];
-    if (btn === buttons[buttons.length - 1]) {
+    const all = [...document.querySelectorAll(".clients button:last-child")];
+    if (btn === all[all.length-1]) {
       part1.classList.add("hidden");
       part2.classList.remove("hidden");
+      injectCalculator(part2);
     } else screenShake();
   };
 
-  /* -------- PARTIE 2 : RÉSULTAT -------- */
   window.checkResult = ok => {
     if (!ok) return screenShake();
     part2.classList.add("hidden");
     part3.classList.remove("hidden");
-    addCalcButton(part3);
+    injectCalculator(part3);
   };
 
-  /* -------- PARTIE 3 : AMORTISSEMENTS -------- */
   window.checkAmortBase = ok => {
     if (!ok) return screenShake();
     amortMonth.classList.remove("hidden");
@@ -276,43 +249,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!ok) return screenShake();
     financeGame.classList.add("hidden");
     showSuccess("💰 Gestion réussie !");
-    setTimeout(() => {
-      playDialogues(dialoguesEBE);
-    }, 2500);
   };
 
   /* =====================================================
-     💬 DIALOGUES – EBE
+     🎉 SUCCÈS & SHAKE
   ===================================================== */
-  const dialoguesEBE = [
-    { s: pirate5, t: "L’EBE mesure la richesse créée par l’activité." },
-    { s: pirate2, t: "Avant amortissements et charges financières." }
-  ];
-
-  /* =====================================================
-     🎉 OVERLAY SUCCÈS
-  ===================================================== */
-  function showSuccess(text) {
-    const success = document.createElement("div");
-    success.className = "successOverlay";
-    success.textContent = text;
-    background.appendChild(success);
-    setTimeout(() => success.remove(), 2200);
+  function showSuccess(t) {
+    const s = document.createElement("div");
+    s.className = "successOverlay";
+    s.textContent = t;
+    background.appendChild(s);
+    setTimeout(() => s.remove(), 2200);
   }
 
-  /* =====================================================
-     🧮 CALCULATRICE
-  ===================================================== */
-  calc.addEventListener("keydown", e => {
-    if (e.key === "Enter") {
-      try { calc.value = Function("return " + calc.value)(); }
-      catch { calc.value = "Erreur"; }
-    }
-  });
-
-  /* =====================================================
-     SHAKE
-  ===================================================== */
   function screenShake() {
     document.body.classList.add("shake");
     setTimeout(() => document.body.classList.remove("shake"), 400);
