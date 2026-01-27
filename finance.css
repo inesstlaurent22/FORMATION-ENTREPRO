@@ -97,7 +97,7 @@ html, body {
 ===================================================== */
 #dialogueBox {
   position: absolute;
-  z-index: 10;
+  z-index: 20;
   max-width: 420px;
   background: #1a1208;
   border: 3px solid gold;
@@ -114,7 +114,7 @@ html, body {
 #loader {
   position: absolute;
   inset: 0;
-  z-index: 9;
+  z-index: 15;
   background: rgba(0,0,0,0.85);
   display: flex;
   flex-direction: column;
@@ -126,7 +126,7 @@ html, body {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — QCM REGISTRES (3 CHOIX)
+   🎮 MINI-JEU 1 — QCM
 ===================================================== */
 #miniGame0 {
   position: absolute;
@@ -138,7 +138,7 @@ html, body {
   border: 4px solid #caa14a;
   border-radius: 22px;
   padding: 28px;
-  z-index: 6;
+  z-index: 10;
   text-align: center;
   box-shadow: 0 0 40px rgba(255,215,0,0.45);
 }
@@ -156,7 +156,7 @@ html, body {
   max-width: 420px;
 }
 
-/* Effet “bouton enfoncé” pour bonne réponse */
+/* Effet bonne réponse */
 button.pressed {
   transform: translateY(4px);
   box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
@@ -165,7 +165,7 @@ button.pressed {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — CONTENEUR GLOBAL
+   🎮 MINI-JEU 2 — CONTENEUR
 ===================================================== */
 #financeGame {
   position: absolute;
@@ -177,7 +177,7 @@ button.pressed {
   border: 4px solid #caa14a;
   border-radius: 22px;
   padding: 30px;
-  z-index: 6;
+  z-index: 10;
   box-shadow: 0 0 40px rgba(255,215,0,0.45);
   text-align: center;
 }
@@ -198,14 +198,14 @@ button.pressed {
   gap: 10px;
 }
 
-/* Boutons 🧾 (consultation registres) */
+/* Boutons 🧾 */
 .clients button:first-child {
   background: linear-gradient(145deg, #2c1c10, #5a3a1a);
   border: 2px solid #caa14a;
   color: #f5e6c8;
 }
 
-/* Boutons “Je choisis ce pirate” */
+/* Boutons choix */
 .clients button:last-child {
   background: linear-gradient(145deg, #d4af37, #b8962e);
   border: 3px solid #3b2208;
@@ -213,7 +213,7 @@ button.pressed {
 }
 
 /* =====================================================
-   🛠️ AMORTISSEMENTS & CALCULATRICE
+   🧮 CALCULATRICE
 ===================================================== */
 #calc {
   margin: 16px auto;
@@ -225,7 +225,6 @@ button.pressed {
   border: none;
 }
 
-/* Bouton 🧮 style calculatrice */
 .calcBtn {
   background: linear-gradient(#2b2b2b, #1a1a1a);
   border: 2px solid #777;
@@ -234,11 +233,11 @@ button.pressed {
   font-size: 18px;
   padding: 10px 18px;
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 /* =====================================================
-   🏴‍☠️ BOUTONS – STYLE PIRATE GLOBAL
+   🏴‍☠️ BOUTONS GÉNÉRAUX
 ===================================================== */
 button {
   background: linear-gradient(145deg, #7b4a12, #caa14a);
@@ -263,7 +262,7 @@ button:disabled {
 }
 
 /* =====================================================
-   🧯 SHAKE (ERREUR)
+   🧯 SHAKE
 ===================================================== */
 .shake { animation: shake 0.4s; }
 
@@ -284,5 +283,8 @@ button:disabled {
 
 @media (max-width: 768px) {
   .pirate { display: none; }
-  #financeGame, #miniGame0 { width: 95%; padding: 20px; }
+  #financeGame, #miniGame0 {
+    width: 95%;
+    padding: 20px;
+  }
 }
