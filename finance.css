@@ -109,7 +109,7 @@ html, body {
 }
 
 /* =====================================================
-   ⏳ LOADER
+   ⏳ LOADER (SANS TITRE)
 ===================================================== */
 #loader {
   position: absolute;
@@ -124,7 +124,7 @@ html, body {
 }
 
 /* =====================================================
-   🎉 OVERLAY DE RÉUSSITE (PLUS LONG)
+   🎉 OVERLAY DE RÉUSSITE (DURÉE ALLONGÉE)
 ===================================================== */
 .successOverlay {
   position: absolute;
@@ -179,7 +179,7 @@ html, body {
   max-width: 420px;
 }
 
-/* Bouton sélectionné (PLUS FONCÉ, PAS VERT) */
+/* Réponse sélectionnée (foncée, PAS verte) */
 button.selectedAnswer {
   background: linear-gradient(145deg, #3a2a18, #6b4b24);
   color: #f5e6c8;
@@ -221,14 +221,14 @@ button.selectedAnswer {
   gap: 10px;
 }
 
-/* Boutons 🧾 */
+/* Boutons 🧾 (consultation) */
 .clients button:first-child {
   background: linear-gradient(145deg, #2c1c10, #5a3a1a);
   border: 2px solid #caa14a;
   color: #f5e6c8;
 }
 
-/* Boutons choix */
+/* Boutons “Je choisis ce pirate” */
 .clients button:last-child {
   background: linear-gradient(145deg, #d4af37, #b8962e);
   border: 3px solid #3b2208;
@@ -286,7 +286,7 @@ button:disabled {
 }
 
 /* =====================================================
-   🧯 SHAKE
+   🧯 SHAKE (ERREUR)
 ===================================================== */
 .shake { animation: shake 0.4s; }
 
