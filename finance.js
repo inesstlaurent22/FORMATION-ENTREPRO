@@ -15,14 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const miniGame1 = document.getElementById("miniGame0");
   const financeGame = document.getElementById("financeGame");
 
-  const partClients = document.getElementById("part1");
-  const partResult = document.getElementById("part2");
-  const partAmort = document.getElementById("part3");
+  const part1 = document.getElementById("part1");
+  const part2 = document.getElementById("part2");
+  const part3 = document.getElementById("part3");
 
   const calc = document.getElementById("calc");
 
   /* =====================================================
-     🎬 VIDEO LOGIC
+     VIDEO LOGIC
   ===================================================== */
   video.muted = true;
   video.play().catch(() => {});
@@ -42,14 +42,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     ✨ PIRATE 5 HOVER ILLUMINATION
+     ✨ PIRATE 5 HOVER
   ===================================================== */
-  pirate5.addEventListener("mouseenter", () => {
+  pirate5.onmouseenter = () =>
     pirate5.style.filter = "drop-shadow(0 0 30px gold)";
-  });
-  pirate5.addEventListener("mouseleave", () => {
-    pirate5.style.filter = "";
-  });
+  pirate5.onmouseleave = () => pirate5.style.filter = "";
 
   /* =====================================================
      💬 DIALOGUES SYSTEM
@@ -80,9 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bubble.onclick = () => {
       dIndex++;
-      if (dIndex < dialogues.length) {
-        showDialogue(callback);
-      } else {
+      if (dIndex < dialogues.length) showDialogue(callback);
+      else {
         bubble.classList.add("hidden");
         callback && callback();
       }
@@ -90,24 +86,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   pirate5.onclick = () => {
-    playDialogues(dialoguesDocs, startLoaderMiniGame1);
+    playDialogues(dialoguesDocs, showLoaderMiniGame1);
   };
 
   /* =====================================================
-     💬 DIALOGUES – DOCUMENTS COMPTABLES
+     💬 DIALOGUES – DOCUMENTS
   ===================================================== */
   const dialoguesDocs = [
-    { s: pirate5, t: "Pour bien gérer une boutique, il faut des documents comptables." },
-    { s: pirate2, t: "Le journal des ventes note chaque vente quotidienne." },
-    { s: pirate5, t: "Le grand livre regroupe les opérations par compte." },
-    { s: pirate2, t: "La balance vérifie l’équilibre des comptes." },
+    { s: pirate5, t: "Pour gérer une boutique, il faut des documents comptables." },
+    { s: pirate2, t: "Le journal des ventes note chaque vente." },
+    { s: pirate5, t: "Le grand livre classe les comptes." },
+    { s: pirate2, t: "La balance vérifie l’équilibre." },
     { s: pirate5, t: "Le compte de résultat mesure la rentabilité." }
   ];
 
   /* =====================================================
-     ⏳ LOADER MINI-JEU 1
+     ⏳ LOADER
   ===================================================== */
-  function startLoaderMiniGame1() {
+  function showLoaderMiniGame1() {
     const loader = document.createElement("div");
     loader.id = "loader";
     loader.innerHTML = "<h2>Chargement…</h2><p>Épreuve des registres</p>";
@@ -116,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       loader.remove();
       startMiniGame1();
-    }, 1400);
+    }, 1200);
   }
 
   /* =====================================================
@@ -145,9 +141,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
-  let qIndex = 0, goodCount = 0;
+  let qIndex = 0;
+  let goodCount = 0;
 
   function startMiniGame1() {
+    miniGame1.innerHTML = `
+      <h3>📘 Épreuve des registres</h3>
+      <p id="qText"></p>
+      <div id="qChoices"></div>
+    `;
     miniGame1.classList.remove("hidden");
     qIndex = 0;
     showQuestion();
@@ -175,7 +177,9 @@ document.addEventListener("DOMContentLoaded", () => {
             qIndex++;
             qIndex < questions.length ? showQuestion() : endMiniGame1();
           }
-        } else screenShake();
+        } else {
+          screenShake();
+        }
       };
       qChoices.appendChild(btn);
     });
@@ -190,19 +194,18 @@ document.addEventListener("DOMContentLoaded", () => {
      💬 DIALOGUES – ANALYSE
   ===================================================== */
   const dialoguesAnalysis = [
-    { s: pirate5, t: "Tenir ses comptes permet d’analyser ses clients." },
-    { s: pirate2, t: "On peut suivre le chiffre d’affaires." },
-    { s: pirate5, t: "Mais aussi les charges et les produits." },
-    { s: pirate2, t: "Sans oublier amortissements et provisions." }
+    { s: pirate5, t: "Analyser ses comptes permet de mieux gérer ses clients." },
+    { s: pirate2, t: "Et de comparer le chiffre d’affaires et les charges." },
+    { s: pirate5, t: "Voyons cela en pratique." }
   ];
 
   /* =====================================================
-     🎮 MINI-JEU 2 — GESTION
+     🎮 MINI-JEU 2 — GESTION (3 PARTIES)
   ===================================================== */
   function startMiniGame2() {
     financeGame.classList.remove("hidden");
-    partClients.classList.remove("hidden");
-    addCalcButton(partClients);
+    part1.classList.remove("hidden");
+    addCalcButton(part1);
   }
 
   function addCalcButton(container) {
@@ -214,6 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
     container.prepend(btn);
   }
 
+  /* -------- PARTIE 1 : CLIENTS -------- */
   window.showBill = c => {
     bill.textContent = {
       A: "🧾 Barbe-Cuivre : 950",
@@ -225,19 +229,23 @@ document.addEventListener("DOMContentLoaded", () => {
   window.chooseClient = btn => {
     const buttons = [...document.querySelectorAll(".clients button:last-child")];
     if (btn === buttons[buttons.length - 1]) {
-      partClients.classList.add("hidden");
-      partResult.classList.remove("hidden");
-      addCalcButton(partResult);
-    } else screenShake();
+      part1.classList.add("hidden");
+      part2.classList.remove("hidden");
+      addCalcButton(part2);
+    } else {
+      screenShake();
+    }
   };
 
+  /* -------- PARTIE 2 : RÉSULTAT -------- */
   window.checkResult = ok => {
     if (!ok) return screenShake();
-    partResult.classList.add("hidden");
-    partAmort.classList.remove("hidden");
-    addCalcButton(partAmort);
+    part2.classList.add("hidden");
+    part3.classList.remove("hidden");
+    addCalcButton(part3);
   };
 
+  /* -------- PARTIE 3 : AMORTISSEMENTS -------- */
   window.checkAmortBase = ok => {
     if (!ok) return screenShake();
     amortMonth.classList.remove("hidden");
@@ -245,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.checkMonthlyAmort = ok => {
     if (!ok) return screenShake();
-    financeGame.classList.add("hidden"); // 👈 DISPARITION MINI-JEU 2
+    financeGame.classList.add("hidden");
     playDialogues(dialoguesEBE);
   };
 
@@ -268,12 +276,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-});
+  /* =====================================================
+     SHAKE
+  ===================================================== */
+  function screenShake() {
+    document.body.classList.add("shake");
+    setTimeout(() => document.body.classList.remove("shake"), 400);
+  }
 
-/* =====================================================
-   SHAKE
-===================================================== */
-function screenShake() {
-  document.body.classList.add("shake");
-  setTimeout(() => document.body.classList.remove("shake"), 400);
-}
+});
