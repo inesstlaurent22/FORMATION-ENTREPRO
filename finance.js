@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
 /* =====================================================
-   🎮 MINI-JEU 3 — FINAL (MARGE → EBE → RÉSULTAT → CAF)
+   🎮 MINI-JEU 3 — FINAL (COMPTABILITÉ AVANCÉE)
 ===================================================== */
 
 let step1, step2, step3, step4, step5;
@@ -261,45 +261,49 @@ function startMiniGame3() {
   const miniGame3 = document.getElementById("miniGame3");
 
   miniGame3.innerHTML = `
-    <h3>🏴‍☠️ L’épreuve du capitaine marchand</h3>
+    <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
 
     <p>
-      Après des semaines de navigation, tu découvres un trésor légendaire.
-      Grâce à lui, tu remplis ta boutique pirate et réalises une année
-      exceptionnelle.
+      Après une année prospère, tu dois analyser précisément les performances
+      de ta boutique pirate pour savoir si ton trésor te rend réellement riche.
     </p>
 
-    <p>
-      📦 Marchandises : <strong>0 PO</strong> (le trésor)  
-      💰 Chiffre d’affaires : <strong>10 000 PO</strong>
-    </p>
+    <!-- ===== CALCULATRICE ===== -->
+    <button class="calcToggle">🧮 Calculatrice</button>
+    <input class="calcInput hidden" id="calcFinal" placeholder="Ex : 10000-2000-500">
+
+    <!-- ===== INDICE ===== -->
+    <button class="hintBtn">💡 Indice</button>
+    <div class="hintImage hidden">
+      <img src="images/EBE.png" alt="Indice EBE" style="max-width:100%;">
+    </div>
 
     <!-- ================= STEP 1 ================= -->
     <div id="step1">
       <p><strong>1️⃣ Calcul de la marge</strong></p>
-      <p class="hint">💡 Marge = Chiffre d’affaires − Achats</p>
+      <p class="hint">💡 Marge = CA − Achats de marchandises</p>
+
       <p>
-        Tu n’as rien acheté : tout provient du trésor.
+        Chiffre d’affaires : <strong>10 000 PO</strong><br>
+        Achats de marchandises : <strong>0 PO</strong>
       </p>
 
       <button data-ok="true">10 000 PO</button>
-      <button data-ok="false">5 250 PO</button>
+      <button data-ok="false">5 000 PO</button>
     </div>
 
     <!-- ================= STEP 2 ================= -->
     <div id="step2" class="hidden">
       <p><strong>2️⃣ Calcul de l’EBE</strong></p>
-      <p class="hint">
-        💡 EBE = Marge − Charges − Impôts − Salaires
-      </p>
+      <p class="hint">💡 EBE = Marge − Charges − Impôts − Salaires</p>
 
       <p>
-        ⚓ Charges annuelles :
-        <br>• Loyer du magasin : 2 000 PO
-        <br>• Packaging (boîtes en bois) : 2 000 PO
-        <br>• Flyers (communication) : 250 PO
+        Charges :
+        <br>• Loyer : 2 000 PO
+        <br>• Packaging : 2 000 PO
+        <br>• Flyers : 250 PO
         <br>• Salaires : 0 PO
-        <br>• Impôts et taxes : 500 PO
+        <br>• Impôts : 500 PO
       </p>
 
       <button data-ok="true">5 250 PO</button>
@@ -308,101 +312,103 @@ function startMiniGame3() {
 
     <!-- ================= STEP 3 ================= -->
     <div id="step3" class="hidden">
-      <p><strong>3️⃣ Résultat d’exploitation</strong></p>
+      <p><strong>3️⃣ Dotation aux amortissements</strong></p>
       <p class="hint">
-        💡 Résultat = EBE − Dotations aux amortissements
+        💡 (Prix − Provision) ÷ Durée
       </p>
 
       <p>
-        🛠️ Ton matériel s’use avec le temps.<br>
-        Dotation annuelle aux amortissements : <strong>178 PO</strong>
+        Machine : 500 PO<br>
+        Provision : 150 PO<br>
+        Durée : 3 ans
       </p>
 
-      <button data-ok="true">5 072 PO</button>
-      <button data-ok="false">5 250 PO</button>
+      <button data-ok="true">≈ 117 PO / an</button>
+      <button data-ok="false">350 PO</button>
     </div>
 
     <!-- ================= STEP 4 ================= -->
     <div id="step4" class="hidden">
-      <p><strong>4️⃣ Capacité d’autofinancement annuelle</strong></p>
-      <p class="hint">
-        💡 CAF = Résultat + Amortissements
-      </p>
+      <p><strong>4️⃣ Résultat de l’exploitation</strong></p>
+      <p class="hint">💡 Résultat = EBE − Dotations aux amortissements</p>
 
-      <p>
-        Les amortissements ne sont pas une sortie de trésorerie.
-        Ils reviennent donc dans la capacité d’autofinancement.
-      </p>
-
-      <button data-ok="true">5 250 PO</button>
-      <button data-ok="false">5 072 PO</button>
+      <button data-ok="true">≈ 5 133 PO</button>
+      <button data-ok="false">5 250 PO</button>
     </div>
 
     <!-- ================= STEP 5 ================= -->
     <div id="step5" class="hidden">
-      <p><strong>5️⃣ CAF le mois du remboursement de l’emprunt</strong></p>
+      <p><strong>5️⃣ Capacité d’autofinancement</strong></p>
+
       <p class="hint">
-        💡 CAF mensuelle = (CAF annuelle / 12) − Remboursement mensuel
+        💡 CAF = Résultat − Charges financières − Impôts sur le revenu
       </p>
 
       <p>
-        🤝 Ta tante t’a avancé de l’or.<br>
-        Tu commences à rembourser <strong>1 000 PO par mois</strong>.
+        Prêt : 5 000 PO sur 5 ans<br>
+        Charges financières annuelles : 5 000 ÷ 5 = <strong>1 000 PO</strong><br>
+        Impôts sur le revenu : <strong>0 PO</strong>
       </p>
 
-      <p>
-        CAF annuelle : 5 250 PO → soit <strong>437,50 PO par mois</strong>
-      </p>
-
-      <button data-ok="true">−562,50 PO</button>
-      <button data-ok="false">437,50 PO</button>
+      <button data-ok="true">≈ 4 133 PO</button>
+      <button data-ok="false">5 133 PO</button>
     </div>
   `;
 
   miniGame3.classList.remove("hidden");
 
-  // Références
+  /* ===== RÉFÉRENCES ===== */
   step1 = miniGame3.querySelector("#step1");
   step2 = miniGame3.querySelector("#step2");
   step3 = miniGame3.querySelector("#step3");
   step4 = miniGame3.querySelector("#step4");
   step5 = miniGame3.querySelector("#step5");
 
-  // Enchaînement strict
-  bindStep(step1, () => {
-    step1.classList.add("hidden");
-    step2.classList.remove("hidden");
-  });
+  /* ===== CALCULATRICE ===== */
+  const calcBtn = miniGame3.querySelector(".calcToggle");
+  const calc = miniGame3.querySelector("#calcFinal");
 
-  bindStep(step2, () => {
-    step2.classList.add("hidden");
-    step3.classList.remove("hidden");
-  });
+  calcBtn.onclick = () => calc.classList.toggle("hidden");
 
-  bindStep(step3, () => {
-    step3.classList.add("hidden");
-    step4.classList.remove("hidden");
-  });
+  calc.onkeydown = e => {
+    if (e.key === "Enter") {
+      try {
+        calc.value = Function("return " + calc.value)();
+      } catch {
+        calc.value = "Erreur";
+      }
+    }
+  };
 
-  bindStep(step4, () => {
-    step4.classList.add("hidden");
-    step5.classList.remove("hidden");
-  });
+  /* ===== INDICE ===== */
+  const hintBtn = miniGame3.querySelector(".hintBtn");
+  const hintImg = miniGame3.querySelector(".hintImage");
 
+  hintBtn.onclick = () => {
+    hintImg.classList.toggle("hidden");
+  };
+
+  /* ===== ENCHAÎNEMENT ===== */
+  bindStep(step1, () => nextStep(step1, step2));
+  bindStep(step2, () => nextStep(step2, step3));
+  bindStep(step3, () => nextStep(step3, step4));
+  bindStep(step4, () => nextStep(step4, step5));
   bindStep(step5, showFinalVictory);
 }
 
 /* =====================================================
-   🔗 VALIDATION DES ÉTAPES
+   🔗 OUTILS
 ===================================================== */
+function nextStep(current, next) {
+  current.classList.add("hidden");
+  next.classList.remove("hidden");
+}
+
 function bindStep(step, cb) {
-  step.querySelectorAll("button").forEach(btn => {
+  step.querySelectorAll("button[data-ok]").forEach(btn => {
     btn.onclick = () => {
-      if (btn.dataset.ok === "true") {
-        cb();
-      } else {
-        screenShake();
-      }
+      if (btn.dataset.ok === "true") cb();
+      else screenShake();
     };
   });
 }
