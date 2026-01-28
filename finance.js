@@ -251,25 +251,36 @@ document.addEventListener("DOMContentLoaded", () => {
     { s: pirate5, t: "Voici l’épreuve finale." }
   ];
 
- /* =====================================================
-   🎮 MINI-JEU 3 — FINAL (MARGE → CAF)
+/* =====================================================
+   🎮 MINI-JEU 3 — FINAL (MARGE → EBE → RÉSULTAT → CAF)
 ===================================================== */
-let step1, step2, step3, step4;
+
+let step1, step2, step3, step4, step5;
 
 function startMiniGame3() {
+  const miniGame3 = document.getElementById("miniGame3");
+
   miniGame3.innerHTML = `
-    <h3>🏴‍☠️ Épreuve financière finale</h3>
+    <h3>🏴‍☠️ L’épreuve du capitaine marchand</h3>
 
     <p>
-      Tu as vendu pour <strong>10 000 PO</strong> grâce au trésor découvert.
-      Tu n’as eu <strong>aucun achat de marchandise</strong>.
+      Après des semaines de navigation, tu découvres un trésor légendaire.
+      Grâce à lui, tu remplis ta boutique pirate et réalises une année
+      exceptionnelle.
+    </p>
+
+    <p>
+      📦 Marchandises : <strong>0 PO</strong> (le trésor)  
+      💰 Chiffre d’affaires : <strong>10 000 PO</strong>
     </p>
 
     <!-- ================= STEP 1 ================= -->
     <div id="step1">
       <p><strong>1️⃣ Calcul de la marge</strong></p>
-      <p class="hint">💡 Marge = Chiffre d’affaires − Achats de marchandises</p>
-      <p>CA : 10 000 PO / Achats : 0 PO</p>
+      <p class="hint">💡 Marge = Chiffre d’affaires − Achats</p>
+      <p>
+        Tu n’as rien acheté : tout provient du trésor.
+      </p>
 
       <button data-ok="true">10 000 PO</button>
       <button data-ok="false">5 250 PO</button>
@@ -283,9 +294,9 @@ function startMiniGame3() {
       </p>
 
       <p>
-        Charges :
-        <br>• Loyer : 2 000 PO
-        <br>• Packaging : 2 000 PO
+        ⚓ Charges annuelles :
+        <br>• Loyer du magasin : 2 000 PO
+        <br>• Packaging (boîtes en bois) : 2 000 PO
         <br>• Flyers (communication) : 250 PO
         <br>• Salaires : 0 PO
         <br>• Impôts et taxes : 500 PO
@@ -302,7 +313,10 @@ function startMiniGame3() {
         💡 Résultat = EBE − Dotations aux amortissements
       </p>
 
-      <p>Dotation aux amortissements : <strong>178 PO</strong></p>
+      <p>
+        🛠️ Ton matériel s’use avec le temps.<br>
+        Dotation annuelle aux amortissements : <strong>178 PO</strong>
+      </p>
 
       <button data-ok="true">5 072 PO</button>
       <button data-ok="false">5 250 PO</button>
@@ -310,18 +324,38 @@ function startMiniGame3() {
 
     <!-- ================= STEP 4 ================= -->
     <div id="step4" class="hidden">
-      <p><strong>4️⃣ Capacité d’autofinancement (CAF)</strong></p>
+      <p><strong>4️⃣ Capacité d’autofinancement annuelle</strong></p>
       <p class="hint">
-        💡 CAF = Résultat + Amortissements − Remboursements financiers
+        💡 CAF = Résultat + Amortissements
       </p>
 
       <p>
-        Ta tante t’a avancé <strong>5 000 PO</strong>.<br>
-        Tu lui rembourses <strong>1 000 PO par mois pendant 5 mois</strong>.
+        Les amortissements ne sont pas une sortie de trésorerie.
+        Ils reviennent donc dans la capacité d’autofinancement.
       </p>
 
-      <button data-ok="true">250 PO</button>
+      <button data-ok="true">5 250 PO</button>
       <button data-ok="false">5 072 PO</button>
+    </div>
+
+    <!-- ================= STEP 5 ================= -->
+    <div id="step5" class="hidden">
+      <p><strong>5️⃣ CAF le mois du remboursement de l’emprunt</strong></p>
+      <p class="hint">
+        💡 CAF mensuelle = (CAF annuelle / 12) − Remboursement mensuel
+      </p>
+
+      <p>
+        🤝 Ta tante t’a avancé de l’or.<br>
+        Tu commences à rembourser <strong>1 000 PO par mois</strong>.
+      </p>
+
+      <p>
+        CAF annuelle : 5 250 PO → soit <strong>437,50 PO par mois</strong>
+      </p>
+
+      <button data-ok="true">−562,50 PO</button>
+      <button data-ok="false">437,50 PO</button>
     </div>
   `;
 
@@ -332,6 +366,7 @@ function startMiniGame3() {
   step2 = miniGame3.querySelector("#step2");
   step3 = miniGame3.querySelector("#step3");
   step4 = miniGame3.querySelector("#step4");
+  step5 = miniGame3.querySelector("#step5");
 
   // Enchaînement strict
   bindStep(step1, () => {
@@ -349,7 +384,12 @@ function startMiniGame3() {
     step4.classList.remove("hidden");
   });
 
-  bindStep(step4, showFinalVictory);
+  bindStep(step4, () => {
+    step4.classList.add("hidden");
+    step5.classList.remove("hidden");
+  });
+
+  bindStep(step5, showFinalVictory);
 }
 
 /* =====================================================
@@ -366,7 +406,6 @@ function bindStep(step, cb) {
     };
   });
 }
-
   /* =====================================================
      🏆 VICTOIRE
   ===================================================== */
