@@ -48,8 +48,8 @@ html, body {
   background: #1a1208;
   color: gold;
   border: 3px solid gold;
-  padding: 12px 18px;
-  font-size: 16px;
+  padding: 14px 20px; /* + lisible */
+  font-size: 17px;
   border-radius: 14px;
   cursor: pointer;
   font-weight: bold;
@@ -78,7 +78,7 @@ html, body {
 ===================================================== */
 .pirate {
   position: absolute;
-  z-index: 3;
+  z-index: 2; /* 👈 derrière les mini-jeux */
   cursor: pointer;
   transition: filter 0.25s ease;
 }
@@ -102,7 +102,7 @@ html, body {
 ===================================================== */
 #dialogueBox {
   position: absolute;
-  z-index: 20;
+  z-index: 30; /* 👈 au-dessus de tout */
   max-width: 460px;
   background: #1a1208;
   border: 3px solid gold;
@@ -211,8 +211,13 @@ button.selectedAnswer {
   border-radius: 24px;
   padding: 32px;
   text-align: center;
-  z-index: 20;
+  z-index: 20; /* 👈 au-dessus des pirates */
   box-shadow: 0 0 45px rgba(255,215,0,0.6);
+}
+
+#miniGame3 p {
+  color: #000; /* comme demandé */
+  font-weight: bold;
 }
 
 #miniGame3 .hint {
@@ -222,7 +227,7 @@ button.selectedAnswer {
 }
 
 #miniGame3 > div {
-  margin-top: 20px;
+  margin-top: 22px;
 }
 
 /* =====================================================
@@ -282,7 +287,7 @@ button:disabled {
 .finalVictory {
   position: fixed;
   inset: 0;
-  z-index: 999;
+  z-index: 100;
   background: radial-gradient(circle, #000 30%, #050505 100%);
   display: flex;
   justify-content: center;
