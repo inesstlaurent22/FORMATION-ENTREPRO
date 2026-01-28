@@ -152,8 +152,9 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — CONTENEUR
+   🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE
 ===================================================== */
+
 #financeGame {
   position: absolute;
   top: 50%;
@@ -167,11 +168,23 @@ button.selectedAnswer {
   z-index: 10;
   box-shadow: 0 0 40px rgba(255,215,0,0.45);
   text-align: center;
+  color: #ffffff;
 }
 
-/* =====================================================
-   🧾 CLIENTS
-===================================================== */
+#financeGame h3 {
+  color: gold;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+#financeGame p {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+/* ================= CLIENTS ================= */
+
 .clients {
   display: flex;
   justify-content: center;
@@ -197,9 +210,39 @@ button.selectedAnswer {
   color: #1a0f05;
 }
 
+/* ================= CALCULATRICE MINI-JEU 2 ================= */
+
+.calcWrapper {
+  margin-bottom: 18px;
+}
+
+.calcToggle {
+  background: linear-gradient(#2b2b2b, #1a1a1a);
+  border: 2px solid #888;
+  color: #f5f5f5;
+  font-family: monospace;
+  font-size: 16px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.calcInput {
+  display: block;
+  margin: 10px auto 0;
+  padding: 10px;
+  width: 260px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+}
+
 /* =====================================================
-   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (EBE / CAF)
 ===================================================== */
+
 #miniGame3 {
   position: absolute;
   top: 50%;
@@ -223,7 +266,7 @@ button.selectedAnswer {
   text-shadow: 0 0 12px rgba(255,215,0,0.7);
 }
 
-/* ===== TEXTE NARRATIF & QUESTIONS ===== */
+/* ===== TEXTE / STORYTELLING ===== */
 #miniGame3 p {
   color: #ffffff;
   font-size: 16.5px;
@@ -248,28 +291,48 @@ button.selectedAnswer {
   border-top: 1px solid rgba(255,215,0,0.25);
 }
 
-/* =====================================================
-   🧮 CALCULATRICE
-===================================================== */
+/* ===== BOUTONS DE RÉPONSE ===== */
+#miniGame3 button[data-ok] {
+  margin: 8px;
+  min-width: 180px;
+}
+
+/* ===== INDICE IMAGE ===== */
+#miniGame3 .hintBtn {
+  background: linear-gradient(145deg, #3a2a18, #6b4b24);
+  border: 2px solid gold;
+  color: #fff2cc;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  margin: 6px;
+  cursor: pointer;
+}
+
+#miniGame3 .hintImage {
+  margin-top: 14px;
+  padding: 12px;
+  background: rgba(0,0,0,0.7);
+  border: 2px dashed gold;
+  border-radius: 12px;
+}
+
+#miniGame3 .hintImage img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===== CALCULATRICE MINI-JEU 3 ===== */
+/* (placée SOUS le bouton indice) */
+
 #miniGame3 .calcToggle {
-  background: linear-gradient(#2b2b2b, #1a1a1a);
-  border: 2px solid #888;
-  color: #f5f5f5;
-  font-family: monospace;
-  font-size: 16px;
-  padding: 10px 18px;
-  border-radius: 10px;
-  margin: 12px 8px;
+  display: block;
+  margin: 10px auto 6px;
 }
 
 #miniGame3 .calcInput {
   margin: 8px auto 18px;
-  padding: 10px;
   width: 260px;
-  text-align: center;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
 }
 
 /* =====================================================
