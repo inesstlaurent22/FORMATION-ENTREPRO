@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startDialogues(dialoguesEnd);
   };
 
-  /* =====================================================
+ /* =====================================================
    💬 DIALOGUES FINAUX — EBE
 ===================================================== */
 const dialoguesEnd = [
