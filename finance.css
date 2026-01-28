@@ -198,18 +198,18 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3 — FINAL (EBE / CAF)
+   🎮 MINI-JEU 3 — FINAL (MARGE → EBE → CAF)
 ===================================================== */
 #miniGame3 {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(90%, 780px);
+  width: min(92%, 820px);
   background: #120b05;
   border: 4px solid gold;
   border-radius: 24px;
-  padding: 34px;
+  padding: 36px;
   text-align: center;
   z-index: 20;
   box-shadow: 0 0 45px rgba(255,215,0,0.6);
@@ -219,16 +219,17 @@ button.selectedAnswer {
 #miniGame3 h3 {
   color: gold;
   font-size: 26px;
-  margin-bottom: 26px;
+  margin-bottom: 24px;
   text-shadow: 0 0 12px rgba(255,215,0,0.7);
 }
 
-/* ===== TEXTE DES QUESTIONS ===== */
+/* ===== TEXTE NARRATIF ===== */
 #miniGame3 p {
-  color: #ffffff;          /* 🔥 BLANC */
-  font-size: 17px;
+  color: #ffffff;
+  font-size: 16.5px;
   font-weight: bold;
-  margin-bottom: 10px;
+  line-height: 1.5;
+  margin-bottom: 12px;
 }
 
 /* ===== INDICES PÉDAGOGIQUES ===== */
@@ -237,20 +238,50 @@ button.selectedAnswer {
   font-size: 14px;
   font-style: italic;
   margin-bottom: 14px;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 /* ===== BLOCS D’ÉTAPES ===== */
 #miniGame3 > div {
-  margin-top: 26px;
-  padding-top: 18px;
+  margin-top: 28px;
+  padding-top: 20px;
   border-top: 1px solid rgba(255,215,0,0.25);
 }
 
 /* ===== BOUTONS ===== */
 #miniGame3 button {
   margin: 8px;
-  min-width: 160px;
+  min-width: 180px;
+  font-size: 15px;
+}
+
+/* ===== ÉTAPE FINALE (CAF MENSUELLE) ===== */
+#step5 p {
+  color: #ffe9b5;
+}
+
+/* =====================================================
+   🏆 ÉCRAN FINAL — VICTOIRE
+===================================================== */
+.finalVictory {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: radial-gradient(circle, #000 30%, #050505 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.victoryText {
+  color: gold;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 0 25px rgba(255,215,0,0.85);
+  z-index: 2;
 }
 
 /* =====================================================
