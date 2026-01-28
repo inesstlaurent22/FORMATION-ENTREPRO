@@ -329,57 +329,67 @@ let step1, step2, step3, step4;
 
 function startMiniGame3() {
   const miniGame3 = document.getElementById("miniGame3");
+  if (!miniGame3) {
+    console.error("❌ miniGame3 introuvable dans le DOM");
+    return;
+  }
 
   miniGame3.innerHTML = `
     <h3>🏴‍☠️ Épreuve financière finale</h3>
 
     <button class="calcToggle">🧮 Calculatrice</button>
-    <input id="calcFinal" class="calcInput hidden" placeholder="Ex : 10000-4250-500">
+    <input
+      id="calcFinal"
+      class="calcInput hidden"
+      placeholder="Ex : 10000 - 4250 - 500"
+    >
 
     <div id="step1">
       <p>1️⃣ Calcul de la marge</p>
       <p class="hint">💡 CA − Achats</p>
-      <button onclick="checkMargeFinal(true)">10 000 PO</button>
-      <button onclick="checkMargeFinal(false)">5 250 PO</button>
+      <button data-ok="true">10 000 PO</button>
+      <button data-ok="false">5 250 PO</button>
     </div>
 
     <div id="step2" class="hidden">
       <p>2️⃣ Calcul de l’EBE</p>
       <p class="hint">💡 Marge − Charges − Impôts − Salaires</p>
-      <button onclick="checkEBEFinal(true)">5 250 PO</button>
-      <button onclick="checkEBEFinal(false)">9 500 PO</button>
+      <button data-ok="true">5 250 PO</button>
+      <button data-ok="false">9 500 PO</button>
     </div>
 
     <div id="step3" class="hidden">
       <p>3️⃣ Résultat d’exploitation</p>
       <p class="hint">💡 EBE − Amortissements (178 PO)</p>
-      <button onclick="checkResultFinal(true)">5 072 PO</button>
-      <button onclick="checkResultFinal(false)">5 250 PO</button>
+      <button data-ok="true">5 072 PO</button>
+      <button data-ok="false">5 250 PO</button>
     </div>
 
     <div id="step4" class="hidden">
       <p>4️⃣ Capacité d’autofinancement</p>
       <p class="hint">💡 Résultat + amortissements − remboursements</p>
-      <button onclick="checkCAFFinal(true)">250 PO</button>
-      <button onclick="checkCAFFinal(false)">5 072 PO</button>
+      <button data-ok="true">250 PO</button>
+      <button data-ok="false">5 072 PO</button>
     </div>
   `;
 
   miniGame3.classList.remove("hidden");
 
-  // Références sécurisées
-  step1 = document.getElementById("step1");
-  step2 = document.getElementById("step2");
-  step3 = document.getElementById("step3");
-  step4 = document.getElementById("step4");
+  // Références DOM sécurisées
+  step1 = miniGame3.querySelector("#step1");
+  step2 = miniGame3.querySelector("#step2");
+  step3 = miniGame3.querySelector("#step3");
+  step4 = miniGame3.querySelector("#step4");
 
-  /* 🧮 Calculatrice */
+  /* ================= CALCULATRICE ================= */
   const calcBtn = miniGame3.querySelector(".calcToggle");
   const calc = miniGame3.querySelector("#calcFinal");
 
-  calcBtn.onclick = () => calc.classList.toggle("hidden");
+  calcBtn.addEventListener("click", () => {
+    calc.classList.toggle("hidden");
+  });
 
-  calc.onkeydown = e => {
+  calc.addEventListener("keydown", e => {
     if (e.key === "Enter") {
       try {
         calc.value = Function("return " + calc.value)();
@@ -387,7 +397,25 @@ function startMiniGame3() {
         calc.value = "Erreur";
       }
     }
-  };
+  });
+
+  /* ================= BOUTONS ================= */
+  bindStep(step1, checkMargeFinal);
+  bindStep(step2, checkEBEFinal);
+  bindStep(step3, checkResultFinal);
+  bindStep(step4, checkCAFFinal);
+}
+
+/* =====================================================
+   🔗 UTILITAIRE DE BIND DES STEPS
+===================================================== */
+
+function bindStep(stepEl, handler) {
+  stepEl.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      handler(btn.dataset.ok === "true");
+    });
+  });
 }
 
 /* =====================================================
@@ -440,8 +468,9 @@ function showFinalVictory() {
 
 function launchGems() {
   const canvas = document.getElementById("gemsCanvas");
-  const ctx = canvas.getContext("2d");
+  if (!canvas) return;
 
+  const ctx = canvas.getContext("2d");
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
