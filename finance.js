@@ -251,70 +251,121 @@ document.addEventListener("DOMContentLoaded", () => {
     { s: pirate5, t: "Voici l’épreuve finale." }
   ];
 
-  /* =====================================================
-     🎮 MINI-JEU 3 — FINAL (MARGE → CAF)
-  ===================================================== */
-  let step1, step2, step3, step4;
+ /* =====================================================
+   🎮 MINI-JEU 3 — FINAL (MARGE → CAF)
+===================================================== */
+let step1, step2, step3, step4;
 
-  function startMiniGame3() {
-    miniGame3.innerHTML = `
-      <h3>🏴‍☠️ Épreuve financière finale</h3>
+function startMiniGame3() {
+  miniGame3.innerHTML = `
+    <h3>🏴‍☠️ Épreuve financière finale</h3>
 
-      <div id="step1">
-        <p>1️⃣ Marge</p>
-        <button data-ok="true">10 000 PO</button>
-        <button data-ok="false">5 250 PO</button>
-      </div>
+    <p>
+      Tu as vendu pour <strong>10 000 PO</strong> grâce au trésor découvert.
+      Tu n’as eu <strong>aucun achat de marchandise</strong>.
+    </p>
 
-      <div id="step2" class="hidden">
-        <p>2️⃣ EBE</p>
-        <button data-ok="true">5 250 PO</button>
-        <button data-ok="false">9 500 PO</button>
-      </div>
+    <!-- ================= STEP 1 ================= -->
+    <div id="step1">
+      <p><strong>1️⃣ Calcul de la marge</strong></p>
+      <p class="hint">💡 Marge = Chiffre d’affaires − Achats de marchandises</p>
+      <p>CA : 10 000 PO / Achats : 0 PO</p>
 
-      <div id="step3" class="hidden">
-        <p>3️⃣ Résultat d’exploitation</p>
-        <button data-ok="true">5 072 PO</button>
-        <button data-ok="false">5 250 PO</button>
-      </div>
+      <button data-ok="true">10 000 PO</button>
+      <button data-ok="false">5 250 PO</button>
+    </div>
 
-      <div id="step4" class="hidden">
-        <p>4️⃣ CAF</p>
-        <button data-ok="true">250 PO</button>
-        <button data-ok="false">5 072 PO</button>
-      </div>
-    `;
+    <!-- ================= STEP 2 ================= -->
+    <div id="step2" class="hidden">
+      <p><strong>2️⃣ Calcul de l’EBE</strong></p>
+      <p class="hint">
+        💡 EBE = Marge − Charges − Impôts − Salaires
+      </p>
 
-    miniGame3.classList.remove("hidden");
+      <p>
+        Charges :
+        <br>• Loyer : 2 000 PO
+        <br>• Packaging : 2 000 PO
+        <br>• Flyers (communication) : 250 PO
+        <br>• Salaires : 0 PO
+        <br>• Impôts et taxes : 500 PO
+      </p>
 
-    step1 = miniGame3.querySelector("#step1");
-    step2 = miniGame3.querySelector("#step2");
-    step3 = miniGame3.querySelector("#step3");
-    step4 = miniGame3.querySelector("#step4");
+      <button data-ok="true">5 250 PO</button>
+      <button data-ok="false">9 500 PO</button>
+    </div>
 
-    bindStep(step1, () => {
-      step1.classList.add("hidden");
-      step2.classList.remove("hidden");
-    });
-    bindStep(step2, () => {
-      step2.classList.add("hidden");
-      step3.classList.remove("hidden");
-    });
-    bindStep(step3, () => {
-      step3.classList.add("hidden");
-      step4.classList.remove("hidden");
-    });
-    bindStep(step4, showFinalVictory);
-  }
+    <!-- ================= STEP 3 ================= -->
+    <div id="step3" class="hidden">
+      <p><strong>3️⃣ Résultat d’exploitation</strong></p>
+      <p class="hint">
+        💡 Résultat = EBE − Dotations aux amortissements
+      </p>
 
-  function bindStep(step, cb) {
-    step.querySelectorAll("button").forEach(btn => {
-      btn.onclick = () => {
-        if (btn.dataset.ok === "true") cb();
-        else screenShake();
-      };
-    });
-  }
+      <p>Dotation aux amortissements : <strong>178 PO</strong></p>
+
+      <button data-ok="true">5 072 PO</button>
+      <button data-ok="false">5 250 PO</button>
+    </div>
+
+    <!-- ================= STEP 4 ================= -->
+    <div id="step4" class="hidden">
+      <p><strong>4️⃣ Capacité d’autofinancement (CAF)</strong></p>
+      <p class="hint">
+        💡 CAF = Résultat + Amortissements − Remboursements financiers
+      </p>
+
+      <p>
+        Ta tante t’a avancé <strong>5 000 PO</strong>.<br>
+        Tu lui rembourses <strong>1 000 PO par mois pendant 5 mois</strong>.
+      </p>
+
+      <button data-ok="true">250 PO</button>
+      <button data-ok="false">5 072 PO</button>
+    </div>
+  `;
+
+  miniGame3.classList.remove("hidden");
+
+  // Références
+  step1 = miniGame3.querySelector("#step1");
+  step2 = miniGame3.querySelector("#step2");
+  step3 = miniGame3.querySelector("#step3");
+  step4 = miniGame3.querySelector("#step4");
+
+  // Enchaînement strict
+  bindStep(step1, () => {
+    step1.classList.add("hidden");
+    step2.classList.remove("hidden");
+  });
+
+  bindStep(step2, () => {
+    step2.classList.add("hidden");
+    step3.classList.remove("hidden");
+  });
+
+  bindStep(step3, () => {
+    step3.classList.add("hidden");
+    step4.classList.remove("hidden");
+  });
+
+  bindStep(step4, showFinalVictory);
+}
+
+/* =====================================================
+   🔗 VALIDATION DES ÉTAPES
+===================================================== */
+function bindStep(step, cb) {
+  step.querySelectorAll("button").forEach(btn => {
+    btn.onclick = () => {
+      if (btn.dataset.ok === "true") {
+        cb();
+      } else {
+        screenShake();
+      }
+    };
+  });
+}
 
   /* =====================================================
      🏆 VICTOIRE
