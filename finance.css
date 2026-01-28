@@ -1,214 +1,15 @@
 /* =====================================================
-   RESET & BASE
-===================================================== */
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  background: #000;
-  color: #f5e6c8;
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* =====================================================
-   🎬 VIDÉO
-===================================================== */
-#videoContainer {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  z-index: 1000;
-}
-
-#questVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-#videoControls {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  display: flex;
-  gap: 14px;
-  z-index: 1001;
-}
-
-#videoControls button {
-  background: #1a1208;
-  color: gold;
-  border: 3px solid gold;
-  padding: 14px 20px; /* + lisible */
-  font-size: 17px;
-  border-radius: 14px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* =====================================================
-   🌅 BACKGROUND
-===================================================== */
-#background {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-}
-
-.fondImage {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-/* =====================================================
-   🏴‍☠️ PIRATES
-===================================================== */
-.pirate {
-  position: absolute;
-  z-index: 2; /* 👈 derrière les mini-jeux */
-  cursor: pointer;
-  transition: filter 0.25s ease;
-}
-
-#pirate5bis {
-  left: 480px;
-  top: 189px;
-  width: 440px;
-  height: 415px;
-}
-
-#pirate2bis {
-  left: 944px;
-  top: 486px;
-  width: 518px;
-  height: 496px;
-}
-
-/* =====================================================
-   💬 BULLE DE DIALOGUE
-===================================================== */
-#dialogueBox {
-  position: absolute;
-  z-index: 30; /* 👈 au-dessus de tout */
-  max-width: 460px;
-  background: #1a1208;
-  border: 3px solid gold;
-  border-radius: 18px;
-  padding: 18px 24px;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(255,215,0,0.55);
-  cursor: pointer;
-}
-
-/* =====================================================
-   🎮 MINI-JEU 1 — QCM
-===================================================== */
-#miniGame0 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(90%, 720px);
-  background: #120b05;
-  border: 4px solid #caa14a;
-  border-radius: 22px;
-  padding: 30px;
-  z-index: 10;
-  text-align: center;
-  box-shadow: 0 0 40px rgba(255,215,0,0.45);
-}
-
-#qChoices {
-  margin-top: 22px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-
-#qChoices button {
-  width: 100%;
-  max-width: 420px;
-}
-
-button.selectedAnswer {
-  background: linear-gradient(145deg, #3a2a18, #6b4b24);
-  color: #f5e6c8;
-  transform: translateY(3px);
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
-}
-
-/* =====================================================
-   🎮 MINI-JEU 2 — CONTENEUR
-===================================================== */
-#financeGame {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(92%, 900px);
-  background: #120b05;
-  border: 4px solid #caa14a;
-  border-radius: 22px;
-  padding: 32px;
-  z-index: 10;
-  box-shadow: 0 0 40px rgba(255,215,0,0.45);
-  text-align: center;
-}
-
-/* =====================================================
-   🧾 CLIENTS
-===================================================== */
-.clients {
-  display: flex;
-  justify-content: center;
-  gap: 28px;
-  margin-top: 24px;
-}
-
-.clients > div {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.clients button:first-child {
-  background: linear-gradient(145deg, #2c1c10, #5a3a1a);
-  border: 2px solid #caa14a;
-  color: #f5e6c8;
-}
-
-.clients button:last-child {
-  background: linear-gradient(145deg, #d4af37, #b8962e);
-  border: 3px solid #3b2208;
-  color: #1a0f05;
-}
-
-/* =====================================================
-   🎮 MINI-JEU 3 — FINAL (MARGE → EBE → CAF)
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE
 ===================================================== */
 #miniGame3 {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(92%, 820px);
+  width: min(92%, 860px);
   background: #120b05;
   border: 4px solid gold;
-  border-radius: 24px;
+  border-radius: 26px;
   padding: 36px;
   text-align: center;
   z-index: 20;
@@ -219,20 +20,20 @@ button.selectedAnswer {
 #miniGame3 h3 {
   color: gold;
   font-size: 26px;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
   text-shadow: 0 0 12px rgba(255,215,0,0.7);
 }
 
-/* ===== TEXTE NARRATIF ===== */
+/* ===== TEXTE NARRATIF & QUESTIONS ===== */
 #miniGame3 p {
   color: #ffffff;
   font-size: 16.5px;
   font-weight: bold;
-  line-height: 1.5;
-  margin-bottom: 12px;
+  line-height: 1.55;
+  margin-bottom: 10px;
 }
 
-/* ===== INDICES PÉDAGOGIQUES ===== */
+/* ===== INDICES ===== */
 #miniGame3 .hint {
   color: #d8caa0;
   font-size: 14px;
@@ -248,60 +49,24 @@ button.selectedAnswer {
   border-top: 1px solid rgba(255,215,0,0.25);
 }
 
-/* ===== BOUTONS ===== */
-#miniGame3 button {
-  margin: 8px;
-  min-width: 180px;
-  font-size: 15px;
-}
-
-/* ===== ÉTAPE FINALE (CAF MENSUELLE) ===== */
-#step5 p {
-  color: #ffe9b5;
-}
-
-/* =====================================================
-   🏆 ÉCRAN FINAL — VICTOIRE
-===================================================== */
-.finalVictory {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: radial-gradient(circle, #000 30%, #050505 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.victoryText {
-  color: gold;
-  font-size: 36px;
-  font-weight: bold;
-  text-align: center;
-  text-shadow: 0 0 25px rgba(255,215,0,0.85);
-  z-index: 2;
-}
-
 /* =====================================================
    🧮 CALCULATRICE
 ===================================================== */
-.calcToggle {
+#miniGame3 .calcToggle {
   background: linear-gradient(#2b2b2b, #1a1a1a);
-  border: 2px solid #777;
+  border: 2px solid #888;
   color: #f5f5f5;
   font-family: monospace;
-  font-size: 17px;
+  font-size: 16px;
   padding: 10px 18px;
   border-radius: 10px;
-  margin-bottom: 12px;
+  margin: 12px 8px;
 }
 
-.calcInput {
-  margin: 10px auto 18px;
+#miniGame3 .calcInput {
+  margin: 8px auto 18px;
   padding: 10px;
-  width: 240px;
+  width: 260px;
   text-align: center;
   font-size: 16px;
   border-radius: 8px;
@@ -309,96 +74,53 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   🏴‍☠️ BOUTONS GÉNÉRAUX
+   💡 INDICE (IMAGE)
 ===================================================== */
-button {
-  background: linear-gradient(145deg, #7b4a12, #caa14a);
-  border: 3px solid #3b2208;
-  color: #1a0f05;
-  font-weight: bold;
-  font-size: 15px;
-  padding: 10px 18px;
-  border-radius: 14px;
-  cursor: pointer;
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,0.6),
-    0 4px 0 #3b2208;
-  transition: transform 0.15s, box-shadow 0.15s;
+#miniGame3 .hintBtn {
+  background: linear-gradient(145deg, #3a2a18, #6b4b24);
+  border: 2px solid gold;
+  color: #fff2cc;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  margin: 6px;
 }
 
-button:hover {
-  transform: translateY(2px);
+#miniGame3 .hintImage {
+  margin-top: 14px;
+  padding: 12px;
+  background: rgba(0,0,0,0.7);
+  border: 2px dashed gold;
+  border-radius: 12px;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+#miniGame3 .hintImage img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* =====================================================
-   🏆 ÉCRAN FINAL — VICTOIRE
+   🔘 BOUTONS DE RÉPONSE
 ===================================================== */
-.finalVictory {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: radial-gradient(circle, #000 30%, #050505 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.victoryText {
-  color: gold;
-  font-size: 34px;
-  font-weight: bold;
-  z-index: 2;
-  text-align: center;
-  margin-bottom: 20px;
-  text-shadow: 0 0 20px rgba(255,215,0,0.8);
-}
-
-#gemsCanvas {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-}
-
-/* =====================================================
-   🧯 SHAKE (ERREUR)
-===================================================== */
-.shake {
-  animation: shake 0.4s;
-}
-
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  50% { transform: translateX(6px); }
-  75% { transform: translateX(-6px); }
-  100% { transform: translateX(0); }
+#miniGame3 button[data-ok] {
+  margin: 8px;
+  min-width: 180px;
 }
 
 /* =====================================================
    📱 RESPONSIVE
 ===================================================== */
-@media (max-width: 900px) {
-  .clients {
-    flex-direction: column;
-  }
-}
-
 @media (max-width: 768px) {
-  .pirate {
-    display: none;
-  }
-
-  #financeGame,
-  #miniGame0,
   #miniGame3 {
     width: 95%;
-    padding: 20px;
+    padding: 22px;
+  }
+
+  #miniGame3 p {
+    font-size: 15px;
+  }
+
+  #miniGame3 .calcInput {
+    width: 100%;
   }
 }
