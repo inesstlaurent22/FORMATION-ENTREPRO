@@ -201,48 +201,87 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   /* =====================================================
-     🎮 MINI-JEU 2
-  ===================================================== */
-  function startMiniGame2() {
-    financeGame.classList.remove("hidden");
-    part1.classList.remove("hidden");
-  }
+   🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE
+===================================================== */
 
-  window.showBill = c => {
-    document.getElementById("bill").textContent = {
-      A: "🧾 Barbe-Cuivre : 950 PO",
-      B: "🧾 Vent-Noir : 850 PO",
-      C: "🧾 Crâne-Rouge : 530 PO"
-    }[c];
-  };
+/* ===== CALCULATRICE ===== */
+function injectCalculator(container) {
+  if (container.querySelector(".calcWrapper")) return;
 
-  window.chooseClient = btn => {
-    const buttons = [...document.querySelectorAll(".clients button:last-child")];
-    if (btn === buttons[0]) {
-      part1.classList.add("hidden");
-      part2.classList.remove("hidden");
-    } else {
-      screenShake();
+  const wrapper = document.createElement("div");
+  wrapper.className = "calcWrapper";
+
+  const btn = document.createElement("button");
+  btn.className = "calcToggle";
+  btn.textContent = "🧮 Calculatrice";
+
+  const input = document.createElement("input");
+  input.className = "calcInput hidden";
+  input.placeholder = "Ex : 12000 - 8500";
+
+  btn.onclick = () => input.classList.toggle("hidden");
+
+  input.onkeydown = e => {
+    if (e.key === "Enter") {
+      try {
+        input.value = Function("return " + input.value)();
+      } catch {
+        input.value = "Erreur";
+      }
     }
   };
 
-  window.checkResult = ok => {
-    if (!ok) return screenShake();
-    part2.classList.add("hidden");
-    part3.classList.remove("hidden");
-  };
+  wrapper.append(btn, input);
+  container.prepend(wrapper);
+}
 
-  window.checkAmortBase = ok => {
-    if (!ok) return screenShake();
-    document.getElementById("amortMonth").classList.remove("hidden");
-  };
+/* ===== LANCEMENT ===== */
+function startMiniGame2() {
+  financeGame.classList.remove("hidden");
+  part1.classList.remove("hidden");
+  injectCalculator(part1);
+}
 
-  window.checkMonthlyAmort = ok => {
-    if (!ok) return screenShake();
-    financeGame.classList.add("hidden");
-    startDialogues(dialoguesEBE, startMiniGame3);
-  };
+/* ===== CLIENTS ===== */
+window.showBill = client => {
+  bill.textContent = {
+    A: "🧾 Barbe-Cuivre : 950 PO",
+    B: "🧾 Vent-Noir : 850 PO",
+    C: "🧾 Crâne-Rouge : 530 PO"
+  }[client];
+};
 
+window.chooseClient = btn => {
+  const choices = [...document.querySelectorAll(".clients button:last-child")];
+  if (btn === choices[0]) {
+    part1.classList.add("hidden");
+    part2.classList.remove("hidden");
+    injectCalculator(part2);
+  } else {
+    screenShake();
+  }
+};
+
+/* ===== RÉSULTAT ===== */
+window.checkResult = ok => {
+  if (!ok) return screenShake();
+  part2.classList.add("hidden");
+  part3.classList.remove("hidden");
+  injectCalculator(part3);
+};
+
+/* ===== AMORTISSEMENTS ===== */
+window.checkAmortBase = ok => {
+  if (!ok) return screenShake();
+  amortMonth.classList.remove("hidden");
+};
+
+window.checkMonthlyAmort = ok => {
+  if (!ok) return screenShake();
+  financeGame.classList.add("hidden");
+  startDialogues(dialoguesEBE, startMiniGame3);
+};
+  
   /* =====================================================
      💬 DIALOGUES — EBE
   ===================================================== */
@@ -253,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
 /* =====================================================
-   🎮 MINI-JEU 3 — FINAL (COMPTABILITÉ AVANCÉE)
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE
 ===================================================== */
 
 let step1, step2, step3, step4, step5;
@@ -265,18 +304,9 @@ function startMiniGame3() {
     <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
 
     <p>
-      Ta boutique pirate a prospéré toute l’année.
-      Il est temps d’analyser précisément si ton activité
-      crée réellement de la richesse.
+      Après une année de ventes prospères, tu dois prouver
+      que tu comprends réellement les chiffres de ta boutique pirate.
     </p>
-
-    <!-- 🧮 CALCULATRICE -->
-    <button class="calcToggle">🧮 Calculatrice</button>
-    <input
-      id="calcFinal"
-      class="calcInput hidden"
-      placeholder="Ex : 10000-2000-500"
-    >
 
     <!-- 💡 INDICE -->
     <button class="hintBtn">💡 Indice</button>
@@ -284,75 +314,49 @@ function startMiniGame3() {
       <img src="images/EBE.png" alt="Indice EBE">
     </div>
 
-    <!-- ================= ÉTAPE 1 ================= -->
+    <!-- 🧮 CALCULATRICE -->
+    <button class="calcToggle">🧮 Calculatrice</button>
+    <input id="calcFinal" class="calcInput hidden" placeholder="Ex : 10000 - 2000 - 500">
+
+    <!-- STEP 1 -->
     <div id="step1">
       <p><strong>1️⃣ Calcul de la marge</strong></p>
-      <p class="hint">💡 Marge = CA − Achats de marchandises</p>
-
-      <p>
-        Chiffre d’affaires : <strong>10 000 PO</strong><br>
-        Achats de marchandises : <strong>0 PO</strong>
-      </p>
-
+      <p class="hint">💡 CA − Achats de marchandises</p>
+      <p>CA : 10 000 PO / Achats : 0 PO</p>
       <button data-ok="true">10 000 PO</button>
       <button data-ok="false">5 000 PO</button>
     </div>
 
-    <!-- ================= ÉTAPE 2 ================= -->
+    <!-- STEP 2 -->
     <div id="step2" class="hidden">
       <p><strong>2️⃣ Calcul de l’EBE</strong></p>
-      <p class="hint">💡 EBE = Marge − Charges − Impôts − Salaires</p>
-
-      <p>
-        Charges :
-        <br>• Loyer : 2 000 PO
-        <br>• Packaging : 2 000 PO
-        <br>• Flyers : 250 PO
-        <br>• Salaires : 0 PO
-        <br>• Impôts : 500 PO
-      </p>
-
+      <p class="hint">💡 Marge − Charges − Impôts − Salaires</p>
+      <p>Charges : 4 250 PO / Impôts : 500 PO / Salaires : 0 PO</p>
       <button data-ok="true">5 250 PO</button>
       <button data-ok="false">9 500 PO</button>
     </div>
 
-    <!-- ================= ÉTAPE 3 ================= -->
+    <!-- STEP 3 -->
     <div id="step3" class="hidden">
       <p><strong>3️⃣ Dotation aux amortissements</strong></p>
-      <p class="hint">💡 (Prix − Provision) ÷ Durée</p>
-
-      <p>
-        Machine : 500 PO<br>
-        Provision : 150 PO<br>
-        Durée : 3 ans
-      </p>
-
-      <button data-ok="true">≈ 117 PO / an</button>
+      <p class="hint">💡 (500 − 150) ÷ 3</p>
+      <button data-ok="true">≈ 117 PO</button>
       <button data-ok="false">350 PO</button>
     </div>
 
-    <!-- ================= ÉTAPE 4 ================= -->
+    <!-- STEP 4 -->
     <div id="step4" class="hidden">
       <p><strong>4️⃣ Résultat de l’exploitation</strong></p>
-      <p class="hint">💡 Résultat = EBE − Dotations aux amortissements</p>
-
+      <p class="hint">💡 EBE − Amortissements</p>
       <button data-ok="true">≈ 5 133 PO</button>
       <button data-ok="false">5 250 PO</button>
     </div>
 
-    <!-- ================= ÉTAPE 5 ================= -->
+    <!-- STEP 5 -->
     <div id="step5" class="hidden">
       <p><strong>5️⃣ Capacité d’autofinancement</strong></p>
-      <p class="hint">
-        💡 CAF = Résultat − Charges financières − Impôts sur le revenu
-      </p>
-
-      <p>
-        Prêt : 5 000 PO sur 5 ans<br>
-        Charges financières : 5 000 ÷ 5 = <strong>1 000 PO</strong><br>
-        Impôts sur le revenu : <strong>0 PO</strong>
-      </p>
-
+      <p class="hint">💡 Résultat − Charges financières − IR</p>
+      <p>Prêt : 5 000 PO sur 5 ans → 1 000 PO/an<br>IR : 0 PO</p>
       <button data-ok="true">≈ 4 133 PO</button>
       <button data-ok="false">5 133 PO</button>
     </div>
@@ -360,19 +364,17 @@ function startMiniGame3() {
 
   miniGame3.classList.remove("hidden");
 
-  /* ===== RÉFÉRENCES ===== */
   step1 = miniGame3.querySelector("#step1");
   step2 = miniGame3.querySelector("#step2");
   step3 = miniGame3.querySelector("#step3");
   step4 = miniGame3.querySelector("#step4");
   step5 = miniGame3.querySelector("#step5");
 
-  /* ===== CALCULATRICE ===== */
+  /* 🧮 Calculatrice */
   const calcBtn = miniGame3.querySelector(".calcToggle");
   const calc = miniGame3.querySelector("#calcFinal");
 
   calcBtn.onclick = () => calc.classList.toggle("hidden");
-
   calc.onkeydown = e => {
     if (e.key === "Enter") {
       try {
@@ -383,15 +385,11 @@ function startMiniGame3() {
     }
   };
 
-  /* ===== INDICE ===== */
+  /* 💡 Indice */
   const hintBtn = miniGame3.querySelector(".hintBtn");
   const hintImg = miniGame3.querySelector(".hintImage");
+  hintBtn.onclick = () => hintImg.classList.toggle("hidden");
 
-  hintBtn.onclick = () => {
-    hintImg.classList.toggle("hidden");
-  };
-
-  /* ===== ENCHAÎNEMENT ===== */
   bindStep(step1, () => nextStep(step1, step2));
   bindStep(step2, () => nextStep(step2, step3));
   bindStep(step3, () => nextStep(step3, step4));
@@ -399,6 +397,21 @@ function startMiniGame3() {
   bindStep(step5, showFinalVictory);
 }
 
+/* ===== OUTILS ===== */
+function nextStep(current, next) {
+  current.classList.add("hidden");
+  next.classList.remove("hidden");
+}
+
+function bindStep(step, cb) {
+  step.querySelectorAll("button[data-ok]").forEach(btn => {
+    btn.onclick = () => {
+      if (btn.dataset.ok === "true") cb();
+      else screenShake();
+    };
+  });
+}
+  
 /* =====================================================
    🔗 OUTILS
 ===================================================== */
