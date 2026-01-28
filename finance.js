@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================================================
-     🎬 VIDÉO
+     🎬 RÉFÉRENCES
   ===================================================== */
   const video = document.getElementById("questVideo");
   const videoContainer = document.getElementById("videoContainer");
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let dialogueActive = false;
 
   /* =====================================================
-     🎬 LOGIQUE VIDÉO
+     🎬 VIDÉO
   ===================================================== */
   video.muted = true;
   video.play().catch(() => {});
@@ -46,17 +46,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     ✨ PIRATE 5 — SURVOL / CLIC
+     ✨ PIRATE 5 — SURVOL & CLIC
   ===================================================== */
   pirate5.onmouseenter = () => {
     if (pirateClickable && !dialogueActive) {
       pirate5.style.filter = "drop-shadow(0 0 35px gold)";
     }
   };
-
-  pirate5.onmouseleave = () => {
-    pirate5.style.filter = "";
-  };
+  pirate5.onmouseleave = () => pirate5.style.filter = "";
 
   pirate5.onclick = () => {
     if (!pirateClickable || dialogueActive) return;
@@ -77,10 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let dIndex = 0;
   let afterDialogues = null;
 
-  function startDialogues(arr, callback) {
+  function startDialogues(arr, cb) {
     dialogues = arr;
     dIndex = 0;
-    afterDialogues = callback;
+    afterDialogues = cb;
     dialogueActive = true;
     bubble.classList.remove("hidden");
     showDialogue();
@@ -112,12 +109,12 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================================== */
   const dialoguesIntro = [
     { s: pirate5, t: "Avant de gérer l’or, il faut comprendre les registres." },
-    { s: pirate2, t: "Journal, grand livre, balance, compte de résultat." },
-    { s: pirate5, t: "Montre-moi si tu maîtrises ces bases." }
+    { s: pirate2, t: "Journal des ventes, grand livre, balance, compte de résultat." },
+    { s: pirate5, t: "Prouve que tu maîtrises ces bases." }
   ];
 
   /* =====================================================
-     🎮 MINI-JEU 1 — QCM
+     🎮 MINI-JEU 1 — QCM REGISTRES (COMPLET)
   ===================================================== */
   const questions = [
     {
@@ -128,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       q: "Pourquoi tenir un grand livre ?",
       good: ["Pour regrouper les opérations par compte"],
-      bad: ["Pour stocker l’or", "Pour décorer la boutique"]
+      bad: ["Pour décorer la boutique", "Pour stocker l’or"]
     },
     {
       q: "À quoi sert la balance comptable ?",
@@ -176,7 +173,9 @@ document.addEventListener("DOMContentLoaded", () => {
           goodCount++;
           if (goodCount === questions[qIndex].good.length) {
             qIndex++;
-            qIndex < questions.length ? showQuestion() : endMiniGame1();
+            qIndex < questions.length
+              ? showQuestion()
+              : endMiniGame1();
           }
         } else {
           screenShake();
@@ -192,15 +191,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     💬 DIALOGUES — AVANT MINI-JEU 2
+     💬 DIALOGUES — ANALYSE
   ===================================================== */
   const dialoguesBeforeMini2 = [
-    { s: pirate5, t: "Analysons maintenant l’activité financière." },
-    { s: pirate2, t: "Clients, charges et amortissements." }
+    { s: pirate5, t: "Avec ces registres, on peut analyser l’activité." },
+    { s: pirate2, t: "Clients, charges, produits, amortissements…" },
+    { s: pirate5, t: "Passons à la gestion réelle." }
   ];
 
   /* =====================================================
-     🎮 MINI-JEU 2
+     🎮 MINI-JEU 2 — CLIENTS / RÉSULTAT / AMORTISSEMENTS
   ===================================================== */
   function startMiniGame2() {
     financeGame.classList.remove("hidden");
@@ -209,9 +209,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.showBill = c => {
     bill.textContent = {
-      A: "🧾 Barbe-Cuivre : 950",
-      B: "🧾 Vent-Noir : 850",
-      C: "🧾 Crâne-Rouge : 530"
+      A: "🧾 Barbe-Cuivre : 950 PO",
+      B: "🧾 Vent-Noir : 850 PO",
+      C: "🧾 Crâne-Rouge : 530 PO"
     }[c];
   };
 
@@ -236,15 +236,9 @@ document.addEventListener("DOMContentLoaded", () => {
     amortMonth.classList.remove("hidden");
   };
 
-  /* =====================================================
-     ✅ FIN MINI-JEU 2 → DIALOGUES EBE (IMMÉDIAT)
-  ===================================================== */
   window.checkMonthlyAmort = ok => {
     if (!ok) return screenShake();
-
     financeGame.classList.add("hidden");
-
-    // 🔥 DIALOGUES EBE DÉMARRÉS IMMÉDIATEMENT
     startDialogues(dialoguesEBE, startMiniGame3);
   };
 
@@ -253,12 +247,12 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================================== */
   const dialoguesEBE = [
     { s: pirate5, t: "L’EBE mesure la richesse créée par l’exploitation." },
-    { s: pirate2, t: "Il exclut amortissements, impôts et finance." },
-    { s: pirate5, t: "À toi de faire les calculs finaux." }
+    { s: pirate2, t: "Avant amortissements, impôts et finance." },
+    { s: pirate5, t: "Voici l’épreuve finale." }
   ];
 
   /* =====================================================
-     🎮 MINI-JEU 3 — FINAL
+     🎮 MINI-JEU 3 — FINAL (MARGE → CAF)
   ===================================================== */
   let step1, step2, step3, step4;
 
@@ -267,13 +261,13 @@ document.addEventListener("DOMContentLoaded", () => {
       <h3>🏴‍☠️ Épreuve financière finale</h3>
 
       <div id="step1">
-        <p>1️⃣ Calcul de la marge</p>
+        <p>1️⃣ Marge</p>
         <button data-ok="true">10 000 PO</button>
         <button data-ok="false">5 250 PO</button>
       </div>
 
       <div id="step2" class="hidden">
-        <p>2️⃣ Calcul de l’EBE</p>
+        <p>2️⃣ EBE</p>
         <button data-ok="true">5 250 PO</button>
         <button data-ok="false">9 500 PO</button>
       </div>
@@ -285,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
 
       <div id="step4" class="hidden">
-        <p>4️⃣ Capacité d’autofinancement</p>
+        <p>4️⃣ CAF</p>
         <button data-ok="true">250 PO</button>
         <button data-ok="false">5 072 PO</button>
       </div>
@@ -298,39 +292,28 @@ document.addEventListener("DOMContentLoaded", () => {
     step3 = miniGame3.querySelector("#step3");
     step4 = miniGame3.querySelector("#step4");
 
-    bindStep(step1, checkMargeFinal);
-    bindStep(step2, checkEBEFinal);
-    bindStep(step3, checkResultFinal);
-    bindStep(step4, checkCAFFinal);
-  }
-
-  function bindStep(step, handler) {
-    step.querySelectorAll("button").forEach(btn => {
-      btn.onclick = () => handler(btn.dataset.ok === "true");
+    bindStep(step1, () => {
+      step1.classList.add("hidden");
+      step2.classList.remove("hidden");
     });
+    bindStep(step2, () => {
+      step2.classList.add("hidden");
+      step3.classList.remove("hidden");
+    });
+    bindStep(step3, () => {
+      step3.classList.add("hidden");
+      step4.classList.remove("hidden");
+    });
+    bindStep(step4, showFinalVictory);
   }
 
-  function checkMargeFinal(ok) {
-    if (!ok) return screenShake();
-    step1.classList.add("hidden");
-    step2.classList.remove("hidden");
-  }
-
-  function checkEBEFinal(ok) {
-    if (!ok) return screenShake();
-    step2.classList.add("hidden");
-    step3.classList.remove("hidden");
-  }
-
-  function checkResultFinal(ok) {
-    if (!ok) return screenShake();
-    step3.classList.add("hidden");
-    step4.classList.remove("hidden");
-  }
-
-  function checkCAFFinal(ok) {
-    if (!ok) return screenShake();
-    showFinalVictory();
+  function bindStep(step, cb) {
+    step.querySelectorAll("button").forEach(btn => {
+      btn.onclick = () => {
+        if (btn.dataset.ok === "true") cb();
+        else screenShake();
+      };
+    });
   }
 
   /* =====================================================
@@ -339,12 +322,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function showFinalVictory() {
     const overlay = document.createElement("div");
     overlay.className = "finalVictory";
-    overlay.innerHTML = `<div class="victoryText">🏆 Bravo tu as gagné la quête 🏆</div>`;
+    overlay.textContent = "🏆 Bravo tu as gagné la quête 🏆";
     document.body.appendChild(overlay);
   }
 
   /* =====================================================
-     🧯 UTILITAIRES
+     🧯 SHAKE
   ===================================================== */
   function screenShake() {
     document.body.classList.add("shake");
