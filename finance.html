@@ -10,7 +10,7 @@
 <body>
 
 <!-- =====================================================
-     🎬 VIDÉO
+     🎬 VIDÉO D’INTRO
 ===================================================== -->
 <div id="videoContainer">
   <video id="questVideo" autoplay muted playsinline preload="auto">
@@ -28,15 +28,21 @@
 ===================================================== -->
 <div id="background" class="hidden">
 
-  <img src="images/Fondfinance.PNG" class="fondImage" alt="Marché pirate">
+  <!-- Fond -->
+  <img
+    src="images/Fondfinance.PNG"
+    class="fondImage"
+    alt="Marché pirate"
+  >
 
-  <!-- 🏴‍☠️ PIRATES -->
+  <!-- 🏴‍☠️ Pirates -->
   <img
     id="pirate5bis"
     class="pirate hidden"
     src="images/Piratefinance.png"
     alt="Pirate maître"
   >
+
   <img
     id="pirate2bis"
     class="pirate hidden"
@@ -64,10 +70,12 @@
           <button onclick="showBill('A')">🧾 Barbe-Cuivre</button>
           <button onclick="chooseClient(this)">Je choisis ce pirate</button>
         </div>
+
         <div>
           <button onclick="showBill('B')">🧾 Vent-Noir</button>
           <button onclick="chooseClient(this)">Je choisis ce pirate</button>
         </div>
+
         <div>
           <button onclick="showBill('C')">🧾 Crâne-Rouge</button>
           <button onclick="chooseClient(this)">Je choisis ce pirate</button>
@@ -80,6 +88,7 @@
     <!-- 💰 PARTIE 2 : RÉSULTAT -->
     <div id="part2" class="hidden">
       <h3>💰 Résultat annuel</h3>
+
       <p>Chiffre d’affaires : <strong>12 000 PO</strong></p>
       <p>Charges : <strong>8 500 PO</strong></p>
 
@@ -111,8 +120,8 @@
   </div>
 
   <!-- =====================================================
-       🎮 MINI-JEU 3 — ÉPREUVE FINALE (EBE / CAF)
-       (contenu injecté par JS)
+       🎮 MINI-JEU 3 — FINAL (EBE / CAF)
+       (injecté dynamiquement par JS)
   ===================================================== -->
   <div id="miniGame3" class="hidden"></div>
 
