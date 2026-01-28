@@ -294,6 +294,62 @@ button:disabled {
 }
 
 /* =====================================================
+   🎮 MINI-JEU 3 — FINAL
+===================================================== */
+#miniGame3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90%, 780px);
+  background: #120b05;
+  border: 4px solid gold;
+  border-radius: 24px;
+  padding: 32px;
+  text-align: center;
+  z-index: 20;
+  box-shadow: 0 0 45px rgba(255,215,0,0.6);
+}
+
+#miniGame3 .hint {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 10px;
+}
+
+/* =====================================================
+   🏆 ÉCRAN DE RÉUSSITE FINAL
+===================================================== */
+.finalVictory {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: radial-gradient(circle, #000 30%, #050505 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.victoryText {
+  color: gold;
+  font-size: 34px;
+  font-weight: bold;
+  z-index: 2;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px rgba(255,215,0,0.8);
+}
+
+/* Canvas gems */
+#gemsCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* =====================================================
    📱 RESPONSIVE
 ===================================================== */
 @media (max-width: 900px) {
