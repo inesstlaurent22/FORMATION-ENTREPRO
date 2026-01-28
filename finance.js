@@ -313,17 +313,19 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================================================
-     💬 DIALOGUES FINAUX — EBE
-  ===================================================== */
-  const dialoguesEnd = [
-    { s: pirate5, t: "L’EBE mesure la richesse créée par l’activité." },
-    { s: pirate2, t: "Avant impôts, intérêts et amortissements." },
-    { s: pirate5, t: "Tu raisonnes désormais comme un vrai capitaine." }
-  ];
+   💬 DIALOGUES FINAUX — EBE
+===================================================== */
+const dialoguesEnd = [
+  { s: pirate5, t: "L’EBE mesure la richesse créée par l’activité." },
+  { s: pirate2, t: "Avant impôts, intérêts et amortissements." },
+  { s: pirate5, t: "Voyons maintenant si tu sais vraiment calculer." }
+];
 
-  /* =====================================================
+/* =====================================================
    🎮 MINI-JEU 3 — FINAL (MARGE → CAF)
 ===================================================== */
+
+let step1, step2, step3, step4;
 
 function startMiniGame3() {
   const miniGame3 = document.getElementById("miniGame3");
@@ -365,6 +367,12 @@ function startMiniGame3() {
 
   miniGame3.classList.remove("hidden");
 
+  // Références sécurisées
+  step1 = document.getElementById("step1");
+  step2 = document.getElementById("step2");
+  step3 = document.getElementById("step3");
+  step4 = document.getElementById("step4");
+
   /* 🧮 Calculatrice */
   const calcBtn = miniGame3.querySelector(".calcToggle");
   const calc = miniGame3.querySelector("#calcFinal");
@@ -382,7 +390,9 @@ function startMiniGame3() {
   };
 }
 
-/* ===== VALIDATIONS ===== */
+/* =====================================================
+   ✅ VALIDATIONS — CHAÎNAGE STRICT
+===================================================== */
 
 function checkMargeFinal(ok) {
   if (!ok) return screenShake();
@@ -407,7 +417,9 @@ function checkCAFFinal(ok) {
   showFinalVictory();
 }
 
-/* ===== ÉCRAN FINAL ===== */
+/* =====================================================
+   🏆 ÉCRAN FINAL — VICTOIRE
+===================================================== */
 
 function showFinalVictory() {
   const overlay = document.createElement("div");
@@ -422,7 +434,9 @@ function showFinalVictory() {
   launchGems();
 }
 
-/* ===== EXPLOSION DE GEMS ===== */
+/* =====================================================
+   💎 EXPLOSION DE GEMS
+===================================================== */
 
 function launchGems() {
   const canvas = document.getElementById("gemsCanvas");
@@ -461,7 +475,6 @@ function launchGems() {
 
   animate();
 }
-
   /* =====================================================
      🎉 SUCCÈS / SHAKE
   ===================================================== */
