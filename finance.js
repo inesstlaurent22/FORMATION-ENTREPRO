@@ -23,27 +23,51 @@ document.addEventListener("DOMContentLoaded", () => {
   let pirateClickable = false;
   let dialogueActive = false;
 
-  /* =====================================================
-     🎬 VIDÉO
-  ===================================================== */
+/* =====================================================
+   🎬 VIDÉO
+===================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const videoContainer = document.getElementById("videoContainer");
+  const video = document.getElementById("questVideo");
+  const toggleSoundBtn = document.getElementById("toggleSound");
+  const closeVideoBtn = document.getElementById("closeVideo");
+
+  const background = document.getElementById("background");
+  const pirate5 = document.getElementById("pirate5bis");
+  const pirate2 = document.getElementById("pirate2bis");
+
+  let pirateClickable = false;
+
+  /* ▶️ Lancer la vidéo */
   video.muted = true;
   video.play().catch(() => {});
 
-  toggleSoundBtn.onclick = () => {
+  /* 🔊 Bouton son */
+  toggleSoundBtn.addEventListener("click", () => {
     video.muted = !video.muted;
     toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
-  };
+  });
 
-  closeVideoBtn.onclick = endVideo;
-  video.onended = endVideo;
+  /* ⏭️ Passer la vidéo */
+  closeVideoBtn.addEventListener("click", endVideo);
+
+  /* 🎬 Fin naturelle de la vidéo */
+  video.addEventListener("ended", endVideo);
 
   function endVideo() {
+    video.pause();
     videoContainer.classList.add("hidden");
+
     background.classList.remove("hidden");
     pirate5.classList.remove("hidden");
     pirate2.classList.remove("hidden");
+
     pirateClickable = true;
   }
+
+});
 
   /* =====================================================
      ✨ PIRATE 5 — SURVOL & CLIC
