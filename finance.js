@@ -23,52 +23,54 @@ document.addEventListener("DOMContentLoaded", () => {
   let pirateClickable = false;
   let dialogueActive = false;
 
-/* =====================================================
-   🎬 VIDÉO
-===================================================== */
+  /* =====================================================
+     🎬 VIDÉO — LOGIQUE CORRIGÉE
+  ===================================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
-
-  const videoContainer = document.getElementById("videoContainer");
-  const video = document.getElementById("questVideo");
-  const toggleSoundBtn = document.getElementById("toggleSound");
-  const closeVideoBtn = document.getElementById("closeVideo");
-
-  const background = document.getElementById("background");
-  const pirate5 = document.getElementById("pirate5bis");
-  const pirate2 = document.getElementById("pirate2bis");
-
-  let pirateClickable = false;
-
-  /* ▶️ Lancer la vidéo */
+  // État initial
   video.muted = true;
-  video.play().catch(() => {});
+  toggleSoundBtn.textContent = "🔇";
 
-  /* 🔊 Bouton son */
+  // Sécurité : empêcher la vidéo de capter les clics
+  video.style.pointerEvents = "none";
+
+  // Lancement safe (Safari / iOS)
+  const tryPlayVideo = () => {
+    if (video.paused) {
+      video.play().catch(() => {});
+    }
+  };
+
+  tryPlayVideo();
+
+  // 🔊 Activer / couper le son
   toggleSoundBtn.addEventListener("click", () => {
     video.muted = !video.muted;
     toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
   });
 
-  /* ⏭️ Passer la vidéo */
+  // ⏭️ Passer la vidéo
   closeVideoBtn.addEventListener("click", endVideo);
 
-  /* 🎬 Fin naturelle de la vidéo */
+  // 🎬 Fin automatique de la vidéo
   video.addEventListener("ended", endVideo);
 
   function endVideo() {
+    // Stop vidéo
     video.pause();
+
+    // Masquer la vidéo
     videoContainer.classList.add("hidden");
 
+    // Afficher la scène
     background.classList.remove("hidden");
     pirate5.classList.remove("hidden");
     pirate2.classList.remove("hidden");
 
+    // Débloquer interactions
     pirateClickable = true;
   }
-
-});
-
+  
   /* =====================================================
      ✨ PIRATE 5 — SURVOL & CLIC
   ===================================================== */
