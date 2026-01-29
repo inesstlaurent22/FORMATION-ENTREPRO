@@ -362,7 +362,9 @@ function startMiniGame3() {
     <!-- 💡 INDICE -->
     <button class="hintBtn">💡 Indice</button>
     <div class="hintImage hidden">
-      <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
+      <div class="imageFrame">
+        <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
+      </div>
     </div>
 
     <!-- 🧮 CALCULATRICE -->
@@ -439,7 +441,7 @@ function startMiniGame3() {
   /* 💡 INDICE + ZOOM */
   const hintBtn = miniGame3.querySelector(".hintBtn");
   const hintBox = miniGame3.querySelector(".hintImage");
-  const hintImg = miniGame3.querySelector(".hintImage img");
+  const hintImg = miniGame3.querySelector(".zoomable");
 
   /* Ouvrir l’indice */
   hintBtn.onclick = () => {
@@ -453,13 +455,16 @@ function startMiniGame3() {
     const overlay = document.createElement("div");
     overlay.className = "imageZoomOverlay";
 
+    const frame = document.createElement("div");
+    frame.className = "imageFrame";
+
     const zoomedImg = document.createElement("img");
     zoomedImg.src = hintImg.src;
 
-    overlay.appendChild(zoomedImg);
+    frame.appendChild(zoomedImg);
+    overlay.appendChild(frame);
     document.body.appendChild(overlay);
 
-    /* Clic partout → retour mini-jeu */
     overlay.onclick = () => overlay.remove();
   };
 
