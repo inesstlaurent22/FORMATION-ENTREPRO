@@ -61,17 +61,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     2️⃣ DÉBLOCAGE AU RETOUR DES QUÊTES
+     2️⃣ DÉBLOCAGE AU RETOUR DES QUÊTES (SESSION → LOCAL)
   ========================================================== */
-  ["pirate3", "pirate4", "pirate5"].forEach(p => {
-    if (sessionStorage.getItem(`unlock_${p}`) === "true") {
-      localStorage.setItem(`${p}_unlocked`, "true");
-      sessionStorage.removeItem(`unlock_${p}`);
+  ["pirate3", "pirate4", "pirate5"].forEach(id => {
+    if (sessionStorage.getItem(`unlock_${id}`) === "true") {
+      localStorage.setItem(`${id}_unlocked`, "true");
+      sessionStorage.removeItem(`unlock_${id}`);
     }
   });
 
   /* ==========================================================
-     3️⃣ RÉACTIVATION SELON LOCALSTORAGE
+     3️⃣ RÉACTIVATION SELON LOCALSTORAGE (SOURCE DE VÉRITÉ)
   ========================================================== */
   pirates.forEach(p => {
     if (localStorage.getItem(`${p.id}_unlocked`) === "true") {
@@ -95,15 +95,19 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      5️⃣ BULLE APRÈS RELOAD
   ========================================================== */
-  if (sessionStorage.getItem("showBubbleAfterReload") === "yes" && pirate2) {
-    notification.textContent = "Un nouveau pirate est débloqué !";
-    notification.classList.add("show");
-    setTimeout(() => notification.classList.remove("show"), 2500);
+  if (sessionStorage.getItem("showBubbleAfterReload") === "yes" && pirate2 && bubble) {
+
+    if (notification) {
+      notification.textContent = "Un nouveau pirate est débloqué !";
+      notification.classList.add("show");
+      setTimeout(() => notification.classList.remove("show"), 2500);
+    }
 
     bubble.style.display = "block";
 
     requestAnimationFrame(() => {
       const rect = pirate2.getBoundingClientRect();
+      bubble.style.position = "absolute";
       bubble.style.left = rect.left + rect.width / 2 + "px";
       bubble.style.top = rect.top - 60 + window.scrollY + "px";
       bubble.style.transform = "translateX(-50%)";
@@ -112,12 +116,14 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.removeItem("showBubbleAfterReload");
   }
 
-  if (bubbleButton) {
-    bubbleButton.addEventListener("click", () => bubble.style.display = "none");
+  if (bubbleButton && bubble) {
+    bubbleButton.addEventListener("click", () => {
+      bubble.style.display = "none";
+    });
   }
 
   /* ==========================================================
-     6️⃣ NAVIGATION
+     6️⃣ NAVIGATION ENTRE QUÊTES
   ========================================================== */
   pirate1?.addEventListener("click", () => {
     if (!pirate1.classList.contains("locked")) {
@@ -133,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   pirate4?.addEventListener("click", () => {
     if (!pirate4.classList.contains("locked")) {
-      window.location.href = "finance.html";
+      window.location.href = "legal.html";
     }
   });
 
