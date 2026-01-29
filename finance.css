@@ -399,7 +399,7 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   💡 INDICE (IMAGE)
+   💡 INDICE (IMAGE) — VERSION RECADRÉE
 ===================================================== */
 
 .hidden {
@@ -419,30 +419,42 @@ button.selectedAnswer {
 }
 
 /* ================================
-   📌 IMAGE INDICE CENTRÉE
+   🌑 OVERLAY INDICE (FOND SOMBRE)
 ================================ */
 
 #miniGame3 .hintImage {
   position: fixed;
   inset: 0;
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.75);
   z-index: 9000;
 }
 
-/* Image visible entièrement – ratio vertical */
-#miniGame3 .hintImage img.zoomable {
-  width: auto;
-  height: auto;
+/* ================================
+   🟡 CADRAN JAUNE (PILE À LA TAILLE DE L’IMAGE)
+================================ */
+
+#miniGame3 .imageFrame {
+  display: inline-flex;
+  padding: 10px;                    /* espace fin autour de l’image */
+  border: 3px dashed gold;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 0 14px rgba(255, 215, 0, 0.6),
+    inset 0 0 8px rgba(255, 215, 0, 0.35);
+}
+
+/* Image indice */
+#miniGame3 .imageFrame img.zoomable {
+  display: block;                   /* supprime l’espace fantôme */
   max-height: 60vh;
-  max-width: 35vh;           /* ratio proche 1080x1920 */
+  max-width: 35vh;                  /* ratio vertical ~1080x1920 */
   object-fit: contain;
+  border-radius: 10px;
   cursor: zoom-in;
-  border-radius: 14px;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.45);
-  transition: transform 0.3s ease;
 }
 
 /* ================================
@@ -459,13 +471,11 @@ button.selectedAnswer {
   z-index: 10000;
 }
 
-.imageZoomOverlay img {
+.imageZoomOverlay .imageFrame img {
   max-width: 90vw;
   max-height: 90vh;
   object-fit: contain;
   cursor: zoom-out;
-  border-radius: 16px;
-  box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
 }
 
 /* =====================================================
