@@ -32,8 +32,19 @@
   <img src="images/Fondfinance.PNG" class="fondImage" alt="Marché pirate">
 
   <!-- 🏴‍☠️ PIRATES -->
-  <img id="pirate5bis" class="pirate hidden" src="images/Piratefinance.png" alt="Pirate maître">
-  <img id="pirate2bis" class="pirate hidden" src="images/Pirate2.png" alt="Pirate apprenti">
+  <img
+    id="pirate5bis"
+    class="pirate hidden"
+    src="images/Piratefinance.png"
+    alt="Pirate maître"
+  >
+
+  <img
+    id="pirate2bis"
+    class="pirate hidden"
+    src="images/Pirate2.png"
+    alt="Pirate apprenti"
+  >
 
   <!-- =====================================================
        🎮 MINI-JEU 1 — QCM REGISTRES
@@ -45,28 +56,33 @@
   ===================================================== -->
   <div id="financeGame" class="hidden">
 
-    <!-- ===== PARTIE 1 : CLIENTS ===== -->
+    <!-- ===== PARTIE 1 : ANALYSE DES CLIENTS ===== -->
     <div id="part1" class="hidden">
       <h3>🧾 Analyse des clients</h3>
-      <p>Analyse les registres et choisis le client le plus rentable.</p>
-
-      <div class="calcWrapper">
-        <button class="calcToggle">🧮 Calculatrice</button>
-        <input class="calcInput hidden" placeholder="Ex : 950 - 530">
-      </div>
+      <p>
+        Consulte chaque facture avant de choisir le client le plus rentable.
+      </p>
 
       <div class="clients">
         <div>
           <button onclick="showBill('A')">🧾 Barbe-Cuivre</button>
-          <button onclick="chooseClient(this)">Je choisis ce pirate</button>
+          <button onclick="chooseClient(this)" disabled>
+            Je choisis ce pirate
+          </button>
         </div>
+
         <div>
           <button onclick="showBill('B')">🧾 Vent-Noir</button>
-          <button onclick="chooseClient(this)">Je choisis ce pirate</button>
+          <button onclick="chooseClient(this)" disabled>
+            Je choisis ce pirate
+          </button>
         </div>
+
         <div>
           <button onclick="showBill('C')">🧾 Crâne-Rouge</button>
-          <button onclick="chooseClient(this)">Je choisis ce pirate</button>
+          <button onclick="chooseClient(this)" disabled>
+            Je choisis ce pirate
+          </button>
         </div>
       </div>
 
@@ -79,11 +95,6 @@
 
       <p>Chiffre d’affaires : <strong>12 000 PO</strong></p>
       <p>Charges : <strong>8 500 PO</strong></p>
-
-      <div class="calcWrapper">
-        <button class="calcToggle">🧮 Calculatrice</button>
-        <input class="calcInput hidden" placeholder="12000 - 8500">
-      </div>
 
       <button onclick="checkResult(false)">Charges + Produits</button>
       <button onclick="checkResult(true)">Produits − Charges</button>
@@ -98,22 +109,12 @@
       <p>Provision : <strong>150 PO</strong></p>
       <p>Durée : <strong>3 ans</strong></p>
 
-      <div class="calcWrapper">
-        <button class="calcToggle">🧮 Calculatrice</button>
-        <input class="calcInput hidden" placeholder="500 - 150">
-      </div>
-
       <button onclick="checkAmortBase(false)">500</button>
       <button onclick="checkAmortBase(true)">350</button>
       <button onclick="checkAmortBase(false)">150</button>
 
       <div id="amortMonth" class="hidden">
-        <p>Amortissement mensuel ?</p>
-
-        <div class="calcWrapper">
-          <button class="calcToggle">🧮 Calculatrice</button>
-          <input class="calcInput hidden" placeholder="350 / 12">
-        </div>
+        <p>Amortissement annuel ?</p>
 
         <button onclick="checkMonthlyAmort(false)">97 PO</button>
         <button onclick="checkMonthlyAmort(true)">117 PO</button>
@@ -126,66 +127,7 @@
   <!-- =====================================================
        🎮 MINI-JEU 3 — ÉPREUVE FINALE (EBE / CAF)
   ===================================================== -->
-  <div id="miniGame3" class="hidden">
-
-    <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
-
-    <p>
-      Ta boutique pirate a prospéré toute l’année.  
-      Il est temps de savoir combien d’or tu as réellement gagné.
-    </p>
-
-    <!-- 💡 INDICE -->
-    <button class="hintBtn">💡 Indice</button>
-    <div class="hintImage hidden">
-      <img src="images/EBE.png" alt="Schéma EBE">
-    </div>
-
-    <!-- 🧮 CALCULATRICE -->
-    <button class="calcToggle">🧮 Calculatrice</button>
-    <input class="calcInput hidden" placeholder="Ex : 10000 - 4250">
-
-    <!-- ===== STEP 1 ===== -->
-    <div id="step1">
-      <p><strong>1️⃣ Calcul de la marge</strong></p>
-      <p class="hint">💡 Marge = CA − Achats</p>
-      <button data-ok="true">10 000 PO</button>
-      <button data-ok="false">5 000 PO</button>
-    </div>
-
-    <!-- ===== STEP 2 ===== -->
-    <div id="step2" class="hidden">
-      <p><strong>2️⃣ Calcul de l’EBE</strong></p>
-      <p class="hint">💡 EBE = Marge − Charges − Impôts − Salaires</p>
-      <button data-ok="true">5 250 PO</button>
-      <button data-ok="false">9 500 PO</button>
-    </div>
-
-    <!-- ===== STEP 3 ===== -->
-    <div id="step3" class="hidden">
-      <p><strong>3️⃣ Dotation aux amortissements</strong></p>
-      <p class="hint">💡 (500 − 150) ÷ 3</p>
-      <button data-ok="true">≈ 117 PO</button>
-      <button data-ok="false">350 PO</button>
-    </div>
-
-    <!-- ===== STEP 4 ===== -->
-    <div id="step4" class="hidden">
-      <p><strong>4️⃣ Résultat d’exploitation</strong></p>
-      <p class="hint">💡 EBE − amortissements</p>
-      <button data-ok="true">≈ 5 133 PO</button>
-      <button data-ok="false">5 250 PO</button>
-    </div>
-
-    <!-- ===== STEP 5 ===== -->
-    <div id="step5" class="hidden">
-      <p><strong>5️⃣ Capacité d’autofinancement</strong></p>
-      <p class="hint">💡 Résultat − charges financières − impôts</p>
-      <button data-ok="true">≈ 4 133 PO</button>
-      <button data-ok="false">5 133 PO</button>
-    </div>
-
-  </div>
+  <div id="miniGame3" class="hidden"></div>
 
 </div>
 
