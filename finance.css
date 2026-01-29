@@ -297,12 +297,15 @@ button.selectedAnswer {
   min-width: 180px;
 }
 
-/* ===== UTILITAIRE ===== */
+/* =====================================================
+   💡 INDICE (IMAGE)
+===================================================== */
+
 .hidden {
   display: none;
 }
 
-/* ===== INDICE IMAGE ===== */
+/* Bouton indice */
 #miniGame3 .hintBtn {
   background: linear-gradient(145deg, #3a2a18, #6b4b24);
   border: 2px solid gold;
@@ -314,41 +317,74 @@ button.selectedAnswer {
   cursor: pointer;
 }
 
+/* ================================
+   📌 IMAGE INDICE CENTRÉE
+================================ */
+
 #miniGame3 .hintImage {
-  margin-top: 14px;
-  padding: 12px;
-  background: rgba(0,0,0,0.7);
-  border: 2px dashed gold;
-  border-radius: 12px;
-}
-
-/* Image affichée en petit */
-#miniGame3 .hintImage img.zoomable {
-  max-width: 180px;
-  height: auto;
-  cursor: zoom-in;
-  border-radius: 10px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-/* ===== ZOOM OVERLAY ===== */
-.imageZoomOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9000;
 }
 
-.imageZoomOverlay img {
-  max-width: 90%;
-  max-height: 90%;
-  cursor: zoom-out;
-  border-radius: 12px;
-  box-shadow: 0 0 40px rgba(255,215,0,0.4);
+/* 📐 IMAGE + CADRAN JAUNE POINTILLÉ */
+#miniGame3 .hintImage img.zoomable {
+  width: auto;
+  height: auto;
+  max-height: 60vh;
+  max-width: 35vh;              /* ratio vertical 1080x1920 */
+  object-fit: contain;
+  cursor: zoom-in;
+
+  /* 🔶 CADRAN */
+  border: 3px dashed gold;      /* 👈 contour pointillé */
+  padding: 10px;                /* espace entre image et cadran */
+  border-radius: 18px;
+
+  box-shadow:
+    0 0 12px rgba(255, 215, 0, 0.6),
+    inset 0 0 8px rgba(255, 215, 0, 0.35);
+
+  background: rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
 }
+
+/* ================================
+   🔍 ZOOM IMAGE PLEIN ÉCRAN
+================================ */
+
+.imageZoomOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+/* IMAGE ZOOMÉE + CADRAN */
+.imageZoomOverlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  cursor: zoom-out;
+
+  border: 4px dashed gold;      /* 👈 cadran renforcé */
+  padding: 14px;
+  border-radius: 22px;
+
+  box-shadow:
+    0 0 40px rgba(255, 215, 0, 0.7),
+    inset 0 0 12px rgba(255, 215, 0, 0.4);
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
 /* ===== CALCULATRICE MINI-JEU 3 ===== */
 /* (placée SOUS le bouton indice) */
 
