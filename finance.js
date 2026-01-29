@@ -242,17 +242,42 @@ function startMiniGame2() {
   injectCalculator(part1);
 }
 
-/* ===== CLIENTS ===== */
+/* ================= CLIENTS — LECTURE OBLIGATOIRE ================= */
+
+let billsSeen = {
+  A: false,
+  B: false,
+  C: false
+};
+
 window.showBill = client => {
   bill.textContent = {
     A: "🧾 Barbe-Cuivre : 950 PO",
     B: "🧾 Vent-Noir : 850 PO",
     C: "🧾 Crâne-Rouge : 530 PO"
   }[client];
+
+  billsSeen[client] = true;
+  checkAllBillsRead();
 };
+
+function checkAllBillsRead() {
+  const allRead = Object.values(billsSeen).every(v => v === true);
+  if (!allRead) return;
+
+  document
+    .querySelectorAll(".clients button:last-child")
+    .forEach(btn => btn.disabled = false);
+}
 
 window.chooseClient = btn => {
   const choices = [...document.querySelectorAll(".clients button:last-child")];
+
+  // sécurité
+  if (!Object.values(billsSeen).every(v => v)) {
+    return screenShake();
+  }
+
   if (btn === choices[0]) {
     part1.classList.add("hidden");
     part2.classList.remove("hidden");
@@ -436,13 +461,61 @@ function bindStep(step, cb) {
   /* =====================================================
      🏆 VICTOIRE
   ===================================================== */
-  window.showFinalVictory = () => {
-    const overlay = document.createElement("div");
-    overlay.className = "finalVictory";
-    overlay.textContent = "🏆 Bravo tu as gagné la quête 🏆";
-    document.body.appendChild(overlay);
-  };
+window.showFinalVictory = () => {
+  const overlay = document.createElement("div");
+  overlay.className = "finalVictory";
 
+  overlay.innerHTML = `
+    <div class="victoryCard">
+      🏴‍☠️ Bravo Capitaine !<br>
+      Tu maîtrises désormais l’art de la finance pirate.
+    </div>
+    <canvas id="gemsCanvas"></canvas>
+  `;
+
+  document.body.appendChild(overlay);
+  launchGems();
+};
+
+/* ================= EXPLOSION DE GEMS ================= */
+
+function launchGems() {
+  const canvas = document.getElementById("gemsCanvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colors = ["#ffd700", "#00ffff", "#ff4dff", "#00ff6a", "#ff4444"];
+  const gems = [];
+
+  for (let i = 0; i < 140; i++) {
+    gems.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      vx: (Math.random() - 0.5) * 12,
+      vy: (Math.random() - 0.5) * 12,
+      r: Math.random() * 6 + 3,
+      c: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    gems.forEach(g => {
+      g.x += g.vx;
+      g.y += g.vy;
+      g.vy += 0.05;
+      ctx.fillStyle = g.c;
+      ctx.beginPath();
+      ctx.arc(g.x, g.y, g.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
   /* =====================================================
      🧯 SHAKE
   ===================================================== */
