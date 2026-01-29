@@ -379,12 +379,15 @@ button.selectedAnswer {
   margin: 6px;
 }
 
-/* Image indice en petit */
+/* Image indice – très petite par défaut */
 #miniGame3 .hintImage img.zoomable {
-  max-width: 180px;
+  width: 120px;          /* 👈 taille volontairement petite */
+  max-width: 120px;
+  height: auto;
   cursor: zoom-in;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-radius: 10px;
+  box-shadow: 0 0 8px rgba(255,215,0,0.4);
+  transition: transform 0.25s ease;
 }
 
 /* Overlay zoom */
