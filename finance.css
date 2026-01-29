@@ -338,6 +338,10 @@ button.selectedAnswer {
 /* =====================================================
    💡 INDICE (IMAGE)
 ===================================================== */
+.hidden {
+  display: none;
+}
+
 #miniGame3 .hintBtn {
   background: linear-gradient(145deg, #3a2a18, #6b4b24);
   border: 2px solid gold;
