@@ -158,10 +158,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  pirate4.addEventListener("click", () => {
-    if (!pirate4.classList.contains("locked")) {
-      window.location.href = "legal.html";
-    }
+ // Déblocage pirate 4 après la quête Finance
+  if (localStorage.getItem("KITIN_PIRATE_4_UNLOCKED") === "true") {
+    pirate4.classList.remove("locked");
+    pirate4.classList.add("unlocked");
+  }
   });
 
   pirate5.addEventListener("click", () => {
