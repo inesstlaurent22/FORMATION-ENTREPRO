@@ -362,7 +362,7 @@ function startMiniGame3() {
     <!-- 💡 INDICE -->
     <button class="hintBtn">💡 Indice</button>
     <div class="hintImage hidden">
-      <img src="images/EBE.PNG" alt="Indice EBE">
+      <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
     </div>
 
     <!-- 🧮 CALCULATRICE -->
@@ -436,11 +436,28 @@ function startMiniGame3() {
     }
   };
 
-  /* 💡 Indice */
+  /* 💡 Indice + Zoom */
   const hintBtn = miniGame3.querySelector(".hintBtn");
-  const hintImg = miniGame3.querySelector(".hintImage");
-  hintBtn.onclick = () => hintImg.classList.toggle("hidden");
+  const hintBox = miniGame3.querySelector(".hintImage");
+  const hintImg = miniGame3.querySelector(".hintImage img");
 
+  hintBtn.onclick = () => hintBox.classList.toggle("hidden");
+
+  // 🔍 Zoom plein écran
+  hintImg.onclick = () => {
+    const overlay = document.createElement("div");
+    overlay.className = "imageZoomOverlay";
+
+    const zoomedImg = document.createElement("img");
+    zoomedImg.src = hintImg.src;
+
+    overlay.appendChild(zoomedImg);
+    document.body.appendChild(overlay);
+
+    overlay.onclick = () => overlay.remove();
+  };
+
+  /* Enchaînement des steps */
   bindStep(step1, () => goToNext(step1, step2));
   bindStep(step2, () => goToNext(step2, step3));
   bindStep(step3, () => goToNext(step3, step4));
