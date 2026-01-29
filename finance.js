@@ -459,13 +459,13 @@ function bindStep(step, cb) {
   step.querySelectorAll("button[data-ok]").forEach(btn => {
     btn.onclick = () => {
       if (btn.dataset.ok === "true") cb();
-      else screenShake();
+      else if (typeof screenShake === "function") screenShake();
     };
   });
 }
 
 /* =====================================================
-   🔚 FIN MINI-JEU 3 → LOADER
+   🔚 FIN MINI-JEU 3 → VICTOIRE
 ===================================================== */
 
 function endMiniGame3() {
@@ -479,11 +479,11 @@ function endMiniGame3() {
 
 function showFinalVictory() {
 
-  // 1️⃣ Fermer le mini-jeu 3 AVANT le loader
+  // Fermer mini-jeu
   const miniGame3 = document.getElementById("miniGame3");
   if (miniGame3) miniGame3.classList.add("hidden");
 
-  // 2️⃣ Créer le loader final
+  // Overlay victoire
   const overlay = document.createElement("div");
   overlay.className = "finalVictory";
 
@@ -498,17 +498,18 @@ function showFinalVictory() {
 
   document.body.appendChild(overlay);
 
-  // ✅ 3️⃣ LANCEMENT DE L’EXPLOSION (MANQUANT AVANT)
-  launchGems();
+  // Explosion de gems
+  if (typeof launchGems === "function") launchGems();
 
-// ✅ FIN DE QUÊTE FINANCE — DÉBLOCAGE PIRATE 4
-localStorage.setItem("pirate4_unlocked", "true");
+  // Déblocage pirate 4
+  localStorage.setItem("pirate4_unlocked", "true");
+  sessionStorage.setItem("unlock_pirate4", "true");
 
-// Optionnel mais recommandé si tu veux un effet retour
-sessionStorage.setItem("unlock_pirate4", "true");
-
-// Retour menu
-window.location.href = "menu.html";
+  // Retour menu (avec délai visuel)
+  setTimeout(() => {
+    window.location.href = "menu.html";
+  }, 2500);
+}
 /* =====================================================
    💎 EXPLOSION DE GEMS
 ===================================================== */
