@@ -362,7 +362,7 @@ function startMiniGame3() {
     <!-- 💡 INDICE -->
     <button class="hintBtn">💡 Indice</button>
     <div class="hintImage hidden">
-      <img src="images/EBE.png" alt="Indice EBE">
+      <img src="images/EBE.PNG" alt="Indice EBE">
     </div>
 
     <!-- 🧮 CALCULATRICE -->
