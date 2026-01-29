@@ -10,10 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.style.backgroundSize = "cover";
 
   /* ==========================================================
-     🔱 RESET — CAPTURE GLOBALE (ANTI-BUG)
+     🔱 RESET — CAPTURE GLOBALE
   ========================================================== */
   document.addEventListener("click", (e) => {
-
     const resetBtn = e.target.closest("#resetButton");
     if (!resetBtn) return;
 
@@ -25,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     localStorage.clear();
     sessionStorage.clear();
-
     window.location.reload();
   });
 
@@ -42,82 +40,62 @@ document.addEventListener("DOMContentLoaded", () => {
   const bubble = document.getElementById("bubble");
   const bubbleButton = document.getElementById("bubbleButton");
 
+  const pirates = [pirate1, pirate2, pirate3, pirate4, pirate5].filter(Boolean);
+
   /* ==========================================================
      0️⃣ TOUT VERROUILLER AU DÉPART
   ========================================================== */
-  [pirate1, pirate2, pirate3, pirate4, pirate5].forEach(p => {
-    if (!p) return;
+  pirates.forEach(p => {
     p.classList.add("locked");
     p.classList.remove("unlocked", "glow");
     p.style.pointerEvents = "none";
   });
 
   /* ==========================================================
-     1️⃣ PIRATE 2 DÉBLOQUÉ PAR DÉFAUT (INTOUCHABLE)
+     1️⃣ PIRATE 2 DÉBLOQUÉ PAR DÉFAUT
   ========================================================== */
-  pirate2.classList.remove("locked");
-  pirate2.classList.add("unlocked");
-  pirate2.style.pointerEvents = "auto";
+  if (pirate2) {
+    pirate2.classList.remove("locked");
+    pirate2.classList.add("unlocked");
+    pirate2.style.pointerEvents = "auto";
+  }
 
   /* ==========================================================
      2️⃣ DÉBLOCAGE AU RETOUR DES QUÊTES
   ========================================================== */
-  if (sessionStorage.getItem("unlock_pirate3") === "true") {
-    localStorage.setItem("pirate3_unlocked", "true");
-    sessionStorage.removeItem("unlock_pirate3");
-  }
-
-  if (sessionStorage.getItem("unlock_pirate4") === "true") {
-    localStorage.setItem("pirate4_unlocked", "true");
-    sessionStorage.removeItem("unlock_pirate4");
-  }
-
-  if (sessionStorage.getItem("unlock_pirate5") === "true") {
-    localStorage.setItem("pirate5_unlocked", "true");
-    sessionStorage.removeItem("unlock_pirate5");
-  }
+  ["pirate3", "pirate4", "pirate5"].forEach(p => {
+    if (sessionStorage.getItem(`unlock_${p}`) === "true") {
+      localStorage.setItem(`${p}_unlocked`, "true");
+      sessionStorage.removeItem(`unlock_${p}`);
+    }
+  });
 
   /* ==========================================================
      3️⃣ RÉACTIVATION SELON LOCALSTORAGE
   ========================================================== */
-  if (localStorage.getItem("pirate1_unlocked") === "true") {
-    pirate1.classList.remove("locked");
-    pirate1.classList.add("unlocked", "glow");
-    pirate1.style.pointerEvents = "auto";
-  }
-
-  if (localStorage.getItem("pirate3_unlocked") === "true") {
-    pirate3.classList.remove("locked");
-    pirate3.classList.add("unlocked", "glow");
-    pirate3.style.pointerEvents = "auto";
-  }
-
-  if (localStorage.getItem("pirate4_unlocked") === "true") {
-    pirate4.classList.remove("locked");
-    pirate4.classList.add("unlocked", "glow");
-    pirate4.style.pointerEvents = "auto";
-  }
-
-  if (localStorage.getItem("pirate5_unlocked") === "true") {
-    pirate5.classList.remove("locked");
-    pirate5.classList.add("unlocked", "glow");
-    pirate5.style.pointerEvents = "auto";
-  }
-
-  /* ==========================================================
-     4️⃣ LOGIQUE PIRATE 2 → PIRATE 1 (INCHANGÉE)
-  ========================================================== */
-  pirate2.addEventListener("click", () => {
-    localStorage.setItem("pirate1_unlocked", "true");
-    sessionStorage.setItem("showBubbleAfterReload", "yes");
-    window.location.reload();
+  pirates.forEach(p => {
+    if (localStorage.getItem(`${p.id}_unlocked`) === "true") {
+      p.classList.remove("locked");
+      p.classList.add("unlocked", "glow");
+      p.style.pointerEvents = "auto";
+    }
   });
 
   /* ==========================================================
-     5️⃣ BULLE APRÈS RELOAD (INCHANGÉE)
+     4️⃣ PIRATE 2 → PIRATE 1
   ========================================================== */
-  if (sessionStorage.getItem("showBubbleAfterReload") === "yes") {
+  if (pirate2 && pirate1) {
+    pirate2.addEventListener("click", () => {
+      localStorage.setItem("pirate1_unlocked", "true");
+      sessionStorage.setItem("showBubbleAfterReload", "yes");
+      window.location.reload();
+    });
+  }
 
+  /* ==========================================================
+     5️⃣ BULLE APRÈS RELOAD
+  ========================================================== */
+  if (sessionStorage.getItem("showBubbleAfterReload") === "yes" && pirate2) {
     notification.textContent = "Un nouveau pirate est débloqué !";
     notification.classList.add("show");
     setTimeout(() => notification.classList.remove("show"), 2500);
@@ -126,11 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     requestAnimationFrame(() => {
       const rect = pirate2.getBoundingClientRect();
-      const bubbleRect = bubble.getBoundingClientRect();
-
-      bubble.style.position = "absolute";
-      bubble.style.left = (rect.left + rect.width / 2) + "px";
-      bubble.style.top = (rect.top - bubbleRect.height - 15 + window.scrollY) + "px";
+      bubble.style.left = rect.left + rect.width / 2 + "px";
+      bubble.style.top = rect.top - 60 + window.scrollY + "px";
       bubble.style.transform = "translateX(-50%)";
     });
 
@@ -138,34 +113,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (bubbleButton) {
-    bubbleButton.addEventListener("click", () => {
-      bubble.style.display = "none";
-    });
+    bubbleButton.addEventListener("click", () => bubble.style.display = "none");
   }
 
   /* ==========================================================
-     6️⃣ NAVIGATION ENTRE PAGES
+     6️⃣ NAVIGATION
   ========================================================== */
-  pirate1.addEventListener("click", () => {
+  pirate1?.addEventListener("click", () => {
     if (!pirate1.classList.contains("locked")) {
       window.location.href = "commerce.html";
     }
   });
 
-  pirate3.addEventListener("click", () => {
+  pirate3?.addEventListener("click", () => {
     if (!pirate3.classList.contains("locked")) {
       window.location.href = "communication.html";
     }
   });
 
- // Déblocage pirate 4 après la quête Finance
-  if (localStorage.getItem("KITIN_PIRATE_4_UNLOCKED") === "true") {
-    pirate4.classList.remove("locked");
-    pirate4.classList.add("unlocked");
-  }
+  pirate4?.addEventListener("click", () => {
+    if (!pirate4.classList.contains("locked")) {
+      window.location.href = "finance.html";
+    }
   });
 
-  pirate5.addEventListener("click", () => {
+  pirate5?.addEventListener("click", () => {
     if (!pirate5.classList.contains("locked")) {
       window.location.href = "finance.html";
     }
