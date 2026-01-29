@@ -474,13 +474,15 @@ function showFinalVictory() {
 
   document.body.appendChild(overlay);
 
-  // 4️⃣ Débloquer pirate 4 + redirection
+  // ✅ 3️⃣ LANCEMENT DE L’EXPLOSION (MANQUANT AVANT)
+  launchGems();
+
+  // 4️⃣ Déblocage + redirection
   setTimeout(() => {
     localStorage.setItem("KITIN_PIRATE_4_UNLOCKED", "true");
     window.location.href = "menu.html";
   }, 4200);
 }
-
 /* =====================================================
    💎 EXPLOSION DE GEMS
 ===================================================== */
