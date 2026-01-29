@@ -419,7 +419,7 @@ function startMiniGame3() {
   bindStep(step2, () => nextStep(step2, step3));
   bindStep(step3, () => nextStep(step3, step4));
   bindStep(step4, () => nextStep(step4, step5));
-  bindStep(step5, showFinalVictory);
+  "bindStep(step5, endMiniGame3);
 }
 
 /* ===== OUTILS ===== */
@@ -461,21 +461,21 @@ function bindStep(step, cb) {
   /* =====================================================
      🏆 VICTOIRE
   ===================================================== */
-window.showFinalVictory = () => {
+function showFinalVictory() {
   const overlay = document.createElement("div");
   overlay.className = "finalVictory";
 
   overlay.innerHTML = `
-    <div class="victoryCard">
-      🏴‍☠️ Bravo Capitaine !<br>
-      Tu maîtrises désormais l’art de la finance pirate.
+    <div class="victoryText">
+      🏆 Bravo capitaine 🏴‍☠️<br>
+      Tu as gagné la quête
     </div>
     <canvas id="gemsCanvas"></canvas>
   `;
 
   document.body.appendChild(overlay);
   launchGems();
-};
+}
 
 /* ================= EXPLOSION DE GEMS ================= */
 
