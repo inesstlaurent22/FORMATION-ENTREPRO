@@ -458,24 +458,30 @@ function endMiniGame3() {
 ===================================================== */
 
 function showFinalVictory() {
-  // 🔓 Déblocage pirate4
-  localStorage.setItem("pirate4Unlocked", "true");
+  /* 🔓 Déblocage pirate 4 (clé PERSISTANTE) */
+  localStorage.setItem("KITIN_PIRATE_4_UNLOCKED", "true");
 
   const overlay = document.createElement("div");
   overlay.className = "finalVictory";
 
   overlay.innerHTML = `
-    <div class="victoryText">
-      🏆 Bravo capitaine 🏴‍☠️<br>
-      Tu as gagné la quête
+    <div class="victoryCard">
+      <h2>🏴‍☠️ Quête accomplie</h2>
+      <p>
+        Bravo capitaine,<br>
+        tu maîtrises désormais l’or,<br>
+        les comptes et la richesse du navire.
+      </p>
+      <p class="goldText">Le pirate IV est débloqué</p>
     </div>
+
     <canvas id="gemsCanvas"></canvas>
   `;
 
   document.body.appendChild(overlay);
   launchGems();
 
-  // 🔁 Redirection vers le menu
+  /* 🔁 Retour menu */
   setTimeout(() => {
     window.location.href = "menu.html";
   }, 4500);
