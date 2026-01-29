@@ -330,7 +330,7 @@ function startMiniGame3() {
 
     <p>
       Après une année de ventes prospères, tu dois prouver
-      que tu comprends réellement les chiffres de ta boutique pirate.
+      que tu maîtrises réellement les chiffres de ta boutique pirate.
     </p>
 
     <!-- 💡 INDICE -->
@@ -341,7 +341,7 @@ function startMiniGame3() {
 
     <!-- 🧮 CALCULATRICE -->
     <button class="calcToggle">🧮 Calculatrice</button>
-    <input id="calcFinal" class="calcInput hidden" placeholder="Ex : 10000 - 2000 - 500">
+    <input id="calcFinal" class="calcInput hidden" placeholder="Ex : 10000 - 4250 - 1000">
 
     <!-- STEP 1 -->
     <div id="step1">
@@ -415,15 +415,18 @@ function startMiniGame3() {
   const hintImg = miniGame3.querySelector(".hintImage");
   hintBtn.onclick = () => hintImg.classList.toggle("hidden");
 
-  bindStep(step1, () => nextStep(step1, step2));
-  bindStep(step2, () => nextStep(step2, step3));
-  bindStep(step3, () => nextStep(step3, step4));
-  bindStep(step4, () => nextStep(step4, step5));
-  "bindStep(step5, endMiniGame3);
+  bindStep(step1, () => goToNext(step1, step2));
+  bindStep(step2, () => goToNext(step2, step3));
+  bindStep(step3, () => goToNext(step3, step4));
+  bindStep(step4, () => goToNext(step4, step5));
+  bindStep(step5, endMiniGame3);
 }
 
-/* ===== OUTILS ===== */
-function nextStep(current, next) {
+/* =====================================================
+   🔗 OUTILS MINI-JEU
+===================================================== */
+
+function goToNext(current, next) {
   current.classList.add("hidden");
   next.classList.remove("hidden");
 }
@@ -436,32 +439,28 @@ function bindStep(step, cb) {
     };
   });
 }
-  
+
 /* =====================================================
-   🔗 OUTILS
+   🔚 FIN MINI-JEU 3 → LOADER
 ===================================================== */
 
-function nextStep(current, next) {
-  current.classList.add("hidden");
-  next.classList.remove("hidden");
+function endMiniGame3() {
+  const miniGame3 = document.getElementById("miniGame3");
+  miniGame3.classList.add("hidden");
+
+  setTimeout(() => {
+    showFinalVictory();
+  }, 500);
 }
 
-function bindStep(step, cb) {
-  step.querySelectorAll("button[data-ok]").forEach(btn => {
-    btn.onclick = () => {
-      if (btn.dataset.ok === "true") {
-        cb();
-      } else {
-        screenShake();
-      }
-    };
-  });
-}
+/* =====================================================
+   🏆 LOADER DE VICTOIRE
+===================================================== */
 
-  /* =====================================================
-     🏆 VICTOIRE
-  ===================================================== */
 function showFinalVictory() {
+  // 🔓 Déblocage pirate4
+  localStorage.setItem("pirate4Unlocked", "true");
+
   const overlay = document.createElement("div");
   overlay.className = "finalVictory";
 
@@ -475,9 +474,16 @@ function showFinalVictory() {
 
   document.body.appendChild(overlay);
   launchGems();
+
+  // 🔁 Redirection vers le menu
+  setTimeout(() => {
+    window.location.href = "menu.html";
+  }, 4500);
 }
 
-/* ================= EXPLOSION DE GEMS ================= */
+/* =====================================================
+   💎 EXPLOSION DE GEMS
+===================================================== */
 
 function launchGems() {
   const canvas = document.getElementById("gemsCanvas");
@@ -516,6 +522,7 @@ function launchGems() {
 
   animate();
 }
+  
   /* =====================================================
      🧯 SHAKE
   ===================================================== */
