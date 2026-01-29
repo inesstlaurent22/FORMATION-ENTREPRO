@@ -296,7 +296,6 @@ button.selectedAnswer {
   margin: 8px;
   min-width: 180px;
 }
-
 /* =====================================================
    💡 INDICE (IMAGE)
 ===================================================== */
@@ -399,7 +398,7 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   💡 INDICE (IMAGE) — VERSION RECADRÉE
+   💡 INDICE (IMAGE) — VERSION SIMPLE
 ===================================================== */
 
 .hidden {
@@ -419,59 +418,42 @@ button.selectedAnswer {
 }
 
 /* ================================
-   🌑 OVERLAY INDICE (FOND SOMBRE)
+   🖼️ IMAGE INDICE (SANS CADRE)
 ================================ */
 
 #miniGame3 .hintImage {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: transparent;      /* ❌ plus de fond sombre */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9000;
 }
 
-/* ================================
-   🟡 CADRAN JAUNE (PILE À LA TAILLE DE L’IMAGE)
-================================ */
-
-#miniGame3 .imageFrame {
-  display: inline-flex;
-  padding: 10px;                    /* espace fin autour de l’image */
-  border: 3px dashed gold;
-  border-radius: 18px;
-  background: rgba(0, 0, 0, 0.35);
-  box-shadow:
-    0 0 14px rgba(255, 215, 0, 0.6),
-    inset 0 0 8px rgba(255, 215, 0, 0.35);
-}
-
-/* Image indice */
-#miniGame3 .imageFrame img.zoomable {
-  display: block;                   /* supprime l’espace fantôme */
+#miniGame3 .hintImage img.zoomable {
+  display: block;
   max-height: 60vh;
-  max-width: 35vh;                  /* ratio vertical ~1080x1920 */
+  max-width: 35vh;              /* ratio vertical ~1080x1920 */
   object-fit: contain;
-  border-radius: 10px;
   cursor: zoom-in;
 }
 
 /* ================================
-   🔍 ZOOM IMAGE PLEIN ÉCRAN
+   🔍 ZOOM IMAGE PLEIN ÉCRAN (SIMPLE)
 ================================ */
 
 .imageZoomOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: transparent;      /* ❌ pas de fond sombre */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
 }
 
-.imageZoomOverlay .imageFrame img {
+.imageZoomOverlay img {
   max-width: 90vw;
   max-height: 90vh;
   object-fit: contain;
