@@ -436,15 +436,20 @@ function startMiniGame3() {
     }
   };
 
-  /* 💡 Indice + Zoom */
+  /* 💡 INDICE + ZOOM */
   const hintBtn = miniGame3.querySelector(".hintBtn");
   const hintBox = miniGame3.querySelector(".hintImage");
   const hintImg = miniGame3.querySelector(".hintImage img");
 
-  hintBtn.onclick = () => hintBox.classList.toggle("hidden");
+  /* Ouvrir l’indice */
+  hintBtn.onclick = () => {
+    hintBox.classList.remove("hidden");
+  };
 
-  // 🔍 Zoom plein écran
-  hintImg.onclick = () => {
+  /* Zoom image */
+  hintImg.onclick = (e) => {
+    e.stopPropagation();
+
     const overlay = document.createElement("div");
     overlay.className = "imageZoomOverlay";
 
@@ -454,7 +459,13 @@ function startMiniGame3() {
     overlay.appendChild(zoomedImg);
     document.body.appendChild(overlay);
 
+    /* Clic partout → retour mini-jeu */
     overlay.onclick = () => overlay.remove();
+  };
+
+  /* Clic ailleurs → fermer l’indice */
+  hintBox.onclick = () => {
+    hintBox.classList.add("hidden");
   };
 
   /* Enchaînement des steps */
