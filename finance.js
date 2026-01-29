@@ -477,12 +477,14 @@ function showFinalVictory() {
   // ✅ 3️⃣ LANCEMENT DE L’EXPLOSION (MANQUANT AVANT)
   launchGems();
 
-  // 4️⃣ Déblocage + redirection
-  setTimeout(() => {
-    localStorage.setItem("KITIN_PIRATE_4_UNLOCKED", "true");
-    window.location.href = "menu.html";
-  }, 4200);
-}
+// ✅ FIN DE QUÊTE FINANCE — DÉBLOCAGE PIRATE 4
+localStorage.setItem("pirate4_unlocked", "true");
+
+// Optionnel mais recommandé si tu veux un effet retour
+sessionStorage.setItem("unlock_pirate4", "true");
+
+// Retour menu
+window.location.href = "menu.html";
 /* =====================================================
    💎 EXPLOSION DE GEMS
 ===================================================== */
