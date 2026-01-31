@@ -1,21 +1,26 @@
-/* ===== RESET ===== */
+/* =====================================================
+   🏴‍☠️ RESET PIRATE
+===================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 body {
-  background: #000;
+  background: #050403;
   overflow: hidden;
-  font-family: Arial, sans-serif;
-  color: #fff;
+  font-family: "Trebuchet MS", "Georgia", serif;
+  color: #f5e6c8;
 }
 
-/* ===== VIDÉO ===== */
+/* =====================================================
+   🎬 VIDÉO
+===================================================== */
 #videoContainer {
   position: fixed;
   inset: 0;
   z-index: 100;
+  background: #000;
 }
 #questVideo {
   width: 100%;
@@ -24,25 +29,43 @@ body {
 }
 .videoBtns {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 18px;
+  right: 18px;
   display: flex;
   gap: 10px;
 }
+.videoBtns button {
+  background: linear-gradient(145deg, #3b2a16, #1e140a);
+  border: 2px solid #cfa44a;
+  color: #f8e4b2;
+  padding: 8px 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(207,164,74,.6);
+}
+.videoBtns button:hover {
+  box-shadow: 0 0 14px gold;
+}
 
-/* ===== LOADER ===== */
+/* =====================================================
+   ⏳ LOADERS
+===================================================== */
 .loader {
   position: fixed;
   inset: 0;
+  background: radial-gradient(circle, #1a1208, #000);
   display: none;
   align-items: center;
   justify-content: center;
-  background: #000;
-  font-size: 22px;
+  font-size: 24px;
+  color: #ffd36a;
   z-index: 90;
+  text-shadow: 0 0 8px gold;
 }
 
-/* ===== SCÈNE ===== */
+/* =====================================================
+   🌅 SCÈNE PIRATE
+===================================================== */
 #scene {
   display: none;
   position: fixed;
@@ -50,45 +73,54 @@ body {
   background: url("images/Legal.PNG") center/cover no-repeat;
 }
 
-/* ===== PIRATES ===== */
+/* =====================================================
+   🏴‍☠️ PIRATES
+===================================================== */
 .pirate {
   position: absolute;
   cursor: pointer;
-  transition: filter .3s, box-shadow .3s;
-}
-#pirateLegal {
-  left: 506px;
-  top: 261px;
-  width: 384px;
-  height: 379px;
-}
-#pirate1 {
-  left: 973px;
-  top: 566px;
-  width: 539px;
-  height: 516px;
+  transition: transform .3s, filter .3s, box-shadow .3s;
 }
 .pirate img {
   width: 100%;
   height: 100%;
 }
 
-/* ✨ Illumination */
+/* Pirate Legal */
+#pirateLegal {
+  left: 506px;
+  top: 261px;
+  width: 384px;
+  height: 379px;
+}
 #pirateLegal:hover {
-  filter: brightness(1.2);
-  box-shadow: 0 0 30px gold;
+  filter: brightness(1.25);
+  box-shadow: 0 0 30px 10px rgba(255,215,100,.8);
+  transform: scale(1.03);
 }
 
-/* ===== DIALOGUES ===== */
+/* Pirate 1 */
+#pirate1 {
+  left: 973px;
+  top: 566px;
+  width: 539px;
+  height: 516px;
+}
+
+/* =====================================================
+   💬 DIALOGUES (PARCHEMIN)
+===================================================== */
 .dialogue {
   position: absolute;
-  max-width: 320px;
-  padding: 12px;
-  background: rgba(0,0,0,.85);
-  border: 2px solid gold;
-  border-radius: 10px;
+  max-width: 340px;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, #f3e2bf, #d2b48c);
+  border: 3px solid #8b5a2b;
+  border-radius: 12px;
+  color: #2b1a0a;
   display: none;
   font-size: 14px;
+  box-shadow: 0 0 18px rgba(0,0,0,.6);
 }
 #dialogueLegal {
   left: 480px;
@@ -99,31 +131,73 @@ body {
   top: 500px;
 }
 
-/* ===== MINI-JEU ===== */
-#miniGame {
+/* =====================================================
+   🎮 MINI-JEUX (COFFRE PIRATE)
+===================================================== */
+#miniGame,
+#miniGame2 {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.9);
+  background: radial-gradient(circle at center, #140c05, #000);
   z-index: 80;
   align-items: center;
   justify-content: center;
 }
+
 .gameBox {
-  width: 80%;
-  max-width: 720px;
-  background: #111;
-  border: 2px solid gold;
-  padding: 20px;
-}
-.answers button {
-  width: 100%;
-  margin: 6px 0;
-  padding: 8px;
-  cursor: pointer;
+  width: 82%;
+  max-width: 760px;
+  background: linear-gradient(180deg, #2b1b0f, #120b05);
+  border: 3px solid #cfa44a;
+  padding: 24px;
+  box-shadow: 0 0 25px rgba(207,164,74,.6);
 }
 
-/* ===== GEMS ===== */
+.gameBox h2 {
+  text-align: center;
+  margin-bottom: 18px;
+  color: #ffd36a;
+  text-shadow: 0 0 10px rgba(255,215,100,.8);
+}
+
+.gameBox p {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+/* Boutons */
+.gameBox button {
+  width: 100%;
+  margin: 6px 0;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(145deg, #5a3b1c, #2c1b0c);
+  border: 2px solid #cfa44a;
+  color: #f8e4b2;
+  box-shadow: inset 0 0 6px rgba(0,0,0,.6);
+}
+.gameBox button:hover {
+  box-shadow: 0 0 12px gold;
+}
+
+/* =====================================================
+   📜 ENCARTS INFORMATIFS
+===================================================== */
+.infoBox {
+  margin-top: 14px;
+  padding: 14px;
+  background: linear-gradient(180deg, #f5e1b8, #d4b483);
+  border: 3px solid #8b5a2b;
+  color: #2b1a0a;
+  font-size: 14px;
+  box-shadow: 0 0 12px rgba(0,0,0,.5);
+}
+
+/* =====================================================
+   💎 GEMS (MAGIE)
+===================================================== */
 #gems {
   position: fixed;
   inset: 0;
@@ -134,12 +208,31 @@ body {
   position: absolute;
   width: 10px;
   height: 10px;
-  background: linear-gradient(45deg, cyan, magenta, yellow);
-  animation: explode 1.5s forwards;
+  background: linear-gradient(45deg, cyan, magenta, gold);
+  border-radius: 2px;
+  animation: explode 1.6s forwards;
 }
 @keyframes explode {
   to {
     transform: translate(var(--x), var(--y)) scale(0);
     opacity: 0;
   }
+}
+
+/* =====================================================
+   🎁 RÉCOMPENSE
+===================================================== */
+#reward {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #1a1208, #000);
+  z-index: 250;
+  align-items: center;
+  justify-content: center;
+}
+#reward img {
+  max-width: 72%;
+  border: 4px solid gold;
+  box-shadow: 0 0 30px gold;
 }
