@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Quête Légale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="legal.css">
+</head>
+<body>
+
+<!-- 🎬 VIDÉO -->
+<div id="videoContainer">
+  <video id="questVideo" autoplay>
+    <source src="videos/Legalvideo.mov" type="video/mp4">
+  </video>
+  <div class="videoBtns">
+    <button id="soundBtn">🔊</button>
+    <button id="skipVideo">Passer la vidéo</button>
+  </div>
+</div>
+
+<!-- ⏳ LOADER -->
+<div class="loader" id="loader">Chargement..</div>
+<div class="loader" id="loaderGame">Chargement du mini jeu..</div>
+
+<!-- 🌅 SCÈNE -->
+<div id="scene">
+
+  <div id="pirateLegal" class="pirate">
+    <img src="images/Piratelegal.PNG">
+  </div>
+
+  <div id="pirate1" class="pirate">
+    <img src="images/Pirate1.PNG">
+  </div>
+
+  <div id="dialogueLegal" class="dialogue"></div>
+  <div id="dialoguePirate" class="dialogue"></div>
+
+</div>
+
+<!-- 🎮 MINI-JEU -->
+<div id="miniGame">
+  <div class="gameBox">
+    <h2>Les devoirs de l’auto-entrepreneur</h2>
+    <div id="gameContent"></div>
+  </div>
+</div>
+
+<!-- 💎 GEMS -->
+<div id="gems"></div>
+
+<script src="legal.js"></script>
+</body>
+</html>
