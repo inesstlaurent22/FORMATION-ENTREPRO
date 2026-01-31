@@ -118,4 +118,79 @@ document.addEventListener("DOMContentLoaded", () => {
     dPirate.innerText = "Et même avec 0 gain, la déclaration est obligatoire. Selon le chiffre d’affaires, la SA ou la SARL peuvent devenir plus adaptées.";
   }
 
+  function startMiniGame2() {
+  document.getElementById("miniGame2").style.display = "flex";
+  showGame2Q1();
+}
+
+const game2 = document.getElementById("game2Content");
+
+function showGame2Q1() {
+  game2.innerHTML = `
+    <p>Crées-tu ta société seul ou en groupe ?</p>
+    <button onclick="solo()">Oui</button>
+    <button onclick="group()">Non</button>
+  `;
+}
+
+function solo() {
+  game2.innerHTML += `
+    <div class="infoBox">
+      <b>Choix possibles :</b><br><br>
+      EI – Simple, peu de formalités.<br>
+      EURL – Protection du patrimoine.<br>
+      SASU – Image professionnelle et flexible.
+    </div>
+  `;
+  setTimeout(showGame2Q2, 1500);
+}
+
+function group() {
+  game2.innerHTML += `
+    <div class="infoBox">
+      <b>Choix possibles :</b><br><br>
+      SARL – Sécurisée et encadrée.<br>
+      SAS – Flexible et moderne.
+    </div>
+  `;
+  setTimeout(showGame2Q2, 1500);
+}
+
+function showGame2Q2() {
+  game2.innerHTML = `
+    <p>Pourquoi veux-tu changer de statut juridique ?</p>
+    <button onclick="info('EI – Entrepreneur Individuel')">Simplifier mes démarches</button>
+    <button onclick="info('EURL – Rentabilité et protection')">Plus de rentabilité</button>
+    <button onclick="info('SASU – Image luxueuse')">Image luxueuse</button>
+    <button onclick="info('SARL – Projet à risques')">Projet à risques avec investisseurs</button>
+    <button onclick="info('SAS – Stabilité en équipe')">Travail en équipe</button>
+  `;
+}
+
+function info(txt) {
+  game2.innerHTML += `<div class="infoBox">${txt}</div>`;
+  setTimeout(showGame2Q3, 1500);
+}
+
+function showGame2Q3() {
+  game2.innerHTML = `
+    <p>Quand dois-je passer d’auto-entrepreneur à entreprise ?</p>
+    <button onclick="endGame2()">CA > 60-70k</button>
+    <button onclick="endGame2()">Embauche et protection</button>
+    <button onclick="endGame2()">Charges faibles vs CA</button>
+    <button onclick="endGame2(false)">Quand je le décide</button>
+  `;
+}
+
+function endGame2(success=true) {
+  if(success){
+    document.getElementById("miniGame2").style.display="none";
+    document.getElementById("reward").style.display="flex";
+    setTimeout(()=>{
+      document.getElementById("reward").style.display="none";
+      document.getElementById("scene").style.display="block";
+    },2500);
+  }
+}
+
 });
