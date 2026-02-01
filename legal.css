@@ -81,35 +81,24 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   🌊 SCÈNE — BACKGROUND
+   🌊 SCÈNE — TOUJOURS VISIBLE
 ===================================================== */
 #scene{
   position:fixed;
   inset:0;
-  background:#000 url("images/Legal.PNG") no-repeat center/cover;
+  background:url("images/Legal.PNG") no-repeat center/cover;
   z-index:1;
 }
 
 /* =====================================================
-   🌑 ASSOMBRISSEMENT — CORRIGÉ (SCÈNE TOUJOURS VISIBLE)
+   🌑 VOILE D’ASSOMBRISSEMENT (TRÈS LÉGER)
 ===================================================== */
-#scene{
-  position:fixed; /* important */
-  inset:0;
-  z-index:1;
-}
-
-#scene.sceneDim::after{
+#scene.sceneDim::before{
   content:"";
   position:absolute;
   inset:0;
-
-  /* assombrissement TRÈS léger */
-  background:rgba(0,0,0,0.22);
-
-  /* sous les pirates et dialogues */
+  background:rgba(0,0,0,0.18); /* clé : très léger */
   z-index:2;
-
   pointer-events:none;
 }
 
