@@ -49,7 +49,7 @@ body{
 }
 
 /* =====================================================
-   🔘 BOUTONS — STYLE PIRATE (FINANCE)
+   🔘 BOUTONS — STYLE PIRATE
 ===================================================== */
 button{
   background:linear-gradient(145deg,#e8c77a,#b48b3c);
@@ -74,7 +74,7 @@ button:disabled{
   cursor:default;
 }
 
-/* bonne réponse (mini-jeu 1) */
+/* bonne réponse */
 button.selectedAnswer{
   background:linear-gradient(145deg,#3a2a18,#6b4b24);
   color:#f5e6c8;
@@ -92,13 +92,17 @@ button.selectedAnswer{
   z-index:1;
 }
 
-/* assombrissement pendant mini-jeux */
+/* assombrissement scène (corrigé) */
+#scene.sceneDark{
+  position:relative;
+}
+
 #scene.sceneDark::after{
   content:"";
-  position:fixed;
+  position:absolute;
   inset:0;
   background:rgba(0,0,0,.75);
-  z-index:40;
+  z-index:20;
 }
 
 /* =====================================================
@@ -132,7 +136,6 @@ button.selectedAnswer{
   height:100%;
 }
 
-/* illumination contour PNG */
 #pirateLegal:hover{
   filter:
     drop-shadow(0 0 14px gold)
@@ -188,11 +191,10 @@ button.selectedAnswer{
   padding:30px;
   z-index:2000;
   text-align:center;
-  box-shadow:0 0 40px rgba(255,215,0,0.45);
+  box-shadow:0 0 40px rgba(255,215,0,.45);
   display:none;
 }
 
-/* titres mini-jeux */
 #miniGame h3,
 #miniGame2 h3{
   color:gold;
@@ -200,32 +202,44 @@ button.selectedAnswer{
   margin-bottom:16px;
 }
 
-/* texte questions */
 #miniGame p,
 #miniGame2 p{
   font-size:16px;
   line-height:1.55;
 }
 
-/* conteneur réponses */
-#qChoices,
-#game2Choices{
-  margin-top:22px;
+/* =====================================================
+   🎮 MINI-JEU 2 — COLONNES (AJOUT MANQUANT)
+===================================================== */
+.mg2-layout{
+  display:flex;
+  gap:24px;
+  margin-top:20px;
+}
+
+.mg2-left{
+  width:45%;
   display:flex;
   flex-direction:column;
-  align-items:center;
   gap:14px;
 }
 
-/* largeur boutons */
-#qChoices button,
-#game2Choices button{
-  width:100%;
-  max-width:420px;
+.mg2-right{
+  width:55%;
+  min-height:120px;
+}
+
+.mg2-right .infoBox{
+  animation:fadeIn .25s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateX(10px)}
+  to{opacity:1; transform:translateX(0)}
 }
 
 /* =====================================================
-   📜 ENCARTS INFORMATIFS (MINI-JEU 2)
+   📜 ENCARTS
 ===================================================== */
 .infoBox{
   margin-top:16px;
@@ -238,7 +252,7 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   📳 SHAKE — ERREUR
+   📳 SHAKE
 ===================================================== */
 .shake{
   animation:shake .35s;
@@ -260,6 +274,15 @@ button.selectedAnswer{
   #miniGame2{
     width:92%;
     padding:24px;
+  }
+
+  .mg2-layout{
+    flex-direction:column;
+  }
+
+  .mg2-left,
+  .mg2-right{
+    width:100%;
   }
 
   #dialogueLegal,
