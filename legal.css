@@ -91,8 +91,12 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   🌑 ASSOMBRISSEMENT MINI-JEUX (FIX DÉFINITIF)
+   🌑 ASSOMBRISSEMENT (LÉGER, NON BLOQUANT)
 ===================================================== */
+#scene.sceneDim{
+  position:relative;
+}
+
 #scene.sceneDim::after{
   content:"";
   position:absolute;
@@ -114,7 +118,7 @@ button.selectedAnswer{
   background-size:contain;
   background-position:bottom center;
   transition:filter .3s ease, transform .3s ease;
-  z-index:10; /* AU-DESSUS DU VOILE */
+  z-index:10;
 }
 
 #pirateLegal{
@@ -180,7 +184,7 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX — ENCARDS (1, 2, 3)
+   🎮 MINI-JEUX — ENCARDS
 ===================================================== */
 #miniGame,
 #miniGame2,
@@ -194,7 +198,7 @@ button.selectedAnswer{
   border:4px solid #caa14a;
   border-radius:22px;
   padding:30px;
-  z-index:20; /* AU-DESSUS DE TOUT */
+  z-index:20;
   text-align:center;
   box-shadow:0 0 40px rgba(255,215,0,.45);
   display:none;
@@ -268,7 +272,49 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   📳 SHAKE — ERREUR
+   🏆 LOADER DE VICTOIRE
+===================================================== */
+.loaderBox{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  padding:26px 36px;
+  background:linear-gradient(145deg,#5b3a1a,#2e1a0d);
+  border:4px solid #c9a24d;
+  border-radius:20px;
+  color:#fff;
+  font-size:24px;
+  text-align:center;
+  z-index:3000;
+  box-shadow:0 0 40px rgba(255,215,100,.6);
+}
+
+/* =====================================================
+   💎 GEMS
+===================================================== */
+.gem{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:3px;
+  pointer-events:none;
+  animation:explode 1.6s ease-out forwards;
+}
+
+@keyframes explode{
+  from{
+    transform:translate(0,0) scale(1);
+    opacity:1;
+  }
+  to{
+    transform:translate(var(--x),var(--y)) scale(0);
+    opacity:0;
+  }
+}
+
+/* =====================================================
+   📳 SHAKE
 ===================================================== */
 .shake{
   animation:shake .35s;
