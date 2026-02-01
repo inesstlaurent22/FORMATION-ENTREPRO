@@ -1,219 +1,322 @@
-document.addEventListener("DOMContentLoaded", () => {
-
 /* =====================================================
-   🎬 VIDÉO → SCÈNE
+   🌍 RESET GLOBAL
 ===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const video = document.getElementById("questVideo");
-const skipBtn = document.getElementById("skipVideo");
-const scene = document.getElementById("scene");
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-skipBtn.onclick = endVideo;
-video.onended = endVideo;
+html, body{
+  width:100%;
+  height:100%;
+}
 
-function endVideo(){
-  videoContainer.style.display = "none";
-  scene.style.display = "block";
-  enablePirate();
+body{
+  overflow:hidden;
+  font-family:serif;
+  background:#000;
+  color:#fff;
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE LEGAL — ACTIVATION
+   🎬 VIDÉO INTRO
 ===================================================== */
-const pirateLegal = document.getElementById("pirateLegal");
-
-function enablePirate(){
-  pirateLegal.classList.remove("noGlow");
-  pirateLegal.onclick = startDialogues1;
+#videoContainer{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:1000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-function disablePirate(){
-  pirateLegal.classList.add("noGlow");
-  pirateLegal.onclick = null;
+#questVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-/* =====================================================
-   💬 DIALOGUES — BLOC 1
-===================================================== */
-const dLegal = document.getElementById("dialogueLegal");
-const dPirate = document.getElementById("dialoguePirate");
-
-const dialoguesBlock1 = [
-  { el: dLegal, text: "Pour vendre nos pierres légalement, nous devons nous inscrire comme auto-entrepreneurs à l’URSSAF." },
-  { el: dPirate, text: "Sans inscription, même un commerce honnête devient illégal." },
-  { el: dLegal, text: "Voyons maintenant tes obligations." }
-];
-
-let dIndex = 0;
-
-function startDialogues1(){
-  disablePirate();
-  dIndex = 0;
-  showDialogue(dialoguesBlock1, startMiniGame1);
+/* Boutons vidéo */
+.videoBtns{
+  position:absolute;
+  top:20px;
+  right:20px;
+  display:flex;
+  gap:12px;
+  z-index:3000;
 }
 
 /* =====================================================
-   💬 DIALOGUES — BLOC 2
+   🔘 BOUTONS — STYLE PIRATE
 ===================================================== */
-const dialoguesBlock2 = [
-  { el: dLegal, text: "L’auto-entrepreneuriat est une excellente base…" },
-  { el: dPirate, text: "…mais quand le trésor grandit, il faut changer de statut." },
-  { el: dLegal, text: "Je vais t’aider à choisir le bon." }
-];
+button{
+  background:linear-gradient(145deg,#e8c77a,#b48b3c);
+  border:3px solid #3b240f;
+  border-radius:14px;
+  color:#000;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  padding:12px 22px;
+  transition:transform .2s ease, box-shadow .2s ease;
+  box-shadow:inset 0 0 6px rgba(255,255,255,.4);
+}
 
-function startDialogues2(){
-  dIndex = 0;
-  showDialogue(dialoguesBlock2, startMiniGame2);
+button:hover{
+  transform:scale(1.06);
+  box-shadow:0 0 18px rgba(255,215,100,.85);
+}
+
+button:disabled{
+  opacity:.7;
+  cursor:default;
+}
+
+/* Bonne réponse mini-jeu 1 */
+button.selectedAnswer{
+  background:linear-gradient(145deg,#3a2a18,#6b4b24);
+  color:#f5e6c8;
+  transform:translateY(3px);
+  box-shadow:inset 0 0 10px rgba(0,0,0,.7);
 }
 
 /* =====================================================
-   💬 GESTION GÉNÉRIQUE DES DIALOGUES
+   🌊 SCÈNE
 ===================================================== */
-function showDialogue(dialogues, callback){
-  if(dIndex >= dialogues.length){
-    hideDialogs();
-    callback();
-    return;
+#scene{
+  position:fixed;
+  inset:0;
+  background:#000 url("images/Legal.PNG") no-repeat center/cover;
+  z-index:1;
+}
+
+/* Assombrissement pendant mini-jeux */
+#scene.sceneDark{
+  position:relative;
+}
+
+#scene.sceneDark::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  z-index:20;
+}
+
+/* =====================================================
+   🏴‍☠️ PIRATES
+===================================================== */
+.pirate{
+  position:absolute;
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:bottom center;
+  transition:opacity .3s ease, filter .3s ease, transform .3s ease;
+}
+
+#pirateLegal{
+  left:480px;
+  top:231px;
+  width:384px;
+  height:379px;
+  cursor:pointer;
+
+  /* animation ACTIVE avant dialogues */
+  filter:
+    drop-shadow(0 0 14px gold)
+    drop-shadow(0 0 28px rgba(255,215,0,.6));
+}
+
+#pirate1{
+  left:903px;
+  top:506px;
+  width:539px;
+  height:516px;
+}
+
+.pirate img{
+  width:100%;
+  height:100%;
+}
+
+/* Animation DÉSACTIVÉE quand dialogues */
+#pirateLegal.noGlow,
+#pirateLegal.noGlow:hover{
+  filter:none !important;
+  transform:none !important;
+  cursor:default;
+}
+
+/* Pirates masqués pendant mini-jeux */
+#scene.sceneDark .pirate{
+  opacity:0;
+  pointer-events:none;
+}
+
+/* =====================================================
+   💬 BULLES DE DIALOGUE
+===================================================== */
+.dialogue{
+  position:absolute;
+  max-width:560px;
+  background:#fff;
+  color:#000;
+  border:3px solid #d4af37;
+  border-radius:22px;
+  padding:18px 22px;
+  box-shadow:0 0 22px rgba(0,0,0,.6);
+  z-index:1500;
+  cursor:pointer;
+  display:none;
+}
+
+#dialogueLegal{
+  left:480px;
+  top:190px;
+}
+
+#dialoguePirate{
+  left:1000px;
+  top:500px;
+}
+
+.dialogue p{
+  font-size:16px;
+  line-height:1.55;
+}
+
+/* =====================================================
+   🎮 MINI-JEUX — ENCARDS SUR BACKGROUND
+===================================================== */
+#miniGame,
+#miniGame2{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:min(90%,720px);
+  background:#120b05;
+  border:4px solid #caa14a;
+  border-radius:22px;
+  padding:30px;
+  z-index:2000;
+  text-align:center;
+  box-shadow:0 0 40px rgba(255,215,0,.45);
+  display:none;
+}
+
+#miniGame h3,
+#miniGame2 h3{
+  color:gold;
+  text-shadow:0 0 14px gold;
+  margin-bottom:16px;
+}
+
+#miniGame p,
+#miniGame2 p{
+  font-size:16px;
+  line-height:1.55;
+}
+
+/* =====================================================
+   🎮 MINI-JEU 1 — CHOIX
+===================================================== */
+#qChoices{
+  margin-top:22px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+
+#qChoices button{
+  width:100%;
+  max-width:420px;
+}
+
+/* =====================================================
+   🎮 MINI-JEU 2 — COLONNES
+===================================================== */
+.mg2-layout{
+  display:flex;
+  gap:24px;
+  margin-top:20px;
+}
+
+.mg2-left{
+  width:45%;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.mg2-right{
+  width:55%;
+  min-height:120px;
+}
+
+.mg2-right .infoBox{
+  animation:fadeIn .25s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateX(10px)}
+  to{opacity:1; transform:translateX(0)}
+}
+
+/* =====================================================
+   📜 ENCARTS INFORMATIFS
+===================================================== */
+.infoBox{
+  margin-top:16px;
+  padding:16px;
+  border:2px solid gold;
+  border-radius:14px;
+  background:rgba(0,0,0,.45);
+  color:#fff;
+  line-height:1.55;
+}
+
+/* =====================================================
+   📳 SHAKE — ERREUR
+===================================================== */
+.shake{
+  animation:shake .35s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-6px)}
+  100%{transform:translateX(0)}
+}
+
+/* =====================================================
+   📱 RESPONSIVE
+===================================================== */
+@media(max-width:768px){
+  #miniGame,
+  #miniGame2{
+    width:92%;
+    padding:24px;
   }
 
-  const cur = dialogues[dIndex];
-  cur.el.innerHTML = `<p>${cur.text}</p>`;
-  cur.el.style.display = "block";
-
-  cur.el.onclick = () => {
-    cur.el.style.display = "none";
-    dIndex++;
-    showDialogue(dialogues, callback);
-  };
-}
-
-function hideDialogs(){
-  dLegal.style.display = "none";
-  dPirate.style.display = "none";
-}
-
-/* =====================================================
-   🎮 MINI-JEU 1 — QCM
-===================================================== */
-const miniGame1 = document.getElementById("miniGame");
-
-const questions = [
-  {
-    q: "Où dois-je m’inscrire pour être auto-entrepreneur ?",
-    good: ["Sur le site de l’URSSAF"],
-    bad: ["À la mairie", "À la banque"]
-  },
-  {
-    q: "Qu’est-ce que l’ACRE ?",
-    good: [
-      "L’aide à la création ou reprise d’entreprise",
-      "Une réduction partielle des cotisations sociales",
-      "À demander à la création ou sous 45 jours"
-    ],
-    bad: ["Une taxe obligatoire"]
-  },
-  {
-    q: "Quand dois-je déclarer mes gains ?",
-    good: ["Tous les mois", "Même si les gains sont à 0"],
-    bad: ["Seulement quand je gagne"]
+  .mg2-layout{
+    flex-direction:column;
   }
-];
 
-let qIndex = 0;
-let goodCount = 0;
+  .mg2-left,
+  .mg2-right{
+    width:100%;
+  }
 
-function startMiniGame1(){
-  scene.classList.add("sceneDark");
-  miniGame1.style.display = "block";
-
-  miniGame1.innerHTML = `
-    <h3>📜 Les devoirs de l’auto-entrepreneur</h3>
-    <p id="qText"></p>
-    <div id="qChoices"></div>
-  `;
-
-  qIndex = 0;
-  showQuestion();
+  #dialogueLegal,
+  #dialoguePirate{
+    left:5%;
+    right:5%;
+    max-width:none;
+  }
 }
-
-function showQuestion(){
-  goodCount = 0;
-  document.getElementById("qText").textContent = questions[qIndex].q;
-  const qChoices = document.getElementById("qChoices");
-  qChoices.innerHTML = "";
-
-  const answers = [
-    ...questions[qIndex].good.map(t => ({t, ok:true})),
-    ...questions[qIndex].bad.map(t => ({t, ok:false}))
-  ].sort(() => Math.random() - 0.5);
-
-  answers.forEach(a => {
-    const btn = document.createElement("button");
-    btn.textContent = a.t;
-
-    btn.onclick = () => {
-      if(a.ok){
-        btn.classList.add("selectedAnswer");
-        btn.disabled = true;
-        goodCount++;
-        if(goodCount === questions[qIndex].good.length){
-          qIndex++;
-          qIndex < questions.length ? showQuestion() : endMiniGame1();
-        }
-      } else {
-        shake();
-      }
-    };
-
-    qChoices.appendChild(btn);
-  });
-}
-
-function endMiniGame1(){
-  miniGame1.style.display = "none";
-  scene.classList.remove("sceneDark");
-  startDialogues2();
-}
-
-/* =====================================================
-   🎮 MINI-JEU 2 — CHOIX DU STATUT
-===================================================== */
-const miniGame2 = document.getElementById("miniGame2");
-const game2Content = document.getElementById("game2Content");
-
-function startMiniGame2(){
-  scene.classList.add("sceneDark");
-  miniGame2.style.display = "block";
-  showMG2();
-}
-
-function showMG2(){
-  game2Content.innerHTML = `
-    <p>Quel est ton objectif principal ?</p>
-    <div class="mg2-layout">
-      <div class="mg2-left">
-        <button onclick="selectStatut('EI')">Simplicité</button>
-        <button onclick="selectStatut('EURL')">Rentabilité</button>
-        <button onclick="selectStatut('SASU')">Image premium</button>
-        <button onclick="selectStatut('SARL')">Projet à risques</button>
-        <button onclick="selectStatut('SAS')">Travail en équipe</button>
-      </div>
-      <div class="mg2-right" id="mg2Right"></div>
-    </div>
-  `;
-}
-
-window.selectStatut = (statut) => {
-  document.getElementById("mg2Right").innerHTML =
-    `<div class="infoBox">Statut conseillé : <strong>${statut}</strong></div>`;
-};
-
-/* =====================================================
-   📳 SHAKE
-===================================================== */
-function shake(){
-  document.body.classList.add("shake");
-  setTimeout(() => document.body.classList.remove("shake"), 350);
-}
-
-});
