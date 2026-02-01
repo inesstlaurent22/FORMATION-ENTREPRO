@@ -183,6 +183,7 @@ function startDialogues2(){
 const miniGame2 = document.getElementById("miniGame2");
 const game2Content = document.getElementById("game2Content");
 
+let q1Clicked = new Set();
 let q2Clicked = new Set();
 let q3Clicked = new Set();
 
@@ -190,35 +191,58 @@ let q3Clicked = new Set();
 function startMiniGame2(){
   scene.classList.add("sceneDim");
   miniGame2.style.display = "block";
+  q1Clicked.clear();
   showStep1();
 }
 
-/* ---------- Q1 ---------- */
+/* ---------- Q1 (CORRIGÉE) ---------- */
 function showStep1(){
   game2Content.innerHTML = `
     <h3>📜 Choisir son statut juridique</h3>
     <p>Crées-tu ta société seul ou en groupe ?</p>
+
     <div class="mg2-layout">
       <div class="mg2-left">
-        <button onclick="q1Answer(true)">Oui</button>
-        <button onclick="q1Answer(false)">Non</button>
+        <button onclick="q1Answer(this,'solo')">Oui</button>
+        <button onclick="q1Answer(this,'groupe')">Non</button>
       </div>
       <div class="mg2-right" id="mg2Info"></div>
     </div>
-    <p style="margin-top:14px;color:gold;">Clique sur l’encart pour continuer</p>
+
+    <p id="q1Hint" style="margin-top:14px;color:gold;">
+      Clique sur les deux options pour continuer
+    </p>
   `;
 }
 
-window.q1Answer = (solo)=>{
-  const info = document.getElementById("mg2Info");
-  info.innerHTML = solo
-    ? `<div class="infoBox">Statuts possibles : EI, EURL, SASU</div>`
-    : `<div class="infoBox">Statuts possibles : SARL, SAS</div>`;
+window.q1Answer = (btn, type)=>{
+  if(q1Clicked.has(type)) return;
 
-  miniGame2.onclick = () => {
-    miniGame2.onclick = null;
-    showStep2();
-  };
+  q1Clicked.add(type);
+  btn.disabled = true;
+  btn.classList.add("selectedAnswer");
+
+  const info = document.getElementById("mg2Info");
+
+  if(type === "solo"){
+    info.insertAdjacentHTML(
+      "beforeend",
+      `<div class="infoBox">Seul : <strong>EI</strong>, <strong>EURL</strong>, <strong>SASU</strong></div>`
+    );
+  }
+
+  if(type === "groupe"){
+    info.insertAdjacentHTML(
+      "beforeend",
+      `<div class="infoBox">À plusieurs : <strong>SARL</strong>, <strong>SAS</strong></div>`
+    );
+  }
+
+  if(q1Clicked.size === 2){
+    document.getElementById("q1Hint").textContent =
+      "Parfait. Passons à la question suivante.";
+    setTimeout(showStep2, 800);
+  }
 };
 
 /* ---------- Q2 ---------- */
@@ -226,6 +250,7 @@ function showStep2(){
   q2Clicked.clear();
   game2Content.innerHTML = `
     <p>Pourquoi veux-tu changer de statut juridique ?</p>
+
     <div class="mg2-layout">
       <div class="mg2-left">
         <button onclick="q2Answer(this,'EI')">Simplifier mes démarches</button>
@@ -236,6 +261,7 @@ function showStep2(){
       </div>
       <div class="mg2-right" id="mg2Info"></div>
     </div>
+
     <p id="q2Hint" style="margin-top:14px;color:gold;">
       Clique sur tous les boutons pour continuer
     </p>
@@ -254,7 +280,7 @@ window.q2Answer = (btn, statut)=>{
   );
 
   if(q2Clicked.size === 5){
-    setTimeout(showStep3, 600);
+    setTimeout(showStep3, 700);
   }
 };
 
@@ -281,6 +307,7 @@ window.q3Answer = (btn, val)=>{
     return;
   }
   if(q3Clicked.has(val)) return;
+
   q3Clicked.add(val);
   btn.disabled = true;
   btn.classList.add("selectedAnswer");
