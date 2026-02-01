@@ -12,7 +12,7 @@ const scene = document.getElementById("scene");
 video.muted = true;
 soundBtn.textContent = "🔊";
 
-soundBtn.onclick = (e) => {
+soundBtn.onclick = e => {
   e.stopPropagation();
   video.muted = !video.muted;
   soundBtn.textContent = video.muted ? "🔊" : "🔈";
@@ -26,34 +26,21 @@ function endVideo(){
   video.pause();
   videoContainer.style.display = "none";
   scene.style.display = "block";
-  enablePirate();
-}
-
-/* =====================================================
-   🏴‍☠️ PIRATE LEGAL
-===================================================== */
-const pirateLegal = document.getElementById("pirateLegal");
-
-function enablePirate(){
-  pirateLegal.classList.remove("noGlow");
   pirateLegal.onclick = startDialogues1;
 }
 
-function disablePirate(){
-  pirateLegal.classList.add("noGlow");
-  pirateLegal.onclick = null;
-}
-
 /* =====================================================
-   💬 DIALOGUES — UTILITAIRE
+   🏴‍☠️ PIRATES & DIALOGUES
 ===================================================== */
+const pirateLegal = document.getElementById("pirateLegal");
 const dLegal = document.getElementById("dialogueLegal");
 const dPirate = document.getElementById("dialoguePirate");
 let dIndex = 0;
 
 function runDialogues(list, callback){
   if(dIndex >= list.length){
-    hideDialogs();
+    dLegal.style.display = "none";
+    dPirate.style.display = "none";
     callback && callback();
     return;
   }
@@ -67,23 +54,18 @@ function runDialogues(list, callback){
   };
 }
 
-function hideDialogs(){
-  dLegal.style.display = "none";
-  dPirate.style.display = "none";
-}
-
 /* =====================================================
    💬 DIALOGUES 1 — URSSAF
 ===================================================== */
 const dialogues1 = [
-  { el:dLegal, text:"Pour vendre nos pierres légalement, nous devons nous inscrire comme auto-entrepreneurs à l’URSSAF." },
-  { el:dPirate, text:"Sans inscription, même un commerce honnête devient illégal." },
-  { el:dLegal, text:"Voyons maintenant tes obligations." }
+  { el:dLegal, text:"Pour vendre légalement, vous devez être inscrits comme auto-entrepreneurs à l’URSSAF." },
+  { el:dPirate, text:"Sans ça, même un trésor honnête devient illégal." },
+  { el:dLegal, text:"Voyons maintenant vos obligations." }
 ];
 
 function startDialogues1(){
-  disablePirate();
   dIndex = 0;
+  pirateLegal.classList.add("noGlow");
   runDialogues(dialogues1, startMiniGame1);
 }
 
@@ -92,7 +74,7 @@ function startDialogues1(){
 ===================================================== */
 const miniGame1 = document.getElementById("miniGame");
 
-const questionsAE = [
+const aeQuestions = [
   {
     q:"Où dois-je m’inscrire pour être auto-entrepreneur ?",
     good:["Sur le site de l’URSSAF"],
@@ -101,55 +83,49 @@ const questionsAE = [
   {
     q:"Qu’est-ce que l’ACRE ?",
     good:[
-      "L’aide à la création ou à la reprise d’une entreprise",
-      "Une réduction partielle des cotisations sociales",
+      "L’aide à la création ou reprise d’entreprise",
+      "Une réduction de cotisations sociales",
       "À demander à la création ou sous 45 jours"
     ],
     bad:["Une taxe obligatoire"]
   },
   {
     q:"Quand dois-je déclarer mes gains ?",
-    good:["Tous les mois","Même si les gains sont à 0"],
+    good:["Tous les mois","Même à 0 €"],
     bad:["Uniquement si je gagne"]
   }
 ];
 
-let qIndex = 0, goodCount = 0;
+let aeIndex = 0, aeGood = 0;
 
 function startMiniGame1(){
   scene.classList.add("sceneDim");
   miniGame1.style.display = "block";
-  miniGame1.innerHTML = `
-    <h3>📜 Devoirs de l’auto-entrepreneur</h3>
-    <p id="qText"></p>
-    <div id="qChoices"></div>
-  `;
-  qIndex = 0;
+  miniGame1.innerHTML = `<h3>📜 Devoirs de l’auto-entrepreneur</h3><p id="qText"></p><div id="qChoices"></div>`;
+  aeIndex = 0;
   showAEQuestion();
 }
 
 function showAEQuestion(){
-  goodCount = 0;
-  document.getElementById("qText").textContent = questionsAE[qIndex].q;
+  aeGood = 0;
+  document.getElementById("qText").textContent = aeQuestions[aeIndex].q;
   const box = document.getElementById("qChoices");
   box.innerHTML = "";
 
-  const answers = [
-    ...questionsAE[qIndex].good.map(t=>({t,ok:true})),
-    ...questionsAE[qIndex].bad.map(t=>({t,ok:false}))
-  ].sort(()=>Math.random()-0.5);
-
-  answers.forEach(a=>{
+  [...aeQuestions[aeIndex].good.map(t=>({t,ok:true})),
+   ...aeQuestions[aeIndex].bad.map(t=>({t,ok:false}))]
+  .sort(()=>Math.random()-0.5)
+  .forEach(a=>{
     const b = document.createElement("button");
     b.textContent = a.t;
-    b.onclick = ()=>{
+    b.onclick = () => {
       if(a.ok){
         b.classList.add("selectedAnswer");
         b.disabled = true;
-        goodCount++;
-        if(goodCount === questionsAE[qIndex].good.length){
-          qIndex++;
-          qIndex < questionsAE.length ? showAEQuestion() : endMiniGame1();
+        aeGood++;
+        if(aeGood === aeQuestions[aeIndex].good.length){
+          aeIndex++;
+          aeIndex < aeQuestions.length ? showAEQuestion() : endMiniGame1();
         }
       } else shake();
     };
@@ -178,134 +154,98 @@ function startDialogues2(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — STATUT JURIDIQUE (Q1 FIX)
+   🎮 MINI-JEU 2 — STATUT JURIDIQUE
 ===================================================== */
 const miniGame2 = document.getElementById("miniGame2");
 const game2Content = document.getElementById("game2Content");
 
-let q1Clicked = new Set();
-let q2Clicked = new Set();
-let q3Clicked = new Set();
+let q1 = new Set(), q2 = new Set(), q3 = new Set();
 
 function startMiniGame2(){
   scene.classList.add("sceneDim");
   miniGame2.style.display = "block";
-  q1Clicked.clear();
-  showStep1();
+  q1.clear();
+  showStatutQ1();
 }
 
-/* ---------- Q1 (FIXÉE) ---------- */
-function showStep1(){
+function showStatutQ1(){
   game2Content.innerHTML = `
-    <h3>📜 Choisir son statut juridique</h3>
+    <h3>📜 Choisir son statut</h3>
     <p>Crées-tu ta société seul ou en groupe ?</p>
-
     <div class="mg2-layout">
       <div class="mg2-left">
-        <button id="btnSolo">Oui</button>
-        <button id="btnGroupe">Non</button>
+        <button id="solo">Oui</button>
+        <button id="groupe">Non</button>
       </div>
       <div class="mg2-right" id="mg2Info"></div>
     </div>
-
-    <p id="q1Hint" style="margin-top:14px;color:gold;">
-      Clique sur les deux options pour continuer
-    </p>
+    <p style="color:gold;margin-top:12px;">Clique sur les deux options</p>
   `;
 
-  document.getElementById("btnSolo").onclick = () => handleQ1("solo");
-  document.getElementById("btnGroupe").onclick = () => handleQ1("groupe");
+  document.getElementById("solo").onclick = () => statutQ1("solo");
+  document.getElementById("groupe").onclick = () => statutQ1("groupe");
 }
 
-function handleQ1(type){
-  if(q1Clicked.has(type)) return;
-  q1Clicked.add(type);
+function statutQ1(type){
+  if(q1.has(type)) return;
+  q1.add(type);
 
   const info = document.getElementById("mg2Info");
+  if(type==="solo") info.innerHTML += `<div class="infoBox">EI · EURL · SASU</div>`;
+  if(type==="groupe") info.innerHTML += `<div class="infoBox">SARL · SAS</div>`;
 
-  if(type === "solo"){
-    info.insertAdjacentHTML(
-      "beforeend",
-      `<div class="infoBox">Seul : <strong>EI</strong>, <strong>EURL</strong>, <strong>SASU</strong></div>`
-    );
-    document.getElementById("btnSolo").disabled = true;
-    document.getElementById("btnSolo").classList.add("selectedAnswer");
-  }
+  document.getElementById(type).disabled = true;
+  document.getElementById(type).classList.add("selectedAnswer");
 
-  if(type === "groupe"){
-    info.insertAdjacentHTML(
-      "beforeend",
-      `<div class="infoBox">À plusieurs : <strong>SARL</strong>, <strong>SAS</strong></div>`
-    );
-    document.getElementById("btnGroupe").disabled = true;
-    document.getElementById("btnGroupe").classList.add("selectedAnswer");
-  }
-
-  if(q1Clicked.size === 2){
-    document.getElementById("q1Hint").textContent =
-      "Parfait. Passons à la suite.";
-    setTimeout(showStep2, 800);
-  }
+  if(q1.size === 2) setTimeout(showStatutQ2, 900);
 }
 
-/* ---------- Q2 ---------- */
-function showStep2(){
-  q2Clicked.clear();
+function showStatutQ2(){
+  q2.clear();
   game2Content.innerHTML = `
-    <p>Pourquoi veux-tu changer de statut juridique ?</p>
-
+    <p>Pourquoi changer de statut ?</p>
     <div class="mg2-layout">
       <div class="mg2-left">
-        <button onclick="q2Answer(this,'EI')">Simplifier mes démarches</button>
-        <button onclick="q2Answer(this,'EURL')">Plus de rentabilité</button>
-        <button onclick="q2Answer(this,'SASU')">Image luxueuse</button>
-        <button onclick="q2Answer(this,'SARL')">Projet à risques</button>
-        <button onclick="q2Answer(this,'SAS')">Projet en équipe</button>
+        <button onclick="statutQ2(this,'EI')">Simplifier</button>
+        <button onclick="statutQ2(this,'EURL')">Rentabilité</button>
+        <button onclick="statutQ2(this,'SASU')">Image</button>
+        <button onclick="statutQ2(this,'SARL')">Risques</button>
+        <button onclick="statutQ2(this,'SAS')">Équipe</button>
       </div>
       <div class="mg2-right" id="mg2Info"></div>
     </div>
-    <p style="margin-top:14px;color:gold;">Clique sur tous les boutons</p>
   `;
 }
 
-window.q2Answer = (btn,statut)=>{
-  if(q2Clicked.has(statut)) return;
-  q2Clicked.add(statut);
+window.statutQ2 = (btn,statut)=>{
+  if(q2.has(statut)) return;
+  q2.add(statut);
   btn.disabled = true;
   btn.classList.add("selectedAnswer");
-
-  document.getElementById("mg2Info")
-    .insertAdjacentHTML("beforeend", `<div class="infoBox">${statut} recommandé</div>`);
-
-  if(q2Clicked.size === 5){
-    setTimeout(showStep3, 700);
-  }
+  document.getElementById("mg2Info").innerHTML += `<div class="infoBox">${statut}</div>`;
+  if(q2.size === 5) setTimeout(showStatutQ3, 800);
 };
 
-/* ---------- Q3 ---------- */
-function showStep3(){
-  q3Clicked.clear();
+function showStatutQ3(){
+  q3.clear();
   game2Content.innerHTML = `
-    <p>Quand dois-tu passer d’auto-entrepreneur à entreprise ?</p>
+    <p>Quand quitter l’auto-entreprise ?</p>
     <div id="qChoices">
-      <button onclick="q3Answer(this,1)">CA > 60–70k</button>
-      <button onclick="q3Answer(this,2)">Embauche / protection</button>
-      <button onclick="q3Answer(this,3)">Peu de charges</button>
-      <button onclick="q3Answer(this,0)">Sans raison</button>
+      <button onclick="statutQ3(this,1)">CA élevé</button>
+      <button onclick="statutQ3(this,2)">Embauche</button>
+      <button onclick="statutQ3(this,3)">Peu de charges</button>
+      <button onclick="statutQ3(this,0)">Jamais</button>
     </div>
-    <p style="margin-top:14px;color:gold;">Clique sur toutes les bonnes réponses</p>
   `;
 }
 
-window.q3Answer = (btn,val)=>{
-  if(val === 0){ shake(); return; }
-  if(q3Clicked.has(val)) return;
-
-  q3Clicked.add(val);
+window.statutQ3 = (btn,val)=>{
+  if(val===0){ shake(); return; }
+  if(q3.has(val)) return;
+  q3.add(val);
   btn.disabled = true;
   btn.classList.add("selectedAnswer");
-
-  if(q3Clicked.size === 3){
+  if(q3.size === 3){
     miniGame2.style.display = "none";
     scene.classList.remove("sceneDim");
     startDialoguesTVA();
@@ -316,9 +256,8 @@ window.q3Answer = (btn,val)=>{
    💬 DIALOGUES 3 — TVA
 ===================================================== */
 const dialoguesTVA = [
-  { el:dLegal, text:"Même en tant qu’auto-entrepreneur, tu peux être soumis à la TVA." },
-  { el:dLegal, text:"Tu connais maintenant les règles essentielles." },
-  { el:dPirate, text:"Voyons si tu les maîtrises vraiment." }
+  { el:dLegal, text:"Même en auto-entreprise, tu peux être assujetti à la TVA." },
+  { el:dLegal, text:"Voyons si tu sais vraiment la gérer." }
 ];
 
 function startDialoguesTVA(){
@@ -327,61 +266,45 @@ function startDialoguesTVA(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3 — TVA
+   🎮 MINI-JEU 3 — TVA QCM
 ===================================================== */
 const miniGame3 = document.getElementById("miniGame3");
 
-const tvaQuestions = [
-  {
-    q:"Je fais 90 000 € en prestation de services. TVA ?",
-    good:["Oui"], bad:["Non"],
-    hint:"Prestations > 37 500 €"
-  },
-  {
-    q:"Récupérer la TVA consiste à :",
-    good:["Collecter puis reverser à l’État"],
-    bad:["La garder","Augmenter ses prix"]
-  },
-  {
-    q:"Puis-je récupérer la TVA sur certaines dépenses ?",
-    good:["Oui"], bad:["Non"]
-  }
+const tvaQ = [
+  { q:"90 000 € en prestations ?", good:["Oui"], bad:["Non"] },
+  { q:"Récupérer la TVA consiste à :", good:["Collecter puis reverser"], bad:["La garder","Augmenter ses prix"] },
+  { q:"Puis-je récupérer la TVA sur mes dépenses ?", good:["Oui"], bad:["Non"] }
 ];
 
-let tvaIndex = 0, tvaGood = 0;
+let tvaI = 0, tvaGood = 0;
 
 function startMiniGame3(){
   scene.classList.add("sceneDim");
-  miniGame3.style.display="block";
-  miniGame3.innerHTML=`
-    <h3>💰 Épreuve de la TVA</h3>
-    <p id="tvaQ"></p>
-    <div id="tvaChoices"></div>
-    <p id="tvaHint"></p>
-  `;
-  tvaIndex=0;
-  showTVAQuestion();
+  miniGame3.style.display = "block";
+  miniGame3.innerHTML = `<h3>💰 TVA</h3><p id="tvaQ"></p><div id="tvaChoices"></div>`;
+  tvaI = 0;
+  showTVAQ();
 }
 
-function showTVAQuestion(){
-  tvaGood=0;
-  const q=tvaQuestions[tvaIndex];
-  document.getElementById("tvaQ").textContent=q.q;
-  document.getElementById("tvaHint").textContent=q.hint||"";
-  const box=document.getElementById("tvaChoices");
-  box.innerHTML="";
-  [...q.good.map(t=>({t,ok:true})),...q.bad.map(t=>({t,ok:false}))].sort(()=>Math.random()-0.5)
+function showTVAQ(){
+  tvaGood = 0;
+  document.getElementById("tvaQ").textContent = tvaQ[tvaI].q;
+  const box = document.getElementById("tvaChoices");
+  box.innerHTML = "";
+
+  [...tvaQ[tvaI].good.map(t=>({t,ok:true})),...tvaQ[tvaI].bad.map(t=>({t,ok:false}))]
+  .sort(()=>Math.random()-0.5)
   .forEach(a=>{
-    const b=document.createElement("button");
-    b.textContent=a.t;
-    b.onclick=()=>{
+    const b = document.createElement("button");
+    b.textContent = a.t;
+    b.onclick = ()=>{
       if(a.ok){
         b.classList.add("selectedAnswer");
-        b.disabled=true;
+        b.disabled = true;
         tvaGood++;
-        if(tvaGood===q.good.length){
-          tvaIndex++;
-          tvaIndex<tvaQuestions.length ? showTVAQuestion() : endMiniGame3();
+        if(tvaGood === tvaQ[tvaI].good.length){
+          tvaI++;
+          tvaI < tvaQ.length ? showTVAQ() : endMiniGame3();
         }
       } else shake();
     };
@@ -389,49 +312,113 @@ function showTVAQuestion(){
   });
 }
 
-/* =====================================================
-   🏆 FIN DE QUÊTE
-===================================================== */
 function endMiniGame3(){
-  miniGame3.style.display="none";
+  miniGame3.style.display = "none";
   scene.classList.remove("sceneDim");
-  startFinalDialogues();
+  startDialoguesFinal();
 }
 
+/* =====================================================
+   💬 DIALOGUES FINALS
+===================================================== */
 const dialoguesFinal = [
-  { el:dLegal, text:"Vous avez fait du bon travail." },
-  { el:dLegal, text:"Vos activités sont désormais totalement légales." },
-  { el:dPirate, text:"Nous pouvons continuer notre commerce sans crainte !" }
+  { el:dLegal, text:"Très bon travail." },
+  { el:dLegal, text:"Vous êtes désormais en parfaite légalité." }
 ];
 
-function startFinalDialogues(){
-  dIndex=0;
-  runDialogues(dialoguesFinal, showVictory);
+function startDialoguesFinal(){
+  dIndex = 0;
+  runDialogues(dialoguesFinal, startMiniGame4);
 }
 
+/* =====================================================
+   🎮 MINI-JEU 4 — COFFRE TVA
+===================================================== */
+const miniGame4 = document.getElementById("miniGame4");
+let step4 = 0;
+
+function startMiniGame4(){
+  scene.classList.add("sceneDim");
+  miniGame4.style.display = "block";
+  step4 = 0;
+  showCoffreTVA();
+}
+
+function showCoffreTVA(){
+  const steps = [
+    `
+    <h3>💰 Coffre de la TVA</h3>
+    <p>TVA collectée : 200 €</p>
+    <p>Que fais-tu de cette somme ?</p>
+    <div id="qChoices">
+      <button onclick="coffreAnswer(false)">Je la garde</button>
+      <button onclick="coffreAnswer(true)">Je la mets de côté pour l’État</button>
+    </div>`,
+
+    `
+    <h3>🧾 Dépense pro</h3>
+    <p>Logiciel : 120 € TTC (TVA 20 €)</p>
+    <p>Cette TVA est :</p>
+    <div id="qChoices">
+      <button onclick="coffreAnswer(true)">Récupérable</button>
+      <button onclick="coffreAnswer(false)">Perdue</button>
+    </div>`,
+
+    `
+    <h3>🏛️ TVA à reverser</h3>
+    <p>200 € − 20 € = ?</p>
+    <div id="qChoices">
+      <button onclick="coffreAnswer(false)">200 €</button>
+      <button onclick="coffreAnswer(true)">180 €</button>
+      <button onclick="coffreAnswer(false)">20 €</button>
+    </div>`,
+
+    `
+    <h3>📜 Résumé</h3>
+    <p>Tu récupères 20 €</p>
+    <p>Tu reverses 180 €</p>
+    <button onclick="endMiniGame4()">Valider</button>`
+  ];
+
+  miniGame4.innerHTML = steps[step4];
+}
+
+window.coffreAnswer = good => {
+  if(!good){ shake(); return; }
+  step4++;
+  showCoffreTVA();
+};
+
+function endMiniGame4(){
+  miniGame4.style.display = "none";
+  scene.classList.remove("sceneDim");
+  showVictory();
+}
+
+/* =====================================================
+   🏆 VICTOIRE
+===================================================== */
 function showVictory(){
-  const loader=document.createElement("div");
-  loader.className="loaderBox";
-  loader.innerHTML="🏆 Bravo, tu as gagné la quête";
-  document.body.appendChild(loader);
-
+  const box = document.createElement("div");
+  box.className = "loaderBox";
+  box.textContent = "🏆 Bravo, tu as gagné cette quête";
+  document.body.appendChild(box);
   explodeGems();
-
-  setTimeout(()=>{ window.location.href="menu.html"; },4000);
+  setTimeout(()=>location.href="menu.html",4000);
 }
 
 /* =====================================================
    💎 GEMS
 ===================================================== */
 function explodeGems(){
-  for(let i=0;i<80;i++){
-    const g=document.createElement("div");
-    g.className="gem";
-    g.style.left="50%";
-    g.style.top="50%";
-    g.style.background=`hsl(${Math.random()*360},100%,60%)`;
-    g.style.setProperty("--x",(Math.random()*600-300)+"px");
-    g.style.setProperty("--y",(Math.random()*600-300)+"px");
+  for(let i=0;i<100;i++){
+    const g = document.createElement("div");
+    g.className = "gem";
+    g.style.left = "50%";
+    g.style.top = "50%";
+    g.style.background = `hsl(${Math.random()*360},100%,60%)`;
+    g.style.setProperty("--x",(Math.random()*800-400)+"px");
+    g.style.setProperty("--y",(Math.random()*800-400)+"px");
     document.body.appendChild(g);
     setTimeout(()=>g.remove(),1600);
   }
