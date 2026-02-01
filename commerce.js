@@ -400,10 +400,11 @@ function winFinal() {
     gems.appendChild(g);
   }
 
-  setTimeout(() => {
-    gems.remove();
-    window.location.href = "menu.html";
-  }, 2400);
+setTimeout(() => {
+  gems.remove();
+  sessionStorage.setItem("fromCommerce", "true");
+  window.location.href = "menu.html";
+}, 2400);
 }
 
 });
