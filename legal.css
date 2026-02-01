@@ -81,7 +81,7 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   🌊 SCÈNE
+   🌊 SCÈNE — BACKGROUND
 ===================================================== */
 #scene{
   position:fixed;
@@ -91,7 +91,7 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   🌑 ASSOMBRISSEMENT MINI-JEUX
+   🌑 ASSOMBRISSEMENT MINI-JEUX (FIX DÉFINITIF)
 ===================================================== */
 #scene.sceneDim{
   position:relative;
@@ -101,8 +101,9 @@ button.selectedAnswer{
   content:"";
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,.65);
-  z-index:10;
+  background:rgba(0,0,0,.55); /* assombrit sans effacer */
+  z-index:5;                 /* sous pirates & mini-jeux */
+  pointer-events:none;
 }
 
 /* =====================================================
@@ -110,11 +111,11 @@ button.selectedAnswer{
 ===================================================== */
 .pirate{
   position:absolute;
-  background-size:contain;
   background-repeat:no-repeat;
+  background-size:contain;
   background-position:bottom center;
   transition:filter .3s ease, transform .3s ease;
-  z-index:15;
+  z-index:10; /* AU-DESSUS DU VOILE */
 }
 
 #pirateLegal{
@@ -159,7 +160,7 @@ button.selectedAnswer{
   border-radius:22px;
   padding:18px 22px;
   box-shadow:0 0 22px rgba(0,0,0,.6);
-  z-index:20;
+  z-index:15;
   cursor:pointer;
   display:none;
 }
@@ -180,7 +181,7 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX — ENCARDS (1, 2 & 3)
+   🎮 MINI-JEUX — ENCARDS (1, 2, 3)
 ===================================================== */
 #miniGame,
 #miniGame2,
@@ -194,7 +195,7 @@ button.selectedAnswer{
   border:4px solid #caa14a;
   border-radius:22px;
   padding:30px;
-  z-index:25;
+  z-index:20; /* AU-DESSUS DE TOUT */
   text-align:center;
   box-shadow:0 0 40px rgba(255,215,0,.45);
   display:none;
@@ -254,21 +255,12 @@ button.selectedAnswer{
   min-height:120px;
 }
 
-.mg2-right .infoBox{
-  animation:fadeIn .25s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0; transform:translateX(10px)}
-  to{opacity:1; transform:translateX(0)}
-}
-
 /* =====================================================
    📜 ENCARTS INFORMATIFS
 ===================================================== */
 .infoBox{
-  margin-top:16px;
-  padding:16px;
+  margin-top:12px;
+  padding:14px;
   border:2px solid gold;
   border-radius:14px;
   background:rgba(0,0,0,.45);
