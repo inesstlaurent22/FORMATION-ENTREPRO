@@ -390,14 +390,25 @@ window.coffreAnswer = good => {
 };
 
 function endMiniGame4(){
-  // Ferme le mini-jeu
+  // 1. Fermer l'encart du mini-jeu
   miniGame4.style.display = "none";
 
-  // Retour scène normale
+  // 2. Retirer l'assombrissement → retour background normal
   scene.classList.remove("sceneDim");
 
-  // Lance DIRECTEMENT la victoire
-  showVictory();
+  // 3. Afficher le loader de victoire
+  const loader = document.createElement("div");
+  loader.className = "loaderBox";
+  loader.textContent = "🏆 Bravo, tu as gagné cette quête";
+  document.body.appendChild(loader);
+
+  // 4. Explosion de gems
+  explodeGems();
+
+  // 5. Redirection vers le menu
+  setTimeout(() => {
+    window.location.href = "menu.html";
+  }, 4000);
 }
 
 /* =====================================================
