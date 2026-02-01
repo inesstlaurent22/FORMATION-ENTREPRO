@@ -35,6 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate4 = document.getElementById("pirate4");
   const pirate5 = document.getElementById("pirate5");
 
+  const notification = document.getElementById("notification");
+  const bubble = document.getElementById("bubble");
+  const bubbleButton = document.getElementById("bubbleButton");
+
   const pirates = [pirate1, pirate2, pirate3, pirate4, pirate5].filter(Boolean);
 
   /* ==========================================================
@@ -56,18 +60,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     2️⃣ RETOUR DE COMMERCE → MOT DE PASSE OBLIGATOIRE
+     2️⃣ TRANSFERTS SESSION → LOCAL (RETOURS DE QUÊTES)
+  ========================================================== */
+  ["pirate3", "pirate4", "pirate5"].forEach(id => {
+    if (sessionStorage.getItem(`unlock_${id}`) === "true") {
+      localStorage.setItem(`${id}_unlocked`, "true");
+      sessionStorage.removeItem(`unlock_${id}`);
+    }
+  });
+
+  /* ==========================================================
+     3️⃣ RETOUR DE COMMERCE → MOT DE PASSE
   ========================================================== */
   if (
     sessionStorage.getItem("fromCommerce") === "true" &&
     localStorage.getItem("code_mashain_valid") !== "true"
   ) {
     showPasswordOverlay();
-    return; // ⛔ on bloque toute la logique du menu
+    return; // ⛔ stop le menu tant que le code est faux
   }
 
   /* ==========================================================
-     3️⃣ RÉACTIVATION SELON LOCALSTORAGE
+     4️⃣ RÉACTIVATION SELON LOCALSTORAGE (SOURCE DE VÉRITÉ)
   ========================================================== */
   pirates.forEach(p => {
     if (localStorage.getItem(`${p.id}_unlocked`) === "true") {
@@ -78,7 +92,49 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     4️⃣ NAVIGATION ENTRE QUÊTES
+     5️⃣ PIRATE 2 → DÉBLOQUE PIRATE 1
+  ========================================================== */
+  if (pirate2 && pirate1) {
+    pirate2.addEventListener("click", () => {
+      localStorage.setItem("pirate1_unlocked", "true");
+      sessionStorage.setItem("showBubbleAfterReload", "yes");
+      window.location.reload();
+    });
+  }
+
+  /* ==========================================================
+     6️⃣ BULLE + NOTIFICATION APRÈS RELOAD
+  ========================================================== */
+  if (
+    sessionStorage.getItem("showBubbleAfterReload") === "yes" &&
+    pirate2 &&
+    bubble
+  ) {
+    if (notification) {
+      notification.textContent = "🆕 Un nouveau pirate est débloqué !";
+      notification.classList.add("show");
+      setTimeout(() => notification.classList.remove("show"), 2500);
+    }
+
+    bubble.style.display = "block";
+
+    requestAnimationFrame(() => {
+      const rect = pirate2.getBoundingClientRect();
+      bubble.style.position = "absolute";
+      bubble.style.left = rect.left + rect.width / 2 + "px";
+      bubble.style.top = rect.top - 60 + window.scrollY + "px";
+      bubble.style.transform = "translateX(-50%)";
+    });
+
+    sessionStorage.removeItem("showBubbleAfterReload");
+  }
+
+  bubbleButton?.addEventListener("click", () => {
+    bubble.style.display = "none";
+  });
+
+  /* ==========================================================
+     7️⃣ NAVIGATION ENTRE QUÊTES
   ========================================================== */
   pirate1?.addEventListener("click", () => {
     if (!pirate1.classList.contains("locked")) {
@@ -105,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     🔐 OVERLAY MOT DE PASSE
+     🔐 OVERLAY MOT DE PASSE (COMMERCE → PIRATE 3)
   ========================================================== */
   function showPasswordOverlay() {
 
