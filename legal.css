@@ -93,16 +93,15 @@ button.selectedAnswer{
 /* =====================================================
    🌑 ASSOMBRISSEMENT MINI-JEUX (FIX DÉFINITIF)
 ===================================================== */
-#scene.sceneDim{
-  position:relative;
-}
-
 #scene.sceneDim::after{
   content:"";
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,.55); /* assombrit sans effacer */
-  z-index:5;                 /* sous pirates & mini-jeux */
+  background:linear-gradient(
+    rgba(0,0,0,0.25),
+    rgba(0,0,0,0.45)
+  );
+  z-index:5;
   pointer-events:none;
 }
 
