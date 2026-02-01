@@ -5,44 +5,38 @@
   <title>Quête Légale – KIT IN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS PIRATE -->
+  <!-- CSS -->
   <link rel="stylesheet" href="legal.css">
 </head>
 <body>
 
 <!-- =====================================================
-     🎬 VIDÉO D’INTRO
+     🎬 VIDÉO INTRO
 ===================================================== -->
 <div id="videoContainer">
-  <video id="questVideo" autoplay>
+  <video id="questVideo" preload="auto" autoplay muted>
     <source src="videos/Legalvideo.mov" type="video/mp4">
   </video>
 
+  <!-- Boutons vidéo -->
   <div class="videoBtns">
-    <button id="soundBtn">🔊</button>
     <button id="skipVideo">Passer la vidéo</button>
   </div>
 </div>
 
 <!-- =====================================================
-     ⏳ LOADERS
+     🌊 SCÈNE PRINCIPALE
 ===================================================== -->
-<div class="loader" id="loader">Chargement..</div>
-<div class="loader" id="loaderGame">Chargement du mini jeu..</div>
+<div id="scene" class="hidden">
 
-<!-- =====================================================
-     🌅 SCÈNE PRINCIPALE
-===================================================== -->
-<div id="scene">
-
-  <!-- 🏴‍☠️ Pirate Legal -->
+  <!-- 🏴‍☠️ Pirate Légal -->
   <div id="pirateLegal" class="pirate">
-    <img src="images/Piratelegal.png" alt="Pirate Legal">
+    <img src="images/Piratelegal.PNG" alt="Pirate légal">
   </div>
 
   <!-- 🏴‍☠️ Pirate 1 -->
   <div id="pirate1" class="pirate">
-    <img src="images/Pirate2.png" alt="Pirate">
+    <img src="images/Pirate1.PNG" alt="Pirate">
   </div>
 
   <!-- 💬 Dialogues -->
@@ -52,24 +46,25 @@
 </div>
 
 <!-- =====================================================
-     🎮 MINI-JEU 1 – AUTO-ENTREPRENEUR
+     🎮 MINI-JEU 1 — AUTO-ENTREPRENEUR
 ===================================================== -->
 <div id="miniGame">
-  <div class="gameBox">
-    <h2>Les devoirs de l’auto-entrepreneur</h2>
-    <div id="gameContent"></div>
-  </div>
+  <h2>Les devoirs de l’auto-entrepreneur</h2>
+  <div id="gameContent"></div>
 </div>
 
 <!-- =====================================================
-     🎮 MINI-JEU 2 – STATUT JURIDIQUE
+     🎮 MINI-JEU 2 — STATUT JURIDIQUE
 ===================================================== -->
 <div id="miniGame2">
-  <div class="gameBox">
-    <h2>Choisir son statut juridique</h2>
-    <div id="game2Content"></div>
-  </div>
+  <h2>Choisir son statut juridique</h2>
+  <div id="game2Content"></div>
 </div>
+
+<!-- =====================================================
+     ⏳ LOADER PIRATE UNIQUE
+===================================================== -->
+<div id="loaderGame" class="loader" data-text="Chargement du mini jeu.."></div>
 
 <!-- =====================================================
      💎 EXPLOSION DE GEMS
