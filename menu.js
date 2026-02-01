@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     e.stopPropagation();
 
-    const confirmReset = confirm("Réinitialiser toute la progression ?");
-    if (!confirmReset) return;
+    if (!confirm("Réinitialiser toute la progression ?")) return;
 
     localStorage.clear();
     sessionStorage.clear();
@@ -36,14 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate4 = document.getElementById("pirate4");
   const pirate5 = document.getElementById("pirate5");
 
-  const notification = document.getElementById("notification");
-  const bubble = document.getElementById("bubble");
-  const bubbleButton = document.getElementById("bubbleButton");
-
   const pirates = [pirate1, pirate2, pirate3, pirate4, pirate5].filter(Boolean);
 
   /* ==========================================================
-     0️⃣ TOUT VERROUILLER AU DÉPART
+     0️⃣ TOUT VERROUILLER
   ========================================================== */
   pirates.forEach(p => {
     p.classList.add("locked");
@@ -54,24 +49,23 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      1️⃣ PIRATE 2 DÉBLOQUÉ PAR DÉFAUT
   ========================================================== */
-  if (pirate2) {
-    pirate2.classList.remove("locked");
-    pirate2.classList.add("unlocked");
-    pirate2.style.pointerEvents = "auto";
+  pirate2?.classList.remove("locked");
+  pirate2?.classList.add("unlocked");
+  pirate2 && (pirate2.style.pointerEvents = "auto");
+
+  /* ==========================================================
+     2️⃣ RETOUR DE COMMERCE → DEMANDE DE CODE
+  ========================================================== */
+  if (
+    sessionStorage.getItem("fromCommerce") === "true" &&
+    localStorage.getItem("code_mashain_valid") !== "true"
+  ) {
+    blockMenuWithPassword();
+    return; // ⛔ stop tout le reste tant que le code est faux
   }
 
   /* ==========================================================
-     2️⃣ DÉBLOCAGE AU RETOUR DES QUÊTES (SESSION → LOCAL)
-  ========================================================== */
-  ["pirate3", "pirate4", "pirate5"].forEach(id => {
-    if (sessionStorage.getItem(`unlock_${id}`) === "true") {
-      localStorage.setItem(`${id}_unlocked`, "true");
-      sessionStorage.removeItem(`unlock_${id}`);
-    }
-  });
-
-  /* ==========================================================
-     3️⃣ RÉACTIVATION SELON LOCALSTORAGE (SOURCE DE VÉRITÉ)
+     3️⃣ RÉACTIVATION VIA LOCALSTORAGE
   ========================================================== */
   pirates.forEach(p => {
     if (localStorage.getItem(`${p.id}_unlocked`) === "true") {
@@ -82,71 +76,58 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     4️⃣ PIRATE 2 → PIRATE 1
+     4️⃣ NAVIGATION
   ========================================================== */
-  if (pirate2 && pirate1) {
-    pirate2.addEventListener("click", () => {
-      localStorage.setItem("pirate1_unlocked", "true");
-      sessionStorage.setItem("showBubbleAfterReload", "yes");
-      window.location.reload();
-    });
-  }
+  pirate1?.addEventListener("click", () => window.location.href = "commerce.html");
+  pirate3?.addEventListener("click", () => window.location.href = "communication.html");
+  pirate4?.addEventListener("click", () => window.location.href = "legal.html");
+  pirate5?.addEventListener("click", () => window.location.href = "finance.html");
 
   /* ==========================================================
-     5️⃣ BULLE APRÈS RELOAD
+     🔐 FONCTION MOT DE PASSE
   ========================================================== */
-  if (sessionStorage.getItem("showBubbleAfterReload") === "yes" && pirate2 && bubble) {
+  function blockMenuWithPassword() {
 
-    if (notification) {
-      notification.textContent = "Un nouveau pirate est débloqué !";
-      notification.classList.add("show");
-      setTimeout(() => notification.classList.remove("show"), 2500);
-    }
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.inset = "0";
+    overlay.style.background = "rgba(0,0,0,0.9)";
+    overlay.style.zIndex = "9999";
+    overlay.style.display = "flex";
+    overlay.style.flexDirection = "column";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.color = "#fff";
 
-    bubble.style.display = "block";
+    overlay.innerHTML = `
+      <h2 style="margin-bottom:20px;">🔐 Accès verrouillé</h2>
+      <p style="margin-bottom:15px;">Entre le mot de passe pour continuer</p>
+      <input id="passwordInput" type="password"
+        style="padding:10px;font-size:16px;text-align:center;" />
+      <button id="passwordBtn"
+        style="margin-top:15px;padding:10px 20px;font-size:16px;cursor:pointer;">
+        Valider
+      </button>
+      <p id="errorMsg" style="color:red;margin-top:10px;display:none;">
+        Mot de passe incorrect
+      </p>
+    `;
 
-    requestAnimationFrame(() => {
-      const rect = pirate2.getBoundingClientRect();
-      bubble.style.position = "absolute";
-      bubble.style.left = rect.left + rect.width / 2 + "px";
-      bubble.style.top = rect.top - 60 + window.scrollY + "px";
-      bubble.style.transform = "translateX(-50%)";
+    document.body.appendChild(overlay);
+
+    overlay.querySelector("#passwordBtn").addEventListener("click", () => {
+      const value = overlay.querySelector("#passwordInput").value.trim().toLowerCase();
+
+      if (value === "mashain") {
+        localStorage.setItem("code_mashain_valid", "true");
+        localStorage.setItem("pirate3_unlocked", "true");
+        sessionStorage.removeItem("fromCommerce");
+        overlay.remove();
+        window.location.reload();
+      } else {
+        overlay.querySelector("#errorMsg").style.display = "block";
+      }
     });
-
-    sessionStorage.removeItem("showBubbleAfterReload");
   }
-
-  if (bubbleButton && bubble) {
-    bubbleButton.addEventListener("click", () => {
-      bubble.style.display = "none";
-    });
-  }
-
-  /* ==========================================================
-     6️⃣ NAVIGATION ENTRE QUÊTES
-  ========================================================== */
-  pirate1?.addEventListener("click", () => {
-    if (!pirate1.classList.contains("locked")) {
-      window.location.href = "commerce.html";
-    }
-  });
-
-  pirate3?.addEventListener("click", () => {
-    if (!pirate3.classList.contains("locked")) {
-      window.location.href = "communication.html";
-    }
-  });
-
-  pirate4?.addEventListener("click", () => {
-    if (!pirate4.classList.contains("locked")) {
-      window.location.href = "legal.html";
-    }
-  });
-
-  pirate5?.addEventListener("click", () => {
-    if (!pirate5.classList.contains("locked")) {
-      window.location.href = "finance.html";
-    }
-  });
 
 });
