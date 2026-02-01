@@ -12,10 +12,10 @@ const pirate3 = document.getElementById("pirate3bis");
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
 
-const miniGame = document.getElementById("miniGameContainer");
-const gameQ = document.getElementById("gameQuestion");
-const gameA = document.getElementById("gameAnswers");
-const gameF = document.getElementById("gameFeedback");
+const miniGame = document.getElementById("communicationGame");
+const gameQ = document.getElementById("commQuestion");
+const gameA = document.getElementById("commAnswers");
+const gameF = document.getElementById("commFeedback");
 
 const bookContainer = document.getElementById("bookContainer");
 const leftPage = document.getElementById("leftPage");
@@ -190,28 +190,28 @@ function launchMiniGame1() {
   gameA.innerHTML = "";
   gameF.textContent = "";
 
-  const answers = [
-    "Acheter un bateau",
-    "Définir clairement son offre",
-    "Fixer les prix"
-  ];
+const answers = [
+  { text: "Acheter un bateau", ok: false },
+  { text: "Définir clairement son offre", ok: true },
+  { text: "Fixer les prix", ok: false }
+];
 
-  answers.forEach((txt, i) => {
-    const btn = document.createElement("button");
-    btn.textContent = txt;
+answers.forEach(a => {
+  const btn = document.createElement("button");
+  btn.textContent = a.text;
 
-    btn.onclick = () => {
-      vibrate();
-      if (i === 1) {
-        gameF.textContent = "✅ Bonne décision";
-        setTimeout(winMiniGame1, 700);
-      } else {
-        gameF.textContent = "❌ Mauvais choix";
-      }
-    };
+  btn.onclick = () => {
+    vibrate();
+    if (a.ok) {
+      gameF.textContent = "✅ Bonne décision";
+      setTimeout(winMiniGame1, 700);
+    } else {
+      gameF.textContent = "❌ Mauvais choix";
+    }
+  };
 
-    gameA.appendChild(btn);
-  });
+  gameA.appendChild(btn);
+});
 }
 
 /* =====================================================
