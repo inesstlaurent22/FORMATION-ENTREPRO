@@ -14,84 +14,108 @@ video.onended = endVideo;
 function endVideo(){
   videoContainer.style.display = "none";
   scene.style.display = "block";
-  enablePirateHover();
+  enablePirate();
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE LEGAL — ANIMATION CONTRÔLÉE
+   🏴‍☠️ PIRATE LEGAL — ACTIVATION
 ===================================================== */
 const pirateLegal = document.getElementById("pirateLegal");
 
-function enablePirateHover(){
+function enablePirate(){
   pirateLegal.classList.remove("noGlow");
-  pirateLegal.onclick = startDialogue1;
+  pirateLegal.onclick = startDialogues1;
 }
 
-function disablePirateHover(){
+function disablePirate(){
   pirateLegal.classList.add("noGlow");
   pirateLegal.onclick = null;
 }
 
 /* =====================================================
-   💬 DIALOGUE 1
+   💬 DIALOGUES — BLOC 1
 ===================================================== */
 const dLegal = document.getElementById("dialogueLegal");
 const dPirate = document.getElementById("dialoguePirate");
 
-const dialogue1 = [
+const dialoguesBlock1 = [
   { el: dLegal, text: "Pour vendre nos pierres légalement, nous devons nous inscrire comme auto-entrepreneurs à l’URSSAF." },
-  { el: dPirate, text: "Sans inscription, même un commerce honnête devient illégal." }
+  { el: dPirate, text: "Sans inscription, même un commerce honnête devient illégal." },
+  { el: dLegal, text: "Voyons maintenant tes obligations." }
 ];
 
-let d1 = 0;
+let dIndex = 0;
 
-function startDialogue1(){
-  disablePirateHover();
-  showDialogue1();
+function startDialogues1(){
+  disablePirate();
+  dIndex = 0;
+  showDialogue(dialoguesBlock1, startMiniGame1);
 }
 
-function showDialogue1(){
-  if(d1 >= dialogue1.length){
+/* =====================================================
+   💬 DIALOGUES — BLOC 2
+===================================================== */
+const dialoguesBlock2 = [
+  { el: dLegal, text: "L’auto-entrepreneuriat est une excellente base…" },
+  { el: dPirate, text: "…mais quand le trésor grandit, il faut changer de statut." },
+  { el: dLegal, text: "Je vais t’aider à choisir le bon." }
+];
+
+function startDialogues2(){
+  dIndex = 0;
+  showDialogue(dialoguesBlock2, startMiniGame2);
+}
+
+/* =====================================================
+   💬 GESTION GÉNÉRIQUE DES DIALOGUES
+===================================================== */
+function showDialogue(dialogues, callback){
+  if(dIndex >= dialogues.length){
     hideDialogs();
-    startMiniGame1();
+    callback();
     return;
   }
 
-  const cur = dialogue1[d1];
+  const cur = dialogues[dIndex];
   cur.el.innerHTML = `<p>${cur.text}</p>`;
   cur.el.style.display = "block";
 
   cur.el.onclick = () => {
     cur.el.style.display = "none";
-    d1++;
-    showDialogue1();
+    dIndex++;
+    showDialogue(dialogues, callback);
   };
+}
+
+function hideDialogs(){
+  dLegal.style.display = "none";
+  dPirate.style.display = "none";
 }
 
 /* =====================================================
    🎮 MINI-JEU 1 — QCM
 ===================================================== */
-const miniGame = document.getElementById("miniGame");
+const miniGame1 = document.getElementById("miniGame");
 
 const questions = [
   {
-    q:"Où dois-je m’inscrire pour être auto-entrepreneur ?",
-    good:["Sur le site de l’URSSAF"],
-    bad:["À la banque","À la mairie"]
+    q: "Où dois-je m’inscrire pour être auto-entrepreneur ?",
+    good: ["Sur le site de l’URSSAF"],
+    bad: ["À la mairie", "À la banque"]
   },
   {
-    q:"Qu’est-ce que l’ACRE ?",
-    good:[
-      "L’aide à la création ou à la reprise d’une entreprise",
-      "Permet une réduction partielle des cotisations sociales",
-      "À demander lors de la création ou sous 45 jours"
+    q: "Qu’est-ce que l’ACRE ?",
+    good: [
+      "L’aide à la création ou reprise d’entreprise",
+      "Une réduction partielle des cotisations sociales",
+      "À demander à la création ou sous 45 jours"
     ],
-    bad:["Une taxe obligatoire"]
+    bad: ["Une taxe obligatoire"]
   },
   {
-    q:"Quand dois-je déclarer mes gains ?",
-    good:["Tous les mois","Même si les gains sont à 0"],
-    bad:["Uniquement si je gagne"]
+    q: "Quand dois-je déclarer mes gains ?",
+    good: ["Tous les mois", "Même si les gains sont à 0"],
+    bad: ["Seulement quand je gagne"]
   }
 ];
 
@@ -100,9 +124,9 @@ let goodCount = 0;
 
 function startMiniGame1(){
   scene.classList.add("sceneDark");
-  miniGame.style.display = "block";
+  miniGame1.style.display = "block";
 
-  miniGame.innerHTML = `
+  miniGame1.innerHTML = `
     <h3>📜 Les devoirs de l’auto-entrepreneur</h3>
     <p id="qText"></p>
     <div id="qChoices"></div>
@@ -121,12 +145,13 @@ function showQuestion(){
   const answers = [
     ...questions[qIndex].good.map(t => ({t, ok:true})),
     ...questions[qIndex].bad.map(t => ({t, ok:false}))
-  ].sort(()=>Math.random()-0.5);
+  ].sort(() => Math.random() - 0.5);
 
-  answers.forEach(a=>{
+  answers.forEach(a => {
     const btn = document.createElement("button");
     btn.textContent = a.t;
-    btn.onclick = ()=>{
+
+    btn.onclick = () => {
       if(a.ok){
         btn.classList.add("selectedAnswer");
         btn.disabled = true;
@@ -139,163 +164,56 @@ function showQuestion(){
         shake();
       }
     };
+
     qChoices.appendChild(btn);
   });
 }
 
 function endMiniGame1(){
-  miniGame.style.display = "none";
+  miniGame1.style.display = "none";
   scene.classList.remove("sceneDark");
-  startDialogue2();
+  startDialogues2();
 }
 
 /* =====================================================
-   💬 DIALOGUE 2
-===================================================== */
-const dialogue2 = [
-  { el:dLegal, text:"L’auto-entrepreneuriat est un bon départ…" },
-  { el:dPirate, text:"…mais quand le trésor grandit, créer une société devient nécessaire." }
-];
-
-let d2 = 0;
-
-function startDialogue2(){
-  showDialogue2();
-}
-
-function showDialogue2(){
-  if(d2 >= dialogue2.length){
-    hideDialogs();
-    startMiniGame2();
-    return;
-  }
-
-  const cur = dialogue2[d2];
-  cur.el.innerHTML = `<p>${cur.text}</p>`;
-  cur.el.style.display = "block";
-
-  cur.el.onclick = ()=>{
-    cur.el.style.display = "none";
-    d2++;
-    showDialogue2();
-  };
-}
-
-/* =====================================================
-   🎮 MINI-JEU 2 — STATUTS
+   🎮 MINI-JEU 2 — CHOIX DU STATUT
 ===================================================== */
 const miniGame2 = document.getElementById("miniGame2");
 const game2Content = document.getElementById("game2Content");
 
-let q1Clicks = new Set();
-let q2Clicks = new Set();
-
 function startMiniGame2(){
   scene.classList.add("sceneDark");
   miniGame2.style.display = "block";
-  showMG2_Q1();
+  showMG2();
 }
 
-/* Question 1 */
-function showMG2_Q1(){
-  q1Clicks.clear();
+function showMG2(){
   game2Content.innerHTML = `
-    <p>Crées-tu ta société seul ou en groupe ?</p>
+    <p>Quel est ton objectif principal ?</p>
     <div class="mg2-layout">
       <div class="mg2-left">
-        <button onclick="mg2_q1('solo')">Oui</button>
-        <button onclick="mg2_q1('group')">Non</button>
+        <button onclick="selectStatut('EI')">Simplicité</button>
+        <button onclick="selectStatut('EURL')">Rentabilité</button>
+        <button onclick="selectStatut('SASU')">Image premium</button>
+        <button onclick="selectStatut('SARL')">Projet à risques</button>
+        <button onclick="selectStatut('SAS')">Travail en équipe</button>
       </div>
       <div class="mg2-right" id="mg2Right"></div>
     </div>
   `;
 }
 
-window.mg2_q1 = (type)=>{
-  q1Clicks.add(type);
+window.selectStatut = (statut) => {
   document.getElementById("mg2Right").innerHTML =
-    type === "solo"
-      ? `<div class="infoBox">EI • EURL • SASU</div>`
-      : `<div class="infoBox">SARL • SAS</div>`;
-
-  if(q1Clicks.size === 2){
-    setTimeout(showMG2_Q2, 1000);
-  }
+    `<div class="infoBox">Statut conseillé : <strong>${statut}</strong></div>`;
 };
 
-/* Question 2 */
-function showMG2_Q2(){
-  q2Clicks.clear();
-  game2Content.innerHTML = `
-    <p>Pourquoi veux-tu changer de statut juridique ?</p>
-    <div class="mg2-layout">
-      <div class="mg2-left">
-        <button onclick="mg2_q2('EI','EI – Entrepreneur Individuel')">Simplifier mes démarches</button>
-        <button onclick="mg2_q2('EURL','EURL – Responsabilité limitée')">Plus de rentabilité</button>
-        <button onclick="mg2_q2('SASU','SASU – Image luxueuse')">Image luxueuse</button>
-        <button onclick="mg2_q2('SARL','SARL – Projet à risques')">Projet à risques</button>
-        <button onclick="mg2_q2('SAS','SAS – Travail en équipe')">Travail en équipe</button>
-      </div>
-      <div class="mg2-right" id="mg2Right"></div>
-    </div>
-  `;
-}
-
-window.mg2_q2 = (key,text)=>{
-  if(q2Clicks.has(key)) return;
-  q2Clicks.add(key);
-  document.getElementById("mg2Right").innerHTML = `<div class="infoBox">${text}</div>`;
-
-  if(q2Clicks.size === 5){
-    setTimeout(endMiniGame2, 1200);
-  }
-};
-
-function endMiniGame2(){
-  miniGame2.style.display = "none";
-  scene.classList.remove("sceneDark");
-  startDialogue3();
-}
-
 /* =====================================================
-   💬 DIALOGUE 3 — CONCLUSION
+   📳 SHAKE
 ===================================================== */
-const dialogue3 = [
-  { el:dLegal, text:"Tu connais désormais les règles juridiques du royaume." },
-  { el:dPirate, text:"Notre trésor est protégé." }
-];
-
-let d3 = 0;
-
-function startDialogue3(){
-  showDialogue3();
-}
-
-function showDialogue3(){
-  if(d3 >= dialogue3.length) return;
-
-  const cur = dialogue3[d3];
-  cur.el.innerHTML = `<p>${cur.text}</p>`;
-  cur.el.style.display = "block";
-
-  cur.el.onclick = ()=>{
-    cur.el.style.display = "none";
-    d3++;
-    showDialogue3();
-  };
-}
-
-/* =====================================================
-   🧹 UTILITAIRES
-===================================================== */
-function hideDialogs(){
-  dLegal.style.display = "none";
-  dPirate.style.display = "none";
-}
-
 function shake(){
   document.body.classList.add("shake");
-  setTimeout(()=>document.body.classList.remove("shake"),350);
+  setTimeout(() => document.body.classList.remove("shake"), 350);
 }
 
 });
