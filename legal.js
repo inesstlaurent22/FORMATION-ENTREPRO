@@ -45,7 +45,7 @@ function disablePirate(){
 }
 
 /* =====================================================
-   💬 DIALOGUES — OUTILS
+   💬 DIALOGUES — UTILITAIRE
 ===================================================== */
 const dLegal = document.getElementById("dialogueLegal");
 const dPirate = document.getElementById("dialoguePirate");
@@ -178,19 +178,19 @@ function startDialogues2(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — STATUT JURIDIQUE (CORRIGÉ)
+   🎮 MINI-JEU 2 — STATUT JURIDIQUE
 ===================================================== */
 const miniGame2 = document.getElementById("miniGame2");
 const game2Content = document.getElementById("game2Content");
 
-let clickedReasons = new Set();
-let clickedQ3 = false;
+let q2Clicked = new Set();
+let q3Valid = false;
 
 function startMiniGame2(){
   scene.classList.add("sceneDim");
   miniGame2.style.display = "block";
-  clickedReasons.clear();
-  clickedQ3 = false;
+  q2Clicked.clear();
+  q3Valid = false;
   showStep1();
 }
 
@@ -214,34 +214,45 @@ window.q1Answer = (solo)=>{
   info.innerHTML = solo
     ? `<div class="infoBox">Choix possibles : <strong>EI</strong>, <strong>EURL</strong>, <strong>SASU</strong></div>`
     : `<div class="infoBox">Choix possibles : <strong>SARL</strong>, <strong>SAS</strong></div>`;
-  setTimeout(showStep2, 500);
+  setTimeout(showStep2, 600);
 };
 
 /* Q2 */
 function showStep2(){
+  q2Clicked.clear();
   game2Content.innerHTML = `
     <p>Pourquoi veux-tu changer de statut juridique ?</p>
     <div class="mg2-layout">
       <div class="mg2-left">
-        <button onclick="q2Answer('EI')">Simplifier mes démarches</button>
-        <button onclick="q2Answer('EURL')">Plus de rentabilité</button>
-        <button onclick="q2Answer('SASU')">Image luxueuse</button>
-        <button onclick="q2Answer('SARL')">Projet à risques / investisseurs</button>
-        <button onclick="q2Answer('SAS')">Projet en équipe stable</button>
+        <button onclick="q2Answer(this,'EI')">Simplifier mes démarches</button>
+        <button onclick="q2Answer(this,'EURL')">Plus de rentabilité</button>
+        <button onclick="q2Answer(this,'SASU')">Image luxueuse</button>
+        <button onclick="q2Answer(this,'SARL')">Projet à risques / investisseurs</button>
+        <button onclick="q2Answer(this,'SAS')">Projet en équipe stable</button>
       </div>
       <div class="mg2-right" id="mg2Info"></div>
     </div>
-    <p style="margin-top:14px;color:gold;">Clique sur toutes les options pour continuer</p>
+    <p id="q2Hint" style="margin-top:14px;color:gold;">
+      Clique sur tous les boutons pour continuer
+    </p>
   `;
 }
 
-window.q2Answer = (statut)=>{
-  const info = document.getElementById("mg2Info");
-  if(clickedReasons.has(statut)) return;
-  clickedReasons.add(statut);
-  info.innerHTML += `<div class="infoBox"><strong>${statut}</strong> recommandé</div>`;
-  if(clickedReasons.size === 5){
-    setTimeout(showStep3, 600);
+window.q2Answer = (btn, statut)=>{
+  if(q2Clicked.has(statut)) return;
+  q2Clicked.add(statut);
+  btn.disabled = true;
+  btn.classList.add("selectedAnswer");
+
+  document.getElementById("mg2Info").insertAdjacentHTML(
+    "beforeend",
+    `<div class="infoBox"><strong>${statut}</strong> recommandé</div>`
+  );
+
+  if(q2Clicked.size === 5){
+    document.getElementById("q2Hint").textContent =
+      "Parfait. Passons à la suite.";
+    setTimeout(showStep3, 700);
   }
 };
 
@@ -261,14 +272,14 @@ function showStep3(){
 
 window.q3Answer = (ok)=>{
   if(ok){
-    clickedQ3 = true;
+    q3Valid = true;
   } else {
     shake();
   }
 };
 
 function endMiniGame2(){
-  if(!clickedQ3){
+  if(!q3Valid){
     shake();
     return;
   }
@@ -282,7 +293,7 @@ function endMiniGame2(){
 ===================================================== */
 const dialoguesTVA = [
   { el:dLegal, text:"Même en tant qu’auto-entrepreneur, tu peux être amené à payer la TVA." },
-  { el:dLegal, text:"Cela dépend de ton chiffre d’affaires, de ton activité… ou de ton choix." },
+  { el:dLegal, text:"Cela dépend de ton chiffre d’affaires, de ton activité ou de ton choix." },
   { el:dPirate, text:"Voyons si tu maîtrises les règles de la TVA." }
 ];
 
