@@ -14,20 +14,23 @@
      🎬 VIDÉO INTRO
 ===================================================== -->
 <div id="videoContainer">
+
   <video id="questVideo" preload="auto" autoplay muted>
     <source src="videos/Legalvideo.mov" type="video/mp4">
   </video>
 
-  <!-- Boutons vidéo -->
+  <!-- 🔘 Contrôles vidéo (style pirate) -->
   <div class="videoBtns">
+    <button id="soundBtn">🔊</button>
     <button id="skipVideo">Passer la vidéo</button>
   </div>
+
 </div>
 
 <!-- =====================================================
-     🌊 SCÈNE PRINCIPALE
+     🌊 SCÈNE PRINCIPALE (VISIBLE APRÈS VIDÉO)
 ===================================================== -->
-<div id="scene" class="hidden">
+<div id="scene">
 
   <!-- 🏴‍☠️ Pirate Légal -->
   <div id="pirateLegal" class="pirate">
@@ -82,6 +85,19 @@
      ⚙️ SCRIPT
 ===================================================== -->
 <script src="legal.js"></script>
+
+<script>
+/* =====================================================
+   🔊 BOUTON SON VIDÉO (STYLE PIRATE)
+===================================================== */
+const video = document.getElementById("questVideo");
+const soundBtn = document.getElementById("soundBtn");
+
+soundBtn.addEventListener("click", () => {
+  video.muted = !video.muted;
+  soundBtn.textContent = video.muted ? "🔊" : "🔈";
+});
+</script>
 
 </body>
 </html>
