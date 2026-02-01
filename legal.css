@@ -113,6 +113,7 @@ button.selectedAnswer{
   background-repeat:no-repeat;
   background-size:contain;
   background-position:bottom center;
+  transition:opacity .3s ease, filter .3s ease, transform .3s ease;
 }
 
 #pirateLegal{
@@ -121,7 +122,13 @@ button.selectedAnswer{
   width:384px;
   height:379px;
   cursor:pointer;
-  transition:filter .3s, transform .3s;
+}
+
+/* animation ACTIVE avant dialogues */
+#pirateLegal{
+  filter:
+    drop-shadow(0 0 14px gold)
+    drop-shadow(0 0 28px rgba(255,215,0,.6));
 }
 
 #pirate1{
@@ -136,20 +143,20 @@ button.selectedAnswer{
   height:100%;
 }
 
-/* illumination ACTIVE */
-#pirateLegal:hover{
-  filter:
-    drop-shadow(0 0 14px gold)
-    drop-shadow(0 0 28px rgba(255,215,0,.6));
-  transform:scale(1.05);
-}
-
-/* illumination DÉSACTIVÉE quand dialogues */
+/* arrêt TOTAL animation quand dialogues */
 #pirateLegal.noGlow,
 #pirateLegal.noGlow:hover{
   filter:none !important;
   transform:none !important;
   cursor:default;
+}
+
+/* =====================================================
+   🎮 MINI-JEUX — MASQUER LES PIRATES
+===================================================== */
+#scene.sceneDark .pirate{
+  opacity:0;
+  pointer-events:none;
 }
 
 /* =====================================================
