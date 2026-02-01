@@ -184,17 +184,16 @@ const miniGame2 = document.getElementById("miniGame2");
 const game2Content = document.getElementById("game2Content");
 
 let q2Clicked = new Set();
-let q3Valid = false;
+let q3Clicked = new Set();
 
+/* ---------- START ---------- */
 function startMiniGame2(){
   scene.classList.add("sceneDim");
   miniGame2.style.display = "block";
-  q2Clicked.clear();
-  q3Valid = false;
   showStep1();
 }
 
-/* Q1 */
+/* ---------- Q1 ---------- */
 function showStep1(){
   game2Content.innerHTML = `
     <h3>📜 Choisir son statut juridique</h3>
@@ -206,18 +205,23 @@ function showStep1(){
       </div>
       <div class="mg2-right" id="mg2Info"></div>
     </div>
+    <p style="margin-top:14px;color:gold;">Clique sur l’encart pour continuer</p>
   `;
 }
 
 window.q1Answer = (solo)=>{
   const info = document.getElementById("mg2Info");
   info.innerHTML = solo
-    ? `<div class="infoBox">Choix possibles : <strong>EI</strong>, <strong>EURL</strong>, <strong>SASU</strong></div>`
-    : `<div class="infoBox">Choix possibles : <strong>SARL</strong>, <strong>SAS</strong></div>`;
-  setTimeout(showStep2, 600);
+    ? `<div class="infoBox">Statuts possibles : EI, EURL, SASU</div>`
+    : `<div class="infoBox">Statuts possibles : SARL, SAS</div>`;
+
+  miniGame2.onclick = () => {
+    miniGame2.onclick = null;
+    showStep2();
+  };
 };
 
-/* Q2 */
+/* ---------- Q2 ---------- */
 function showStep2(){
   q2Clicked.clear();
   game2Content.innerHTML = `
@@ -246,47 +250,47 @@ window.q2Answer = (btn, statut)=>{
 
   document.getElementById("mg2Info").insertAdjacentHTML(
     "beforeend",
-    `<div class="infoBox"><strong>${statut}</strong> recommandé</div>`
+    `<div class="infoBox">${statut} recommandé</div>`
   );
 
   if(q2Clicked.size === 5){
-    document.getElementById("q2Hint").textContent =
-      "Parfait. Passons à la suite.";
-    setTimeout(showStep3, 700);
+    setTimeout(showStep3, 600);
   }
 };
 
-/* Q3 */
+/* ---------- Q3 ---------- */
 function showStep3(){
+  q3Clicked.clear();
   game2Content.innerHTML = `
     <p>Quand dois-tu passer d’auto-entrepreneur à entreprise ?</p>
     <div id="qChoices">
-      <button onclick="q3Answer(true)">Quand mon CA dépasse 60–70k</button>
-      <button onclick="q3Answer(true)">Quand je veux embaucher et me protéger</button>
-      <button onclick="q3Answer(true)">Quand j’ai peu de charges par rapport au CA</button>
-      <button onclick="q3Answer(false)">Quand je le décide sans raison</button>
+      <button onclick="q3Answer(this,1)">Quand mon CA dépasse 60–70k</button>
+      <button onclick="q3Answer(this,2)">Quand je veux embaucher et me protéger</button>
+      <button onclick="q3Answer(this,3)">Quand j’ai peu de charges par rapport au CA</button>
+      <button onclick="q3Answer(this,0)">Quand je le décide sans raison</button>
     </div>
-    <button style="margin-top:20px" onclick="endMiniGame2()">Continuer</button>
+    <p style="margin-top:14px;color:gold;">
+      Clique sur toutes les bonnes réponses
+    </p>
   `;
 }
 
-window.q3Answer = (ok)=>{
-  if(ok){
-    q3Valid = true;
-  } else {
-    shake();
-  }
-};
-
-function endMiniGame2(){
-  if(!q3Valid){
+window.q3Answer = (btn, val)=>{
+  if(val === 0){
     shake();
     return;
   }
-  miniGame2.style.display = "none";
-  scene.classList.remove("sceneDim");
-  startDialoguesTVA();
-}
+  if(q3Clicked.has(val)) return;
+  q3Clicked.add(val);
+  btn.disabled = true;
+  btn.classList.add("selectedAnswer");
+
+  if(q3Clicked.size === 3){
+    miniGame2.style.display = "none";
+    scene.classList.remove("sceneDim");
+    startDialoguesTVA();
+  }
+};
 
 /* =====================================================
    💬 DIALOGUES 3 — TVA
