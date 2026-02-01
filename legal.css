@@ -74,7 +74,7 @@ button:disabled{
   cursor:default;
 }
 
-/* bonne réponse */
+/* bonne réponse mini-jeu 1 */
 button.selectedAnswer{
   background:linear-gradient(145deg,#3a2a18,#6b4b24);
   color:#f5e6c8;
@@ -92,7 +92,7 @@ button.selectedAnswer{
   z-index:1;
 }
 
-/* assombrissement scène (corrigé) */
+/* assombrissement pendant mini-jeux */
 #scene.sceneDark{
   position:relative;
 }
@@ -136,11 +136,20 @@ button.selectedAnswer{
   height:100%;
 }
 
+/* illumination ACTIVE */
 #pirateLegal:hover{
   filter:
     drop-shadow(0 0 14px gold)
     drop-shadow(0 0 28px rgba(255,215,0,.6));
   transform:scale(1.05);
+}
+
+/* illumination DÉSACTIVÉE quand dialogues */
+#pirateLegal.noGlow,
+#pirateLegal.noGlow:hover{
+  filter:none !important;
+  transform:none !important;
+  cursor:default;
 }
 
 /* =====================================================
@@ -209,7 +218,7 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — COLONNES (AJOUT MANQUANT)
+   🎮 MINI-JEU 2 — COLONNES
 ===================================================== */
 .mg2-layout{
   display:flex;
