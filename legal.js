@@ -390,8 +390,13 @@ window.coffreAnswer = good => {
 };
 
 function endMiniGame4(){
+  // Ferme le mini-jeu
   miniGame4.style.display = "none";
+
+  // Retour scène normale
   scene.classList.remove("sceneDim");
+
+  // Lance DIRECTEMENT la victoire
   showVictory();
 }
 
