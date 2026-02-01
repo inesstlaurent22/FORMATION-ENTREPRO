@@ -45,11 +45,10 @@ function disablePirate(){
 }
 
 /* =====================================================
-   💬 DIALOGUES — GESTION GÉNÉRIQUE
+   💬 DIALOGUES — OUTILS
 ===================================================== */
 const dLegal = document.getElementById("dialogueLegal");
 const dPirate = document.getElementById("dialoguePirate");
-
 let dIndex = 0;
 
 function runDialogues(list, callback){
@@ -58,11 +57,9 @@ function runDialogues(list, callback){
     callback();
     return;
   }
-
   const cur = list[dIndex];
   cur.el.innerHTML = `<p>${cur.text}</p>`;
   cur.el.style.display = "block";
-
   cur.el.onclick = () => {
     cur.el.style.display = "none";
     dIndex++;
@@ -181,36 +178,100 @@ function startDialogues2(){
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — STATUT JURIDIQUE
+   🎮 MINI-JEU 2 — STATUT JURIDIQUE (CORRIGÉ)
 ===================================================== */
 const miniGame2 = document.getElementById("miniGame2");
 const game2Content = document.getElementById("game2Content");
 
+let clickedReasons = new Set();
+let clickedQ3 = false;
+
 function startMiniGame2(){
   scene.classList.add("sceneDim");
   miniGame2.style.display = "block";
+  clickedReasons.clear();
+  clickedQ3 = false;
+  showStep1();
+}
+
+/* Q1 */
+function showStep1(){
   game2Content.innerHTML = `
-    <p>Quel est ton objectif principal ?</p>
+    <h3>📜 Choisir son statut juridique</h3>
+    <p>Crées-tu ta société seul ou en groupe ?</p>
     <div class="mg2-layout">
       <div class="mg2-left">
-        <button onclick="selectStatut('EI')">Simplicité</button>
-        <button onclick="selectStatut('EURL')">Rentabilité</button>
-        <button onclick="selectStatut('SASU')">Image premium</button>
-        <button onclick="selectStatut('SARL')">Projet à risques</button>
-        <button onclick="selectStatut('SAS')">Travail en équipe</button>
+        <button onclick="q1Answer(true)">Oui</button>
+        <button onclick="q1Answer(false)">Non</button>
       </div>
-      <div class="mg2-right" id="mg2Right"></div>
+      <div class="mg2-right" id="mg2Info"></div>
+    </div>
+  `;
+}
+
+window.q1Answer = (solo)=>{
+  const info = document.getElementById("mg2Info");
+  info.innerHTML = solo
+    ? `<div class="infoBox">Choix possibles : <strong>EI</strong>, <strong>EURL</strong>, <strong>SASU</strong></div>`
+    : `<div class="infoBox">Choix possibles : <strong>SARL</strong>, <strong>SAS</strong></div>`;
+  setTimeout(showStep2, 500);
+};
+
+/* Q2 */
+function showStep2(){
+  game2Content.innerHTML = `
+    <p>Pourquoi veux-tu changer de statut juridique ?</p>
+    <div class="mg2-layout">
+      <div class="mg2-left">
+        <button onclick="q2Answer('EI')">Simplifier mes démarches</button>
+        <button onclick="q2Answer('EURL')">Plus de rentabilité</button>
+        <button onclick="q2Answer('SASU')">Image luxueuse</button>
+        <button onclick="q2Answer('SARL')">Projet à risques / investisseurs</button>
+        <button onclick="q2Answer('SAS')">Projet en équipe stable</button>
+      </div>
+      <div class="mg2-right" id="mg2Info"></div>
+    </div>
+    <p style="margin-top:14px;color:gold;">Clique sur toutes les options pour continuer</p>
+  `;
+}
+
+window.q2Answer = (statut)=>{
+  const info = document.getElementById("mg2Info");
+  if(clickedReasons.has(statut)) return;
+  clickedReasons.add(statut);
+  info.innerHTML += `<div class="infoBox"><strong>${statut}</strong> recommandé</div>`;
+  if(clickedReasons.size === 5){
+    setTimeout(showStep3, 600);
+  }
+};
+
+/* Q3 */
+function showStep3(){
+  game2Content.innerHTML = `
+    <p>Quand dois-tu passer d’auto-entrepreneur à entreprise ?</p>
+    <div id="qChoices">
+      <button onclick="q3Answer(true)">Quand mon CA dépasse 60–70k</button>
+      <button onclick="q3Answer(true)">Quand je veux embaucher et me protéger</button>
+      <button onclick="q3Answer(true)">Quand j’ai peu de charges par rapport au CA</button>
+      <button onclick="q3Answer(false)">Quand je le décide sans raison</button>
     </div>
     <button style="margin-top:20px" onclick="endMiniGame2()">Continuer</button>
   `;
 }
 
-window.selectStatut = (s)=>{
-  document.getElementById("mg2Right").innerHTML =
-    `<div class="infoBox">Statut conseillé : <strong>${s}</strong></div>`;
+window.q3Answer = (ok)=>{
+  if(ok){
+    clickedQ3 = true;
+  } else {
+    shake();
+  }
 };
 
 function endMiniGame2(){
+  if(!clickedQ3){
+    shake();
+    return;
+  }
   miniGame2.style.display = "none";
   scene.classList.remove("sceneDim");
   startDialoguesTVA();
@@ -233,10 +294,7 @@ function startDialoguesTVA(){
 /* =====================================================
    🎮 MINI-JEU 3 — TVA
 ===================================================== */
-const miniGame3 = document.createElement("div");
-miniGame3.id = "miniGame3";
-miniGame3.className = "miniGame";
-document.body.appendChild(miniGame3);
+const miniGame3 = document.getElementById("miniGame3");
 
 const tvaQuestions = [
   {
