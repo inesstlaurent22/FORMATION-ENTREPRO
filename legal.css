@@ -284,14 +284,17 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   💎 GEMS
+   💎 GEMS — TOUJOURS VISIBLES
 ===================================================== */
 .gem{
-  position:absolute;
-  width:10px;
-  height:10px;
+  position:fixed; /* clé */
+  width:12px;
+  height:12px;
   border-radius:3px;
   pointer-events:none;
+
+  z-index:9999; /* au-dessus de TOUT */
+
   animation:explode 1.6s ease-out forwards;
 }
 
