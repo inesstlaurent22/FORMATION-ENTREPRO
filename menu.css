@@ -181,3 +181,76 @@ html, body{
 #resetButton:hover {
   transform: scale(1.05);
 }
+
+/* ==========================================================
+   🔐 OVERLAY MOT DE PASSE (RETOUR COMMERCE)
+========================================================== */
+
+#passwordOverlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #140a00 0%, #000 70%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cinzel", serif;
+}
+
+.passwordBox {
+  background: rgba(20, 10, 0, 0.9);
+  border: 2px solid gold;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+  padding: 30px 40px;
+  text-align: center;
+  color: #fff2cc;
+  animation: fadeIn 0.6s ease;
+}
+
+.passwordBox h2 {
+  margin-bottom: 15px;
+  color: gold;
+  letter-spacing: 1px;
+}
+
+.passwordBox input {
+  padding: 10px;
+  width: 200px;
+  font-size: 16px;
+  text-align: center;
+  background: #1a1208;
+  border: 1px solid gold;
+  color: #fff;
+  outline: none;
+}
+
+.passwordBox button {
+  margin-top: 15px;
+  padding: 10px 25px;
+  background: linear-gradient(145deg, #6b4b24, #3a2a18);
+  border: 1px solid gold;
+  color: #fff2cc;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.passwordBox button:hover {
+  box-shadow: 0 0 10px gold;
+}
+
+.passwordError {
+  color: #ff4d4d;
+  margin-top: 10px;
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
