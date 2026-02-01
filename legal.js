@@ -1,220 +1,319 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* =====================================================
-     🎬 VIDÉO
-  ===================================================== */
-  const videoContainer = document.getElementById("videoContainer");
-  const video = document.getElementById("questVideo");
-  const skipBtn = document.getElementById("skipVideo");
-  const soundBtn = document.getElementById("soundBtn");
-  const scene = document.getElementById("scene");
+/* =====================================================
+   🎬 VIDÉO
+===================================================== */
+const videoContainer = document.getElementById("videoContainer");
+const video = document.getElementById("questVideo");
+const skipBtn = document.getElementById("skipVideo");
+const soundBtn = document.getElementById("soundBtn");
+const scene = document.getElementById("scene");
 
-  video.muted = true;
-  soundBtn.textContent = "🔊";
+video.muted = true;
+soundBtn.textContent = "🔊";
 
-  soundBtn.onclick = (e) => {
-    e.stopPropagation();
-    video.muted = !video.muted;
-    soundBtn.textContent = video.muted ? "🔊" : "🔈";
-    video.play().catch(()=>{});
+soundBtn.onclick = (e) => {
+  e.stopPropagation();
+  video.muted = !video.muted;
+  soundBtn.textContent = video.muted ? "🔊" : "🔈";
+  video.play().catch(()=>{});
+};
+
+skipBtn.onclick = endVideo;
+video.onended = endVideo;
+
+function endVideo(){
+  video.pause();
+  videoContainer.style.display = "none";
+  scene.style.display = "block";
+  enablePirate();
+}
+
+/* =====================================================
+   🏴‍☠️ PIRATE LEGAL
+===================================================== */
+const pirateLegal = document.getElementById("pirateLegal");
+
+function enablePirate(){
+  pirateLegal.classList.remove("noGlow");
+  pirateLegal.onclick = startDialogues1;
+}
+
+function disablePirate(){
+  pirateLegal.classList.add("noGlow");
+  pirateLegal.onclick = null;
+}
+
+/* =====================================================
+   💬 DIALOGUES — GESTION GÉNÉRIQUE
+===================================================== */
+const dLegal = document.getElementById("dialogueLegal");
+const dPirate = document.getElementById("dialoguePirate");
+
+let dIndex = 0;
+
+function runDialogues(list, callback){
+  if(dIndex >= list.length){
+    hideDialogs();
+    callback();
+    return;
+  }
+
+  const cur = list[dIndex];
+  cur.el.innerHTML = `<p>${cur.text}</p>`;
+  cur.el.style.display = "block";
+
+  cur.el.onclick = () => {
+    cur.el.style.display = "none";
+    dIndex++;
+    runDialogues(list, callback);
   };
+}
 
-  skipBtn.onclick = endVideo;
-  video.onended = endVideo;
+function hideDialogs(){
+  dLegal.style.display = "none";
+  dPirate.style.display = "none";
+}
 
-  function endVideo(){
-    video.pause();
-    videoContainer.style.display = "none";
-    scene.style.display = "block";
-    enablePirate();
+/* =====================================================
+   💬 DIALOGUES 1 — URSSAF
+===================================================== */
+const dialogues1 = [
+  { el:dLegal, text:"Pour vendre nos pierres légalement, nous devons nous inscrire comme auto-entrepreneurs à l’URSSAF." },
+  { el:dPirate, text:"Sans inscription, même un commerce honnête devient illégal." },
+  { el:dLegal, text:"Voyons maintenant tes obligations." }
+];
+
+function startDialogues1(){
+  disablePirate();
+  dIndex = 0;
+  runDialogues(dialogues1, startMiniGame1);
+}
+
+/* =====================================================
+   🎮 MINI-JEU 1 — AUTO-ENTREPRENEUR
+===================================================== */
+const miniGame1 = document.getElementById("miniGame");
+
+const questionsAE = [
+  {
+    q:"Où dois-je m’inscrire pour être auto-entrepreneur ?",
+    good:["Sur le site de l’URSSAF"],
+    bad:["À la mairie","À la banque"]
+  },
+  {
+    q:"Qu’est-ce que l’ACRE ?",
+    good:[
+      "L’aide à la création ou à la reprise d’une entreprise",
+      "Une réduction partielle des cotisations sociales",
+      "À demander à la création ou sous 45 jours"
+    ],
+    bad:["Une taxe obligatoire"]
+  },
+  {
+    q:"Quand dois-je déclarer mes gains ?",
+    good:["Tous les mois","Même si les gains sont à 0"],
+    bad:["Uniquement si je gagne"]
   }
+];
 
-  /* =====================================================
-     🏴‍☠️ PIRATE LEGAL
-  ===================================================== */
-  const pirateLegal = document.getElementById("pirateLegal");
+let qIndex = 0, goodCount = 0;
 
-  function enablePirate(){
-    pirateLegal.classList.remove("noGlow");
-    pirateLegal.onclick = startDialogues1;
-  }
+function startMiniGame1(){
+  scene.classList.add("sceneDim");
+  miniGame1.style.display = "block";
+  miniGame1.innerHTML = `
+    <h3>📜 Devoirs de l’auto-entrepreneur</h3>
+    <p id="qText"></p>
+    <div id="qChoices"></div>
+  `;
+  qIndex = 0;
+  showAEQuestion();
+}
 
-  function disablePirate(){
-    pirateLegal.classList.add("noGlow");
-    pirateLegal.onclick = null;
-  }
+function showAEQuestion(){
+  goodCount = 0;
+  document.getElementById("qText").textContent = questionsAE[qIndex].q;
+  const box = document.getElementById("qChoices");
+  box.innerHTML = "";
 
-  /* =====================================================
-     💬 DIALOGUES — BLOC 1
-  ===================================================== */
-  const dLegal = document.getElementById("dialogueLegal");
-  const dPirate = document.getElementById("dialoguePirate");
+  const answers = [
+    ...questionsAE[qIndex].good.map(t=>({t,ok:true})),
+    ...questionsAE[qIndex].bad.map(t=>({t,ok:false}))
+  ].sort(()=>Math.random()-0.5);
 
-  const dialogues1 = [
-    { el:dLegal, text:"Pour vendre nos pierres légalement, nous devons nous inscrire comme auto-entrepreneurs à l’URSSAF." },
-    { el:dPirate, text:"Sans inscription, même un commerce honnête devient illégal." },
-    { el:dLegal, text:"Passons aux obligations." }
-  ];
-
-  let dIndex = 0;
-
-  function startDialogues1(){
-    disablePirate();
-    dIndex = 0;
-    runDialogues(dialogues1, startMiniGame1);
-  }
-
-  /* =====================================================
-     💬 DIALOGUES — BLOC 2
-  ===================================================== */
-  const dialogues2 = [
-    { el:dLegal, text:"L’auto-entrepreneuriat est un bon début…" },
-    { el:dPirate, text:"…mais quand le trésor grandit, il faut évoluer." },
-    { el:dLegal, text:"Choisissons le bon statut." }
-  ];
-
-  function startDialogues2(){
-    dIndex = 0;
-    runDialogues(dialogues2, startMiniGame2);
-  }
-
-  function runDialogues(list, callback){
-    if(dIndex >= list.length){
-      hideDialogs();
-      callback();
-      return;
-    }
-
-    const cur = list[dIndex];
-    cur.el.innerHTML = `<p>${cur.text}</p>`;
-    cur.el.style.display = "block";
-
-    cur.el.onclick = () => {
-      cur.el.style.display = "none";
-      dIndex++;
-      runDialogues(list, callback);
+  answers.forEach(a=>{
+    const b = document.createElement("button");
+    b.textContent = a.t;
+    b.onclick = ()=>{
+      if(a.ok){
+        b.classList.add("selectedAnswer");
+        b.disabled = true;
+        goodCount++;
+        if(goodCount === questionsAE[qIndex].good.length){
+          qIndex++;
+          qIndex < questionsAE.length ? showAEQuestion() : endMiniGame1();
+        }
+      } else shake();
     };
-  }
+    box.appendChild(b);
+  });
+}
 
-  function hideDialogs(){
-    dLegal.style.display = "none";
-    dPirate.style.display = "none";
-  }
+function endMiniGame1(){
+  miniGame1.style.display = "none";
+  scene.classList.remove("sceneDim");
+  startDialogues2();
+}
 
-  /* =====================================================
-     🎮 MINI-JEU 1
-  ===================================================== */
-  const miniGame1 = document.getElementById("miniGame");
+/* =====================================================
+   💬 DIALOGUES 2 — STATUT
+===================================================== */
+const dialogues2 = [
+  { el:dLegal, text:"L’auto-entrepreneuriat est un bon départ…" },
+  { el:dPirate, text:"…mais quand le trésor grandit, il faut évoluer." },
+  { el:dLegal, text:"Choisissons le bon statut juridique." }
+];
 
-  const questions = [
-    {
-      q:"Où dois-je m’inscrire ?",
-      good:["Sur le site de l’URSSAF"],
-      bad:["À la mairie","À la banque"]
-    },
-    {
-      q:"Qu’est-ce que l’ACRE ?",
-      good:[
-        "Aide à la création ou reprise d’entreprise",
-        "Réduction partielle des cotisations",
-        "À demander à la création ou sous 45 jours"
-      ],
-      bad:["Une taxe"]
-    },
-    {
-      q:"Quand déclarer mes gains ?",
-      good:["Tous les mois","Même à 0"],
-      bad:["Uniquement si je gagne"]
-    }
-  ];
+function startDialogues2(){
+  dIndex = 0;
+  runDialogues(dialogues2, startMiniGame2);
+}
 
-  let q = 0, good = 0;
+/* =====================================================
+   🎮 MINI-JEU 2 — STATUT JURIDIQUE
+===================================================== */
+const miniGame2 = document.getElementById("miniGame2");
+const game2Content = document.getElementById("game2Content");
 
-  function startMiniGame1(){
-    scene.classList.add("sceneDim");
-    miniGame1.style.display = "block";
-
-    miniGame1.innerHTML = `
-      <h3>📜 Devoirs de l’auto-entrepreneur</h3>
-      <p id="qText"></p>
-      <div id="qChoices"></div>
-    `;
-
-    q = 0;
-    showQuestion();
-  }
-
-  function showQuestion(){
-    good = 0;
-    document.getElementById("qText").textContent = questions[q].q;
-    const box = document.getElementById("qChoices");
-    box.innerHTML = "";
-
-    const answers = [
-      ...questions[q].good.map(t=>({t,ok:true})),
-      ...questions[q].bad.map(t=>({t,ok:false}))
-    ].sort(()=>Math.random()-0.5);
-
-    answers.forEach(a=>{
-      const b = document.createElement("button");
-      b.textContent = a.t;
-      b.onclick = ()=>{
-        if(a.ok){
-          b.classList.add("selectedAnswer");
-          b.disabled = true;
-          good++;
-          if(good === questions[q].good.length){
-            q++;
-            q < questions.length ? showQuestion() : endMiniGame1();
-          }
-        } else shake();
-      };
-      box.appendChild(b);
-    });
-  }
-
-  function endMiniGame1(){
-    miniGame1.style.display = "none";
-    scene.classList.remove("sceneDim");
-    startDialogues2();
-  }
-
-  /* =====================================================
-     🎮 MINI-JEU 2 (CORRIGÉ)
-  ===================================================== */
-  const miniGame2 = document.getElementById("miniGame2");
-  const game2Content = document.getElementById("game2Content");
-
-  function startMiniGame2(){
-    scene.classList.add("sceneDim");
-    miniGame2.style.display = "block";
-
-    game2Content.innerHTML = `
-      <p>Quel est ton objectif principal ?</p>
-      <div class="mg2-layout">
-        <div class="mg2-left">
-          <button onclick="selectStatut('EI')">Simplicité</button>
-          <button onclick="selectStatut('EURL')">Rentabilité</button>
-          <button onclick="selectStatut('SASU')">Image premium</button>
-          <button onclick="selectStatut('SARL')">Projet à risques</button>
-          <button onclick="selectStatut('SAS')">Travail en équipe</button>
-        </div>
-        <div class="mg2-right" id="mg2Right"></div>
+function startMiniGame2(){
+  scene.classList.add("sceneDim");
+  miniGame2.style.display = "block";
+  game2Content.innerHTML = `
+    <p>Quel est ton objectif principal ?</p>
+    <div class="mg2-layout">
+      <div class="mg2-left">
+        <button onclick="selectStatut('EI')">Simplicité</button>
+        <button onclick="selectStatut('EURL')">Rentabilité</button>
+        <button onclick="selectStatut('SASU')">Image premium</button>
+        <button onclick="selectStatut('SARL')">Projet à risques</button>
+        <button onclick="selectStatut('SAS')">Travail en équipe</button>
       </div>
-    `;
-  }
+      <div class="mg2-right" id="mg2Right"></div>
+    </div>
+    <button style="margin-top:20px" onclick="endMiniGame2()">Continuer</button>
+  `;
+}
 
-  window.selectStatut = (s) => {
-    document.getElementById("mg2Right").innerHTML =
-      `<div class="infoBox">Statut conseillé : <strong>${s}</strong></div>`;
-  };
+window.selectStatut = (s)=>{
+  document.getElementById("mg2Right").innerHTML =
+    `<div class="infoBox">Statut conseillé : <strong>${s}</strong></div>`;
+};
 
-  /* =====================================================
-     📳 SHAKE
-  ===================================================== */
-  function shake(){
-    document.body.classList.add("shake");
-    setTimeout(()=>document.body.classList.remove("shake"),350);
+function endMiniGame2(){
+  miniGame2.style.display = "none";
+  scene.classList.remove("sceneDim");
+  startDialoguesTVA();
+}
+
+/* =====================================================
+   💬 DIALOGUES 3 — TVA
+===================================================== */
+const dialoguesTVA = [
+  { el:dLegal, text:"Même en tant qu’auto-entrepreneur, tu peux être amené à payer la TVA." },
+  { el:dLegal, text:"Cela dépend de ton chiffre d’affaires, de ton activité… ou de ton choix." },
+  { el:dPirate, text:"Voyons si tu maîtrises les règles de la TVA." }
+];
+
+function startDialoguesTVA(){
+  dIndex = 0;
+  runDialogues(dialoguesTVA, startMiniGame3);
+}
+
+/* =====================================================
+   🎮 MINI-JEU 3 — TVA
+===================================================== */
+const miniGame3 = document.createElement("div");
+miniGame3.id = "miniGame3";
+miniGame3.className = "miniGame";
+document.body.appendChild(miniGame3);
+
+const tvaQuestions = [
+  {
+    q:"Je fais 90 000 € de CA annuel en prestation de services. Dois-je pratiquer la TVA ?",
+    good:["Oui"],
+    bad:["Non"],
+    hint:"TVA obligatoire si prestations > 37 500 €"
+  },
+  {
+    q:"Récupérer la TVA consiste à :",
+    good:["Collecter la TVA pour ensuite la reverser à l’État"],
+    bad:["Collecter la TVA pour soi","Augmenter ses prix"]
+  },
+  {
+    q:"Être collecteur de TVA permet-il de récupérer la TVA sur certaines dépenses ?",
+    good:["Oui"],
+    bad:["Non"]
   }
+];
+
+let tvaIndex = 0, tvaGood = 0;
+
+function startMiniGame3(){
+  scene.classList.add("sceneDim");
+  miniGame3.style.display = "block";
+  miniGame3.innerHTML = `
+    <h3>💰 Épreuve de la TVA</h3>
+    <p id="tvaQ"></p>
+    <div id="tvaChoices"></div>
+    <p id="tvaHint" style="color:gold;margin-top:12px"></p>
+  `;
+  tvaIndex = 0;
+  showTVAQuestion();
+}
+
+function showTVAQuestion(){
+  tvaGood = 0;
+  const q = tvaQuestions[tvaIndex];
+  document.getElementById("tvaQ").textContent = q.q;
+  document.getElementById("tvaHint").textContent = q.hint || "";
+  const box = document.getElementById("tvaChoices");
+  box.innerHTML = "";
+
+  const answers = [
+    ...q.good.map(t=>({t,ok:true})),
+    ...q.bad.map(t=>({t,ok:false}))
+  ].sort(()=>Math.random()-0.5);
+
+  answers.forEach(a=>{
+    const b = document.createElement("button");
+    b.textContent = a.t;
+    b.onclick = ()=>{
+      if(a.ok){
+        b.classList.add("selectedAnswer");
+        b.disabled = true;
+        tvaGood++;
+        if(tvaGood === q.good.length){
+          tvaIndex++;
+          tvaIndex < tvaQuestions.length ? showTVAQuestion() : endMiniGame3();
+        }
+      } else shake();
+    };
+    box.appendChild(b);
+  });
+}
+
+function endMiniGame3(){
+  miniGame3.style.display = "none";
+  scene.classList.remove("sceneDim");
+}
+
+/* =====================================================
+   📳 SHAKE
+===================================================== */
+function shake(){
+  document.body.classList.add("shake");
+  setTimeout(()=>document.body.classList.remove("shake"),350);
+}
 
 });
