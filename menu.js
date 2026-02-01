@@ -70,14 +70,26 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     3️⃣ RETOUR DE COMMERCE → MOT DE PASSE
+     3️⃣ RETOUR DE COMMERCE → NOTIFICATION + MOT DE PASSE
   ========================================================== */
   if (
     sessionStorage.getItem("fromCommerce") === "true" &&
     localStorage.getItem("code_mashain_valid") !== "true"
   ) {
-    showPasswordOverlay();
-    return;
+
+    // 🔔 Notification claire
+    if (notification) {
+      notification.textContent = "🔐 Mot de passe requis pour continuer";
+      notification.classList.add("show");
+      setTimeout(() => notification.classList.remove("show"), 3000);
+    }
+
+    // ⏳ petit délai pour lisibilité
+    setTimeout(() => {
+      showPasswordOverlay();
+    }, 600);
+
+    return; // ⛔ bloque le reste du menu
   }
 
   /* ==========================================================
@@ -96,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================================================== */
   if (pirate2 && pirate1) {
     pirate2.addEventListener("click", () => {
-      pirate2.classList.add("glow"); // feedback immédiat
+      pirate2.classList.add("glow");
       localStorage.setItem("pirate1_unlocked", "true");
       sessionStorage.setItem("showBubbleAfterReload", "yes");
       setTimeout(() => window.location.reload(), 250);
@@ -104,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     6️⃣ BULLE + NOTIFICATION APRÈS RELOAD (CORRIGÉ)
+     6️⃣ BULLE + NOTIFICATION APRÈS RELOAD
   ========================================================== */
   if (
     sessionStorage.getItem("showBubbleAfterReload") === "yes" &&
@@ -119,7 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bubble.style.display = "block";
 
-    // ⏱️ délai volontaire pour laisser le layout se stabiliser
     setTimeout(() => {
       const rect = pirate2.getBoundingClientRect();
       bubble.style.position = "absolute";
