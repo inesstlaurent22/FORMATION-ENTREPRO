@@ -42,6 +42,21 @@ body{
   object-fit:cover;
 }
 
+/* ⏳ loader vidéo */
+#videoContainer > div{
+  position:absolute;
+  font-size:48px;
+  color:gold;
+  text-shadow:0 0 18px gold;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:.4}
+  50%{opacity:1}
+  100%{opacity:.4}
+}
+
 .videoBtns{
   position:absolute;
   top:20px;
@@ -52,7 +67,7 @@ body{
 }
 
 /* =====================================================
-   🔘 BOUTONS GÉNÉRAUX
+   🔘 BOUTONS (STYLE COMMUNICATION)
 ===================================================== */
 button{
   background:linear-gradient(145deg,#e8c77a,#b48b3c);
@@ -72,14 +87,14 @@ button:hover{
   box-shadow:0 0 18px rgba(255,215,100,.85);
 }
 
-button.fade-out{
-  opacity:0;
-  transform:scale(0.85);
-  pointer-events:none;
+/* bouton sélectionné (QCM multiple) */
+button.selected{
+  background:linear-gradient(145deg,#ffd700,#c9a24d);
+  box-shadow:0 0 22px gold;
 }
 
 /* =====================================================
-   🌊 SCÈNE LÉGALE
+   🌊 SCÈNE
 ===================================================== */
 #scene{
   position:fixed;
@@ -88,7 +103,7 @@ button.fade-out{
   z-index:1;
 }
 
-/* assombrissement scène pour mini-jeux */
+/* assombrissement lors mini-jeux */
 #scene.sceneDark::after{
   content:"";
   position:fixed;
@@ -116,25 +131,24 @@ button.fade-out{
   transition:filter .3s, transform .3s;
 }
 
-#pirateLegal img,
-#pirate1 img{
-  width:100%;
-  height:100%;
-}
-
-/* illumination CONTOUR */
-#pirateLegal:hover{
-  filter:
-    drop-shadow(0 0 14px gold)
-    drop-shadow(0 0 28px rgba(255,215,0,.6));
-  transform:scale(1.05);
-}
-
 #pirate1{
   left:973px;
   top:566px;
   width:539px;
   height:516px;
+}
+
+.pirate img{
+  width:100%;
+  height:100%;
+}
+
+/* illumination contour PNG */
+#pirateLegal:hover{
+  filter:
+    drop-shadow(0 0 14px gold)
+    drop-shadow(0 0 28px rgba(255,215,0,.6));
+  transform:scale(1.05);
 }
 
 /* =====================================================
@@ -170,7 +184,7 @@ button.fade-out{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX — CONTENEUR UNIFIÉ
+   🎮 MINI-JEUX (SUR SCÈNE)
 ===================================================== */
 #miniGame,
 #miniGame2{
@@ -191,6 +205,12 @@ button.fade-out{
   display:none;
 }
 
+#miniGame p,
+#miniGame2 p{
+  margin-bottom:16px;
+  line-height:1.55;
+}
+
 #miniGame h2,
 #miniGame2 h2{
   color:gold;
@@ -198,14 +218,8 @@ button.fade-out{
   margin-bottom:14px;
 }
 
-#miniGame p,
-#miniGame2 p{
-  margin-top:14px;
-  line-height:1.55;
-}
-
 /* =====================================================
-   📜 ENCARTS EXPLICATIFS
+   📜 ENCARTS INFO
 ===================================================== */
 .infoBox{
   margin-top:16px;
@@ -218,7 +232,7 @@ button.fade-out{
 }
 
 /* =====================================================
-   ⏳ LOADERS
+   ⏳ LOADER PIRATE (UNIQUE)
 ===================================================== */
 .loader{
   position:fixed;
@@ -243,7 +257,22 @@ button.fade-out{
 }
 
 /* =====================================================
-   💎 GEMS — EXPLOSION
+   📳 SHAKE — ERREUR
+===================================================== */
+.shake{
+  animation:shake .35s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-6px)}
+  100%{transform:translateX(0)}
+}
+
+/* =====================================================
+   💎 GEMS
 ===================================================== */
 #gems{
   position:fixed;
