@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirates = [pirate1, pirate2, pirate3, pirate4, pirate5].filter(Boolean);
 
   /* ==========================================================
-     0️⃣ TOUT VERROUILLER
+     0️⃣ TOUT VERROUILLER AU DÉPART
   ========================================================== */
   pirates.forEach(p => {
     p.classList.add("locked");
@@ -49,23 +49,25 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      1️⃣ PIRATE 2 DÉBLOQUÉ PAR DÉFAUT
   ========================================================== */
-  pirate2?.classList.remove("locked");
-  pirate2?.classList.add("unlocked");
-  pirate2 && (pirate2.style.pointerEvents = "auto");
+  if (pirate2) {
+    pirate2.classList.remove("locked");
+    pirate2.classList.add("unlocked");
+    pirate2.style.pointerEvents = "auto";
+  }
 
   /* ==========================================================
-     2️⃣ RETOUR DE COMMERCE → DEMANDE DE CODE
+     2️⃣ RETOUR DE COMMERCE → MOT DE PASSE OBLIGATOIRE
   ========================================================== */
   if (
     sessionStorage.getItem("fromCommerce") === "true" &&
     localStorage.getItem("code_mashain_valid") !== "true"
   ) {
-    blockMenuWithPassword();
-    return; // ⛔ stop tout le reste tant que le code est faux
+    showPasswordOverlay();
+    return; // ⛔ on bloque toute la logique du menu
   }
 
   /* ==========================================================
-     3️⃣ RÉACTIVATION VIA LOCALSTORAGE
+     3️⃣ RÉACTIVATION SELON LOCALSTORAGE
   ========================================================== */
   pirates.forEach(p => {
     if (localStorage.getItem(`${p.id}_unlocked`) === "true") {
@@ -76,58 +78,96 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     4️⃣ NAVIGATION
+     4️⃣ NAVIGATION ENTRE QUÊTES
   ========================================================== */
-  pirate1?.addEventListener("click", () => window.location.href = "commerce.html");
-  pirate3?.addEventListener("click", () => window.location.href = "communication.html");
-  pirate4?.addEventListener("click", () => window.location.href = "legal.html");
-  pirate5?.addEventListener("click", () => window.location.href = "finance.html");
+  pirate1?.addEventListener("click", () => {
+    if (!pirate1.classList.contains("locked")) {
+      window.location.href = "commerce.html";
+    }
+  });
+
+  pirate3?.addEventListener("click", () => {
+    if (!pirate3.classList.contains("locked")) {
+      window.location.href = "communication.html";
+    }
+  });
+
+  pirate4?.addEventListener("click", () => {
+    if (!pirate4.classList.contains("locked")) {
+      window.location.href = "legal.html";
+    }
+  });
+
+  pirate5?.addEventListener("click", () => {
+    if (!pirate5.classList.contains("locked")) {
+      window.location.href = "finance.html";
+    }
+  });
 
   /* ==========================================================
-     🔐 FONCTION MOT DE PASSE
+     🔐 OVERLAY MOT DE PASSE
   ========================================================== */
-  function blockMenuWithPassword() {
+  function showPasswordOverlay() {
 
     const overlay = document.createElement("div");
+    overlay.id = "passwordOverlay";
     overlay.style.position = "fixed";
     overlay.style.inset = "0";
     overlay.style.background = "rgba(0,0,0,0.9)";
     overlay.style.zIndex = "9999";
     overlay.style.display = "flex";
-    overlay.style.flexDirection = "column";
-    overlay.style.justifyContent = "center";
     overlay.style.alignItems = "center";
-    overlay.style.color = "#fff";
+    overlay.style.justifyContent = "center";
 
     overlay.innerHTML = `
-      <h2 style="margin-bottom:20px;">🔐 Accès verrouillé</h2>
-      <p style="margin-bottom:15px;">Entre le mot de passe pour continuer</p>
-      <input id="passwordInput" type="password"
-        style="padding:10px;font-size:16px;text-align:center;" />
-      <button id="passwordBtn"
-        style="margin-top:15px;padding:10px 20px;font-size:16px;cursor:pointer;">
-        Valider
-      </button>
-      <p id="errorMsg" style="color:red;margin-top:10px;display:none;">
-        Mot de passe incorrect
-      </p>
+      <div style="
+        background:#140a00;
+        border:2px solid gold;
+        padding:30px 40px;
+        text-align:center;
+        color:#fff2cc;
+        box-shadow:0 0 25px rgba(255,215,0,0.5);
+      ">
+        <h2 style="margin-bottom:15px;color:gold;">🔐 Accès verrouillé</h2>
+        <p>Entre le mot de passe pour continuer</p>
+        <input id="passwordInput" type="password"
+          style="margin-top:10px;padding:10px;font-size:16px;text-align:center;width:200px;" />
+        <br>
+        <button id="passwordBtn"
+          style="margin-top:15px;padding:10px 25px;font-size:16px;cursor:pointer;">
+          Valider
+        </button>
+        <div id="passwordError"
+          style="margin-top:10px;color:#ff4d4d;display:none;">
+          Mot de passe incorrect
+        </div>
+      </div>
     `;
 
     document.body.appendChild(overlay);
 
-    overlay.querySelector("#passwordBtn").addEventListener("click", () => {
-      const value = overlay.querySelector("#passwordInput").value.trim().toLowerCase();
+    const input = overlay.querySelector("#passwordInput");
+    const btn = overlay.querySelector("#passwordBtn");
+    const error = overlay.querySelector("#passwordError");
 
-      if (value === "mashain") {
+    btn.addEventListener("click", validate);
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") validate();
+    });
+
+    function validate() {
+      if (input.value.trim().toLowerCase() === "mashain") {
         localStorage.setItem("code_mashain_valid", "true");
         localStorage.setItem("pirate3_unlocked", "true");
         sessionStorage.removeItem("fromCommerce");
         overlay.remove();
         window.location.reload();
       } else {
-        overlay.querySelector("#errorMsg").style.display = "block";
+        error.style.display = "block";
+        input.value = "";
+        input.focus();
       }
-    });
+    }
   }
 
 });
