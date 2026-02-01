@@ -15,11 +15,18 @@
 ===================================================== -->
 <div id="videoContainer">
 
-  <video id="questVideo" preload="auto" autoplay muted>
+  <video
+    id="questVideo"
+    preload="auto"
+    autoplay
+    muted
+    playsinline
+  >
     <source src="videos/Legalvideo.mov" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
   </video>
 
-  <!-- 🔘 Contrôles vidéo (style pirate) -->
+  <!-- 🔘 Contrôles vidéo -->
   <div class="videoBtns">
     <button id="soundBtn">🔊</button>
     <button id="skipVideo">Passer la vidéo</button>
@@ -28,9 +35,9 @@
 </div>
 
 <!-- =====================================================
-     🌊 SCÈNE PRINCIPALE (VISIBLE APRÈS VIDÉO)
+     🌊 SCÈNE PRINCIPALE
 ===================================================== -->
-<div id="scene">
+<div id="scene" style="display:none;">
 
   <!-- 🏴‍☠️ Pirate Légal -->
   <div id="pirateLegal" class="pirate">
@@ -49,55 +56,19 @@
 </div>
 
 <!-- =====================================================
-     🎮 MINI-JEU 1 — AUTO-ENTREPRENEUR
+     🎮 MINI-JEU 1
 ===================================================== -->
-<div id="miniGame">
-  <h2>Les devoirs de l’auto-entrepreneur</h2>
-  <div id="gameContent"></div>
-</div>
+<div id="miniGame" style="display:none;"></div>
 
 <!-- =====================================================
-     🎮 MINI-JEU 2 — STATUT JURIDIQUE
+     🎮 MINI-JEU 2
 ===================================================== -->
-<div id="miniGame2">
-  <h2>Choisir son statut juridique</h2>
-  <div id="game2Content"></div>
-</div>
+<div id="miniGame2" style="display:none;"></div>
 
 <!-- =====================================================
-     ⏳ LOADER PIRATE UNIQUE
-===================================================== -->
-<div id="loaderGame" class="loader" data-text="Chargement du mini jeu.."></div>
-
-<!-- =====================================================
-     💎 EXPLOSION DE GEMS
-===================================================== -->
-<div id="gems"></div>
-
-<!-- =====================================================
-     🎁 RÉCOMPENSE FINALE
-===================================================== -->
-<div id="reward">
-  <img src="images/Statutsjuridiques.PNG" alt="Statuts juridiques">
-</div>
-
-<!-- =====================================================
-     ⚙️ SCRIPT
+     ⚙️ SCRIPT PRINCIPAL
 ===================================================== -->
 <script src="legal.js"></script>
-
-<script>
-/* =====================================================
-   🔊 BOUTON SON VIDÉO (STYLE PIRATE)
-===================================================== */
-const video = document.getElementById("questVideo");
-const soundBtn = document.getElementById("soundBtn");
-
-soundBtn.addEventListener("click", () => {
-  video.muted = !video.muted;
-  soundBtn.textContent = video.muted ? "🔊" : "🔈";
-});
-</script>
 
 </body>
 </html>
