@@ -1,40 +1,38 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================================================
-     🎬 VIDÉO INTRO
+     🎬 VIDÉO INTRO + ⏳ LOADING
   ===================================================== */
   const videoContainer = document.getElementById("videoContainer");
   const video = document.getElementById("questVideo");
   const skipBtn = document.getElementById("skipVideo");
 
-  const loader = document.getElementById("loader");
-  const loaderGame = document.getElementById("loaderGame");
   const scene = document.getElementById("scene");
+  const loaderGame = document.getElementById("loaderGame");
+
+  // ⏳ indicateur vidéo
+  const videoLoader = document.createElement("div");
+  videoLoader.innerText = "⏳";
+  videoLoader.style.position = "absolute";
+  videoLoader.style.fontSize = "48px";
+  videoLoader.style.color = "gold";
+  videoLoader.style.zIndex = "4000";
+  videoContainer.appendChild(videoLoader);
+
+  video.addEventListener("canplaythrough", () => {
+    videoLoader.remove();
+  });
 
   skipBtn.onclick = endVideo;
   video.onended = endVideo;
 
   function endVideo(){
     videoContainer.style.display = "none";
-    showLoader(loader, "Chargement..", 1200, () => {
-      scene.style.display = "block";
-    });
+    scene.style.display = "block";
   }
 
   /* =====================================================
-     ⏳ LOADER UTILITAIRE
-  ===================================================== */
-  function showLoader(el, text, duration, callback){
-    el.setAttribute("data-text", text);
-    el.style.display = "flex";
-    setTimeout(() => {
-      el.style.display = "none";
-      if(callback) callback();
-    }, duration);
-  }
-
-  /* =====================================================
-     🏴‍☠️ DIALOGUES INTRO (CLIQUABLES)
+     🏴‍☠️ DIALOGUES INTRO
   ===================================================== */
   const pirateLegal = document.getElementById("pirateLegal");
   const dLegal = document.getElementById("dialogueLegal");
@@ -48,11 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let introIndex = 0;
 
-  pirateLegal.addEventListener("click", () => {
-    pirateLegal.style.filter = "none";
-    pirateLegal.style.transform = "scale(1)";
+  pirateLegal.onclick = () => {
     showIntroDialogue();
-  });
+  };
 
   function showIntroDialogue(){
     if(introIndex >= introDialogues.length){
@@ -60,25 +56,25 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const current = introDialogues[introIndex];
-    current.el.innerHTML = `<p>${current.text}</p>`;
-    current.el.style.display = "block";
+    const cur = introDialogues[introIndex];
+    cur.el.innerHTML = `<p>${cur.text}</p>`;
+    cur.el.style.display = "block";
 
-    current.el.onclick = () => {
-      current.el.style.display = "none";
-      current.el.onclick = null;
+    cur.el.onclick = () => {
+      cur.el.style.display = "none";
+      cur.el.onclick = null;
       introIndex++;
       showIntroDialogue();
     };
   }
 
   /* =====================================================
-     🎮 MINI-JEU 1 — AUTO-ENTREPRENEUR
+     🎮 MINI-JEU 1 — AUTO-ENTREPRENEUR (QCM MULTI)
   ===================================================== */
   const miniGame = document.getElementById("miniGame");
   const gameContent = document.getElementById("gameContent");
 
-  const questions1 = [
+  const questions = [
     {
       q: "Où dois-je m’inscrire pour être auto-entrepreneur ?",
       answers: ["Sur le site de l’URSSAF", "À la banque", "À la mairie"],
@@ -100,50 +96,80 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
-  let q1Index = 0;
-  let score1 = 0;
+  let qIndex = 0;
+  let selected = [];
 
   function startMiniGame1(){
     scene.classList.add("sceneDark");
-    showLoader(loaderGame, "Chargement du mini jeu..", 1000, () => {
+    loaderGame.setAttribute("data-text","Chargement du mini jeu..");
+    loaderGame.style.display = "flex";
+
+    setTimeout(()=>{
+      loaderGame.style.display = "none";
       miniGame.style.display = "block";
-      showQuestion1();
-    });
+      showQuestion();
+    },1000);
   }
 
-  function showQuestion1(){
-    const q = questions1[q1Index];
+  function showQuestion(){
+    selected = [];
+    const q = questions[qIndex];
     gameContent.innerHTML = `<p>${q.q}</p>`;
 
-    q.answers.forEach((txt, i) => {
+    q.answers.forEach((txt,i)=>{
       const btn = document.createElement("button");
       btn.textContent = txt;
-      btn.onclick = () => {
-        if(q.good.includes(i)) score1++;
-        q1Index++;
-        q1Index < questions1.length ? showQuestion1() : endMiniGame1();
-      };
+      btn.onclick = () => toggleAnswer(btn,i);
       gameContent.appendChild(btn);
     });
+
+    const validate = document.createElement("button");
+    validate.textContent = "Valider";
+    validate.onclick = checkAnswer;
+    gameContent.appendChild(validate);
+  }
+
+  function toggleAnswer(btn,i){
+    if(selected.includes(i)){
+      selected = selected.filter(x=>x!==i);
+      btn.classList.remove("selected");
+    }else{
+      selected.push(i);
+      btn.classList.add("selected");
+    }
+  }
+
+  function checkAnswer(){
+    const good = questions[qIndex].good.sort().join(",");
+    const user = selected.sort().join(",");
+
+    if(good === user){
+      qIndex++;
+      qIndex < questions.length ? showQuestion() : endMiniGame1();
+    }else{
+      vibratePage();
+    }
+  }
+
+  function vibratePage(){
+    document.body.classList.add("shake");
+    setTimeout(()=>document.body.classList.remove("shake"),350);
   }
 
   function endMiniGame1(){
     miniGame.style.display = "none";
     scene.classList.remove("sceneDark");
-
-    if(score1 === questions1.length){
-      explodeGems();
-      setTimeout(startDialogues2, 1200);
-    }
+    explodeGems();
+    setTimeout(startDialogues2,1200);
   }
 
   /* =====================================================
-     💬 DIALOGUES 2 — TRANSITION STATUTS
+     💬 DIALOGUES 2 — STATUTS
   ===================================================== */
   const dialogues2 = [
-    { el: dLegal, text: "L’auto-entrepreneuriat est un bon départ… mais parfois, créer une société devient nécessaire." },
-    { el: dPirate, text: "Il existe plusieurs statuts juridiques selon ta situation." },
-    { el: dLegal, text: "Je vais t’aider à choisir, en te posant quelques questions." }
+    { el: dLegal, text: "Quand ton trésor grandit, il faut parfois créer une société." },
+    { el: dPirate, text: "Mais comment choisir le bon statut ?" },
+    { el: dLegal, text: "Je vais t’aider à décider." }
   ];
 
   let d2Index = 0;
@@ -162,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cur.el.innerHTML = `<p>${cur.text}</p>`;
     cur.el.style.display = "block";
 
-    cur.el.onclick = () => {
+    cur.el.onclick = ()=>{
       cur.el.style.display = "none";
       cur.el.onclick = null;
       d2Index++;
@@ -171,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================================================
-     🎮 MINI-JEU 2 — CHOIX DU STATUT
+     🎮 MINI-JEU 2 — STATUT JURIDIQUE
   ===================================================== */
   const miniGame2 = document.getElementById("miniGame2");
   const game2Content = document.getElementById("game2Content");
@@ -190,63 +216,53 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  window.__solo = function(){
+  window.__solo = () => {
     game2Content.innerHTML += `
       <div class="infoBox">
-        <b>Tu peux choisir :</b><br><br>
-        EI – Entreprise Individuelle<br>
-        EURL – Protection du patrimoine<br>
-        SASU – Image professionnelle et flexible
-      </div>
-    `;
-    setTimeout(showQ2_2, 1200);
+        EI – Simple<br>
+        EURL – Protège le patrimoine<br>
+        SASU – Image professionnelle
+      </div>`;
+    setTimeout(showQ2_2,1200);
   };
 
-  window.__group = function(){
+  window.__group = () => {
     game2Content.innerHTML += `
       <div class="infoBox">
-        <b>Tu peux choisir :</b><br><br>
-        SARL – Structure encadrée<br>
-        SAS – Grande flexibilité
-      </div>
-    `;
-    setTimeout(showQ2_2, 1200);
+        SARL – Sécurisée<br>
+        SAS – Flexible
+      </div>`;
+    setTimeout(showQ2_2,1200);
   };
 
   function showQ2_2(){
     game2Content.innerHTML = `
-      <p>Pourquoi veux-tu changer de statut juridique ?</p>
-      <button onclick="window.__info('EI – Entrepreneur Individuel')">Simplifier mes démarches</button>
-      <button onclick="window.__info('EURL – Plus de rentabilité')">Pour plus de rentabilité</button>
-      <button onclick="window.__info('SASU – Image luxueuse')">Image luxueuse</button>
-      <button onclick="window.__info('SARL – Projet à risques')">Projet à risques avec investisseurs</button>
-      <button onclick="window.__info('SAS – Stabilité en équipe')">Travail en équipe</button>
+      <p>Pourquoi veux-tu changer de statut ?</p>
+      <button onclick="showQ2_3()">Simplifier mes démarches</button>
+      <button onclick="showQ2_3()">Plus de rentabilité</button>
+      <button onclick="showQ2_3()">Image luxueuse</button>
+      <button onclick="showQ2_3()">Projet à risques</button>
+      <button onclick="showQ2_3()">Travail en équipe</button>
     `;
   }
-
-  window.__info = function(txt){
-    game2Content.innerHTML += `<div class="infoBox">${txt}</div>`;
-    setTimeout(showQ2_3, 1200);
-  };
 
   function showQ2_3(){
     game2Content.innerHTML = `
-      <p>Quand dois-tu passer de l’auto-entrepreneur à une entreprise ?</p>
-      <button onclick="endMiniGame2(true)">CA > 60-70k</button>
-      <button onclick="endMiniGame2(true)">Embauche et protection</button>
-      <button onclick="endMiniGame2(true)">Charges faibles vs CA</button>
-      <button onclick="endMiniGame2(false)">Quand je le décide</button>
+      <p>Quand dois-tu quitter l’auto-entrepreneuriat ?</p>
+      <button onclick="endMiniGame2(true)">CA &gt; 60-70k</button>
+      <button onclick="endMiniGame2(true)">Embauche / protection</button>
+      <button onclick="endMiniGame2(true)">Charges faibles</button>
+      <button onclick="vibratePage()">Quand je le décide</button>
     `;
   }
 
-  window.endMiniGame2 = function(success){
+  window.endMiniGame2 = (success)=>{
+    if(!success){ vibratePage(); return; }
+
     miniGame2.style.display = "none";
     scene.classList.remove("sceneDark");
-
-    if(success){
-      explodeGems();
-      setTimeout(showReward, 1200);
-    }
+    explodeGems();
+    setTimeout(showReward,1200);
   };
 
   /* =====================================================
@@ -260,24 +276,21 @@ document.addEventListener("DOMContentLoaded", () => {
       gem.className = "gem";
       gem.style.left = "50%";
       gem.style.top = "50%";
-      gem.style.setProperty("--x", `${Math.random()*600-300}px`);
-      gem.style.setProperty("--y", `${Math.random()*600-300}px`);
+      gem.style.setProperty("--x",`${Math.random()*600-300}px`);
+      gem.style.setProperty("--y",`${Math.random()*600-300}px`);
       g.appendChild(gem);
     }
     setTimeout(()=>g.innerHTML="",1600);
   }
 
   /* =====================================================
-     🎁 RÉCOMPENSE FINALE
+     🎁 RÉCOMPENSE
   ===================================================== */
   const reward = document.getElementById("reward");
 
   function showReward(){
     reward.style.display = "flex";
-    setTimeout(()=>{
-      reward.style.display = "none";
-      // retour scène libre pour suite KIT IN
-    },3000);
+    setTimeout(()=>reward.style.display="none",3000);
   }
 
 });
