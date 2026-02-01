@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   🎬 VIDEO → SCÈNE
+   🎬 VIDÉO → SCÈNE
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("questVideo");
@@ -14,46 +14,62 @@ video.onended = endVideo;
 function endVideo(){
   videoContainer.style.display = "none";
   scene.style.display = "block";
-  startDialogue1();
+  enablePirateHover();
+}
+
+/* =====================================================
+   🏴‍☠️ PIRATE LEGAL — ANIMATION CONTRÔLÉE
+===================================================== */
+const pirateLegal = document.getElementById("pirateLegal");
+
+function enablePirateHover(){
+  pirateLegal.classList.remove("noGlow");
+  pirateLegal.onclick = startDialogue1;
+}
+
+function disablePirateHover(){
+  pirateLegal.classList.add("noGlow");
+  pirateLegal.onclick = null;
 }
 
 /* =====================================================
    💬 DIALOGUE 1
 ===================================================== */
-const pirateLegal = document.getElementById("pirateLegal");
 const dLegal = document.getElementById("dialogueLegal");
 const dPirate = document.getElementById("dialoguePirate");
 
 const dialogue1 = [
-  { el:dLegal, text:"Pour vendre nos pierres légalement, nous devons nous inscrire comme auto-entrepreneurs à l’URSSAF." },
-  { el:dPirate, text:"Sans inscription, même un commerce honnête devient illégal." },
-  { el:dLegal, text:"Passons à l’épreuve des devoirs légaux." }
+  { el: dLegal, text: "Pour vendre nos pierres légalement, nous devons nous inscrire comme auto-entrepreneurs à l’URSSAF." },
+  { el: dPirate, text: "Sans inscription, même un commerce honnête devient illégal." }
 ];
 
 let d1 = 0;
 
 function startDialogue1(){
-  pirateLegal.onclick = showDialogue1;
+  disablePirateHover();
+  showDialogue1();
 }
 
 function showDialogue1(){
   if(d1 >= dialogue1.length){
+    hideDialogs();
     startMiniGame1();
     return;
   }
+
   const cur = dialogue1[d1];
   cur.el.innerHTML = `<p>${cur.text}</p>`;
   cur.el.style.display = "block";
-  cur.el.onclick = ()=>{
-    cur.el.style.display="none";
-    cur.el.onclick=null;
+
+  cur.el.onclick = () => {
+    cur.el.style.display = "none";
     d1++;
     showDialogue1();
   };
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — QCM STYLE FINANCE
+   🎮 MINI-JEU 1 — QCM
 ===================================================== */
 const miniGame = document.getElementById("miniGame");
 
@@ -84,13 +100,15 @@ let goodCount = 0;
 
 function startMiniGame1(){
   scene.classList.add("sceneDark");
+  miniGame.style.display = "block";
+
   miniGame.innerHTML = `
     <h3>📜 Les devoirs de l’auto-entrepreneur</h3>
     <p id="qText"></p>
     <div id="qChoices"></div>
   `;
-  miniGame.style.display="block";
-  qIndex=0;
+
+  qIndex = 0;
   showQuestion();
 }
 
@@ -101,8 +119,8 @@ function showQuestion(){
   qChoices.innerHTML = "";
 
   const answers = [
-    ...questions[qIndex].good.map(t=>({t,ok:true})),
-    ...questions[qIndex].bad.map(t=>({t,ok:false}))
+    ...questions[qIndex].good.map(t => ({t, ok:true})),
+    ...questions[qIndex].bad.map(t => ({t, ok:false}))
   ].sort(()=>Math.random()-0.5);
 
   answers.forEach(a=>{
@@ -117,7 +135,7 @@ function showQuestion(){
           qIndex++;
           qIndex < questions.length ? showQuestion() : endMiniGame1();
         }
-      }else{
+      } else {
         shake();
       }
     };
@@ -126,7 +144,7 @@ function showQuestion(){
 }
 
 function endMiniGame1(){
-  miniGame.style.display="none";
+  miniGame.style.display = "none";
   scene.classList.remove("sceneDark");
   startDialogue2();
 }
@@ -135,33 +153,36 @@ function endMiniGame1(){
    💬 DIALOGUE 2
 ===================================================== */
 const dialogue2 = [
-  { el:dLegal, text:"L’auto-entrepreneuriat a ses limites." },
-  { el:dPirate, text:"Créer une société devient parfois indispensable." },
-  { el:dLegal, text:"Je vais t’aider à choisir ton statut." }
+  { el:dLegal, text:"L’auto-entrepreneuriat est un bon départ…" },
+  { el:dPirate, text:"…mais quand le trésor grandit, créer une société devient nécessaire." }
 ];
 
 let d2 = 0;
 
-function startDialogue2(){ showDialogue2(); }
+function startDialogue2(){
+  showDialogue2();
+}
 
 function showDialogue2(){
   if(d2 >= dialogue2.length){
+    hideDialogs();
     startMiniGame2();
     return;
   }
+
   const cur = dialogue2[d2];
   cur.el.innerHTML = `<p>${cur.text}</p>`;
-  cur.el.style.display="block";
-  cur.el.onclick=()=>{
-    cur.el.style.display="none";
-    cur.el.onclick=null;
+  cur.el.style.display = "block";
+
+  cur.el.onclick = ()=>{
+    cur.el.style.display = "none";
     d2++;
     showDialogue2();
   };
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — COLONNES + CLICS OBLIGATOIRES
+   🎮 MINI-JEU 2 — STATUTS
 ===================================================== */
 const miniGame2 = document.getElementById("miniGame2");
 const game2Content = document.getElementById("game2Content");
@@ -169,13 +190,13 @@ const game2Content = document.getElementById("game2Content");
 let q1Clicks = new Set();
 let q2Clicks = new Set();
 
-/* -------- QUESTION 1 -------- */
 function startMiniGame2(){
   scene.classList.add("sceneDark");
-  miniGame2.style.display="block";
+  miniGame2.style.display = "block";
   showMG2_Q1();
 }
 
+/* Question 1 */
 function showMG2_Q1(){
   q1Clicks.clear();
   game2Content.innerHTML = `
@@ -192,20 +213,17 @@ function showMG2_Q1(){
 
 window.mg2_q1 = (type)=>{
   q1Clicks.add(type);
-  const right = document.getElementById("mg2Right");
+  document.getElementById("mg2Right").innerHTML =
+    type === "solo"
+      ? `<div class="infoBox">EI • EURL • SASU</div>`
+      : `<div class="infoBox">SARL • SAS</div>`;
 
-  if(type==="solo"){
-    right.innerHTML = `<div class="infoBox">EI • EURL • SASU</div>`;
-  }else{
-    right.innerHTML = `<div class="infoBox">SARL • SAS</div>`;
-  }
-
-  if(q1Clicks.size===2){
-    setTimeout(showMG2_Q2,1200);
+  if(q1Clicks.size === 2){
+    setTimeout(showMG2_Q2, 1000);
   }
 };
 
-/* -------- QUESTION 2 -------- */
+/* Question 2 */
 function showMG2_Q2(){
   q2Clicks.clear();
   game2Content.innerHTML = `
@@ -228,30 +246,13 @@ window.mg2_q2 = (key,text)=>{
   q2Clicks.add(key);
   document.getElementById("mg2Right").innerHTML = `<div class="infoBox">${text}</div>`;
 
-  if(q2Clicks.size===5){
-    setTimeout(showMG2_Q3,1500);
+  if(q2Clicks.size === 5){
+    setTimeout(endMiniGame2, 1200);
   }
 };
 
-/* -------- QUESTION 3 -------- */
-function showMG2_Q3(){
-  game2Content.innerHTML = `
-    <p>Quand dois-tu quitter l’auto-entrepreneuriat ?</p>
-    <div id="game2Choices">
-      <button onclick="endMiniGame2(true)">CA > 60–70k</button>
-      <button onclick="endMiniGame2(true)">Embaucher / se protéger</button>
-      <button onclick="endMiniGame2(true)">Charges faibles</button>
-      <button onclick="shake()">Quand je le décide</button>
-    </div>
-  `;
-}
-
-function endMiniGame2(success){
-  if(!success){
-    shake();
-    return;
-  }
-  miniGame2.style.display="none";
+function endMiniGame2(){
+  miniGame2.style.display = "none";
   scene.classList.remove("sceneDark");
   startDialogue3();
 }
@@ -260,31 +261,38 @@ function endMiniGame2(success){
    💬 DIALOGUE 3 — CONCLUSION
 ===================================================== */
 const dialogue3 = [
-  { el:dLegal, text:"Tu connais maintenant les règles juridiques du royaume." },
-  { el:dPirate, text:"Notre trésor est protégé." },
-  { el:dLegal, text:"L’aventure peut continuer." }
+  { el:dLegal, text:"Tu connais désormais les règles juridiques du royaume." },
+  { el:dPirate, text:"Notre trésor est protégé." }
 ];
 
 let d3 = 0;
 
-function startDialogue3(){ showDialogue3(); }
+function startDialogue3(){
+  showDialogue3();
+}
 
 function showDialogue3(){
   if(d3 >= dialogue3.length) return;
+
   const cur = dialogue3[d3];
   cur.el.innerHTML = `<p>${cur.text}</p>`;
-  cur.el.style.display="block";
-  cur.el.onclick=()=>{
-    cur.el.style.display="none";
-    cur.el.onclick=null;
+  cur.el.style.display = "block";
+
+  cur.el.onclick = ()=>{
+    cur.el.style.display = "none";
     d3++;
     showDialogue3();
   };
 }
 
 /* =====================================================
-   📳 SHAKE
+   🧹 UTILITAIRES
 ===================================================== */
+function hideDialogs(){
+  dLegal.style.display = "none";
+  dPirate.style.display = "none";
+}
+
 function shake(){
   document.body.classList.add("shake");
   setTimeout(()=>document.body.classList.remove("shake"),350);
