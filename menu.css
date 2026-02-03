@@ -48,10 +48,10 @@ html, body{
 /* 📍 POSITIONS (fixes et respectées) */
 /* ================================================= */
 
-#pirate1 { left: 173px; top: 510px; width: 163px; height: 235px; }
-#pirate2 { left: 915px; top: 697px; width: 186px; height: 178px; }
-#pirate3 { left: 736px; top: 363px; width: 133px; height: 217px; }
-#pirate5 { left: 240px; top: 190px; width: 163px; height: 235px; }
+#pirate1 { left: 173px; top: 507px; width: 163px; height: 235px; }
+#pirate2 { left: 910px; top: 690px; width: 186px; height: 178px; }
+#pirate3 { left: 736px; top: 357px; width: 133px; height: 217px; }
+#pirate5 { left: 240px; top: 185px; width: 163px; height: 235px; }
 #pirate4 { left: 1139px; top: 28px; width: 163px; height: 235px; }
 
 /* empêche mobile d'écraser ces positions */
