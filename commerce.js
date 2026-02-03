@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   🔗 RÉFÉRENCES DOM (ALIGNÉES HTML)
+   🔗 RÉFÉRENCES DOM (HTML RÉEL)
 ===================================================== */
 const background = document.getElementById("background");
 
@@ -39,13 +39,14 @@ const continueBtn = document.getElementById("continueQuestBtn");
 
 /* === JUGEMENT FINAL === */
 const merchantGame = document.getElementById("merchantGame");
+const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
    🔧 OUTILS
 ===================================================== */
 const vibrate = (p = 20) => navigator.vibrate && navigator.vibrate(p);
 
-function showLoader(text, time = 1000, cb) {
+function showLoader(text, time = 900, cb) {
   loaderBox.innerHTML = text;
   fadeScreen.classList.remove("hidden");
   setTimeout(() => {
@@ -91,23 +92,31 @@ function showScene() {
 }
 
 /* =====================================================
-   💬 MOTEUR DE DIALOGUES
+   💬 MOTEUR DE DIALOGUES (CORRIGÉ)
 ===================================================== */
 let dialogues = [];
 let index = 0;
 let callback = null;
+let dialogueRunning = false;
 
 function playDialogues(list, cb) {
   dialogues = list;
   index = 0;
   callback = cb;
+  dialogueRunning = true;
   skipBtn.classList.remove("hidden");
   renderDialogue();
 }
 
 function renderDialogue() {
+  if (!dialogueRunning) return;
+
   bubbleContainer.innerHTML = "";
-  if (index >= dialogues.length) return endDialogues();
+
+  if (index >= dialogues.length) {
+    endDialogues();
+    return;
+  }
 
   const d = dialogues[index];
   const bubble = document.createElement("div");
@@ -119,7 +128,8 @@ function renderDialogue() {
   bubble.style.top = (r.top - 90 < 30 ? r.bottom + 12 : r.top - 90) + "px";
   bubble.style.transform = "translateX(-50%)";
 
-  bubble.onclick = () => {
+  bubble.onclick = (e) => {
+    e.stopPropagation();
     vibrate();
     index++;
     renderDialogue();
@@ -129,9 +139,13 @@ function renderDialogue() {
 }
 
 function endDialogues() {
+  dialogueRunning = false;
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
-  callback && setTimeout(callback, 300);
+
+  setTimeout(() => {
+    typeof callback === "function" && callback();
+  }, 200);
 }
 
 skipBtn.onclick = endDialogues;
@@ -163,6 +177,7 @@ function startCommunicationGame() {
   answers.forEach(a => {
     const btn = document.createElement("button");
     btn.textContent = a.text;
+
     btn.onclick = () => {
       vibrate();
       if (a.ok) {
@@ -176,6 +191,7 @@ function startCommunicationGame() {
         setTimeout(() => btn.classList.remove("shake"), 400);
       }
     };
+
     commAnswers.appendChild(btn);
   });
 }
@@ -190,14 +206,15 @@ function startClientsLoader() {
   const interval = setInterval(() => {
     count++;
     clientCount.textContent = count;
+
     if (count >= 10) {
       clearInterval(interval);
       setTimeout(() => {
         clientsLoader.classList.add("hidden");
         startVisualDialogues();
-      }, 800);
+      }, 600);
     }
-  }, 150);
+  }, 120);
 }
 
 /* =====================================================
@@ -235,10 +252,11 @@ function startVisualGame() {
   [
     { text: "Logo", ok: true },
     { text: "Couleurs", ok: true },
-    { text: "Bateau plus grand", ok: false }
+    { text: "Agrandir le bateau", ok: false }
   ].forEach(c => {
     const btn = document.createElement("button");
     btn.textContent = c.text;
+
     btn.onclick = () => {
       vibrate();
       if (c.ok) {
@@ -246,12 +264,13 @@ function startVisualGame() {
         setTimeout(() => {
           visualGame.classList.add("hidden");
           showBook();
-        }, 800);
+        }, 700);
       } else {
         btn.classList.add("shake");
         setTimeout(() => btn.classList.remove("shake"), 400);
       }
     };
+
     visualChoices.appendChild(btn);
   });
 }
@@ -281,8 +300,10 @@ continueBtn.onclick = () => {
    ⚖️ MINI-JEU FINAL
 ===================================================== */
 function startFinalGame() {
+  pirate3.classList.remove("hidden");
   merchantGame.classList.remove("hidden");
-  document.getElementById("btnKeep").onclick = endQuest;
+
+  btnKeep.onclick = endQuest;
 }
 
 /* =====================================================
