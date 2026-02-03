@@ -12,7 +12,7 @@
 <body>
 
 <!-- =====================================================
-     🎬 VIDÉO D’INTRO
+     🎬 VIDÉO INTRO
 ===================================================== -->
 <div id="videoContainer">
   <video id="questVideo" autoplay muted playsinline preload="auto">
@@ -25,6 +25,15 @@
 </div>
 
 <!-- =====================================================
+     🌑 LOADER GLOBAL
+===================================================== -->
+<div id="fadeScreen" class="hidden">
+  <div class="loaderBox">
+    Chargement…
+  </div>
+</div>
+
+<!-- =====================================================
      🌅 BACKGROUND
 ===================================================== -->
 <div id="background" class="hidden">
@@ -34,9 +43,9 @@
 <!-- =====================================================
      🏴‍☠️ PIRATES
 ===================================================== -->
-<img src="images/Pirate2.png" id="pirate2bis" class="hidden" alt="Pirate apprenti">
+<img src="images/Pirate2.png" id="pirate2bis" class="hidden" alt="Pirate conseiller">
 <img src="images/Pirate5.png" id="pirate5bis" class="hidden" alt="Maître pirate">
-<img src="images/Pirateclients.png" id="pirate3bis" class="hidden" alt="Clients pirates">
+<img src="images/Pirateclients.png" id="pirate3bis" class="hidden" alt="Pirate client">
 
 <!-- =====================================================
      💬 BULLES DE DIALOGUE
@@ -48,23 +57,14 @@
 </button>
 
 <!-- =====================================================
-     🌑 LOADER GLOBAL
-===================================================== -->
-<div id="fadeScreen" class="hidden">
-  <div class="loaderBox">
-    Chargement…
-  </div>
-</div>
-
-<!-- =====================================================
-     🎮 MINI-JEU 1 — BUSINESS PLAN / ÉTUDE DE MARCHÉ
+     🎮 MINI-JEU 1 — ÉTUDE DE MARCHÉ
 ===================================================== -->
 <div id="communicationGame" class="hidden">
 
   <div class="quizBox">
 
     <div class="quizTitle">
-      📊 Comprendre le marché
+      📊 Étude de marché
     </div>
 
     <div class="quizSeparator"></div>
@@ -73,102 +73,50 @@
 
     <div id="commAnswers"></div>
 
-    <div id="commFeedback" class="hidden"></div>
-
-  </div>
-</div>
-
-<!-- =====================================================
-     ⏳ LOADER CLIENTS
-===================================================== -->
-<div id="clientsLoader" class="hidden">
-  <div class="loaderBox">
-    <p><strong>Des clients arrivent au marché…</strong></p>
-    <p>Clients : <span id="clientCount">0</span>/10</p>
-  </div>
-</div>
-
-<!-- =====================================================
-     💬 DIALOGUES IDENTITÉ VISUELLE
-===================================================== -->
-<div id="visualDialogues" class="hidden">
-
-  <div class="dialogBubble">
-    Pirate 2 : Dis, tu trouves mon flyer correct ?
-  </div>
-
-  <div class="dialogBubble hidden">
-    Pirate client : Il manque un logo et les couleurs ne sont pas cohérentes.
-  </div>
-
-  <div class="dialogBubble hidden">
-    Pirate 2 : Que doit-on modifier pour attirer plus de clients ?
-  </div>
-
-  <div class="dialogBubble hidden">
-    Pirate client : Il faut une vraie identité visuelle.
-  </div>
-
-  <div class="dialogBubble hidden">
-    Pirate 2 : Logo, couleurs et style graphique… j’ai compris !
   </div>
 
 </div>
 
 <!-- =====================================================
-     🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
+     🎮 MINI-JEU 2 — IDENTITÉ VISUELLE / BUSINESS PLAN
 ===================================================== -->
 <div id="visualIdentityGame" class="hidden">
 
   <div class="quizBox">
 
     <div class="quizTitle">
-      🎨 L’identité visuelle
+      🧠 Construction du business plan
     </div>
 
     <div class="quizSeparator"></div>
 
-    <div id="visualIntro">
-      Choisis les bons éléments pour construire ton identité visuelle.
-    </div>
-
     <div id="visualChoices"></div>
+
     <div id="visualFeedback"></div>
 
   </div>
-</div>
-
-<!-- =====================================================
-     📖 LIVRE — BUSINESS PLAN
-===================================================== -->
-<div id="bookContainer" class="hidden">
-
-  <div class="book">
-    <img id="leftPage" alt="Page gauche">
-    <img id="rightPage" alt="Page droite">
-  </div>
-
-  <button id="continueQuestBtn" class="hidden">
-    Poursuivre la quête
-  </button>
 
 </div>
 
 <!-- =====================================================
-     ⚖️ MINI-JEU FINAL — JUGEMENT DU MARCHÉ
+     🎮 MINI-JEU 3 — JUGEMENT DU MARCHÉ
 ===================================================== -->
 <div id="merchantGame" class="hidden">
 
   <h2>⚖️ Le Jugement du Marché</h2>
 
-  <p>📦 Ton prix : <strong>300 PO</strong></p>
-  <p>🏷️ Concurrents : <strong>250 PO</strong></p>
-
   <p>
-    « J’ai vu un produit similaire moins cher dans un autre port… »
+    📦 Prix de ton produit : <strong>300 PO</strong><br>
+    🏷️ Prix des concurrents : <strong>250 PO</strong>
   </p>
 
-  <button id="btnKeep">Maintenir le prix</button>
+  <p>
+    « J’ai vu ce produit moins cher dans un autre port… »
+  </p>
+
+  <button id="btnKeep">
+    ⚖️ Maintenir le prix
+  </button>
 
 </div>
 
