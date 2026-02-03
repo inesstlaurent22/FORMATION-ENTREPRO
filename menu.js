@@ -57,27 +57,30 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     🔄 TRANSFERT SESSION → LOCAL
+     🔄 TRANSFERT SESSION → LOCAL (DÉBLOCAGES)
   ========================================================== */
   let newUnlock = false;
+
   ["pirate1","pirate3","pirate4","pirate5"].forEach(id => {
     if (sessionStorage.getItem(`unlock_${id}`) === "true") {
-      if (localStorage.getItem(`${id}_unlocked`) !== "true") newUnlock = true;
+      if (localStorage.getItem(`${id}_unlocked`) !== "true") {
+        newUnlock = true;
+      }
       localStorage.setItem(`${id}_unlocked`, "true");
       sessionStorage.removeItem(`unlock_${id}`);
     }
   });
 
   /* ==========================================================
-     🔐 RETOUR COMMERCE → MOT DE PASSE (UNE SEULE FOIS)
+     🔐 SAS MOT DE PASSE (SANS IMPACT SUR PROGRESSION)
   ========================================================== */
   const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
-  const codeValid = localStorage.getItem("code_mashain_valid") === "true";
+  const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
 
-  if (fromCommerce && !codeValid) {
-    showNotification("🔐 Mot de passe requis pour continuer");
-    setTimeout(showPasswordOverlay, 600);
-    return; // stop le menu tant que pas validé
+  if (fromCommerce && !passwordCleared) {
+    showNotification("🔐 Accès sécurisé requis");
+    setTimeout(showPasswordOverlay, 500);
+    return; // ⛔ stop menu tant que non validé
   }
 
   /* ==========================================================
@@ -94,13 +97,17 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      🎉 NOTIFICATION NOUVEAU PIRATE
   ========================================================== */
-  if (newUnlock) showNotification("🏆 Bravo, tu as débloqué un nouveau pirate !");
+  if (newUnlock) {
+    showNotification("🏆 Bravo, tu as débloqué un nouveau pirate !");
+  }
 
   /* ==========================================================
      💬 BULLE INFO
   ========================================================== */
   if (bubbleButton) {
-    bubbleButton.onclick = () => bubble.style.display = "none";
+    bubbleButton.onclick = () => {
+      bubble.style.display = "none";
+    };
   }
 
   /* ==========================================================
@@ -115,12 +122,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   pirates.forEach(p => {
     const target = navMap[p.id];
-    if (target) {
-      p.addEventListener("click", () => {
-        if(p.id === "pirate1") sessionStorage.setItem("fromMenu", "true"); // exemple si besoin
-        location.href = target;
-      });
-    }
+    if (!target) return;
+
+    p.addEventListener("click", () => {
+      location.href = target;
+    });
   });
 
   /* ==========================================================
@@ -137,9 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <p>Entre le mot de passe pour continuer</p>
         <input id="passwordInput" type="password" autofocus />
         <button id="passwordBtn">Valider</button>
-        <div id="passwordError" style="display:none;color:red;margin-top:8px">
-          Mot de passe incorrect
-        </div>
+        <div id="passwordError">Mot de passe incorrect</div>
       </div>
     `;
 
@@ -154,10 +158,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function validate() {
       if (input.value.trim().toLowerCase() === "mashain") {
-        localStorage.setItem("code_mashain_valid", "true"); // validation définitive
-        localStorage.setItem("pirate3_unlocked", "true");   // déblocage pirate 3
-        sessionStorage.removeItem("fromCommerce");          // nettoyage
+
+        // ✅ lève le sas pour cette session uniquement
+        sessionStorage.setItem("passwordCleared", "true");
+        sessionStorage.removeItem("fromCommerce");
+
+        // 🔄 recharge → l’encart disparaît
         location.reload();
+
       } else {
         error.style.display = "block";
         input.value = "";
@@ -167,13 +175,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     🔔 Fonction notification
+     🔔 NOTIFICATION
   ========================================================== */
   function showNotification(text) {
     if (!notification) return;
     notification.textContent = text;
     notification.classList.add("show");
-    setTimeout(() => notification.classList.remove("show"), 3000);
+    setTimeout(() => {
+      notification.classList.remove("show");
+    }, 3000);
   }
 
 });
