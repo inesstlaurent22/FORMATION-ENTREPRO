@@ -104,20 +104,50 @@ html, body {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES
+   🏴‍☠️ PIRATES — POSITIONS FINALES
 ===================================================== */
-#pirate2bis,
-#pirate3bis,
-#pirate5bis {
+
+/* Pirate 2 */
+#pirate2bis {
   position: absolute;
+  left: 519px;   /* X */
+  top: 429px;    /* Y */
+  width: 186px;  /* W */
+  height: 178px; /* H */
   z-index: 5;
   cursor: pointer;
   transition: transform .3s ease, filter .3s ease;
 }
 
+/* Pirate 5 */
+#pirate5bis {
+  position: absolute;
+  left: 930px;   /* X */
+  top: 286px;    /* Y */
+  width: 143px;  /* W */
+  height: 187px; /* H */
+  z-index: 6;
+  cursor: pointer;
+  transition: transform .3s ease, filter .3s ease;
+}
+
+/* Pirate Client (Pirate 3) */
+#pirate3bis {
+  position: absolute;
+  left: 638px;   /* X */
+  top: 177px;    /* Y */
+  width: 235px;  /* W */
+  height: 217px; /* H */
+  z-index: 5;
+  cursor: pointer;
+  transition: transform .3s ease, filter .3s ease;
+}
+
+/* Effet hover / glow */
+#pirate2bis:hover,
 #pirate5bis:hover,
 #pirate3bis:hover,
-#pirate2bis:hover {
+.glow {
   transform: scale(1.08);
   filter: drop-shadow(0 0 28px gold);
 }
