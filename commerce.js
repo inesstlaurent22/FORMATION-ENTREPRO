@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   📌 ELEMENTS DOM
+   🔗 RÉFÉRENCES DOM (ALIGNÉES HTML)
 ===================================================== */
 const background = document.getElementById("background");
 
@@ -15,14 +15,21 @@ const skipBtn = document.getElementById("skipDialoguesBtn");
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
-/* === MINI-JEU 1 === */
-const miniGame1 = document.getElementById("miniGameContainer");
-const gameQ = document.getElementById("gameQuestion");
-const gameA = document.getElementById("gameAnswers");
-const gameF = document.getElementById("gameFeedback");
+/* === MINI-JEU COMMUNICATION === */
+const communicationGame = document.getElementById("communicationGame");
+const commQuestion = document.getElementById("commQuestion");
+const commAnswers = document.getElementById("commAnswers");
+const commFeedback = document.getElementById("commFeedback");
 
-/* === MINI-JEU 2 (BUSINESS PLAN) === */
-const businessGame = document.getElementById("businessGame");
+/* === LOADER CLIENTS === */
+const clientsLoader = document.getElementById("clientsLoader");
+const clientCount = document.getElementById("clientCount");
+
+/* === IDENTITÉ VISUELLE === */
+const visualDialogues = document.getElementById("visualDialogues");
+const visualGame = document.getElementById("visualIdentityGame");
+const visualChoices = document.getElementById("visualChoices");
+const visualFeedback = document.getElementById("visualFeedback");
 
 /* === LIVRE === */
 const bookContainer = document.getElementById("bookContainer");
@@ -30,15 +37,15 @@ const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
 
-/* === MINI-JEU FINAL === */
+/* === JUGEMENT FINAL === */
 const merchantGame = document.getElementById("merchantGame");
 
 /* =====================================================
    🔧 OUTILS
 ===================================================== */
-const vibrate = (p = 15) => navigator.vibrate && navigator.vibrate(p);
+const vibrate = (p = 20) => navigator.vibrate && navigator.vibrate(p);
 
-function showLoader(text, time = 900, cb) {
+function showLoader(text, time = 1000, cb) {
   loaderBox.innerHTML = text;
   fadeScreen.classList.remove("hidden");
   setTimeout(() => {
@@ -48,7 +55,7 @@ function showLoader(text, time = 900, cb) {
 }
 
 /* =====================================================
-   🎬 VIDEO INTRO
+   🎬 VIDÉO INTRO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
@@ -69,18 +76,18 @@ questVideo.onended = endVideo;
 function endVideo() {
   questVideo.pause();
   videoContainer.classList.add("hidden");
-  showLoader("Chargement du marché…", 1000, showCommerceScene);
+  showLoader("Arrivée au marché pirate…", 1000, showScene);
 }
 
 /* =====================================================
-   🌅 SCÈNE COMMERCE
+   🌅 SCÈNE INITIALE
 ===================================================== */
-function showCommerceScene() {
+function showScene() {
   background.classList.remove("hidden");
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
 
-  pirate5.addEventListener("click", startDialoguesCommerce, { once: true });
+  pirate5.addEventListener("click", startDialogues1, { once: true });
 }
 
 /* =====================================================
@@ -109,7 +116,7 @@ function renderDialogue() {
 
   const r = d.anchor.getBoundingClientRect();
   bubble.style.left = r.left + r.width / 2 + "px";
-  bubble.style.top = (r.top - 90 < 30 ? r.bottom + 15 : r.top - 90) + "px";
+  bubble.style.top = (r.top - 90 < 30 ? r.bottom + 12 : r.top - 90) + "px";
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = () => {
@@ -130,146 +137,160 @@ function endDialogues() {
 skipBtn.onclick = endDialogues;
 
 /* =====================================================
-   💬 DIALOGUES COMMERCE
+   💬 DIALOGUES 1 → COMMUNICATION
 ===================================================== */
-function startDialoguesCommerce() {
+function startDialogues1() {
   playDialogues([
     { text: "Bienvenue sur le marché des trésors.", anchor: pirate5 },
-    { text: "Avant de vendre, il faut structurer ton idée.", anchor: pirate2 }
-  ], launchMiniGame1);
+    { text: "Il faut attirer les clients.", anchor: pirate2 }
+  ], startCommunicationGame);
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 – QCM
+   🎮 MINI-JEU COMMUNICATION
 ===================================================== */
-function launchMiniGame1() {
-  miniGame1.classList.remove("hidden");
-  gameQ.textContent = "Quelle est la première étape pour lancer ton activité ?";
-  gameA.innerHTML = "";
-  gameF.textContent = "";
+function startCommunicationGame() {
+  communicationGame.classList.remove("hidden");
+  commFeedback.classList.add("hidden");
+  commAnswers.innerHTML = "";
 
-  [
-    { text: "Acheter du stock", ok: false },
-    { text: "Définir clairement son offre", ok: true },
-    { text: "Fixer les prix", ok: false }
-  ].forEach(a => {
+  const answers = [
+    { text: "Créer des flyers", ok: true },
+    { text: "Utiliser les réseaux sociaux", ok: true },
+    { text: "Attendre sans rien faire", ok: false }
+  ];
+
+  answers.forEach(a => {
     const btn = document.createElement("button");
     btn.textContent = a.text;
     btn.onclick = () => {
       vibrate();
       if (a.ok) {
-        gameF.textContent = "✅ Bonne réponse";
-        setTimeout(winMiniGame1, 800);
-      } else {
-        gameF.textContent = "❌ Mauvais choix";
-      }
-    };
-    gameA.appendChild(btn);
-  });
-}
-
-function winMiniGame1() {
-  miniGame1.classList.add("hidden");
-  showLoader("Business plan débloqué 💼", 1200, startBusinessDialogues);
-}
-
-/* =====================================================
-   💬 DIALOGUES BUSINESS PLAN
-===================================================== */
-function startBusinessDialogues() {
-  playDialogues([
-    { text: "Un business plan te guide à chaque étape.", anchor: pirate5 },
-    { text: "Valide ses fondations.", anchor: pirate2 }
-  ], launchBusinessGame);
-}
-
-/* =====================================================
-   🎮 MINI-JEU 2 – BUSINESS PLAN
-===================================================== */
-function launchBusinessGame() {
-  businessGame.classList.remove("hidden");
-  businessGame.innerHTML = `
-    <h2>📊 Business Plan</h2>
-    <p>Choisis l’élément indispensable :</p>
-    <button data-ok="false">Logo</button>
-    <button data-ok="true">Proposition de valeur</button>
-    <button data-ok="false">Couleur du bateau</button>
-  `;
-
-  businessGame.querySelectorAll("button").forEach(btn => {
-    btn.onclick = () => {
-      vibrate();
-      if (btn.dataset.ok === "true") {
-        businessGame.classList.add("hidden");
-        showLoader("Business plan validé 📘", 1200, showBook);
+        commFeedback.classList.remove("hidden");
+        setTimeout(() => {
+          communicationGame.classList.add("hidden");
+          startClientsLoader();
+        }, 1200);
       } else {
         btn.classList.add("shake");
         setTimeout(() => btn.classList.remove("shake"), 400);
       }
     };
+    commAnswers.appendChild(btn);
+  });
+}
+
+/* =====================================================
+   ⏳ LOADER CLIENTS
+===================================================== */
+function startClientsLoader() {
+  clientsLoader.classList.remove("hidden");
+  let count = 0;
+
+  const interval = setInterval(() => {
+    count++;
+    clientCount.textContent = count;
+    if (count >= 10) {
+      clearInterval(interval);
+      setTimeout(() => {
+        clientsLoader.classList.add("hidden");
+        startVisualDialogues();
+      }, 800);
+    }
+  }, 150);
+}
+
+/* =====================================================
+   💬 DIALOGUES IDENTITÉ VISUELLE
+===================================================== */
+function startVisualDialogues() {
+  visualDialogues.classList.remove("hidden");
+  const bubbles = visualDialogues.querySelectorAll(".dialogBubble");
+  let i = 0;
+
+  function next() {
+    if (i < bubbles.length) {
+      bubbles[i].classList.remove("hidden");
+      bubbles[i].onclick = () => {
+        bubbles[i].classList.add("hidden");
+        i++;
+        next();
+      };
+    } else {
+      visualDialogues.classList.add("hidden");
+      startVisualGame();
+    }
+  }
+  next();
+}
+
+/* =====================================================
+   🎨 MINI-JEU IDENTITÉ VISUELLE
+===================================================== */
+function startVisualGame() {
+  visualGame.classList.remove("hidden");
+  visualChoices.innerHTML = "";
+  visualFeedback.textContent = "";
+
+  [
+    { text: "Logo", ok: true },
+    { text: "Couleurs", ok: true },
+    { text: "Bateau plus grand", ok: false }
+  ].forEach(c => {
+    const btn = document.createElement("button");
+    btn.textContent = c.text;
+    btn.onclick = () => {
+      vibrate();
+      if (c.ok) {
+        visualFeedback.textContent = "✅ Bon choix";
+        setTimeout(() => {
+          visualGame.classList.add("hidden");
+          showBook();
+        }, 800);
+      } else {
+        btn.classList.add("shake");
+        setTimeout(() => btn.classList.remove("shake"), 400);
+      }
+    };
+    visualChoices.appendChild(btn);
   });
 }
 
 /* =====================================================
    📖 LIVRE
 ===================================================== */
-const bookSteps = [
-  { left: "images/Businessplancov.png", right: "images/Businessplan1.jpg" },
-  { left: "images/Businessplancov.png", right: "images/Businessplan2.jpg" },
-  { left: "images/Businessplancov.png", right: "images/Businessplan3.jpg" }
+const pages = [
+  { l: "images/Businessplancov.png", r: "images/Businessplan1.jpg" },
+  { l: "images/Businessplancov.png", r: "images/Businessplan2.jpg" },
+  { l: "images/Businessplancov.png", r: "images/Businessplan3.jpg" }
 ];
-
-let page = 0;
 
 function showBook() {
   bookContainer.classList.remove("hidden");
-  page = 0;
-  renderBook();
-}
-
-function renderBook() {
-  leftPage.src = bookSteps[page].left;
-  rightPage.src = bookSteps[page].right;
-  continueBtn.classList.toggle("hidden", page !== bookSteps.length - 1);
+  leftPage.src = pages[0].l;
+  rightPage.src = pages[0].r;
+  continueBtn.classList.remove("hidden");
 }
 
 continueBtn.onclick = () => {
   bookContainer.classList.add("hidden");
-  startFinalDialogues();
+  startFinalGame();
 };
 
 /* =====================================================
-   💬 DIALOGUE FINAL
+   ⚖️ MINI-JEU FINAL
 ===================================================== */
-function startFinalDialogues() {
-  pirate3.classList.remove("hidden");
-  playDialogues([
-    { text: "Le marché va maintenant juger ton projet.", anchor: pirate3 }
-  ], launchFinalGame);
-}
-
-/* =====================================================
-   ⚖️ MINI-JEU FINAL – JUGEMENT DU MARCHÉ
-===================================================== */
-function launchFinalGame() {
+function startFinalGame() {
   merchantGame.classList.remove("hidden");
-  merchantGame.innerHTML = `
-    <h2>⚖️ Jugement du Marché</h2>
-    <p>Ton prix : <strong>300 PO</strong></p>
-    <p>Concurrence : <strong>250 PO</strong></p>
-    <button id="keepPrice">Maintenir le prix</button>
-  `;
-
-  document.getElementById("keepPrice").onclick = winFinal;
+  document.getElementById("btnKeep").onclick = endQuest;
 }
 
 /* =====================================================
    🏁 FIN
 ===================================================== */
-function winFinal() {
+function endQuest() {
   merchantGame.classList.add("hidden");
   showLoader("🎉 Quête Commerce réussie", 1800, () => {
-    sessionStorage.setItem("fromCommerce", "true");
     window.location.href = "menu.html";
   });
 }
