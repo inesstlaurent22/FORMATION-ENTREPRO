@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .map(id => document.getElementById(id))
     .filter(Boolean);
 
+  const pirate1 = document.getElementById("pirate1");
+  const pirate2 = document.getElementById("pirate2");
+
   const notification = document.getElementById("notification");
   const bubble = document.getElementById("bubble");
   const bubbleButton = document.getElementById("bubbleButton");
@@ -49,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      🔓 PIRATE 2 TOUJOURS ACCESSIBLE
   ========================================================== */
-  const pirate2 = document.getElementById("pirate2");
   if (pirate2) {
     pirate2.classList.remove("locked");
     pirate2.classList.add("unlocked");
@@ -72,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     🔐 SAS MOT DE PASSE (SANS IMPACT SUR PROGRESSION)
+     🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
   ========================================================== */
   const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
   const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
@@ -102,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     💬 BULLE INFO
+     💬 BULLE INFO (FERMETURE)
   ========================================================== */
   if (bubbleButton) {
     bubbleButton.onclick = () => {
@@ -130,10 +132,42 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
+     🧭 PIRATE 2 → INTRO + DÉBLOCAGE PIRATE 1
+  ========================================================== */
+  const introSeen = localStorage.getItem("intro_seen") === "true";
+
+  if (pirate2 && !introSeen) {
+    pirate2.addEventListener("click", e => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // 💬 bulle
+      if (bubble) {
+        bubble.style.display = "block";
+        bubble.style.left = "50%";
+        bubble.style.top = "50%";
+      }
+
+      // 🔔 notification
+      showNotification("🏴‍☠️ Nouveau pirate débloqué !");
+
+      // 🔓 déblocage pirate1
+      if (pirate1) {
+        pirate1.classList.remove("locked");
+        pirate1.classList.add("unlocked","glow");
+        pirate1.style.pointerEvents = "auto";
+        localStorage.setItem("pirate1_unlocked", "true");
+      }
+
+      // 🧠 empêche répétition
+      localStorage.setItem("intro_seen", "true");
+    });
+  }
+
+  /* ==========================================================
      🔐 OVERLAY MOT DE PASSE
   ========================================================== */
   function showPasswordOverlay() {
-
     const overlay = document.createElement("div");
     overlay.id = "passwordOverlay";
 
@@ -158,14 +192,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function validate() {
       if (input.value.trim().toLowerCase() === "mashain") {
-
-        // ✅ lève le sas pour cette session uniquement
         sessionStorage.setItem("passwordCleared", "true");
         sessionStorage.removeItem("fromCommerce");
-
-        // 🔄 recharge → l’encart disparaît
         location.reload();
-
       } else {
         error.style.display = "block";
         input.value = "";
