@@ -5,10 +5,10 @@ html, body{
   width:100%;
   height:100%;
   margin:0;
-  background:#000; /* 🔥 fond noir garanti */
+  background:#000;
   overflow:hidden;
 }
-/* container principal du menu */
+
 #menu,
 #background,
 .menu-container{
@@ -40,12 +40,18 @@ html, body{
   transition: transform .25s ease, filter .25s ease;
 }
 
+/* Effet glow JS */
+.pirate.glow {
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.7));
+}
+
+/* Hover uniquement si débloqué */
 .pirate.unlocked:hover {
   transform: scale(1.08);
 }
 
 /* ================================================= */
-/* 📍 POSITIONS (fixes et respectées) */
+/* 📍 POSITIONS */
 /* ================================================= */
 
 #pirate1 { left: 173px; top: 507px; width: 163px; height: 235px; }
@@ -54,7 +60,6 @@ html, body{
 #pirate5 { left: 240px; top: 185px; width: 163px; height: 235px; }
 #pirate4 { left: 1139px; top: 28px; width: 163px; height: 235px; }
 
-/* empêche mobile d'écraser ces positions */
 @media (max-width: 768px) {
   #pirate1,
   #pirate2,
@@ -66,7 +71,7 @@ html, body{
 }
 
 /* ================================================= */
-/* 🔔 NOTIFICATION STYLE IPHONE */
+/* 🔔 NOTIFICATION */
 /* ================================================= */
 
 #notification {
@@ -90,52 +95,33 @@ html, body{
 }
 
 /* ================================================= */
-/* 💬 BULLE PIRATE AVEC BRÛLURES + CRÂNES */
+/* 💬 BULLE PIRATE */
 /* ================================================= */
 
 #bubble {
   position: absolute;
   display: none;
-
   max-width: 360px;
   min-height: 140px;
-
-  padding: 22px 22px 30px 22px;
-
+  padding: 22px 22px 30px;
   background: #f4dfb3;
-
   border: 4px solid #4a2c12;
   border-radius: 18px;
-
   color: #2b1a0b;
   font-family: "Georgia", serif;
   font-weight: bold;
-
   line-height: 1.45;
-
-  /* texture parchemin + brûlé */
-  background-image:
-    radial-gradient(circle at 10% 10%, rgba(0,0,0,.15), transparent 25%),
-    radial-gradient(circle at 90% 8%, rgba(0,0,0,.18), transparent 25%),
-    radial-gradient(circle at 50% 100%, rgba(0,0,0,.20), transparent 30%),
-    repeating-linear-gradient(45deg, rgba(0,0,0,.04) 0 2px, transparent 2px 4px);
-
   box-shadow:
     0 10px 25px rgba(0,0,0,.45),
     inset 0 0 35px rgba(0,0,0,.25);
-
   transform: translate(-50%, -100%);
-
   z-index: 250;
 }
 
-/* Pointe */
 #bubble > .tail {
   position: absolute;
   bottom: -18px;
   left: 50%;
-  width: 0;
-  height: 0;
   transform: translateX(-50%);
   border-left: 18px solid transparent;
   border-right: 18px solid transparent;
@@ -143,7 +129,7 @@ html, body{
 }
 
 /* ================================================= */
-/* 🏴‍☠️ Bouton */
+/* 🏴‍☠️ BOUTON BULLE */
 /* ================================================= */
 
 #bubbleButton {
@@ -162,18 +148,19 @@ html, body{
 }
 
 /* ================================================= */
-/*  Reset */
+/* 🔄 RESET */
 /* ================================================= */
+
 #resetButton {
-  position: fixed;        /* toujours visible à l'écran */
-  top: 15px;              /* haut */
-  left: 15px;             /* gauche */
+  position: fixed;
+  top: 15px;
+  left: 15px;
   padding: 10px 16px;
   font-size: 14px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  z-index: 2000;          /* au-dessus des pirates et du fond */
+  z-index: 2000;
   background: rgba(0, 0, 0, 0.75);
   color: white;
 }
@@ -182,9 +169,9 @@ html, body{
   transform: scale(1.05);
 }
 
-/* ==========================================================
-   🔐 OVERLAY MOT DE PASSE (RETOUR COMMERCE)
-========================================================== */
+/* ================================================= */
+/* 🔐 OVERLAY MOT DE PASSE */
+/* ================================================= */
 
 #passwordOverlay {
   position: fixed;
@@ -210,7 +197,6 @@ html, body{
 .passwordBox h2 {
   margin-bottom: 15px;
   color: gold;
-  letter-spacing: 1px;
 }
 
 .passwordBox input {
@@ -221,7 +207,6 @@ html, body{
   background: #1a1208;
   border: 1px solid gold;
   color: #fff;
-  outline: none;
 }
 
 .passwordBox button {
@@ -230,7 +215,6 @@ html, body{
   background: linear-gradient(145deg, #6b4b24, #3a2a18);
   border: 1px solid gold;
   color: #fff2cc;
-  font-size: 15px;
   cursor: pointer;
 }
 
@@ -238,19 +222,14 @@ html, body{
   box-shadow: 0 0 10px gold;
 }
 
-.passwordError {
+/* ⚠️ ID cohérent avec le JS */
+#passwordError {
   color: #ff4d4d;
   margin-top: 10px;
   display: none;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
