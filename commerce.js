@@ -92,7 +92,7 @@ function showScene() {
 }
 
 /* =====================================================
-   💬 MOTEUR DE DIALOGUES (CORRIGÉ)
+   💬 MOTEUR DE DIALOGUES (SÉCURISÉ)
 ===================================================== */
 let dialogues = [];
 let index = 0;
@@ -151,49 +151,99 @@ function endDialogues() {
 skipBtn.onclick = endDialogues;
 
 /* =====================================================
-   💬 DIALOGUES 1 → COMMUNICATION
+   💬 DIALOGUES 1 → LOADER → MINI-JEU 1
 ===================================================== */
 function startDialogues1() {
-  playDialogues([
-    { text: "Bienvenue sur le marché des trésors.", anchor: pirate5 },
-    { text: "Il faut attirer les clients.", anchor: pirate2 }
-  ], startCommunicationGame);
+  playDialogues(
+    [
+      { text: "Bienvenue sur le marché des trésors.", anchor: pirate5 },
+      { text: "Avant d’agir, il faut comprendre le terrain.", anchor: pirate2 }
+    ],
+    () => {
+      showLoader(
+        "📊 Analyse du marché et construction du business plan…",
+        1200,
+        startCommunicationGame
+      );
+    }
+  );
 }
 
 /* =====================================================
-   🎮 MINI-JEU COMMUNICATION
+   🎮 MINI-JEU COMMUNICATION (QUIZZ BUSINESS PLAN)
 ===================================================== */
 function startCommunicationGame() {
   communicationGame.classList.remove("hidden");
   commFeedback.classList.add("hidden");
   commAnswers.innerHTML = "";
 
-  const answers = [
-    { text: "Créer des flyers", ok: true },
-    { text: "Utiliser les réseaux sociaux", ok: true },
-    { text: "Attendre sans rien faire", ok: false }
+  const quiz = [
+    {
+      q: "Pourquoi réalise-t-on une étude de marché ?",
+      a: [
+        { t: "Pour comprendre les concurrents et les clients", ok: true },
+        { t: "Pour copier exactement les autres", ok: false },
+        { t: "Pour choisir un logo", ok: false }
+      ],
+      exp: "L’étude de marché permet d’analyser les concurrents, les prix, les produits et les attentes des clients."
+    },
+    {
+      q: "À quoi sert le business plan ?",
+      a: [
+        { t: "À définir la ligne directrice de l’activité", ok: true },
+        { t: "À décorer la boutique", ok: false },
+        { t: "À fixer un prix au hasard", ok: false }
+      ],
+      exp: "Le business plan structure le projet : cible, problème résolu, ambitions et stratégie."
+    },
+    {
+      q: "Comment faire face à la concurrence ?",
+      a: [
+        { t: "Par la négociation, l’adaptabilité ou la différenciation", ok: true },
+        { t: "En ignorant le marché", ok: false },
+        { t: "En baissant toujours les prix", ok: false }
+      ],
+      exp: "Une entreprise solide s’adapte et se différencie intelligemment."
+    }
   ];
 
-  answers.forEach(a => {
-    const btn = document.createElement("button");
-    btn.textContent = a.text;
+  let step = 0;
 
-    btn.onclick = () => {
-      vibrate();
-      if (a.ok) {
-        commFeedback.classList.remove("hidden");
-        setTimeout(() => {
-          communicationGame.classList.add("hidden");
-          startClientsLoader();
-        }, 1200);
-      } else {
-        btn.classList.add("shake");
-        setTimeout(() => btn.classList.remove("shake"), 400);
-      }
-    };
+  function showStep() {
+    const item = quiz[step];
+    commQuestion.innerHTML = `<strong>${item.q}</strong>`;
+    commAnswers.innerHTML = "";
+    commFeedback.classList.add("hidden");
 
-    commAnswers.appendChild(btn);
-  });
+    item.a.forEach(ans => {
+      const btn = document.createElement("button");
+      btn.textContent = ans.t;
+
+      btn.onclick = () => {
+        vibrate();
+        if (ans.ok) {
+          commFeedback.innerHTML = `✅ ${item.exp}`;
+          commFeedback.classList.remove("hidden");
+          setTimeout(() => {
+            step++;
+            if (step < quiz.length) {
+              showStep();
+            } else {
+              communicationGame.classList.add("hidden");
+              startClientsLoader();
+            }
+          }, 1500);
+        } else {
+          btn.classList.add("shake");
+          setTimeout(() => btn.classList.remove("shake"), 400);
+        }
+      };
+
+      commAnswers.appendChild(btn);
+    });
+  }
+
+  showStep();
 }
 
 /* =====================================================
@@ -206,7 +256,6 @@ function startClientsLoader() {
   const interval = setInterval(() => {
     count++;
     clientCount.textContent = count;
-
     if (count >= 10) {
       clearInterval(interval);
       setTimeout(() => {
@@ -302,7 +351,6 @@ continueBtn.onclick = () => {
 function startFinalGame() {
   pirate3.classList.remove("hidden");
   merchantGame.classList.remove("hidden");
-
   btnKeep.onclick = endQuest;
 }
 
