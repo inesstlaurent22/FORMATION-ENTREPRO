@@ -29,13 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      🏴‍☠️ RÉFÉRENCES PIRATES
   ========================================================== */
-  const pirate1 = document.getElementById("pirate1");
-  const pirate2 = document.getElementById("pirate2");
-  const pirate3 = document.getElementById("pirate3");
-  const pirate4 = document.getElementById("pirate4");
-  const pirate5 = document.getElementById("pirate5");
-
-  const pirates = [pirate1, pirate2, pirate3, pirate4, pirate5].filter(Boolean);
+  const pirates = ["pirate1","pirate2","pirate3","pirate4","pirate5"]
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
 
   const notification = document.getElementById("notification");
   const bubble = document.getElementById("bubble");
@@ -46,13 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================================================== */
   pirates.forEach(p => {
     p.classList.add("locked");
-    p.classList.remove("unlocked", "glow");
+    p.classList.remove("unlocked","glow");
     p.style.pointerEvents = "none";
   });
 
   /* ==========================================================
      🔓 PIRATE 2 TOUJOURS ACCESSIBLE
   ========================================================== */
+  const pirate2 = document.getElementById("pirate2");
   if (pirate2) {
     pirate2.classList.remove("locked");
     pirate2.classList.add("unlocked");
@@ -60,15 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     🔄 RETOUR DES QUÊTES → TRANSFERT SESSION → LOCAL
+     🔄 TRANSFERT SESSION → LOCAL
   ========================================================== */
   let newUnlock = false;
-
-  ["pirate1", "pirate3", "pirate4", "pirate5"].forEach(id => {
+  ["pirate1","pirate3","pirate4","pirate5"].forEach(id => {
     if (sessionStorage.getItem(`unlock_${id}`) === "true") {
-      if (localStorage.getItem(`${id}_unlocked`) !== "true") {
-        newUnlock = true;
-      }
+      if (localStorage.getItem(`${id}_unlocked`) !== "true") newUnlock = true;
       localStorage.setItem(`${id}_unlocked`, "true");
       sessionStorage.removeItem(`unlock_${id}`);
     }
@@ -77,13 +71,13 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      🔐 RETOUR COMMERCE → MOT DE PASSE (UNE SEULE FOIS)
   ========================================================== */
-  if (
-    sessionStorage.getItem("fromCommerce") === "true" &&
-    localStorage.getItem("code_mashain_valid") !== "true"
-  ) {
+  const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
+  const codeValid = localStorage.getItem("code_mashain_valid") === "true";
+
+  if (fromCommerce && !codeValid) {
     showNotification("🔐 Mot de passe requis pour continuer");
     setTimeout(showPasswordOverlay, 600);
-    return; // ⛔ stop le menu tant que pas validé
+    return; // stop le menu tant que pas validé
   }
 
   /* ==========================================================
@@ -92,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   pirates.forEach(p => {
     if (localStorage.getItem(`${p.id}_unlocked`) === "true") {
       p.classList.remove("locked");
-      p.classList.add("unlocked", "glow");
+      p.classList.add("unlocked","glow");
       p.style.pointerEvents = "auto";
     }
   });
@@ -100,16 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      🎉 NOTIFICATION NOUVEAU PIRATE
   ========================================================== */
-  if (newUnlock) {
-    showNotification("🏆 Bravo, tu as débloqué un nouveau pirate !");
-  }
-
-  function showNotification(text) {
-    if (!notification) return;
-    notification.textContent = text;
-    notification.classList.add("show");
-    setTimeout(() => notification.classList.remove("show"), 3000);
-  }
+  if (newUnlock) showNotification("🏆 Bravo, tu as débloqué un nouveau pirate !");
 
   /* ==========================================================
      💬 BULLE INFO
@@ -121,10 +106,22 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      🧭 NAVIGATION ENTRE QUÊTES
   ========================================================== */
-  pirate1?.addEventListener("click", () => location.href = "commerce.html");
-  pirate3?.addEventListener("click", () => location.href = "communication.html");
-  pirate4?.addEventListener("click", () => location.href = "legal.html");
-  pirate5?.addEventListener("click", () => location.href = "finance.html");
+  const navMap = {
+    pirate1: "commerce.html",
+    pirate3: "communication.html",
+    pirate4: "legal.html",
+    pirate5: "finance.html"
+  };
+
+  pirates.forEach(p => {
+    const target = navMap[p.id];
+    if (target) {
+      p.addEventListener("click", () => {
+        if(p.id === "pirate1") sessionStorage.setItem("fromMenu", "true"); // exemple si besoin
+        location.href = target;
+      });
+    }
+  });
 
   /* ==========================================================
      🔐 OVERLAY MOT DE PASSE
@@ -157,24 +154,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function validate() {
       if (input.value.trim().toLowerCase() === "mashain") {
-
-        // 🔐 validation définitive
-        localStorage.setItem("code_mashain_valid", "true");
-
-        // 🔓 déblocage pirate 3
-        localStorage.setItem("pirate3_unlocked", "true");
-
-        // 🧹 nettoyage
-        sessionStorage.removeItem("fromCommerce");
-
+        localStorage.setItem("code_mashain_valid", "true"); // validation définitive
+        localStorage.setItem("pirate3_unlocked", "true");   // déblocage pirate 3
+        sessionStorage.removeItem("fromCommerce");          // nettoyage
         location.reload();
-
       } else {
         error.style.display = "block";
         input.value = "";
         input.focus();
       }
     }
+  }
+
+  /* ==========================================================
+     🔔 Fonction notification
+  ========================================================== */
+  function showNotification(text) {
+    if (!notification) return;
+    notification.textContent = text;
+    notification.classList.add("show");
+    setTimeout(() => notification.classList.remove("show"), 3000);
   }
 
 });
