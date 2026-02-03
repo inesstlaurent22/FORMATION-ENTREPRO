@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   🔗 RÉFÉRENCES DOM (HTML RÉEL)
+   🔗 RÉFÉRENCES DOM
 ===================================================== */
 const background = document.getElementById("background");
 
@@ -15,7 +15,7 @@ const skipBtn = document.getElementById("skipDialoguesBtn");
 const fadeScreen = document.getElementById("fadeScreen");
 const loaderBox = fadeScreen.querySelector(".loaderBox");
 
-/* === MINI-JEU COMMUNICATION === */
+/* === MINI-JEU 1 === */
 const communicationGame = document.getElementById("communicationGame");
 const commQuestion = document.getElementById("commQuestion");
 const commAnswers = document.getElementById("commAnswers");
@@ -37,7 +37,7 @@ const leftPage = document.getElementById("leftPage");
 const rightPage = document.getElementById("rightPage");
 const continueBtn = document.getElementById("continueQuestBtn");
 
-/* === JUGEMENT FINAL === */
+/* === FINAL === */
 const merchantGame = document.getElementById("merchantGame");
 const btnKeep = document.getElementById("btnKeep");
 
@@ -46,7 +46,7 @@ const btnKeep = document.getElementById("btnKeep");
 ===================================================== */
 const vibrate = (p = 20) => navigator.vibrate && navigator.vibrate(p);
 
-function showLoader(text, time = 900, cb) {
+function showLoader(text, time = 1000, cb) {
   loaderBox.innerHTML = text;
   fadeScreen.classList.remove("hidden");
   setTimeout(() => {
@@ -88,28 +88,34 @@ function showScene() {
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
 
-  pirate5.addEventListener("click", startDialogues1, { once: true });
+  // ✨ illumination initiale UNIQUEMENT pirate5
+  pirate5.classList.add("glowStart");
+
+  pirate5.addEventListener("click", () => {
+    pirate5.classList.remove("glowStart");
+    startDialogues1();
+  }, { once: true });
 }
 
 /* =====================================================
-   💬 MOTEUR DE DIALOGUES (SÉCURISÉ)
+   💬 MOTEUR DE DIALOGUES
 ===================================================== */
 let dialogues = [];
 let index = 0;
 let callback = null;
-let dialogueRunning = false;
+let running = false;
 
 function playDialogues(list, cb) {
   dialogues = list;
   index = 0;
   callback = cb;
-  dialogueRunning = true;
+  running = true;
   skipBtn.classList.remove("hidden");
   renderDialogue();
 }
 
 function renderDialogue() {
-  if (!dialogueRunning) return;
+  if (!running) return;
 
   bubbleContainer.innerHTML = "";
 
@@ -139,12 +145,12 @@ function renderDialogue() {
 }
 
 function endDialogues() {
-  dialogueRunning = false;
+  running = false;
   bubbleContainer.innerHTML = "";
   skipBtn.classList.add("hidden");
 
   setTimeout(() => {
-    typeof callback === "function" && callback();
+    callback && callback();
   }, 200);
 }
 
@@ -161,62 +167,51 @@ function startDialogues1() {
     ],
     () => {
       showLoader(
-        "📊 Analyse du marché et construction du business plan…",
+        "📊 Analyse du marché et préparation du business plan…",
         1200,
-        startCommunicationGame
+        startMiniGame1
       );
     }
   );
 }
 
 /* =====================================================
-   🎮 MINI-JEU COMMUNICATION (QUIZZ BUSINESS PLAN)
+   🎮 MINI-JEU 1 — QUIZ BUSINESS PLAN
 ===================================================== */
-function startCommunicationGame() {
+function startMiniGame1() {
   communicationGame.classList.remove("hidden");
+
+  commQuestion.classList.remove("hidden");
+  commAnswers.classList.remove("hidden");
   commFeedback.classList.add("hidden");
-  commAnswers.innerHTML = "";
 
   const quiz = [
     {
-      question: "Pourquoi réalise-t-on une étude de marché avant de se lancer ?",
-      answers: [
-        { text: "Pour copier exactement les concurrents", ok: false },
-        { text: "Pour comprendre le marché, les clients et les concurrents", ok: true },
-        { text: "Pour choisir un logo et des couleurs", ok: false }
+      q: "Pourquoi réalise-t-on une étude de marché ?",
+      a: [
+        { t: "Pour comprendre clients et concurrents", ok: true },
+        { t: "Pour copier les autres", ok: false },
+        { t: "Pour choisir un logo", ok: false }
       ],
-      explanation:
-        "L’étude de marché permet de comprendre l’environnement : concurrents, attentes des clients, prix pratiqués et tendances."
+      exp: "L’étude de marché permet d’analyser les prix, les produits et les stratégies existantes."
     },
     {
-      question: "Que permet d’analyser une étude de marché ?",
-      answers: [
-        { text: "Les produits qui marchent, les prix et les stratégies de vente", ok: true },
-        { text: "Uniquement le nom des concurrents", ok: false },
-        { text: "La décoration de la boutique", ok: false }
+      q: "À quoi sert le business plan ?",
+      a: [
+        { t: "À définir la ligne directrice de l’activité", ok: true },
+        { t: "À décorer la boutique", ok: false },
+        { t: "À fixer un prix au hasard", ok: false }
       ],
-      explanation:
-        "On analyse les produits performants, les prix, les canaux de vente et les stratégies utilisées par les concurrents."
+      exp: "Le business plan structure la vision, la cible et les objectifs."
     },
     {
-      question: "À quoi sert le business plan ?",
-      answers: [
-        { text: "À faire joli pour les investisseurs", ok: false },
-        { text: "À définir la ligne directrice de l’activité", ok: true },
-        { text: "À fixer uniquement les prix", ok: false }
+      q: "Comment faire face à la concurrence ?",
+      a: [
+        { t: "Par la négociation, l’adaptabilité ou la différenciation", ok: true },
+        { t: "En baissant toujours les prix", ok: false },
+        { t: "En ignorant le marché", ok: false }
       ],
-      explanation:
-        "Le business plan définit le problème résolu, la cible, les ambitions, les enjeux et la stratégie globale."
-    },
-    {
-      question: "Comment peut-on faire face à la concurrence ?",
-      answers: [
-        { text: "En baissant toujours les prix", ok: false },
-        { text: "Par la négociation, l’adaptabilité ou la différenciation", ok: true },
-        { text: "En ignorant le marché", ok: false }
-      ],
-      explanation:
-        "Une entreprise solide s’adapte, se différencie ou négocie intelligemment selon le contexte."
+      exp: "Une bonne stratégie permet de se démarquer intelligemment."
     }
   ];
 
@@ -245,7 +240,7 @@ function startCommunicationGame() {
               communicationGame.classList.add("hidden");
               startClientsLoader();
             }
-          }, 1500);
+          }, 1400);
         } else {
           btn.classList.add("shake");
           setTimeout(() => btn.classList.remove("shake"), 400);
