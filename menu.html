@@ -4,39 +4,74 @@
   <meta charset="UTF-8">
   <title>Menu Pirates</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS du menu -->
   <link rel="stylesheet" href="menu.css">
 </head>
 
 <body>
 
-  <!-- Notification style iPhone -->
+  <!-- 🔔 Notification -->
   <div id="notification"></div>
 
-  <!-- Bulle d’information pour le joueur -->
+  <!-- 💬 Bulle d’information -->
   <div id="bubble">
     <span id="bubbleText">
       ☠ ☠ ☠<br>
       Bravo Moussaillon, tu as débloqué ton premier pirate 🏴‍☠️<br>
       Clique dessus, effectue l’ensemble de la quête et tu pourras débloquer les suivants.<br>
-      Bonne aventure ! ☠<br>
+      Bonne aventure ! ☠
     </span>
+
     <button id="bubbleButton">Ok, j’ai compris</button>
   </div>
 
-  <!-- Fond du menu (optionnel, peut être remplacé par JS) -->
+  <!-- 🌌 Fond du menu (optionnel, décoratif) -->
   <div id="background"></div>
 
-  <!-- Pirates -->
-  <img id="pirate1" class="pirate locked" src="images/Pirate1.png" alt="Pirate 1 : Commerce">
-  <img id="pirate2" class="pirate unlocked" src="images/Pirate2.png" alt="Pirate 2 : Toujours accessible">
-  <img id="pirate3" class="pirate locked" src="images/Pirate3.png" alt="Pirate 3 : Communication">
-  <img id="pirate4" class="pirate locked" src="images/Pirate4.png" alt="Pirate 4 : Legal">
-  <img id="pirate5" class="pirate locked" src="images/Pirate5.png" alt="Pirate 5 : Finance">
+  <!-- 🏴‍☠️ Pirates -->
+  <img
+    id="pirate1"
+    class="pirate locked"
+    src="images/Pirate1.png"
+    alt="Pirate 1 – Commerce"
+  >
 
-  <!-- Bouton réinitialiser la progression -->
-  <button id="resetButton">Réinitialiser la progression</button>
+  <img
+    id="pirate2"
+    class="pirate unlocked"
+    src="images/Pirate2.png"
+    alt="Pirate 2 – Introduction"
+  >
 
-  <!-- Script JS -->
+  <img
+    id="pirate3"
+    class="pirate locked"
+    src="images/Pirate3.png"
+    alt="Pirate 3 – Communication"
+  >
+
+  <img
+    id="pirate4"
+    class="pirate locked"
+    src="images/Pirate4.png"
+    alt="Pirate 4 – Légal"
+  >
+
+  <img
+    id="pirate5"
+    class="pirate locked"
+    src="images/Pirate5.png"
+    alt="Pirate 5 – Finance"
+  >
+
+  <!-- 🔄 Bouton reset -->
+  <button id="resetButton">
+    Réinitialiser la progression
+  </button>
+
+  <!-- 📜 Script du menu -->
   <script src="menu.js"></script>
+
 </body>
 </html>
