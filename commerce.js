@@ -179,31 +179,44 @@ function startCommunicationGame() {
 
   const quiz = [
     {
-      q: "Pourquoi réalise-t-on une étude de marché ?",
-      a: [
-        { t: "Pour comprendre les concurrents et les clients", ok: true },
-        { t: "Pour copier exactement les autres", ok: false },
-        { t: "Pour choisir un logo", ok: false }
+      question: "Pourquoi réalise-t-on une étude de marché avant de se lancer ?",
+      answers: [
+        { text: "Pour copier exactement les concurrents", ok: false },
+        { text: "Pour comprendre le marché, les clients et les concurrents", ok: true },
+        { text: "Pour choisir un logo et des couleurs", ok: false }
       ],
-      exp: "L’étude de marché permet d’analyser les concurrents, les prix, les produits et les attentes des clients."
+      explanation:
+        "L’étude de marché permet de comprendre l’environnement : concurrents, attentes des clients, prix pratiqués et tendances."
     },
     {
-      q: "À quoi sert le business plan ?",
-      a: [
-        { t: "À définir la ligne directrice de l’activité", ok: true },
-        { t: "À décorer la boutique", ok: false },
-        { t: "À fixer un prix au hasard", ok: false }
+      question: "Que permet d’analyser une étude de marché ?",
+      answers: [
+        { text: "Les produits qui marchent, les prix et les stratégies de vente", ok: true },
+        { text: "Uniquement le nom des concurrents", ok: false },
+        { text: "La décoration de la boutique", ok: false }
       ],
-      exp: "Le business plan structure le projet : cible, problème résolu, ambitions et stratégie."
+      explanation:
+        "On analyse les produits performants, les prix, les canaux de vente et les stratégies utilisées par les concurrents."
     },
     {
-      q: "Comment faire face à la concurrence ?",
-      a: [
-        { t: "Par la négociation, l’adaptabilité ou la différenciation", ok: true },
-        { t: "En ignorant le marché", ok: false },
-        { t: "En baissant toujours les prix", ok: false }
+      question: "À quoi sert le business plan ?",
+      answers: [
+        { text: "À faire joli pour les investisseurs", ok: false },
+        { text: "À définir la ligne directrice de l’activité", ok: true },
+        { text: "À fixer uniquement les prix", ok: false }
       ],
-      exp: "Une entreprise solide s’adapte et se différencie intelligemment."
+      explanation:
+        "Le business plan définit le problème résolu, la cible, les ambitions, les enjeux et la stratégie globale."
+    },
+    {
+      question: "Comment peut-on faire face à la concurrence ?",
+      answers: [
+        { text: "En baissant toujours les prix", ok: false },
+        { text: "Par la négociation, l’adaptabilité ou la différenciation", ok: true },
+        { text: "En ignorant le marché", ok: false }
+      ],
+      explanation:
+        "Une entreprise solide s’adapte, se différencie ou négocie intelligemment selon le contexte."
     }
   ];
 
