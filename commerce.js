@@ -296,11 +296,10 @@ function startMiniGame3() {
    🏆 FIN
 ===================================================== */
 function endQuest() {
-  sessionStorage.setItem("unlock_pirate3", "true"); // ✅ clé attendue
+  sessionStorage.setItem("unlock_pirate3", "true");
   showLoader("Bravo tu as gagné la quête", 2200, () => {
     window.location.href = "menu.html";
   });
-}
 }
 
 });
