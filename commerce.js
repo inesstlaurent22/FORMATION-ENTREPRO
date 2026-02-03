@@ -297,6 +297,7 @@ function startMiniGame3() {
 ===================================================== */
 function endQuest() {
   sessionStorage.setItem("unlock_pirate3", "true");
+  sessionStorage.setItem("fromCommerce", "true");   
   showLoader("Bravo tu as gagné la quête", 2200, () => {
     window.location.href = "menu.html";
   });
