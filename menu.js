@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ==========================================================
-     🌅 BACKGROUND MENU
+     🌅 BACKGROUND
   ========================================================== */
   document.body.style.backgroundColor = "#000";
   document.body.style.backgroundImage = "url('images/Fondmenu.PNG')";
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     🏴‍☠️ RÉFÉRENCES PIRATES
+     🏴‍☠️ RÉFÉRENCES
   ========================================================== */
   const pirates = ["pirate1","pirate2","pirate3","pirate4","pirate5"]
     .map(id => document.getElementById(id))
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const bubbleButton = document.getElementById("bubbleButton");
 
   /* ==========================================================
-     🔒 TOUT VERROUILLER PAR DÉFAUT
+     🔒 VERROUILLAGE PAR DÉFAUT
   ========================================================== */
   pirates.forEach(p => {
     p.classList.add("locked");
@@ -80,13 +80,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
 
   if (fromCommerce && !passwordCleared) {
-    showNotification("🔐 Accès sécurisé requis");
+    showNotification("🔐 Accès verrouillé");
     setTimeout(showPasswordOverlay, 500);
-    return; // ⛔ stop menu tant que non validé
+    return;
   }
 
   /* ==========================================================
-     🔓 RÉACTIVATION DES PIRATES DÉBLOQUÉS
+     🔓 RÉACTIVATION PIRATES DÉBLOQUÉS
   ========================================================== */
   pirates.forEach(p => {
     if (localStorage.getItem(`${p.id}_unlocked`) === "true") {
@@ -96,24 +96,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* ==========================================================
-     🎉 NOTIFICATION NOUVEAU PIRATE
-  ========================================================== */
   if (newUnlock) {
     showNotification("🏆 Bravo, tu as débloqué un nouveau pirate !");
   }
 
   /* ==========================================================
-     💬 BULLE INFO (FERMETURE)
+     💬 BULLE
   ========================================================== */
   if (bubbleButton) {
-    bubbleButton.onclick = () => {
-      bubble.style.display = "none";
-    };
+    bubbleButton.onclick = () => bubble.style.display = "none";
   }
 
   /* ==========================================================
-     🧭 NAVIGATION ENTRE QUÊTES
+     🧭 NAVIGATION
   ========================================================== */
   const navMap = {
     pirate1: "commerce.html",
@@ -125,14 +120,11 @@ document.addEventListener("DOMContentLoaded", () => {
   pirates.forEach(p => {
     const target = navMap[p.id];
     if (!target) return;
-
-    p.addEventListener("click", () => {
-      location.href = target;
-    });
+    p.addEventListener("click", () => location.href = target);
   });
 
   /* ==========================================================
-     🧭 PIRATE 2 → INTRO + DÉBLOCAGE PIRATE 1
+     🏴‍☠️ PIRATE 2 → INTRO
   ========================================================== */
   const introSeen = localStorage.getItem("intro_seen") === "true";
 
@@ -141,17 +133,14 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       e.stopPropagation();
 
-      // 💬 bulle
       if (bubble) {
         bubble.style.display = "block";
         bubble.style.left = "50%";
         bubble.style.top = "50%";
       }
 
-      // 🔔 notification
       showNotification("🏴‍☠️ Nouveau pirate débloqué !");
 
-      // 🔓 déblocage pirate1
       if (pirate1) {
         pirate1.classList.remove("locked");
         pirate1.classList.add("unlocked","glow");
@@ -159,61 +148,64 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("pirate1_unlocked", "true");
       }
 
-      // 🧠 empêche répétition
       localStorage.setItem("intro_seen", "true");
     });
   }
 
   /* ==========================================================
-     🔐 OVERLAY MOT DE PASSE
+     🔐 OVERLAY MOT DE PASSE (FIX iOS)
   ========================================================== */
- function showPasswordOverlay() {
+  function showPasswordOverlay() {
 
-  const overlay = document.createElement("div");
-  overlay.id = "passwordOverlay";
+    const overlay = document.createElement("div");
+    overlay.id = "passwordOverlay";
 
-  overlay.innerHTML = `
-    <div class="passwordBox">
-      <h2>🔐 Accès verrouillé</h2>
-      <p>Entre le mot de passe pour continuer</p>
-      <input id="passwordInput" type="password" />
-      <button id="passwordBtn">Valider</button>
-      <div id="passwordError">Mot de passe incorrect</div>
-    </div>
-  `;
+    overlay.innerHTML = `
+      <div class="passwordBox">
+        <h2>🔐 Accès verrouillé</h2>
+        <p>Entre le mot de passe pour continuer</p>
+        <input id="passwordInput" type="password" />
+        <button id="passwordBtn">Valider</button>
+        <div id="passwordError">Mot de passe incorrect</div>
+      </div>
+    `;
 
-  document.body.appendChild(overlay);
+    document.body.appendChild(overlay);
 
-  const input = overlay.querySelector("#passwordInput");
-  const btn = overlay.querySelector("#passwordBtn");
-  const error = overlay.querySelector("#passwordError");
+    const input = overlay.querySelector("#passwordInput");
+    const btn = overlay.querySelector("#passwordBtn");
+    const error = overlay.querySelector("#passwordError");
 
-  // ✅ FOCUS FORCÉ (CRUCIAL)
-  setTimeout(() => {
-    input.focus();
-    input.click();
-  }, 50);
+    /* 🔧 FIX iOS CLAVIER */
+    document.body.style.pointerEvents = "none";
+    overlay.style.pointerEvents = "auto";
 
-  btn.onclick = validate;
-  input.addEventListener("keydown", e => {
-    if (e.key === "Enter") validate();
-  });
+    setTimeout(() => {
+      input.focus();
+      input.click();
+    }, 150);
 
-  function validate() {
-    if (input.value.trim().toLowerCase() === "mashain") {
+    btn.onclick = validate;
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") validate();
+    });
 
-      sessionStorage.setItem("passwordCleared", "true");
-      sessionStorage.removeItem("fromCommerce");
+    function validate() {
+      if (input.value.trim().toLowerCase() === "mashain") {
 
-      location.reload();
+        sessionStorage.setItem("passwordCleared", "true");
+        sessionStorage.removeItem("fromCommerce");
 
-    } else {
-      error.style.display = "block";
-      input.value = "";
-      setTimeout(() => input.focus(), 50);
+        document.body.style.pointerEvents = "auto";
+        location.reload();
+
+      } else {
+        error.style.display = "block";
+        input.value = "";
+        setTimeout(() => input.focus(), 100);
+      }
     }
   }
-}
 
   /* ==========================================================
      🔔 NOTIFICATION
@@ -222,9 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!notification) return;
     notification.textContent = text;
     notification.classList.add("show");
-    setTimeout(() => {
-      notification.classList.remove("show");
-    }, 3000);
+    setTimeout(() => notification.classList.remove("show"), 3000);
   }
 
 });
