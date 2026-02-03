@@ -167,41 +167,53 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      🔐 OVERLAY MOT DE PASSE
   ========================================================== */
-  function showPasswordOverlay() {
-    const overlay = document.createElement("div");
-    overlay.id = "passwordOverlay";
+ function showPasswordOverlay() {
 
-    overlay.innerHTML = `
-      <div class="passwordBox">
-        <h2>🔐 Accès verrouillé</h2>
-        <p>Entre le mot de passe pour continuer</p>
-        <input id="passwordInput" type="password" autofocus />
-        <button id="passwordBtn">Valider</button>
-        <div id="passwordError">Mot de passe incorrect</div>
-      </div>
-    `;
+  const overlay = document.createElement("div");
+  overlay.id = "passwordOverlay";
 
-    document.body.appendChild(overlay);
+  overlay.innerHTML = `
+    <div class="passwordBox">
+      <h2>🔐 Accès verrouillé</h2>
+      <p>Entre le mot de passe pour continuer</p>
+      <input id="passwordInput" type="password" />
+      <button id="passwordBtn">Valider</button>
+      <div id="passwordError">Mot de passe incorrect</div>
+    </div>
+  `;
 
-    const input = overlay.querySelector("#passwordInput");
-    const btn = overlay.querySelector("#passwordBtn");
-    const error = overlay.querySelector("#passwordError");
+  document.body.appendChild(overlay);
 
-    btn.onclick = validate;
-    input.onkeydown = e => e.key === "Enter" && validate();
+  const input = overlay.querySelector("#passwordInput");
+  const btn = overlay.querySelector("#passwordBtn");
+  const error = overlay.querySelector("#passwordError");
 
-    function validate() {
-      if (input.value.trim().toLowerCase() === "mashain") {
-        sessionStorage.setItem("passwordCleared", "true");
-        sessionStorage.removeItem("fromCommerce");
-        location.reload();
-      } else {
-        error.style.display = "block";
-        input.value = "";
-        input.focus();
-      }
+  // ✅ FOCUS FORCÉ (CRUCIAL)
+  setTimeout(() => {
+    input.focus();
+    input.click();
+  }, 50);
+
+  btn.onclick = validate;
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") validate();
+  });
+
+  function validate() {
+    if (input.value.trim().toLowerCase() === "mashain") {
+
+      sessionStorage.setItem("passwordCleared", "true");
+      sessionStorage.removeItem("fromCommerce");
+
+      location.reload();
+
+    } else {
+      error.style.display = "block";
+      input.value = "";
+      setTimeout(() => input.focus(), 50);
     }
   }
+}
 
   /* ==========================================================
      🔔 NOTIFICATION
