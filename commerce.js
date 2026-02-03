@@ -30,13 +30,10 @@ const btnKeep = document.getElementById("btnKeep");
    UTILS
 ===================================================== */
 function showLoader(text, time = 1200, cb) {
-  loaderBox.innerHTML = `
-    <div>${text}</div>
-    ${text.includes("Bravo") ? '<canvas id="gemsCanvas"></canvas>' : ''}
-  `;
+  loaderBox.textContent = text;
   fadeScreen.classList.remove("hidden");
 
-  if (text.includes("Bravo")) spawnGems();
+  if (text.includes("Bravo")) explodeGems();
 
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
@@ -49,6 +46,23 @@ function vibrate(p = 20) {
 }
 
 /* =====================================================
+   💎 EXPLOSION DE GEMS
+===================================================== */
+function explodeGems(){
+  for(let i = 0; i < 100; i++){
+    const g = document.createElement("div");
+    g.className = "gem";
+    g.style.left = "50%";
+    g.style.top = "50%";
+    g.style.background = `hsl(${Math.random()*360},100%,60%)`;
+    g.style.setProperty("--x", (Math.random()*800 - 400) + "px");
+    g.style.setProperty("--y", (Math.random()*800 - 400) + "px");
+    document.body.appendChild(g);
+    setTimeout(() => g.remove(), 1600);
+  }
+}
+
+/* =====================================================
    🎬 VIDÉO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
@@ -56,9 +70,20 @@ const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
-/* même taille + côte à côte */
-toggleSound.style.cssText = "top:15px;right:130px;font-size:14px;padding:6px 12px;";
-closeVideo.style.cssText  = "top:15px;right:15px;font-size:14px;padding:6px 12px;";
+/* Boutons plus grands + espace */
+toggleSound.style.cssText = `
+  top:15px;
+  right:160px;
+  font-size:16px;
+  padding:10px 18px;
+`;
+
+closeVideo.style.cssText = `
+  top:15px;
+  right:15px;
+  font-size:16px;
+  padding:10px 18px;
+`;
 
 questVideo.muted = true;
 questVideo.play().catch(()=>{});
@@ -172,7 +197,6 @@ function startMiniGame1() {
           if (i < quiz.length) step();
           else {
             game1.classList.add("hidden");
-            pirate5.classList.remove("glowStart"); // 🔥 pas de glow dialogues 2
             showScene();
             startDialogues2();
           }
@@ -185,7 +209,7 @@ function startMiniGame1() {
 }
 
 /* =====================================================
-   💬 DIALOGUES 2 (SANS GLOW PIRATE5)
+   💬 DIALOGUES 2
 ===================================================== */
 function startDialogues2() {
   pirate5.classList.remove("glowStart");
@@ -197,7 +221,7 @@ function startDialogues2() {
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
+   🎨 MINI-JEU 2
 ===================================================== */
 function startMiniGame2() {
   game2.classList.remove("hidden");
@@ -214,12 +238,10 @@ function startMiniGame2() {
   quiz.forEach(q => {
     const b = document.createElement("button");
     b.textContent = q.t;
-    b.style.display = "block";       // ✅ alignement vertical
-    b.style.margin = "10px auto";
     b.onclick = () => {
+      b.disabled = true;
       if (q.ok) {
         success++;
-        b.disabled = true;
         if (success === 2) {
           game2.classList.add("hidden");
           showScene();
@@ -232,19 +254,16 @@ function startMiniGame2() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 — ARRIVÉE + GLOW
+   🏴‍☠️ PIRATE 3
 ===================================================== */
 function spawnPirate3() {
-  pirate5.classList.remove("glowStart"); // ❌ pirate5 ne brille plus
-
   pirate3.classList.remove("hidden");
   pirate3.style.left = "1200px";
   pirate3.style.transition = "left 1s ease";
   requestAnimationFrame(() => pirate3.style.left = "638px");
 
   setTimeout(() => {
-    pirate3.classList.add("glowStart"); // ✅ glow pirate3
-
+    pirate3.classList.add("glowStart");
     pirate3.onclick = () => {
       pirate3.classList.remove("glowStart");
       startFinalDialogues();
@@ -281,30 +300,6 @@ function endQuest() {
   showLoader("Bravo tu as gagné la quête", 2200, () => {
     window.location.href = "menu.html";
   });
-}
-
-/* =====================================================
-   💎 GEMS
-===================================================== */
-function spawnGems() {
-  const canvas = document.getElementById("gemsCanvas");
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  for (let i = 0; i < 160; i++) {
-    ctx.fillStyle = `hsl(${Math.random()*360},100%,60%)`;
-    ctx.beginPath();
-    ctx.arc(
-      Math.random()*canvas.width,
-      Math.random()*canvas.height,
-      3,
-      0,
-      Math.PI*2
-    );
-    ctx.fill();
-  }
 }
 
 });
