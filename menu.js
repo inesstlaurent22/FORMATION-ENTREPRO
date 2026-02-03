@@ -10,11 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.style.backgroundSize = "cover";
 
   /* ==========================================================
-     🔱 RESET — CAPTURE GLOBALE
+     🔁 RESET GLOBAL
   ========================================================== */
-  document.addEventListener("click", (e) => {
-    const resetBtn = e.target.closest("#resetButton");
-    if (!resetBtn) return;
+  document.addEventListener("click", e => {
+    const btn = e.target.closest("#resetButton");
+    if (!btn) return;
 
     e.preventDefault();
     e.stopPropagation();
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     localStorage.clear();
     sessionStorage.clear();
-    window.location.reload();
+    location.reload();
   });
 
   /* ==========================================================
@@ -35,14 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const pirate4 = document.getElementById("pirate4");
   const pirate5 = document.getElementById("pirate5");
 
+  const pirates = [pirate1, pirate2, pirate3, pirate4, pirate5].filter(Boolean);
+
   const notification = document.getElementById("notification");
   const bubble = document.getElementById("bubble");
   const bubbleButton = document.getElementById("bubbleButton");
 
-  const pirates = [pirate1, pirate2, pirate3, pirate4, pirate5].filter(Boolean);
-
   /* ==========================================================
-     0️⃣ TOUT VERROUILLER AU DÉPART
+     🔒 TOUT VERROUILLER PAR DÉFAUT
   ========================================================== */
   pirates.forEach(p => {
     p.classList.add("locked");
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     1️⃣ PIRATE 2 DÉBLOQUÉ PAR DÉFAUT
+     🔓 PIRATE 2 TOUJOURS ACCESSIBLE
   ========================================================== */
   if (pirate2) {
     pirate2.classList.remove("locked");
@@ -60,40 +60,34 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     2️⃣ TRANSFERTS SESSION → LOCAL (AUTRES QUÊTES)
+     🔄 RETOUR DES QUÊTES → TRANSFERT SESSION → LOCAL
   ========================================================== */
-  ["pirate3", "pirate4", "pirate5"].forEach(id => {
+  let newUnlock = false;
+
+  ["pirate1", "pirate3", "pirate4", "pirate5"].forEach(id => {
     if (sessionStorage.getItem(`unlock_${id}`) === "true") {
+      if (localStorage.getItem(`${id}_unlocked`) !== "true") {
+        newUnlock = true;
+      }
       localStorage.setItem(`${id}_unlocked`, "true");
       sessionStorage.removeItem(`unlock_${id}`);
     }
   });
 
   /* ==========================================================
-     3️⃣ RETOUR DE COMMERCE → NOTIFICATION + MOT DE PASSE
+     🔐 RETOUR COMMERCE → MOT DE PASSE (UNE SEULE FOIS)
   ========================================================== */
   if (
     sessionStorage.getItem("fromCommerce") === "true" &&
     localStorage.getItem("code_mashain_valid") !== "true"
   ) {
-
-    // 🔔 Notification claire
-    if (notification) {
-      notification.textContent = "🔐 Mot de passe requis pour continuer";
-      notification.classList.add("show");
-      setTimeout(() => notification.classList.remove("show"), 3000);
-    }
-
-    // ⏳ petit délai pour lisibilité
-    setTimeout(() => {
-      showPasswordOverlay();
-    }, 600);
-
-    return; // ⛔ bloque le reste du menu
+    showNotification("🔐 Mot de passe requis pour continuer");
+    setTimeout(showPasswordOverlay, 600);
+    return; // ⛔ stop le menu tant que pas validé
   }
 
   /* ==========================================================
-     4️⃣ RÉACTIVATION SELON LOCALSTORAGE
+     🔓 RÉACTIVATION DES PIRATES DÉBLOQUÉS
   ========================================================== */
   pirates.forEach(p => {
     if (localStorage.getItem(`${p.id}_unlocked`) === "true") {
@@ -104,77 +98,36 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     5️⃣ PIRATE 2 → DÉBLOQUE PIRATE 1 (AVEC FEEDBACK)
+     🎉 NOTIFICATION NOUVEAU PIRATE
   ========================================================== */
-  if (pirate2 && pirate1) {
-    pirate2.addEventListener("click", () => {
-      pirate2.classList.add("glow");
-      localStorage.setItem("pirate1_unlocked", "true");
-      sessionStorage.setItem("showBubbleAfterReload", "yes");
-      setTimeout(() => window.location.reload(), 250);
-    });
+  if (newUnlock) {
+    showNotification("🏆 Bravo, tu as débloqué un nouveau pirate !");
+  }
+
+  function showNotification(text) {
+    if (!notification) return;
+    notification.textContent = text;
+    notification.classList.add("show");
+    setTimeout(() => notification.classList.remove("show"), 3000);
   }
 
   /* ==========================================================
-     6️⃣ BULLE + NOTIFICATION APRÈS RELOAD
+     💬 BULLE INFO
   ========================================================== */
-  if (
-    sessionStorage.getItem("showBubbleAfterReload") === "yes" &&
-    pirate2 &&
-    bubble
-  ) {
-    if (notification) {
-      notification.textContent = "🆕 Un nouveau pirate est débloqué !";
-      notification.classList.add("show");
-      setTimeout(() => notification.classList.remove("show"), 2500);
-    }
-
-    bubble.style.display = "block";
-
-    setTimeout(() => {
-      const rect = pirate2.getBoundingClientRect();
-      bubble.style.position = "absolute";
-      bubble.style.left = rect.left + rect.width / 2 + "px";
-      bubble.style.top = rect.top - 80 + window.scrollY + "px";
-      bubble.style.transform = "translateX(-50%)";
-    }, 180);
-
-    sessionStorage.removeItem("showBubbleAfterReload");
+  if (bubbleButton) {
+    bubbleButton.onclick = () => bubble.style.display = "none";
   }
 
-  bubbleButton?.addEventListener("click", () => {
-    bubble.style.display = "none";
-  });
-
   /* ==========================================================
-     7️⃣ NAVIGATION ENTRE QUÊTES
+     🧭 NAVIGATION ENTRE QUÊTES
   ========================================================== */
-  pirate1?.addEventListener("click", () => {
-    if (!pirate1.classList.contains("locked")) {
-      window.location.href = "commerce.html";
-    }
-  });
-
-  pirate3?.addEventListener("click", () => {
-    if (!pirate3.classList.contains("locked")) {
-      window.location.href = "communication.html";
-    }
-  });
-
-  pirate4?.addEventListener("click", () => {
-    if (!pirate4.classList.contains("locked")) {
-      window.location.href = "legal.html";
-    }
-  });
-
-  pirate5?.addEventListener("click", () => {
-    if (!pirate5.classList.contains("locked")) {
-      window.location.href = "finance.html";
-    }
-  });
+  pirate1?.addEventListener("click", () => location.href = "commerce.html");
+  pirate3?.addEventListener("click", () => location.href = "communication.html");
+  pirate4?.addEventListener("click", () => location.href = "legal.html");
+  pirate5?.addEventListener("click", () => location.href = "finance.html");
 
   /* ==========================================================
-     🔐 OVERLAY MOT DE PASSE (COMMERCE)
+     🔐 OVERLAY MOT DE PASSE
   ========================================================== */
   function showPasswordOverlay() {
 
@@ -185,9 +138,9 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="passwordBox">
         <h2>🔐 Accès verrouillé</h2>
         <p>Entre le mot de passe pour continuer</p>
-        <input id="passwordInput" type="password" />
+        <input id="passwordInput" type="password" autofocus />
         <button id="passwordBtn">Valider</button>
-        <div class="passwordError" id="passwordError">
+        <div id="passwordError" style="display:none;color:red;margin-top:8px">
           Mot de passe incorrect
         </div>
       </div>
@@ -204,11 +157,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function validate() {
       if (input.value.trim().toLowerCase() === "mashain") {
+
+        // 🔐 validation définitive
         localStorage.setItem("code_mashain_valid", "true");
+
+        // 🔓 déblocage pirate 3
         localStorage.setItem("pirate3_unlocked", "true");
+
+        // 🧹 nettoyage
         sessionStorage.removeItem("fromCommerce");
-        overlay.remove();
-        window.location.reload();
+
+        location.reload();
+
       } else {
         error.style.display = "block";
         input.value = "";
