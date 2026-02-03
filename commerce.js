@@ -56,9 +56,9 @@ const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
-/* boutons petits + top right */
-toggleSound.style.cssText = "top:15px;right:70px;font-size:14px;padding:6px 10px;";
-closeVideo.style.cssText  = "top:15px;right:15px;font-size:14px;padding:6px 10px;";
+/* même taille + côte à côte */
+toggleSound.style.cssText = "top:15px;right:130px;font-size:14px;padding:6px 12px;";
+closeVideo.style.cssText  = "top:15px;right:15px;font-size:14px;padding:6px 12px;";
 
 questVideo.muted = true;
 questVideo.play().catch(()=>{});
@@ -86,10 +86,10 @@ function showScene() {
 
   pirate5.classList.add("glowStart");
 
-  pirate5.addEventListener("click", () => {
+  pirate5.onclick = () => {
     pirate5.classList.remove("glowStart");
     startDialogues1();
-  }, { once: true });
+  };
 }
 
 /* =====================================================
@@ -172,6 +172,7 @@ function startMiniGame1() {
           if (i < quiz.length) step();
           else {
             game1.classList.add("hidden");
+            pirate5.classList.remove("glowStart"); // 🔥 pas de glow dialogues 2
             showScene();
             startDialogues2();
           }
@@ -184,9 +185,11 @@ function startMiniGame1() {
 }
 
 /* =====================================================
-   💬 DIALOGUES 2
+   💬 DIALOGUES 2 (SANS GLOW PIRATE5)
 ===================================================== */
 function startDialogues2() {
+  pirate5.classList.remove("glowStart");
+
   playDialogues([
     { text: "Avec ces informations, tu peux bâtir ton business plan.", anchor: pirate2 },
     { text: "Passons à l’étape suivante.", anchor: pirate5 }
@@ -194,7 +197,7 @@ function startDialogues2() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 2 — BUSINESS PLAN
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
 function startMiniGame2() {
   game2.classList.remove("hidden");
@@ -211,6 +214,8 @@ function startMiniGame2() {
   quiz.forEach(q => {
     const b = document.createElement("button");
     b.textContent = q.t;
+    b.style.display = "block";       // ✅ alignement vertical
+    b.style.margin = "10px auto";
     b.onclick = () => {
       if (q.ok) {
         success++;
@@ -230,17 +235,20 @@ function startMiniGame2() {
    🏴‍☠️ PIRATE 3 — ARRIVÉE + GLOW
 ===================================================== */
 function spawnPirate3() {
+  pirate5.classList.remove("glowStart"); // ❌ pirate5 ne brille plus
+
   pirate3.classList.remove("hidden");
   pirate3.style.left = "1200px";
   pirate3.style.transition = "left 1s ease";
   requestAnimationFrame(() => pirate3.style.left = "638px");
 
   setTimeout(() => {
-    pirate3.classList.add("glowStart");
-    pirate3.addEventListener("click", () => {
+    pirate3.classList.add("glowStart"); // ✅ glow pirate3
+
+    pirate3.onclick = () => {
       pirate3.classList.remove("glowStart");
       startFinalDialogues();
-    }, { once: true });
+    };
   }, 1200);
 }
 
@@ -285,7 +293,7 @@ function spawnGems() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  for (let i = 0; i < 150; i++) {
+  for (let i = 0; i < 160; i++) {
     ctx.fillStyle = `hsl(${Math.random()*360},100%,60%)`;
     ctx.beginPath();
     ctx.arc(
