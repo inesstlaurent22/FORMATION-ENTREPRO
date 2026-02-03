@@ -36,7 +36,7 @@
 ===================================================== -->
 <img src="images/Pirate2.png" id="pirate2bis" class="hidden" alt="Pirate apprenti">
 <img src="images/Pirate5.png" id="pirate5bis" class="hidden" alt="Maître pirate">
-<img src="images/Pirateclients.png" id="pirate3bis" class="hidden" alt="Pirate client">
+<img src="images/Pirateclients.png" id="pirate3bis" class="hidden" alt="Clients pirates">
 
 <!-- =====================================================
      💬 BULLES DE DIALOGUE
@@ -48,7 +48,7 @@
 </button>
 
 <!-- =====================================================
-     🌑 LOADER / TRANSITIONS
+     🌑 LOADER GLOBAL
 ===================================================== -->
 <div id="fadeScreen" class="hidden">
   <div class="loaderBox">
@@ -57,30 +57,23 @@
 </div>
 
 <!-- =====================================================
-     🎮 MINI-JEU COMMUNICATION
+     🎮 MINI-JEU 1 — BUSINESS PLAN / ÉTUDE DE MARCHÉ
 ===================================================== -->
 <div id="communicationGame" class="hidden">
 
   <div class="quizBox">
 
     <div class="quizTitle">
-      📣 Se faire connaître
+      📊 Comprendre le marché
     </div>
 
     <div class="quizSeparator"></div>
 
-    <div id="commQuestion">
-      <strong>Plusieurs réponses peuvent être correctes</strong><br><br>
-      Que dois-tu faire pour attirer des clients ?
-    </div>
+    <div id="commQuestion"></div>
 
     <div id="commAnswers"></div>
 
-    <div id="commFeedback" class="hidden">
-      ✅ <strong>Bonne réponse !</strong><br><br>
-      Utiliser plusieurs moyens de communication permet aux clients
-      de te découvrir et de venir dans ta boutique.
-    </div>
+    <div id="commFeedback" class="hidden"></div>
 
   </div>
 </div>
@@ -90,10 +83,7 @@
 ===================================================== -->
 <div id="clientsLoader" class="hidden">
   <div class="loaderBox">
-    <p><strong>Bravo, 2 clients sont entrés dans la boutique</strong></p>
-    <div class="progressBar">
-      <div class="progressFill"></div>
-    </div>
+    <p><strong>Des clients arrivent au marché…</strong></p>
     <p>Clients : <span id="clientCount">0</span>/10</p>
   </div>
 </div>
@@ -107,35 +97,20 @@
     Pirate 2 : Dis, tu trouves mon flyer correct ?
   </div>
 
-  <div id="flyerCenter" class="hidden">
-    <img src="images/flyer.png" alt="Flyer" id="flyerClickable">
-    <p>👉 Clique sur le flyer</p>
+  <div class="dialogBubble hidden">
+    Pirate client : Il manque un logo et les couleurs ne sont pas cohérentes.
   </div>
 
   <div class="dialogBubble hidden">
-    Pirate 3 : Il manque le logo et il y a trop de couleurs.
+    Pirate 2 : Que doit-on modifier pour attirer plus de clients ?
   </div>
 
   <div class="dialogBubble hidden">
-    Pirate 2 : Que doit-on modifier pour le rendre très attractif ?
+    Pirate client : Il faut une vraie identité visuelle.
   </div>
 
   <div class="dialogBubble hidden">
-    Pirate 3 : Nous devons créer une identité visuelle :
-    un logo, des couleurs et une typographie.
-  </div>
-
-  <div class="dialogBubble hidden">
-    Pirate 2 : Pourquoi c’est important pour l’échoppe ?
-  </div>
-
-  <div class="dialogBubble hidden">
-    Pirate 3 : Grâce à cela, les clients vous reconnaîtront
-    en un coup d’œil : sur le coffre, le flyer ou même un sac.
-  </div>
-
-  <div class="dialogBubble hidden">
-    Pirate 2 : Parfait, travaillons là-dessus !
+    Pirate 2 : Logo, couleurs et style graphique… j’ai compris !
   </div>
 
 </div>
@@ -154,15 +129,9 @@
     <div class="quizSeparator"></div>
 
     <div id="visualIntro">
-      1️⃣ L’identité visuelle permet de reconnaître une marque
-      au premier coup d’œil.<br><br>
-      2️⃣ Elle est composée du logo, des couleurs, des écritures
-      et du style graphique.<br><br>
-      👉 Choisis les bons éléments pour créer ton identité.
+      Choisis les bons éléments pour construire ton identité visuelle.
     </div>
 
-    <div id="visualRoundTitle"></div>
-    <div id="visualHint"></div>
     <div id="visualChoices"></div>
     <div id="visualFeedback"></div>
 
@@ -170,13 +139,9 @@
 </div>
 
 <!-- =====================================================
-     📖 LIVRE DIGITAL
+     📖 LIVRE — BUSINESS PLAN
 ===================================================== -->
 <div id="bookContainer" class="hidden">
-
-  <div id="bookTitle">
-    Ton business plan est prêt
-  </div>
 
   <div class="book">
     <img id="leftPage" alt="Page gauche">
@@ -184,30 +149,26 @@
   </div>
 
   <button id="continueQuestBtn" class="hidden">
-    Poursuivre ta quête
+    Poursuivre la quête
   </button>
 
 </div>
 
 <!-- =====================================================
-     🎮 MINI-JEU 2 — LE JUGEMENT DU MARCHÉ
+     ⚖️ MINI-JEU FINAL — JUGEMENT DU MARCHÉ
 ===================================================== -->
 <div id="merchantGame" class="hidden">
 
-  <h1>🧔‍♂️ Le Jugement du Marché</h1>
+  <h2>⚖️ Le Jugement du Marché</h2>
 
-  <p>📦 Prix : <strong><span id="price">300</span> PO</strong></p>
-  <p>🏷️ Concurrents : <strong><span id="exp">250</span> PO</strong></p>
+  <p>📦 Ton prix : <strong>300 PO</strong></p>
+  <p>🏷️ Concurrents : <strong>250 PO</strong></p>
 
-  <p id="clientText">
-    « J’ai vu cet objet à moitié prix dans un autre port… »
+  <p>
+    « J’ai vu un produit similaire moins cher dans un autre port… »
   </p>
 
-  <div id="clue"></div>
-
-  <button id="btnHint">💡 Indice</button>
-  <button id="btnLower">💰 Baisser le prix</button>
-  <button id="btnKeep">⚖️ Maintenir le prix</button>
+  <button id="btnKeep">Maintenir le prix</button>
 
 </div>
 
