@@ -389,23 +389,27 @@ window.coffreAnswer = good => {
   showCoffreTVA();
 };
 
-function endMiniGame4(){
+function endMiniGame4() {
+
   // 1. Fermer l'encart du mini-jeu
   miniGame4.style.display = "none";
 
   // 2. Retirer l'assombrissement → retour background normal
   scene.classList.remove("sceneDim");
 
-  // 3. Afficher le loader de victoire
+  // 3. 🔓 Débloquer pirate4 AVANT retour menu
+  sessionStorage.setItem("unlock_pirate4", "true");
+
+  // 4. Afficher le loader de victoire
   const loader = document.createElement("div");
   loader.className = "loaderBox";
   loader.textContent = "🏆 Bravo, tu as gagné cette quête";
   document.body.appendChild(loader);
 
-  // 4. Explosion de gems
+  // 5. Explosion de gems
   explodeGems();
 
-  // 5. Redirection vers le menu
+  // 6. Redirection vers le menu
   setTimeout(() => {
     window.location.href = "menu.html";
   }, 4000);
