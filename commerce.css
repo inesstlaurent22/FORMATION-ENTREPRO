@@ -178,17 +178,6 @@ html, body {
 }
 
 /* =====================================================
-   🚫 PIRATE 5 — DÉSACTIVÉ APRÈS CLIC
-===================================================== */
-#pirate5bis.disabled {
-  pointer-events: none;     /* ❌ plus cliquable */
-  cursor: default;
-  filter: none !important;  /* ❌ stop illumination */
-  animation: none !important;
-  transform: none !important;
-}
-
-/* =====================================================
    💬 DIALOGUES — STYLE KIT IN
 ===================================================== */
 #bubbleContainer {
