@@ -31,7 +31,7 @@ const btnKeep = document.getElementById("btnKeep");
 ===================================================== */
 function showLoader(type = "intro", time = 1200, cb) {
   loaderBox.textContent = "";
-  loaderBox.classList.remove("final");
+  loaderBox.classList.remove("final", "video");
 
   if (type === "final") {
     loaderBox.classList.add("final");
@@ -71,15 +71,24 @@ function explodeGems(){
 }
 
 /* =====================================================
-   🎬 VIDÉO
+   🎬 VIDÉO + LOADER ⏳
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
+/* Loader ⏳ pendant chargement vidéo */
+fadeScreen.classList.remove("hidden");
+loaderBox.classList.add("video");
+
+questVideo.oncanplay = () => {
+  loaderBox.classList.remove("video");
+  fadeScreen.classList.add("hidden");
+  questVideo.play().catch(()=>{});
+};
+
 questVideo.muted = true;
-questVideo.play().catch(()=>{});
 
 toggleSound.onclick = () => {
   questVideo.muted = !questVideo.muted;
@@ -109,7 +118,6 @@ function showScene() {
   pirate5.style.transition = "none";
   pirate5.style.left = "1200px";
 
-  // Animation entrée pirate5
   requestAnimationFrame(() => {
     pirate5.style.transition = "left 1.2s ease";
     pirate5.style.left = "900px";
@@ -117,7 +125,6 @@ function showScene() {
 
   setTimeout(() => {
     pirate5.classList.add("glowStart");
-
     pirate5.onclick = () => {
       pirate5.classList.remove("glowStart");
       startDialogues1();
@@ -266,7 +273,9 @@ function startMiniGame2() {
    🏴‍☠️ PIRATE 3 — ARRIVÉE
 ===================================================== */
 function spawnPirate3() {
+  // Désactivation TOTALE de pirate5
   pirate5.classList.remove("glowStart");
+  pirate5.style.transition = "none";
   pirate5.onclick = null;
 
   pirate3.classList.remove("hidden");
