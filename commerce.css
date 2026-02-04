@@ -1,9 +1,7 @@
 /* =====================================================
    RESET & BASE — KIT IN (BASE OFFICIELLE)
 ===================================================== */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html, body {
   margin: 0;
@@ -18,7 +16,7 @@ html, body {
 .hidden { display: none !important; }
 
 /* =====================================================
-   🎬 VIDÉO INTRO — BASE OFFICIELLE
+   🎬 VIDÉO INTRO
 ===================================================== */
 #videoContainer {
   position: fixed;
@@ -71,7 +69,7 @@ html, body {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES — BASE OFFICIELLE
+   🏴‍☠️ PIRATES
 ===================================================== */
 .pirate {
   position: absolute;
@@ -81,7 +79,7 @@ html, body {
 }
 
 /* =====================================================
-   💬 BULLES DE DIALOGUE — STYLE KIT IN
+   💬 BULLES DE DIALOGUE
 ===================================================== */
 #bubbleContainer {
   position: fixed;
@@ -104,41 +102,31 @@ html, body {
   box-shadow: 0 0 25px rgba(255,215,0,.55);
   cursor: pointer;
   pointer-events: auto;
-  font-family: "Trebuchet MS", Arial, sans-serif;
   animation: bubbleAppear .25s ease-out;
 }
 
-/* PETITE FLÈCHE STYLE PARCHEMIN */
 .dialogue-bubble::after {
   content: "";
   position: absolute;
   bottom: -14px;
   left: 50%;
   transform: translateX(-50%);
-  width: 0;
-  height: 0;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
   border-top: 14px solid gold;
-  filter: drop-shadow(0 -2px 2px rgba(0,0,0,.6));
 }
 
-/* ANIMATION D’APPARITION */
 @keyframes bubbleAppear {
-  from {
-    opacity: 0;
-    transform: scale(.92);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(.92); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — STYLE CONSERVÉ
+   🎮 MINI-JEUX — STYLE UNIFIÉ (1, 2, 3)
 ===================================================== */
-#communicationGame {
+#communicationGame,
+#visualIdentityGame,
+#merchantGame {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -153,15 +141,19 @@ html, body {
   box-shadow: 0 0 40px rgba(255,215,0,.45);
 }
 
-/* STRUCTURE */
-#communicationGame .quizBox {
+/* STRUCTURE INTERNE COMMUNE */
+#communicationGame .quizBox,
+#visualIdentityGame .quizBox,
+#merchantGame {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-/* TITRE */
-#communicationGame .quizTitle {
+/* TITRES */
+#communicationGame .quizTitle,
+#visualIdentityGame .quizTitle,
+#merchantGame h2 {
   font-family: "Cinzel", serif;
   font-size: 26px;
   color: gold;
@@ -170,13 +162,15 @@ html, body {
   text-shadow: 0 0 12px rgba(255,215,0,.6);
 }
 
-/* TEXTE INTRO */
-#communicationGame .quizIntro {
+/* TEXTE / CONTENU */
+#communicationGame .quizIntro,
+#visualIdentityGame #visualFeedback,
+#merchantGame p {
   font-size: 15px;
   color: #f0e1b8;
 }
 
-/* QUESTION */
+/* QUESTION / TEXTE CLÉ */
 #communicationGame #commQuestion {
   font-size: 16px;
   font-weight: bold;
@@ -191,19 +185,17 @@ html, body {
     0 4px 10px rgba(0,0,0,.5);
 }
 
-/* RÉPONSES */
-#communicationGame #commAnswers {
+/* ZONES DE BOUTONS */
+#commAnswers,
+#visualChoices,
+#merchantGame {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-#communicationGame #commAnswers button {
-  width: 100%;
-}
-
 /* =====================================================
-   🔘 BOUTONS — BASE OFFICIELLE
+   🔘 BOUTONS — STYLE COMMUN
 ===================================================== */
 button {
   background: linear-gradient(145deg,#7b4a12,#caa14a);
@@ -219,9 +211,7 @@ button {
     0 4px 0 #3b2208;
 }
 
-button:hover {
-  transform: translateY(2px);
-}
+button:hover { transform: translateY(2px); }
 
 button.pressed {
   transform: translateY(4px);
@@ -236,7 +226,7 @@ button:disabled {
 }
 
 /* =====================================================
-   ❌ VIBRATION VISUELLE — ENCAPSULATION
+   ❌ VIBRATION VISUELLE — MINI-JEUX
 ===================================================== */
 .screen-shake {
   animation: screenShake .4s;
@@ -257,12 +247,16 @@ button:disabled {
 @media (max-width: 768px) {
   .pirate { display: none; }
 
-  #communicationGame {
+  #communicationGame,
+  #visualIdentityGame,
+  #merchantGame {
     width: 95%;
     padding: 22px;
   }
 
-  #communicationGame .quizTitle {
+  #communicationGame .quizTitle,
+  #visualIdentityGame .quizTitle,
+  #merchantGame h2 {
     font-size: 22px;
   }
 
