@@ -450,13 +450,20 @@ function startMiniGame3(){
 /* =====================================================
    🏁 FIN
 ===================================================== */
-function finish(){
+function finish() {
   hideMiniGame();
-  const f=document.createElement("div");
-  f.id="fadeScreen";
-  f.innerHTML="<div class='loaderBox'>Bravo, tu as gagné cette quête</div>";
+
+  // 🔓 Débloque pirate5 AVANT retour menu
+  sessionStorage.setItem("unlock_pirate5", "true");
+
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
+  f.innerHTML = "<div class='loaderBox'>Bravo, tu as gagné cette quête</div>";
   document.body.appendChild(f);
-  setTimeout(()=>location.href="menu.html",2800);
+
+  setTimeout(() => {
+    location.href = "menu.html";
+  }, 2800);
 }
 
 });
