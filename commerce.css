@@ -55,7 +55,7 @@ html, body {
 #closeVideo  { right: 20px; }
 
 /* =====================================================
-   🌑 LOADER GLOBAL — EMOJIS
+   🌑 LOADER GLOBAL — EMOJI GARANTI
 ===================================================== */
 #fadeScreen {
   position: fixed;
@@ -72,21 +72,25 @@ html, body {
   height: 88px;
   border-radius: 50%;
   border: 4px solid gold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: radial-gradient(circle, #2a1708, #120700);
   box-shadow:
     0 0 28px rgba(255,215,0,.85),
     inset 0 0 16px rgba(0,0,0,.8);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 38px;
   animation: loaderRotate 1.2s linear infinite;
 }
 
+/* 🏴‍☠️ PAR DÉFAUT */
 .loaderBox::before {
   content: "🏴‍☠️";
-  font-size: 38px;
 }
 
+/* ⏳ PENDANT LE CHARGEMENT */
 .loaderBox[data-type="hourglass"]::before {
   content: "⏳";
 }
@@ -95,19 +99,6 @@ html, body {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
-
-/* TEXTE AU-DESSUS DU LOADER */
-#loaderText {
-  position: absolute;
-  top: calc(50% - 120px);
-  width: 100%;
-  text-align: center;
-  font-family: "Cinzel", serif;
-  font-size: 16px;
-  color: #ffd77a;
-  text-shadow: 0 0 12px rgba(255,215,0,.6);
-}
-
 /* =====================================================
    🌅 BACKGROUND
 ===================================================== */
