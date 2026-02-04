@@ -54,6 +54,30 @@ html, body {
 #toggleSound { right: 250px; }
 #closeVideo  { right: 20px; }
 
+
+/* =====================================================
+   ⏳ LOADER VIDÉO (sans cercle)
+===================================================== */
+.loaderBox.video {
+  width: auto;
+  height: auto;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.loaderBox.video::before {
+  content: "⏳";
+  font-size: 48px;
+  animation: hourglassSpin 1.2s linear infinite;
+}
+
+@keyframes hourglassSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 /* =====================================================
    🌑 LOADER GLOBAL
 ===================================================== */
