@@ -33,6 +33,13 @@ const game3 = document.getElementById("merchantGame");
 const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
+   UTILS
+===================================================== */
+function vibrate(p = 40) {
+  navigator.vibrate && navigator.vibrate(p);
+}
+
+/* =====================================================
    LOADERS
 ===================================================== */
 function showPirateLoader(duration = 800, cb) {
@@ -48,8 +55,7 @@ function loadBackground(cb) {
   loaderBox.dataset.type = "hourglass";
   fadeScreen.classList.remove("hidden");
 
-  // TEXTE AU-DESSUS DU LOADER
-  let loaderText = document.createElement("div");
+  const loaderText = document.createElement("div");
   loaderText.id = "loaderText";
   loaderText.textContent = "Tu vas bientôt pouvoir entrer sur le marché…";
   fadeScreen.appendChild(loaderText);
@@ -64,13 +70,6 @@ function loadBackground(cb) {
   };
 
   img.complete ? finish() : (img.onload = img.onerror = finish);
-}
-
-/* =====================================================
-   UTILS
-===================================================== */
-function vibrate(p = 20) {
-  navigator.vibrate && navigator.vibrate(p);
 }
 
 /* =====================================================
@@ -160,7 +159,7 @@ function renderDialogue() {
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = () => {
-    vibrate();
+    vibrate(15);
     index++;
     renderDialogue();
   };
@@ -183,11 +182,11 @@ function startDialogues1() {
   playDialogues([
     { text: "Bien joué, moussaillons. Lancer son activité demande du courage.", anchor: pirate5 },
     { text: "Merci capitaine ! Le marché est ouvert, on est prêts à vendre.", anchor: pirate2 },
-    { text: "Avant de foncer, observez. Un bon marchand connaît son marché.", anchor: pirate5 },
-    { text: "Qui sont vos clients ? Qu’achètent-ils ? À quel prix ?", anchor: pirate5 },
-    { text: "Étudiez vos concurrents : leur réputation, leurs forces, leurs erreurs.", anchor: pirate5 },
-    { text: "Fixez le bon prix, et les clients viendront d’abord chez vous.", anchor: pirate5 },
-    { text: "Comprendre avant d’agir… on a encore à apprendre.", anchor: pirate2 }
+    { text: "Avant de foncer, observe. Un bon marchand connaît son marché.", anchor: pirate5 },
+    { text: "Qui sont tes clients ? Qu’achètent-ils ? À quel prix ?", anchor: pirate5 },
+    { text: "Étudie tes concurrents : réputation, forces, erreurs.", anchor: pirate5 },
+    { text: "Fixe le bon prix, et les clients viendront.", anchor: pirate5 },
+    { text: "Comprendre avant d’agir…", anchor: pirate2 }
   ], startMiniGame1);
 }
 
@@ -204,34 +203,34 @@ function startMiniGame1() {
       a: [
         "Choisir les couleurs de sa boutique",
         "Comprendre les attentes des clients",
-        "Identifier la concurrence et la demande du marché"
+        "Identifier la concurrence et la demande"
       ]
     },
     {
-      q: "Sur quoi dois-tu analyser tes concurrents ?",
+      q: "Sur quoi analyser tes concurrents ?",
       ok: [0, 2],
       a: [
-        "Leur réputation et leur stratégie",
-        "Leur lieu de vacances",
-        "Leurs prix et leur positionnement"
+        "Réputation et stratégie",
+        "Lieu de vacances",
+        "Prix et positionnement"
       ]
     },
     {
-      q: "Pourquoi faut-il réaliser des études de produit ?",
+      q: "Pourquoi faire des études de produit ?",
       ok: [0, 1],
       a: [
-        "S’assurer que le produit répond aux besoins des clients",
-        "Améliorer le produit et se différencier",
-        "Créer un produit sans objectif précis"
+        "Répondre aux besoins clients",
+        "Se différencier",
+        "Créer au hasard"
       ]
     },
     {
-      q: "Après avoir analysé les prix des concurrents, quelles stratégies sont possibles ?",
+      q: "Quelles stratégies de prix sont possibles ?",
       ok: [0, 1],
       a: [
-        "S’aligner sur les prix du marché",
-        "Proposer plus de valeur à un prix plus élevé",
-        "Fixer un prix au hasard"
+        "S’aligner sur le marché",
+        "Plus cher avec plus de valeur",
+        "Au hasard"
       ]
     }
   ];
@@ -249,7 +248,16 @@ function startMiniGame1() {
       btn.textContent = txt;
 
       btn.onclick = () => {
-        if (!quiz[i].ok.includes(idx)) return;
+
+        // ❌ MAUVAISE RÉPONSE
+        if (!quiz[i].ok.includes(idx)) {
+          vibrate(90);
+          btn.classList.add("shake");
+          setTimeout(() => btn.classList.remove("shake"), 350);
+          return;
+        }
+
+        // ✅ BONNE RÉPONSE
         if (found.includes(idx)) return;
 
         found.push(idx);
@@ -259,10 +267,10 @@ function startMiniGame1() {
         if (found.length === quiz[i].ok.length) {
           setTimeout(() => {
             i++;
-            i < quiz.length ? step() : (
-              game1.classList.add("hidden"),
-              showPirateLoader(700, startDialogues2)
-            );
+            i < quiz.length
+              ? step()
+              : (game1.classList.add("hidden"),
+                 showPirateLoader(700, startDialogues2));
           }, 600);
         }
       };
@@ -279,13 +287,13 @@ function startMiniGame1() {
 ===================================================== */
 function startDialogues2() {
   playDialogues([
-    { text: "Avec ces informations, tu peux bâtir ton business plan.", anchor: pirate2 },
+    { text: "Avec ces infos, tu peux bâtir ton business plan.", anchor: pirate2 },
     { text: "Passons à l’étape suivante.", anchor: pirate5 }
   ], startMiniGame2);
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
 function startMiniGame2() {
   game2.classList.remove("hidden");
@@ -302,13 +310,23 @@ function startMiniGame2() {
   quiz.forEach(q => {
     const b = document.createElement("button");
     b.textContent = q.t;
+
     b.onclick = () => {
       b.disabled = true;
-      if (q.ok && ++success === 2) {
+
+      if (!q.ok) {
+        vibrate(90);
+        b.classList.add("shake");
+        setTimeout(() => b.classList.remove("shake"), 350);
+        return;
+      }
+
+      if (++success === 2) {
         game2.classList.add("hidden");
         showPirateLoader(700, spawnPirate3);
       }
     };
+
     visualChoices.appendChild(b);
   });
 }
@@ -351,6 +369,7 @@ function startFinalDialogues() {
 function startMiniGame3() {
   game3.classList.remove("hidden");
   btnKeep.onclick = () => {
+    vibrate(20);
     game3.classList.add("hidden");
     showPirateLoader(700, endQuest);
   };
