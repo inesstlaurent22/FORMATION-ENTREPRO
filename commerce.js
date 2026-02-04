@@ -17,9 +17,6 @@ const pirate3 = document.getElementById("pirate3bis");
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
 
-const fadeScreen = document.getElementById("fadeScreen");
-const loaderBox = fadeScreen.querySelector(".loaderBox");
-
 /* Mini-jeux */
 const game1 = document.getElementById("communicationGame");
 const q1 = document.getElementById("commQuestion");
@@ -32,48 +29,6 @@ const game3 = document.getElementById("merchantGame");
 const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
-   LOADER GÉNÉRAL
-===================================================== */
-function showLoader(type = "intro", time = 1200, cb) {
-  loaderBox.classList.remove("final", "video");
-
-  if (type === "final") {
-    loaderBox.classList.add("final");
-    explodeGems();
-  }
-
-  fadeScreen.classList.remove("hidden");
-
-  setTimeout(() => {
-    fadeScreen.classList.add("hidden");
-    cb && cb();
-  }, time);
-}
-
-/* =====================================================
-   🌅 BACKGROUND LOADER ⏳ (FIABLE)
-===================================================== */
-function loadBackground(cb) {
-  fadeScreen.classList.remove("hidden");
-  loaderBox.classList.add("video");
-
-  const img = document.querySelector("#background img");
-
-  if (img.complete && img.naturalWidth !== 0) {
-    finish();
-  } else {
-    img.addEventListener("load", finish, { once: true });
-    img.addEventListener("error", finish, { once: true });
-  }
-
-  function finish() {
-    loaderBox.classList.remove("video");
-    fadeScreen.classList.add("hidden");
-    cb && cb();
-  }
-}
-
-/* =====================================================
    UTILS
 ===================================================== */
 function vibrate(p = 20) {
@@ -81,42 +36,18 @@ function vibrate(p = 20) {
 }
 
 /* =====================================================
-   💎 GEMS
-===================================================== */
-function explodeGems(){
-  for (let i = 0; i < 100; i++) {
-    const g = document.createElement("div");
-    g.className = "gem";
-    g.style.left = "50%";
-    g.style.top = "50%";
-    g.style.background = `hsl(${Math.random()*360},100%,60%)`;
-    g.style.setProperty("--x", (Math.random()*800 - 400) + "px");
-    g.style.setProperty("--y", (Math.random()*800 - 400) + "px");
-    document.body.appendChild(g);
-    setTimeout(() => g.remove(), 1600);
-  }
-}
-
-/* =====================================================
-   🎬 VIDÉO INTRO + LOADER
+   🎬 VIDÉO INTRO (SANS LOADER AVANT BACKGROUND)
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
-fadeScreen.classList.remove("hidden");
-fadeScreen.style.pointerEvents = "none";
-loaderBox.classList.add("video");
+questVideo.muted = true;
 
 questVideo.oncanplay = () => {
-  loaderBox.classList.remove("video");
-  fadeScreen.classList.add("hidden");
-  fadeScreen.style.pointerEvents = "auto";
   questVideo.play().catch(()=>{});
 };
-
-questVideo.muted = true;
 
 toggleSound.onclick = () => {
   questVideo.muted = !questVideo.muted;
@@ -126,47 +57,45 @@ toggleSound.onclick = () => {
 closeVideo.onclick = endVideo;
 questVideo.onended = endVideo;
 
+/* ✅ ICI : plus aucun loader */
 function endVideo() {
   videoContainer.classList.add("hidden");
-  showLoader("intro", 1200, showScene);
+  showScene();
 }
 
 /* =====================================================
    🌅 SCÈNE INITIALE
 ===================================================== */
 function showScene() {
-  loadBackground(() => {
+  background.classList.remove("hidden");
+  pirate2.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
 
-    background.classList.remove("hidden");
-    pirate2.classList.remove("hidden");
-    pirate5.classList.remove("hidden");
+  if (pirate5Locked) {
+    pirate5.style.pointerEvents = "none";
+    pirate5.onclick = null;
+    return;
+  }
 
-    if (pirate5Locked) {
+  pirate5.style.transition = "none";
+  pirate5.style.left = "1200px";
+
+  requestAnimationFrame(() => {
+    pirate5.style.transition = "left 1.2s ease";
+    pirate5.style.left = "900px";
+  });
+
+  setTimeout(() => {
+    pirate5.classList.add("glowStart");
+
+    pirate5.onclick = () => {
+      pirate5Locked = true;
+      pirate5.classList.remove("glowStart");
       pirate5.style.pointerEvents = "none";
       pirate5.onclick = null;
-      return;
-    }
-
-    pirate5.style.transition = "none";
-    pirate5.style.left = "1200px";
-
-    requestAnimationFrame(() => {
-      pirate5.style.transition = "left 1.2s ease";
-      pirate5.style.left = "900px";
-    });
-
-    setTimeout(() => {
-      pirate5.classList.add("glowStart");
-
-      pirate5.onclick = () => {
-        pirate5Locked = true;
-        pirate5.classList.remove("glowStart");
-        pirate5.style.pointerEvents = "none";
-        pirate5.onclick = null;
-        startDialogues1();
-      };
-    }, 1300);
-  });
+      startDialogues1();
+    };
+  }, 1300);
 }
 
 /* =====================================================
@@ -225,7 +154,7 @@ function startDialogues1() {
     { text: "Étudiez vos concurrents : leur réputation, leurs forces, leurs erreurs.", anchor: pirate5 },
     { text: "Fixez le bon prix, et les clients viendront d’abord chez vous.", anchor: pirate5 },
     { text: "Comprendre avant d’agir… on a encore à apprendre.", anchor: pirate2 }
-  ], () => showLoader("intro", 1000, startMiniGame1));
+  ], startMiniGame1);
 }
 
 /* =====================================================
@@ -320,7 +249,7 @@ function startDialogues2() {
   playDialogues([
     { text: "Avec ces informations, tu peux bâtir ton business plan.", anchor: pirate2 },
     { text: "Passons à l’étape suivante.", anchor: pirate5 }
-  ], () => showLoader("intro", 1000, startMiniGame2));
+  ], startMiniGame2);
 }
 
 /* =====================================================
@@ -361,7 +290,6 @@ function startMiniGame2() {
 ===================================================== */
 function spawnPirate3() {
   pirate5Locked = true;
-
   pirate5.classList.remove("glowStart");
   pirate5.style.pointerEvents = "none";
   pirate5.onclick = null;
@@ -390,7 +318,7 @@ function startFinalDialogues() {
   playDialogues([
     { text: "Le marché est exigeant.", anchor: pirate3 },
     { text: "À toi de choisir ta stratégie.", anchor: pirate5 }
-  ], () => showLoader("intro", 1000, startMiniGame3));
+  ], startMiniGame3);
 }
 
 /* =====================================================
@@ -410,10 +338,7 @@ function startMiniGame3() {
 function endQuest() {
   sessionStorage.setItem("unlock_pirate3", "true");
   sessionStorage.setItem("fromCommerce", "true");
-
-  showLoader("final", 2600, () => {
-    window.location.href = "menu.html";
-  });
+  window.location.href = "menu.html";
 }
 
 });
