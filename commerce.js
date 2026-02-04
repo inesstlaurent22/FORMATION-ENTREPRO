@@ -366,66 +366,94 @@ function startDialogues2() {
 function startMiniGame2() {
   game2.classList.remove("hidden");
   visualChoices.innerHTML = "";
+  document.getElementById("visualFeedback").textContent = "";
 
-const quiz = [
-  {
-    q: "Quels éléments sont indispensables dans un bon business plan ?",
-    r: [
-      { t: "Présenter clairement le projet et son objectif", ok: true },
-      { t: "Décrire le modèle économique et le budget", ok: true },
-      { t: "Choisir un logo avant toute chose", ok: false }
-    ]
-  },
-  {
-    q: "Quelle est une erreur fréquente chez les débutants lors de la création d’un business plan ?",
-    r: [
-      { t: "S’appuyer sur des données de marché vérifiées", ok: false },
-      { t: "Faire des prévisions financières irréalistes", ok: true },
-      { t: "Expliquer clairement la valeur du produit", ok: false }
-    ]
-  },
-  {
-    q: "Pourquoi définir précisément son modèle économique est essentiel ?",
-    r: [
-      { t: "Pour savoir comment l’activité va générer des revenus", ok: true },
-      { t: "Pour comprendre les coûts et la rentabilité", ok: true },
-      { t: "Pour impressionner uniquement les investisseurs", ok: false }
-    ]
-  },
-  {
-    q: "Lors de la présentation du produit, que faut-il absolument éviter ?",
-    r: [
-      { t: "Mettre en avant ce qui le différencie des concurrents", ok: false },
-      { t: "Rester vague sur la valeur apportée au client", ok: true },
-      { t: "Relier le produit à un besoin réel du marché", ok: false }
-    ]
+  const quiz = [
+    {
+      q: "Quels éléments sont indispensables dans un bon business plan ?",
+      r: [
+        { t: "Présenter clairement le projet et son objectif", ok: true },
+        { t: "Décrire le modèle économique et le budget", ok: true },
+        { t: "Choisir un logo avant toute chose", ok: false }
+      ]
+    },
+    {
+      q: "Quelle est une erreur fréquente chez les débutants lors de la création d’un business plan ?",
+      r: [
+        { t: "S’appuyer sur des données de marché vérifiées", ok: false },
+        { t: "Faire des prévisions financières irréalistes", ok: true },
+        { t: "Expliquer clairement la valeur du produit", ok: false }
+      ]
+    },
+    {
+      q: "Pourquoi définir précisément son modèle économique est essentiel ?",
+      r: [
+        { t: "Pour savoir comment l’activité va générer des revenus", ok: true },
+        { t: "Pour comprendre les coûts et la rentabilité", ok: true },
+        { t: "Pour impressionner uniquement les investisseurs", ok: false }
+      ]
+    },
+    {
+      q: "Lors de la présentation du produit ou service, que faut-il absolument éviter ?",
+      r: [
+        { t: "Mettre en avant ce qui le différencie des concurrents", ok: false },
+        { t: "Rester vague sur la valeur apportée au client", ok: true },
+        { t: "Relier le produit à un besoin réel du marché", ok: false }
+      ]
+    }
+  ];
+
+  let step = 0;
+  let found = [];
+
+  function renderStep() {
+    visualChoices.innerHTML = "";
+    found = [];
+
+    const feedback = document.getElementById("visualFeedback");
+    feedback.textContent = quiz[step].q;
+
+    quiz[step].r.forEach((rep, idx) => {
+      const btn = document.createElement("button");
+      btn.textContent = rep.t;
+
+      btn.onclick = () => {
+        // ❌ mauvaise réponse
+        if (!rep.ok) {
+          screenShake(game2);
+          return;
+        }
+
+        // ✅ bonne réponse (évite double clic)
+        if (found.includes(idx)) return;
+
+        found.push(idx);
+        btn.classList.add("pressed");
+        btn.disabled = true;
+
+        const totalGood = quiz[step].r.filter(r => r.ok).length;
+
+        // Quand toutes les bonnes réponses sont trouvées
+        if (found.length === totalGood) {
+          setTimeout(() => {
+            step++;
+            if (step < quiz.length) {
+              renderStep();
+            } else {
+              game2.classList.add("hidden");
+              showPirateLoader(700, spawnPirate3);
+            }
+          }, 600);
+        }
+      };
+
+      visualChoices.appendChild(btn);
+    });
   }
-];
 
-  let success = 0;
-
-  quiz.forEach(q => {
-    const b = document.createElement("button");
-    b.textContent = q.t;
-
-    b.onclick = () => {
-      b.disabled = true;
-
-      if (!q.ok) {
-        screenShake(game2);
-        return;
-      }
-
-      if (++success === 2) {
-        game2.classList.add("hidden");
-        showPirateLoader(700, spawnPirate3);
-      }
-    };
-
-    visualChoices.appendChild(b);
-  });
+  renderStep();
 }
-
+   
 /* =====================================================
    🏴‍☠️ PIRATE 3
 ===================================================== */
