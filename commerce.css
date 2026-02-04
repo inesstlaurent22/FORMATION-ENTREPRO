@@ -54,7 +54,6 @@ html, body {
 #toggleSound { right: 200px; }
 #closeVideo  { right: 20px; }
 
-
 /* =====================================================
    🌑 LOADER GLOBAL — PIRATE UNIQUE 🏴‍☠️
 ===================================================== */
@@ -68,7 +67,6 @@ html, body {
   justify-content: center;
 }
 
-/* Cercle + emoji */
 .loaderBox {
   width: 96px;
   height: 96px;
@@ -89,12 +87,10 @@ html, body {
   animation: pirateRotate 1.4s linear infinite;
 }
 
-/* Emoji pirate unique */
 .loaderBox::before {
   content: "🏴‍☠️";
 }
 
-/* Rotation */
 @keyframes pirateRotate {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
@@ -127,26 +123,9 @@ html, body {
   transition: filter .25s ease, transform .25s ease;
 }
 
-#pirate2bis {
-  left: 500px;
-  top: 410px;
-  width: 186px;
-  height: 178px;
-}
-
-#pirate5bis {
-  left: 830px;
-  top: 286px;
-  width: 143px;
-  height: 187px;
-}
-
-#pirate3bis {
-  left: 638px;
-  top: 177px;
-  width: 235px;
-  height: 217px;
-}
+#pirate2bis { left: 500px; top: 410px; width: 186px; height: 178px; }
+#pirate5bis { left: 830px; top: 286px; width: 143px; height: 187px; }
+#pirate3bis { left: 638px; top: 177px; width: 235px; height: 217px; }
 
 /* =====================================================
    ✨ ILLUMINATION PIRATES
@@ -162,7 +141,7 @@ html, body {
 }
 
 /* =====================================================
-   💬 DIALOGUES — STYLE KIT IN
+   💬 DIALOGUES
 ===================================================== */
 #bubbleContainer {
   position: fixed;
@@ -187,23 +166,6 @@ html, body {
 }
 
 /* =====================================================
-   ⏭️ SKIP DIALOGUES
-===================================================== */
-#skipDialoguesBtn {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  z-index: 3000;
-  padding: 8px 14px;
-  font-size: 14px;
-  background: #1a1208;
-  border: 2px solid gold;
-  color: gold;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-/* =====================================================
    🎮 MINI-JEUX — CONTENEURS
 ===================================================== */
 #communicationGame,
@@ -224,150 +186,65 @@ html, body {
 }
 
 /* =====================================================
-   🏴‍☠️ MINI-JEU 1 — ÉTUDE DE MARCHÉ (CORRIGÉ)
+   🏴‍☠️ MINI-JEU 1 — TITRE + QUESTION SUR UNE LIGNE
 ===================================================== */
-
 #communicationGame .quizBox {
-  max-width: 520px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-/* 🏴‍☠️ TITRE — IMPACT VISUEL FORT */
+/* Ligne horizontale */
+#communicationGame .quizHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Titre à gauche */
 #communicationGame .quizTitle {
   font-family: "Pirata One", serif;
-  font-size: 38px;
-  margin-bottom: 18px;
-
+  font-size: 28px;
+  white-space: nowrap;
   color: #ffd77a;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-
-  text-shadow:
-    3px 3px 0 #2b1605,
-    0 0 12px rgba(255,215,0,.6);
+  text-shadow: 2px 2px 0 #2b1605;
 }
 
-/* 📝 TEXTE INTRO — CONTRASTE CLAIR */
+/* Question à droite */
+#communicationGame #commQuestion {
+  flex: 1;
+  font-family: "Cinzel", serif;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 14px;
+  background: linear-gradient(145deg, #f6e6b8, #e1c37a);
+  color: #2b1605;
+  border: 3px solid #a57c2f;
+  border-radius: 10px;
+}
+
+/* Intro */
 #communicationGame .quizIntro {
   font-family: "Cinzel", serif;
   font-size: 15px;
-  margin-bottom: 22px;
-
   color: #f0e1b8;
-  opacity: 0.95;
-}
-
-/* ❓ QUESTION — CARTE PARCHEMIN */
-#communicationGame #commQuestion {
-  font-family: "Cinzel", serif;
-  font-size: 21px;
-  font-weight: 700;
-
-  padding: 18px;
-  margin-bottom: 22px;
-
-  background: linear-gradient(145deg, #f6e6b8, #e1c37a);
-  color: #2b1605;
-
-  border: 3px solid #a57c2f;
-  border-radius: 10px;
-
-  box-shadow:
-    inset 0 0 14px rgba(0,0,0,.3),
-    0 6px 14px rgba(0,0,0,.5);
-}
-
-/* ✅ RÉPONSES */
-#communicationGame #commAnswers button {
-  width: 100%;
-  margin: 10px auto;
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
-===================================================== */
-#visualChoices button {
-  display: block;
-  width: 100%;
-  margin: 10px auto;
-}
-
-/* =====================================================
-   ⚖️ MINI-JEU 3 — MARCHAND
-===================================================== */
-#merchantGame button {
-  margin-top: 18px;
-}
-
-/* =====================================================
-   🔘 BOUTONS — BASE OFFICIELLE
-===================================================== */
-button {
-  background: linear-gradient(145deg, #7b4a12, #caa14a);
-  border: 3px solid #3b2208;
-  color: #1a0f05;
-  font-weight: bold;
-  font-size: 15px;
-  padding: 10px 18px;
-  border-radius: 14px;
-  cursor: pointer;
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
-  transition: transform .15s, box-shadow .15s;
-}
-
-button:hover {
-  transform: translateY(2px);
-}
-
-button:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
-
-/* =====================================================
-   💎 GEMS — EXPLOSION
-===================================================== */
-.gem {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  pointer-events: none;
-  z-index: 9999;
-  animation: explode 1.6s ease-out forwards;
-}
-
-@keyframes explode {
-  from { transform: translate(0,0) scale(1); opacity: 1; }
-  to   { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
-}
-
-/* =====================================================
-   💎 LOADER BOX FINAL
-===================================================== */
-
-.loaderBox.final {
-  width: auto;
-  height: auto;
-  padding: 28px 42px;
-  border-radius: 22px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #fff2cc;
-}
-
-.loaderBox.final::before {
-  content: "Bravo tu as gagné la quête Commerce 🎉";
-  animation: none;
-}
-
-/* =====================================================
-   📱 RESPONSIVE
+   📱 RESPONSIVE — retour en colonne
 ===================================================== */
 @media (max-width: 768px) {
   .pirate { display: none; }
+
+  #communicationGame .quizHeader {
+    flex-direction: column;
+  }
+
+  #communicationGame .quizTitle {
+    white-space: normal;
+  }
 
   #communicationGame,
   #visualIdentityGame,
