@@ -30,7 +30,7 @@ const btnKeep = document.getElementById("btnKeep");
    UTILS
 ===================================================== */
 function showLoader(text, time = 1200, cb) {
-  loaderBox.textContent = text;
+  loaderBox.textContent = "";
   fadeScreen.classList.remove("hidden");
 
   if (text.includes("Bravo")) explodeGems();
