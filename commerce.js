@@ -70,21 +70,6 @@ const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
-/* Boutons plus grands + espace */
-toggleSound.style.cssText = `
-  top:15px;
-  right:160px;
-  font-size:16px;
-  padding:10px 18px;
-`;
-
-closeVideo.style.cssText = `
-  top:15px;
-  right:15px;
-  font-size:16px;
-  padding:10px 18px;
-`;
-
 questVideo.muted = true;
 questVideo.play().catch(()=>{});
 
@@ -106,8 +91,12 @@ function endVideo() {
 ===================================================== */
 function showScene() {
   background.classList.remove("hidden");
+
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
+
+  pirate2.style.pointerEvents = "auto";
+  pirate5.style.pointerEvents = "auto";
 
   pirate5.classList.add("glowStart");
 
@@ -297,7 +286,8 @@ function startMiniGame3() {
 ===================================================== */
 function endQuest() {
   sessionStorage.setItem("unlock_pirate3", "true");
-  sessionStorage.setItem("fromCommerce", "true");   
+  sessionStorage.setItem("fromCommerce", "true");
+
   showLoader("Bravo tu as gagné la quête", 2200, () => {
     window.location.href = "menu.html";
   });
