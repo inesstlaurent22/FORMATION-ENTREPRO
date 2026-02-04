@@ -35,10 +35,7 @@ const btnKeep = document.getElementById("btnKeep");
    LOADER GÉNÉRAL
 ===================================================== */
 function showLoader(type = "intro", time = 1200, cb) {
-  loaderBox.textContent = "";
   loaderBox.classList.remove("final", "video");
-
-  fadeScreen.style.pointerEvents = "auto";
 
   if (type === "final") {
     loaderBox.classList.add("final");
@@ -54,25 +51,26 @@ function showLoader(type = "intro", time = 1200, cb) {
 }
 
 /* =====================================================
-   🌅 BACKGROUND LOADER ⏳
+   🌅 BACKGROUND LOADER ⏳ (FIABLE)
 ===================================================== */
-function loadBackground(src, cb) {
+function loadBackground(cb) {
   fadeScreen.classList.remove("hidden");
-  loaderBox.textContent = "⏳";
   loaderBox.classList.add("video");
 
-  const img = new Image();
-  img.src = src;
+  const img = document.querySelector("#background img");
 
-  img.onload = () => {
-    background.style.backgroundImage = `url('${src}')`;
+  if (img.complete && img.naturalWidth !== 0) {
+    finish();
+  } else {
+    img.addEventListener("load", finish, { once: true });
+    img.addEventListener("error", finish, { once: true });
+  }
 
+  function finish() {
     loaderBox.classList.remove("video");
-    loaderBox.textContent = "";
     fadeScreen.classList.add("hidden");
-
     cb && cb();
-  };
+  }
 }
 
 /* =====================================================
@@ -100,7 +98,7 @@ function explodeGems(){
 }
 
 /* =====================================================
-   🎬 VIDÉO + LOADER ⏳
+   🎬 VIDÉO INTRO + LOADER
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
@@ -130,30 +128,25 @@ questVideo.onended = endVideo;
 
 function endVideo() {
   videoContainer.classList.add("hidden");
-  showLoader("intro", 1400, showScene);
+  showLoader("intro", 1200, showScene);
 }
 
 /* =====================================================
-   🌅 SCÈNE INITIALE (AVEC LOADER BACKGROUND)
+   🌅 SCÈNE INITIALE
 ===================================================== */
 function showScene() {
-  loadBackground("images/Fondscene.PNG", () => {
+  loadBackground(() => {
 
     background.classList.remove("hidden");
     pirate2.classList.remove("hidden");
     pirate5.classList.remove("hidden");
 
     if (pirate5Locked) {
-      pirate5.classList.remove("glowStart");
-      pirate5.style.animation = "none";
-      pirate5.style.transition = "none";
-      pirate5.style.left = "900px";
       pirate5.style.pointerEvents = "none";
       pirate5.onclick = null;
       return;
     }
 
-    pirate5.classList.remove("glowStart");
     pirate5.style.transition = "none";
     pirate5.style.left = "1200px";
 
@@ -166,17 +159,10 @@ function showScene() {
       pirate5.classList.add("glowStart");
 
       pirate5.onclick = () => {
-        if (pirate5Locked) return;
         pirate5Locked = true;
-
         pirate5.classList.remove("glowStart");
-        pirate5.style.animation = "none";
-        pirate5.style.transition = "none";
-        pirate5.style.filter = "none";
-        pirate5.style.transform = "none";
         pirate5.style.pointerEvents = "none";
         pirate5.onclick = null;
-
         startDialogues1();
       };
     }, 1300);
@@ -291,7 +277,7 @@ function startMiniGame1() {
   let found = [];
 
   function step() {
-    q1.innerHTML = quiz[i].q;
+    q1.textContent = quiz[i].q;
     a1.innerHTML = "";
     found = [];
 
@@ -377,8 +363,6 @@ function spawnPirate3() {
   pirate5Locked = true;
 
   pirate5.classList.remove("glowStart");
-  pirate5.style.animation = "none";
-  pirate5.style.transition = "none";
   pirate5.style.pointerEvents = "none";
   pirate5.onclick = null;
 
