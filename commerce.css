@@ -68,16 +68,28 @@ html, body {
 }
 
 .loaderBox {
-  padding: 32px 46px;
+  width: 90px;
+  height: 90px;
   background: radial-gradient(circle, #2a1708, #120700);
   border: 4px solid gold;
-  border-radius: 22px;
-  text-align: center;
-  font-size: 22px;
-  color: #fff2cc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
   box-shadow:
     0 0 35px rgba(255,215,0,.8),
     inset 0 0 20px rgba(0,0,0,.8);
+}
+
+.loaderBox::before {
+  content: "🏴‍☠️";
+  animation: pirateSpin 1.6s linear infinite;
+}
+
+@keyframes pirateSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 /* =====================================================
