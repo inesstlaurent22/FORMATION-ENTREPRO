@@ -336,6 +336,8 @@ function startMiniGame2() {
    🏴‍☠️ PIRATE 3 — ARRIVÉE
 ===================================================== */
 function spawnPirate3() {
+  pirate5Locked = true;
+
   pirate5.classList.remove("glowStart");
   pirate5.style.animation = "none";
   pirate5.style.transition = "none";
