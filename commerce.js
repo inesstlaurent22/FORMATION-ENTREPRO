@@ -33,28 +33,17 @@ const game3 = document.getElementById("merchantGame");
 const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
-   UTILS
-===================================================== */
-function vibrate(p = 20) {
-  navigator.vibrate && navigator.vibrate(p);
-}
-
-/* =====================================================
-   🏴‍☠️ LOADER PIRATE (TEMPOREL)
+   LOADERS
 ===================================================== */
 function showPirateLoader(duration = 800, cb) {
   loaderBox.dataset.type = "pirate";
   fadeScreen.classList.remove("hidden");
-
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
     cb && cb();
   }, duration);
 }
 
-/* =====================================================
-   ⏳ LOADER BACKGROUND (RÉEL)
-===================================================== */
 function loadBackground(cb) {
   loaderBox.dataset.type = "hourglass";
   fadeScreen.classList.remove("hidden");
@@ -62,17 +51,23 @@ function loadBackground(cb) {
   const img = new Image();
   img.src = backgroundImg.src;
 
-  if (img.complete) {
-    finish();
-  } else {
+  const finish = () => {
+    fadeScreen.classList.add("hidden");
+    cb && cb();
+  };
+
+  if (img.complete) finish();
+  else {
     img.onload = finish;
     img.onerror = finish;
   }
+}
 
-  function finish() {
-    fadeScreen.classList.add("hidden");
-    cb && cb();
-  }
+/* =====================================================
+   UTILS
+===================================================== */
+function vibrate(p = 20) {
+  navigator.vibrate && navigator.vibrate(p);
 }
 
 /* =====================================================
@@ -84,10 +79,7 @@ const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
 questVideo.muted = true;
-
-questVideo.oncanplay = () => {
-  questVideo.play().catch(()=>{});
-};
+questVideo.oncanplay = () => questVideo.play().catch(()=>{});
 
 toggleSound.onclick = () => {
   questVideo.muted = !questVideo.muted;
@@ -97,21 +89,15 @@ toggleSound.onclick = () => {
 closeVideo.onclick = endVideo;
 questVideo.onended = endVideo;
 
-/* ✅ VIDÉO → 🏴‍☠️ → ⏳ → SCÈNE */
 function endVideo() {
   videoContainer.classList.add("hidden");
-
-  showPirateLoader(700, () => {
-    loadBackground(showScene);
-  });
+  showPirateLoader(700, () => loadBackground(showScene));
 }
 
 /* =====================================================
    🌅 SCÈNE INITIALE
 ===================================================== */
 function showScene() {
-  fadeScreen.classList.add("hidden"); // 🔥 garantit clics
-
   background.classList.remove("hidden");
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
@@ -119,7 +105,6 @@ function showScene() {
   if (pirate5Locked) return;
 
   pirate5.style.pointerEvents = "none";
-  pirate5.style.transition = "none";
   pirate5.style.left = "1200px";
 
   requestAnimationFrame(() => {
@@ -128,17 +113,14 @@ function showScene() {
   });
 
   setTimeout(() => {
-    pirate5.style.pointerEvents = "auto";
     pirate5.classList.add("glowStart");
+    pirate5.style.pointerEvents = "auto";
 
     pirate5.onclick = () => {
-      if (pirate5Locked) return;
-
       pirate5Locked = true;
       pirate5.classList.remove("glowStart");
       pirate5.style.pointerEvents = "none";
       pirate5.onclick = null;
-
       startDialogues1();
     };
   }, 1300);
@@ -196,14 +178,180 @@ function startDialogues1() {
     { text: "Bien joué, moussaillons. Lancer son activité demande du courage.", anchor: pirate5 },
     { text: "Merci capitaine ! Le marché est ouvert, on est prêts à vendre.", anchor: pirate2 },
     { text: "Avant de foncer, observez. Un bon marchand connaît son marché.", anchor: pirate5 },
-    { text: "Qui sont vos clients ? Qu’achètent-ils ? À quel prix ?", anchor: pirate5 }
+    { text: "Qui sont vos clients ? Qu’achètent-ils ? À quel prix ?", anchor: pirate5 },
+    { text: "Étudiez vos concurrents : leur réputation, leurs forces, leurs erreurs.", anchor: pirate5 },
+    { text: "Fixez le bon prix, et les clients viendront d’abord chez vous.", anchor: pirate5 },
+    { text: "Comprendre avant d’agir… on a encore à apprendre.", anchor: pirate2 }
   ], startMiniGame1);
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 (INCHANGÉ)
+   🎮 MINI-JEU 1 — ÉTUDE DE MARCHÉ
 ===================================================== */
-/* 👉 ton code mini-jeu 1 reste identique ici */
+function startMiniGame1() {
+  game1.classList.remove("hidden");
+
+  const quiz = [
+    {
+      q: "Pourquoi réaliser des études de marché avant de se lancer ?",
+      ok: [1, 2],
+      a: [
+        "Choisir les couleurs de sa boutique",
+        "Comprendre les attentes des clients",
+        "Identifier la concurrence et la demande du marché"
+      ]
+    },
+    {
+      q: "Sur quoi dois-tu analyser tes concurrents ?",
+      ok: [0, 2],
+      a: [
+        "Leur réputation et leur stratégie",
+        "Leur lieu de vacances",
+        "Leurs prix et leur positionnement"
+      ]
+    },
+    {
+      q: "Pourquoi faut-il réaliser des études de produit ?",
+      ok: [0, 1],
+      a: [
+        "S’assurer que le produit répond aux besoins des clients",
+        "Améliorer le produit et se différencier",
+        "Créer un produit sans objectif précis"
+      ]
+    },
+    {
+      q: "Après avoir analysé les prix des concurrents, quelles stratégies sont possibles pour fixer tes prix ?",
+      ok: [0, 1],
+      a: [
+        "S’aligner sur les prix du marché",
+        "Proposer un prix plus élevé en offrant plus de valeur",
+        "Fixer un prix au hasard"
+      ]
+    }
+  ];
+
+  let i = 0;
+  let found = [];
+
+  function step() {
+    q1.textContent = quiz[i].q;
+    a1.innerHTML = "";
+    found = [];
+
+    quiz[i].a.forEach((txt, idx) => {
+      const btn = document.createElement("button");
+      btn.textContent = txt;
+
+      btn.onclick = () => {
+        if (!quiz[i].ok.includes(idx)) return;
+        if (found.includes(idx)) return;
+
+        found.push(idx);
+        btn.classList.add("pressed");
+        btn.disabled = true;
+
+        if (found.length === quiz[i].ok.length) {
+          setTimeout(() => {
+            i++;
+            if (i < quiz.length) step();
+            else {
+              game1.classList.add("hidden");
+              showPirateLoader(700, startDialogues2);
+            }
+          }, 600);
+        }
+      };
+
+      a1.appendChild(btn);
+    });
+  }
+
+  step();
+}
+
+/* =====================================================
+   💬 DIALOGUES 2
+===================================================== */
+function startDialogues2() {
+  playDialogues([
+    { text: "Avec ces informations, tu peux bâtir ton business plan.", anchor: pirate2 },
+    { text: "Passons à l’étape suivante.", anchor: pirate5 }
+  ], startMiniGame2);
+}
+
+/* =====================================================
+   🎨 MINI-JEU 2
+===================================================== */
+function startMiniGame2() {
+  game2.classList.remove("hidden");
+  visualChoices.innerHTML = "";
+
+  const quiz = [
+    { t: "Définir la cible", ok: true },
+    { t: "Choisir la couleur du bateau", ok: false },
+    { t: "Identifier le problème à résoudre", ok: true }
+  ];
+
+  let success = 0;
+
+  quiz.forEach(q => {
+    const b = document.createElement("button");
+    b.textContent = q.t;
+    b.onclick = () => {
+      b.disabled = true;
+      if (q.ok && ++success === 2) {
+        game2.classList.add("hidden");
+        showPirateLoader(700, spawnPirate3);
+      }
+    };
+    visualChoices.appendChild(b);
+  });
+}
+
+/* =====================================================
+   🏴‍☠️ PIRATE 3
+===================================================== */
+function spawnPirate3() {
+  pirate5Locked = true;
+  pirate5.style.pointerEvents = "none";
+
+  pirate3.classList.remove("hidden");
+  pirate3.style.left = "1200px";
+
+  requestAnimationFrame(() => {
+    pirate3.style.transition = "left 1s ease";
+    pirate3.style.left = "638px";
+  });
+
+  setTimeout(() => {
+    pirate3.classList.add("glowStart");
+    pirate3.onclick = () => {
+      pirate3.classList.remove("glowStart");
+      startFinalDialogues();
+    };
+  }, 1200);
+}
+
+/* =====================================================
+   💬 DIALOGUES FINAUX
+===================================================== */
+function startFinalDialogues() {
+  playDialogues([
+    { text: "Le marché est exigeant.", anchor: pirate3 },
+    { text: "À toi de choisir ta stratégie.", anchor: pirate5 }
+  ], startMiniGame3);
+}
+
+/* =====================================================
+   🎮 MINI-JEU 3
+===================================================== */
+function startMiniGame3() {
+  game3.classList.remove("hidden");
+  btnKeep.onclick = () => {
+    game3.classList.add("hidden");
+    showPirateLoader(700, endQuest);
+  };
+}
 
 /* =====================================================
    🏆 FIN
