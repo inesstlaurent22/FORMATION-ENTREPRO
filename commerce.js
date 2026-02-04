@@ -83,7 +83,7 @@ questVideo.onended = endVideo;
 
 function endVideo() {
   videoContainer.classList.add("hidden");
-  showLoader("Chargement…", 1000, showScene);
+  showScene();
 }
 
 /* =====================================================
