@@ -55,7 +55,7 @@ html, body {
 #closeVideo  { right: 20px; }
 
 /* =====================================================
-   🌑 LOADER GLOBAL — EMOJI GARANTI
+   🌑 LOADER GLOBAL — EMOJI FIABLE
 ===================================================== */
 #fadeScreen {
   position: fixed;
@@ -81,17 +81,15 @@ html, body {
   align-items: center;
   justify-content: center;
 
-  font-size: 38px;
   animation: loaderRotate 1.2s linear infinite;
 }
 
-/* 🏴‍☠️ PAR DÉFAUT */
-.loaderBox::before {
-  content: "🏴‍☠️";
+.loaderEmoji {
+  font-size: 38px;
 }
 
-/* ⏳ PENDANT LE CHARGEMENT */
-.loaderBox[data-type="hourglass"]::before {
+/* ⏳ pendant le chargement */
+.loaderBox[data-type="hourglass"] .loaderEmoji {
   content: "⏳";
 }
 
@@ -99,6 +97,7 @@ html, body {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
+
 /* =====================================================
    🌅 BACKGROUND
 ===================================================== */
