@@ -51,7 +51,7 @@ html, body {
   z-index: 3001;
 }
 
-#toggleSound { right: 240px; }
+#toggleSound { right: 300px; }
 #closeVideo  { right: 20px; }
 
 /* =====================================================
@@ -172,7 +172,7 @@ html, body {
 #skipDialoguesBtn {
   position: fixed;
   top: 18px;
-  left: 18px;
+  right: 18px;
   z-index: 3000;
   padding: 8px 14px;
   font-size: 14px;
