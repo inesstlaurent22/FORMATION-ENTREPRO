@@ -48,10 +48,17 @@ function loadBackground(cb) {
   loaderBox.dataset.type = "hourglass";
   fadeScreen.classList.remove("hidden");
 
+  // TEXTE AU-DESSUS DU LOADER
+  let loaderText = document.createElement("div");
+  loaderText.id = "loaderText";
+  loaderText.textContent = "Tu vas bientôt pouvoir entrer sur le marché…";
+  fadeScreen.appendChild(loaderText);
+
   const img = new Image();
   img.src = backgroundImg.src;
 
   const finish = () => {
+    loaderText.remove();
     fadeScreen.classList.add("hidden");
     cb && cb();
   };
