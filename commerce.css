@@ -235,6 +235,7 @@ html, body {
   color: #2b1605;
   border: 3px solid #a57c2f;
   border-radius: 12px;
+  text-align: center;
   box-shadow:
     inset 0 0 8px rgba(0,0,0,.25),
     0 4px 8px rgba(0,0,0,.45);
