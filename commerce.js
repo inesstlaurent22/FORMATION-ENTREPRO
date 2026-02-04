@@ -246,10 +246,17 @@ function startMiniGame2() {
    🏴‍☠️ PIRATE 3
 ===================================================== */
 function spawnPirate3() {
+  // ⛔ Stop illumination pirate5
+  pirate5.classList.remove("glowStart");
+  pirate5.onclick = null;
+
   pirate3.classList.remove("hidden");
   pirate3.style.left = "1200px";
   pirate3.style.transition = "left 1s ease";
-  requestAnimationFrame(() => pirate3.style.left = "638px");
+
+  requestAnimationFrame(() => {
+    pirate3.style.left = "638px";
+  });
 
   setTimeout(() => {
     pirate3.classList.add("glowStart");
