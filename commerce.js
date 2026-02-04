@@ -32,7 +32,7 @@ const game3 = document.getElementById("merchantGame");
 const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
-   UTILS — LOADER
+   LOADER
 ===================================================== */
 function showLoader(type = "intro", time = 1200, cb) {
   loaderBox.textContent = "";
@@ -59,7 +59,7 @@ function vibrate(p = 20) {
 }
 
 /* =====================================================
-   💎 EXPLOSION DE GEMS
+   💎 GEMS
 ===================================================== */
 function explodeGems(){
   for (let i = 0; i < 100; i++) {
@@ -83,7 +83,6 @@ const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
-/* Loader ⏳ pendant chargement vidéo */
 fadeScreen.classList.remove("hidden");
 loaderBox.classList.add("video");
 
@@ -109,25 +108,23 @@ function endVideo() {
 }
 
 /* =====================================================
-   🌅 SCÈNE INITIALE + ENTRÉE PIRATE 5
+   🌅 SCÈNE INITIALE
 ===================================================== */
 function showScene() {
   background.classList.remove("hidden");
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
 
-  /* ⛔ SI pirate5 déjà cliqué → AUCUNE animation */
   if (pirate5Locked) {
     pirate5.classList.remove("glowStart");
     pirate5.style.animation = "none";
     pirate5.style.transition = "none";
-    pirate5.style.left = "900px"; // position finale fixe
+    pirate5.style.left = "900px";
     pirate5.style.pointerEvents = "none";
     pirate5.onclick = null;
     return;
   }
 
-  /* ▶️ Animation d’arrivée UNIQUEMENT avant le 1er clic */
   pirate5.classList.remove("glowStart");
   pirate5.style.transition = "none";
   pirate5.style.left = "1200px";
@@ -144,7 +141,6 @@ function showScene() {
       if (pirate5Locked) return;
       pirate5Locked = true;
 
-      /* ⛔ ARRÊT DÉFINITIF DES ANIMATIONS */
       pirate5.classList.remove("glowStart");
       pirate5.style.animation = "none";
       pirate5.style.transition = "none";
@@ -208,7 +204,7 @@ skipBtn.onclick = endDialogues;
 function startDialogues1() {
   playDialogues([
     { text: "Bien joué, moussaillons. Lancer son activité demande du courage.", anchor: pirate5 },
-    { text: "Merci capitaine ! Le marché est ouvert, on est prêts à vendre.", anchor: pirate1 },
+    { text: "Merci capitaine ! Le marché est ouvert, on est prêts à vendre.", anchor: pirate2 },
     { text: "Avant de foncer, observez. Un bon marchand connaît son marché.", anchor: pirate5 },
     { text: "Qui sont vos clients ? Qu’achètent-ils ? À quel prix ?", anchor: pirate5 },
     { text: "Étudiez vos concurrents : leur réputation, leurs forces, leurs erreurs.", anchor: pirate5 },
@@ -216,51 +212,51 @@ function startDialogues1() {
     { text: "Comprendre avant d’agir… on a encore à apprendre.", anchor: pirate2 }
   ], () => showLoader("intro", 1000, startMiniGame1));
 }
-   
+
 /* =====================================================
-   🎮 MINI-JEU 1
+   🎮 MINI-JEU 1 — RÉPONSES MULTIPLES
 ===================================================== */
 function startMiniGame1() {
   game1.classList.remove("hidden");
 
-const quiz = [
-  {
-    q: "Pourquoi réaliser des études de marché avant de se lancer ?",
-    ok: [1, 2],
-    a: [
-      "Choisir les couleurs de sa boutique",
-      "Comprendre les attentes des clients",
-      "Identifier la concurrence et la demande du marché"
-    ]
-  },
-  {
-    q: "Sur quoi dois-tu analyser tes concurrents ?",
-    ok: [0, 2],
-    a: [
-      "Leur réputation et leur stratégie",
-      "Leur lieu de vacances"
-      "Leurs prix et leur positionnement",
-    ]
-  },
-  {
-    q: "Pourquoi faut-il réaliser des études de produit ?",
-    ok: [0, 1],
-    a: [
-      "S’assurer que le produit répond aux besoins des clients",
-      "Améliorer le produit et se différencier"
-      "Créer un produit sans objectif précis"
-    ]
-  },
-  {
-    q: "Après avoir analysé les prix des concurrents, quelles stratégies sont possibles pour fixer tes prix ?",
-    ok: [0, 1],
-    a: [
-      "S’aligner sur les prix du marché",
-      "Proposer un prix plus élevé en offrant plus de valeur",
-      "Fixer un prix au hasard"
-    ]
-  }
-];
+  const quiz = [
+    {
+      q: "Pourquoi réaliser des études de marché avant de se lancer ?",
+      ok: [1, 2],
+      a: [
+        "Choisir les couleurs de sa boutique",
+        "Comprendre les attentes des clients",
+        "Identifier la concurrence et la demande du marché"
+      ]
+    },
+    {
+      q: "Sur quoi dois-tu analyser tes concurrents ?",
+      ok: [0, 2],
+      a: [
+        "Leur réputation et leur stratégie",
+        "Leur lieu de vacances",
+        "Leurs prix et leur positionnement"
+      ]
+    },
+    {
+      q: "Pourquoi faut-il réaliser des études de produit ?",
+      ok: [0, 1],
+      a: [
+        "S’assurer que le produit répond aux besoins des clients",
+        "Améliorer le produit et se différencier",
+        "Créer un produit sans objectif précis"
+      ]
+    },
+    {
+      q: "Après avoir analysé les prix des concurrents, quelles stratégies sont possibles pour fixer tes prix ?",
+      ok: [0, 1],
+      a: [
+        "S’aligner sur les prix du marché",
+        "Proposer un prix plus élevé en offrant plus de valeur",
+        "Fixer un prix au hasard"
+      ]
+    }
+  ];
 
   let i = 0;
 
@@ -272,7 +268,7 @@ const quiz = [
       const b = document.createElement("button");
       b.textContent = t;
       b.onclick = () => {
-        if (idx === quiz[i].ok) {
+        if (quiz[i].ok.includes(idx)) {
           i++;
           if (i < quiz.length) step();
           else {
@@ -333,7 +329,7 @@ function startMiniGame2() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3 — ARRIVÉE
+   🏴‍☠️ PIRATE 3
 ===================================================== */
 function spawnPirate3() {
   pirate5Locked = true;
