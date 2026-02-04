@@ -17,6 +17,8 @@ const pirate3 = document.getElementById("pirate3bis");
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
 
+const fadeScreen = document.getElementById("fadeScreen");
+
 /* Mini-jeux */
 const game1 = document.getElementById("communicationGame");
 const q1 = document.getElementById("commQuestion");
@@ -29,6 +31,18 @@ const game3 = document.getElementById("merchantGame");
 const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
+   🏴‍☠️ LOADER PIRATE
+===================================================== */
+function showPirateLoader(duration = 900, cb) {
+  fadeScreen.classList.remove("hidden");
+
+  setTimeout(() => {
+    fadeScreen.classList.add("hidden");
+    cb && cb();
+  }, duration);
+}
+
+/* =====================================================
    UTILS
 ===================================================== */
 function vibrate(p = 20) {
@@ -36,7 +50,7 @@ function vibrate(p = 20) {
 }
 
 /* =====================================================
-   🎬 VIDÉO INTRO (SANS LOADER AVANT BACKGROUND)
+   🎬 VIDÉO INTRO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
@@ -57,10 +71,10 @@ toggleSound.onclick = () => {
 closeVideo.onclick = endVideo;
 questVideo.onended = endVideo;
 
-/* ✅ ICI : plus aucun loader */
+/* 🏴‍☠️ loader APRÈS la vidéo */
 function endVideo() {
   videoContainer.classList.add("hidden");
-  showScene();
+  showPirateLoader(900, showScene);
 }
 
 /* =====================================================
@@ -228,8 +242,10 @@ function startMiniGame1() {
             if (i < quiz.length) step();
             else {
               game1.classList.add("hidden");
-              showScene();
-              startDialogues2();
+              showPirateLoader(900, () => {
+                showScene();
+                startDialogues2();
+              });
             }
           }, 600);
         }
@@ -276,8 +292,10 @@ function startMiniGame2() {
         success++;
         if (success === 2) {
           game2.classList.add("hidden");
-          showScene();
-          spawnPirate3();
+          showPirateLoader(900, () => {
+            showScene();
+            spawnPirate3();
+          });
         }
       }
     };
@@ -328,7 +346,7 @@ function startMiniGame3() {
   game3.classList.remove("hidden");
   btnKeep.onclick = () => {
     game3.classList.add("hidden");
-    endQuest();
+    showPirateLoader(900, endQuest);
   };
 }
 
