@@ -1,15 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ==========================================================
-     🌅 BACKGROUND
-  ========================================================== */
-  document.body.style.backgroundColor = "#000";
-  document.body.style.backgroundImage = "url('images/Fondmenu.PNG')";
-  document.body.style.backgroundRepeat = "no-repeat";
-  document.body.style.backgroundPosition = "center center";
-  document.body.style.backgroundSize = "cover";
-
-  /* ==========================================================
      🔁 RESET GLOBAL
   ========================================================== */
   document.addEventListener("click", e => {
