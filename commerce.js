@@ -219,7 +219,7 @@ function startDialogues1() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1
+   🎮 MINI-JEU 1 — MULTI BONNES RÉPONSES
 ===================================================== */
 function startMiniGame1() {
   game1.classList.remove("hidden");
@@ -264,25 +264,46 @@ function startMiniGame1() {
   ];
 
   let i = 0;
+  let found = [];
 
   function step() {
     q1.innerHTML = quiz[i].q;
     a1.innerHTML = "";
+    found = [];
 
     quiz[i].a.forEach((t, idx) => {
       const b = document.createElement("button");
       b.textContent = t;
+
       b.onclick = () => {
-        if (quiz[i].ok.includes(idx)) {
-          i++;
-          if (i < quiz.length) step();
-          else {
-            game1.classList.add("hidden");
-            showScene();
-            startDialogues2();
-          }
+        // ❌ Mauvaise réponse → rien ne se passe
+        if (!quiz[i].ok.includes(idx)) return;
+
+        // ✅ Bonne réponse déjà cliquée → ignore
+        if (found.includes(idx)) return;
+
+        // ✅ Marquer comme trouvée
+        found.push(idx);
+
+        // 🎯 Effet bouton enfoncé
+        b.classList.add("pressed");
+        b.disabled = true;
+
+        // ✅ Toutes les bonnes réponses trouvées ?
+        if (found.length === quiz[i].ok.length) {
+          setTimeout(() => {
+            i++;
+            if (i < quiz.length) {
+              step();
+            } else {
+              game1.classList.add("hidden");
+              showScene();
+              startDialogues2();
+            }
+          }, 600);
         }
       };
+
       a1.appendChild(b);
     });
   }
