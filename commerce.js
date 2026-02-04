@@ -32,7 +32,7 @@ const game3 = document.getElementById("merchantGame");
 const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
-   LOADER
+   LOADER GÉNÉRAL
 ===================================================== */
 function showLoader(type = "intro", time = 1200, cb) {
   loaderBox.textContent = "";
@@ -51,6 +51,28 @@ function showLoader(type = "intro", time = 1200, cb) {
     fadeScreen.classList.add("hidden");
     cb && cb();
   }, time);
+}
+
+/* =====================================================
+   🌅 BACKGROUND LOADER ⏳
+===================================================== */
+function loadBackground(src, cb) {
+  fadeScreen.classList.remove("hidden");
+  loaderBox.textContent = "⏳";
+  loaderBox.classList.add("video");
+
+  const img = new Image();
+  img.src = src;
+
+  img.onload = () => {
+    background.style.backgroundImage = `url('${src}')`;
+
+    loaderBox.classList.remove("video");
+    loaderBox.textContent = "";
+    fadeScreen.classList.add("hidden");
+
+    cb && cb();
+  };
 }
 
 /* =====================================================
@@ -78,22 +100,21 @@ function explodeGems(){
 }
 
 /* =====================================================
-   🎬 VIDÉO + LOADER ⏳ (CLICS AUTORISÉS)
+   🎬 VIDÉO + LOADER ⏳
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
-/* Loader ⏳ pendant chargement vidéo */
 fadeScreen.classList.remove("hidden");
-fadeScreen.style.pointerEvents = "none"; // ⬅️ autorise clics vidéo
+fadeScreen.style.pointerEvents = "none";
 loaderBox.classList.add("video");
 
 questVideo.oncanplay = () => {
   loaderBox.classList.remove("video");
   fadeScreen.classList.add("hidden");
-  fadeScreen.style.pointerEvents = "auto"; // ⬅️ reset
+  fadeScreen.style.pointerEvents = "auto";
   questVideo.play().catch(()=>{});
 };
 
@@ -113,50 +134,53 @@ function endVideo() {
 }
 
 /* =====================================================
-   🌅 SCÈNE INITIALE
+   🌅 SCÈNE INITIALE (AVEC LOADER BACKGROUND)
 ===================================================== */
 function showScene() {
-  background.classList.remove("hidden");
-  pirate2.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
+  loadBackground("images/Fondscene.PNG", () => {
 
-  if (pirate5Locked) {
-    pirate5.classList.remove("glowStart");
-    pirate5.style.animation = "none";
-    pirate5.style.transition = "none";
-    pirate5.style.left = "900px";
-    pirate5.style.pointerEvents = "none";
-    pirate5.onclick = null;
-    return;
-  }
+    background.classList.remove("hidden");
+    pirate2.classList.remove("hidden");
+    pirate5.classList.remove("hidden");
 
-  pirate5.classList.remove("glowStart");
-  pirate5.style.transition = "none";
-  pirate5.style.left = "1200px";
-
-  requestAnimationFrame(() => {
-    pirate5.style.transition = "left 1.2s ease";
-    pirate5.style.left = "900px";
-  });
-
-  setTimeout(() => {
-    pirate5.classList.add("glowStart");
-
-    pirate5.onclick = () => {
-      if (pirate5Locked) return;
-      pirate5Locked = true;
-
+    if (pirate5Locked) {
       pirate5.classList.remove("glowStart");
       pirate5.style.animation = "none";
       pirate5.style.transition = "none";
-      pirate5.style.filter = "none";
-      pirate5.style.transform = "none";
+      pirate5.style.left = "900px";
       pirate5.style.pointerEvents = "none";
       pirate5.onclick = null;
+      return;
+    }
 
-      startDialogues1();
-    };
-  }, 1300);
+    pirate5.classList.remove("glowStart");
+    pirate5.style.transition = "none";
+    pirate5.style.left = "1200px";
+
+    requestAnimationFrame(() => {
+      pirate5.style.transition = "left 1.2s ease";
+      pirate5.style.left = "900px";
+    });
+
+    setTimeout(() => {
+      pirate5.classList.add("glowStart");
+
+      pirate5.onclick = () => {
+        if (pirate5Locked) return;
+        pirate5Locked = true;
+
+        pirate5.classList.remove("glowStart");
+        pirate5.style.animation = "none";
+        pirate5.style.transition = "none";
+        pirate5.style.filter = "none";
+        pirate5.style.transform = "none";
+        pirate5.style.pointerEvents = "none";
+        pirate5.onclick = null;
+
+        startDialogues1();
+      };
+    }, 1300);
+  });
 }
 
 /* =====================================================
@@ -219,7 +243,7 @@ function startDialogues1() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — MULTI BONNES RÉPONSES
+   🎮 MINI-JEU 1
 ===================================================== */
 function startMiniGame1() {
   game1.classList.remove("hidden");
@@ -276,26 +300,18 @@ function startMiniGame1() {
       b.textContent = t;
 
       b.onclick = () => {
-        // ❌ Mauvaise réponse → rien ne se passe
         if (!quiz[i].ok.includes(idx)) return;
-
-        // ✅ Bonne réponse déjà cliquée → ignore
         if (found.includes(idx)) return;
 
-        // ✅ Marquer comme trouvée
         found.push(idx);
-
-        // 🎯 Effet bouton enfoncé
         b.classList.add("pressed");
         b.disabled = true;
 
-        // ✅ Toutes les bonnes réponses trouvées ?
         if (found.length === quiz[i].ok.length) {
           setTimeout(() => {
             i++;
-            if (i < quiz.length) {
-              step();
-            } else {
+            if (i < quiz.length) step();
+            else {
               game1.classList.add("hidden");
               showScene();
               startDialogues2();
