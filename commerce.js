@@ -214,12 +214,44 @@ function startDialogues1() {
 function startMiniGame1() {
   game1.classList.remove("hidden");
 
-  const quiz = [
-    { q: "Pourquoi faire une étude de marché ?", ok: 0,
-      a: ["Comprendre clients et concurrents", "Copier les autres"] },
-    { q: "Que permet-elle ?", ok: 0,
-      a: ["Analyser prix, produits, stratégies", "Décorer la boutique"] }
-  ];
+const quiz = [
+  {
+    q: "Pourquoi réaliser des études de marché avant de se lancer ?",
+    ok: [1, 2],
+    a: [
+      "Choisir les couleurs de sa boutique",
+      "Comprendre les attentes des clients",
+      "Identifier la concurrence et la demande du marché"
+    ]
+  },
+  {
+    q: "Sur quoi dois-tu analyser tes concurrents ?",
+    ok: [0, 2],
+    a: [
+      "Leur réputation et leur stratégie",
+      "Leur lieu de vacances"
+      "Leurs prix et leur positionnement",
+    ]
+  },
+  {
+    q: "Pourquoi faut-il réaliser des études de produit ?",
+    ok: [0, 1],
+    a: [
+      "S’assurer que le produit répond aux besoins des clients",
+      "Améliorer le produit et se différencier"
+      "Créer un produit sans objectif précis"
+    ]
+  },
+  {
+    q: "Après avoir analysé les prix des concurrents, quelles stratégies sont possibles pour fixer tes prix ?",
+    ok: [0, 1],
+    a: [
+      "S’aligner sur les prix du marché",
+      "Proposer un prix plus élevé en offrant plus de valeur",
+      "Fixer un prix au hasard"
+    ]
+  }
+];
 
   let i = 0;
 
