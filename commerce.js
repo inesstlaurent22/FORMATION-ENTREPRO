@@ -285,8 +285,78 @@ function startMiniGame1() {
 ===================================================== */
 function startDialogues2() {
   playDialogues([
-    { text: "Parfait. Tu comprends maintenant les bases du marché.", anchor: pirate5 },
-    { text: "Passons à la construction du business plan.", anchor: pirate2 }
+    { 
+      text: "Bravo à vous deux. Vous avez analysé le marché et compris votre environnement.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "C’est une étape essentielle avant d’aller plus loin.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "Et maintenant ? Quelle est la suite ?", 
+      anchor: pirate2 
+    },
+    { 
+      text: "Maintenant, vous allez travailler sur l’un des documents fondateurs de votre activité : le business plan.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "C’est la ligne directrice de tout votre projet. Sans lui, impossible d’avancer clairement.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "Que contient exactement un business plan ?", 
+      anchor: pirate2 
+    },
+    { 
+      text: "Il commence par l’histoire de votre projet : pourquoi cette idée, d’où elle vient et quel problème elle résout.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "Ensuite, vous présentez votre équipe : qui vous êtes, vos compétences et vos rôles respectifs.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "Donc ce n’est pas seulement l’idée qui compte, mais aussi les personnes derrière.", 
+      anchor: pirate2 
+    },
+    { 
+      text: "Exactement. Puis vous définissez clairement l’objectif du projet, à court, moyen et long terme.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "Les études de marché que nous avons faites servent aussi ici ?", 
+      anchor: pirate2 
+    },
+    { 
+      text: "Oui. Elles prouvent que votre projet repose sur des données réelles : la cible, la demande et la concurrence.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "Vous présentez ensuite votre produit ou service, sa valeur et ce qui le différencie.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "Et le budget entre en jeu à ce moment-là ?", 
+      anchor: pirate2 
+    },
+    { 
+      text: "Exact. Le modèle économique explique comment vous gagnez de l’argent, vos coûts et votre budget prévisionnel.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "Pour finir, vous définissez vos stratégies commerciales : comment attirer et convaincre vos clients.", 
+      anchor: pirate5 
+    },
+    { 
+      text: "Je comprends mieux. Le business plan, c’est la boussole de notre activité.", 
+      anchor: pirate2 
+    },
+    { 
+      text: "Exactement. Construisez-le avec méthode, et il guidera chacune de vos décisions.", 
+      anchor: pirate5 
+    }
   ], startMiniGame2);
 }
 
