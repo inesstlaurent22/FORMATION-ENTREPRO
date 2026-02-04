@@ -113,10 +113,21 @@ function endVideo() {
 ===================================================== */
 function showScene() {
   background.classList.remove("hidden");
-
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
 
+  /* ⛔ SI pirate5 déjà cliqué → AUCUNE animation */
+  if (pirate5Locked) {
+    pirate5.classList.remove("glowStart");
+    pirate5.style.animation = "none";
+    pirate5.style.transition = "none";
+    pirate5.style.left = "900px"; // position finale fixe
+    pirate5.style.pointerEvents = "none";
+    pirate5.onclick = null;
+    return;
+  }
+
+  /* ▶️ Animation d’arrivée UNIQUEMENT avant le 1er clic */
   pirate5.classList.remove("glowStart");
   pirate5.style.transition = "none";
   pirate5.style.left = "1200px";
@@ -127,15 +138,13 @@ function showScene() {
   });
 
   setTimeout(() => {
-    if (pirate5Locked) return;
-
     pirate5.classList.add("glowStart");
 
     pirate5.onclick = () => {
       if (pirate5Locked) return;
       pirate5Locked = true;
 
-      /* ⛔ VERROUILLAGE TOTAL */
+      /* ⛔ ARRÊT DÉFINITIF DES ANIMATIONS */
       pirate5.classList.remove("glowStart");
       pirate5.style.animation = "none";
       pirate5.style.transition = "none";
