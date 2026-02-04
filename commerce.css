@@ -99,7 +99,7 @@ html, body {
 /* TEXTE AU-DESSUS DU LOADER */
 #loaderText {
   position: absolute;
-  top: calc(50% - 90px);
+  top: calc(50% - 120px);
   width: 100%;
   text-align: center;
   font-family: "Cinzel", serif;
@@ -136,7 +136,7 @@ html, body {
 }
 
 #pirate2bis { left: 500px; top: 410px; width: 186px; height: 178px; }
-#pirate5bis { left: 800px; top: 286px; width: 143px; height: 187px; }
+#pirate5bis { left: 830px; top: 286px; width: 143px; height: 187px; }
 #pirate3bis { left: 638px; top: 177px; width: 235px; height: 217px; }
 
 /* =====================================================
@@ -225,7 +225,7 @@ html, body {
   line-height: 1.4;
 }
 
-/* QUESTION */
+/* QUESTION — ✅ TEXTE CENTRÉ */
 #communicationGame #commQuestion {
   font-family: "Cinzel", serif;
   font-size: 16px;
@@ -235,7 +235,7 @@ html, body {
   color: #2b1605;
   border: 3px solid #a57c2f;
   border-radius: 12px;
-  text-align: center;
+  text-align: center; /* ← CORRECTION CLÉ */
   box-shadow:
     inset 0 0 8px rgba(0,0,0,.25),
     0 4px 8px rgba(0,0,0,.45);
@@ -283,19 +283,19 @@ button:disabled {
 }
 
 /* =====================================================
-   ❌ FEEDBACK ERREUR — SECOUSSE
+   ❌ VIBRATION VISUELLE — ENCAPSULATION ENTIÈRE
 ===================================================== */
-.shake {
-  animation: shake .35s;
+.screen-shake {
+  animation: screenShake .4s;
 }
 
-@keyframes shake {
-  0%   { transform: translateX(0); }
-  20%  { transform: translateX(-6px); }
-  40%  { transform: translateX(6px); }
-  60%  { transform: translateX(-4px); }
-  80%  { transform: translateX(4px); }
-  100% { transform: translateX(0); }
+@keyframes screenShake {
+  0%   { transform: translate(-50%, -50%) translateX(0); }
+  20%  { transform: translate(-50%, -50%) translateX(-10px); }
+  40%  { transform: translate(-50%, -50%) translateX(10px); }
+  60%  { transform: translate(-50%, -50%) translateX(-6px); }
+  80%  { transform: translate(-50%, -50%) translateX(6px); }
+  100% { transform: translate(-50%, -50%) translateX(0); }
 }
 
 /* =====================================================
