@@ -198,11 +198,16 @@ skipBtn.onclick = endDialogues;
 ===================================================== */
 function startDialogues1() {
   playDialogues([
-    { text: "Avant d’agir, il faut comprendre le marché.", anchor: pirate5 },
-    { text: "L’étude de marché et le business plan sont essentiels.", anchor: pirate2 }
+    { text: "Bien joué, moussaillons. Lancer son activité demande du courage.", anchor: pirate5 },
+    { text: "Merci capitaine ! Le marché est ouvert, on est prêts à vendre.", anchor: pirate1 },
+    { text: "Avant de foncer, observez. Un bon marchand connaît son marché.", anchor: pirate5 },
+    { text: "Qui sont vos clients ? Qu’achètent-ils ? À quel prix ?", anchor: pirate5 },
+    { text: "Étudiez vos concurrents : leur réputation, leurs forces, leurs erreurs.", anchor: pirate5 },
+    { text: "Fixez le bon prix, et les clients viendront d’abord chez vous.", anchor: pirate5 },
+    { text: "Comprendre avant d’agir… on a encore à apprendre.", anchor: pirate2 }
   ], () => showLoader("intro", 1000, startMiniGame1));
 }
-
+   
 /* =====================================================
    🎮 MINI-JEU 1
 ===================================================== */
