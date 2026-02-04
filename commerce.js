@@ -27,13 +27,18 @@ const game3 = document.getElementById("merchantGame");
 const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
-   UTILS
+   UTILS — LOADER
 ===================================================== */
-function showLoader(text, time = 1200, cb) {
+function showLoader(type = "intro", time = 1200, cb) {
   loaderBox.textContent = "";
-  fadeScreen.classList.remove("hidden");
+  loaderBox.classList.remove("final");
 
-  if (text.includes("Bravo")) explodeGems();
+  if (type === "final") {
+    loaderBox.classList.add("final");
+    explodeGems();
+  }
+
+  fadeScreen.classList.remove("hidden");
 
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
@@ -41,6 +46,9 @@ function showLoader(text, time = 1200, cb) {
   }, time);
 }
 
+/* =====================================================
+   UTILS
+===================================================== */
 function vibrate(p = 20) {
   navigator.vibrate && navigator.vibrate(p);
 }
@@ -49,7 +57,7 @@ function vibrate(p = 20) {
    💎 EXPLOSION DE GEMS
 ===================================================== */
 function explodeGems(){
-  for(let i = 0; i < 100; i++){
+  for (let i = 0; i < 100; i++) {
     const g = document.createElement("div");
     g.className = "gem";
     g.style.left = "50%";
@@ -83,11 +91,13 @@ questVideo.onended = endVideo;
 
 function endVideo() {
   videoContainer.classList.add("hidden");
-  showScene();
+
+  // Loader de transition vidéo → scène
+  showLoader("intro", 1400, showScene);
 }
 
 /* =====================================================
-   🌅 SCÈNE INITIALE
+   🌅 SCÈNE INITIALE + ENTRÉE PIRATE 5
 ===================================================== */
 function showScene() {
   background.classList.remove("hidden");
@@ -95,15 +105,24 @@ function showScene() {
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
 
-  pirate2.style.pointerEvents = "auto";
-  pirate5.style.pointerEvents = "auto";
+  pirate5.classList.remove("glowStart");
+  pirate5.style.transition = "none";
+  pirate5.style.left = "1200px";
 
-  pirate5.classList.add("glowStart");
+  // Animation entrée pirate5
+  requestAnimationFrame(() => {
+    pirate5.style.transition = "left 1.2s ease";
+    pirate5.style.left = "900px";
+  });
 
-  pirate5.onclick = () => {
-    pirate5.classList.remove("glowStart");
-    startDialogues1();
-  };
+  setTimeout(() => {
+    pirate5.classList.add("glowStart");
+
+    pirate5.onclick = () => {
+      pirate5.classList.remove("glowStart");
+      startDialogues1();
+    };
+  }, 1300);
 }
 
 /* =====================================================
@@ -157,7 +176,7 @@ function startDialogues1() {
   playDialogues([
     { text: "Avant d’agir, il faut comprendre le marché.", anchor: pirate5 },
     { text: "L’étude de marché et le business plan sont essentiels.", anchor: pirate2 }
-  ], () => showLoader("Le mini jeu commence…", 1000, startMiniGame1));
+  ], () => showLoader("intro", 1000, startMiniGame1));
 }
 
 /* =====================================================
@@ -174,9 +193,11 @@ function startMiniGame1() {
   ];
 
   let i = 0;
+
   function step() {
     q1.innerHTML = quiz[i].q;
     a1.innerHTML = "";
+
     quiz[i].a.forEach((t, idx) => {
       const b = document.createElement("button");
       b.textContent = t;
@@ -194,6 +215,7 @@ function startMiniGame1() {
       a1.appendChild(b);
     });
   }
+
   step();
 }
 
@@ -201,12 +223,10 @@ function startMiniGame1() {
    💬 DIALOGUES 2
 ===================================================== */
 function startDialogues2() {
-  pirate5.classList.remove("glowStart");
-
   playDialogues([
     { text: "Avec ces informations, tu peux bâtir ton business plan.", anchor: pirate2 },
     { text: "Passons à l’étape suivante.", anchor: pirate5 }
-  ], () => showLoader("Le mini jeu commence…", 1000, startMiniGame2));
+  ], () => showLoader("intro", 1000, startMiniGame2));
 }
 
 /* =====================================================
@@ -243,10 +263,9 @@ function startMiniGame2() {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATE 3
+   🏴‍☠️ PIRATE 3 — ARRIVÉE
 ===================================================== */
 function spawnPirate3() {
-  // ⛔ Stop illumination pirate5
   pirate5.classList.remove("glowStart");
   pirate5.onclick = null;
 
@@ -274,7 +293,7 @@ function startFinalDialogues() {
   playDialogues([
     { text: "Le marché est exigeant.", anchor: pirate3 },
     { text: "À toi de choisir ta stratégie.", anchor: pirate5 }
-  ], () => showLoader("Le mini jeu commence…", 1000, startMiniGame3));
+  ], () => showLoader("intro", 1000, startMiniGame3));
 }
 
 /* =====================================================
@@ -295,7 +314,7 @@ function endQuest() {
   sessionStorage.setItem("unlock_pirate3", "true");
   sessionStorage.setItem("fromCommerce", "true");
 
-  showLoader("Bravo tu as gagné la quête", 2200, () => {
+  showLoader("final", 2600, () => {
     window.location.href = "menu.html";
   });
 }
