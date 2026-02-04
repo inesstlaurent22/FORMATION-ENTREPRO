@@ -367,11 +367,40 @@ function startMiniGame2() {
   game2.classList.remove("hidden");
   visualChoices.innerHTML = "";
 
-  const quiz = [
-    { t: "Définir la cible", ok: true },
-    { t: "Choisir la couleur du bateau", ok: false },
-    { t: "Identifier le problème à résoudre", ok: true }
-  ];
+const quiz = [
+  {
+    q: "Quels éléments sont indispensables dans un bon business plan ?",
+    r: [
+      { t: "Présenter clairement le projet et son objectif", ok: true },
+      { t: "Décrire le modèle économique et le budget", ok: true },
+      { t: "Choisir un logo avant toute chose", ok: false }
+    ]
+  },
+  {
+    q: "Quelle est une erreur fréquente chez les débutants lors de la création d’un business plan ?",
+    r: [
+      { t: "S’appuyer sur des données de marché vérifiées", ok: false },
+      { t: "Faire des prévisions financières irréalistes", ok: true },
+      { t: "Expliquer clairement la valeur du produit", ok: false }
+    ]
+  },
+  {
+    q: "Pourquoi définir précisément son modèle économique est essentiel ?",
+    r: [
+      { t: "Pour savoir comment l’activité va générer des revenus", ok: true },
+      { t: "Pour comprendre les coûts et la rentabilité", ok: true },
+      { t: "Pour impressionner uniquement les investisseurs", ok: false }
+    ]
+  },
+  {
+    q: "Lors de la présentation du produit, que faut-il absolument éviter ?",
+    r: [
+      { t: "Mettre en avant ce qui le différencie des concurrents", ok: false },
+      { t: "Rester vague sur la valeur apportée au client", ok: true },
+      { t: "Relier le produit à un besoin réel du marché", ok: false }
+    ]
+  }
+];
 
   let success = 0;
 
