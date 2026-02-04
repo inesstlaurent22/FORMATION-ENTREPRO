@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
+   FLAGS
+===================================================== */
+let pirate5Locked = false;
+
+/* =====================================================
    DOM
 ===================================================== */
 const background = document.getElementById("background");
@@ -100,8 +105,6 @@ questVideo.onended = endVideo;
 
 function endVideo() {
   videoContainer.classList.add("hidden");
-
-  // Loader de transition vidéo → scène
   showLoader("intro", 1400, showScene);
 }
 
@@ -124,9 +127,23 @@ function showScene() {
   });
 
   setTimeout(() => {
+    if (pirate5Locked) return;
+
     pirate5.classList.add("glowStart");
+
     pirate5.onclick = () => {
+      if (pirate5Locked) return;
+      pirate5Locked = true;
+
+      /* ⛔ VERROUILLAGE TOTAL */
       pirate5.classList.remove("glowStart");
+      pirate5.style.animation = "none";
+      pirate5.style.transition = "none";
+      pirate5.style.filter = "none";
+      pirate5.style.transform = "none";
+      pirate5.style.pointerEvents = "none";
+      pirate5.onclick = null;
+
       startDialogues1();
     };
   }, 1300);
@@ -273,9 +290,10 @@ function startMiniGame2() {
    🏴‍☠️ PIRATE 3 — ARRIVÉE
 ===================================================== */
 function spawnPirate3() {
-  // Désactivation TOTALE de pirate5
   pirate5.classList.remove("glowStart");
+  pirate5.style.animation = "none";
   pirate5.style.transition = "none";
+  pirate5.style.pointerEvents = "none";
   pirate5.onclick = null;
 
   pirate3.classList.remove("hidden");
