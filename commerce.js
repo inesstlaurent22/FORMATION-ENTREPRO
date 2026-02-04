@@ -56,11 +56,7 @@ function loadBackground(cb) {
     cb && cb();
   };
 
-  if (img.complete) finish();
-  else {
-    img.onload = finish;
-    img.onerror = finish;
-  }
+  img.complete ? finish() : (img.onload = img.onerror = finish);
 }
 
 /* =====================================================
@@ -98,14 +94,14 @@ function endVideo() {
    🌅 SCÈNE INITIALE
 ===================================================== */
 function showScene() {
+  pirate5Locked = false;
+
   background.classList.remove("hidden");
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
 
-  if (pirate5Locked) return;
-
-  pirate5.style.pointerEvents = "none";
   pirate5.style.left = "1200px";
+  pirate5.style.pointerEvents = "auto";
 
   requestAnimationFrame(() => {
     pirate5.style.transition = "left 1.2s ease";
@@ -114,13 +110,14 @@ function showScene() {
 
   setTimeout(() => {
     pirate5.classList.add("glowStart");
-    pirate5.style.pointerEvents = "auto";
 
     pirate5.onclick = () => {
+      if (pirate5Locked) return;
       pirate5Locked = true;
+
       pirate5.classList.remove("glowStart");
-      pirate5.style.pointerEvents = "none";
       pirate5.onclick = null;
+
       startDialogues1();
     };
   }, 1300);
@@ -129,7 +126,9 @@ function showScene() {
 /* =====================================================
    💬 DIALOGUES ENGINE
 ===================================================== */
-let dialogues = [], index = 0, callback = null;
+let dialogues = [];
+let index = 0;
+let callback = null;
 
 function playDialogues(list, cb) {
   dialogues = list;
@@ -220,11 +219,11 @@ function startMiniGame1() {
       ]
     },
     {
-      q: "Après avoir analysé les prix des concurrents, quelles stratégies sont possibles pour fixer tes prix ?",
+      q: "Après avoir analysé les prix des concurrents, quelles stratégies sont possibles ?",
       ok: [0, 1],
       a: [
         "S’aligner sur les prix du marché",
-        "Proposer un prix plus élevé en offrant plus de valeur",
+        "Proposer plus de valeur à un prix plus élevé",
         "Fixer un prix au hasard"
       ]
     }
@@ -253,11 +252,10 @@ function startMiniGame1() {
         if (found.length === quiz[i].ok.length) {
           setTimeout(() => {
             i++;
-            if (i < quiz.length) step();
-            else {
-              game1.classList.add("hidden");
-              showPirateLoader(700, startDialogues2);
-            }
+            i < quiz.length ? step() : (
+              game1.classList.add("hidden"),
+              showPirateLoader(700, startDialogues2)
+            );
           }, 600);
         }
       };
@@ -312,9 +310,6 @@ function startMiniGame2() {
    🏴‍☠️ PIRATE 3
 ===================================================== */
 function spawnPirate3() {
-  pirate5Locked = true;
-  pirate5.style.pointerEvents = "none";
-
   pirate3.classList.remove("hidden");
   pirate3.style.left = "1200px";
 
@@ -327,6 +322,7 @@ function spawnPirate3() {
     pirate3.classList.add("glowStart");
     pirate3.onclick = () => {
       pirate3.classList.remove("glowStart");
+      pirate3.onclick = null;
       startFinalDialogues();
     };
   }, 1200);
