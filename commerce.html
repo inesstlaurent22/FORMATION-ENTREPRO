@@ -28,9 +28,7 @@
      🌑 LOADER GLOBAL
 ===================================================== -->
 <div id="fadeScreen" class="hidden">
-  <div class="loaderBox">
-    Chargement…
-  </div>
+  <div class="loaderBox"></div>
 </div>
 
 <!-- =====================================================
@@ -63,8 +61,15 @@
 
   <div class="quizBox">
 
-    <div class="quizTitle">
-      🏴‍☠️ L'étude de ton marché 🏴‍☠️
+    <!-- 🧱 NOUVEL ENCAPSULAGE : TITRE + QUESTION SUR UNE LIGNE -->
+    <div class="quizHeader">
+
+      <div class="quizTitle">
+        🏴‍☠️ L'étude de ton marché 🏴‍☠️
+      </div>
+
+      <div id="commQuestion"></div>
+
     </div>
 
     <!-- 📝 TEXTE DE PRÉSENTATION -->
@@ -73,8 +78,6 @@
     </div>
 
     <div class="quizSeparator"></div>
-
-    <div id="commQuestion"></div>
 
     <div id="commAnswers"></div>
 
