@@ -55,18 +55,19 @@ html, body {
 #closeVideo  { right: 20px; }
 
 /* =====================================================
-   🌑 LOADER GLOBAL — PIRATE 🏴‍☠️ (VISIBLE GARANTI)
+   🌑 LOADER GLOBAL — 🏴‍☠️ / ⏳ (DYNAMIQUE)
 ===================================================== */
 #fadeScreen {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.85);
-  z-index: 4000; /* ⬅️ PLUS HAUT QUE TOUT */
+  z-index: 4000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Cercle */
 .loaderBox {
   width: 88px;
   height: 88px;
@@ -82,15 +83,22 @@ html, body {
     0 0 28px rgba(255,215,0,.85),
     inset 0 0 16px rgba(0,0,0,.8);
 
-  animation: pirateRotate 1.2s linear infinite;
+  animation: loaderRotate 1.2s linear infinite;
 }
 
+/* PAR DÉFAUT : PIRATE */
 .loaderBox::before {
   content: "🏴‍☠️";
   font-size: 38px;
 }
 
-@keyframes pirateRotate {
+/* ⏳ QUAND LE BACKGROUND CHARGE */
+.loaderBox[data-type="hourglass"]::before {
+  content: "⏳";
+}
+
+/* Rotation commune */
+@keyframes loaderRotate {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
@@ -159,20 +167,18 @@ html, body {
 }
 
 /* =====================================================
-   🏴‍☠️ MINI-JEU 1 — LAYOUT FINAL CORRIGÉ
+   🏴‍☠️ MINI-JEU 1 — STRUCTURE FINALE
 ===================================================== */
-
-/* Structure globale */
 #communicationGame .quizBox {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 /* TITRE */
 #communicationGame .quizTitle {
   font-family: "Pirata One", serif;
-  font-size: 26px;          /* ⬅️ réduit */
+  font-size: 24px;
   text-align: center;
   color: #ffd77a;
   letter-spacing: 2px;
@@ -180,10 +186,10 @@ html, body {
   text-shadow: 2px 2px 0 #2b1605;
 }
 
-/* TEXTE INTRO (sous le titre) */
+/* TEXTE INTRO — ENTRE TITRE ET QUESTION */
 #communicationGame .quizIntro {
   font-family: "Cinzel", serif;
-  font-size: 14px;
+  font-size: 13px;
   text-align: center;
   color: #f0e1b8;
   opacity: 0.95;
@@ -193,16 +199,16 @@ html, body {
 #communicationGame .quizHeader {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 /* QUESTION */
 #communicationGame #commQuestion {
   flex: 1;
   font-family: "Cinzel", serif;
-  font-size: 17px;          /* ⬅️ réduit */
+  font-size: 16px;
   font-weight: 700;
-  padding: 12px 14px;
+  padding: 10px 12px;
 
   background: linear-gradient(145deg, #f6e6b8, #e1c37a);
   color: #2b1605;
@@ -211,14 +217,14 @@ html, body {
   border-radius: 10px;
 
   box-shadow:
-    inset 0 0 10px rgba(0,0,0,.25),
-    0 4px 10px rgba(0,0,0,.45);
+    inset 0 0 8px rgba(0,0,0,.25),
+    0 4px 8px rgba(0,0,0,.45);
 }
 
 /* RÉPONSES */
 #communicationGame #commAnswers button {
   width: 100%;
-  margin: 8px auto;
+  margin: 6px auto;
 }
 
 /* =====================================================
@@ -255,10 +261,10 @@ button:disabled {
   }
 
   #communicationGame .quizTitle {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   #communicationGame #commQuestion {
-    font-size: 16px;
+    font-size: 15px;
   }
 }
