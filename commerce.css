@@ -117,8 +117,14 @@ html, body {
 }
 
 /* =====================================================
-   🏴‍☠️ POSITIONS PIRATES — FORÇAGE FINAL
+   🏴‍☠️ PIRATES — BASE OBLIGATOIRE
 ===================================================== */
+.pirate {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+}
+
 #pirate2bis {
   position: absolute;
   left: 500px;
