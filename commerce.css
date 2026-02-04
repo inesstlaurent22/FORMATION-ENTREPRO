@@ -56,7 +56,7 @@ html, body {
 
 
 /* =====================================================
-   🌑 LOADER GLOBAL
+   🌑 LOADER GLOBAL — PIRATE UNIQUE 🏴‍☠️
 ===================================================== */
 #fadeScreen {
   position: fixed;
@@ -68,27 +68,34 @@ html, body {
   justify-content: center;
 }
 
+/* Cercle + emoji */
 .loaderBox {
-  width: 90px;
-  height: 90px;
-  background: radial-gradient(circle, #2a1708, #120700);
-  border: 4px solid gold;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
+  border: 4px solid gold;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   font-size: 42px;
+  background: radial-gradient(circle, #2a1708, #120700);
+
   box-shadow:
-    0 0 35px rgba(255,215,0,.8),
-    inset 0 0 20px rgba(0,0,0,.8);
+    0 0 30px rgba(255,215,0,.8),
+    inset 0 0 18px rgba(0,0,0,.8);
+
+  animation: pirateRotate 1.4s linear infinite;
 }
 
+/* Emoji pirate unique */
 .loaderBox::before {
   content: "🏴‍☠️";
-  animation: pirateSpin 1.6s linear infinite;
 }
 
-@keyframes pirateSpin {
+/* Rotation */
+@keyframes pirateRotate {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
