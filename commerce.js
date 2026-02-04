@@ -35,14 +35,14 @@ const btnKeep = document.getElementById("btnKeep");
 /* =====================================================
    UTILS
 ===================================================== */
-function vibrate(p = 80) {
+function vibrate(p = 100) {
   if (navigator.vibrate) navigator.vibrate(p);
 }
 
-function errorFeedback(el) {
-  vibrate(100);
-  el.classList.add("shake", "wrong");
-  setTimeout(() => el.classList.remove("shake", "wrong"), 400);
+function screenShake(el) {
+  vibrate(120);
+  el.classList.add("screen-shake");
+  setTimeout(() => el.classList.remove("screen-shake"), 400);
 }
 
 /* =====================================================
@@ -113,7 +113,6 @@ function showScene() {
   pirate5.classList.remove("hidden");
 
   pirate5.style.left = "1200px";
-  pirate5.style.pointerEvents = "auto";
 
   requestAnimationFrame(() => {
     pirate5.style.transition = "left 1.2s ease";
@@ -162,7 +161,7 @@ function renderDialogue() {
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = () => {
-    vibrate(15);
+    vibrate(20);
     index++;
     renderDialogue();
   };
@@ -179,21 +178,20 @@ function endDialogues() {
 skipBtn.onclick = endDialogues;
 
 /* =====================================================
-   💬 DIALOGUES 1
+   💬 DIALOGUES 1 — INTRO MARCHÉ
 ===================================================== */
 function startDialogues1() {
   playDialogues([
-    { text: "Bien joué, moussaillons. Lancer son activité demande du courage.", anchor: pirate5 },
-    { text: "Merci capitaine ! Le marché est ouvert.", anchor: pirate2 },
-    { text: "Avant d’agir, observe ton marché.", anchor: pirate5 },
-    { text: "Qui sont tes clients ? À quel prix ?", anchor: pirate5 },
-    { text: "Analyse tes concurrents.", anchor: pirate5 },
-    { text: "Fixe le bon prix.", anchor: pirate5 }
+    { text: "Bien joué, moussaillons. Avant de vendre, il faut comprendre le marché.", anchor: pirate5 },
+    { text: "On ne peut pas juste poser nos produits et espérer ?", anchor: pirate2 },
+    { text: "Non. Un bon marchand observe, analyse et anticipe.", anchor: pirate5 },
+    { text: "Clients, concurrents, produits, prix… tout compte.", anchor: pirate5 },
+    { text: "Voyons si tu es prêt à entrer sur le marché.", anchor: pirate5 }
   ], startMiniGame1);
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — ÉTUDE DE MARCHÉ
+   🎮 MINI-JEU 1 — ÉTUDE DE MARCHÉ (QUESTIONS FINALES)
 ===================================================== */
 function startMiniGame1() {
   game1.classList.remove("hidden");
@@ -203,18 +201,36 @@ function startMiniGame1() {
       q: "Pourquoi réaliser des études de marché avant de se lancer ?",
       ok: [1, 2],
       a: [
-        "Choisir les couleurs",
-        "Comprendre les attentes clients",
-        "Identifier la concurrence"
+        "Choisir les couleurs de sa boutique",
+        "Comprendre les attentes des clients",
+        "Identifier la concurrence et la demande"
       ]
     },
     {
-      q: "Sur quoi analyser tes concurrents ?",
+      q: "Sur quoi dois-tu analyser tes concurrents ?",
       ok: [0, 2],
       a: [
-        "Réputation et stratégie",
-        "Lieu de vacances",
-        "Prix et positionnement"
+        "Leur réputation et leur stratégie",
+        "Leur lieu de vacances",
+        "Leurs prix et leur positionnement"
+      ]
+    },
+    {
+      q: "Pourquoi faut-il réaliser des études de produit ?",
+      ok: [0, 1],
+      a: [
+        "S’assurer que le produit répond aux besoins des clients",
+        "Améliorer le produit et se différencier",
+        "Créer un produit sans objectif précis"
+      ]
+    },
+    {
+      q: "Après avoir analysé les prix des concurrents, quelles stratégies sont possibles ?",
+      ok: [0, 1],
+      a: [
+        "S’aligner sur les prix du marché",
+        "Proposer plus de valeur à un prix plus élevé",
+        "Fixer un prix au hasard"
       ]
     }
   ];
@@ -232,11 +248,14 @@ function startMiniGame1() {
       btn.textContent = txt;
 
       btn.onclick = () => {
+
+        // ❌ MAUVAISE RÉPONSE
         if (!quiz[i].ok.includes(idx)) {
-          errorFeedback(btn);
+          screenShake(game1);
           return;
         }
 
+        // ✅ BONNE RÉPONSE
         if (found.includes(idx)) return;
 
         found.push(idx);
@@ -266,12 +285,13 @@ function startMiniGame1() {
 ===================================================== */
 function startDialogues2() {
   playDialogues([
-    { text: "Parfait. Passons au business plan.", anchor: pirate5 }
+    { text: "Parfait. Tu comprends maintenant les bases du marché.", anchor: pirate5 },
+    { text: "Passons à la construction du business plan.", anchor: pirate2 }
   ], startMiniGame2);
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
+   🎨 MINI-JEU 2
 ===================================================== */
 function startMiniGame2() {
   game2.classList.remove("hidden");
@@ -293,7 +313,7 @@ function startMiniGame2() {
       b.disabled = true;
 
       if (!q.ok) {
-        errorFeedback(b);
+        screenShake(game2);
         return;
       }
 
@@ -334,7 +354,8 @@ function spawnPirate3() {
 ===================================================== */
 function startFinalDialogues() {
   playDialogues([
-    { text: "Le marché est exigeant.", anchor: pirate3 }
+    { text: "Le marché est exigeant, mais tu es prêt.", anchor: pirate3 },
+    { text: "À toi de défendre ton prix.", anchor: pirate5 }
   ], startMiniGame3);
 }
 
@@ -344,7 +365,7 @@ function startFinalDialogues() {
 function startMiniGame3() {
   game3.classList.remove("hidden");
   btnKeep.onclick = () => {
-    vibrate(20);
+    vibrate(40);
     game3.classList.add("hidden");
     showPirateLoader(700, endQuest);
   };
