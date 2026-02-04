@@ -240,89 +240,63 @@ html, body {
 }
 
 /* =====================================================
-   🏴‍☠️ MINI-JEU 1 — ÉTUDE DE MARCHÉ (CSS COMPLET)
+   🏴‍☠️ MINI-JEU 1 — ÉTUDE DE MARCHÉ (CORRIGÉ)
 ===================================================== */
 
-/* 🎮 Conteneur principal (si déjà existant ailleurs, ne pose pas de conflit) */
-.quizBox {
+#communicationGame .quizBox {
   max-width: 520px;
   margin: 0 auto;
 }
 
-/* =====================================================
-   🏴‍☠️ TITRE — STYLE PIRATE
-===================================================== */
-.quizTitle {
-  font-size: 32px;
-  text-align: center;
-  margin-bottom: 16px;
+/* 🏴‍☠️ TITRE — IMPACT VISUEL FORT */
+#communicationGame .quizTitle {
+  font-family: "Pirata One", serif;
+  font-size: 38px;
+  margin-bottom: 18px;
 
-  color: #f5d37a;
+  color: #ffd77a;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-
-  font-family: "Pirata One", "Cinzel", serif;
 
   text-shadow:
-    0 0 6px rgba(245, 211, 122, 0.6),
-    0 0 14px rgba(180, 120, 40, 0.6),
-    2px 2px 0 #2b1605;
+    3px 3px 0 #2b1605,
+    0 0 12px rgba(255,215,0,.6);
 }
 
-/* =====================================================
-   📝 TEXTE D’INTRODUCTION
-===================================================== */
-.quizIntro {
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 20px;
+/* 📝 TEXTE INTRO — CONTRASTE CLAIR */
+#communicationGame .quizIntro {
+  font-family: "Cinzel", serif;
+  font-size: 15px;
+  margin-bottom: 22px;
 
-  color: #e6d3a3;
-  font-style: italic;
-  opacity: 0.9;
+  color: #f0e1b8;
+  opacity: 0.95;
 }
 
-/* =====================================================
-   ❓ QUESTION — STYLE DIFFÉRENCIÉ (PARCHEMIN)
-===================================================== */
-#commQuestion {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  padding: 14px;
+/* ❓ QUESTION — CARTE PARCHEMIN */
+#communicationGame #commQuestion {
+  font-family: "Cinzel", serif;
+  font-size: 21px;
+  font-weight: 700;
 
-  color: #3b2208;
-  background: linear-gradient(145deg, #f5e3b0, #e6c98a);
+  padding: 18px;
+  margin-bottom: 22px;
 
-  border: 2px solid #a57c2f;
-  border-radius: 8px;
+  background: linear-gradient(145deg, #f6e6b8, #e1c37a);
+  color: #2b1605;
+
+  border: 3px solid #a57c2f;
+  border-radius: 10px;
 
   box-shadow:
-    inset 0 0 10px rgba(0,0,0,0.25),
-    0 4px 8px rgba(0,0,0,0.4);
-
-  text-align: center;
+    inset 0 0 14px rgba(0,0,0,.3),
+    0 6px 14px rgba(0,0,0,.5);
 }
 
-/* =====================================================
-   ✅ RÉPONSES — BOUTONS
-===================================================== */
-#commAnswers button {
-  display: block;
+/* ✅ RÉPONSES */
+#communicationGame #commAnswers button {
   width: 100%;
   margin: 10px auto;
-}
-
-/* =====================================================
-   🎯 BOUTON VALIDÉ (BONNE RÉPONSE)
-===================================================== */
-button.pressed {
-  transform: translateY(4px);
-  box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
-
-  background: linear-gradient(145deg, #5a3610, #a57c2f);
 }
 
 /* =====================================================
