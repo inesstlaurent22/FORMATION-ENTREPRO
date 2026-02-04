@@ -38,6 +38,8 @@ function showLoader(type = "intro", time = 1200, cb) {
   loaderBox.textContent = "";
   loaderBox.classList.remove("final", "video");
 
+  fadeScreen.style.pointerEvents = "auto";
+
   if (type === "final") {
     loaderBox.classList.add("final");
     explodeGems();
@@ -76,19 +78,22 @@ function explodeGems(){
 }
 
 /* =====================================================
-   🎬 VIDÉO + LOADER ⏳
+   🎬 VIDÉO + LOADER ⏳ (CLICS AUTORISÉS)
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
+/* Loader ⏳ pendant chargement vidéo */
 fadeScreen.classList.remove("hidden");
+fadeScreen.style.pointerEvents = "none"; // ⬅️ autorise clics vidéo
 loaderBox.classList.add("video");
 
 questVideo.oncanplay = () => {
   loaderBox.classList.remove("video");
   fadeScreen.classList.add("hidden");
+  fadeScreen.style.pointerEvents = "auto"; // ⬅️ reset
   questVideo.play().catch(()=>{});
 };
 
@@ -214,7 +219,7 @@ function startDialogues1() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — RÉPONSES MULTIPLES
+   🎮 MINI-JEU 1
 ===================================================== */
 function startMiniGame1() {
   game1.classList.remove("hidden");
