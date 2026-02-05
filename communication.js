@@ -39,23 +39,29 @@ introVideo.onended = endVideo;
 
 function endVideo(){
   introVideo.pause();
+
+  scene.classList.remove("hidden");
+
   videoIntro.classList.add("hidden");
-  showPirateLoader(()=>scene.classList.remove("hidden"));
+
+  showPirateLoader();
 }
 
 /* =====================================================
    🏴‍☠️ LOADER
 ===================================================== */
-function showPirateLoader(cb){
-  const f=document.createElement("div");
-  f.id="fadeScreen";
-  f.innerHTML=`
-    <div class="loaderBox">
-      <div class="loaderPirate"></div>
-      <div class="loaderPirateEmoji">🏴‍☠️</div>
-    </div>`;
+function showPirateLoader(callback){
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
+  f.innerHTML = `
+    <div class="loaderBox"></div>
+  `;
   document.body.appendChild(f);
-  setTimeout(()=>{f.remove();cb&&cb();},1400);
+
+  setTimeout(()=>{
+    f.remove();
+    callback && callback();
+  }, 1400);
 }
 
 /* =====================================================
