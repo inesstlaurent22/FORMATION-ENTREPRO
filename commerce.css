@@ -61,8 +61,18 @@ html, body {
 #closeVideo  { right: 20px; }
 
 /* =====================================================
-   🌑 LOADER GLOBAL — PIRATE UNIQUE
+   🌑 LOADER — CENTRÉ + 🏴‍☠️
 ===================================================== */
+#fadeScreen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 4000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .loaderBox {
   width: 90px;
   height: 90px;
@@ -80,10 +90,11 @@ html, body {
   animation: loaderRotate 1.2s linear infinite;
 }
 
-/* 🏴‍☠️ FORCÉ POUR TOUS LES LOADERS */
+/* 🏴‍☠️ toujours centré */
 .loaderBox::before {
   content: "🏴‍☠️";
   font-size: 40px;
+  line-height: 1;
 }
 
 @keyframes loaderRotate {
