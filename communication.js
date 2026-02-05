@@ -40,10 +40,13 @@ introVideo.onended = endVideo;
 function endVideo(){
   introVideo.pause();
 
+  // ✅ le décor doit être visible AVANT tout
   scene.classList.remove("hidden");
 
+  // cache la vidéo
   videoIntro.classList.add("hidden");
 
+  // loader au-dessus
   showPirateLoader();
 }
 
