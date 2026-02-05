@@ -428,9 +428,18 @@ function endQuest() {
   sessionStorage.setItem("unlock_pirate3", "true");
   sessionStorage.setItem("fromCommerce", "true");
 
-  showLoader("final", 2600, () => {
+  // cacher loader classique
+  fadeScreen.classList.add("hidden");
+
+  // afficher victoire
+  const finalLoader = document.getElementById("finalLoader");
+  finalLoader.classList.remove("hidden");
+
+  explodeGems();
+
+  setTimeout(() => {
     window.location.href = "menu.html";
-  });
+  }, 2600);
 }
 
 });
