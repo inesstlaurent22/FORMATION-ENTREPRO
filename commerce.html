@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <title>Quête – Le Marché des Trésors</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="commerce.css">
 </head>
 
@@ -20,8 +18,10 @@
     Votre navigateur ne supporte pas la vidéo.
   </video>
 
-  <button id="toggleSound">🔇</button>
-  <button id="closeVideo">Passer la vidéo</button>
+  <div id="videoControls">
+    <button id="toggleSound">🔇</button>
+    <button id="closeVideo">Passer la vidéo</button>
+  </div>
 </div>
 
 <!-- =====================================================
@@ -43,95 +43,67 @@
 <!-- =====================================================
      🏴‍☠️ PIRATES
 ===================================================== -->
-<img src="images/Pirate2.png" id="pirate2bis" class="pirate hidden" alt="Pirate conseiller">
-<img src="images/Pirate5.png" id="pirate5bis" class="pirate hidden" alt="Maître pirate">
-<img src="images/Pirateclients.png" id="pirate3bis" class="pirate hidden" alt="Clients du marché">
+<img src="images/Pirate2.png" id="pirate2bis" class="pirate hidden">
+<img src="images/Pirate5.png" id="pirate5bis" class="pirate hidden">
+<img src="images/Pirateclients.png" id="pirate3bis" class="pirate hidden">
 
 <!-- =====================================================
-     💬 BULLES DE DIALOGUE
+     💬 BULLES
 ===================================================== -->
 <div id="bubbleContainer"></div>
 
-<button id="skipDialoguesBtn" class="hidden">
-  Passer les dialogues
-</button>
+<button id="skipDialoguesBtn" class="hidden">Passer les dialogues</button>
 
 <!-- =====================================================
-     🎮 MINI-JEU 1 — ÉTUDE DE MARCHÉ
+     🎮 MINI-JEU 1
 ===================================================== -->
 <div id="communicationGame" class="hidden">
   <div class="quizBox">
-
-    <div class="quizTitle">
-      🏴‍☠️ L’étude de ton marché
-    </div>
-
+    <div class="quizTitle">🏴‍☠️ L’étude de ton marché</div>
     <div class="quizIntro">
-      Avant de vendre, un marchand avisé observe son port.
-      Réponds à ces questions pour éviter les erreurs de débutant.
+      Avant de vendre, observe ton port et tes concurrents.
     </div>
-
     <div id="commQuestion"></div>
     <div id="commAnswers"></div>
-
   </div>
 </div>
 
 <!-- =====================================================
-     🎮 MINI-JEU 2 — BUSINESS PLAN
+     🎮 MINI-JEU 2
 ===================================================== -->
 <div id="visualIdentityGame" class="hidden">
   <div class="quizBox">
-
-    <div class="quizTitle">
-      🧠 Construction du business plan
-    </div>
-
+    <div class="quizTitle">🧠 Construction du business plan</div>
     <div class="quizIntro">
       Un bon plan évite les naufrages.
-      Identifie les bons réflexes et pièges classiques.
     </div>
-
     <div id="visualFeedback"></div>
     <div id="visualChoices"></div>
-
   </div>
 </div>
 
 <!-- =====================================================
-     🎮 MINI-JEU 3 — JUGEMENT DU MARCHÉ
+     🎮 MINI-JEU 3
 ===================================================== -->
 <div id="merchantGame" class="hidden">
   <div class="quizBox">
-
-    <div class="quizTitle">
-      ⚖️ Le Jugement du Marché
-    </div>
-
+    <div class="quizTitle">⚖️ Le Jugement du Marché</div>
     <div class="quizIntro">
       Les clients comparent toujours.
-      À toi de décider la meilleure stratégie.
     </div>
 
     <div class="gameQuestion">
       📦 Prix de ton produit : <strong>300 PO</strong><br>
       🏷️ Prix des concurrents : <strong>250 PO</strong><br><br>
-      « J’ai vu ce produit moins cher dans un autre port… »
+      « J’ai vu ce produit moins cher ailleurs… »
     </div>
 
     <div class="merchantChoices">
-      <button id="btnKeep" class="merchantChoice">
-        ⚖️ Maintenir le prix
-      </button>
+      <button id="btnKeep">⚖️ Maintenir le prix</button>
     </div>
-
   </div>
 </div>
 
-<!-- =====================================================
-     📜 SCRIPT
-===================================================== -->
 <script src="commerce.js"></script>
-
 </body>
 </html>
