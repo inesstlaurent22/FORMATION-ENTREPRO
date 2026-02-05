@@ -120,9 +120,14 @@ html, body {
 #pirate3bis { left: 638px; top: 177px; width: 235px; }
 
 /* =====================================================
-   ✨ PIRATE 5 — ILLUMINATION AU SURVOL
+   ✨ ILLUMINATION PIRATES (5 & 3)
 ===================================================== */
-#pirate5bis:hover {
+#pirate5bis:hover,
+#pirate3bis:hover {
+  animation: glowPulse 1.2s infinite;
+}
+
+.glowStart {
   animation: glowPulse 1.2s infinite;
 }
 
@@ -141,7 +146,7 @@ html, body {
   }
 }
 
-/* ❌ STOP ILLUMINATION QUAND DÉSACTIVÉ */
+/* ❌ STOP TOTAL AU CLIC */
 .pirate.locked,
 .pirate.locked:hover {
   animation: none !important;
