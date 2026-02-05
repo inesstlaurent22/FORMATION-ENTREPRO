@@ -61,18 +61,20 @@ html, body {
 #closeVideo  { right: 20px; }
 
 /* =====================================================
-   🌑 LOADER — CENTRÉ + 🏴‍☠️
+   🌑 LOADER GLOBAL — CENTRÉ GARANTI
 ===================================================== */
 #fadeScreen {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.85);
   z-index: 4000;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Cercle qui tourne */
 .loaderBox {
   width: 90px;
   height: 90px;
@@ -90,11 +92,13 @@ html, body {
   animation: loaderRotate 1.2s linear infinite;
 }
 
-/* 🏴‍☠️ toujours centré */
+/* Emoji DANS le cercle (centré, indépendant du JS) */
+.loaderBox span,
 .loaderBox::before {
   content: "🏴‍☠️";
   font-size: 40px;
   line-height: 1;
+  position: absolute;
 }
 
 @keyframes loaderRotate {
@@ -191,13 +195,15 @@ html, body {
 }
 
 /* =====================================================
-   ⏭️ PASSER LES DIALOGUES
+   ⏭️ BOUTON PASSER LES DIALOGUES — FIX FINAL
 ===================================================== */
 #skipDialoguesBtn {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 2500;
+  bottom: 24px;
+  right: 24px;
+
+  z-index: 5000; /* AU-DESSUS DE TOUT */
+  pointer-events: auto;
 
   background: linear-gradient(145deg, #7b4a12, #caa14a);
   border: 3px solid gold;
@@ -211,6 +217,10 @@ html, body {
   box-shadow:
     inset 0 0 6px rgba(255,215,0,.6),
     0 4px 0 #3b2208;
+}
+
+#skipDialoguesBtn.hidden {
+  display: none !important;
 }
 
 #skipDialoguesBtn:active {
