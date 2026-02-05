@@ -9,7 +9,6 @@ let pirate5Locked = false;
    DOM
 ===================================================== */
 const background = document.getElementById("background");
-const backgroundImg = background.querySelector("img");
 
 const pirate2 = document.getElementById("pirate2bis");
 const pirate5 = document.getElementById("pirate5bis");
@@ -33,61 +32,72 @@ const game3 = document.getElementById("merchantGame");
 const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
-   UTILS
+   LOADER
 ===================================================== */
-function vibrate(p = 100) {
-  if (navigator.vibrate) navigator.vibrate(p);
-}
+function showLoader(type = "intro", time = 1200, cb) {
+  loaderBox.textContent = "";
+  loaderBox.classList.remove("final", "video");
 
-function screenShake(el) {
-  vibrate(120);
-  el.classList.add("screen-shake");
-  setTimeout(() => el.classList.remove("screen-shake"), 400);
-}
+  fadeScreen.style.pointerEvents = "auto";
 
-/* =====================================================
-   LOADERS
-===================================================== */
-function showPirateLoader(duration = 800, cb) {
-  loaderBox.dataset.type = "pirate";
+  if (type === "final") {
+    loaderBox.classList.add("final");
+    explodeGems();
+  }
+
   fadeScreen.classList.remove("hidden");
+
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
     cb && cb();
-  }, duration);
-}
-
-function loadBackground(cb) {
-  loaderBox.dataset.type = "hourglass";
-  fadeScreen.classList.remove("hidden");
-
-  const loaderText = document.createElement("div");
-  loaderText.id = "loaderText";
-  loaderText.textContent = "Tu vas bientôt pouvoir entrer sur le marché…";
-  fadeScreen.appendChild(loaderText);
-
-  const img = new Image();
-  img.src = backgroundImg.src;
-
-  const finish = () => {
-    loaderText.remove();
-    fadeScreen.classList.add("hidden");
-    cb && cb();
-  };
-
-  img.complete ? finish() : (img.onload = img.onerror = finish);
+  }, time);
 }
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   UTILS
+===================================================== */
+function vibrate(p = 20) {
+  navigator.vibrate && navigator.vibrate(p);
+}
+
+/* =====================================================
+   💎 GEMS
+===================================================== */
+function explodeGems(){
+  for (let i = 0; i < 100; i++) {
+    const g = document.createElement("div");
+    g.className = "gem";
+    g.style.left = "50%";
+    g.style.top = "50%";
+    g.style.background = `hsl(${Math.random()*360},100%,60%)`;
+    g.style.setProperty("--x", (Math.random()*800 - 400) + "px");
+    g.style.setProperty("--y", (Math.random()*800 - 400) + "px");
+    document.body.appendChild(g);
+    setTimeout(() => g.remove(), 1600);
+  }
+}
+
+/* =====================================================
+   🎬 VIDÉO + LOADER ⏳ (CLICS AUTORISÉS)
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
+/* Loader ⏳ pendant chargement vidéo */
+fadeScreen.classList.remove("hidden");
+fadeScreen.style.pointerEvents = "none"; // ⬅️ autorise clics vidéo
+loaderBox.classList.add("video");
+
+questVideo.oncanplay = () => {
+  loaderBox.classList.remove("video");
+  fadeScreen.classList.add("hidden");
+  fadeScreen.style.pointerEvents = "auto"; // ⬅️ reset
+  questVideo.play().catch(()=>{});
+};
+
 questVideo.muted = true;
-questVideo.oncanplay = () => questVideo.play().catch(()=>{});
 
 toggleSound.onclick = () => {
   questVideo.muted = !questVideo.muted;
@@ -99,19 +109,29 @@ questVideo.onended = endVideo;
 
 function endVideo() {
   videoContainer.classList.add("hidden");
-  showPirateLoader(700, () => loadBackground(showScene));
+  showLoader("intro", 1400, showScene);
 }
 
 /* =====================================================
    🌅 SCÈNE INITIALE
 ===================================================== */
 function showScene() {
-  pirate5Locked = false;
-
   background.classList.remove("hidden");
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
 
+  if (pirate5Locked) {
+    pirate5.classList.remove("glowStart");
+    pirate5.style.animation = "none";
+    pirate5.style.transition = "none";
+    pirate5.style.left = "900px";
+    pirate5.style.pointerEvents = "none";
+    pirate5.onclick = null;
+    return;
+  }
+
+  pirate5.classList.remove("glowStart");
+  pirate5.style.transition = "none";
   pirate5.style.left = "1200px";
 
   requestAnimationFrame(() => {
@@ -121,11 +141,19 @@ function showScene() {
 
   setTimeout(() => {
     pirate5.classList.add("glowStart");
+
     pirate5.onclick = () => {
       if (pirate5Locked) return;
       pirate5Locked = true;
+
       pirate5.classList.remove("glowStart");
+      pirate5.style.animation = "none";
+      pirate5.style.transition = "none";
+      pirate5.style.filter = "none";
+      pirate5.style.transform = "none";
+      pirate5.style.pointerEvents = "none";
       pirate5.onclick = null;
+
       startDialogues1();
     };
   }, 1300);
@@ -134,9 +162,7 @@ function showScene() {
 /* =====================================================
    💬 DIALOGUES ENGINE
 ===================================================== */
-let dialogues = [];
-let index = 0;
-let callback = null;
+let dialogues = [], index = 0, callback = null;
 
 function playDialogues(list, cb) {
   dialogues = list;
@@ -161,7 +187,7 @@ function renderDialogue() {
   bubble.style.transform = "translateX(-50%)";
 
   bubble.onclick = () => {
-    vibrate(20);
+    vibrate();
     index++;
     renderDialogue();
   };
@@ -178,20 +204,22 @@ function endDialogues() {
 skipBtn.onclick = endDialogues;
 
 /* =====================================================
-   💬 DIALOGUES 1 — INTRO MARCHÉ
+   💬 DIALOGUES 1
 ===================================================== */
 function startDialogues1() {
   playDialogues([
-    { text: "Bien joué, moussaillons. Avant de vendre, il faut comprendre le marché.", anchor: pirate5 },
-    { text: "On ne peut pas juste poser nos produits et espérer ?", anchor: pirate2 },
-    { text: "Non. Un bon marchand observe, analyse et anticipe.", anchor: pirate5 },
-    { text: "Clients, concurrents, produits, prix… tout compte.", anchor: pirate5 },
-    { text: "Voyons si tu es prêt à entrer sur le marché.", anchor: pirate5 }
-  ], startMiniGame1);
+    { text: "Bien joué, moussaillons. Lancer son activité demande du courage.", anchor: pirate5 },
+    { text: "Merci capitaine ! Le marché est ouvert, on est prêts à vendre.", anchor: pirate2 },
+    { text: "Avant de foncer, observez. Un bon marchand connaît son marché.", anchor: pirate5 },
+    { text: "Qui sont vos clients ? Qu’achètent-ils ? À quel prix ?", anchor: pirate5 },
+    { text: "Étudiez vos concurrents : leur réputation, leurs forces, leurs erreurs.", anchor: pirate5 },
+    { text: "Fixez le bon prix, et les clients viendront d’abord chez vous.", anchor: pirate5 },
+    { text: "Comprendre avant d’agir… on a encore à apprendre.", anchor: pirate2 }
+  ], () => showLoader("intro", 1000, startMiniGame1));
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — ÉTUDE DE MARCHÉ (QUESTIONS FINALES)
+   🎮 MINI-JEU 1 — MULTI BONNES RÉPONSES
 ===================================================== */
 function startMiniGame1() {
   game1.classList.remove("hidden");
@@ -203,7 +231,7 @@ function startMiniGame1() {
       a: [
         "Choisir les couleurs de sa boutique",
         "Comprendre les attentes des clients",
-        "Identifier la concurrence et la demande"
+        "Identifier la concurrence et la demande du marché"
       ]
     },
     {
@@ -225,11 +253,11 @@ function startMiniGame1() {
       ]
     },
     {
-      q: "Après avoir analysé les prix des concurrents, quelles stratégies sont possibles ?",
+      q: "Après avoir analysé les prix des concurrents, quelles stratégies sont possibles pour fixer tes prix ?",
       ok: [0, 1],
       a: [
         "S’aligner sur les prix du marché",
-        "Proposer plus de valeur à un prix plus élevé",
+        "Proposer un prix plus élevé en offrant plus de valeur",
         "Fixer un prix au hasard"
       ]
     }
@@ -239,125 +267,59 @@ function startMiniGame1() {
   let found = [];
 
   function step() {
-    q1.textContent = quiz[i].q;
+    q1.innerHTML = quiz[i].q;
     a1.innerHTML = "";
     found = [];
 
-    quiz[i].a.forEach((txt, idx) => {
-      const btn = document.createElement("button");
-      btn.textContent = txt;
+    quiz[i].a.forEach((t, idx) => {
+      const b = document.createElement("button");
+      b.textContent = t;
 
-      btn.onclick = () => {
+      b.onclick = () => {
+        // ❌ Mauvaise réponse → rien ne se passe
+        if (!quiz[i].ok.includes(idx)) return;
 
-        // ❌ MAUVAISE RÉPONSE
-        if (!quiz[i].ok.includes(idx)) {
-          screenShake(game1);
-          return;
-        }
-
-        // ✅ BONNE RÉPONSE
+        // ✅ Bonne réponse déjà cliquée → ignore
         if (found.includes(idx)) return;
 
+        // ✅ Marquer comme trouvée
         found.push(idx);
-        btn.classList.add("pressed");
-        btn.disabled = true;
 
+        // 🎯 Effet bouton enfoncé
+        b.classList.add("pressed");
+        b.disabled = true;
+
+        // ✅ Toutes les bonnes réponses trouvées ?
         if (found.length === quiz[i].ok.length) {
           setTimeout(() => {
             i++;
-            i < quiz.length
-              ? step()
-              : (game1.classList.add("hidden"),
-                 showPirateLoader(700, startDialogues2));
+            if (i < quiz.length) {
+              step();
+            } else {
+              game1.classList.add("hidden");
+              showScene();
+              startDialogues2();
+            }
           }, 600);
         }
       };
 
-      a1.appendChild(btn);
+      a1.appendChild(b);
     });
   }
 
   step();
 }
 
+
 /* =====================================================
    💬 DIALOGUES 2
 ===================================================== */
 function startDialogues2() {
   playDialogues([
-    { 
-      text: "Bravo à vous deux. Vous avez analysé le marché et compris votre environnement.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "C’est une étape essentielle avant d’aller plus loin.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "Et maintenant ? Quelle est la suite ?", 
-      anchor: pirate2 
-    },
-    { 
-      text: "Maintenant, vous allez travailler sur l’un des documents fondateurs de votre activité : le business plan.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "C’est la ligne directrice de tout votre projet. Sans lui, impossible d’avancer clairement.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "Que contient exactement un business plan ?", 
-      anchor: pirate2 
-    },
-    { 
-      text: "Il commence par l’histoire de votre projet : pourquoi cette idée, d’où elle vient et quel problème elle résout.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "Ensuite, vous présentez votre équipe : qui vous êtes, vos compétences et vos rôles respectifs.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "Donc ce n’est pas seulement l’idée qui compte, mais aussi les personnes derrière.", 
-      anchor: pirate2 
-    },
-    { 
-      text: "Exactement. Puis vous définissez clairement l’objectif du projet, à court, moyen et long terme.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "Les études de marché que nous avons faites servent aussi ici ?", 
-      anchor: pirate2 
-    },
-    { 
-      text: "Oui. Elles prouvent que votre projet repose sur des données réelles : la cible, la demande et la concurrence.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "Vous présentez ensuite votre produit ou service, sa valeur et ce qui le différencie.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "Et le budget entre en jeu à ce moment-là ?", 
-      anchor: pirate2 
-    },
-    { 
-      text: "Exact. Le modèle économique explique comment vous gagnez de l’argent, vos coûts et votre budget prévisionnel.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "Pour finir, vous définissez vos stratégies commerciales : comment attirer et convaincre vos clients.", 
-      anchor: pirate5 
-    },
-    { 
-      text: "Je comprends mieux. Le business plan, c’est la boussole de notre activité.", 
-      anchor: pirate2 
-    },
-    { 
-      text: "Exactement. Construisez-le avec méthode, et il guidera chacune de vos décisions.", 
-      anchor: pirate5 
-    }
-  ], startMiniGame2);
+    { text: "Avec ces informations, tu peux bâtir ton business plan.", anchor: pirate2 },
+    { text: "Passons à l’étape suivante.", anchor: pirate5 }
+  ], () => showLoader("intro", 1000, startMiniGame2));
 }
 
 /* =====================================================
@@ -366,103 +328,50 @@ function startDialogues2() {
 function startMiniGame2() {
   game2.classList.remove("hidden");
   visualChoices.innerHTML = "";
-  document.getElementById("visualFeedback").textContent = "";
 
   const quiz = [
-    {
-      q: "Quels éléments sont indispensables dans un bon business plan ?",
-      r: [
-        { t: "Présenter clairement le projet et son objectif", ok: true },
-        { t: "Décrire le modèle économique et le budget", ok: true },
-        { t: "Choisir un logo avant toute chose", ok: false }
-      ]
-    },
-    {
-      q: "Quelle est une erreur fréquente chez les débutants lors de la création d’un business plan ?",
-      r: [
-        { t: "S’appuyer sur des données de marché vérifiées", ok: false },
-        { t: "Faire des prévisions financières irréalistes", ok: true },
-        { t: "Expliquer clairement la valeur du produit", ok: false }
-      ]
-    },
-    {
-      q: "Pourquoi définir précisément son modèle économique est essentiel ?",
-      r: [
-        { t: "Pour savoir comment l’activité va générer des revenus", ok: true },
-        { t: "Pour comprendre les coûts et la rentabilité", ok: true },
-        { t: "Pour impressionner uniquement les investisseurs", ok: false }
-      ]
-    },
-    {
-      q: "Lors de la présentation du produit ou service, que faut-il absolument éviter ?",
-      r: [
-        { t: "Mettre en avant ce qui le différencie des concurrents", ok: false },
-        { t: "Rester vague sur la valeur apportée au client", ok: true },
-        { t: "Relier le produit à un besoin réel du marché", ok: false }
-      ]
-    }
+    { t: "Définir la cible", ok: true },
+    { t: "Choisir la couleur du bateau", ok: false },
+    { t: "Identifier le problème à résoudre", ok: true }
   ];
 
-  let step = 0;
-  let found = [];
+  let success = 0;
 
-  function renderStep() {
-    visualChoices.innerHTML = "";
-    found = [];
-
-    const feedback = document.getElementById("visualFeedback");
-    feedback.textContent = quiz[step].q;
-
-    quiz[step].r.forEach((rep, idx) => {
-      const btn = document.createElement("button");
-      btn.textContent = rep.t;
-
-      btn.onclick = () => {
-        // ❌ mauvaise réponse
-        if (!rep.ok) {
-          screenShake(game2);
-          return;
+  quiz.forEach(q => {
+    const b = document.createElement("button");
+    b.textContent = q.t;
+    b.onclick = () => {
+      b.disabled = true;
+      if (q.ok) {
+        success++;
+        if (success === 2) {
+          game2.classList.add("hidden");
+          showScene();
+          spawnPirate3();
         }
-
-        // ✅ bonne réponse (évite double clic)
-        if (found.includes(idx)) return;
-
-        found.push(idx);
-        btn.classList.add("pressed");
-        btn.disabled = true;
-
-        const totalGood = quiz[step].r.filter(r => r.ok).length;
-
-        // Quand toutes les bonnes réponses sont trouvées
-        if (found.length === totalGood) {
-          setTimeout(() => {
-            step++;
-            if (step < quiz.length) {
-              renderStep();
-            } else {
-              game2.classList.add("hidden");
-              showPirateLoader(700, spawnPirate3);
-            }
-          }, 600);
-        }
-      };
-
-      visualChoices.appendChild(btn);
-    });
-  }
-
-  renderStep();
+      }
+    };
+    visualChoices.appendChild(b);
+  });
 }
-   
+
 /* =====================================================
    🏴‍☠️ PIRATE 3
 ===================================================== */
 function spawnPirate3() {
+  pirate5Locked = true;
+
+  pirate5.classList.remove("glowStart");
+  pirate5.style.animation = "none";
+  pirate5.style.transition = "none";
+  pirate5.style.pointerEvents = "none";
+  pirate5.onclick = null;
+
   pirate3.classList.remove("hidden");
   pirate3.style.left = "1200px";
+  pirate3.style.transition = "left 1s ease";
 
   requestAnimationFrame(() => {
-    pirate3.style.transition = "left 1s ease";
     pirate3.style.left = "638px";
   });
 
@@ -470,7 +379,6 @@ function spawnPirate3() {
     pirate3.classList.add("glowStart");
     pirate3.onclick = () => {
       pirate3.classList.remove("glowStart");
-      pirate3.onclick = null;
       startFinalDialogues();
     };
   }, 1200);
@@ -481,9 +389,9 @@ function spawnPirate3() {
 ===================================================== */
 function startFinalDialogues() {
   playDialogues([
-    { text: "Le marché est exigeant, mais tu es prêt.", anchor: pirate3 },
-    { text: "À toi de défendre ton prix.", anchor: pirate5 }
-  ], startMiniGame3);
+    { text: "Le marché est exigeant.", anchor: pirate3 },
+    { text: "À toi de choisir ta stratégie.", anchor: pirate5 }
+  ], () => showLoader("intro", 1000, startMiniGame3));
 }
 
 /* =====================================================
@@ -492,9 +400,8 @@ function startFinalDialogues() {
 function startMiniGame3() {
   game3.classList.remove("hidden");
   btnKeep.onclick = () => {
-    vibrate(40);
     game3.classList.add("hidden");
-    showPirateLoader(700, endQuest);
+    endQuest();
   };
 }
 
@@ -504,7 +411,10 @@ function startMiniGame3() {
 function endQuest() {
   sessionStorage.setItem("unlock_pirate3", "true");
   sessionStorage.setItem("fromCommerce", "true");
-  window.location.href = "menu.html";
+
+  showLoader("final", 2600, () => {
+    window.location.href = "menu.html";
+  });
 }
 
 });
