@@ -336,46 +336,40 @@ button:disabled {
 }
 
 /* =====================================================
-   🏆 LOADER FINAL — ENCADRÉ TEXTE
+   🏆 LOADER FINAL — ÉCRAN VICTOIRE
 ===================================================== */
-.loaderBox.final {
-  width: auto;
-  height: auto;
-  border: none;
-  background: none;
-  box-shadow: none;
-  animation: none;
+#finalLoader {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 8000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Encadré central */
 .finalWinBox {
-  padding: 28px 34px;
+  padding: 32px 38px;
   background: linear-gradient(145deg, #1a1208, #000);
   border: 4px solid gold;
-  border-radius: 18px;
+  border-radius: 20px;
 
   font-family: "Pirata One", serif;
   font-size: 26px;
   color: gold;
   text-align: center;
-  letter-spacing: 1px;
 
   box-shadow:
-    0 0 40px rgba(255,215,0,.9),
+    0 0 50px rgba(255,215,0,1),
     inset 0 0 20px rgba(0,0,0,.8);
 
   animation: victoryPop .6s ease-out;
 }
 
 @keyframes victoryPop {
-  from {
-    transform: scale(.6);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+  from { transform: scale(.6); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
 /* =====================================================
