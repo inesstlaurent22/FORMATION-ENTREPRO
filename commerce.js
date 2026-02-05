@@ -33,28 +33,24 @@ const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
    LOADER
-===================================================== */function showLoader(type = "intro", time = 1200, cb) {
+===================================================== */
+function showLoader(type = "intro", time = 1200, cb) {
   fadeScreen.classList.remove("hidden");
   fadeScreen.style.pointerEvents = "auto";
 
-  // reset
   loaderBox.innerHTML = "";
   loaderBox.className = "loaderBox";
 
   if (type === "final") {
-    // ❌ on enlève le loader rond
     loaderBox.classList.add("final");
 
     const winBox = document.createElement("div");
     winBox.className = "finalWinBox";
-    winBox.textContent = "🏆 Bravo, tu as gagné la quête commerce";
-
+    winBox.textContent = "🏆 Bravo tu as gagné la quête commerce";
     loaderBox.appendChild(winBox);
 
-    // 💎 explosion derrière
     explodeGems();
   } else {
-    // loader normal avec emoji pirate
     const emoji = document.createElement("span");
     emoji.className = "loaderEmoji";
     emoji.textContent = "🏴‍☠️";
@@ -66,7 +62,7 @@ const btnKeep = document.getElementById("btnKeep");
     cb && cb();
   }, time);
 }
-   
+
 /* =====================================================
    UTILS
 ===================================================== */
@@ -75,7 +71,7 @@ function vibrate(p = 20) {
 }
 
 /* =====================================================
-   💎 GEMS
+   💎 GEMS — CORRIGÉ
 ===================================================== */
 function explodeGems(){
   for (let i = 0; i < 100; i++) {
@@ -86,28 +82,30 @@ function explodeGems(){
     g.style.background = `hsl(${Math.random()*360},100%,60%)`;
     g.style.setProperty("--x", (Math.random()*800 - 400) + "px");
     g.style.setProperty("--y", (Math.random()*800 - 400) + "px");
-    document.body.appendChild(g);
+
+    /* 🔥 IMPORTANT : au-dessus de tout */
+    document.documentElement.appendChild(g);
+
     setTimeout(() => g.remove(), 1600);
   }
 }
 
 /* =====================================================
-   🎬 VIDÉO + LOADER ⏳ (CLICS AUTORISÉS)
+   🎬 VIDÉO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
-/* Loader ⏳ pendant chargement vidéo */
 fadeScreen.classList.remove("hidden");
-fadeScreen.style.pointerEvents = "none"; // ⬅️ autorise clics vidéo
+fadeScreen.style.pointerEvents = "none";
 loaderBox.classList.add("video");
 
 questVideo.oncanplay = () => {
   loaderBox.classList.remove("video");
   fadeScreen.classList.add("hidden");
-  fadeScreen.style.pointerEvents = "auto"; // ⬅️ reset
+  fadeScreen.style.pointerEvents = "auto";
   questVideo.play().catch(()=>{});
 };
 
@@ -127,27 +125,16 @@ function endVideo() {
 }
 
 /* =====================================================
-   🌅 SCÈNE INITIALE
+   🌅 SCÈNE
 ===================================================== */
 function showScene() {
   background.classList.remove("hidden");
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
 
-  if (pirate5Locked) {
-    pirate5.classList.remove("glowStart");
-    pirate5.style.animation = "none";
-    pirate5.style.transition = "none";
-    pirate5.style.left = "900px";
-    pirate5.style.pointerEvents = "none";
-    pirate5.onclick = null;
-    return;
-  }
+  if (pirate5Locked) return;
 
-  pirate5.classList.remove("glowStart");
-  pirate5.style.transition = "none";
   pirate5.style.left = "1200px";
-
   requestAnimationFrame(() => {
     pirate5.style.transition = "left 1.2s ease";
     pirate5.style.left = "900px";
@@ -157,21 +144,58 @@ function showScene() {
     pirate5.classList.add("glowStart");
 
     pirate5.onclick = () => {
-      if (pirate5Locked) return;
       pirate5Locked = true;
-
+      pirate5.classList.add("locked");
       pirate5.classList.remove("glowStart");
-      pirate5.style.animation = "none";
-      pirate5.style.transition = "none";
-      pirate5.style.filter = "none";
-      pirate5.style.transform = "none";
-      pirate5.style.pointerEvents = "none";
       pirate5.onclick = null;
-
       startDialogues1();
     };
   }, 1300);
 }
+
+/* =====================================================
+   💬 DIALOGUES ENGINE
+===================================================== */
+let dialogues = [], index = 0, callback = null;
+
+function playDialogues(list, cb) {
+  dialogues = list;
+  index = 0;
+  callback = cb;
+  skipBtn.classList.remove("hidden");
+  renderDialogue();
+}
+
+function renderDialogue() {
+  bubbleContainer.innerHTML = "";
+  if (index >= dialogues.length) return endDialogues();
+
+  const d = dialogues[index];
+  const bubble = document.createElement("div");
+  bubble.className = "dialogue-bubble";
+  bubble.innerHTML = d.text;
+
+  const r = d.anchor.getBoundingClientRect();
+  bubble.style.left = r.left + r.width / 2 + "px";
+  bubble.style.top = r.top - 120 + "px";
+  bubble.style.transform = "translateX(-50%)";
+
+  bubble.onclick = () => {
+    vibrate();
+    index++;
+    renderDialogue();
+  };
+
+  bubbleContainer.appendChild(bubble);
+}
+
+function endDialogues() {
+  bubbleContainer.innerHTML = "";
+  skipBtn.classList.add("hidden");
+  callback && callback();
+}
+
+skipBtn.onclick = endDialogues;
 
 /* =====================================================
    💬 DIALOGUES ENGINE
