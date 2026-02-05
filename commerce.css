@@ -120,6 +120,28 @@ html, body {
 #pirate3bis { left: 638px; top: 177px; width: 235px; }
 
 /* =====================================================
+   ✨ PIRATE 5 — ILLUMINATION AU SURVOL
+===================================================== */
+#pirate5bis:hover {
+  animation: glowPulse 1.2s infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    filter: drop-shadow(0 0 8px gold);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 28px gold);
+    transform: scale(1.06);
+  }
+  100% {
+    filter: drop-shadow(0 0 8px gold);
+    transform: scale(1);
+  }
+}
+
+/* =====================================================
    💬 BULLES DE DIALOGUE
 ===================================================== */
 #bubbleContainer {
