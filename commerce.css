@@ -343,6 +343,33 @@ button:disabled {
 }
 
 /* =====================================================
+   🏆 LOADER FINAL — VICTOIRE
+===================================================== */
+.loaderBox.final {
+  animation: none; /* stop rotation */
+  border-width: 5px;
+  box-shadow:
+    0 0 45px rgba(255,215,0,1),
+    inset 0 0 20px rgba(0,0,0,.9);
+}
+
+/* Texte victoire */
+.loaderBox.final::after {
+  content: "🏆 Bravo, tu as gagné la quête !";
+  position: absolute;
+  top: 120%;
+  width: max-content;
+  max-width: 280px;
+  text-align: center;
+
+  font-family: "Pirata One", serif;
+  font-size: 20px;
+  color: gold;
+  letter-spacing: 1px;
+  text-shadow: 0 0 12px rgba(255,215,0,.9);
+}
+
+/* =====================================================
    📱 RESPONSIVE
 ===================================================== */
 @media (max-width: 768px) {
