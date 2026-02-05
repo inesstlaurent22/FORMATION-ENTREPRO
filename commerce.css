@@ -1,185 +1,200 @@
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
+   RESET & BASE
 ===================================================== */
-#visualIdentityGame {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#visualIdentityGame .gameTitle {
-  font-family: "Pirata One", serif;
-  font-size: 24px;
-  text-align: center;
-  color: #ffd77a;
-  letter-spacing: 1.5px;
-  text-shadow: 2px 2px 0 #2b1605;
-}
-
-#visualIdentityGame .gameIntro {
-  font-family: "Cinzel", serif;
-  font-size: 14px;
-  text-align: center;
-  color: #f0e1b8;
-}
-
-.visualGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 14px;
-  margin-top: 10px;
-}
-
-.visualChoice {
-  background: radial-gradient(circle, #2a1708, #120700);
-  border: 3px solid gold;
-  border-radius: 16px;
-  padding: 10px;
-  cursor: pointer;
-  box-shadow:
-    inset 0 0 8px rgba(255,215,0,.4),
-    0 0 18px rgba(255,215,0,.25);
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-
-.visualChoice:hover {
-  transform: scale(1.05);
-  box-shadow:
-    inset 0 0 12px rgba(255,215,0,.6),
-    0 0 26px rgba(255,215,0,.45);
-}
-
-.visualChoice img {
+html, body {
   width: 100%;
-  border-radius: 10px;
-}
-
-/* =====================================================
-   🧭 MINI-JEU 3 — STRUCTURE (MARCHAND / RÉSEAUX / LOGIQUE)
-===================================================== */
-#merchantGame {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-#merchantGame .gameTitle {
-  font-family: "Pirata One", serif;
-  font-size: 24px;
-  text-align: center;
-  color: #ffd77a;
-  letter-spacing: 1.5px;
-  text-shadow: 2px 2px 0 #2b1605;
-}
-
-#merchantGame .gameQuestion {
-  font-family: "Cinzel", serif;
-  font-size: 15px;
-  text-align: center;
+  height: 100%;
+  background: #000;
+  font-family: "Trebuchet MS", Arial, sans-serif;
   color: #f5e6c8;
-  padding: 10px 12px;
-  border: 2px dashed gold;
-  border-radius: 12px;
-  background: rgba(0,0,0,.5);
+  overflow: hidden;
 }
 
-.merchantChoices {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.merchantChoice {
-  min-width: 120px;
-  text-align: center;
-}
+.hidden { display: none !important; }
 
 /* =====================================================
-   ✅ BONNE / ❌ MAUVAISE RÉPONSE
+   🎬 VIDÉO
 ===================================================== */
-.goodAnswer {
-  animation: goodPulse .6s ease;
-  border-color: #3cff00 !important;
-  box-shadow: 0 0 22px rgba(60,255,0,.8) !important;
-}
-
-@keyframes goodPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-  100% { transform: scale(1); }
-}
-
-.badAnswer {
-  border-color: crimson !important;
-  box-shadow: 0 0 18px rgba(220,20,60,.8) !important;
-}
-
-/* =====================================================
-   🏆 ÉCRAN DE VICTOIRE / FIN DE JEU
-===================================================== */
-.victoryScreen {
+#videoContainer {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at center, #2a1708, #000);
-  z-index: 5000;
+  background: #000;
+  z-index: 3000;
+}
+
+#questVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#videoControls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#videoControls button {
+  position: absolute;
+  top: 18px;
+  padding: 14px 20px;
+  background: #1a1208;
+  color: gold;
+  border: 3px solid gold;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 3001;
+}
+
+#toggleSound { right: 200px; }
+#closeVideo  { right: 20px; }
+
+/* =====================================================
+   🌑 LOADER
+===================================================== */
+#fadeScreen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  z-index: 4000;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loaderBox {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: 4px solid gold;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  animation: spin 1.2s linear infinite;
+}
+
+.loaderEmoji { font-size: 38px; }
+
+@keyframes spin {
+  from { transform: rotate(0); }
+  to   { transform: rotate(360deg); }
+}
+
+/* =====================================================
+   🌅 BACKGROUND
+===================================================== */
+#background {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+.fondImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =====================================================
+   🏴‍☠️ PIRATES
+===================================================== */
+.pirate {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+}
+
+#pirate2bis { left: 500px; top: 410px; width: 186px; }
+#pirate5bis { left: 830px; top: 286px; width: 143px; }
+#pirate3bis { left: 638px; top: 177px; width: 235px; }
+
+/* =====================================================
+   💬 BULLES
+===================================================== */
+#bubbleContainer {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.dialogue-bubble {
+  position: absolute;
+  max-width: 260px;
+  padding: 10px 14px;
+  background: rgba(0,0,0,.85);
+  border: 2px solid gold;
+  border-radius: 12px;
+  box-shadow: 0 0 18px rgba(255,215,0,.45);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* =====================================================
+   🎮 MINI-JEUX
+===================================================== */
+#communicationGame,
+#visualIdentityGame,
+#merchantGame {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(96%, 620px);
+  background: #120b05;
+  border: 4px solid gold;
+  border-radius: 22px;
+  padding: 26px;
+  z-index: 10;
+  box-shadow: 0 0 40px rgba(255,215,0,.45);
+}
+
+.quizBox {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.quizTitle {
+  font-family: "Pirata One", serif;
+  font-size: 26px;
+  text-align: center;
+  color: #ffd77a;
+}
+
+.quizIntro {
+  text-align: center;
+  font-size: 14px;
+}
+
+.gameQuestion {
+  padding: 12px;
+  border: 2px dashed gold;
+  border-radius: 12px;
   text-align: center;
 }
 
-.victoryScreen h2 {
-  font-family: "Pirata One", serif;
-  font-size: 32px;
-  color: gold;
-  text-shadow: 0 0 18px rgba(255,215,0,.8);
-}
-
-.victoryScreen p {
-  font-family: "Cinzel", serif;
-  font-size: 15px;
-  color: #f5e6c8;
-  max-width: 420px;
-}
-
-.victoryGems {
-  font-size: 42px;
-  animation: gemsExplode 1.2s ease infinite;
-}
-
-@keyframes gemsExplode {
-  0%   { transform: scale(1); opacity: .6; }
-  50%  { transform: scale(1.25); opacity: 1; }
-  100% { transform: scale(1); opacity: .6; }
+button {
+  background: linear-gradient(145deg, #7b4a12, #caa14a);
+  border: 3px solid #3b2208;
+  border-radius: 14px;
+  padding: 10px 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 /* =====================================================
-   🧱 OVERLAY BLOQUANT (sécurité clics)
-===================================================== */
-.blockingOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.65);
-  z-index: 1500;
-}
-
-/* =====================================================
-   📱 RESPONSIVE — MINI-JEUX
+   📱 RESPONSIVE
 ===================================================== */
 @media (max-width: 768px) {
-  #visualIdentityGame,
-  #merchantGame {
-    padding: 18px;
-  }
-
-  .visualGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .victoryScreen h2 {
-    font-size: 26px;
-  }
+  .pirate { display: none; }
 }
