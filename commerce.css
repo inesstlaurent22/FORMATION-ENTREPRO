@@ -200,7 +200,7 @@ html, body {
 #skipDialoguesBtn {
   position: fixed;
   top: 18px;
-  left: 20px;
+  right: 20px;
 
   background: #1a1208;
   color: gold;
