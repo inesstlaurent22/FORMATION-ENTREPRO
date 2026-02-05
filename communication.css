@@ -74,7 +74,18 @@ html, body {
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES
+   🏴‍☠️ PIRATES — IMAGES
+===================================================== */
+#pirate2 {
+  background: url("images/Pirate2.png") center / contain no-repeat;
+}
+
+#pirate3 {
+  background: url("images/Pirate3.png") center / contain no-repeat;
+}
+
+/* =====================================================
+   🏴‍☠️ PIRATES - POSITION
 ===================================================== */
 .pirate {
   position: absolute;
