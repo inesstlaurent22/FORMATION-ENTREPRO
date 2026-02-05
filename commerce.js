@@ -425,21 +425,28 @@ function startMiniGame3() {
    🏆 FIN
 ===================================================== */
 function endQuest() {
+  // 🔐 sauvegardes
   sessionStorage.setItem("unlock_pirate3", "true");
   sessionStorage.setItem("fromCommerce", "true");
 
-  // cacher loader classique
-  fadeScreen.classList.add("hidden");
+  // 🧹 cacher les loaders existants
+  if (fadeScreen) {
+    fadeScreen.classList.add("hidden");
+    fadeScreen.style.pointerEvents = "none";
+  }
 
-  // afficher victoire
+  // 🏆 afficher écran victoire si présent
   const finalLoader = document.getElementById("finalLoader");
-  finalLoader.classList.remove("hidden");
+  if (finalLoader) {
+    finalLoader.classList.remove("hidden");
+  }
 
+  // 💎 explosion de gems (au-dessus de tout)
   explodeGems();
 
+  // ⏳ redirection
   setTimeout(() => {
     window.location.href = "menu.html";
   }, 2600);
 }
-
 });
