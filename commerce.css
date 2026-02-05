@@ -195,12 +195,17 @@ html, body {
 }
 
 /* =====================================================
-   ⏭️ PASSER LES DIALOGUES — POSITION GARANTIE
+   ⏭️ PASSER LES DIALOGUES — FIX DÉFINITIF TOP RIGHT
 ===================================================== */
 #skipDialoguesBtn {
   position: fixed;
   top: 18px;
   right: 20px;
+
+  /* ⛔️ empêche toute influence de transform parent */
+  left: auto !important;
+  bottom: auto !important;
+  transform: none !important;
 
   background: #1a1208;
   color: gold;
@@ -211,7 +216,7 @@ html, body {
   cursor: pointer;
   font-weight: bold;
 
-  z-index: 9000; /* PLUS HAUT QUE TOUT */
+  z-index: 10000;
   pointer-events: auto;
 
   box-shadow:
@@ -373,7 +378,7 @@ button:disabled {
 }
 
 /* =====================================================
-   💎 GEMS — EXPLOSION MULTICOLORE
+   💎 GEMS — EXPLOSION MULTICOLORE (VISIBLE)
 ===================================================== */
 .gem {
   position: fixed;
@@ -381,7 +386,9 @@ button:disabled {
   height: 10px;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 6000;
+
+  /* 🔥 AU-DESSUS DE TOUT */
+  z-index: 12000;
 
   animation: gemExplode 1.6s ease-out forwards;
 }
@@ -396,6 +403,7 @@ button:disabled {
     opacity: 0;
   }
 }
+
 
 /* =====================================================
    📱 RESPONSIVE
