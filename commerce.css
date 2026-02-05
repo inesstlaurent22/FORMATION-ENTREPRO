@@ -141,6 +141,14 @@ html, body {
   }
 }
 
+/* ❌ STOP ILLUMINATION QUAND DÉSACTIVÉ */
+.pirate.locked,
+.pirate.locked:hover {
+  animation: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
 /* =====================================================
    💬 BULLES DE DIALOGUE
 ===================================================== */
