@@ -12,7 +12,7 @@
 <body>
 
 <!-- =====================================================
-     🎬 VIDÉO INTRO (ISOLEE)
+     🎬 VIDÉO INTRO
 ===================================================== -->
 <div id="videoContainer">
   <video id="questVideo" autoplay muted playsinline preload="auto">
@@ -20,17 +20,17 @@
     Votre navigateur ne supporte pas la vidéo.
   </video>
 
-  <div id="videoControls">
-    <button id="toggleSound">🔇</button>
-    <button id="closeVideo">Passer la vidéo</button>
-  </div>
+  <button id="toggleSound">🔇</button>
+  <button id="closeVideo">Passer la vidéo</button>
 </div>
 
 <!-- =====================================================
      🌑 LOADER GLOBAL
 ===================================================== -->
 <div id="fadeScreen" class="hidden">
-<div class="loaderBox"><span class="loaderEmoji">🏴‍☠️</span></div>
+  <div class="loaderBox">
+    <span class="loaderEmoji">🏴‍☠️</span>
+  </div>
 </div>
 
 <!-- =====================================================
@@ -45,7 +45,7 @@
 ===================================================== -->
 <img src="images/Pirate2.png" id="pirate2bis" class="pirate hidden" alt="Pirate conseiller">
 <img src="images/Pirate5.png" id="pirate5bis" class="pirate hidden" alt="Maître pirate">
-<img src="images/Pirateclients.png" id="pirate3bis" class="pirate hidden" alt="Pirate client">
+<img src="images/Pirateclients.png" id="pirate3bis" class="pirate hidden" alt="Clients du marché">
 
 <!-- =====================================================
      💬 BULLES DE DIALOGUE
@@ -63,12 +63,12 @@
   <div class="quizBox">
 
     <div class="quizTitle">
-      🏴‍☠️ L'étude de ton marché 🏴‍☠️
+      🏴‍☠️ L’étude de ton marché
     </div>
 
     <div class="quizIntro">
-      Il faudra que tu répondes à ce quiz afin de comprendre pourquoi
-      les études de marché sont essentielles avant de vendre.
+      Avant de vendre, un marchand avisé observe son port.
+      Réponds à ces questions pour éviter les erreurs de débutant.
     </div>
 
     <div id="commQuestion"></div>
@@ -87,6 +87,11 @@
       🧠 Construction du business plan
     </div>
 
+    <div class="quizIntro">
+      Un bon plan évite les naufrages.
+      Identifie les bons réflexes et pièges classiques.
+    </div>
+
     <div id="visualFeedback"></div>
     <div id="visualChoices"></div>
 
@@ -97,22 +102,30 @@
      🎮 MINI-JEU 3 — JUGEMENT DU MARCHÉ
 ===================================================== -->
 <div id="merchantGame" class="hidden">
+  <div class="quizBox">
 
-  <h2>⚖️ Le Jugement du Marché</h2>
+    <div class="quizTitle">
+      ⚖️ Le Jugement du Marché
+    </div>
 
-  <p>
-    📦 Prix de ton produit : <strong>300 PO</strong><br>
-    🏷️ Prix des concurrents : <strong>250 PO</strong>
-  </p>
+    <div class="quizIntro">
+      Les clients comparent toujours.
+      À toi de décider la meilleure stratégie.
+    </div>
 
-  <p>
-    « J’ai vu ce produit moins cher dans un autre port… »
-  </p>
+    <div class="gameQuestion">
+      📦 Prix de ton produit : <strong>300 PO</strong><br>
+      🏷️ Prix des concurrents : <strong>250 PO</strong><br><br>
+      « J’ai vu ce produit moins cher dans un autre port… »
+    </div>
 
-  <button id="btnKeep">
-    ⚖️ Maintenir le prix
-  </button>
+    <div class="merchantChoices">
+      <button id="btnKeep" class="merchantChoice">
+        ⚖️ Maintenir le prix
+      </button>
+    </div>
 
+  </div>
 </div>
 
 <!-- =====================================================
