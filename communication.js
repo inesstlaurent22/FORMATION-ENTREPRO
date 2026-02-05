@@ -38,10 +38,32 @@ closeVideo.onclick = e=>{
 introVideo.onended = endVideo;
 
 function endVideo(){
+  introVideo.pause();
   videoIntro.classList.add("hidden");
+
   showPirateLoader(()=>{
     scene.classList.remove("hidden");
   });
+}
+
+/* =====================================================
+   🏴‍☠️ LOADER GLOBAL (emoji + cercle animé)
+===================================================== */
+function showPirateLoader(callback){
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
+  f.innerHTML = `
+    <div class="loaderBox">
+      <div class="loaderPirate"></div>
+      <div class="loaderPirateEmoji">🏴‍☠️</div>
+    </div>
+  `;
+  document.body.appendChild(f);
+
+  setTimeout(()=>{
+    f.remove();
+    callback && callback();
+  }, 1400);
 }
 
 /* =====================================================
@@ -68,8 +90,10 @@ function showDialog(){
   const target = d.speaker === "pirate2" ? pirate2 : pirate3;
   const r = target.getBoundingClientRect();
 
-  dialogBox.style.left = `${r.left + r.width/2 - dialogBox.offsetWidth/2}px`;
-  dialogBox.style.top  = `${r.top - dialogBox.offsetHeight - 20}px`;
+  dialogBox.style.left =
+    `${r.left + r.width / 2 - dialogBox.offsetWidth / 2}px`;
+  dialogBox.style.top =
+    `${r.top - dialogBox.offsetHeight - 20}px`;
 }
 
 function endDialogs(){
@@ -120,7 +144,7 @@ function infoBubble(html){
 }
 
 /* =====================================================
-   🔔 NOTIFICATIONS
+   🔔 NOTIFICATION
 ===================================================== */
 function showNotification(text){
   const n = document.createElement("div");
@@ -134,33 +158,13 @@ function showNotification(text){
 }
 
 /* =====================================================
-   🏴‍☠️ LOADER GLOBAL
-===================================================== */
-function showPirateLoader(callback){
-  const f = document.createElement("div");
-  f.id = "fadeScreen";
-  f.innerHTML = `
-    <div class="loaderBox">
-      <div style="font-size:48px">🏴‍☠️</div>
-      <p>Chargement...</p>
-    </div>
-  `;
-  document.body.appendChild(f);
-
-  setTimeout(()=>{
-    f.remove();
-    callback && callback();
-  }, 1400);
-}
-
-/* =====================================================
    🚀 DÉMARRAGE
 ===================================================== */
 pirate3.onclick = ()=>{
   playDialog([
-    {speaker:"pirate3", text:"Capitaine, ton trésor est prêt."},
-    {speaker:"pirate2", text:"Mais sans communication, personne ne viendra."},
-    {speaker:"pirate3", text:"Voyons comment attirer le marché."}
+    {speaker:"pirate3",text:"Capitaine, ton trésor est prêt."},
+    {speaker:"pirate2",text:"Mais sans communication, personne ne viendra."},
+    {speaker:"pirate3",text:"Voyons comment attirer le marché."}
   ], startMiniGame1);
 };
 
@@ -199,13 +203,14 @@ function showQuestion(){
 
     b.onclick = ()=>{
       if(!selected.includes(i)) selected.push(i);
+
       if(check(s)){
         showNotification("Bien joué !");
         qi++;
         qi < quiz.length
           ? setTimeout(showQuestion,700)
           : showPirateLoader(afterMiniGame1);
-      }else if(selected.length >= 2){
+      } else if(selected.length >= 2){
         selected = [];
       }
     };
@@ -232,10 +237,10 @@ function afterMiniGame1(){
 function startIdentityIntro(){
   clearMiniGame();
   addTitle("L’identité visuelle");
-  addText("Avant de créer un logo, des couleurs ou une typographie, tu dois savoir :",true);
+  addText("Avant de créer un logo, des couleurs ou une typographie :",true);
 
   const btn = document.createElement("button");
-  btn.textContent = "Les points importants de l'identité visuelle";
+  btn.textContent = "Les points importants";
 
   const bubble = infoBubble(`
     • À qui tu parles<br>
@@ -256,20 +261,7 @@ function startIdentityIntro(){
 function logoExplanation(){
   clearMiniGame();
   addTitle("Le logo");
-  addText("Le logo est le symbole principal de ton projet.",true);
-
-  const btn = document.createElement("button");
-  btn.textContent = "En savoir plus";
-
-  const bubble = infoBubble(`
-    • Simple<br>
-    • Reconnaissable<br>
-    • Lisible partout<br>
-    • Pas trop chargé
-  `);
-
-  btn.onclick = ()=>bubble.classList.toggle("hidden");
-  miniGame.append(btn,bubble);
+  addText("Le symbole principal de ton projet.",true);
 
   const next = document.createElement("button");
   next.textContent = "Choisir un logo";
@@ -282,19 +274,8 @@ function startLogo(){
   addTitle("Choisis ton logo");
   imageGroup(
     ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
-    colorsExplanation
+    startColors
   );
-}
-
-function colorsExplanation(){
-  clearMiniGame();
-  addTitle("La palette de couleur");
-  addText("Choisis peu de couleurs cohérentes.",true);
-
-  const next = document.createElement("button");
-  next.textContent = "Choisir les couleurs";
-  next.onclick = startColors;
-  miniGame.appendChild(next);
 }
 
 function startColors(){
@@ -302,19 +283,8 @@ function startColors(){
   addTitle("Choisis ta palette");
   imageGroup(
     ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
-    typoExplanation
+    startTypo
   );
-}
-
-function typoExplanation(){
-  clearMiniGame();
-  addTitle("La typographie");
-  addText("Elle reflète l'univers de ta marque.",true);
-
-  const next = document.createElement("button");
-  next.textContent = "Choisir la typographie";
-  next.onclick = startTypo;
-  miniGame.appendChild(next);
 }
 
 function startTypo(){
@@ -334,28 +304,27 @@ function showIdentity(){
 function imageGroup(list, cb){
   const wrap = document.createElement("div");
   wrap.className = "visualChoices";
+
   list.forEach(src=>{
     const img = new Image();
     img.src = src;
     img.onclick = cb;
     wrap.appendChild(img);
   });
-  miniGame.appendChild(wrap);
-}
 
-/* =====================================================
-   💬 DIALOGUES → MINI-JEU 3
-===================================================== */
-function afterMiniGame2(){
-  playDialog([
-    {speaker:"pirate2",text:"Ton identité est prête."},
-    {speaker:"pirate3",text:"Voyons maintenant comment la diffuser."}
-  ], startMiniGame3);
+  miniGame.appendChild(wrap);
 }
 
 /* =====================================================
    🔗 MINI-JEU 3 — RÉSEAUX
 ===================================================== */
+function afterMiniGame2(){
+  playDialog([
+    {speaker:"pirate2",text:"Ton identité est prête."},
+    {speaker:"pirate3",text:"Voyons comment la diffuser."}
+  ], startMiniGame3);
+}
+
 function startMiniGame3(){
   clearMiniGame();
   addTitle("Les réseaux sociaux");
