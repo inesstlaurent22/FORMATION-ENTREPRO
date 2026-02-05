@@ -195,12 +195,12 @@ html, body {
 }
 
 /* =====================================================
-   ⏭️ PASSER LES DIALOGUES — TOP RIGHT
+   ⏭️ PASSER LES DIALOGUES — POSITION GARANTIE
 ===================================================== */
 #skipDialoguesBtn {
   position: fixed;
   top: 18px;
-  right: 20px;
+  left: 20px;
 
   background: #1a1208;
   color: gold;
@@ -211,7 +211,7 @@ html, body {
   cursor: pointer;
   font-weight: bold;
 
-  z-index: 3002;
+  z-index: 9000; /* PLUS HAUT QUE TOUT */
   pointer-events: auto;
 
   box-shadow:
