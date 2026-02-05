@@ -198,50 +198,6 @@ function endDialogues() {
 skipBtn.onclick = endDialogues;
 
 /* =====================================================
-   💬 DIALOGUES ENGINE
-===================================================== */
-let dialogues = [], index = 0, callback = null;
-
-function playDialogues(list, cb) {
-  dialogues = list;
-  index = 0;
-  callback = cb;
-  skipBtn.classList.remove("hidden");
-  renderDialogue();
-}
-
-function renderDialogue() {
-  bubbleContainer.innerHTML = "";
-  if (index >= dialogues.length) return endDialogues();
-
-  const d = dialogues[index];
-  const bubble = document.createElement("div");
-  bubble.className = "dialogue-bubble";
-  bubble.innerHTML = d.text;
-
-  const r = d.anchor.getBoundingClientRect();
-  bubble.style.left = r.left + r.width / 2 + "px";
-  bubble.style.top = r.top - 120 + "px";
-  bubble.style.transform = "translateX(-50%)";
-
-  bubble.onclick = () => {
-    vibrate();
-    index++;
-    renderDialogue();
-  };
-
-  bubbleContainer.appendChild(bubble);
-}
-
-function endDialogues() {
-  bubbleContainer.innerHTML = "";
-  skipBtn.classList.add("hidden");
-  callback && callback();
-}
-
-skipBtn.onclick = endDialogues;
-
-/* =====================================================
    💬 DIALOGUES 1
 ===================================================== */
 function startDialogues1() {
