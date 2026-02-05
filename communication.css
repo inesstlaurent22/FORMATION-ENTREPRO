@@ -1,5 +1,5 @@
 /* =====================================================
-   🌍 RESET & BASE — KIT IN
+   RESET & BASE — KIT IN
 ===================================================== */
 * {
   margin: 0;
@@ -16,12 +16,10 @@ html, body {
   overflow: hidden;
 }
 
-.hidden {
-  display: none !important;
-}
+.hidden { display: none !important; }
 
 /* =====================================================
-   🎬 VIDÉO INTRO — KIT IN
+   🎬 VIDÉO INTRO
 ===================================================== */
 #videoIntro {
   position: fixed;
@@ -36,73 +34,107 @@ html, body {
   object-fit: cover;
 }
 
-/* Boutons vidéo — PLUS GRANDS */
 .video-controls {
   position: absolute;
-  top: 18px;
-  right: 20px;
-  display: flex;
-  gap: 14px;
+  inset: 0;
+  pointer-events: none;
 }
 
 .video-controls button {
-  padding: 16px 26px;
-  font-size: 18px;
-  background: #120b05;
+  position: absolute;
+  top: 18px;
+  background: #1a1208;
+  color: gold;
   border: 3px solid gold;
-  border-radius: 18px;
-  color: #ffd77a;
-  font-weight: bold;
+  padding: 16px 24px;
+  font-size: 18px;
+  border-radius: 14px;
   cursor: pointer;
-  box-shadow: 0 0 22px rgba(255,215,0,.6);
-  transition: transform .2s, box-shadow .2s;
+  font-weight: bold;
+  z-index: 3001;
+  pointer-events: auto;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.5),
+    0 0 14px rgba(255,215,0,.4);
 }
 
-.video-controls button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 36px rgba(255,215,0,.9);
+#toggleSound { right: 200px; }
+#closeVideo  { right: 20px; }
+
+/* =====================================================
+   🌑 LOADER GLOBAL — 🏴‍☠️
+===================================================== */
+#fadeScreen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 4000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loaderBox {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 4px solid gold;
+  background: radial-gradient(circle, #2a1708, #120700);
+  box-shadow:
+    0 0 28px rgba(255,215,0,.85),
+    inset 0 0 16px rgba(0,0,0,.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: loaderRotate 1.2s linear infinite;
+}
+
+.loaderBox::before {
+  content: "🏴‍☠️";
+  font-size: 40px;
+}
+
+@keyframes loaderRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 /* =====================================================
-   🌊 SCÈNE PRINCIPALE
+   🌅 BACKGROUND
 ===================================================== */
 #scene {
   position: fixed;
   inset: 0;
   z-index: 1;
-  background: url("images/Communicationfond.PNG") center / cover no-repeat;
+  background: url("images/background.jpg") center / cover no-repeat;
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES — IMAGES
-===================================================== */
-#pirate2 {
-  background: url("images/Pirate2.png") center / contain no-repeat;
-}
-
-#pirate3 {
-  background: url("images/Pirate3.png") center / contain no-repeat;
-}
-
-/* =====================================================
-   🏴‍☠️ PIRATES - POSITION
+   🏴‍☠️ PIRATES
 ===================================================== */
 .pirate {
   position: absolute;
-  width: 260px;
-  height: 260px;
-  cursor: pointer;
   z-index: 2;
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 #pirate2 {
-  left: 420px;
-  top: 420px;
+  left: 500px;
+  top: 410px;
+  width: 186px;
+  height: 186px;
+  background-image: url("images/pirate2.png");
 }
 
 #pirate3 {
-  left: 900px;
-  top: 520px;
+  left: 638px;
+  top: 177px;
+  width: 235px;
+  height: 235px;
+  background-image: url("images/pirate3.png");
 }
 
 #pirate3:hover {
@@ -110,9 +142,9 @@ html, body {
 }
 
 @keyframes glowPulse {
-  0%   { filter: drop-shadow(0 0 6px gold); }
-  50%  { filter: drop-shadow(0 0 18px gold); }
-  100% { filter: drop-shadow(0 0 6px gold); }
+  0% { filter: drop-shadow(0 0 8px gold); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 28px gold); transform: scale(1.06); }
+  100% { filter: drop-shadow(0 0 8px gold); transform: scale(1); }
 }
 
 /* =====================================================
@@ -120,44 +152,42 @@ html, body {
 ===================================================== */
 #dialogBox {
   position: absolute;
-  max-width: 560px;
-  padding: 18px 24px;
+  max-width: 260px;
+  padding: 10px 14px;
   background: rgba(0,0,0,.85);
   color: #f5e6c8;
-  border: 3px solid gold;
-  border-radius: 22px;
-  font-size: 16px;
-  line-height: 1.55;
-  box-shadow: 0 0 25px rgba(255,215,0,.55);
-  z-index: 2000;
+  border: 2px solid gold;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  box-shadow: 0 0 18px rgba(255,215,0,.45);
   cursor: pointer;
-  text-align: center;
+  z-index: 2000;
 }
 
 /* =====================================================
-   ⏭️ SKIP DIALOGUES
+   ⏭️ PASSER LES DIALOGUES
 ===================================================== */
 .skip-dialog {
   position: fixed;
   top: 18px;
   right: 20px;
-  z-index: 2600;
-  padding: 12px 20px;
-  background: #120b05;
-  border: 2px solid gold;
+  background: #1a1208;
+  color: gold;
+  border: 3px solid gold;
+  padding: 14px 20px;
+  font-size: 16px;
   border-radius: 14px;
-  color: #ffd77a;
-  font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 0 18px rgba(255,215,0,.45);
-}
-
-.skip-dialog:hover {
-  box-shadow: 0 0 28px rgba(255,215,0,.8);
+  font-weight: bold;
+  z-index: 10000;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.5),
+    0 0 14px rgba(255,215,0,.4);
 }
 
 /* =====================================================
-   🎮 MINI-JEUX — BASE
+   🎮 MINI-JEUX — CONTENEUR
 ===================================================== */
 #miniGameContainer {
   position: fixed;
@@ -165,177 +195,121 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
   width: min(96%, 620px);
-  max-height: 80vh;
-  overflow-y: auto;
-  padding: 26px;
   background: #120b05;
   border: 4px solid gold;
   border-radius: 22px;
+  padding: 26px;
   z-index: 10;
   box-shadow: 0 0 40px rgba(255,215,0,.45);
   text-align: center;
 }
 
+/* TITRES */
 #miniGameContainer h3 {
   font-family: "Pirata One", serif;
   font-size: 26px;
   color: #ffd77a;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   text-shadow: 2px 2px 0 #2b1605;
-  margin-bottom: 14px;
-}
-
-#miniGameContainer p {
-  margin-top: 14px;
-  line-height: 1.55;
-}
-
-#miniGameContainer button {
-  margin-top: 14px;
-  padding: 12px 18px;
-  background: #1a1208;
-  border: 2px solid gold;
-  border-radius: 14px;
-  color: #ffd77a;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 14px rgba(255,215,0,.35);
-}
-
-#miniGameContainer button:hover {
-  box-shadow: 0 0 24px rgba(255,215,0,.8);
 }
 
 /* =====================================================
-   🔴 TEXTE INDICE
+   🔘 BOUTONS — STYLE MINI-JEU 1
 ===================================================== */
-.glow-red {
-  display: block;
-  margin: 18px 0;
-  color: #ffb3b3;
+button {
+  background: linear-gradient(145deg, #7b4a12, #caa14a);
+  border: 3px solid #3b2208;
+  color: #1a0f05;
   font-weight: bold;
-  animation: glowRed 1.4s infinite;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
 }
 
-@keyframes glowRed {
-  0%   { text-shadow: 0 0 6px #ffb3b3; }
-  50%  { text-shadow: 0 0 18px #ffd6d6; }
-  100% { text-shadow: 0 0 6px #ffb3b3; }
+button:active,
+button.btn-pressed {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.6),
+    0 1px 0 #3b2208;
 }
 
 /* =====================================================
-   🖼️ CHOIX VISUELS
+   ❌ SHAKE ERREUR
+===================================================== */
+.screen-shake {
+  animation: screenShake .4s;
+}
+
+@keyframes screenShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  50% { transform: translateX(10px); }
+  75% { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
+}
+
+/* =====================================================
+   🖼️ VISUELS + ZOOM
 ===================================================== */
 .visualChoices {
   display: flex;
+  gap: 18px;
   justify-content: center;
-  gap: 28px;
-  margin-top: 28px;
-  flex-wrap: wrap;
+  margin-top: 18px;
 }
 
 .visualChoices img {
   width: 140px;
   border-radius: 14px;
-  border: 3px solid transparent;
+  border: 3px solid gold;
   cursor: pointer;
-  transition: transform .2s, box-shadow .2s, border .2s;
 }
 
-.visualChoices img:hover {
-  transform: scale(1.08);
-  border-color: gold;
-  box-shadow: 0 0 18px rgba(255,215,100,.8);
+.visualChoices button {
+  margin-top: 6px;
 }
 
 /* =====================================================
-   🔔 NOTIFICATIONS
+   📦 INFO BOX MINI-JEU 2
+===================================================== */
+.info-box {
+  border: 2px solid gold;
+  border-radius: 14px;
+  padding: 16px;
+  background: rgba(0,0,0,.6);
+  margin: 14px 0;
+}
+
+/* =====================================================
+   🔔 NOTIFICATION
 ===================================================== */
 .notification {
   position: fixed;
-  top: 90px;
+  top: -80px;
   left: 50%;
   transform: translateX(-50%);
   padding: 18px 26px;
   background: #1a1208;
   border-radius: 16px;
   z-index: 4000;
-  font-size: 16px;
-  text-align: center;
   box-shadow: 0 0 25px rgba(255,215,0,.6);
+  animation: slideDown .4s forwards;
 }
 
-.notification.success {
-  border: 3px solid #3cff9e;
-}
-
-.glow-text {
-  color: gold;
-  font-weight: bold;
-  animation: glowGold 1.2s infinite;
-}
-
-@keyframes glowGold {
-  0%   { text-shadow: 0 0 6px gold; }
-  50%  { text-shadow: 0 0 18px gold; }
-  100% { text-shadow: 0 0 6px gold; }
-}
-
-/* =====================================================
-   🏴‍☠️ LOADER PIRATE — CENTRÉ & ANIMÉ
-===================================================== */
-#fadeScreen {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.92);
-  z-index: 5000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.loaderBox {
-  position: relative;
-  width: 120px;
-  height: 120px;
-}
-
-.loaderPirate {
-  position: absolute;
-  inset: 0;
-  border: 4px solid rgba(255,215,0,.25);
-  border-top-color: gold;
-  border-radius: 50%;
-  animation: spin 1.2s linear infinite;
-}
-
-.loaderPirateEmoji {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 46px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+@keyframes slideDown {
+  to { top: 90px; }
 }
 
 /* =====================================================
    📱 RESPONSIVE
 ===================================================== */
 @media (max-width: 768px) {
-  .pirate {
-    display: none;
-  }
-
-  #miniGameContainer {
-    width: 95%;
-    padding: 22px;
-  }
-
-  .video-controls button {
-    font-size: 16px;
-    padding: 14px 20px;
-  }
+  .pirate { display: none; }
+  #miniGameContainer h3 { font-size: 22px; }
 }
