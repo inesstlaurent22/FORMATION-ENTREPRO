@@ -1,5 +1,5 @@
 /* =====================================================
-   RESET & BASE
+   RESET & BASE — KIT IN
 ===================================================== */
 * {
   margin: 0;
@@ -10,16 +10,18 @@
 html, body {
   width: 100%;
   height: 100%;
-  background: #000;
   font-family: "Trebuchet MS", Arial, sans-serif;
+  background: #000;
   color: #f5e6c8;
   overflow: hidden;
 }
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 
 /* =====================================================
-   🎬 VIDÉO
+   🎬 VIDÉO INTRO
 ===================================================== */
 #videoContainer {
   position: fixed;
@@ -43,49 +45,57 @@ html, body {
 #videoControls button {
   position: absolute;
   top: 18px;
-  padding: 14px 20px;
   background: #1a1208;
   color: gold;
   border: 3px solid gold;
+  padding: 14px 20px;
+  font-size: 17px;
   border-radius: 14px;
-  font-size: 16px;
-  font-weight: bold;
   cursor: pointer;
-  pointer-events: auto;
+  font-weight: bold;
   z-index: 3001;
+  pointer-events: auto;
 }
 
 #toggleSound { right: 200px; }
 #closeVideo  { right: 20px; }
 
 /* =====================================================
-   🌑 LOADER
+   🌑 LOADER GLOBAL — ROND + EMOJI
 ===================================================== */
 #fadeScreen {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.85);
+  background: rgba(0,0,0,0.85);
   z-index: 4000;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .loaderBox {
-  width: 88px;
-  height: 88px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   border: 4px solid gold;
+  background: radial-gradient(circle, #2a1708, #120700);
+  box-shadow:
+    0 0 28px rgba(255,215,0,.8),
+    inset 0 0 14px rgba(0,0,0,.8);
+
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: spin 1.2s linear infinite;
+
+  animation: loaderSpin 1.2s linear infinite;
 }
 
-.loaderEmoji { font-size: 38px; }
+.loaderEmoji {
+  font-size: 40px;
+}
 
-@keyframes spin {
-  from { transform: rotate(0); }
+@keyframes loaderSpin {
+  from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
 
@@ -118,7 +128,7 @@ html, body {
 #pirate3bis { left: 638px; top: 177px; width: 235px; }
 
 /* =====================================================
-   💬 BULLES
+   💬 BULLES DE DIALOGUE
 ===================================================== */
 #bubbleContainer {
   position: fixed;
@@ -131,16 +141,19 @@ html, body {
   position: absolute;
   max-width: 260px;
   padding: 10px 14px;
-  background: rgba(0,0,0,.85);
+  background: rgba(0,0,0,0.85);
+  color: #f5e6c8;
   border: 2px solid gold;
   border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
   box-shadow: 0 0 18px rgba(255,215,0,.45);
-  pointer-events: auto;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 /* =====================================================
-   🎮 MINI-JEUX
+   🎮 MINI-JEUX — STYLE UNIFIÉ (MINI-JEU 1)
 ===================================================== */
 #communicationGame,
 #visualIdentityGame,
@@ -164,32 +177,92 @@ html, body {
   gap: 14px;
 }
 
+/* TITRES */
 .quizTitle {
   font-family: "Pirata One", serif;
   font-size: 26px;
   text-align: center;
   color: #ffd77a;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 #2b1605;
 }
 
+/* INTRO */
 .quizIntro {
-  text-align: center;
+  font-family: "Cinzel", serif;
   font-size: 14px;
+  text-align: center;
+  color: #f0e1b8;
+  line-height: 1.4;
 }
 
+/* QUESTION */
+#commQuestion,
 .gameQuestion {
-  padding: 12px;
-  border: 2px dashed gold;
+  font-family: "Cinzel", serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 14px;
+  background: linear-gradient(145deg, #f6e6b8, #e1c37a);
+  color: #2b1605;
+  border: 3px solid #a57c2f;
   border-radius: 12px;
   text-align: center;
 }
 
+/* RÉPONSES */
+#commAnswers,
+#visualChoices,
+.merchantChoices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* =====================================================
+   🔘 BOUTONS — STYLE MINI-JEU 1
+===================================================== */
 button {
   background: linear-gradient(145deg, #7b4a12, #caa14a);
   border: 3px solid #3b2208;
-  border-radius: 14px;
-  padding: 10px 16px;
+  color: #1a0f05;
   font-weight: bold;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 14px;
   cursor: pointer;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
+}
+
+button:active,
+button.pressed {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.6),
+    0 1px 0 #3b2208;
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   ❌ SHAKE ERREUR
+===================================================== */
+.screen-shake {
+  animation: screenShake .4s;
+}
+
+@keyframes screenShake {
+  0%   { transform: translate(-50%, -50%) translateX(0); }
+  25%  { transform: translate(-50%, -50%) translateX(-10px); }
+  50%  { transform: translate(-50%, -50%) translateX(10px); }
+  75%  { transform: translate(-50%, -50%) translateX(-6px); }
+  100% { transform: translate(-50%, -50%) translateX(0); }
 }
 
 /* =====================================================
@@ -197,4 +270,13 @@ button {
 ===================================================== */
 @media (max-width: 768px) {
   .pirate { display: none; }
+
+  .quizTitle {
+    font-size: 22px;
+  }
+
+  #commQuestion,
+  .gameQuestion {
+    font-size: 15px;
+  }
 }
