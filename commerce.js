@@ -378,10 +378,11 @@ function spawnPirate3() {
 
   setTimeout(() => {
     pirate3.classList.add("glowStart");
-    pirate3.onclick = () => {
-      pirate3.classList.remove("glowStart");
-      startFinalDialogues();
-    };
+pirate3.onclick = () => {
+  pirate3.classList.add("locked"); // ✅ arrêt illumination
+  pirate3.classList.remove("glowStart");
+  startFinalDialogues();
+};
   }, 1200);
 }
 
