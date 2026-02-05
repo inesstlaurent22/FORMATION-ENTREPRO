@@ -8,9 +8,9 @@ const introVideo  = document.getElementById("introVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo  = document.getElementById("closeVideo");
 
-const scene     = document.getElementById("scene");
-const pirate2   = document.getElementById("pirate2");
-const pirate3   = document.getElementById("pirate3");
+const scene   = document.getElementById("scene");
+const pirate2 = document.getElementById("pirate2");
+const pirate3 = document.getElementById("pirate3");
 
 const dialogBox  = document.getElementById("dialogBox");
 const dialogText = document.getElementById("dialogText");
@@ -55,7 +55,7 @@ function showPirateLoader(callback){
 
   setTimeout(()=>{
     f.remove();
-    callback && callback();
+    if (callback) callback();
   }, 1300);
 }
 
@@ -78,8 +78,9 @@ function playDialog(list, cb){
 function showDialog(){
   const d = dialogs[dialogIndex];
   dialogText.textContent = d.text;
-  const t = d.speaker === "pirate2" ? pirate2 : pirate3;
-  const r = t.getBoundingClientRect();
+
+  const pirate = d.speaker === "pirate2" ? pirate2 : pirate3;
+  const r = pirate.getBoundingClientRect();
 
   dialogBox.style.left =
     `${r.left + r.width/2 - dialogBox.offsetWidth/2}px`;
@@ -90,7 +91,7 @@ function showDialog(){
 function endDialogs(){
   dialogBox.classList.add("hidden");
   skipDialog.classList.add("hidden");
-  dialogCallback && dialogCallback();
+  if (dialogCallback) dialogCallback();
 }
 
 dialogBox.onclick = () => {
@@ -142,19 +143,19 @@ function showNotification(txt){
    🚀 DÉMARRAGE
 ===================================================== */
 pirate3.onclick = () => playDialog([
-  {speaker:"pirate3", text:"Capitaine, ton trésor est prêt."},
-  {speaker:"pirate2", text:"Mais sans communication, personne ne viendra."},
-  {speaker:"pirate3", text:"Voyons comment attirer le marché."}
+  { speaker:"pirate3", text:"Capitaine, ton trésor est prêt." },
+  { speaker:"pirate2", text:"Mais sans communication, personne ne viendra." },
+  { speaker:"pirate3", text:"Voyons comment attirer le marché." }
 ], startMiniGame1);
 
 /* =====================================================
-   🎯 MINI-JEU 1 — QUIZ (BOUTONS RESTENT APPUYÉS)
+   🎯 MINI-JEU 1 — QUIZ (BOUTONS APPUYÉS)
 ===================================================== */
 const quiz = [
-  {t:"⚓ Visite physique", q:"Rencontrer un client permet de :", o:["Rassurer","Créer une connexion","Ignorer ses attentes"], g:[0,1]},
-  {t:"📞 Phoning", q:"Le contact direct sert à :", o:["Comprendre les besoins","Créer une relation","Parler uniquement de prix"], g:[0,1]},
-  {t:"📣 Réseaux sociaux", q:"Ils servent surtout à :", o:["Se faire connaître","Montrer son univers","Vendre immédiatement"], g:[0,1]},
-  {t:"📧 Newsletter", q:"Une newsletter permet de :", o:["Rester présent","Créer un lien","Envoyer du spam"], g:[0,1]}
+  { t:"⚓ Visite physique", q:"Rencontrer un client permet de :", o:["Rassurer","Créer une connexion","Ignorer ses attentes"], g:[0,1] },
+  { t:"📞 Phoning", q:"Le contact direct sert à :", o:["Comprendre les besoins","Créer une relation","Parler uniquement de prix"], g:[0,1] },
+  { t:"📣 Réseaux sociaux", q:"Ils servent surtout à :", o:["Se faire connaître","Montrer son univers","Vendre immédiatement"], g:[0,1] },
+  { t:"📧 Newsletter", q:"Une newsletter permet de :", o:["Rester présent","Créer un lien","Envoyer du spam"], g:[0,1] }
 ];
 
 let qi = 0;
@@ -168,11 +169,11 @@ function startMiniGame1(){
 function showQuestion(){
   clearMiniGame();
   selected = [];
-  const s = quiz[qi];
 
+  const s = quiz[qi];
   addTitle(s.t);
   addText(s.q);
-  addText("<span class='glow-red'>2 choix possibles</span>");
+  addText("<strong>2 choix possibles</strong>");
 
   const answers = document.createElement("div");
   answers.className = "mg1-answers";
@@ -186,14 +187,15 @@ function showQuestion(){
 
       if (!selected.includes(i)) selected.push(i);
 
-      if (check(s)) {
-        b.classList.add("pressed");
+      if (checkAnswer(s)) {
+        b.classList.add("pressed"); // ✅ effet visible
         showNotification("Bien joué !");
         qi++;
         qi < quiz.length
           ? setTimeout(showQuestion, 700)
           : showPirateLoader(afterMiniGame1);
-      } else if (selected.length >= 2) {
+      } 
+      else if (selected.length >= 2) {
         document.body.classList.add("screen-shake");
         setTimeout(()=>document.body.classList.remove("screen-shake"), 350);
         selected = [];
@@ -206,16 +208,16 @@ function showQuestion(){
   miniGame.appendChild(answers);
 }
 
-function check(s){
-  return s.g.every(i=>selected.includes(i)) &&
-         selected.every(i=>s.g.includes(i));
+function checkAnswer(s){
+  return s.g.every(i => selected.includes(i)) &&
+         selected.every(i => s.g.includes(i));
 }
 
 function afterMiniGame1(){
   hideMiniGame();
   playDialog([
-    {speaker:"pirate2", text:"Parfait."},
-    {speaker:"pirate3", text:"Passons à ton identité visuelle."}
+    { speaker:"pirate2", text:"Parfait." },
+    { speaker:"pirate3", text:"Passons à ton identité visuelle." }
   ], startIdentityIntro);
 }
 
@@ -281,6 +283,7 @@ function imageGroup(list, cb){
 
   list.forEach(src => {
     const c = document.createElement("div");
+
     const img = new Image();
     img.src = src;
     img.onclick = () => cb();
@@ -308,12 +311,12 @@ function showZoom(src){
 }
 
 /* =====================================================
-   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX (BOUTONS APPUYÉS)
+   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX (APPUI VISUEL)
 ===================================================== */
 function afterMiniGame2(){
   playDialog([
-    {speaker:"pirate2", text:"Ton identité est prête."},
-    {speaker:"pirate3", text:"Voyons comment la diffuser."}
+    { speaker:"pirate2", text:"Ton identité est prête." },
+    { speaker:"pirate3", text:"Voyons comment la diffuser." }
   ], startMiniGame3);
 }
 
@@ -344,7 +347,7 @@ function startMiniGame3(){
       leftCol.querySelectorAll("button").forEach(btn =>
         btn.classList.remove("pressed")
       );
-      b.classList.add("pressed");
+      b.classList.add("pressed"); // ✅ effet sélection
       selectedPair = { btn: b, key: p[1] };
     };
     leftCol.appendChild(b);
