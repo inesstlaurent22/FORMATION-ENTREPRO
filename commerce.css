@@ -175,7 +175,7 @@ html, body {
 }
 
 /* =====================================================
-   🎮 MINI-JEUX — STYLE UNIFIÉ (MINI-JEU 1)
+   🎮 MINI-JEUX — STYLE UNIQUE (RÉF MINI-JEU 1)
 ===================================================== */
 #communicationGame,
 #visualIdentityGame,
@@ -216,7 +216,6 @@ html, body {
   font-size: 14px;
   text-align: center;
   color: #f0e1b8;
-  line-height: 1.4;
 }
 
 /* QUESTION */
