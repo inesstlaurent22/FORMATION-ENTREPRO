@@ -148,7 +148,7 @@ pirate3.onclick = () => playDialog([
 ], startMiniGame1);
 
 /* =====================================================
-   🎯 MINI-JEU 1 — BOUTONS VERTICAUX + RESTE APPUYÉ
+   🎯 MINI-JEU 1 — QUIZ (BOUTONS RESTENT APPUYÉS)
 ===================================================== */
 const quiz = [
   {t:"⚓ Visite physique", q:"Rencontrer un client permet de :", o:["Rassurer","Créer une connexion","Ignorer ses attentes"], g:[0,1]},
@@ -182,12 +182,12 @@ function showQuestion(){
     b.textContent = txt;
 
     b.onclick = () => {
-      if (b.classList.contains("btn-pressed")) return;
+      if (b.classList.contains("pressed")) return;
 
       if (!selected.includes(i)) selected.push(i);
 
       if (check(s)) {
-        b.classList.add("btn-pressed");   // ✅ seulement mini-jeu 1
+        b.classList.add("pressed");
         showNotification("Bien joué !");
         qi++;
         qi < quiz.length
@@ -220,7 +220,7 @@ function afterMiniGame1(){
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (PAS D’EFFET APPUYÉ)
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
 function startIdentityIntro(){
   clearMiniGame();
@@ -308,7 +308,7 @@ function showZoom(src){
 }
 
 /* =====================================================
-   🔗 MINI-JEU 3 — COLONNES GAUCHE / DROITE
+   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX (BOUTONS APPUYÉS)
 ===================================================== */
 function afterMiniGame2(){
   playDialog([
@@ -340,7 +340,13 @@ function startMiniGame3(){
   ].forEach(p => {
     const b = document.createElement("button");
     b.textContent = p[0];
-    b.onclick = () => selectedPair = { btn: b, key: p[1] };
+    b.onclick = () => {
+      leftCol.querySelectorAll("button").forEach(btn =>
+        btn.classList.remove("pressed")
+      );
+      b.classList.add("pressed");
+      selectedPair = { btn: b, key: p[1] };
+    };
     leftCol.appendChild(b);
   });
 
@@ -353,6 +359,8 @@ function startMiniGame3(){
     b.textContent = t[0];
     b.onclick = () => {
       if (selectedPair && selectedPair.key === t[1]) {
+        selectedPair.btn.classList.add("pressed");
+        b.classList.add("pressed");
         showNotification("Bonne réponse");
         selectedPair.btn.remove();
         b.remove();
