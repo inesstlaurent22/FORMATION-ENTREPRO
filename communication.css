@@ -56,16 +56,16 @@ html, body {
   font-weight: bold;
   box-shadow:
     inset 0 0 6px rgba(255,215,0,.5),
-    0 0 14px rgba(255,215,0,.4);
+    0 4px 0 #3b2208;
 }
 
 /* =====================================================
-   🌑 LOADER GLOBAL — 🏴‍☠️ UNIQUE
+   🌑 LOADER GLOBAL — PIRATE
 ===================================================== */
 #fadeScreen {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,.85);
   z-index: 6000;
   display: flex;
   align-items: center;
@@ -147,9 +147,9 @@ html, body {
 }
 
 @keyframes glowPulse {
-  0%   { filter: drop-shadow(0 0 8px gold); transform: scale(1); }
+  0%   { filter: drop-shadow(0 0 8px gold); }
   50%  { filter: drop-shadow(0 0 28px gold); transform: scale(1.06); }
-  100% { filter: drop-shadow(0 0 8px gold); transform: scale(1); }
+  100% { filter: drop-shadow(0 0 8px gold); }
 }
 
 /* =====================================================
@@ -164,7 +164,6 @@ html, body {
   border: 2px solid gold;
   border-radius: 12px;
   font-size: 14px;
-  line-height: 1.4;
   box-shadow: 0 0 18px rgba(255,215,0,.45);
   cursor: pointer;
   z-index: 2000;
@@ -186,6 +185,9 @@ html, body {
   cursor: pointer;
   font-weight: bold;
   z-index: 10000;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.5),
+    0 4px 0 #3b2208;
 }
 
 /* =====================================================
@@ -207,47 +209,13 @@ html, body {
 }
 
 #miniGameContainer h3 {
-  font-family: "Pirata One", serif;
   font-size: 26px;
   color: #ffd77a;
-  letter-spacing: 2px;
-  text-transform: uppercase;
   margin-bottom: 14px;
 }
 
 /* =====================================================
-   🎯 MINI-JEU 1 — QUIZ
-===================================================== */
-.mg1-box {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.mg1-question {
-  font-family: "Cinzel", serif;
-  font-size: 16px;
-  font-weight: 700;
-  padding: 12px 14px;
-  background: linear-gradient(145deg, #f6e6b8, #e1c37a);
-  color: #2b1605;
-  border: 3px solid #a57c2f;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.mg1-answers {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.mg1-answers button {
-  width: 100%;
-}
-
-/* =====================================================
-   🔘 BOUTONS — STYLE GLOBAL
+   🔘 BOUTONS — BASE
 ===================================================== */
 button {
   background: linear-gradient(145deg, #7b4a12, #caa14a);
@@ -261,34 +229,41 @@ button {
   box-shadow:
     inset 0 0 6px rgba(255,215,0,.6),
     0 4px 0 #3b2208;
+  transition: transform .05s ease;
 }
 
-/* 🔽 effet appui immédiat (clic) */
+/* =====================================================
+   ✅ EFFET APPUYÉ — TEMPORAIRE (clic)
+===================================================== */
 button:active {
   transform: translateY(4px);
   box-shadow:
     inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
-}
-
-button:disabled {
-  opacity: .55;
-  cursor: not-allowed;
+    0 1px 0 #3b2208 !important;
 }
 
 /* =====================================================
-   ✅ BOUTON APPUYÉ PERMANENT (mini-jeux)
+   ✅ EFFET APPUYÉ — PERMANENT (JS)
 ===================================================== */
 button.pressed {
   transform: translateY(4px);
   box-shadow:
     inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
+    0 1px 0 #3b2208 !important;
   background: linear-gradient(145deg, #6a3f10, #b8943f);
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — INFO BOX
+   🎯 MINI-JEU 1
+===================================================== */
+.mg1-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* =====================================================
+   🎨 MINI-JEU 2
 ===================================================== */
 .info-box {
   margin-top: 14px;
@@ -296,46 +271,13 @@ button.pressed {
   border: 3px solid gold;
   border-radius: 16px;
   background: linear-gradient(145deg, #1a1208, #0d0804);
-  box-shadow:
-    inset 0 0 12px rgba(255,215,0,.35),
-    0 0 18px rgba(255,215,0,.45);
-  line-height: 1.6;
 }
 
 /* =====================================================
-   🖼️ MINI-JEU 2 — VISUELS
-===================================================== */
-.visualChoices {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 18px;
-  margin-top: 18px;
-}
-
-.visualChoices > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.visualChoices img {
-  width: 80px;
-  border-radius: 12px;
-  border: 2px solid gold;
-  cursor: pointer;
-}
-
-.visualChoices button {
-  margin-top: 6px;
-}
-
-/* =====================================================
-   🔗 MINI-JEU 3 — COLONNES
+   🔗 MINI-JEU 3
 ===================================================== */
 .mg3-container {
   display: flex;
-  justify-content: space-between;
   gap: 32px;
   margin-top: 24px;
 }
