@@ -1,85 +1,108 @@
 /* =====================================================
+   🌍 RESET & BASE — KIT IN
+===================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  background: #000;
+  color: #f5e6c8;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =====================================================
    🎬 VIDÉO INTRO — BASE KIT IN
 ===================================================== */
-#videoContainer {
+#videoIntro {
   position: fixed;
   inset: 0;
   background: #000;
   z-index: 3000;
 }
 
-#questVideo {
+#introVideo {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-#videoControls {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-#videoControls button {
+.video-controls {
   position: absolute;
   top: 18px;
-  pointer-events: auto;
+  right: 20px;
+  display: flex;
+  gap: 12px;
 }
 
-#toggleSound { right: 200px; }
-#closeVideo  { right: 20px; }
+.video-controls button {
+  padding: 10px 16px;
+  background: #120b05;
+  border: 2px solid gold;
+  border-radius: 14px;
+  color: #ffd77a;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(255,215,0,.45);
+}
+
+.video-controls button:hover {
+  box-shadow: 0 0 26px rgba(255,215,0,.8);
+}
 
 /* =====================================================
-   🌅 SCÈNE / BACKGROUND
+   🌅 SCÈNE
 ===================================================== */
-#background {
+#scene {
   position: fixed;
   inset: 0;
   z-index: 1;
 }
 
-.fondImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 /* =====================================================
-   🏴‍☠️ PIRATES — ALIGNÉS BASE
+   🏴‍☠️ PIRATES
 ===================================================== */
 .pirate {
   position: absolute;
-  z-index: 2;
+  width: 260px;
+  height: 260px;
   cursor: pointer;
+  z-index: 2;
 }
 
-#pirate2bis {
-  left: 460px;
+#pirate2 {
+  left: 420px;
   top: 420px;
-  width: 330px;
 }
 
-#pirate3bis {
-  left: 940px;
-  top: 540px;
-  width: 280px;
+#pirate3 {
+  left: 900px;
+  top: 520px;
 }
 
-#pirate3bis:hover {
+#pirate3:hover {
   animation: glowPulse 1.2s infinite;
 }
 
-/* =====================================================
-   💬 BULLES DE DIALOGUE — BASE
-===================================================== */
-#bubbleContainer {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  pointer-events: none;
+@keyframes glowPulse {
+  0%   { filter: drop-shadow(0 0 6px gold); }
+  50%  { filter: drop-shadow(0 0 18px gold); }
+  100% { filter: drop-shadow(0 0 6px gold); }
 }
 
-.dialogue-bubble {
+/* =====================================================
+   💬 BULLE DE DIALOGUE
+===================================================== */
+#dialogBox {
   position: absolute;
   max-width: 560px;
   padding: 18px 24px;
@@ -90,13 +113,35 @@
   font-size: 16px;
   line-height: 1.55;
   box-shadow: 0 0 25px rgba(255,215,0,.55);
-  pointer-events: auto;
+  z-index: 2000;
   cursor: pointer;
   text-align: center;
 }
 
 /* =====================================================
-   🎮 MINI-JEUX — STYLE MINI-JEU 1
+   ⏭️ SKIP DIALOGUES
+===================================================== */
+.skip-dialog {
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  z-index: 2600;
+  padding: 10px 16px;
+  background: #120b05;
+  border: 2px solid gold;
+  border-radius: 14px;
+  color: #ffd77a;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(255,215,0,.45);
+}
+
+.skip-dialog:hover {
+  box-shadow: 0 0 26px rgba(255,215,0,.8);
+}
+
+/* =====================================================
+   🎮 MINI-JEUX — BASE
 ===================================================== */
 #miniGameContainer {
   position: fixed;
@@ -128,8 +173,24 @@
   line-height: 1.55;
 }
 
+#miniGameContainer button {
+  margin-top: 14px;
+  padding: 12px 18px;
+  background: #1a1208;
+  border: 2px solid gold;
+  border-radius: 14px;
+  color: #ffd77a;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(255,215,0,.35);
+}
+
+#miniGameContainer button:hover {
+  box-shadow: 0 0 22px rgba(255,215,0,.8);
+}
+
 /* =====================================================
-   🔴 TEXTE INDICE — MINI-JEU 1
+   🔴 TEXTE INDICE
 ===================================================== */
 .glow-red {
   display: block;
@@ -146,7 +207,7 @@
 }
 
 /* =====================================================
-   🖼️ CHOIX VISUELS — MINI-JEU 2
+   🖼️ CHOIX VISUELS
 ===================================================== */
 .visualChoices {
   display: flex;
@@ -154,13 +215,6 @@
   gap: 28px;
   margin-top: 28px;
   flex-wrap: wrap;
-}
-
-.visualChoices > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
 }
 
 .visualChoices img {
@@ -192,7 +246,6 @@
   font-size: 16px;
   text-align: center;
   box-shadow: 0 0 25px rgba(255,215,0,.6);
-  cursor: pointer;
 }
 
 .notification.success {
@@ -212,35 +265,37 @@
 }
 
 /* =====================================================
-   📳 ERREUR — SHAKE BASE
+   🏴‍☠️ LOADER — FADE SCREEN
 ===================================================== */
-.screen-shake {
-  animation: screenShake .4s;
+#fadeScreen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.92);
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* =====================================================
-   💎 GEMS — BASE OFFICIELLE
-===================================================== */
-.gem {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 12000;
-  animation: gemExplode 1.6s ease-out forwards;
+.loaderBox {
+  padding: 28px 34px;
+  background: #120b05;
+  border: 4px solid gold;
+  border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255,215,0,.7);
 }
 
 /* =====================================================
    📱 RESPONSIVE
 ===================================================== */
 @media (max-width: 768px) {
-  #miniGameContainer {
-    width: 95%;
-    padding: 24px;
-  }
-
   .pirate {
     display: none;
+  }
+
+  #miniGameContainer {
+    width: 95%;
+    padding: 22px;
   }
 }
