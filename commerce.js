@@ -33,30 +33,40 @@ const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
    LOADER
-===================================================== */
-function showLoader(type = "intro", time = 1200, cb) {
-  loaderBox.innerHTML = ""; // reset propre
-  loaderBox.className = "loaderBox"; // reset classes
+===================================================== */function showLoader(type = "intro", time = 1200, cb) {
+  fadeScreen.classList.remove("hidden");
+  fadeScreen.style.pointerEvents = "auto";
+
+  // reset
+  loaderBox.innerHTML = "";
+  loaderBox.className = "loaderBox";
 
   if (type === "final") {
+    // ❌ on enlève le loader rond
     loaderBox.classList.add("final");
 
-    const txt = document.createElement("div");
-    txt.className = "finalText";
-    txt.textContent = "🏆 Bravo, tu as gagné la quête !";
-    loaderBox.appendChild(txt);
+    const winBox = document.createElement("div");
+    winBox.className = "finalWinBox";
+    winBox.textContent = "🏆 Bravo, tu as gagné la quête commerce";
 
+    loaderBox.appendChild(winBox);
+
+    // 💎 explosion derrière
     explodeGems();
+  } else {
+    // loader normal avec emoji pirate
+    const emoji = document.createElement("span");
+    emoji.className = "loaderEmoji";
+    emoji.textContent = "🏴‍☠️";
+    loaderBox.appendChild(emoji);
   }
-
-  fadeScreen.classList.remove("hidden");
 
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
     cb && cb();
   }, time);
 }
-
+   
 /* =====================================================
    UTILS
 ===================================================== */
