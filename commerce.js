@@ -35,13 +35,17 @@ const btnKeep = document.getElementById("btnKeep");
    LOADER
 ===================================================== */
 function showLoader(type = "intro", time = 1200, cb) {
-  loaderBox.textContent = "";
-  loaderBox.classList.remove("final", "video");
-
-  fadeScreen.style.pointerEvents = "auto";
+  loaderBox.innerHTML = ""; // reset propre
+  loaderBox.className = "loaderBox"; // reset classes
 
   if (type === "final") {
     loaderBox.classList.add("final");
+
+    const txt = document.createElement("div");
+    txt.className = "finalText";
+    txt.textContent = "🏆 Bravo, tu as gagné la quête !";
+    loaderBox.appendChild(txt);
+
     explodeGems();
   }
 
