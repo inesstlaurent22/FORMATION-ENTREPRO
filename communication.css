@@ -216,7 +216,7 @@ html, body {
 }
 
 /* =====================================================
-   🎯 MINI-JEU 1 — QUIZ (EFFET RESTE APPUYÉ)
+   🎯 MINI-JEU 1 — QUIZ
 ===================================================== */
 .mg1-box {
   display: flex;
@@ -246,17 +246,8 @@ html, body {
   width: 100%;
 }
 
-/* ✅ EFFET PERMANENT — MINI-JEU 1 UNIQUEMENT */
-.mg1-answers button.pressed {
-  transform: translateY(4px);
-  box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
-  background: linear-gradient(145deg, #6a3f10, #b8943f);
-}
-
 /* =====================================================
-   🔘 BOUTONS — STYLE GLOBAL (SANS :active)
+   🔘 BOUTONS — STYLE GLOBAL
 ===================================================== */
 button {
   background: linear-gradient(145deg, #7b4a12, #caa14a);
@@ -272,13 +263,32 @@ button {
     0 4px 0 #3b2208;
 }
 
+/* 🔽 effet appui immédiat (clic) */
+button:active {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.6),
+    0 1px 0 #3b2208;
+}
+
 button:disabled {
   opacity: .55;
   cursor: not-allowed;
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — INFO BOX PIRATE
+   ✅ BOUTON APPUYÉ PERMANENT (mini-jeux)
+===================================================== */
+button.pressed {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.6),
+    0 1px 0 #3b2208;
+  background: linear-gradient(145deg, #6a3f10, #b8943f);
+}
+
+/* =====================================================
+   🎨 MINI-JEU 2 — INFO BOX
 ===================================================== */
 .info-box {
   margin-top: 14px;
@@ -293,7 +303,7 @@ button:disabled {
 }
 
 /* =====================================================
-   🖼️ MINI-JEU 2 — IMAGES HORIZONTALES
+   🖼️ MINI-JEU 2 — VISUELS
 ===================================================== */
 .visualChoices {
   display: flex;
@@ -321,7 +331,7 @@ button:disabled {
 }
 
 /* =====================================================
-   🔗 MINI-JEU 3 — COLONNES GAUCHE / DROITE
+   🔗 MINI-JEU 3 — COLONNES
 ===================================================== */
 .mg3-container {
   display: flex;
