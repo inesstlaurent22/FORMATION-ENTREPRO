@@ -90,7 +90,7 @@ html,body{
   z-index:2;
 }
 
-/* POSITIONS VALIDÉES */
+/* POSITIONS */
 #pirate3{
   left:564px;
   top:264px;
@@ -107,7 +107,7 @@ html,body{
   background-image:url("images/Pirate2.png");
 }
 
-/* ✨ GLOW DÉMARRAGE */
+/* ✨ GLOW PIRATE 3 */
 #pirate3.glow{
   animation:pirateGlow 1.2s infinite;
 }
@@ -139,7 +139,7 @@ html,body{
 }
 
 /* =====================================================
-   ⏭️ SKIP DIALOGUES
+   ⏭️ SKIP
 ===================================================== */
 .skip-dialog{
   position:fixed;
@@ -210,7 +210,9 @@ button:disabled{
 /* =====================================================
    🎯 MINI-JEU 1 — COMMUNICATION
 ===================================================== */
-.mg1-box{
+.mg1-box,
+.mg2-box,
+.mg3-box{
   display:flex;
   flex-direction:column;
   gap:14px;
@@ -226,7 +228,9 @@ button:disabled{
   text-shadow:2px 2px 0 #2b1605;
 }
 
-.mg1-question{
+.mg1-question,
+.mg2-question,
+.mg3-question{
   font-family:"Cinzel", serif;
   font-size:16px;
   font-weight:700;
@@ -238,20 +242,22 @@ button:disabled{
   text-align:center;
 }
 
-.mg1-answers{
+.mg1-answers,
+.mg2-answers,
+.mg3-answers{
   display:flex;
   flex-direction:column;
   gap:8px;
 }
 
 /* =====================================================
-   🌪️ SHAKE ERREUR
+   🌪️ SHAKE — UNIQUEMENT MINI-JEU (STABLE)
 ===================================================== */
-.screen-shake{
-  animation:screenShake .4s;
+#miniGameContainer.screen-shake{
+  animation:miniShake .4s;
 }
 
-@keyframes screenShake{
+@keyframes miniShake{
   0%   { transform:translate(-50%,-50%) translateX(0); }
   25%  { transform:translate(-50%,-50%) translateX(-10px); }
   50%  { transform:translate(-50%,-50%) translateX(10px); }
@@ -269,7 +275,7 @@ button:disabled{
 }
 
 .secondary{
-  opacity:.75;
+  opacity:.65;
 }
 
 .info-box{
@@ -280,7 +286,7 @@ button:disabled{
   background:#1a1208;
 }
 
-/* Images horizontales */
+/* Images */
 .visualChoices.horizontal{
   display:flex;
   justify-content:center;
@@ -290,8 +296,8 @@ button:disabled{
 .visualChoices.small img{
   width:70px;
   border-radius:10px;
-  cursor:pointer;
   border:2px solid gold;
+  cursor:pointer;
 }
 
 /* =====================================================
