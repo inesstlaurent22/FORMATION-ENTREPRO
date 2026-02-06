@@ -370,33 +370,31 @@ function showIdentityWin(){
   clearMiniGame();
 
   const box = document.createElement("div");
-  box.className = "mg2-box";
+  box.className = "identity-win";
 
-  box.innerHTML = `
-    <h2>Bravo 🎉</h2>
-    <p>Tu as créé ton identité visuelle</p>
-  `;
+  const title = document.createElement("h2");
+  title.textContent = "Bravo 🎉 Tu as créé ton identité visuelle";
 
   const imgWrap = document.createElement("div");
-  imgWrap.className = "imgWrap";
+  imgWrap.className = "identity-img-wrap";
 
-  const img = new Image();
+  const img = document.createElement("img");
   img.src = "images/Identiteevisuelle.JPG";
+  img.className = "identity-img";
 
-  const zoom = document.createElement("button");
-  zoom.textContent = "🔎";
-  zoom.onclick = e => {
-    e.stopPropagation();
-    zoomImage(img.src);
-  };
+  const zoomBtn = document.createElement("button");
+  zoomBtn.textContent = "🔎";
+  zoomBtn.className = "zoom-btn";
+  zoomBtn.onclick = () => zoomImage(img.src);
 
-  imgWrap.append(img, zoom);
-  box.appendChild(imgWrap);
+  imgWrap.append(img, zoomBtn);
+  box.append(title, imgWrap);
   miniGame.appendChild(box);
 
   const questBtn = document.createElement("button");
   questBtn.className = "skip-dialog";
   questBtn.textContent = "Continuer la quête";
+
   document.body.appendChild(questBtn);
 
   questBtn.onclick = () => {
@@ -404,8 +402,8 @@ function showIdentityWin(){
     hideMiniGame();
     playDialog(
       [
-        {speaker:"pirate2",text:"Magnifique identité."},
-        {speaker:"pirate3",text:"Passons à la diffusion."}
+        { speaker:"pirate2", text:"Magnifique identité." },
+        { speaker:"pirate3", text:"Passons à la diffusion." }
       ],
       startMiniGame3
     );
