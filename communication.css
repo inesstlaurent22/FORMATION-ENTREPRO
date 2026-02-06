@@ -1,5 +1,5 @@
 /* =====================================================
-   RESET & BASE — KIT IN
+   RESET & BASE
 ===================================================== */
 *{
   margin:0;
@@ -16,7 +16,7 @@ html, body{
   overflow:hidden;
 }
 
-.hidden{ display:none !important; }
+.hidden{ display:none!important; }
 
 /* =====================================================
    🎬 VIDÉO INTRO
@@ -32,7 +32,6 @@ html, body{
   width:100%;
   height:100%;
   object-fit:cover;
-  pointer-events:none;
 }
 
 #videoControls{
@@ -48,14 +47,12 @@ html, body{
   color:gold;
   border:3px solid gold;
   padding:14px 20px;
-  font-size:17px;
+  font-size:16px;
   border-radius:14px;
-  cursor:pointer;
   font-weight:bold;
+  cursor:pointer;
   pointer-events:auto;
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.5),
-    0 4px 0 #3b2208;
+  box-shadow:inset 0 0 6px rgba(255,215,0,.5), 0 4px 0 #3b2208;
 }
 
 #toggleSound{ right:200px; }
@@ -86,22 +83,22 @@ html, body{
   background-size:contain;
   background-repeat:no-repeat;
   cursor:pointer;
-  z-index:2;
+  z-index:5;
 }
 
 #pirate3{
-  left:564px;
-  top:264px;
-  width:313px;
-  height:510px;
+  left:520px;
+  top:240px;
+  width:300px;
+  height:480px;
   background-image:url("images/Pirate3.png");
 }
 
 #pirate2{
-  left:812px;
-  top:537px;
-  width:478px;
-  height:457px;
+  left:820px;
+  top:520px;
+  width:450px;
+  height:420px;
   background-image:url("images/Pirate2.png");
 }
 
@@ -110,9 +107,9 @@ html, body{
 }
 
 @keyframes pirateGlow{
-  0%   { filter:drop-shadow(0 0 6px gold); transform:scale(1); }
-  50%  { filter:drop-shadow(0 0 22px gold); transform:scale(1.05); }
-  100% { filter:drop-shadow(0 0 6px gold); transform:scale(1); }
+  0%{filter:drop-shadow(0 0 6px gold);}
+  50%{filter:drop-shadow(0 0 22px gold); transform:scale(1.05);}
+  100%{filter:drop-shadow(0 0 6px gold);}
 }
 
 /* =====================================================
@@ -120,14 +117,14 @@ html, body{
 ===================================================== */
 #dialogBox{
   position:absolute;
-  max-width:280px;
+  max-width:300px;
   padding:14px;
-  background:rgba(0,0,0,.85);
+  background:rgba(0,0,0,.9);
   border:2px solid gold;
   border-radius:14px;
   box-shadow:0 0 18px rgba(255,215,0,.45);
-  cursor:pointer;
   z-index:2000;
+  cursor:pointer;
 }
 
 #dialogText{
@@ -136,7 +133,7 @@ html, body{
 }
 
 /* =====================================================
-   ⏭️ BOUTONS FLOAT (SKIP / CONTINUER)
+   ⏭️ SKIP
 ===================================================== */
 .skip-dialog{
   position:fixed;
@@ -145,36 +142,34 @@ html, body{
   background:#1a1208;
   color:gold;
   border:3px solid gold;
-  padding:14px 20px;
+  padding:12px 18px;
   border-radius:14px;
   font-weight:bold;
   cursor:pointer;
-  z-index:10000;
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.5),
-    0 4px 0 #3b2208;
+  z-index:5000;
+  box-shadow:inset 0 0 6px rgba(255,215,0,.5), 0 4px 0 #3b2208;
 }
 
 /* =====================================================
-   🎮 CONTENEUR MINI-JEUX
+   🎮 MINI-JEUX
 ===================================================== */
 #miniGameContainer{
   position:fixed;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:min(96%,620px);
+  width:min(96%,640px);
   background:#120b05;
   border:4px solid gold;
   border-radius:22px;
   padding:26px;
   box-shadow:0 0 40px rgba(255,215,0,.45);
   text-align:center;
-  z-index:10;
+  z-index:100;
 }
 
 /* =====================================================
-   🔘 BOUTONS — GLOBAL
+   🔘 BOUTONS
 ===================================================== */
 button{
   background:linear-gradient(145deg,#7b4a12,#caa14a);
@@ -185,26 +180,17 @@ button{
   padding:10px 16px;
   border-radius:14px;
   cursor:pointer;
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
+  box-shadow:inset 0 0 6px rgba(255,215,0,.6), 0 4px 0 #3b2208;
 }
 
 button:active,
 button.pressed{
   transform:translateY(4px);
-  box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
-}
-
-button:disabled{
-  opacity:.55;
-  cursor:not-allowed;
+  box-shadow:inset 0 0 10px rgba(0,0,0,.6), 0 1px 0 #3b2208;
 }
 
 /* =====================================================
-   🎯 MINI-JEUX — STRUCTURE COMMUNE
+   🎯 MINI-JEU 1
 ===================================================== */
 .mg1-box,
 .mg2-box,
@@ -214,79 +200,54 @@ button:disabled{
   gap:14px;
 }
 
-/* TITRES PRINCIPAUX */
 .mg1-title{
   font-family:"Pirata One", serif;
   font-size:26px;
-  text-align:center;
   color:#ffd77a;
-  letter-spacing:2px;
-  text-transform:uppercase;
   text-shadow:2px 2px 0 #2b1605;
 }
 
-/* QUESTIONS / ENCARTS */
 .mg1-question,
 .mg2-question,
 .mg3-question{
-  font-family:"Cinzel", serif;
-  font-size:16px;
   font-weight:700;
-  padding:12px 14px;
   background:linear-gradient(145deg,#f6e6b8,#e1c37a);
   color:#2b1605;
-  border:3px solid #a57c2f;
+  padding:12px;
   border-radius:12px;
-  text-align:center;
 }
 
-/* RÉPONSES */
-.mg1-answers,
-.mg2-answers,
-.mg3-answers{
+.mg1-answers{
   display:flex;
   flex-direction:column;
   gap:8px;
 }
 
 /* =====================================================
-   🌪️ SHAKE (ERREUR)
+   🌪️ SHAKE
 ===================================================== */
 #miniGameContainer.screen-shake{
-  animation:miniShake .4s;
+  animation:shake .4s;
 }
 
-@keyframes miniShake{
-  0%   { transform:translate(-50%,-50%) translateX(0); }
-  25%  { transform:translate(-50%,-50%) translateX(-10px); }
-  50%  { transform:translate(-50%,-50%) translateX(10px); }
-  75%  { transform:translate(-50%,-50%) translateX(-6px); }
-  100% { transform:translate(-50%,-50%) translateX(0); }
+@keyframes shake{
+  0%{transform:translate(-50%,-50%) translateX(0);}
+  25%{transform:translate(-50%,-50%) translateX(-10px);}
+  50%{transform:translate(-50%,-50%) translateX(10px);}
+  75%{transform:translate(-50%,-50%) translateX(-6px);}
+  100%{transform:translate(-50%,-50%) translateX(0);}
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
+   🎨 MINI-JEU 2
 ===================================================== */
 .info-box{
-  margin-top:12px;
-  padding:14px;
+  background:#1a1208;
   border:2px solid gold;
   border-radius:14px;
-  background:#1a1208;
-  text-align:center;
+  padding:14px;
 }
 
-.info-box ul{
-  list-style:none;
-  padding:0;
-  margin:0;
-}
-
-.info-box li{
-  margin:6px 0;
-}
-
-/* CHOIX VISUELS */
 .visualChoices.big{
   display:flex;
   justify-content:center;
@@ -297,8 +258,8 @@ button:disabled{
 .imgWrap{
   display:flex;
   flex-direction:column;
-  align-items:center;
   gap:6px;
+  align-items:center;
 }
 
 .visualChoices.big img{
@@ -309,19 +270,19 @@ button:disabled{
 }
 
 /* =====================================================
-   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
+   🔗 MINI-JEU 3
 ===================================================== */
 .mg3-container{
   display:flex;
-  gap:32px;
-  margin-top:20px;
+  gap:30px;
+  margin-top:16px;
 }
 
 .mg3-column{
   flex:1;
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:10px;
 }
 
 .mg3-left-btn{
@@ -335,8 +296,5 @@ button:disabled{
 ===================================================== */
 @media(max-width:768px){
   .pirate{ display:none; }
-  #miniGameContainer{
-    width:94%;
-    padding:20px;
-  }
+  #miniGameContainer{ width:94%; }
 }
