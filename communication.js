@@ -179,18 +179,18 @@ function afterMG1(){
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (FINAL)
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (FINAL PROPRE)
 ===================================================== */
 
 function startMiniGame2(){
   clearMiniGame();
 
   const box = document.createElement("div");
-  box.className = "mg2-box";
+  box.className = "mg2-box identity-box";
 
   box.innerHTML = `
     <div class="mg1-title">Crée ton identité visuelle</div>
-    <p style="margin-bottom:12px;">
+    <p class="identity-text">
       L’identité visuelle permet à ta marque d’être reconnue,
       mémorisée et différenciée.
     </p>
@@ -200,34 +200,32 @@ function startMiniGame2(){
   infoBtn.textContent = "En savoir plus";
 
   const infoBox = document.createElement("div");
-  infoBox.className = "info-box hidden";
-  infoBox.style.textAlign = "center";
+  infoBox.className = "info-box hidden info-list";
   infoBox.innerHTML = `
-    <ul style="list-style:none; padding:0; margin:0;">
-      <li>• Ton message</li>
-      <li>• Ton public</li>
-      <li>• Tes valeurs</li>
-      <li>• Ton univers graphique</li>
+    <ul>
+      <li>Ton message</li>
+      <li>Ton public</li>
+      <li>Tes valeurs</li>
+      <li>Ton univers graphique</li>
     </ul>
   `;
 
   box.append(infoBtn, infoBox);
   miniGame.appendChild(box);
 
-  const continueQuest = document.createElement("button");
-  continueQuest.className = "skip-dialog";
-  continueQuest.textContent = "Continuer la quête";
-  continueQuest.style.display = "none";
-
-  document.body.appendChild(continueQuest);
+  const questBtn = document.createElement("button");
+  questBtn.className = "skip-dialog";
+  questBtn.textContent = "Continuer la quête";
+  questBtn.style.display = "none";
+  document.body.appendChild(questBtn);
 
   infoBtn.onclick = () => {
     infoBox.classList.remove("hidden");
-    continueQuest.style.display = "block";
+    questBtn.style.display = "block";
   };
 
-  continueQuest.onclick = () => {
-    continueQuest.remove();
+  questBtn.onclick = () => {
+    questBtn.remove();
     showLogoInfo();
   };
 }
@@ -235,97 +233,97 @@ function startMiniGame2(){
 /* ================= LOGO ================= */
 
 function showLogoInfo(){
-  clearMiniGame();
-
-  miniGame.innerHTML = `
-    <div class="mg2-question">L’importance du logo</div>
-    <p>
-      Le logo est l’élément central de ton identité.
-      Il doit être simple, lisible et reconnaissable.
-    </p>
-    <p>
-      ✔ Évite les détails inutiles<br>
-      ✔ Pense à son usage sur tous les supports
-    </p>
-  `;
-
-  const btn = document.createElement("button");
-  btn.textContent = "Continuer";
-  btn.onclick = () =>
-    showChoices(
+  showInfoStep(
+    "L’importance du logo",
+    `
+      Le logo est l’élément central de ton identité visuelle.<br><br>
+      ✔ Il doit être simple<br>
+      ✔ Lisible à toutes tailles<br>
+      ✔ Cohérent avec ton univers
+    `,
+    () => showChoiceStep(
+      "Choix du logo",
       ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
       showColorInfo,
-      null /* choix libre */
-    );
-
-  miniGame.appendChild(btn);
+      null
+    )
+  );
 }
 
 /* ================= COULEURS ================= */
 
 function showColorInfo(){
-  clearMiniGame();
-
-  miniGame.innerHTML = `
-    <div class="mg2-question">L’importance des couleurs</div>
-    <p>
-      Les couleurs transmettent des émotions et donnent
-      une personnalité à ta marque.
-    </p>
-    <p>
+  showInfoStep(
+    "L’importance des couleurs",
+    `
+      Les couleurs transmettent des émotions.<br><br>
       ✔ Limite-toi à 2–3 couleurs<br>
-      ✔ Pense à la cohérence émotionnelle
-    </p>
-  `;
-
-  const btn = document.createElement("button");
-  btn.textContent = "Continuer";
-  btn.onclick = () =>
-    showChoices(
+      ✔ Reste cohérent émotionnellement
+    `,
+    () => showChoiceStep(
+      "Choix des couleurs",
       ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
       showTypoInfo,
       "images/Couleur1.PNG"
-    );
-
-  miniGame.appendChild(btn);
+    )
+  );
 }
 
 /* ================= TYPO ================= */
 
 function showTypoInfo(){
+  showInfoStep(
+    "L’importance de la typographie",
+    `
+      La typographie donne le ton de ta marque.<br><br>
+      ✔ Lisibilité avant tout<br>
+      ✔ Pas trop de polices
+    `,
+    () => showChoiceStep(
+      "Choix de la typographie",
+      ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
+      showIdentityWin,
+      "images/Typo1.PNG"
+    )
+  );
+}
+
+/* ================= INFO STEP ================= */
+
+function showInfoStep(title, text, next){
   clearMiniGame();
 
-  miniGame.innerHTML = `
-    <div class="mg2-question">L’importance de la typographie</div>
-    <p>
-      La typographie donne le ton de ta marque :
-      sérieuse, fun, premium ou accessible.
-    </p>
-    <p>
-      ✔ Privilégie la lisibilité<br>
-      ✔ Évite de multiplier les polices
-    </p>
+  const box = document.createElement("div");
+  box.className = "mg2-box";
+
+  box.innerHTML = `
+    <div class="mg1-title">${title}</div>
+    <p class="info-text">${text}</p>
   `;
 
   const btn = document.createElement("button");
   btn.textContent = "Continuer";
-  btn.onclick = () =>
-    showChoices(
-      ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
-      showIdentityWin,
-      "images/Typo1.PNG"
-    );
+  btn.onclick = next;
 
-  miniGame.appendChild(btn);
+  box.appendChild(btn);
+  miniGame.appendChild(box);
 }
 
-/* ================= CHOIX + ZOOM ================= */
+/* ================= CHOIX STEP ================= */
 
-function showChoices(list, cb, correct){
+function showChoiceStep(title, images, next, correct){
+  clearMiniGame();
+
+  const box = document.createElement("div");
+  box.className = "mg2-box";
+
+  box.innerHTML = `<div class="mg1-title">${title}</div>`;
+  miniGame.appendChild(box);
+
   const wrap = document.createElement("div");
   wrap.className = "visualChoices big";
 
-  list.forEach(src=>{
+  images.forEach(src=>{
     const w = document.createElement("div");
     w.className = "imgWrap";
 
@@ -336,7 +334,7 @@ function showChoices(list, cb, correct){
         shake();
         return;
       }
-      cb();
+      next();
     };
 
     const zoom = document.createElement("button");
@@ -353,12 +351,17 @@ function showChoices(list, cb, correct){
   miniGame.appendChild(wrap);
 }
 
+/* ================= ZOOM ================= */
+
 function zoomImage(src){
-  const f = document.createElement("div");
-  f.id = "fadeScreen";
-  f.innerHTML = `<img src="${src}" style="max-width:90%;max-height:90%">`;
-  f.onclick = () => f.remove();
-  document.body.appendChild(f);
+  const overlay = document.createElement("div");
+  overlay.id = "fadeScreen";
+  overlay.innerHTML = `
+    <img src="${src}" class="zoomed-image">
+    <button class="zoom-close">✕</button>
+  `;
+  overlay.onclick = () => overlay.remove();
+  document.body.appendChild(overlay);
 }
 
 /* ================= FIN IDENTITÉ ================= */
@@ -366,26 +369,34 @@ function zoomImage(src){
 function showIdentityWin(){
   clearMiniGame();
 
-  miniGame.innerHTML = `
-    <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
+  const box = document.createElement("div");
+  box.className = "mg2-box";
+
+  box.innerHTML = `
+    <h2>Bravo 🎉</h2>
+    <p>Tu as créé ton identité visuelle</p>
   `;
 
-  setTimeout(()=>{
-    const img = document.createElement("img");
-    img.src = "images/Identiteevisuelle.JPG";
-    img.style.maxWidth = "100%";
-    img.style.marginTop = "20px";
-    img.style.opacity = "0";
-    img.style.transition = "opacity .8s ease";
+  const imgWrap = document.createElement("div");
+  imgWrap.className = "imgWrap";
 
-    miniGame.appendChild(img);
-    requestAnimationFrame(()=>img.style.opacity="1");
-  },600);
+  const img = new Image();
+  img.src = "images/Identiteevisuelle.JPG";
+
+  const zoom = document.createElement("button");
+  zoom.textContent = "🔎";
+  zoom.onclick = e => {
+    e.stopPropagation();
+    zoomImage(img.src);
+  };
+
+  imgWrap.append(img, zoom);
+  box.appendChild(imgWrap);
+  miniGame.appendChild(box);
 
   const questBtn = document.createElement("button");
   questBtn.className = "skip-dialog";
   questBtn.textContent = "Continuer la quête";
-
   document.body.appendChild(questBtn);
 
   questBtn.onclick = () => {
