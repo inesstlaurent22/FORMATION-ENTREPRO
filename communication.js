@@ -1,45 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* =====================================================
-     🎬 VIDÉO INTRO
-  ===================================================== */
-  const videoIntro  = document.getElementById("videoIntro");
-  const introVideo  = document.getElementById("introVideo");
-  const toggleSound = document.getElementById("toggleSound");
-  const closeVideo  = document.getElementById("closeVideo");
-  const scene       = document.getElementById("scene");
+/* =====================================================
+   🎬 VIDÉO INTRO
+===================================================== */
+introVideo.muted = true;
+introVideo.play().catch(()=>{});
 
-  let videoClosed = false;
+toggleSound.onclick = e => {
+  e.stopPropagation();
+  introVideo.muted = !introVideo.muted;
+  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+};
 
-  introVideo.muted = true;
-  introVideo.playsInline = true;
-  introVideo.style.pointerEvents = "none";
+closeVideo.onclick = e => {
+  e.stopPropagation();
+  endVideo();
+};
 
-  const playPromise = introVideo.play();
-  if (playPromise) playPromise.catch(()=>{});
+introVideo.onended = endVideo;
 
-  toggleSound.addEventListener("click", e => {
-    e.preventDefault();
-    e.stopPropagation();
-    introVideo.muted = !introVideo.muted;
-    toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-  });
-
-  closeVideo.addEventListener("click", e => {
-    e.preventDefault();
-    e.stopPropagation();
-    closeIntroVideo();
-  });
-
-  introVideo.addEventListener("ended", closeIntroVideo);
-
-  function closeIntroVideo(){
-    if(videoClosed) return;
-    videoClosed = true;
-    introVideo.pause();
-    videoIntro.classList.add("hidden");
-    scene.classList.remove("hidden");
-  }
+function endVideo(){
+  introVideo.pause();
+  videoIntro.classList.add("hidden");
+  scene.classList.remove("hidden");
+}
 
   /* =====================================================
      🏴‍☠️ PIRATES
