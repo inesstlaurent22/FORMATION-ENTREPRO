@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <title>Communication – La Criée Pirate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- CSS principal -->
   <link rel="stylesheet" href="communication.css">
 </head>
 
@@ -15,7 +13,6 @@
      🎬 VIDÉO INTRO
 ===================================================== -->
 <div id="videoContainer">
-
   <video
     id="questVideo"
     autoplay
@@ -24,15 +21,12 @@
     preload="auto"
   >
     <source src="videos/Communicationvideo2.MOV" type="video/mp4">
-    Votre navigateur ne supporte pas la vidéo.
   </video>
 
-  <!-- Contrôles vidéo -->
   <div id="videoControls">
     <button id="toggleSound" type="button">🔇</button>
     <button id="closeVideo" type="button">Passer la vidéo</button>
   </div>
-
 </div>
 
 <!-- =====================================================
@@ -40,7 +34,6 @@
 ===================================================== -->
 <div id="scene" class="hidden">
 
-  <!-- BACKGROUND -->
   <img
     src="images/Communicationfond.PNG"
     class="fondImage"
@@ -48,12 +41,10 @@
     loading="eager"
   >
 
-  <!-- Bouton skip dialogues -->
   <button id="skipDialog" class="skip-dialog hidden">
     Passer les dialogues
   </button>
 
-  <!-- Pirates -->
   <div id="pirate3" class="pirate"></div>
   <div id="pirate2" class="pirate"></div>
 
@@ -71,10 +62,6 @@
 ===================================================== -->
 <div id="miniGameContainer" class="hidden"></div>
 
-<!-- =====================================================
-     📜 SCRIPT PRINCIPAL
-===================================================== -->
 <script src="communication.js"></script>
-
 </body>
 </html>
