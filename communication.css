@@ -212,6 +212,22 @@ button:active{
 }
 
 /* =====================================================
+   🎯 MINI-JEU 1 — ALIGNEMENT DES BOUTONS
+===================================================== */
+
+.mg1-answers{
+  display: flex;
+  flex-direction: column;   /* 👈 vertical */
+  gap: 12px;                /* espace entre les boutons */
+  align-items: stretch;     /* même largeur */
+}
+
+.mg1-answers button{
+  width: 100%;
+  text-align: center;
+}
+
+/* =====================================================
    📦 MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
 .mg2-box{
