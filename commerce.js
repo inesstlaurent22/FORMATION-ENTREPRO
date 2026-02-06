@@ -290,8 +290,11 @@ function startMiniGame2(){
    🏴‍☠️ PIRATE 3
 ===================================================== */
 function spawnPirate3(){
+  pirate5.classList.remove("glowStart"); // ⬅️ stop illumination pirate5
+
   pirate3.classList.remove("hidden");
   pirate3.classList.add("glowStart");
+
   pirate3.onclick = ()=>{
     pirate3.classList.remove("glowStart");
     startFinalDialogues();
