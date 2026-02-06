@@ -401,8 +401,8 @@ function startMiniGame3() {
   game3.classList.remove("hidden");
 
   btnKeep.onclick = () => {
-    game3.classList.add("hidden"); // ⬅️ cache AVANT
-    showCommerceWin();             // 💎 explosion visible
+    game3.classList.add("hidden");
+    showCommerceWin(); // 🏆 loader + explosion
   };
 }
 
@@ -410,56 +410,59 @@ function startMiniGame3() {
    LOADER DE FIN
 ===================================================== */
 function showCommerceWin(){
-  hideMiniGame();
+
+  // 🔒 Sécurité : cacher tout le reste
+  game3.classList.add("hidden");
 
   const overlay = document.createElement("div");
-  overlay.id = "commerce-win";
+  overlay.id = "communication-win";
 
   overlay.innerHTML = `
     <div class="win-box">
       <h2>🏴‍☠️ Bravo !</h2>
-      <p>Tu as gagné la quête Commerce</p>
+      <p>Tu as terminé la quête Commerce</p>
       <div class="gems-container"></div>
     </div>
   `;
 
   document.body.appendChild(overlay);
 
-  launchGemsExplosion(
-    overlay.querySelector(".gems-container")
-  );
-
+  // ⏳ petit délai pour laisser apparaître l’overlay
   setTimeout(() => {
-    location.href = "menu.html";
+    launchGemsExplosion(
+      overlay.querySelector(".gems-container")
+    );
+  }, 200);
+
+  // ⏭️ redirection finale
+  setTimeout(() => {
+    window.location.href = "menu.html";
   }, 4200);
 }
 
 function launchGemsExplosion(container){
   const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
 
-  for(let i=0;i<60;i++){
+  for(let i = 0; i < 50; i++){
     const gem = document.createElement("div");
     gem.className = "gem";
 
-    const size = Math.random()*10+8;
-    gem.style.width = size+"px";
-    gem.style.height = size+"px";
-    gem.style.background = colors[Math.floor(Math.random()*colors.length)];
+    const size = Math.random() * 10 + 8;
+    gem.style.width = size + "px";
+    gem.style.height = size + "px";
+    gem.style.background = colors[Math.floor(Math.random() * colors.length)];
 
-    // 🎯 ANCRAGE CENTRE ÉCRAN
+    // 🎯 point de départ centre écran
     gem.style.left = "50%";
     gem.style.top = "50%";
-    gem.style.position = "fixed";
 
-    const angle = Math.random()*Math.PI*2;
-    const distance = Math.random()*260+80;
+    const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * 260 + 80;
 
-    gem.style.setProperty("--x", Math.cos(angle)*distance+"px");
-    gem.style.setProperty("--y", Math.sin(angle)*distance+"px");
+    gem.style.setProperty("--x", Math.cos(angle) * distance + "px");
+    gem.style.setProperty("--y", Math.sin(angle) * distance + "px");
 
-    document.body.appendChild(gem);
-
-    setTimeout(() => gem.remove(), 1800);
+    container.appendChild(gem);
   }
 }
 
