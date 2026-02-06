@@ -242,29 +242,96 @@ function afterMiniGame1(){
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (NOUVELLE VERSION)
 ===================================================== */
 function startMiniGame2(){
   clearMiniGame();
 
+  /* ---------- ÉTAPE 1 : INTRO IDENTITÉ VISUELLE ---------- */
   const box = document.createElement("div");
   box.className = "mg2-box";
 
-  const q = document.createElement("div");
-  q.className = "mg2-question";
-  q.textContent = "Avant de créer ton univers visuel :";
+  const title = document.createElement("div");
+  title.className = "mg2-question";
+  title.textContent = "Crée ton identité visuelle";
+
+  const text = document.createElement("p");
+  text.innerHTML =
+    "Ton identité visuelle est ce qui permet à ta marque d’être reconnue, mémorisée et différenciée. " +
+    "Elle transmet tes valeurs, ton univers et la promesse que tu fais à ton public.";
 
   const infoBtn = document.createElement("button");
   infoBtn.className = "info-small";
   infoBtn.textContent = "En savoir plus";
 
-  const info = document.createElement("div");
-  info.className = "info-box hidden";
-  info.innerHTML = "• Ton message<br>• Ton public<br>• Ton style";
+  box.append(title, text, infoBtn);
+  miniGame.appendChild(box);
 
-  infoBtn.addEventListener("click",()=>info.classList.toggle("hidden"));
+  /* ---------- BOUTON CONTINUER LA QUÊTE (CACHÉ AU DÉPART) ---------- */
+  const continueQuest = document.createElement("button");
+  continueQuest.textContent = "Continuer la quête";
+  continueQuest.className = "skip-dialog";
+  continueQuest.style.top = "18px";
+  continueQuest.style.right = "20px";
+  continueQuest.style.display = "none";
 
-  box.append(q,infoBtn,info);
+  document.body.appendChild(continueQuest);
+
+  /* ---------- ÉTAPE 2 : IMPORTANCE DU LOGO ---------- */
+  infoBtn.addEventListener("click", () => {
+    infoBtn.disabled = true;
+    continueQuest.style.display = "block";
+
+    const logoBox = document.createElement("div");
+    logoBox.className = "info-box";
+
+    logoBox.innerHTML = `
+      <h3>L’importance du logo</h3>
+      <p>
+        Le logo est le symbole central de ton identité visuelle.  
+        Il permet à ta marque d’être immédiatement reconnaissable et mémorable.
+        <br><br>
+        Un bon logo doit être simple, lisible, cohérent avec ton univers
+        et fonctionner sur tous les supports (réseaux sociaux, site, print).
+      </p>
+    `;
+
+    const nextBtn = document.createElement("button");
+    nextBtn.textContent = "Continuer";
+
+    logoBox.appendChild(nextBtn);
+    box.appendChild(logoBox);
+
+    nextBtn.addEventListener("click", () => {
+      continueQuest.remove();
+      showLogoChoice();
+    });
+  });
+
+  /* ---------- SÉCURITÉ : CONTINUER LA QUÊTE ---------- */
+  continueQuest.addEventListener("click", () => {
+    continueQuest.remove();
+    showLogoChoice();
+  });
+}
+
+/* =====================================================
+   🖼️ CHOIX DU LOGO
+===================================================== */
+function showLogoChoice(){
+  clearMiniGame();
+
+  const box = document.createElement("div");
+  box.className = "mg2-box";
+
+  const title = document.createElement("div");
+  title.className = "mg2-question";
+  title.textContent = "Choisis ton logo";
+
+  const subtitle = document.createElement("p");
+  subtitle.textContent = "Le choix est libre";
+
+  box.append(title, subtitle);
   miniGame.appendChild(box);
 
   showImages(
@@ -272,41 +339,7 @@ function startMiniGame2(){
     startMiniGame3
   );
 }
-
-function showImages(list, cb){
-  const w = document.createElement("div");
-  w.className = "visualChoices big";
-
-  list.forEach(src=>{
-    const wrap = document.createElement("div");
-    wrap.className = "imgWrap";
-
-    const img = new Image();
-    img.src = src;
-    img.addEventListener("click", cb);
-
-    const zoom = document.createElement("button");
-    zoom.textContent = "🔎";
-    zoom.addEventListener("click", e=>{
-      e.stopPropagation();
-      zoomImage(src);
-    });
-
-    wrap.append(img, zoom);
-    w.appendChild(wrap);
-  });
-
-  miniGame.appendChild(w);
-}
-
-function zoomImage(src){
-  const f = document.createElement("div");
-  f.id = "fadeScreen";
-  f.innerHTML = `<img src="${src}" style="max-width:90%;max-height:90%">`;
-  document.body.appendChild(f);
-  f.addEventListener("click",()=>f.remove());
-}
-
+   
 /* =====================================================
    🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
 ===================================================== */
