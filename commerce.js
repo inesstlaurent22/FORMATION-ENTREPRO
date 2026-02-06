@@ -438,24 +438,29 @@ function showCommerceWin(){
 function launchGemsExplosion(container){
   const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
 
-  for(let i=0;i<42;i++){
+  for(let i=0;i<60;i++){
     const gem = document.createElement("div");
     gem.className = "gem";
 
-    const size = Math.random()*10+6;
+    const size = Math.random()*10+8;
     gem.style.width = size+"px";
     gem.style.height = size+"px";
     gem.style.background = colors[Math.floor(Math.random()*colors.length)];
+
+    // 🎯 ANCRAGE CENTRE ÉCRAN
     gem.style.left = "50%";
     gem.style.top = "50%";
+    gem.style.position = "fixed";
 
     const angle = Math.random()*Math.PI*2;
-    const distance = Math.random()*220+60;
+    const distance = Math.random()*260+80;
 
     gem.style.setProperty("--x", Math.cos(angle)*distance+"px");
     gem.style.setProperty("--y", Math.sin(angle)*distance+"px");
 
-    container.appendChild(gem);
+    document.body.appendChild(gem);
+
+    setTimeout(() => gem.remove(), 1800);
   }
 }
 
