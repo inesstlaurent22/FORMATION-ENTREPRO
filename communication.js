@@ -4,13 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
    🎬 VIDÉO INTRO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
-const introVideo = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
-const scene = document.getElementById("scene");
+const introVideo     = document.getElementById("questVideo");
+const toggleSound    = document.getElementById("toggleSound");
+const closeVideo     = document.getElementById("closeVideo");
+const scene          = document.getElementById("scene");
+
+let videoClosed = false;
 
 introVideo.muted = true;
 introVideo.playsInline = true;
+introVideo.autoplay = true;
 introVideo.style.pointerEvents = "none";
 
 introVideo.play().catch(()=>{});
@@ -21,10 +24,17 @@ toggleSound.onclick = e => {
   toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
 };
 
-closeVideo.onclick = () => endVideo();
-introVideo.onended = endVideo;
+closeVideo.onclick = e => {
+  e.stopPropagation();
+  closeIntro();
+};
 
-function endVideo(){
+introVideo.onended = closeIntro;
+
+function closeIntro(){
+  if(videoClosed) return;
+  videoClosed = true;
+  introVideo.pause();
   videoContainer.style.display = "none";
   scene.classList.remove("hidden");
 }
@@ -47,9 +57,9 @@ pirate3.onclick = () => {
 };
 
 /* =====================================================
-   💬 DIALOGUES
+   💬 DIALOGUES (AU-DESSUS DES PIRATES)
 ===================================================== */
-const dialogBox = document.getElementById("dialogBox");
+const dialogBox  = document.getElementById("dialogBox");
 const dialogText = document.getElementById("dialogText");
 const skipDialog = document.getElementById("skipDialog");
 
@@ -65,11 +75,16 @@ function playDialog(list, cb){
 function showDialog(){
   const d = dialogs[dIndex];
   dialogText.textContent = d.text;
+  const p = d.speaker==="pirate2"?pirate2:pirate3;
+  const r = p.getBoundingClientRect();
+
+  dialogBox.style.left = `${r.left+r.width/2-dialogBox.offsetWidth/2}px`;
+  dialogBox.style.top  = `${Math.max(20, r.top-dialogBox.offsetHeight-30)}px`;
 }
 
 dialogBox.onclick = () => {
   dIndex++;
-  dIndex < dialogs.length ? showDialog() : endDialogs();
+  dIndex<dialogs.length ? showDialog() : endDialogs();
 };
 
 skipDialog.onclick = e => {
@@ -80,7 +95,7 @@ skipDialog.onclick = e => {
 function endDialogs(){
   dialogBox.classList.add("hidden");
   skipDialog.classList.add("hidden");
-  if(dCallback){ const cb=dCallback; dCallback=null; cb(); }
+  dCallback && dCallback();
 }
 
 /* =====================================================
@@ -105,11 +120,11 @@ function shake(){
 /* =====================================================
    🎯 MINI-JEU 1 — COMMUNICATION
 ===================================================== */
-const quiz = [
-  {q:"À quoi sert la communication ?", ok:[0,1], a:["Être comprise","Créer une relation","Parler uniquement de soi"]},
-  {q:"Elle permet de :", ok:[0,1], a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"]},
-  {q:"Une bonne communication sert à :", ok:[0,1,2], a:["Transmettre un message","Se différencier","Construire une image"]},
-  {q:"Elle est essentielle pour :", ok:[0,1], a:["Guider le public","Créer du lien","Remplacer un produit"]}
+const quiz=[
+ {q:"À quoi sert principalement la communication ?",ok:[0,1],a:["Être comprise","Créer une relation","Parler uniquement de soi"]},
+ {q:"La communication permet de :",ok:[0,1],a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"]},
+ {q:"Une bonne communication sert à :",ok:[0,1,2],a:["Transmettre un message clair","Se différencier","Construire une image"]},
+ {q:"La communication est essentielle pour :",ok:[0,1],a:["Guider le public","Créer du lien","Remplacer un produit"]}
 ];
 
 let qi=0, found=[];
@@ -119,14 +134,9 @@ function startMiniGame1(){ qi=0; stepMG1(); }
 function stepMG1(){
   clearMiniGame(); found=[];
   const box=document.createElement("div"); box.className="mg1-box";
-
-  const q=document.createElement("div");
-  q.className="mg1-question";
-  q.textContent=quiz[qi].q;
-
-  const answers=document.createElement("div");
-  answers.className="mg1-answers";
-  answers.style.flexDirection="column";
+  const title=document.createElement("div"); title.className="mg1-title"; title.textContent="À quoi sert la communication ?";
+  const q=document.createElement("div"); q.className="mg1-question"; q.textContent=quiz[qi].q;
+  const a=document.createElement("div"); a.className="mg1-answers";
 
   quiz[qi].a.forEach((txt,i)=>{
     const b=document.createElement("button");
@@ -138,15 +148,13 @@ function stepMG1(){
       b.classList.add("pressed");
       b.disabled=true;
       if(found.length===quiz[qi].ok.length){
-        setTimeout(()=>{
-          qi++; qi<quiz.length ? stepMG1() : afterMG1();
-        },600);
+        setTimeout(()=>{ qi++; qi<quiz.length?stepMG1():afterMG1(); },700);
       }
     };
-    answers.appendChild(b);
+    a.appendChild(b);
   });
 
-  box.append(q,answers);
+  box.append(title,q,a);
   miniGame.appendChild(box);
 }
 
@@ -154,8 +162,8 @@ function afterMG1(){
   hideMiniGame();
   playDialog([
     {speaker:"pirate2",text:"Parfait."},
-    {speaker:"pirate3",text:"Créons maintenant ton identité visuelle."}
-  ], startIdentityIntro);
+    {speaker:"pirate3",text:"Passons à ton identité visuelle."}
+  ], startMiniGame2);
 }
 
 /* =====================================================
@@ -308,14 +316,68 @@ function showWinIdentity(){
 }
 
 /* =====================================================
-   🔗 MINI-JEU 3
+   🔗 MINI-JEU 3 — COMME AVANT
 ===================================================== */
 function startMiniGame3(){
-  clearMiniGame();
-  miniGame.innerHTML="<div class='mg3-question'>Associe chaque canal à son objectif</div>";
+  playDialog([
+    {speaker:"pirate2",text:"Ton identité est prête."},
+    {speaker:"pirate3",text:"Voyons comment la diffuser."}
+  ], launchMiniGame3);
 }
 
+function launchMiniGame3(){
+  clearMiniGame();
+  const box=document.createElement("div"); box.className="mg3-box";
+
+  const q=document.createElement("div");
+  q.className="mg3-question";
+  q.textContent="Associe chaque canal à son objectif";
+
+  const c=document.createElement("div"); c.className="mg3-container";
+  const l=document.createElement("div"); l.className="mg3-column";
+  const r=document.createElement("div"); r.className="mg3-column";
+
+  let sel=null, ok=0;
+
+  [["Instagram & TikTok","know"],["Facebook & LinkedIn","btob"],["Sites e-commerce","btoc"]]
+  .forEach(p=>{
+    const b=document.createElement("button");
+    b.className="mg3-left-btn";
+    b.textContent=p[0];
+    b.onclick=()=>sel={btn:b,key:p[1]};
+    l.appendChild(b);
+  });
+
+  [["Se faire connaître","know"],["Vendre en BtoB","btob"],["Vendre en BtoC","btoc"]]
+  .sort(()=>Math.random()-0.5)
+  .forEach(t=>{
+    const b=document.createElement("button");
+    b.textContent=t[0];
+    b.onclick=()=>{
+      if(!sel||sel.key!==t[1]){ shake(); return; }
+      sel.btn.remove(); b.remove(); sel=null; ok++;
+      if(ok===3) finish();
+    };
+    r.appendChild(b);
+  });
+
+  c.append(l,r);
+  box.append(q,c);
+  miniGame.appendChild(box);
+}
+
+function finish(){
+  sessionStorage.setItem("unlock_pirate5","true");
+  location.href="menu.html";
+}
+   
 /* =====================================================
-   FIN
+   🏁 FIN
 ===================================================== */
+function finish(){
+  hideMiniGame();
+  sessionStorage.setItem("unlock_pirate5","true");
+  location.href="menu.html";
+}
+
 });
