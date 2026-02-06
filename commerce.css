@@ -61,44 +61,31 @@ html, body{
 #closeVideo{ right:20px; }
 
 /* =====================================================
-   🌑 LOADER GLOBAL & FINAL (COMMUN)
+   🌑 LOADER GLOBAL & FINAL — 🏴‍☠️ SEUL
 ===================================================== */
 #fadeScreen{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.9);
   z-index:9000;
-
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
 .loaderBox{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  border:4px solid gold;
-  background:radial-gradient(circle, #2a1708, #120700);
-  box-shadow:
-    0 0 28px rgba(255,215,0,.85),
-    inset 0 0 16px rgba(0,0,0,.8);
-
   display:flex;
   align-items:center;
   justify-content:center;
-
-  animation:loaderRotate 1.2s linear infinite;
+  background:none;
+  border:none;
+  box-shadow:none;
+  animation:none;
 }
 
 .loaderBox::before{
   content:"🏴‍☠️";
-  font-size:40px;
-}
-
-@keyframes loaderRotate{
-  from{ transform:rotate(0deg); }
-  to{ transform:rotate(360deg); }
+  font-size:64px;
 }
 
 /* =====================================================
@@ -167,7 +154,7 @@ html, body{
 }
 
 /* =====================================================
-   ⏭️ PASSER DIALOGUES
+   ⏭️ PASSER LES DIALOGUES — TEXTE PLUS GRAND
 ===================================================== */
 #skipDialoguesBtn{
   position:fixed;
@@ -176,7 +163,8 @@ html, body{
   background:#1a1208;
   color:gold;
   border:3px solid gold;
-  padding:14px 20px;
+  padding:18px 26px;
+  font-size:20px;
   border-radius:14px;
   cursor:pointer;
   font-weight:bold;
@@ -184,7 +172,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX
+   🎮 MINI-JEUX — CONTAINERS
 ===================================================== */
 #communicationGame,
 #visualIdentityGame,
@@ -219,22 +207,26 @@ html, body{
   text-align:center;
 }
 
+/* =====================================================
+   ❓ QUESTIONS
+===================================================== */
 #commQuestion,
 .gameQuestion{
-  padding:12px;
+  padding:12px 14px;
   background:#f6e6b8;
   color:#2b1605;
   border-radius:12px;
   text-align:center;
+  font-weight:bold;
 }
 
 /* =====================================================
-   🔘 BOUTONS
+   🔘 BOUTONS — BASE
 ===================================================== */
 button{
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
-  padding:10px 16px;
+  padding:12px 18px;
   border-radius:14px;
   font-weight:bold;
   cursor:pointer;
@@ -253,7 +245,29 @@ button:disabled{
 }
 
 /* =====================================================
-   🏆 VICTOIRE — LOADER FINAL + EXPLOSION
+   🎮 MINI-JEU 1 — TEXTE NOIR + BOUTONS VERTICAUX
+===================================================== */
+#communicationGame button{
+  color:#000;
+  width:100%;
+}
+
+/* =====================================================
+   🎮 MINI-JEU 2 — TEXTE NOIR
+===================================================== */
+#visualIdentityGame button{
+  color:#000;
+}
+
+/* =====================================================
+   🎮 MINI-JEU 3 — TEXTE NOIR
+===================================================== */
+#merchantGame button{
+  color:#000;
+}
+
+/* =====================================================
+   🏆 VICTOIRE + EXPLOSION
 ===================================================== */
 #communication-win{
   position:fixed;
@@ -314,4 +328,5 @@ button:disabled{
 @media (max-width:768px){
   .pirate{ display:none; }
   .quizTitle{ font-size:22px; }
+  #skipDialoguesBtn{ font-size:18px; }
 }
