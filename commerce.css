@@ -61,7 +61,7 @@ html, body{
 #closeVideo{ right:20px; }
 
 /* =====================================================
-   🌑 LOADER GLOBAL & FINAL — 🏴‍☠️ SEUL
+   🌑 LOADER — 🏴‍☠️ SEUL (FORCÉ)
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -74,18 +74,17 @@ html, body{
 }
 
 .loaderBox{
+  background:none !important;
+  border:none !important;
+  box-shadow:none !important;
+  animation:none !important;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:none;
-  border:none;
-  box-shadow:none;
-  animation:none;
 }
 
-.loaderBox::before{
-  content:"🏴‍☠️";
-  font-size:64px;
+.loaderEmoji{
+  font-size:64px !important;
 }
 
 /* =====================================================
@@ -154,7 +153,7 @@ html, body{
 }
 
 /* =====================================================
-   ⏭️ PASSER LES DIALOGUES — TEXTE PLUS GRAND
+   ⏭️ PASSER LES DIALOGUES — PLUS GRAND
 ===================================================== */
 #skipDialoguesBtn{
   position:fixed;
@@ -164,7 +163,7 @@ html, body{
   color:gold;
   border:3px solid gold;
   padding:18px 26px;
-  font-size:20px;
+  font-size:20px !important;
   border-radius:14px;
   cursor:pointer;
   font-weight:bold;
@@ -172,7 +171,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX — CONTAINERS
+   🎮 MINI-JEUX — CONTENEURS
 ===================================================== */
 #communicationGame,
 #visualIdentityGame,
@@ -245,10 +244,16 @@ button:disabled{
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — TEXTE NOIR + BOUTONS VERTICAUX
+   🎮 MINI-JEU 1 — NOIR + VERTICAL (FORCÉ)
 ===================================================== */
+#commAnswers{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
 #communicationGame button{
-  color:#000;
+  color:#000 !important;
   width:100%;
 }
 
@@ -256,14 +261,14 @@ button:disabled{
    🎮 MINI-JEU 2 — TEXTE NOIR
 ===================================================== */
 #visualIdentityGame button{
-  color:#000;
+  color:#000 !important;
 }
 
 /* =====================================================
    🎮 MINI-JEU 3 — TEXTE NOIR
 ===================================================== */
 #merchantGame button{
-  color:#000;
+  color:#000 !important;
 }
 
 /* =====================================================
@@ -328,5 +333,5 @@ button:disabled{
 @media (max-width:768px){
   .pirate{ display:none; }
   .quizTitle{ font-size:22px; }
-  #skipDialoguesBtn{ font-size:18px; }
+  #skipDialoguesBtn{ font-size:18px !important; }
 }
