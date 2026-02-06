@@ -412,12 +412,12 @@ function showCommerceWin(){
   hideMiniGame();
 
   const overlay = document.createElement("div");
-  overlay.id = "communication-win";
+  overlay.id = "commerce-win";
 
   overlay.innerHTML = `
     <div class="win-box">
       <h2>🏴‍☠️ Bravo !</h2>
-      <p>Tu as gagné la quête Communication</p>
+      <p>Tu as gagné la quête Commerce</p>
       <div class="gems-container"></div>
     </div>
   `;
