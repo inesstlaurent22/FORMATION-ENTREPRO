@@ -368,6 +368,63 @@ button:active{
 }
 
 /* =====================================================
+   🏆 VICTOIRE — QUÊTE COMMUNICATION
+===================================================== */
+#communication-win{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:10000;
+}
+
+.win-box{
+  text-align:center;
+  color:#ffd77a;
+}
+
+.win-box h2{
+  font-size:34px;
+  margin-bottom:10px;
+  text-shadow:2px 2px 0 #2b1605;
+}
+
+.win-box p{
+  font-size:18px;
+  margin-bottom:30px;
+}
+
+.gems-container{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.gem{
+  position:absolute;
+  border-radius:50%;
+  animation:gemExplode 1.6s ease-out forwards;
+}
+
+@keyframes gemExplode{
+  0%{
+    transform:translate(-50%,-50%) scale(1);
+    opacity:1;
+  }
+  100%{
+    transform:
+      translate(
+        calc(-50% + var(--x)),
+        calc(-50% + var(--y))
+      )
+      scale(0);
+    opacity:0;
+  }
+}
+
+/* =====================================================
    📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
