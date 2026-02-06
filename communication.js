@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   🎬 VIDÉO INTRO — VERSION CORRIGÉE & STABLE
+   🎬 VIDÉO INTRO — VERSION STABLE
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const introVideo     = document.getElementById("questVideo");
@@ -11,51 +11,37 @@ const scene          = document.getElementById("scene");
 
 let videoClosed = false;
 
-/* Sécurité iOS / Safari */
 introVideo.muted = true;
 introVideo.playsInline = true;
 introVideo.autoplay = true;
-
-/* La vidéo ne doit jamais bloquer les clics */
 introVideo.style.pointerEvents = "none";
 
-/* Lecture sécurisée */
 const safePlay = () => {
   const p = introVideo.play();
   if (p !== undefined) p.catch(() => {});
 };
 safePlay();
 
-/* 🔊 TOGGLE SON */
-toggleSound.addEventListener("click", (e) => {
+toggleSound.addEventListener("click", e => {
   e.preventDefault();
   e.stopPropagation();
-
   introVideo.muted = !introVideo.muted;
   toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
 });
 
-/* ⏭️ PASSER LA VIDÉO */
-closeVideo.addEventListener("click", (e) => {
+closeVideo.addEventListener("click", e => {
   e.preventDefault();
   e.stopPropagation();
   closeIntroVideo();
 });
 
-/* Fin naturelle */
 introVideo.addEventListener("ended", closeIntroVideo);
 
-/* ✅ TRANSITION VIDÉO → SCÈNE (CORRECTION DÉFINITIVE) */
 function closeIntroVideo(){
   if (videoClosed) return;
   videoClosed = true;
-
   introVideo.pause();
-
-  /* Retire complètement la vidéo */
   videoContainer.style.display = "none";
-
-  /* Affiche la scène */
   scene.classList.remove("hidden");
   scene.style.display = "block";
 }
@@ -66,7 +52,6 @@ function closeIntroVideo(){
 const pirate3 = document.getElementById("pirate3");
 const pirate2 = document.getElementById("pirate2");
 
-/* Glow au démarrage */
 pirate3.classList.add("glow");
 
 pirate3.addEventListener("click", () => {
@@ -101,14 +86,10 @@ function playDialog(list, cb){
 function showDialog(){
   const d = dialogs[dialogIndex];
   dialogText.textContent = d.text;
-
   const p = d.speaker === "pirate2" ? pirate2 : pirate3;
   const r = p.getBoundingClientRect();
-
-  dialogBox.style.left =
-    `${r.left + r.width/2 - dialogBox.offsetWidth/2}px`;
-  dialogBox.style.top =
-    `${r.top - dialogBox.offsetHeight - 20}px`;
+  dialogBox.style.left = `${r.left + r.width/2 - dialogBox.offsetWidth/2}px`;
+  dialogBox.style.top  = `${r.top - dialogBox.offsetHeight - 20}px`;
 }
 
 dialogBox.addEventListener("click", () => {
@@ -116,7 +97,7 @@ dialogBox.addEventListener("click", () => {
   dialogIndex < dialogs.length ? showDialog() : endDialogs();
 });
 
-skipDialog.addEventListener("click", (e) => {
+skipDialog.addEventListener("click", e => {
   e.preventDefault();
   e.stopPropagation();
   endDialogs();
@@ -155,26 +136,10 @@ function shake(){
    🎯 MINI-JEU 1 — COMMUNICATION
 ===================================================== */
 const quiz = [
-  {
-    q:"À quoi sert principalement la communication ?",
-    ok:[0,1],
-    a:["Être comprise","Créer une relation","Parler uniquement de soi"]
-  },
-  {
-    q:"La communication permet de :",
-    ok:[0,1],
-    a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"]
-  },
-  {
-    q:"Une bonne communication sert à :",
-    ok:[0,1,2],
-    a:["Transmettre un message clair","Se différencier","Construire une image"]
-  },
-  {
-    q:"La communication est essentielle pour :",
-    ok:[0,1],
-    a:["Guider le public","Créer du lien","Remplacer un produit"]
-  }
+  { q:"À quoi sert principalement la communication ?", ok:[0,1], a:["Être comprise","Créer une relation","Parler uniquement de soi"] },
+  { q:"La communication permet de :", ok:[0,1], a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"] },
+  { q:"Une bonne communication sert à :", ok:[0,1,2], a:["Transmettre un message clair","Se différencier","Construire une image"] },
+  { q:"La communication est essentielle pour :", ok:[0,1], a:["Guider le public","Créer du lien","Remplacer un produit"] }
 ];
 
 let qIndex = 0;
@@ -235,72 +200,69 @@ function stepMiniGame1(){
 
 function afterMiniGame1(){
   hideMiniGame();
-  playDialog([
-    { speaker:"pirate2", text:"Parfait." },
-    { speaker:"pirate3", text:"Passons à ton identité visuelle." }
-  ], startMiniGame2);
+  playDialog(
+    [
+      { speaker:"pirate2", text:"Parfait." },
+      { speaker:"pirate3", text:"Passons à ton identité visuelle." }
+    ],
+    startMiniGame2
+  );
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (NOUVELLE VERSION)
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (VERSION CORRIGÉE)
 ===================================================== */
 function startMiniGame2(){
   clearMiniGame();
 
-  /* ---------- ÉTAPE 1 : INTRO IDENTITÉ VISUELLE ---------- */
   const box = document.createElement("div");
   box.className = "mg2-box";
 
   const title = document.createElement("div");
-  title.className = "mg2-question";
+  title.className = "mg1-title";
   title.textContent = "Crée ton identité visuelle";
 
-  const text = document.createElement("p");
-  text.innerHTML =
-    "Ton identité visuelle est ce qui permet à ta marque d’être reconnue, mémorisée et différenciée. " +
-    "Elle transmet tes valeurs, ton univers et la promesse que tu fais à ton public.";
+  const intro = document.createElement("p");
+  intro.textContent =
+    "Ton identité visuelle permet à ta marque d’être reconnue, mémorisée et crédible.";
 
   const infoBtn = document.createElement("button");
   infoBtn.className = "info-small";
   infoBtn.textContent = "En savoir plus";
 
-  box.append(title, text, infoBtn);
+  box.append(title, intro, infoBtn);
   miniGame.appendChild(box);
 
-  /* ---------- BOUTON CONTINUER LA QUÊTE (CACHÉ AU DÉPART) ---------- */
   const continueQuest = document.createElement("button");
   continueQuest.textContent = "Continuer la quête";
   continueQuest.className = "skip-dialog";
-  continueQuest.style.top = "18px";
-  continueQuest.style.right = "20px";
   continueQuest.style.display = "none";
-
   document.body.appendChild(continueQuest);
 
-  /* ---------- ÉTAPE 2 : IMPORTANCE DU LOGO ---------- */
   infoBtn.addEventListener("click", () => {
     infoBtn.disabled = true;
     continueQuest.style.display = "block";
 
-    const logoBox = document.createElement("div");
-    logoBox.className = "info-box";
-
-    logoBox.innerHTML = `
-      <h3>L’importance du logo</h3>
+    const infoBox = document.createElement("div");
+    infoBox.className = "info-box";
+    infoBox.innerHTML = `
+      <div class="mg1-title">L’importance de l’identité visuelle</div>
       <p>
-        Le logo est le symbole central de ton identité visuelle.  
-        Il permet à ta marque d’être immédiatement reconnaissable et mémorable.
+        • Ton message<br>
+        • Ton public cible<br>
+        • Ce que tu veux faire ressentir<br>
+        • Ton univers visuel (couleurs, formes, style)
         <br><br>
-        Un bon logo doit être simple, lisible, cohérent avec ton univers
-        et fonctionner sur tous les supports (réseaux sociaux, site, print).
+        Une identité visuelle forte permet à ta marque d’être reconnue,
+        mémorisée et crédible.
       </p>
     `;
 
     const nextBtn = document.createElement("button");
     nextBtn.textContent = "Continuer";
 
-    logoBox.appendChild(nextBtn);
-    box.appendChild(logoBox);
+    infoBox.appendChild(nextBtn);
+    box.appendChild(infoBox);
 
     nextBtn.addEventListener("click", () => {
       continueQuest.remove();
@@ -308,7 +270,6 @@ function startMiniGame2(){
     });
   });
 
-  /* ---------- SÉCURITÉ : CONTINUER LA QUÊTE ---------- */
   continueQuest.addEventListener("click", () => {
     continueQuest.remove();
     showLogoChoice();
@@ -325,7 +286,7 @@ function showLogoChoice(){
   box.className = "mg2-box";
 
   const title = document.createElement("div");
-  title.className = "mg2-question";
+  title.className = "mg1-title";
   title.textContent = "Choisis ton logo";
 
   const subtitle = document.createElement("p");
@@ -339,16 +300,56 @@ function showLogoChoice(){
     startMiniGame3
   );
 }
-   
+
+/* =====================================================
+   🖼️ IMAGES + ZOOM
+===================================================== */
+function showImages(list, cb){
+  const w = document.createElement("div");
+  w.className = "visualChoices big";
+
+  list.forEach(src=>{
+    const wrap = document.createElement("div");
+    wrap.className = "imgWrap";
+
+    const img = new Image();
+    img.src = src;
+    img.addEventListener("click", cb);
+
+    const zoom = document.createElement("button");
+    zoom.textContent = "🔎";
+    zoom.addEventListener("click", e=>{
+      e.stopPropagation();
+      zoomImage(src);
+    });
+
+    wrap.append(img, zoom);
+    w.appendChild(wrap);
+  });
+
+  miniGame.appendChild(w);
+}
+
+function zoomImage(src){
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
+  f.innerHTML = `<img src="${src}" style="max-width:90%;max-height:90%">`;
+  document.body.appendChild(f);
+  f.addEventListener("click", ()=>f.remove());
+}
+
 /* =====================================================
    🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
 ===================================================== */
 function startMiniGame3(){
   hideMiniGame();
-  playDialog([
-    { speaker:"pirate2", text:"Ton identité est prête." },
-    { speaker:"pirate3", text:"Voyons comment la diffuser." }
-  ], launchMiniGame3);
+  playDialog(
+    [
+      { speaker:"pirate2", text:"Ton identité est prête." },
+      { speaker:"pirate3", text:"Voyons comment la diffuser." }
+    ],
+    launchMiniGame3
+  );
 }
 
 function launchMiniGame3(){
