@@ -341,66 +341,59 @@ button:disabled {
 }
 
 /* =====================================================
-   🏆 LOADER FINAL — ÉCRAN VICTOIRE
+   🏆 VICTOIRE — QUÊTE COMMERCE
 ===================================================== */
-#finalLoader {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  z-index: 8000;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#commerce-win{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:10000;
 }
 
-.finalWinBox {
-  padding: 32px 38px;
-  background: linear-gradient(145deg, #1a1208, #000);
-  border: 4px solid gold;
-  border-radius: 20px;
-
-  font-family: "Pirata One", serif;
-  font-size: 26px;
-  color: gold;
-  text-align: center;
-
-  box-shadow:
-    0 0 50px rgba(255,215,0,1),
-    inset 0 0 20px rgba(0,0,0,.8);
-
-  animation: victoryPop .6s ease-out;
+.win-box{
+  text-align:center;
+  color:#ffd77a;
 }
 
-@keyframes victoryPop {
-  from { transform: scale(.6); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+.win-box h2{
+  font-size:34px;
+  margin-bottom:10px;
+  text-shadow:2px 2px 0 #2b1605;
 }
 
-/* =====================================================
-   💎 GEMS — EXPLOSION MULTICOLORE (VISIBLE)
-===================================================== */
-.gem {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  pointer-events: none;
-
-  /* 🔥 AU-DESSUS DE TOUT */
-  z-index: 12000;
-
-  animation: gemExplode 1.6s ease-out forwards;
+.win-box p{
+  font-size:18px;
+  margin-bottom:30px;
 }
 
-@keyframes gemExplode {
-  0% {
-    transform: translate(0,0) scale(1);
-    opacity: 1;
+.gems-container{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.gem{
+  position:absolute;
+  border-radius:50%;
+  animation:gemExplode 1.6s ease-out forwards;
+}
+
+@keyframes gemExplode{
+  0%{
+    transform:translate(-50%,-50%) scale(1);
+    opacity:1;
   }
-  100% {
-    transform: translate(var(--x), var(--y)) scale(0);
-    opacity: 0;
+  100%{
+    transform:
+      translate(
+        calc(-50% + var(--x)),
+        calc(-50% + var(--y))
+      )
+      scale(0);
+    opacity:0;
   }
 }
 
