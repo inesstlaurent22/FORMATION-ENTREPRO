@@ -105,6 +105,7 @@ html,body{
   background-image:url("images/Pirate2.png");
 }
 
+/* ✨ Glow pirate 3 */
 #pirate3.glow{
   animation:pirateGlow 1.2s infinite;
 }
@@ -136,7 +137,7 @@ html,body{
 }
 
 /* =====================================================
-   ⏭️ BOUTONS FIXES
+   ⏭️ SKIP / BOUTON QUÊTE
 ===================================================== */
 .skip-dialog{
   position:fixed;
@@ -214,7 +215,7 @@ button:disabled{
   gap:14px;
 }
 
-/* TITRES (mini-jeu 1 & 2 & 3) */
+/* TITRES STYLE PIRATE */
 .mg1-title{
   font-family:"Pirata One", serif;
   font-size:26px;
@@ -225,7 +226,6 @@ button:disabled{
   text-shadow:2px 2px 0 #2b1605;
 }
 
-/* QUESTIONS / ENCARTS */
 .mg1-question,
 .mg2-question,
 .mg3-question{
@@ -240,26 +240,16 @@ button:disabled{
   text-align:center;
 }
 
-/* TEXTE EXPLICATIF */
-.mg2-box p{
-  font-size:14px;
-  line-height:1.5;
-  opacity:.95;
-}
-
-/* LISTES DE CONSEILS */
-.mg2-box ul{
-  text-align:left;
-  margin:10px auto;
-  padding-left:18px;
-}
-
-.mg2-box li{
-  margin-bottom:6px;
+.mg1-answers,
+.mg2-answers,
+.mg3-answers{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 
 /* =====================================================
-   🌪️ SHAKE — MINI-JEUX
+   🌪️ SHAKE MINI-JEUX
 ===================================================== */
 #miniGameContainer.screen-shake{
   animation:miniShake .4s;
@@ -274,8 +264,19 @@ button:disabled{
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IMAGES + ZOOM
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
+.info-box{
+  margin:14px auto;
+  padding:14px;
+  border:2px solid gold;
+  border-radius:14px;
+  background:#1a1208;
+  max-width:500px;
+  text-align:center;
+}
+
+/* Images + zoom */
 .visualChoices.big{
   display:flex;
   justify-content:center;
@@ -298,27 +299,7 @@ button:disabled{
 }
 
 /* =====================================================
-   🔍 OVERLAY ZOOM IMAGE
-===================================================== */
-#fadeScreen{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:100000;
-}
-
-#fadeScreen img{
-  max-width:90%;
-  max-height:90%;
-  border:4px solid gold;
-  border-radius:16px;
-}
-
-/* =====================================================
-   🔗 MINI-JEU 3 — RÉSEAUX
+   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
 ===================================================== */
 .mg3-container{
   display:flex;
@@ -337,6 +318,20 @@ button:disabled{
   background:linear-gradient(145deg,#1a1208,#3b2208);
   color:gold;
   border-color:gold;
+}
+
+/* =====================================================
+   🖼️ ZOOM IMAGE
+===================================================== */
+#fadeScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
 }
 
 /* =====================================================
