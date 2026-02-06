@@ -400,11 +400,10 @@ function startFinalDialogues() {
 function startMiniGame3() {
   game3.classList.remove("hidden");
 
-  // ⏳ petit délai pour laisser apparaître le mini-jeu
-  setTimeout(() => {
-    game3.classList.add("hidden");
-    showCommerceWin(); // 💎 loader final + explosion de gems
-  }, 800);
+  btnKeep.onclick = () => {
+    game3.classList.add("hidden"); // ⬅️ cache AVANT
+    showCommerceWin();             // 💎 explosion visible
+  };
 }
 
 /* =====================================================
