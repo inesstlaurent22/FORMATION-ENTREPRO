@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   🎬 VIDÉO INTRO — COMPATIBLE HTML ACTUEL
+   🎬 VIDÉO INTRO — VERSION CORRIGÉE & STABLE
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const introVideo     = document.getElementById("questVideo");
@@ -11,28 +11,31 @@ const scene          = document.getElementById("scene");
 
 let videoClosed = false;
 
-/* La vidéo ne doit JAMAIS capter les clics */
-introVideo.style.pointerEvents = "none";
-
-/* iOS / Safari safe */
+/* Sécurité iOS / Safari */
 introVideo.muted = true;
 introVideo.playsInline = true;
+introVideo.autoplay = true;
+
+/* La vidéo ne doit jamais bloquer les clics */
+introVideo.style.pointerEvents = "none";
 
 /* Lecture sécurisée */
-const playPromise = introVideo.play();
-if (playPromise !== undefined) {
-  playPromise.catch(() => {});
-}
+const safePlay = () => {
+  const p = introVideo.play();
+  if (p !== undefined) p.catch(() => {});
+};
+safePlay();
 
-/* 🔊 Activer / couper le son */
+/* 🔊 TOGGLE SON */
 toggleSound.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
+
   introVideo.muted = !introVideo.muted;
   toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
 });
 
-/* ⏭️ Passer la vidéo */
+/* ⏭️ PASSER LA VIDÉO */
 closeVideo.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
@@ -42,13 +45,19 @@ closeVideo.addEventListener("click", (e) => {
 /* Fin naturelle */
 introVideo.addEventListener("ended", closeIntroVideo);
 
+/* ✅ TRANSITION VIDÉO → SCÈNE (CORRECTION DÉFINITIVE) */
 function closeIntroVideo(){
   if (videoClosed) return;
   videoClosed = true;
 
   introVideo.pause();
-  videoContainer.classList.add("hidden");
+
+  /* Retire complètement la vidéo */
+  videoContainer.style.display = "none";
+
+  /* Affiche la scène */
   scene.classList.remove("hidden");
+  scene.style.display = "block";
 }
 
 /* =====================================================
@@ -57,14 +66,15 @@ function closeIntroVideo(){
 const pirate3 = document.getElementById("pirate3");
 const pirate2 = document.getElementById("pirate2");
 
+/* Glow au démarrage */
 pirate3.classList.add("glow");
 
 pirate3.addEventListener("click", () => {
   pirate3.classList.remove("glow");
   playDialog([
-    { speaker: "pirate3", text: "Capitaine, ton trésor est prêt." },
-    { speaker: "pirate2", text: "Mais sans communication, personne ne viendra." },
-    { speaker: "pirate3", text: "Voyons comment attirer le marché." }
+    { speaker:"pirate3", text:"Capitaine, ton trésor est prêt." },
+    { speaker:"pirate2", text:"Mais sans communication, personne ne viendra." },
+    { speaker:"pirate3", text:"Voyons comment attirer le marché." }
   ], startMiniGame1);
 });
 
@@ -96,7 +106,7 @@ function showDialog(){
   const r = p.getBoundingClientRect();
 
   dialogBox.style.left =
-    `${r.left + r.width / 2 - dialogBox.offsetWidth / 2}px`;
+    `${r.left + r.width/2 - dialogBox.offsetWidth/2}px`;
   dialogBox.style.top =
     `${r.top - dialogBox.offsetHeight - 20}px`;
 }
@@ -109,14 +119,13 @@ dialogBox.addEventListener("click", () => {
 skipDialog.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
-  dialogIndex = dialogs.length;
   endDialogs();
 });
 
 function endDialogs(){
   dialogBox.classList.add("hidden");
   skipDialog.classList.add("hidden");
-  if (dialogCallback) {
+  if (dialogCallback){
     const cb = dialogCallback;
     dialogCallback = null;
     cb();
@@ -147,24 +156,24 @@ function shake(){
 ===================================================== */
 const quiz = [
   {
-    q: "À quoi sert principalement la communication ?",
-    ok: [0,1],
-    a: ["Être comprise", "Créer une relation", "Parler uniquement de soi"]
+    q:"À quoi sert principalement la communication ?",
+    ok:[0,1],
+    a:["Être comprise","Créer une relation","Parler uniquement de soi"]
   },
   {
-    q: "La communication permet de :",
-    ok: [0,1],
-    a: ["Attirer l’attention", "Créer de l’émotion", "Garantir des ventes"]
+    q:"La communication permet de :",
+    ok:[0,1],
+    a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"]
   },
   {
-    q: "Une bonne communication sert à :",
-    ok: [0,1,2],
-    a: ["Transmettre un message clair", "Se différencier", "Construire une image"]
+    q:"Une bonne communication sert à :",
+    ok:[0,1,2],
+    a:["Transmettre un message clair","Se différencier","Construire une image"]
   },
   {
-    q: "La communication est essentielle pour :",
-    ok: [0,1],
-    a: ["Guider le public", "Créer du lien", "Remplacer un produit"]
+    q:"La communication est essentielle pour :",
+    ok:[0,1],
+    a:["Guider le public","Créer du lien","Remplacer un produit"]
   }
 ];
 
@@ -194,12 +203,12 @@ function stepMiniGame1(){
   const answers = document.createElement("div");
   answers.className = "mg1-answers";
 
-  quiz[qIndex].a.forEach((txt, i) => {
+  quiz[qIndex].a.forEach((txt,i)=>{
     const b = document.createElement("button");
     b.textContent = txt;
 
-    b.addEventListener("click", () => {
-      if (!quiz[qIndex].ok.includes(i)) {
+    b.addEventListener("click",()=>{
+      if (!quiz[qIndex].ok.includes(i)){
         shake();
         return;
       }
@@ -209,30 +218,27 @@ function stepMiniGame1(){
       b.classList.add("pressed");
       b.disabled = true;
 
-      if (found.length === quiz[qIndex].ok.length) {
-        setTimeout(() => {
+      if (found.length === quiz[qIndex].ok.length){
+        setTimeout(()=>{
           qIndex++;
           qIndex < quiz.length ? stepMiniGame1() : afterMiniGame1();
-        }, 700);
+        },700);
       }
     });
 
     answers.appendChild(b);
   });
 
-  box.append(title, question, answers);
+  box.append(title,question,answers);
   miniGame.appendChild(box);
 }
 
 function afterMiniGame1(){
   hideMiniGame();
-  playDialog(
-    [
-      { speaker: "pirate2", text: "Parfait." },
-      { speaker: "pirate3", text: "Passons à ton identité visuelle." }
-    ],
-    startMiniGame2
-  );
+  playDialog([
+    { speaker:"pirate2", text:"Parfait." },
+    { speaker:"pirate3", text:"Passons à ton identité visuelle." }
+  ], startMiniGame2);
 }
 
 /* =====================================================
@@ -256,9 +262,9 @@ function startMiniGame2(){
   info.className = "info-box hidden";
   info.innerHTML = "• Ton message<br>• Ton public<br>• Ton style";
 
-  infoBtn.addEventListener("click", () => info.classList.toggle("hidden"));
+  infoBtn.addEventListener("click",()=>info.classList.toggle("hidden"));
 
-  box.append(q, infoBtn, info);
+  box.append(q,infoBtn,info);
   miniGame.appendChild(box);
 
   showImages(
@@ -271,7 +277,7 @@ function showImages(list, cb){
   const w = document.createElement("div");
   w.className = "visualChoices big";
 
-  list.forEach(src => {
+  list.forEach(src=>{
     const wrap = document.createElement("div");
     wrap.className = "imgWrap";
 
@@ -281,7 +287,7 @@ function showImages(list, cb){
 
     const zoom = document.createElement("button");
     zoom.textContent = "🔎";
-    zoom.addEventListener("click", e => {
+    zoom.addEventListener("click", e=>{
       e.stopPropagation();
       zoomImage(src);
     });
@@ -298,7 +304,7 @@ function zoomImage(src){
   f.id = "fadeScreen";
   f.innerHTML = `<img src="${src}" style="max-width:90%;max-height:90%">`;
   document.body.appendChild(f);
-  f.addEventListener("click", () => f.remove());
+  f.addEventListener("click",()=>f.remove());
 }
 
 /* =====================================================
@@ -306,13 +312,10 @@ function zoomImage(src){
 ===================================================== */
 function startMiniGame3(){
   hideMiniGame();
-  playDialog(
-    [
-      { speaker: "pirate2", text: "Ton identité est prête." },
-      { speaker: "pirate3", text: "Voyons comment la diffuser." }
-    ],
-    launchMiniGame3
-  );
+  playDialog([
+    { speaker:"pirate2", text:"Ton identité est prête." },
+    { speaker:"pirate3", text:"Voyons comment la diffuser." }
+  ], launchMiniGame3);
 }
 
 function launchMiniGame3(){
@@ -349,19 +352,19 @@ function launchMiniGame3(){
     ["Vendre en BtoC","btoc"]
   ]);
 
-  leftData.forEach(p => {
+  leftData.forEach(p=>{
     const b = document.createElement("button");
     b.className = "mg3-left-btn";
     b.textContent = p[0];
-    b.addEventListener("click", () => selected = { btn: b, key: p[1] });
+    b.addEventListener("click",()=>selected={btn:b,key:p[1]});
     left.appendChild(b);
   });
 
-  rightData.forEach(t => {
+  rightData.forEach(t=>{
     const b = document.createElement("button");
     b.textContent = t[0];
-    b.addEventListener("click", () => {
-      if (!selected || selected.key !== t[1]) {
+    b.addEventListener("click",()=>{
+      if (!selected || selected.key !== t[1]){
         shake();
         return;
       }
@@ -374,13 +377,13 @@ function launchMiniGame3(){
     right.appendChild(b);
   });
 
-  container.append(left, right);
-  box.append(q, container);
+  container.append(left,right);
+  box.append(q,container);
   miniGame.appendChild(box);
 }
 
 function shuffle(arr){
-  return arr.sort(() => Math.random() - 0.5);
+  return arr.sort(()=>Math.random()-0.5);
 }
 
 /* =====================================================
@@ -388,7 +391,7 @@ function shuffle(arr){
 ===================================================== */
 function finish(){
   hideMiniGame();
-  sessionStorage.setItem("unlock_pirate5", "true");
+  sessionStorage.setItem("unlock_pirate5","true");
   location.href = "menu.html";
 }
 
