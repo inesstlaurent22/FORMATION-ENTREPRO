@@ -1,349 +1,261 @@
 /* =====================================================
    RESET & BASE — KIT IN
 ===================================================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  background: #000;
-  color: #f5e6c8;
-  overflow: hidden;
+html, body{
+  width:100%;
+  height:100%;
+  font-family:"Trebuchet MS", Arial, sans-serif;
+  background:#000;
+  color:#f5e6c8;
+  overflow:hidden;
 }
 
-.hidden {
-  display: none !important;
+.hidden{
+  display:none !important;
 }
 
 /* =====================================================
    🎬 VIDÉO INTRO
 ===================================================== */
-#videoContainer {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  z-index: 3000;
+#videoContainer{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:3000;
 }
 
-#questVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+#questVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-#videoControls {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+#videoControls{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
 }
 
-#videoControls button {
-  position: absolute;
-  top: 18px;
-  background: #1a1208;
-  color: gold;
-  border: 3px solid gold;
-  padding: 14px 20px;
-  font-size: 17px;
-  border-radius: 14px;
-  cursor: pointer;
-  font-weight: bold;
-  z-index: 3001;
-  pointer-events: auto;
+#videoControls button{
+  position:absolute;
+  top:18px;
+  background:#1a1208;
+  color:gold;
+  border:3px solid gold;
+  padding:14px 20px;
+  font-size:16px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:bold;
+  pointer-events:auto;
+  z-index:3001;
 }
 
-#toggleSound { right: 200px; }
-#closeVideo  { right: 20px; }
+#toggleSound{ right:200px; }
+#closeVideo{ right:20px; }
 
 /* =====================================================
-   🌑 LOADER GLOBAL — CENTRÉ GARANTI
+   🌑 LOADER GLOBAL & FINAL (COMMUN)
 ===================================================== */
-#fadeScreen {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  z-index: 4000;
+#fadeScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  z-index:9000;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-/* Cercle qui tourne */
-.loaderBox {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: 4px solid gold;
-  background: radial-gradient(circle, #2a1708, #120700);
+.loaderBox{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  border:4px solid gold;
+  background:radial-gradient(circle, #2a1708, #120700);
   box-shadow:
     0 0 28px rgba(255,215,0,.85),
     inset 0 0 16px rgba(0,0,0,.8);
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  animation: loaderRotate 1.2s linear infinite;
+  animation:loaderRotate 1.2s linear infinite;
 }
 
-/* Emoji DANS le cercle (centré, indépendant du JS) */
-.loaderBox span,
-.loaderBox::before {
-  content: "🏴‍☠️";
-  font-size: 40px;
-  line-height: 1;
-  position: absolute;
+.loaderBox::before{
+  content:"🏴‍☠️";
+  font-size:40px;
 }
 
-@keyframes loaderRotate {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+@keyframes loaderRotate{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
 }
 
 /* =====================================================
    🌅 BACKGROUND
 ===================================================== */
-#background {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
+#background{
+  position:fixed;
+  inset:0;
+  z-index:1;
 }
 
-.fondImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.fondImage{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 /* =====================================================
    🏴‍☠️ PIRATES
 ===================================================== */
-.pirate {
-  position: absolute;
-  z-index: 2;
-  cursor: pointer;
+.pirate{
+  position:absolute;
+  z-index:2;
+  cursor:pointer;
 }
 
-#pirate2bis { left: 500px; top: 410px; width: 186px; }
-#pirate5bis { left: 830px; top: 286px; width: 143px; }
-#pirate3bis { left: 638px; top: 177px; width: 235px; }
+#pirate2bis{ left:500px; top:410px; width:186px; }
+#pirate5bis{ left:830px; top:286px; width:143px; }
+#pirate3bis{ left:638px; top:177px; width:235px; }
 
 /* =====================================================
-   ✨ ILLUMINATION PIRATES (5 & 3)
+   ✨ ILLUMINATION PIRATES
 ===================================================== */
-#pirate5bis:hover,
-#pirate3bis:hover {
-  animation: glowPulse 1.2s infinite;
+.glowStart{
+  animation:glowPulse 1.2s infinite;
 }
 
-.glowStart {
-  animation: glowPulse 1.2s infinite;
-}
-
-@keyframes glowPulse {
-  0% {
-    filter: drop-shadow(0 0 8px gold);
-    transform: scale(1);
-  }
-  50% {
-    filter: drop-shadow(0 0 28px gold);
-    transform: scale(1.06);
-  }
-  100% {
-    filter: drop-shadow(0 0 8px gold);
-    transform: scale(1);
-  }
-}
-
-/* ❌ STOP TOTAL AU CLIC */
-.pirate.locked,
-.pirate.locked:hover {
-  animation: none !important;
-  filter: none !important;
-  transform: none !important;
+@keyframes glowPulse{
+  0%{ filter:drop-shadow(0 0 8px gold); transform:scale(1); }
+  50%{ filter:drop-shadow(0 0 28px gold); transform:scale(1.06); }
+  100%{ filter:drop-shadow(0 0 8px gold); transform:scale(1); }
 }
 
 /* =====================================================
    💬 BULLES DE DIALOGUE
 ===================================================== */
-#bubbleContainer {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  pointer-events: none;
+#bubbleContainer{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  pointer-events:none;
 }
 
-.dialogue-bubble {
-  position: absolute;
-  max-width: 260px;
-  padding: 10px 14px;
-  background: rgba(0,0,0,0.85);
-  color: #f5e6c8;
-  border: 2px solid gold;
-  border-radius: 12px;
-  font-size: 14px;
-  line-height: 1.4;
-  box-shadow: 0 0 18px rgba(255,215,0,.45);
-  cursor: pointer;
-  pointer-events: auto;
+.dialogue-bubble{
+  position:absolute;
+  max-width:260px;
+  padding:10px 14px;
+  background:rgba(0,0,0,.85);
+  color:#f5e6c8;
+  border:2px solid gold;
+  border-radius:12px;
+  font-size:14px;
+  box-shadow:0 0 18px rgba(255,215,0,.45);
+  pointer-events:auto;
+  cursor:pointer;
 }
 
 /* =====================================================
-   ⏭️ PASSER LES DIALOGUES — FIX DÉFINITIF TOP RIGHT
+   ⏭️ PASSER DIALOGUES
 ===================================================== */
-#skipDialoguesBtn {
-  position: fixed;
-  top: 18px;
-  right: 20px;
-
-  /* ⛔️ empêche toute influence de transform parent */
-  left: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-
-  background: #1a1208;
-  color: gold;
-  border: 3px solid gold;
-  padding: 14px 20px;
-  font-size: 16px;
-  border-radius: 14px;
-  cursor: pointer;
-  font-weight: bold;
-
-  z-index: 10000;
-  pointer-events: auto;
-
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.5),
-    0 0 14px rgba(255,215,0,.4);
-}
-
-#skipDialoguesBtn.hidden {
-  display: none !important;
+#skipDialoguesBtn{
+  position:fixed;
+  top:18px;
+  right:20px;
+  background:#1a1208;
+  color:gold;
+  border:3px solid gold;
+  padding:14px 20px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:bold;
+  z-index:10000;
 }
 
 /* =====================================================
-   🎮 MINI-JEUX — STYLE UNIQUE (RÉF MINI-JEU 1)
+   🎮 MINI-JEUX
 ===================================================== */
 #communicationGame,
 #visualIdentityGame,
-#merchantGame {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(96%, 620px);
-  background: #120b05;
-  border: 4px solid gold;
-  border-radius: 22px;
-  padding: 26px;
-  z-index: 10;
-  box-shadow: 0 0 40px rgba(255,215,0,.45);
+#merchantGame{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:min(96%,620px);
+  background:#120b05;
+  border:4px solid gold;
+  border-radius:22px;
+  padding:26px;
+  z-index:10;
+  box-shadow:0 0 40px rgba(255,215,0,.45);
 }
 
-.quizBox {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.quizBox{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
-/* TITRES */
-.quizTitle {
-  font-family: "Pirata One", serif;
-  font-size: 26px;
-  text-align: center;
-  color: #ffd77a;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 0 #2b1605;
+.quizTitle{
+  font-size:26px;
+  text-align:center;
+  color:#ffd77a;
 }
 
-/* INTRO */
-.quizIntro {
-  font-family: "Cinzel", serif;
-  font-size: 14px;
-  text-align: center;
-  color: #f0e1b8;
+.quizIntro{
+  font-size:14px;
+  text-align:center;
 }
 
-/* QUESTION */
 #commQuestion,
-.gameQuestion {
-  font-family: "Cinzel", serif;
-  font-size: 16px;
-  font-weight: 700;
-  padding: 12px 14px;
-  background: linear-gradient(145deg, #f6e6b8, #e1c37a);
-  color: #2b1605;
-  border: 3px solid #a57c2f;
-  border-radius: 12px;
-  text-align: center;
-}
-
-/* RÉPONSES */
-#commAnswers,
-#visualChoices,
-.merchantChoices {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.gameQuestion{
+  padding:12px;
+  background:#f6e6b8;
+  color:#2b1605;
+  border-radius:12px;
+  text-align:center;
 }
 
 /* =====================================================
-   🔘 BOUTONS — STYLE MINI-JEU 1
+   🔘 BOUTONS
 ===================================================== */
-button {
-  background: linear-gradient(145deg, #7b4a12, #caa14a);
-  border: 3px solid #3b2208;
-  color: #1a0f05;
-  font-weight: bold;
-  font-size: 14px;
-  padding: 10px 16px;
-  border-radius: 14px;
-  cursor: pointer;
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
+button{
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  border:3px solid #3b2208;
+  padding:10px 16px;
+  border-radius:14px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 4px 0 #3b2208;
 }
 
 button:active,
-button.pressed {
-  transform: translateY(4px);
-  box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
+button.pressed{
+  transform:translateY(4px);
+  box-shadow:0 1px 0 #3b2208;
 }
 
-button:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-}
-
-/* =====================================================
-   ❌ SHAKE ERREUR
-===================================================== */
-.screen-shake {
-  animation: screenShake .4s;
-}
-
-@keyframes screenShake {
-  0%   { transform: translate(-50%, -50%) translateX(0); }
-  25%  { transform: translate(-50%, -50%) translateX(-10px); }
-  50%  { transform: translate(-50%, -50%) translateX(10px); }
-  75%  { transform: translate(-50%, -50%) translateX(-6px); }
-  100% { transform: translate(-50%, -50%) translateX(0); }
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
 }
 
 /* =====================================================
-   🏆 VICTOIRE — QUÊTE COMMERCE
+   🏆 VICTOIRE — LOADER FINAL + EXPLOSION
 ===================================================== */
-#commerce-win{
+#communication-win{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.95);
@@ -361,7 +273,6 @@ button:disabled {
 .win-box h2{
   font-size:34px;
   margin-bottom:10px;
-  text-shadow:2px 2px 0 #2b1605;
 }
 
 .win-box p{
@@ -397,19 +308,10 @@ button:disabled {
   }
 }
 
-
 /* =====================================================
    📱 RESPONSIVE
 ===================================================== */
-@media (max-width: 768px) {
-  .pirate { display: none; }
-
-  .quizTitle {
-    font-size: 22px;
-  }
-
-  #commQuestion,
-  .gameQuestion {
-    font-size: 15px;
-  }
+@media (max-width:768px){
+  .pirate{ display:none; }
+  .quizTitle{ font-size:22px; }
 }
