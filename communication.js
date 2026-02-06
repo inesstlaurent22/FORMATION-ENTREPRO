@@ -147,11 +147,47 @@ pirate3.onclick = () => {
 /* =====================================================
    MINI-JEU 1
 ===================================================== */
-const quiz=[
- {t:"⚓ Visite physique",q:"Rencontrer un client permet de :",o:["Rassurer","Créer une connexion","Ignorer ses attentes"],g:[0,1]},
- {t:"📞 Phoning",q:"Le contact direct sert à :",o:["Comprendre les besoins","Créer une relation","Parler uniquement de prix"],g:[0,1]},
- {t:"📣 Réseaux sociaux",q:"Ils servent surtout à :",o:["Se faire connaître","Montrer son univers","Vendre immédiatement"],g:[0,1]},
- {t:"📧 Newsletter",q:"Une newsletter permet de :",o:["Rester présent","Créer un lien","Envoyer du spam"],g:[0,1]}
+const quiz = [
+  {
+    t: "📣 Communication",
+    q: "À quoi sert principalement la communication pour une marque ?",
+    o: [
+      "Être comprise par son public",
+      "Créer une relation de confiance",
+      "Parler uniquement de ses produits"
+    ],
+    g: [0, 1] // 2 bonnes réponses
+  },
+  {
+    t: "🤝 Communication",
+    q: "La communication permet de :",
+    o: [
+      "Attirer l’attention",
+      "Créer de l’émotion",
+      "Garantir des ventes immédiates"
+    ],
+    g: [0, 1] // 2 bonnes réponses
+  },
+  {
+    t: "🎯 Communication",
+    q: "Une bonne communication sert à :",
+    o: [
+      "Transmettre un message clair",
+      "Se différencier des concurrents",
+      "Construire une image de marque"
+    ],
+    g: [0, 1, 2] // 3 bonnes réponses
+  },
+  {
+    t: "🧭 Communication",
+    q: "La communication est essentielle pour :",
+    o: [
+      "Guider le public",
+      "Créer du lien sur le long terme",
+      "Remplacer la qualité d’un produit"
+    ],
+    g: [0, 1] // 2 bonnes réponses
+  }
 ];
 
 let qi=0;
