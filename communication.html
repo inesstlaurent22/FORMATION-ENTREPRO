@@ -15,8 +15,13 @@
      🎬 VIDÉO INTRO
 ===================================================== -->
 <div id="videoContainer">
-  <video id="questVideo" preload="auto">
-    <source src="videos/Communicationvideo2.MOV" type="video/mp4">
+  <video
+    id="questVideo"
+    preload="auto"
+    playsinline
+    muted
+  >
+    <source src="videos/Communicationvideo2.mp4" type="video/mp4">
   </video>
 
   <div id="videoControls">
@@ -34,7 +39,11 @@
   <img src="images/Communicationfond.PNG" class="fondImage" alt="">
 
   <!-- Skip dialogues -->
-  <button id="skipDialog" class="skip-dialog hidden">
+  <button
+    id="skipDialog"
+    class="skip-dialog hidden"
+    type="button"
+  >
     Passer les dialogues
   </button>
 
