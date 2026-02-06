@@ -1,5 +1,5 @@
 /* =====================================================
-   RESET & BASE
+   RESET & BASE — KIT IN
 ===================================================== */
 *{
   margin:0;
@@ -7,7 +7,7 @@
   box-sizing:border-box;
 }
 
-html,body{
+html, body{
   width:100%;
   height:100%;
   font-family:"Trebuchet MS", Arial, sans-serif;
@@ -16,7 +16,7 @@ html,body{
   overflow:hidden;
 }
 
-.hidden{ display:none!important; }
+.hidden{ display:none !important; }
 
 /* =====================================================
    🎬 VIDÉO INTRO
@@ -32,9 +32,9 @@ html,body{
   width:100%;
   height:100%;
   object-fit:cover;
+  pointer-events:none;
 }
 
-/* ▶️ CONTROLES VIDÉO */
 #videoControls{
   position:absolute;
   inset:0;
@@ -89,7 +89,6 @@ html,body{
   z-index:2;
 }
 
-/* POSITIONS */
 #pirate3{
   left:564px;
   top:264px;
@@ -106,15 +105,14 @@ html,body{
   background-image:url("images/Pirate2.png");
 }
 
-/* ✨ GLOW PIRATE 3 */
 #pirate3.glow{
   animation:pirateGlow 1.2s infinite;
 }
 
 @keyframes pirateGlow{
-  0%{ filter:drop-shadow(0 0 6px gold); }
-  50%{ filter:drop-shadow(0 0 22px gold); transform:scale(1.05); }
-  100%{ filter:drop-shadow(0 0 6px gold); }
+  0%   { filter:drop-shadow(0 0 6px gold); transform:scale(1); }
+  50%  { filter:drop-shadow(0 0 22px gold); transform:scale(1.05); }
+  100% { filter:drop-shadow(0 0 6px gold); transform:scale(1); }
 }
 
 /* =====================================================
@@ -122,9 +120,9 @@ html,body{
 ===================================================== */
 #dialogBox{
   position:absolute;
-  max-width:320px;
+  max-width:280px;
   padding:14px;
-  background:rgba(0,0,0,.88);
+  background:rgba(0,0,0,.85);
   border:2px solid gold;
   border-radius:14px;
   box-shadow:0 0 18px rgba(255,215,0,.45);
@@ -138,7 +136,7 @@ html,body{
 }
 
 /* =====================================================
-   ⏭️ SKIP / CONTINUER QUÊTE
+   ⏭️ BOUTONS FLOAT (SKIP / CONTINUER)
 ===================================================== */
 .skip-dialog{
   position:fixed;
@@ -206,7 +204,7 @@ button:disabled{
 }
 
 /* =====================================================
-   🎯 MINI-JEU 1
+   🎯 MINI-JEUX — STRUCTURE COMMUNE
 ===================================================== */
 .mg1-box,
 .mg2-box,
@@ -216,6 +214,7 @@ button:disabled{
   gap:14px;
 }
 
+/* TITRES PRINCIPAUX */
 .mg1-title{
   font-family:"Pirata One", serif;
   font-size:26px;
@@ -226,6 +225,7 @@ button:disabled{
   text-shadow:2px 2px 0 #2b1605;
 }
 
+/* QUESTIONS / ENCARTS */
 .mg1-question,
 .mg2-question,
 .mg3-question{
@@ -237,27 +237,31 @@ button:disabled{
   color:#2b1605;
   border:3px solid #a57c2f;
   border-radius:12px;
+  text-align:center;
 }
 
-.mg1-answers{
+/* RÉPONSES */
+.mg1-answers,
+.mg2-answers,
+.mg3-answers{
   display:flex;
   flex-direction:column;
   gap:8px;
 }
 
 /* =====================================================
-   🌪️ SHAKE (STABLE)
+   🌪️ SHAKE (ERREUR)
 ===================================================== */
 #miniGameContainer.screen-shake{
   animation:miniShake .4s;
 }
 
 @keyframes miniShake{
-  0%{ transform:translate(-50%,-50%) translateX(0); }
-  25%{ transform:translate(-50%,-50%) translateX(-10px); }
-  50%{ transform:translate(-50%,-50%) translateX(10px); }
-  75%{ transform:translate(-50%,-50%) translateX(-6px); }
-  100%{ transform:translate(-50%,-50%) translateX(0); }
+  0%   { transform:translate(-50%,-50%) translateX(0); }
+  25%  { transform:translate(-50%,-50%) translateX(-10px); }
+  50%  { transform:translate(-50%,-50%) translateX(10px); }
+  75%  { transform:translate(-50%,-50%) translateX(-6px); }
+  100% { transform:translate(-50%,-50%) translateX(0); }
 }
 
 /* =====================================================
@@ -269,9 +273,20 @@ button:disabled{
   border:2px solid gold;
   border-radius:14px;
   background:#1a1208;
-  text-align:left;
+  text-align:center;
 }
 
+.info-box ul{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.info-box li{
+  margin:6px 0;
+}
+
+/* CHOIX VISUELS */
 .visualChoices.big{
   display:flex;
   justify-content:center;
@@ -294,7 +309,7 @@ button:disabled{
 }
 
 /* =====================================================
-   🔗 MINI-JEU 3
+   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
 ===================================================== */
 .mg3-container{
   display:flex;
