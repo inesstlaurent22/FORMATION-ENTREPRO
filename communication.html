@@ -5,7 +5,7 @@
   <title>Communication – La Criée Pirate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS principal -->
+  <!-- CSS -->
   <link rel="stylesheet" href="communication.css">
 </head>
 
@@ -15,24 +15,14 @@
      🎬 VIDÉO INTRO
 ===================================================== -->
 <div id="videoContainer">
-
-  <video
-    id="questVideo"
-    autoplay
-    muted
-    playsinline
-    preload="auto"
-  >
+  <video id="questVideo" preload="auto">
     <source src="videos/Communicationvideo2.MOV" type="video/mp4">
-    Votre navigateur ne supporte pas la vidéo.
   </video>
 
-  <!-- Contrôles vidéo -->
   <div id="videoControls">
     <button id="toggleSound" type="button">🔇</button>
     <button id="closeVideo" type="button">Passer la vidéo</button>
   </div>
-
 </div>
 
 <!-- =====================================================
@@ -40,15 +30,10 @@
 ===================================================== -->
 <div id="scene" class="hidden">
 
-  <!-- BACKGROUND -->
-  <img
-    src="images/Communicationfond.PNG"
-    class="fondImage"
-    alt=""
-    loading="eager"
-  >
+  <!-- Background -->
+  <img src="images/Communicationfond.PNG" class="fondImage" alt="">
 
-  <!-- Bouton skip dialogues -->
+  <!-- Skip dialogues -->
   <button id="skipDialog" class="skip-dialog hidden">
     Passer les dialogues
   </button>
@@ -60,20 +45,18 @@
 </div>
 
 <!-- =====================================================
-     💬 BULLE DE DIALOGUE
+     💬 DIALOGUES
 ===================================================== -->
 <div id="dialogBox" class="hidden">
   <p id="dialogText"></p>
 </div>
 
 <!-- =====================================================
-     🎮 CONTENEUR MINI-JEUX
+     🎮 MINI-JEUX
 ===================================================== -->
 <div id="miniGameContainer" class="hidden"></div>
 
-<!-- =====================================================
-     📜 SCRIPT PRINCIPAL
-===================================================== -->
+<!-- JS -->
 <script src="communication.js"></script>
 
 </body>
