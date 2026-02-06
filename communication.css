@@ -299,6 +299,37 @@ button:active{
 }
 
 /* =====================================================
+   🏆 FIN IDENTITÉ VISUELLE
+===================================================== */
+
+.identity-win{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+}
+
+.identity-img-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+
+.identity-img{
+  width:160px;
+  max-width:80%;
+  border-radius:14px;
+  border:3px solid gold;
+  box-shadow:0 0 18px rgba(255,215,0,.45);
+}
+
+.zoom-btn{
+  padding:6px 12px;
+  font-size:16px;
+}
+
+/* =====================================================
    🔗 MINI-JEU 3
 ===================================================== */
 .mg3-container{
