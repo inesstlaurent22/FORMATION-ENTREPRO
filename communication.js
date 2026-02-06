@@ -4,14 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
    🎬 VIDÉO INTRO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
-const introVideo     = document.getElementById("questVideo");
-const toggleSound    = document.getElementById("toggleSound");
-const closeVideo     = document.getElementById("closeVideo");
-const scene          = document.getElementById("scene");
+const introVideo = document.getElementById("questVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo = document.getElementById("closeVideo");
+const scene = document.getElementById("scene");
 
 introVideo.muted = true;
 introVideo.playsInline = true;
-introVideo.autoplay = true;
 introVideo.style.pointerEvents = "none";
 
 introVideo.play().catch(()=>{});
@@ -22,14 +21,10 @@ toggleSound.onclick = e => {
   toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
 };
 
-closeVideo.onclick = e => {
-  e.stopPropagation();
-  closeIntroVideo();
-};
+closeVideo.onclick = () => endVideo();
+introVideo.onended = endVideo;
 
-introVideo.onended = closeIntroVideo;
-
-function closeIntroVideo(){
+function endVideo(){
   videoContainer.style.display = "none";
   scene.classList.remove("hidden");
 }
@@ -45,16 +40,16 @@ pirate3.classList.add("glow");
 pirate3.onclick = () => {
   pirate3.classList.remove("glow");
   playDialog([
-    { speaker:"pirate3", text:"Capitaine, ton trésor est prêt." },
-    { speaker:"pirate2", text:"Mais sans communication, personne ne viendra." },
-    { speaker:"pirate3", text:"Voyons comment attirer le marché." }
+    {speaker:"pirate3", text:"Capitaine, ton trésor est prêt."},
+    {speaker:"pirate2", text:"Mais sans communication, personne ne viendra."},
+    {speaker:"pirate3", text:"Voyons comment attirer le marché."}
   ], startMiniGame1);
 };
 
 /* =====================================================
    💬 DIALOGUES
 ===================================================== */
-const dialogBox  = document.getElementById("dialogBox");
+const dialogBox = document.getElementById("dialogBox");
 const dialogText = document.getElementById("dialogText");
 const skipDialog = document.getElementById("skipDialog");
 
@@ -68,20 +63,16 @@ function playDialog(list, cb){
 }
 
 function showDialog(){
-  const d=dialogs[dIndex];
-  dialogText.textContent=d.text;
-  const p=d.speaker==="pirate2"?pirate2:pirate3;
-  const r=p.getBoundingClientRect();
-  dialogBox.style.left=`${r.left+r.width/2-dialogBox.offsetWidth/2}px`;
-  dialogBox.style.top=`${r.top-dialogBox.offsetHeight-20}px`;
+  const d = dialogs[dIndex];
+  dialogText.textContent = d.text;
 }
 
-dialogBox.onclick=()=>{
+dialogBox.onclick = () => {
   dIndex++;
-  dIndex<dialogs.length?showDialog():endDialogs();
+  dIndex < dialogs.length ? showDialog() : endDialogs();
 };
 
-skipDialog.onclick=e=>{
+skipDialog.onclick = e => {
   e.stopPropagation();
   endDialogs();
 };
@@ -89,13 +80,13 @@ skipDialog.onclick=e=>{
 function endDialogs(){
   dialogBox.classList.add("hidden");
   skipDialog.classList.add("hidden");
-  dCallback && dCallback();
+  if(dCallback){ const cb=dCallback; dCallback=null; cb(); }
 }
 
 /* =====================================================
    🎮 MINI-JEUX BASE
 ===================================================== */
-const miniGame=document.getElementById("miniGameContainer");
+const miniGame = document.getElementById("miniGameContainer");
 
 function clearMiniGame(){
   miniGame.innerHTML="";
@@ -114,50 +105,48 @@ function shake(){
 /* =====================================================
    🎯 MINI-JEU 1 — COMMUNICATION
 ===================================================== */
-const quiz=[
-  {q:"À quoi sert principalement la communication ?",ok:[0,1],a:["Être comprise","Créer une relation","Parler uniquement de soi"]},
-  {q:"La communication permet de :",ok:[0,1],a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"]},
-  {q:"Une bonne communication sert à :",ok:[0,1,2],a:["Transmettre un message clair","Se différencier","Construire une image"]},
-  {q:"La communication est essentielle pour :",ok:[0,1],a:["Guider le public","Créer du lien","Remplacer un produit"]}
+const quiz = [
+  {q:"À quoi sert la communication ?", ok:[0,1], a:["Être comprise","Créer une relation","Parler uniquement de soi"]},
+  {q:"Elle permet de :", ok:[0,1], a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"]},
+  {q:"Une bonne communication sert à :", ok:[0,1,2], a:["Transmettre un message","Se différencier","Construire une image"]},
+  {q:"Elle est essentielle pour :", ok:[0,1], a:["Guider le public","Créer du lien","Remplacer un produit"]}
 ];
 
-let qi=0,found=[];
+let qi=0, found=[];
 
 function startMiniGame1(){ qi=0; stepMG1(); }
 
 function stepMG1(){
   clearMiniGame(); found=[];
-  const box=document.createElement("div");
-  box.className="mg1-box";
-
-  const title=document.createElement("div");
-  title.className="mg1-title";
-  title.textContent="À quoi sert la communication ?";
+  const box=document.createElement("div"); box.className="mg1-box";
 
   const q=document.createElement("div");
   q.className="mg1-question";
   q.textContent=quiz[qi].q;
 
-  const a=document.createElement("div");
-  a.className="mg1-answers";
+  const answers=document.createElement("div");
+  answers.className="mg1-answers";
+  answers.style.flexDirection="column";
 
   quiz[qi].a.forEach((txt,i)=>{
     const b=document.createElement("button");
     b.textContent=txt;
     b.onclick=()=>{
       if(!quiz[qi].ok.includes(i)){ shake(); return; }
-      if(found.includes(i))return;
+      if(found.includes(i)) return;
       found.push(i);
       b.classList.add("pressed");
       b.disabled=true;
       if(found.length===quiz[qi].ok.length){
-        setTimeout(()=>{ qi++; qi<quiz.length?stepMG1():afterMG1(); },700);
+        setTimeout(()=>{
+          qi++; qi<quiz.length ? stepMG1() : afterMG1();
+        },600);
       }
     };
-    a.appendChild(b);
+    answers.appendChild(b);
   });
 
-  box.append(title,q,a);
+  box.append(q,answers);
   miniGame.appendChild(box);
 }
 
@@ -165,14 +154,14 @@ function afterMG1(){
   hideMiniGame();
   playDialog([
     {speaker:"pirate2",text:"Parfait."},
-    {speaker:"pirate3",text:"Passons à ton identité visuelle."}
-  ], startMiniGame2);
+    {speaker:"pirate3",text:"Créons maintenant ton identité visuelle."}
+  ], startIdentityIntro);
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (COMPLET)
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
-function startMiniGame2(){
+function startIdentityIntro(){
   clearMiniGame();
 
   const box=document.createElement("div");
@@ -180,120 +169,104 @@ function startMiniGame2(){
 
   box.innerHTML=`
     <div class="mg1-title">Crée ton identité visuelle</div>
-    <p>
-      L’identité visuelle permet à ta marque d’être reconnue, mémorisée et crédible.
-      Elle transmet ton univers, tes valeurs et ton message.
-    </p>
-    <button class="info-small">En savoir plus</button>
+    <p>Elle permet à ta marque d’être reconnue, mémorisée et différenciée.</p>
   `;
 
-  miniGame.appendChild(box);
+  const infoBtn=document.createElement("button");
+  infoBtn.textContent="En savoir plus";
 
-  const moreBtn=box.querySelector("button");
+  const infoBox=document.createElement("div");
+  infoBox.className="info-box hidden";
+  infoBox.innerHTML=`
+    • Ton message<br>
+    • Ton public<br>
+    • Tes valeurs<br>
+    • Ton univers graphique
+  `;
 
   const questBtn=document.createElement("button");
   questBtn.textContent="Continuer la quête";
   questBtn.className="skip-dialog";
   questBtn.style.display="none";
-  document.body.appendChild(questBtn);
 
-  moreBtn.onclick=()=>{
-    moreBtn.disabled=true;
-
-    const info=document.createElement("div");
-    info.className="info-box";
-    info.innerHTML=`
-      <ul>
-        <li>Connaître ton public</li>
-        <li>Avoir un message clair</li>
-        <li>Créer une cohérence visuelle</li>
-        <li>Être reconnaissable rapidement</li>
-      </ul>
-    `;
-    box.appendChild(info);
+  infoBtn.onclick=()=>{
+    infoBox.classList.remove("hidden");
     questBtn.style.display="block";
   };
 
-  questBtn.onclick=()=>{
-    questBtn.remove();
-    importanceLogo();
-  };
+  questBtn.onclick=()=>{ questBtn.remove(); showLogoInfo(); };
+
+  box.append(infoBtn,infoBox);
+  miniGame.append(box);
+  document.body.appendChild(questBtn);
 }
 
-/* ---------- ENCHAÎNEMENT IDENTITÉ VISUELLE ---------- */
-function importanceLogo(){
-  showInfoStep(
-    "L’importance du logo",
-    "Le logo est le symbole principal de ta marque. Il doit être simple, lisible et cohérent avec ton univers.",
-    [
-      "Privilégie la simplicité",
-      "Assure une bonne lisibilité",
-      "Teste-le sur plusieurs supports"
-    ],
-    ()=>showChoices("Choisis ton logo",["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],importanceColors)
-  );
-}
-
-function importanceColors(){
-  showInfoStep(
-    "L’importance des couleurs",
-    "Les couleurs véhiculent des émotions et influencent la perception de ta marque.",
-    [
-      "Choisis 2 à 3 couleurs principales",
-      "Respecte les contrastes",
-      "Sois cohérent sur tous les supports"
-    ],
-    ()=>showChoices("Choisis tes couleurs",["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],importanceTypo)
-  );
-}
-
-function importanceTypo(){
-  showInfoStep(
-    "L’importance de la typographie",
-    "La typographie renforce le ton et la personnalité de ta marque.",
-    [
-      "Lisibilité avant tout",
-      "Cohérence avec ton univers",
-      "Limite le nombre de polices"
-    ],
-    ()=>showChoices("Choisis ta typographie",["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],identityWin)
-  );
-}
-
-/* ---------- HELPERS MINI-JEU 2 ---------- */
-function showInfoStep(title,txt,tips,next){
+/* ---------- LOGO ---------- */
+function showLogoInfo(){
   clearMiniGame();
-  const box=document.createElement("div");
-  box.className="mg2-box";
-  box.innerHTML=`
-    <div class="mg1-title">${title}</div>
-    <p>${txt}</p>
-    <ul>${tips.map(t=>`<li>${t}</li>`).join("")}</ul>
+  miniGame.innerHTML=`
+    <div class="mg2-question">L’importance du logo</div>
+    <p>Il rend ta marque reconnaissable. Choisis-le simple, lisible et cohérent.</p>
   `;
-  const b=document.createElement("button");
-  b.textContent="Continuer";
-  b.onclick=next;
-  box.appendChild(b);
-  miniGame.appendChild(box);
+  const btn=document.createElement("button");
+  btn.textContent="Continuer";
+  btn.onclick=()=>showChoices(
+    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+    ()=>showColorInfo(),
+    null
+  );
+  miniGame.appendChild(btn);
 }
 
-function showChoices(title,imgs,next){
+/* ---------- COULEURS ---------- */
+function showColorInfo(){
   clearMiniGame();
-  const box=document.createElement("div");
-  box.className="mg2-box";
-  box.innerHTML=`<div class="mg1-title">${title}</div>`;
-  miniGame.appendChild(box);
+  miniGame.innerHTML=`
+    <div class="mg2-question">L’importance des couleurs</div>
+    <p>Elles transmettent des émotions et renforcent ton message.</p>
+  `;
+  const btn=document.createElement("button");
+  btn.textContent="Continuer";
+  btn.onclick=()=>showChoices(
+    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+    showTypoInfo,
+    "images/Couleur1.PNG"
+  );
+  miniGame.appendChild(btn);
+}
 
-  const w=document.createElement("div");
-  w.className="visualChoices big";
+/* ---------- TYPO ---------- */
+function showTypoInfo(){
+  clearMiniGame();
+  miniGame.innerHTML=`
+    <div class="mg2-question">L’importance de la typographie</div>
+    <p>Elle donne une personnalité à ta marque.</p>
+  `;
+  const btn=document.createElement("button");
+  btn.textContent="Continuer";
+  btn.onclick=()=>showChoices(
+    ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
+    showWinIdentity,
+    "images/Typo1.PNG"
+  );
+  miniGame.appendChild(btn);
+}
 
-  imgs.forEach(src=>{
-    const wrap=document.createElement("div");
-    wrap.className="imgWrap";
+/* ---------- CHOIX IMAGES ---------- */
+function showChoices(list, cb, correct){
+  const wrap=document.createElement("div");
+  wrap.className="visualChoices big";
+
+  list.forEach(src=>{
+    const w=document.createElement("div");
+    w.className="imgWrap";
 
     const img=new Image();
     img.src=src;
-    img.onclick=next;
+    img.onclick=()=>{
+      if(correct && src!==correct){ shake(); return; }
+      cb();
+    };
 
     const zoom=document.createElement("button");
     zoom.textContent="🔎";
@@ -302,48 +275,47 @@ function showChoices(title,imgs,next){
       zoomImage(src);
     };
 
-    wrap.append(img,zoom);
-    w.appendChild(wrap);
+    w.append(img,zoom);
+    wrap.appendChild(w);
   });
 
-  miniGame.appendChild(w);
+  miniGame.appendChild(wrap);
 }
 
 function zoomImage(src){
   const f=document.createElement("div");
   f.id="fadeScreen";
   f.innerHTML=`<img src="${src}" style="max-width:90%;max-height:90%">`;
-  document.body.appendChild(f);
   f.onclick=()=>f.remove();
+  document.body.appendChild(f);
 }
 
-function identityWin(){
+/* ---------- FIN IDENTITÉ ---------- */
+function showWinIdentity(){
   clearMiniGame();
   miniGame.innerHTML=`
-    <div class="mg2-box">
-      <div class="mg1-title">Bravo !</div>
-      <p>Tu as créé ton identité visuelle</p>
-      <img src="images/Identiteevisuelle.JPG" style="width:100%;border-radius:14px">
-    </div>
+    <h2>Bravo, tu as créé ton identité visuelle 🎉</h2>
+    <img src="images/Identiteevisuelle.JPG" style="max-width:100%;margin-top:20px;">
   `;
-  miniGame.onclick=()=>{
+  document.body.onclick=()=>{
+    document.body.onclick=null;
     hideMiniGame();
     playDialog([
-      {speaker:"pirate2",text:"Super travail."},
-      {speaker:"pirate3",text:"Voyons maintenant comment la diffuser."}
+      {speaker:"pirate2",text:"Magnifique identité."},
+      {speaker:"pirate3",text:"Passons à la diffusion."}
     ], startMiniGame3);
   };
 }
 
 /* =====================================================
-   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
+   🔗 MINI-JEU 3
 ===================================================== */
 function startMiniGame3(){
   clearMiniGame();
-  // logique inchangée (comme avant)
+  miniGame.innerHTML="<div class='mg3-question'>Associe chaque canal à son objectif</div>";
 }
 
 /* =====================================================
-   🏁 FIN
+   FIN
 ===================================================== */
 });
