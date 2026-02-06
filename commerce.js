@@ -399,10 +399,12 @@ function startFinalDialogues() {
 ===================================================== */
 function startMiniGame3() {
   game3.classList.remove("hidden");
-  btnKeep.onclick = () => {
+
+  // ⏳ petit délai pour laisser apparaître le mini-jeu
+  setTimeout(() => {
     game3.classList.add("hidden");
-    showCommerceWin();
-  };
+    showCommerceWin(); // 💎 loader final + explosion de gems
+  }, 800);
 }
 
 /* =====================================================
