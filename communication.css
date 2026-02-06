@@ -10,13 +10,13 @@
 html,body{
   width:100%;
   height:100%;
-  font-family:"Trebuchet MS",Arial,sans-serif;
+  font-family:"Trebuchet MS", Arial, sans-serif;
   background:#000;
   color:#f5e6c8;
   overflow:hidden;
 }
 
-.hidden{display:none!important;}
+.hidden{ display:none!important; }
 
 /* =====================================================
    🎬 VIDÉO INTRO
@@ -34,7 +34,7 @@ html,body{
   object-fit:cover;
 }
 
-/* ▶️ CONTROLS — STYLE COMMERCE (CORRIGÉ) */
+/* ▶️ CONTROLES VIDÉO — STYLE COMMERCE */
 #videoControls{
   position:absolute;
   inset:0;
@@ -80,7 +80,7 @@ html,body{
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES — POSITIONS DEMANDÉES
+   🏴‍☠️ PIRATES
 ===================================================== */
 .pirate{
   position:absolute;
@@ -90,12 +90,21 @@ html,body{
   z-index:2;
 }
 
+/* POSITIONS VALIDÉES */
 #pirate3{
   left:564px;
   top:264px;
   width:313px;
   height:510px;
   background-image:url("images/Pirate3.png");
+}
+
+#pirate2{
+  left:812px;
+  top:537px;
+  width:478px;
+  height:457px;
+  background-image:url("images/Pirate2.png");
 }
 
 /* ✨ GLOW DÉMARRAGE */
@@ -107,14 +116,6 @@ html,body{
   0%   { filter:drop-shadow(0 0 6px gold); transform:scale(1); }
   50%  { filter:drop-shadow(0 0 22px gold); transform:scale(1.05); }
   100% { filter:drop-shadow(0 0 6px gold); transform:scale(1); }
-}
-
-#pirate2{
-  left:812px;
-  top:537px;
-  width:478px;
-  height:457px;
-  background-image:url("images/Pirate2.png");
 }
 
 /* =====================================================
@@ -132,8 +133,13 @@ html,body{
   z-index:2000;
 }
 
+#dialogText{
+  font-size:14px;
+  line-height:1.4;
+}
+
 /* =====================================================
-   ⏭️ SKIP
+   ⏭️ SKIP DIALOGUES
 ===================================================== */
 .skip-dialog{
   position:fixed;
@@ -153,7 +159,7 @@ html,body{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX
+   🎮 CONTENEUR MINI-JEUX
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -171,13 +177,14 @@ html,body{
 }
 
 /* =====================================================
-   🔘 BOUTONS
+   🔘 BOUTONS — GLOBAL
 ===================================================== */
 button{
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
   font-weight:bold;
+  font-size:14px;
   padding:10px 16px;
   border-radius:14px;
   cursor:pointer;
@@ -195,43 +202,65 @@ button.pressed{
     0 1px 0 #3b2208;
 }
 
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
 /* =====================================================
-   🎯 MINI-JEU 1
+   🎯 MINI-JEU 1 — COMMUNICATION
 ===================================================== */
+.mg1-box{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.mg1-title{
+  font-family:"Pirata One", serif;
+  font-size:26px;
+  text-align:center;
+  color:#ffd77a;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  text-shadow:2px 2px 0 #2b1605;
+}
+
+.mg1-question{
+  font-family:"Cinzel", serif;
+  font-size:16px;
+  font-weight:700;
+  padding:12px 14px;
+  background:linear-gradient(145deg,#f6e6b8,#e1c37a);
+  color:#2b1605;
+  border:3px solid #a57c2f;
+  border-radius:12px;
+  text-align:center;
+}
+
 .mg1-answers{
   display:flex;
   flex-direction:column;
-  gap:10px;
-}
-
-.pirate-question{
-  margin:16px 0 20px;
-  padding:14px;
-  background:linear-gradient(145deg,#f5e6c8,#e1c37a);
-  color:#2b1605;
-  border:3px solid #a57c2f;
-  border-radius:16px;
-  font-weight:bold;
-  box-shadow:inset 0 0 10px rgba(0,0,0,.3);
+  gap:8px;
 }
 
 /* =====================================================
-   🌪️ SHAKE
+   🌪️ SHAKE ERREUR
 ===================================================== */
 .screen-shake{
-  animation:shake .35s;
+  animation:screenShake .4s;
 }
 
-@keyframes shake{
-  0%{transform:translate(0)}
-  25%{transform:translate(-6px)}
-  50%{transform:translate(6px)}
-  75%{transform:translate(-4px)}
-  100%{transform:translate(0)}
+@keyframes screenShake{
+  0%   { transform:translate(-50%,-50%) translateX(0); }
+  25%  { transform:translate(-50%,-50%) translateX(-10px); }
+  50%  { transform:translate(-50%,-50%) translateX(10px); }
+  75%  { transform:translate(-50%,-50%) translateX(-6px); }
+  100% { transform:translate(-50%,-50%) translateX(0); }
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
 .primary{
   background:linear-gradient(145deg,#b8943f,#ffd77a);
@@ -239,16 +268,19 @@ button.pressed{
   margin-bottom:12px;
 }
 
-.secondary{ opacity:.75; }
+.secondary{
+  opacity:.75;
+}
 
 .info-box{
   margin:14px 0;
   padding:14px;
   border:2px solid gold;
   border-radius:14px;
+  background:#1a1208;
 }
 
-/* Logos / couleurs / typo */
+/* Images horizontales */
 .visualChoices.horizontal{
   display:flex;
   justify-content:center;
@@ -257,15 +289,18 @@ button.pressed{
 
 .visualChoices.small img{
   width:70px;
+  border-radius:10px;
   cursor:pointer;
+  border:2px solid gold;
 }
 
 /* =====================================================
-   🔗 MINI-JEU 3
+   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
 ===================================================== */
 .mg3-container{
   display:flex;
   gap:32px;
+  margin-top:20px;
 }
 
 .mg3-column{
@@ -285,5 +320,9 @@ button.pressed{
    📱 RESPONSIVE
 ===================================================== */
 @media(max-width:768px){
-  .pirate{display:none;}
+  .pirate{ display:none; }
+  #miniGameContainer{
+    width:94%;
+    padding:20px;
+  }
 }
