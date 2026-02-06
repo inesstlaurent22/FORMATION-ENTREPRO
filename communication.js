@@ -86,6 +86,7 @@ dialogBox.onclick = () => {
 };
 
 skipDialog.onclick = e => {
+  e.preventDefault();
   e.stopPropagation();
   endDialogs();
 };
@@ -93,7 +94,12 @@ skipDialog.onclick = e => {
 function endDialogs(){
   dialogBox.classList.add("hidden");
   skipDialog.classList.add("hidden");
-  dCallback && dCallback();
+
+  if (dCallback){
+    const cb = dCallback;
+    dCallback = null;
+    cb();
+  }
 }
 
 /* =====================================================
