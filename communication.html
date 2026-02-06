@@ -14,23 +14,18 @@
 <!-- =====================================================
      🎬 VIDÉO INTRO
 ===================================================== -->
-<div id="videoIntro">
+<div id="videoContainer">
+  <video id="questVideo" autoplay muted playsinline preload="auto">
+    <source src="videos/Commercevideo.MOV" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
 
-  <video
-    id="introVideo"
-    src="videos/Communicationvideo2.MOV"
-    playsinline
-    muted
-    preload="auto"
-  ></video>
-
-  <!-- Contrôles vidéo -->
   <div id="videoControls">
-    <button id="toggleSound" type="button">🔊</button>
-    <button id="closeVideo" type="button">Passer la vidéo</button>
+    <button id="toggleSound">🔇</button>
+    <button id="closeVideo">Passer la vidéo</button>
   </div>
-
 </div>
+
 
 <!-- =====================================================
      🌊 SCÈNE PRINCIPALE
