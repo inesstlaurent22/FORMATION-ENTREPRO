@@ -169,7 +169,7 @@ function afterMG1(){
   playDialog([
     {speaker:"pirate2",text:"Parfait."},
     {speaker:"pirate3",text:"Passons à ton identité visuelle."}
-  ], startIdentityIntro);
+  ], startMiniGame2);
 }
 
 /* =====================================================
