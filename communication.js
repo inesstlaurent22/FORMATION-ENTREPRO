@@ -451,7 +451,7 @@ function startMiniGame3(){
     b.onclick=()=>{
       if(!sel||sel.key!==t[1]){ shake(); return; }
       sel.btn.remove(); b.remove(); sel=null; ok++;
-      if(ok===3) finish();
+  if(ok===3) showCommunicationWin();
     };
     r.appendChild(b);
   });
@@ -459,6 +459,58 @@ function startMiniGame3(){
   c.append(l,r);
   box.append(q,c);
   miniGame.appendChild(box);
+}
+
+/* =====================================================
+   LOADER DE FIN
+===================================================== */
+function showCommunicationWin(){
+  hideMiniGame();
+
+  const overlay = document.createElement("div");
+  overlay.id = "communication-win";
+
+  overlay.innerHTML = `
+    <div class="win-box">
+      <h2>🏴‍☠️ Bravo !</h2>
+      <p>Tu as gagné la quête Communication</p>
+      <div class="gems-container"></div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  launchGemsExplosion(
+    overlay.querySelector(".gems-container")
+  );
+
+  setTimeout(() => {
+    location.href = "menu.html";
+  }, 4200);
+}
+
+function launchGemsExplosion(container){
+  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+
+  for(let i=0;i<42;i++){
+    const gem = document.createElement("div");
+    gem.className = "gem";
+
+    const size = Math.random()*10+6;
+    gem.style.width = size+"px";
+    gem.style.height = size+"px";
+    gem.style.background = colors[Math.floor(Math.random()*colors.length)];
+    gem.style.left = "50%";
+    gem.style.top = "50%";
+
+    const angle = Math.random()*Math.PI*2;
+    const distance = Math.random()*220+60;
+
+    gem.style.setProperty("--x", Math.cos(angle)*distance+"px");
+    gem.style.setProperty("--y", Math.sin(angle)*distance+"px");
+
+    container.appendChild(gem);
+  }
 }
 
 /* =====================================================
