@@ -16,47 +16,53 @@ html,body{
   overflow:hidden;
 }
 
-.hidden{ display:none!important; }
+.hidden{
+  display:none !important;
+}
 
 /* =====================================================
    🎬 VIDÉO INTRO
 ===================================================== */
-#videoContainer {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  z-index: 3000;
+#videoContainer{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:3000;
 }
 
-#questVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+#questVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  pointer-events:none; /* ⚠️ indispensable pour que les boutons marchent */
 }
 
-#videoControls {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+#videoControls{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:3001;
 }
 
-#videoControls button {
-  position: absolute;
-  top: 18px;
-  background: #1a1208;
-  color: gold;
-  border: 3px solid gold;
-  padding: 14px 20px;
-  font-size: 17px;
-  border-radius: 14px;
-  cursor: pointer;
-  font-weight: bold;
-  z-index: 3001;
-  pointer-events: auto;
+#videoControls button{
+  position:absolute;
+  top:18px;
+  background:#1a1208;
+  color:gold;
+  border:3px solid gold;
+  padding:14px 20px;
+  font-size:17px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:bold;
+  pointer-events:auto;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.5),
+    0 4px 0 #3b2208;
 }
 
-#toggleSound { right: 200px; }
-#closeVideo  { right: 20px; }
+#toggleSound{ right:200px; }
+#closeVideo{ right:20px; }
 
 /* =====================================================
    🌅 SCÈNE
@@ -86,7 +92,6 @@ html,body{
   z-index:2;
 }
 
-/* POSITIONS */
 #pirate3{
   left:564px;
   top:264px;
@@ -103,15 +108,15 @@ html,body{
   background-image:url("images/Pirate2.png");
 }
 
-/* GLOW PIRATE 3 */
+/* ✨ GLOW PIRATE 3 */
 #pirate3.glow{
   animation:pirateGlow 1.2s infinite;
 }
 
 @keyframes pirateGlow{
-  0%{filter:drop-shadow(0 0 6px gold);}
-  50%{filter:drop-shadow(0 0 22px gold); transform:scale(1.05);}
-  100%{filter:drop-shadow(0 0 6px gold);}
+  0%   { filter:drop-shadow(0 0 6px gold); transform:scale(1); }
+  50%  { filter:drop-shadow(0 0 22px gold); transform:scale(1.05); }
+  100% { filter:drop-shadow(0 0 6px gold); transform:scale(1); }
 }
 
 /* =====================================================
@@ -135,7 +140,7 @@ html,body{
 }
 
 /* =====================================================
-   ⏭️ SKIP
+   ⏭️ SKIP DIALOGUES
 ===================================================== */
 .skip-dialog{
   position:fixed;
@@ -204,7 +209,7 @@ button:disabled{
 }
 
 /* =====================================================
-   🎯 MINI-JEUX — STYLE COMMUN (1 / 2 / 3)
+   🎯 MINI-JEUX — STYLE COMMUN
 ===================================================== */
 .mg1-box,
 .mg2-box,
@@ -247,18 +252,18 @@ button:disabled{
 }
 
 /* =====================================================
-   🌪️ SHAKE — MINI-JEU UNIQUEMENT (STABLE)
+   🌪️ SHAKE MINI-JEU (STABLE)
 ===================================================== */
 #miniGameContainer.screen-shake{
   animation:miniShake .4s;
 }
 
 @keyframes miniShake{
-  0%{transform:translate(-50%,-50%) translateX(0);}
-  25%{transform:translate(-50%,-50%) translateX(-10px);}
-  50%{transform:translate(-50%,-50%) translateX(10px);}
-  75%{transform:translate(-50%,-50%) translateX(-6px);}
-  100%{transform:translate(-50%,-50%) translateX(0);}
+  0%   { transform:translate(-50%,-50%) translateX(0); }
+  25%  { transform:translate(-50%,-50%) translateX(-10px); }
+  50%  { transform:translate(-50%,-50%) translateX(10px); }
+  75%  { transform:translate(-50%,-50%) translateX(-6px); }
+  100% { transform:translate(-50%,-50%) translateX(0); }
 }
 
 /* =====================================================
@@ -327,6 +332,7 @@ button:disabled{
 ===================================================== */
 @media(max-width:768px){
   .pirate{ display:none; }
+
   #miniGameContainer{
     width:94%;
     padding:20px;
