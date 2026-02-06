@@ -1,5 +1,5 @@
 /* =====================================================
-   RESET & BASE — KIT IN
+   RESET & BASE
 ===================================================== */
 *{
   margin:0;
@@ -32,9 +32,9 @@ html,body{
   width:100%;
   height:100%;
   object-fit:cover;
-  pointer-events:none;
 }
 
+/* ▶️ CONTROLES VIDÉO */
 #videoControls{
   position:absolute;
   inset:0;
@@ -89,6 +89,7 @@ html,body{
   z-index:2;
 }
 
+/* POSITIONS */
 #pirate3{
   left:564px;
   top:264px;
@@ -105,15 +106,15 @@ html,body{
   background-image:url("images/Pirate2.png");
 }
 
-/* ✨ Glow pirate 3 */
+/* ✨ GLOW PIRATE 3 */
 #pirate3.glow{
   animation:pirateGlow 1.2s infinite;
 }
 
 @keyframes pirateGlow{
-  0%{filter:drop-shadow(0 0 6px gold);}
-  50%{filter:drop-shadow(0 0 22px gold); transform:scale(1.05);}
-  100%{filter:drop-shadow(0 0 6px gold);}
+  0%{ filter:drop-shadow(0 0 6px gold); }
+  50%{ filter:drop-shadow(0 0 22px gold); transform:scale(1.05); }
+  100%{ filter:drop-shadow(0 0 6px gold); }
 }
 
 /* =====================================================
@@ -121,9 +122,9 @@ html,body{
 ===================================================== */
 #dialogBox{
   position:absolute;
-  max-width:280px;
+  max-width:320px;
   padding:14px;
-  background:rgba(0,0,0,.85);
+  background:rgba(0,0,0,.88);
   border:2px solid gold;
   border-radius:14px;
   box-shadow:0 0 18px rgba(255,215,0,.45);
@@ -137,7 +138,7 @@ html,body{
 }
 
 /* =====================================================
-   ⏭️ SKIP / BOUTON QUÊTE
+   ⏭️ SKIP / CONTINUER QUÊTE
 ===================================================== */
 .skip-dialog{
   position:fixed;
@@ -205,7 +206,7 @@ button:disabled{
 }
 
 /* =====================================================
-   🎯 MINI-JEUX — STRUCTURE COMMUNE
+   🎯 MINI-JEU 1
 ===================================================== */
 .mg1-box,
 .mg2-box,
@@ -215,7 +216,6 @@ button:disabled{
   gap:14px;
 }
 
-/* TITRES STYLE PIRATE */
 .mg1-title{
   font-family:"Pirata One", serif;
   font-size:26px;
@@ -237,46 +237,41 @@ button:disabled{
   color:#2b1605;
   border:3px solid #a57c2f;
   border-radius:12px;
-  text-align:center;
 }
 
-.mg1-answers,
-.mg2-answers,
-.mg3-answers{
+.mg1-answers{
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:8px;
 }
 
 /* =====================================================
-   🌪️ SHAKE MINI-JEUX
+   🌪️ SHAKE (STABLE)
 ===================================================== */
 #miniGameContainer.screen-shake{
   animation:miniShake .4s;
 }
 
 @keyframes miniShake{
-  0%{transform:translate(-50%,-50%) translateX(0);}
-  25%{transform:translate(-50%,-50%) translateX(-10px);}
-  50%{transform:translate(-50%,-50%) translateX(10px);}
-  75%{transform:translate(-50%,-50%) translateX(-6px);}
-  100%{transform:translate(-50%,-50%) translateX(0);}
+  0%{ transform:translate(-50%,-50%) translateX(0); }
+  25%{ transform:translate(-50%,-50%) translateX(-10px); }
+  50%{ transform:translate(-50%,-50%) translateX(10px); }
+  75%{ transform:translate(-50%,-50%) translateX(-6px); }
+  100%{ transform:translate(-50%,-50%) translateX(0); }
 }
 
 /* =====================================================
    🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
 .info-box{
-  margin:14px auto;
+  margin-top:12px;
   padding:14px;
   border:2px solid gold;
   border-radius:14px;
   background:#1a1208;
-  max-width:500px;
-  text-align:center;
+  text-align:left;
 }
 
-/* Images + zoom */
 .visualChoices.big{
   display:flex;
   justify-content:center;
@@ -299,7 +294,7 @@ button:disabled{
 }
 
 /* =====================================================
-   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
+   🔗 MINI-JEU 3
 ===================================================== */
 .mg3-container{
   display:flex;
@@ -318,20 +313,6 @@ button:disabled{
   background:linear-gradient(145deg,#1a1208,#3b2208);
   color:gold;
   border-color:gold;
-}
-
-/* =====================================================
-   🖼️ ZOOM IMAGE
-===================================================== */
-#fadeScreen{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
 }
 
 /* =====================================================
