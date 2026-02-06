@@ -19,48 +19,59 @@ html,body{
 .hidden{ display:none!important; }
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   🎬 VIDÉO INTRO — CORRIGÉ
 ===================================================== */
-#videoIntro{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:3000;
-}
+const videoIntro  = document.getElementById("videoIntro");
+const introVideo  = document.getElementById("introVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo  = document.getElementById("closeVideo");
 
-#introVideo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+let videoEnded = false;
 
-/* ▶️ CONTROLES VIDÉO — STYLE COMMERCE */
-#videoControls{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:3001;
-}
+/* Empêche la vidéo de capter les clics */
+introVideo.style.pointerEvents = "none";
 
-#videoControls button{
-  position:absolute;
-  top:18px;
-  background:#1a1208;
-  color:gold;
-  border:3px solid gold;
-  padding:14px 20px;
-  font-size:17px;
-  border-radius:14px;
-  cursor:pointer;
-  font-weight:bold;
-  pointer-events:auto;
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.5),
-    0 4px 0 #3b2208;
-}
+/* Lecture sécurisée */
+introVideo.muted = true;
+introVideo.playsInline = true;
 
-#toggleSound{ right:200px; }
-#closeVideo{ right:20px; }
+const tryPlay = () => {
+  const p = introVideo.play();
+  if (p !== undefined) {
+    p.catch(() => {
+      // iOS / Safari : attente interaction utilisateur
+    });
+  }
+};
+
+tryPlay();
+
+/* Bouton SON */
+toggleSound.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  introVideo.muted = !introVideo.muted;
+  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+});
+
+/* Bouton PASSER */
+closeVideo.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  endVideo();
+});
+
+/* Fin naturelle */
+introVideo.addEventListener("ended", () => {
+  if (!videoEnded) endVideo();
+});
+
+function endVideo(){
+  videoEnded = true;
+  introVideo.pause();
+  videoIntro.classList.add("hidden");
+  document.getElementById("scene").classList.remove("hidden");
+}
 
 /* =====================================================
    🌅 SCÈNE
