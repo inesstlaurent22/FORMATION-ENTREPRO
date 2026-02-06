@@ -64,7 +64,9 @@ function showLoader(cb){
 let dialogs=[], index=0, callback=null;
 
 function playDialog(list, cb){
-  dialogs=list; index=0; callback=cb;
+  dialogs=list;
+  index=0;
+  callback=cb;
   dialogBox.classList.remove("hidden");
   skipDialog.classList.remove("hidden");
   showDialog();
@@ -81,10 +83,13 @@ function showDialog(){
 
 dialogBox.onclick = () => {
   index++;
-  index<dialogs.length ? showDialog() : endDialogs();
+  index < dialogs.length ? showDialog() : endDialogs();
 };
 
-skipDialog.onclick = e => { e.stopPropagation(); endDialogs(); };
+skipDialog.onclick = e => {
+  e.stopPropagation();
+  endDialogs();
+};
 
 function endDialogs(){
   dialogBox.classList.add("hidden");
@@ -99,7 +104,10 @@ function clearMiniGame(){
   miniGame.innerHTML="";
   miniGame.classList.remove("hidden");
 }
-function hideMiniGame(){ miniGame.classList.add("hidden"); }
+
+function hideMiniGame(){
+  miniGame.classList.add("hidden");
+}
 
 function title(t){
   const h=document.createElement("h3");
@@ -123,13 +131,18 @@ function shake(){
 }
 
 /* =====================================================
-   START
+   START — PIRATE 3 GLOW
 ===================================================== */
-pirate3.onclick = () => playDialog([
-  {speaker:"pirate3",text:"Capitaine, ton trésor est prêt."},
-  {speaker:"pirate2",text:"Mais sans communication, personne ne viendra."},
-  {speaker:"pirate3",text:"Voyons comment attirer le marché."}
-], startMG1);
+pirate3.classList.add("glow");
+
+pirate3.onclick = () => {
+  pirate3.classList.remove("glow");
+  playDialog([
+    {speaker:"pirate3",text:"Capitaine, ton trésor est prêt."},
+    {speaker:"pirate2",text:"Mais sans communication, personne ne viendra."},
+    {speaker:"pirate3",text:"Voyons comment attirer le marché."}
+  ], startMG1);
+};
 
 /* =====================================================
    MINI-JEU 1
@@ -141,13 +154,20 @@ const quiz=[
  {t:"📧 Newsletter",q:"Une newsletter permet de :",o:["Rester présent","Créer un lien","Envoyer du spam"],g:[0,1]}
 ];
 
-let qi=0, selected=[];
+let qi=0;
+let selected=[];
+let locked=false;
 
-function startMG1(){ qi=0; showQ(); }
+function startMG1(){
+  qi=0;
+  showQ();
+}
 
 function showQ(){
   clearMiniGame();
   selected=[];
+  locked=false;
+
   const s=quiz[qi];
   title(s.t);
   pirateQuestion(s.q);
@@ -160,17 +180,26 @@ function showQ(){
     b.textContent=txt;
 
     b.onclick=()=>{
-      if(b.classList.contains("pressed"))return;
+      if(locked) return;
+      if(selected.includes(i)) return;
+
       selected.push(i);
 
       if(check(s)){
+        locked=true;
         b.classList.add("pressed");
-        qi++;
-        qi<quiz.length ? setTimeout(showQ,800) : showLoader(afterMG1);
+
+        setTimeout(()=>{
+          qi++;
+          qi < quiz.length
+            ? showQ()
+            : showLoader(afterMG1);
+        },900); // laisse voir le bouton enfoncé
       } else {
         shake();
       }
     };
+
     wrap.appendChild(b);
   });
 
@@ -229,9 +258,32 @@ function imageGroup(list,cb){
   miniGame.appendChild(w);
 }
 
-function startLogo(){ clearMiniGame(); title("Choisis ton logo"); imageGroup(["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],startColors); }
-function startColors(){ clearMiniGame(); title("Choisis ta palette"); imageGroup(["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],startTypo); }
-function startTypo(){ clearMiniGame(); title("Choisis ta typographie"); imageGroup(["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],()=>showLoader(afterMG2)); }
+function startLogo(){
+  clearMiniGame();
+  title("Choisis ton logo");
+  imageGroup(
+    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+    startColors
+  );
+}
+
+function startColors(){
+  clearMiniGame();
+  title("Choisis ta palette");
+  imageGroup(
+    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+    startTypo
+  );
+}
+
+function startTypo(){
+  clearMiniGame();
+  title("Choisis ta typographie");
+  imageGroup(
+    ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
+    ()=>showLoader(afterMG2)
+  );
+}
 
 /* =====================================================
    MINI-JEU 3
@@ -253,7 +305,8 @@ function startMG3(){
   const right=document.createElement("div");
   right.className="mg3-column";
 
-  let sel=null, ok=0;
+  let sel=null;
+  let ok=0;
 
   [
     ["Instagram & TikTok","know"],
@@ -275,11 +328,15 @@ function startMG3(){
     const b=document.createElement("button");
     b.textContent=t[0];
     b.onclick=()=>{
-      if(sel&&sel.key===t[1]){
-        sel.btn.remove(); b.remove();
-        ok++; sel=null;
+      if(sel && sel.key===t[1]){
+        sel.btn.remove();
+        b.remove();
+        sel=null;
+        ok++;
         if(ok===3) showLoader(finish);
-      } else shake();
+      } else {
+        shake();
+      }
     };
     right.appendChild(b);
   });
