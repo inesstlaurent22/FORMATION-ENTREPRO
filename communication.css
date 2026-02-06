@@ -34,14 +34,33 @@ html,body{
   object-fit:cover;
 }
 
-.video-controls{
-  position:fixed;
-  top:18px;
-  right:20px;
-  display:flex;
-  gap:8px;
-  z-index:5000;
+/* ▶️ CONTROLS — STYLE COMMERCE (CORRIGÉ) */
+#videoControls{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:3001;
 }
+
+#videoControls button{
+  position:absolute;
+  top:18px;
+  background:#1a1208;
+  color:gold;
+  border:3px solid gold;
+  padding:14px 20px;
+  font-size:17px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:bold;
+  pointer-events:auto;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.5),
+    0 4px 0 #3b2208;
+}
+
+#toggleSound{ right:200px; }
+#closeVideo{ right:20px; }
 
 /* =====================================================
    🌅 SCÈNE
@@ -49,6 +68,7 @@ html,body{
 #scene{
   position:fixed;
   inset:0;
+  z-index:1;
 }
 
 .fondImage{
@@ -67,6 +87,7 @@ html,body{
   background-size:contain;
   background-repeat:no-repeat;
   cursor:pointer;
+  z-index:2;
 }
 
 #pirate3{
@@ -75,6 +96,17 @@ html,body{
   width:313px;
   height:510px;
   background-image:url("images/Pirate3.png");
+}
+
+/* ✨ GLOW DÉMARRAGE */
+#pirate3.glow{
+  animation:pirateGlow 1.2s infinite;
+}
+
+@keyframes pirateGlow{
+  0%   { filter:drop-shadow(0 0 6px gold); transform:scale(1); }
+  50%  { filter:drop-shadow(0 0 22px gold); transform:scale(1.05); }
+  100% { filter:drop-shadow(0 0 6px gold); transform:scale(1); }
 }
 
 #pirate2{
@@ -113,7 +145,11 @@ html,body{
   padding:14px 20px;
   border-radius:14px;
   font-weight:bold;
+  cursor:pointer;
   z-index:10000;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.5),
+    0 4px 0 #3b2208;
 }
 
 /* =====================================================
@@ -131,6 +167,7 @@ html,body{
   padding:26px;
   box-shadow:0 0 40px rgba(255,215,0,.45);
   text-align:center;
+  z-index:10;
 }
 
 /* =====================================================
@@ -144,13 +181,18 @@ button{
   padding:10px 16px;
   border-radius:14px;
   cursor:pointer;
-  box-shadow:0 4px 0 #3b2208;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
+  transition:transform .05s ease;
 }
 
 button:active,
 button.pressed{
   transform:translateY(4px);
-  box-shadow:0 1px 0 #3b2208 inset;
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.6),
+    0 1px 0 #3b2208;
 }
 
 /* =====================================================
@@ -197,9 +239,7 @@ button.pressed{
   margin-bottom:12px;
 }
 
-.secondary{
-  opacity:.75;
-}
+.secondary{ opacity:.75; }
 
 .info-box{
   margin:14px 0;
