@@ -173,140 +173,174 @@ function afterMG1(){
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (COMPLET)
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (FINAL)
 ===================================================== */
-function startIdentityIntro(){
+
+function startMiniGame2(){
   clearMiniGame();
 
-  const box=document.createElement("div");
-  box.className="mg2-box";
+  const box = document.createElement("div");
+  box.className = "mg2-box";
 
-  box.innerHTML=`
+  box.innerHTML = `
     <div class="mg1-title">Crée ton identité visuelle</div>
-    <p>
-      Ton identité visuelle permet à ta marque d’être reconnue,
+    <p style="margin-bottom:12px;">
+      L’identité visuelle permet à ta marque d’être reconnue,
       mémorisée et différenciée.
     </p>
   `;
 
-  const infoBtn=document.createElement("button");
-  infoBtn.textContent="En savoir plus";
+  const infoBtn = document.createElement("button");
+  infoBtn.textContent = "En savoir plus";
 
-  const infoBox=document.createElement("div");
-  infoBox.className="info-box hidden";
-  infoBox.style.textAlign="left";
-  infoBox.innerHTML=`
-    <ul>
-      <li>Un message clair</li>
-      <li>Un univers cohérent</li>
-      <li>Des choix graphiques alignés</li>
+  const infoBox = document.createElement("div");
+  infoBox.className = "info-box hidden";
+  infoBox.style.textAlign = "center";
+  infoBox.innerHTML = `
+    <ul style="list-style:none; padding:0; margin:0;">
+      <li>• Ton message</li>
+      <li>• Ton public</li>
+      <li>• Tes valeurs</li>
+      <li>• Ton univers graphique</li>
     </ul>
   `;
 
-  const questBtn=document.createElement("button");
-  questBtn.textContent="Continuer la quête";
-  questBtn.className="skip-dialog";
-  questBtn.style.display="none";
+  box.append(infoBtn, infoBox);
+  miniGame.appendChild(box);
 
-  infoBtn.onclick=()=>{
+  const continueQuest = document.createElement("button");
+  continueQuest.className = "skip-dialog";
+  continueQuest.textContent = "Continuer la quête";
+  continueQuest.style.display = "none";
+
+  document.body.appendChild(continueQuest);
+
+  infoBtn.onclick = () => {
     infoBox.classList.remove("hidden");
-    questBtn.style.display="block";
+    continueQuest.style.display = "block";
   };
 
-  questBtn.onclick=()=>{
-    questBtn.remove();
+  continueQuest.onclick = () => {
+    continueQuest.remove();
     showLogoInfo();
   };
-
-  box.append(infoBtn,infoBox);
-  miniGame.appendChild(box);
-  document.body.appendChild(questBtn);
 }
 
-/* ---------- LOGO ---------- */
+/* ================= LOGO ================= */
+
 function showLogoInfo(){
   clearMiniGame();
-  miniGame.innerHTML=`
+
+  miniGame.innerHTML = `
     <div class="mg2-question">L’importance du logo</div>
     <p>
       Le logo est l’élément central de ton identité.
       Il doit être simple, lisible et reconnaissable.
     </p>
+    <p>
+      ✔ Évite les détails inutiles<br>
+      ✔ Pense à son usage sur tous les supports
+    </p>
   `;
-  const btn=document.createElement("button");
-  btn.textContent="Continuer";
-  btn.onclick=()=>showChoices(
-    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
-    showColorInfo,
-    null
-  );
+
+  const btn = document.createElement("button");
+  btn.textContent = "Continuer";
+  btn.onclick = () =>
+    showChoices(
+      ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+      showColorInfo,
+      null /* choix libre */
+    );
+
   miniGame.appendChild(btn);
 }
 
-/* ---------- COULEURS ---------- */
+/* ================= COULEURS ================= */
+
 function showColorInfo(){
   clearMiniGame();
-  miniGame.innerHTML=`
+
+  miniGame.innerHTML = `
     <div class="mg2-question">L’importance des couleurs</div>
     <p>
-      Les couleurs transmettent des émotions
-      et renforcent ton message.
+      Les couleurs transmettent des émotions et donnent
+      une personnalité à ta marque.
+    </p>
+    <p>
+      ✔ Limite-toi à 2–3 couleurs<br>
+      ✔ Pense à la cohérence émotionnelle
     </p>
   `;
-  const btn=document.createElement("button");
-  btn.textContent="Continuer";
-  btn.onclick=()=>showChoices(
-    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
-    showTypoInfo,
-    "images/Couleur1.PNG"
-  );
+
+  const btn = document.createElement("button");
+  btn.textContent = "Continuer";
+  btn.onclick = () =>
+    showChoices(
+      ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+      showTypoInfo,
+      "images/Couleur1.PNG"
+    );
+
   miniGame.appendChild(btn);
 }
 
-/* ---------- TYPO ---------- */
+/* ================= TYPO ================= */
+
 function showTypoInfo(){
   clearMiniGame();
-  miniGame.innerHTML=`
+
+  miniGame.innerHTML = `
     <div class="mg2-question">L’importance de la typographie</div>
     <p>
-      La typographie donne une personnalité
-      à ta marque.
+      La typographie donne le ton de ta marque :
+      sérieuse, fun, premium ou accessible.
+    </p>
+    <p>
+      ✔ Privilégie la lisibilité<br>
+      ✔ Évite de multiplier les polices
     </p>
   `;
-  const btn=document.createElement("button");
-  btn.textContent="Continuer";
-  btn.onclick=()=>showChoices(
-    ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
-    showWinIdentity,
-    "images/Typo1.PNG"
-  );
+
+  const btn = document.createElement("button");
+  btn.textContent = "Continuer";
+  btn.onclick = () =>
+    showChoices(
+      ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
+      showIdentityWin,
+      "images/Typo1.PNG"
+    );
+
   miniGame.appendChild(btn);
 }
 
-/* ---------- CHOIX IMAGES ---------- */
+/* ================= CHOIX + ZOOM ================= */
+
 function showChoices(list, cb, correct){
-  const wrap=document.createElement("div");
-  wrap.className="visualChoices big";
+  const wrap = document.createElement("div");
+  wrap.className = "visualChoices big";
 
   list.forEach(src=>{
-    const w=document.createElement("div");
-    w.className="imgWrap";
+    const w = document.createElement("div");
+    w.className = "imgWrap";
 
-    const img=new Image();
-    img.src=src;
-    img.onclick=()=>{
-      if(correct && src!==correct){ shake(); return; }
+    const img = new Image();
+    img.src = src;
+    img.onclick = () => {
+      if (correct && src !== correct){
+        shake();
+        return;
+      }
       cb();
     };
 
-    const zoom=document.createElement("button");
-    zoom.textContent="🔎";
-    zoom.onclick=e=>{
+    const zoom = document.createElement("button");
+    zoom.textContent = "🔎";
+    zoom.onclick = e => {
       e.stopPropagation();
       zoomImage(src);
     };
 
-    w.append(img,zoom);
+    w.append(img, zoom);
     wrap.appendChild(w);
   });
 
@@ -314,31 +348,53 @@ function showChoices(list, cb, correct){
 }
 
 function zoomImage(src){
-  const f=document.createElement("div");
-  f.id="fadeScreen";
-  f.innerHTML=`<img src="${src}" style="max-width:90%;max-height:90%">`;
-  f.onclick=()=>f.remove();
+  const f = document.createElement("div");
+  f.id = "fadeScreen";
+  f.innerHTML = `<img src="${src}" style="max-width:90%;max-height:90%">`;
+  f.onclick = () => f.remove();
   document.body.appendChild(f);
 }
 
-/* ---------- FIN IDENTITÉ ---------- */
-function showWinIdentity(){
+/* ================= FIN IDENTITÉ ================= */
+
+function showIdentityWin(){
   clearMiniGame();
-  miniGame.innerHTML=`
-    <h2>Bravo, tu as créé ton identité visuelle 🎉</h2>
-    <img src="images/Identiteevisuelle.JPG" style="max-width:100%;margin-top:20px;">
+
+  miniGame.innerHTML = `
+    <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
   `;
 
-  miniGame.onclick=()=>{
-    miniGame.onclick=null;
+  setTimeout(()=>{
+    const img = document.createElement("img");
+    img.src = "images/Identiteevisuelle.JPG";
+    img.style.maxWidth = "100%";
+    img.style.marginTop = "20px";
+    img.style.opacity = "0";
+    img.style.transition = "opacity .8s ease";
+
+    miniGame.appendChild(img);
+    requestAnimationFrame(()=>img.style.opacity="1");
+  },600);
+
+  const questBtn = document.createElement("button");
+  questBtn.className = "skip-dialog";
+  questBtn.textContent = "Continuer la quête";
+
+  document.body.appendChild(questBtn);
+
+  questBtn.onclick = () => {
+    questBtn.remove();
     hideMiniGame();
-    playDialog([
-      {speaker:"pirate2",text:"Magnifique identité."},
-      {speaker:"pirate3",text:"Passons à la diffusion."}
-    ], startMiniGame3);
+    playDialog(
+      [
+        {speaker:"pirate2",text:"Magnifique identité."},
+        {speaker:"pirate3",text:"Passons à la diffusion."}
+      ],
+      startMiniGame3
+    );
   };
 }
-
+   
 /* =====================================================
    🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
 ===================================================== */
