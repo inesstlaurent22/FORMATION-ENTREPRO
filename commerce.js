@@ -402,42 +402,60 @@ function startMiniGame3() {
 
   btnKeep.onclick = () => {
     game3.classList.add("hidden");
-    showCommerceWin(); // 🏆 loader + explosion
+    showCommerceWin(); // 🔥 maintenant visible
   };
 }
 
 /* =====================================================
    LOADER DE FIN
 ===================================================== */
+function showFinalLoader(duration = 1200, cb){
+  fadeScreen.classList.remove("hidden");
+  fadeScreen.style.pointerEvents = "none";
+
+  setTimeout(() => {
+    fadeScreen.classList.add("hidden");
+    cb && cb();
+  }, duration);
+}
+   
 function showCommerceWin(){
 
-  // 🔒 Sécurité : cacher tout le reste
-  game3.classList.add("hidden");
+  // ⛔️ on bloque toute interaction
+  document.body.style.pointerEvents = "none";
 
-  const overlay = document.createElement("div");
-  overlay.id = "communication-win";
+  // 1️⃣ Loader plein écran
+  showFinalLoader(1200, () => {
 
-  overlay.innerHTML = `
-    <div class="win-box">
-      <h2>🏴‍☠️ Bravo !</h2>
-      <p>Tu as terminé la quête Commerce</p>
-      <div class="gems-container"></div>
-    </div>
-  `;
+    // 2️⃣ Overlay victoire
+    const overlay = document.createElement("div");
+    overlay.id = "communication-win";
 
-  document.body.appendChild(overlay);
+    overlay.innerHTML = `
+      <div class="win-box">
+        <h2>🏴‍☠️ Bravo !</h2>
+        <p>Tu as terminé la quête Commerce</p>
+        <div class="gems-container"></div>
+      </div>
+    `;
 
-  // ⏳ petit délai pour laisser apparaître l’overlay
-  setTimeout(() => {
-    launchGemsExplosion(
-      overlay.querySelector(".gems-container")
-    );
-  }, 200);
+    document.body.appendChild(overlay);
 
-  // ⏭️ redirection finale
-  setTimeout(() => {
-    window.location.href = "menu.html";
-  }, 4200);
+    // ⚠️ FORCER LE RENDU AVANT EXPLOSION
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        launchGemsExplosion(
+          overlay.querySelector(".gems-container")
+        );
+      });
+    });
+
+    // 3️⃣ Redirection APRÈS animation
+    setTimeout(() => {
+      window.location.href = "menu.html";
+    }, 4200);
+
+  });
 }
 
 function launchGemsExplosion(container){
