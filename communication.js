@@ -8,7 +8,7 @@ const introVideo     = document.getElementById("questVideo");
 const toggleSound    = document.getElementById("toggleSound");
 const closeVideo     = document.getElementById("closeVideo");
 const scene          = document.getElementById("scene");
-const fadeScreen = document.getElementById("fadeScreen");
+const fadeScreen     = document.getElementById("fadeScreen");
 
 let videoClosed = false;
 
@@ -43,10 +43,13 @@ function closeIntro(){
 }
 
 /* =====================================================
-   🌑 LOADER SIMPLE
+   🌑 LOADER
 ===================================================== */
 function showLoader(duration = 1200, cb){
-  if(!fadeScreen) return cb && cb();
+  if(!fadeScreen){
+    cb && cb();
+    return;
+  }
   fadeScreen.classList.remove("hidden");
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
@@ -65,9 +68,9 @@ pirate3.classList.add("glow");
 pirate3.onclick = () => {
   pirate3.classList.remove("glow");
   playDialog([
-    {speaker:"pirate3", text:"Capitaine, ton trésor est prêt."},
-    {speaker:"pirate2", text:"Mais sans communication, personne ne viendra."},
-    {speaker:"pirate3", text:"Voyons comment attirer le marché."}
+    { speaker:"pirate3", text:"Capitaine, ton trésor est prêt." },
+    { speaker:"pirate2", text:"Mais sans communication, personne ne viendra." },
+    { speaker:"pirate3", text:"Voyons comment attirer le marché." }
   ], startMiniGame1);
 };
 
@@ -78,10 +81,14 @@ const dialogBox  = document.getElementById("dialogBox");
 const dialogText = document.getElementById("dialogText");
 const skipDialog = document.getElementById("skipDialog");
 
-let dialogs=[], dIndex=0, dCallback=null;
+let dialogs = [];
+let dIndex = 0;
+let dCallback = null;
 
 function playDialog(list, cb){
-  dialogs=list; dIndex=0; dCallback=cb;
+  dialogs = list;
+  dIndex = 0;
+  dCallback = cb;
   dialogBox.classList.remove("hidden");
   skipDialog.classList.remove("hidden");
   showDialog();
@@ -90,15 +97,17 @@ function playDialog(list, cb){
 function showDialog(){
   const d = dialogs[dIndex];
   dialogText.textContent = d.text;
-  const p = d.speaker==="pirate2"?pirate2:pirate3;
+
+  const p = d.speaker === "pirate2" ? pirate2 : pirate3;
   const r = p.getBoundingClientRect();
-  dialogBox.style.left = `${r.left+r.width/2-dialogBox.offsetWidth/2}px`;
-  dialogBox.style.top  = `${Math.max(20, r.top-dialogBox.offsetHeight-30)}px`;
+
+  dialogBox.style.left = `${r.left + r.width / 2 - dialogBox.offsetWidth / 2}px`;
+  dialogBox.style.top  = `${Math.max(20, r.top - dialogBox.offsetHeight - 30)}px`;
 }
 
 dialogBox.onclick = () => {
   dIndex++;
-  dIndex<dialogs.length ? showDialog() : endDialogs();
+  dIndex < dialogs.length ? showDialog() : endDialogs();
 };
 
 skipDialog.onclick = e => {
@@ -111,7 +120,7 @@ function endDialogs(){
   dialogBox.classList.add("hidden");
   skipDialog.classList.add("hidden");
 
-  if (dCallback){
+  if(dCallback){
     const cb = dCallback;
     dCallback = null;
     cb();
@@ -124,7 +133,7 @@ function endDialogs(){
 const miniGame = document.getElementById("miniGameContainer");
 
 function clearMiniGame(){
-  miniGame.innerHTML="";
+  miniGame.innerHTML = "";
   miniGame.classList.remove("hidden");
 }
 
@@ -134,55 +143,72 @@ function hideMiniGame(){
 
 function shake(){
   miniGame.classList.add("screen-shake");
-  setTimeout(()=>miniGame.classList.remove("screen-shake"),400);
+  setTimeout(() => miniGame.classList.remove("screen-shake"), 400);
 }
 
 /* =====================================================
    🎯 MINI-JEU 1 — COMMUNICATION
 ===================================================== */
-const quiz=[
- {q:"À quoi sert principalement la communication ?",ok:[0,1],a:["Être comprise","Créer une relation","Parler uniquement de soi"]},
- {q:"La communication permet de :",ok:[0,1],a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"]},
- {q:"Une bonne communication sert à :",ok:[0,1,2],a:["Transmettre un message clair","Se différencier","Construire une image"]},
- {q:"La communication est essentielle pour :",ok:[0,1],a:["Guider le public","Créer du lien","Remplacer un produit"]}
+const quiz = [
+  { q:"À quoi sert principalement la communication ?", ok:[0,1], a:["Être comprise","Créer une relation","Parler uniquement de soi"] },
+  { q:"La communication permet de :", ok:[0,1], a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"] },
+  { q:"Une bonne communication sert à :", ok:[0,1,2], a:["Transmettre un message clair","Se différencier","Construire une image"] },
+  { q:"La communication est essentielle pour :", ok:[0,1], a:["Guider le public","Créer du lien","Remplacer un produit"] }
 ];
 
-let qi=0, found=[];
+let qi = 0;
+let found = [];
 
-function startMiniGame1(){ qi=0; stepMG1(); }
+function startMiniGame1(){
+  qi = 0;
+  stepMG1();
+}
 
 function stepMG1(){
-  clearMiniGame(); found=[];
-  const box=document.createElement("div"); box.className="mg1-box";
+  clearMiniGame();
+  found = [];
 
-  const title=document.createElement("div");
-  title.className="mg1-title";
-  title.textContent="À quoi sert la communication ?";
+  const box = document.createElement("div");
+  box.className = "mg1-box";
 
-  const q=document.createElement("div");
-  q.className="mg1-question";
-  q.textContent=quiz[qi].q;
+  const title = document.createElement("div");
+  title.className = "mg1-title";
+  title.textContent = "À quoi sert la communication ?";
 
-  const a=document.createElement("div");
-  a.className="mg1-answers";
+  const question = document.createElement("div");
+  question.className = "mg1-question";
+  question.textContent = quiz[qi].q;
 
-  quiz[qi].a.forEach((txt,i)=>{
-    const b=document.createElement("button");
-    b.textContent=txt;
-    b.onclick=()=>{
-      if(!quiz[qi].ok.includes(i)){ shake(); return; }
+  const answers = document.createElement("div");
+  answers.className = "mg1-answers";
+
+  quiz[qi].a.forEach((txt, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = txt;
+
+    btn.onclick = () => {
+      if(!quiz[qi].ok.includes(i)){
+        shake();
+        return;
+      }
       if(found.includes(i)) return;
+
       found.push(i);
-      b.classList.add("pressed");
-      b.disabled=true;
-      if(found.length===quiz[qi].ok.length){
-        setTimeout(()=>{ qi++; qi<quiz.length?stepMG1():afterMG1(); },700);
+      btn.classList.add("pressed");
+      btn.disabled = true;
+
+      if(found.length === quiz[qi].ok.length){
+        setTimeout(() => {
+          qi++;
+          qi < quiz.length ? stepMG1() : afterMG1();
+        }, 700);
       }
     };
-    a.appendChild(b);
+
+    answers.appendChild(btn);
   });
 
-  box.append(title,q,a);
+  box.append(title, question, answers);
   miniGame.appendChild(box);
 }
 
@@ -190,8 +216,8 @@ function afterMG1(){
   hideMiniGame();
   showLoader(1200, () => {
     playDialog([
-      {speaker:"pirate2",text:"Parfait."},
-      {speaker:"pirate3",text:"Passons à ton identité visuelle."}
+      { speaker:"pirate2", text:"Parfait." },
+      { speaker:"pirate3", text:"Passons à ton identité visuelle." }
     ], startMiniGame2);
   });
 }
@@ -442,60 +468,73 @@ function showIdentityWin(){
     );
   };
 }
-   
+
 /* =====================================================
    🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
 ===================================================== */
 function startMiniGame3(){
   clearMiniGame();
 
-  const box=document.createElement("div");
-  box.className="mg3-box";
+  const box = document.createElement("div");
+  box.className = "mg3-box";
 
-  const q=document.createElement("div");
-  q.className="mg3-question";
-  q.textContent="Associe chaque canal à son objectif";
+  const question = document.createElement("div");
+  question.className = "mg3-question";
+  question.textContent = "Associe chaque canal à son objectif";
 
-  const c=document.createElement("div");
-  c.className="mg3-container";
+  const container = document.createElement("div");
+  container.className = "mg3-container";
 
-  const l=document.createElement("div");
-  l.className="mg3-column";
+  const left = document.createElement("div");
+  left.className = "mg3-column";
 
-  const r=document.createElement("div");
-  r.className="mg3-column";
+  const right = document.createElement("div");
+  right.className = "mg3-column";
 
-  let sel=null, ok=0;
+  let selected = null;
+  let ok = 0;
 
-  [["Instagram & TikTok","know"],["Facebook & LinkedIn","btob"],["Sites e-commerce","btoc"]]
-  .forEach(p=>{
-    const b=document.createElement("button");
-    b.className="mg3-left-btn";
-    b.textContent=p[0];
-    b.onclick=()=>sel={btn:b,key:p[1]};
-    l.appendChild(b);
+  [
+    ["Instagram & TikTok","know"],
+    ["Facebook & LinkedIn","btob"],
+    ["Sites e-commerce","btoc"]
+  ].forEach(p => {
+    const b = document.createElement("button");
+    b.className = "mg3-left-btn";
+    b.textContent = p[0];
+    b.onclick = () => selected = { btn:b, key:p[1] };
+    left.appendChild(b);
   });
 
-  [["Se faire connaître","know"],["Vendre en BtoB","btob"],["Vendre en BtoC","btoc"]]
-  .sort(()=>Math.random()-0.5)
-  .forEach(t=>{
-    const b=document.createElement("button");
-    b.textContent=t[0];
-    b.onclick=()=>{
-      if(!sel||sel.key!==t[1]){ shake(); return; }
-      sel.btn.remove(); b.remove(); sel=null; ok++;
-  if(ok===3) showCommunicationWin();
-    };
-    r.appendChild(b);
-  });
+  [
+    ["Se faire connaître","know"],
+    ["Vendre en BtoB","btob"],
+    ["Vendre en BtoC","btoc"]
+  ].sort(() => Math.random() - 0.5)
+   .forEach(t => {
+     const b = document.createElement("button");
+     b.textContent = t[0];
+     b.onclick = () => {
+       if(!selected || selected.key !== t[1]){
+         shake();
+         return;
+       }
+       selected.btn.remove();
+       b.remove();
+       selected = null;
+       ok++;
+       if(ok === 3) showCommunicationWin();
+     };
+     right.appendChild(b);
+   });
 
-  c.append(l,r);
-  box.append(q,c);
+  container.append(left, right);
+  box.append(question, container);
   miniGame.appendChild(box);
 }
 
 /* =====================================================
-   LOADER DE FIN
+   🏆 FIN COMMUNICATION
 ===================================================== */
 function showCommunicationWin(){
   hideMiniGame();
@@ -513,22 +552,14 @@ function showCommunicationWin(){
     `;
 
     document.body.appendChild(overlay);
+    launchGemsExplosion(overlay.querySelector(".gems-container"));
 
-    launchGemsExplosion(
-      overlay.querySelector(".gems-container")
-    );
-
-setTimeout(() => {
-
-  /* =====================================================
-     ✅ FLAGS MENU (OBLIGATOIRES)
-  ===================================================== */
-  sessionStorage.setItem("unlock_pirate5", "true"); // ➜ débloque pirate5
-  sessionStorage.setItem("fromCommunication", "true"); // optionnel / futur
-
-  location.href = "menu.html";
-
-}, 4200);
+    setTimeout(() => {
+      sessionStorage.setItem("unlock_pirate5","true");
+      sessionStorage.setItem("fromCommunication","true");
+      location.href = "menu.html";
+    }, 4200);
+  });
 }
 
 function launchGemsExplosion(container){
@@ -553,14 +584,6 @@ function launchGemsExplosion(container){
 
     container.appendChild(gem);
   }
-}
-
-/* =====================================================
-   🏁 FIN
-===================================================== */
-function finish(){
-  sessionStorage.setItem("unlock_pirate5","true");
-  location.href="menu.html";
 }
 
 });
