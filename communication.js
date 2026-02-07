@@ -175,9 +175,17 @@ function stepMG1(){
   title.className = "mg1-title";
   title.textContent = "À quoi sert la communication ?";
 
-  const question = document.createElement("div");
-  question.className = "mg1-question";
-  question.textContent = quiz[qi].q;
+/* Texte explicatif */
+const info = document.createElement("div");
+info.id = "commQuestion";
+info.textContent =
+  "Réponds à ces questions pour connaître un peu plus la communication. " +
+  "Les questions peuvent avoir 1, 2 ou 3 bonnes réponses.";
+
+/* Question */
+const question = document.createElement("div");
+question.className = "gameQuestion";
+question.textContent = quiz[qi].q;
 
   const answers = document.createElement("div");
   answers.className = "mg1-answers";
