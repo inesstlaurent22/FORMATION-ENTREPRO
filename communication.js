@@ -46,6 +46,7 @@ function closeIntro(){
    🌑 LOADER SIMPLE
 ===================================================== */
 function showLoader(duration = 1200, cb){
+  if(!fadeScreen) return cb && cb();
   fadeScreen.classList.remove("hidden");
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
@@ -198,7 +199,6 @@ function afterMG1(){
 /* =====================================================
    🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (FINAL PROPRE)
 ===================================================== */
-
 function startMiniGame2(){
   clearMiniGame();
 
@@ -227,34 +227,31 @@ function startMiniGame2(){
     </ul>
   `;
 
-  box.append(infoBtn, infoBox);
-  miniGame.appendChild(box);
-
   const questBtn = document.createElement("button");
   questBtn.className = "skip-dialog";
   questBtn.textContent = "Continuer la quête";
   questBtn.style.display = "none";
-  document.body.appendChild(questBtn);
 
   infoBtn.onclick = () => {
     infoBox.classList.remove("hidden");
     questBtn.style.display = "block";
   };
 
-questBtn.onclick = () => {
-  questBtn.remove();
-  hideMiniGame();
+  questBtn.onclick = () => {
+    hideMiniGame();
+    showLoader(1200, () => {
+      playDialog(
+        [
+          { speaker:"pirate2", text:"Magnifique identité." },
+          { speaker:"pirate3", text:"Passons à la diffusion." }
+        ],
+        startMiniGame3
+      );
+    });
+  };
 
-  showLoader(1200, () => {
-    playDialog(
-      [
-        { speaker:"pirate2", text:"Magnifique identité." },
-        { speaker:"pirate3", text:"Passons à la diffusion." }
-      ],
-      startMiniGame3
-    );
-  });
-};
+  box.append(infoBtn, infoBox, questBtn);
+  miniGame.appendChild(box);
 }
 
 /* ================= LOGO ================= */
@@ -382,15 +379,24 @@ function showChoiceStep(title, images, next, correct){
 
 function zoomImage(src){
   const overlay = document.createElement("div");
-  overlay.id = "fadeScreen";
-  overlay.innerHTML = `
-    <img src="${src}" class="zoomed-image">
-    <button class="zoom-close">✕</button>
-  `;
+  overlay.id = "zoomOverlay";
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.className = "zoomed-image";
+
+  const close = document.createElement("button");
+  close.className = "zoom-close";
+  close.textContent = "✕";
+
+  close.onclick = () => overlay.remove();
   overlay.onclick = () => overlay.remove();
+  img.onclick = e => e.stopPropagation();
+
+  overlay.append(img, close);
   document.body.appendChild(overlay);
 }
-
+   
 /* ================= FIN IDENTITÉ ================= */
 
 function showIdentityWin(){
