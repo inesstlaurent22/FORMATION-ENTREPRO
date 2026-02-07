@@ -216,7 +216,7 @@ question.textContent = quiz[qi].q;
     answers.appendChild(btn);
   });
 
-  box.append(title, question, answers);
+  box.append(title, info, question, answers);
   miniGame.appendChild(box);
 }
 
