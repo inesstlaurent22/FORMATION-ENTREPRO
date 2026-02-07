@@ -88,14 +88,21 @@ function showScene(){
     pirate5.style.left = "900px";
   });
 
-  setTimeout(() => {
+setTimeout(() => {
+
+  // ⛔ Ne jamais réactiver l’illumination après clic
+  if(!pirate5Locked){
     pirate5.classList.add("glowStart");
-    pirate5.onclick = () => {
-      pirate5.classList.remove("glowStart");
-      pirate5.style.pointerEvents = "none";
-      startDialogues1();
-    };
-  }, 1300);
+  }
+
+  pirate5.onclick = () => {
+    pirate5Locked = true;                 // ⬅️ verrou définitif
+    pirate5.classList.remove("glowStart");
+    pirate5.style.pointerEvents = "none";
+    startDialogues1();
+  };
+
+}, 1300);
 }
 
 /* =====================================================
