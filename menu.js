@@ -18,6 +18,62 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
+   🌌 BACKGROUND JOUR / NUIT
+========================================================== */
+
+const background = document.getElementById("background");
+const timeToggle = document.getElementById("timeToggle");
+const timeDropdown = document.getElementById("timeDropdown");
+
+const DAY_BG = "images/Fondmenu.PNG";
+const NIGHT_BG = "images/Fondmenusoir.PNG";
+
+/* ⏰ Détection automatique heure */
+function applyAutoBackground(){
+  const hour = new Date().getHours();
+  const isNight = hour >= 19 || hour < 7;
+  setBackground(isNight ? "night" : "day", false);
+}
+
+/* 🌄🌃 Application du fond */
+function setBackground(mode, save = true){
+  background.style.backgroundImage =
+    `url("${mode === "night" ? NIGHT_BG : DAY_BG}")`;
+
+  if(save){
+    localStorage.setItem("menu_background", mode);
+  }
+}
+
+/* 🔁 Chargement */
+const savedMode = localStorage.getItem("menu_background");
+if(savedMode){
+  setBackground(savedMode, false);
+}else{
+  applyAutoBackground();
+}
+
+/* ☁️ Toggle dropdown */
+timeToggle.onclick = e => {
+  e.stopPropagation();
+  timeDropdown.style.display =
+    timeDropdown.style.display === "block" ? "none" : "block";
+};
+
+/* 🌅 🌃 Sélection manuelle */
+timeDropdown.querySelectorAll("button").forEach(btn => {
+  btn.onclick = () => {
+    setBackground(btn.dataset.mode);
+    timeDropdown.style.display = "none";
+  };
+});
+
+/* ❌ Fermeture clic extérieur */
+document.addEventListener("click", () => {
+  timeDropdown.style.display = "none";
+});
+
+  /* ==========================================================
      🏴‍☠️ RÉFÉRENCES
   ========================================================== */
   const pirates = ["pirate1","pirate2","pirate3","pirate4","pirate5"]
