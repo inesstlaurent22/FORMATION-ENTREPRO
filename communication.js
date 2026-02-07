@@ -176,13 +176,14 @@ function stepMG1(){
   title.textContent = "À quoi sert la communication ?";
 
 /* Texte explicatif */
+/* Texte explicatif (SANS encart) */
 const info = document.createElement("div");
-info.id = "commQuestion";
+info.className = "comm-info-text";
 info.textContent =
   "Réponds à ces questions pour connaître un peu plus la communication. " +
   "Les questions peuvent avoir 1, 2 ou 3 bonnes réponses.";
 
-/* Question */
+/* Question (AVEC encart blanc) */
 const question = document.createElement("div");
 question.className = "gameQuestion";
 question.textContent = quiz[qi].q;
