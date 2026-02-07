@@ -276,10 +276,14 @@ function startMiniGame2(){
       b.disabled = true;
       if(q.ok){
         success++;
-        if(success === 2){
-          game2.classList.add("hidden");
-          showLoader(800, spawnPirate3);
-        }
+if(success === 2){
+  game2.classList.add("hidden");
+
+  // ⬅️ arrêt illumination pirate5 après mini-jeu 2
+  pirate5.classList.remove("glowStart");
+
+  showLoader(800, spawnPirate3);
+}
       }
     };
     visualChoices.appendChild(b);
