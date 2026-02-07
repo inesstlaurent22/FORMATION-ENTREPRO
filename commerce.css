@@ -226,6 +226,35 @@ html, body{
 }
 
 /* =====================================================
+   🎯 TITRES MINI-JEUX — STYLE PIRATE OFFICIEL
+===================================================== */
+.mg1-title{
+  font-family:"Pirata One", serif;
+  font-size:26px;
+  text-align:center;
+  color:#ffd77a;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:16px;
+  text-shadow:2px 2px 0 #2b1605;
+}
+
+/* =====================================================
+   🎯 MINI-JEUX 1 & 2 — RÉPONSES VERTICALES
+===================================================== */
+.mg1-answers{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  align-items:stretch;
+}
+
+.mg1-answers button{
+  width:100%;
+  text-align:center;
+}
+
+/* =====================================================
    ❓ QUESTIONS
 ===================================================== */
 #commQuestion,
