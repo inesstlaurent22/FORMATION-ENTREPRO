@@ -8,6 +8,7 @@ const introVideo     = document.getElementById("questVideo");
 const toggleSound    = document.getElementById("toggleSound");
 const closeVideo     = document.getElementById("closeVideo");
 const scene          = document.getElementById("scene");
+const fadeScreen = document.getElementById("fadeScreen");
 
 let videoClosed = false;
 
@@ -35,7 +36,21 @@ function closeIntro(){
   videoClosed = true;
   introVideo.pause();
   videoContainer.style.display = "none";
-  scene.classList.remove("hidden");
+
+  showLoader(1200, () => {
+    scene.classList.remove("hidden");
+  });
+}
+
+/* =====================================================
+   🌑 LOADER SIMPLE
+===================================================== */
+function showLoader(duration = 1200, cb){
+  fadeScreen.classList.remove("hidden");
+  setTimeout(() => {
+    fadeScreen.classList.add("hidden");
+    cb && cb();
+  }, duration);
 }
 
 /* =====================================================
@@ -172,10 +187,12 @@ function stepMG1(){
 
 function afterMG1(){
   hideMiniGame();
-  playDialog([
-    {speaker:"pirate2",text:"Parfait."},
-    {speaker:"pirate3",text:"Passons à ton identité visuelle."}
-  ], startMiniGame2);
+  showLoader(1200, () => {
+    playDialog([
+      {speaker:"pirate2",text:"Parfait."},
+      {speaker:"pirate3",text:"Passons à ton identité visuelle."}
+    ], startMiniGame2);
+  });
 }
 
 /* =====================================================
@@ -224,10 +241,20 @@ function startMiniGame2(){
     questBtn.style.display = "block";
   };
 
-  questBtn.onclick = () => {
-    questBtn.remove();
-    showLogoInfo();
-  };
+questBtn.onclick = () => {
+  questBtn.remove();
+  hideMiniGame();
+
+  showLoader(1200, () => {
+    playDialog(
+      [
+        { speaker:"pirate2", text:"Magnifique identité." },
+        { speaker:"pirate3", text:"Passons à la diffusion." }
+      ],
+      startMiniGame3
+    );
+  });
+};
 }
 
 /* ================= LOGO ================= */
@@ -467,26 +494,28 @@ function startMiniGame3(){
 function showCommunicationWin(){
   hideMiniGame();
 
-  const overlay = document.createElement("div");
-  overlay.id = "communication-win";
+  showLoader(1400, () => {
+    const overlay = document.createElement("div");
+    overlay.id = "communication-win";
 
-  overlay.innerHTML = `
-    <div class="win-box">
-      <h2>🏴‍☠️ Bravo !</h2>
-      <p>Tu as gagné la quête Communication</p>
-      <div class="gems-container"></div>
-    </div>
-  `;
+    overlay.innerHTML = `
+      <div class="win-box">
+        <h2>🏴‍☠️ Bravo !</h2>
+        <p>Tu as gagné la quête Communication</p>
+        <div class="gems-container"></div>
+      </div>
+    `;
 
-  document.body.appendChild(overlay);
+    document.body.appendChild(overlay);
 
-  launchGemsExplosion(
-    overlay.querySelector(".gems-container")
-  );
+    launchGemsExplosion(
+      overlay.querySelector(".gems-container")
+    );
 
-  setTimeout(() => {
-    location.href = "menu.html";
-  }, 4200);
+    setTimeout(() => {
+      location.href = "menu.html";
+    }, 4200);
+  });
 }
 
 function launchGemsExplosion(container){
