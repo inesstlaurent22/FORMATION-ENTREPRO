@@ -536,9 +536,11 @@ function showFinalVictory() {
   // Explosion de gems
   if (typeof launchGems === "function") launchGems();
 
-  // Déblocage pirate 4
-  localStorage.setItem("pirate4_unlocked", "true");
-  sessionStorage.setItem("unlock_pirate4", "true");
+/* =====================================================
+   ✅ FLAGS MENU (FINANCE)
+===================================================== */
+sessionStorage.setItem("unlock_pirate4", "true");
+sessionStorage.setItem("fromFinance", "true"); // optionnel / futur
 
   // Retour menu (avec délai visuel)
   setTimeout(() => {
