@@ -342,6 +342,12 @@ function showCommerceWin(){
       launchGemsExplosion(overlay.querySelector(".gems-container"));
     });
 
+    /* =====================================================
+       ✅ FLAGS MENU (CRUCIAL)
+    ===================================================== */
+    sessionStorage.setItem("fromCommerce", "true");        // ➜ déclenche le mot de passe
+    sessionStorage.setItem("unlock_pirate3", "true");     // ➜ débloque pirate 3
+
     setTimeout(()=>{
       window.location.href = "menu.html";
     },4200);
