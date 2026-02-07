@@ -512,10 +512,17 @@ function showCommunicationWin(){
       overlay.querySelector(".gems-container")
     );
 
-    setTimeout(() => {
-      location.href = "menu.html";
-    }, 4200);
-  });
+setTimeout(() => {
+
+  /* =====================================================
+     ✅ FLAGS MENU (OBLIGATOIRES)
+  ===================================================== */
+  sessionStorage.setItem("unlock_pirate5", "true"); // ➜ débloque pirate5
+  sessionStorage.setItem("fromCommunication", "true"); // optionnel / futur
+
+  location.href = "menu.html";
+
+}, 4200);
 }
 
 function launchGemsExplosion(container){
