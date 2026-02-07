@@ -299,10 +299,11 @@ function spawnPirate3(){
   pirate3.classList.remove("hidden");
   pirate3.classList.add("glowStart");
 
-  pirate3.onclick = ()=>{
-    pirate3.classList.remove("glowStart");
-    startFinalDialogues();
-  };
+pirate3.onclick = ()=>{
+  pirate3.classList.remove("glowStart");   // ⬅️ stop glow immédiatement
+  pirate3.style.pointerEvents = "none";    // ⬅️ évite double clic
+  startFinalDialogues();
+};
 }
 
 /* =====================================================
