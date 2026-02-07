@@ -302,6 +302,18 @@ button:disabled{
 }
 
 /* =====================================================
+   🎮 MINI-JEU 3 — BOUTON CENTRÉ
+===================================================== */
+#merchantGame .merchantChoices{
+  display:flex;
+  justify-content:center;
+}
+
+#merchantGame button{
+  min-width:80%;
+}
+
+/* =====================================================
    🏆 VICTOIRE + EXPLOSION
 ===================================================== */
 #communication-win{
