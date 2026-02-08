@@ -75,7 +75,7 @@ html,body{
 }
 
 /* =====================================================
-   🌑 LOADER — 🏴‍☠️ + ROND LUMINEUX
+   🌑 LOADER — 🏴‍☠️
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -201,7 +201,7 @@ html,body{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX CONTAINER — STABLE & CENTRÉ
+   🎮 MINI-JEUX CONTAINER
 ===================================================== */
 #miniGameContainer{
   position:fixed;
@@ -219,23 +219,23 @@ html,body{
 }
 
 /* =====================================================
-   🌪️ SHAKE — PLUS FLUIDE
+   🌪️ SHAKE
 ===================================================== */
 #miniGameContainer.screen-shake{
   animation:shake .35s ease;
 }
 
 @keyframes shake{
-  0%   { transform:translate(-50%,-50%) translateX(0); }
-  20%  { transform:translate(-50%,-50%) translateX(-8px); }
-  40%  { transform:translate(-50%,-50%) translateX(8px); }
-  60%  { transform:translate(-50%,-50%) translateX(-6px); }
-  80%  { transform:translate(-50%,-50%) translateX(6px); }
-  100% { transform:translate(-50%,-50%) translateX(0); }
+  0%{transform:translate(-50%,-50%) translateX(0);}
+  20%{transform:translate(-50%,-50%) translateX(-8px);}
+  40%{transform:translate(-50%,-50%) translateX(8px);}
+  60%{transform:translate(-50%,-50%) translateX(-6px);}
+  80%{transform:translate(-50%,-50%) translateX(6px);}
+  100%{transform:translate(-50%,-50%) translateX(0);}
 }
 
 /* =====================================================
-   🔘 BOUTONS — STYLE PIRATE FINAL
+   🔘 BOUTONS
 ===================================================== */
 button{
   background:linear-gradient(145deg,#7b4a12,#caa14a);
@@ -246,403 +246,149 @@ button{
   padding:12px 18px;
   border-radius:14px;
   cursor:pointer;
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
-  transition:
-    transform .08s ease,
-    box-shadow .08s ease;
+  box-shadow:inset 0 0 6px rgba(255,215,0,.6),0 4px 0 #3b2208;
+  transition:transform .08s ease, box-shadow .08s ease;
 }
 
-/* bouton enfoncé (clic + bonne réponse) */
 button:active,
 button.pressed{
   transform:translateY(4px);
-  box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
+  box-shadow:inset 0 0 10px rgba(0,0,0,.6),0 1px 0 #3b2208;
 }
 
-/* bouton désactivé */
 button:disabled{
   opacity:.6;
   cursor:not-allowed;
 }
 
 /* =====================================================
-   🎯 TITRES MINI-JEUX — STYLE PIRATE OFFICIEL
+   🎯 TITRES
 ===================================================== */
 .mg1-title{
   font-family:"Pirata One", serif;
   font-size:26px;
-  text-align:center;
   color:#ffd77a;
-  letter-spacing:2px;
-  text-transform:uppercase;
   margin-bottom:16px;
   text-shadow:2px 2px 0 #2b1605;
 }
 
 /* =====================================================
-   🎯 MINI-JEU 1 — RÉPONSES VERTICALES
+   🎯 MINI-JEU 1
 ===================================================== */
 .mg1-answers{
   display:flex;
   flex-direction:column;
   gap:14px;
-  align-items:stretch;
 }
 
-.mg1-answers button{
-  width:100%;
-  text-align:center;
-}
-
-/* Texte explicatif (sans fond) */
 .comm-info-text{
   font-size:14px;
-  line-height:1.5;
-  text-align:center;
   margin-bottom:10px;
-  color:#f5e6c8;
 }
 
-/* Question uniquement (fond blanc) */
 .gameQuestion{
   padding:12px 14px;
   background:#f6e6b8;
   color:#2b1605;
   border-radius:12px;
-  text-align:center;
   font-weight:bold;
   margin-bottom:14px;
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (FINAL PROPRE)
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
 ===================================================== */
-function startMiniGame2(){
-  clearMiniGame();
-
-  const box = document.createElement("div");
-  box.className = "mg2-box identity-box";
-
-  box.innerHTML = `
-    <div class="mg1-title">Crée ton identité visuelle</div>
-    <p class="identity-text">
-      L’identité visuelle permet à ta marque d’être reconnue,
-      mémorisée et différenciée.
-    </p>
-  `;
-
-  const infoBtn = document.createElement("button");
-  infoBtn.textContent = "En savoir plus";
-
-  const infoBox = document.createElement("div");
-  infoBox.className = "info-box hidden info-list";
-  infoBox.innerHTML = `
-    <ul>
-      <li>Ton message</li>
-      <li>Ton public</li>
-      <li>Tes valeurs</li>
-      <li>Ton univers graphique</li>
-    </ul>
-  `;
-
-  const questBtn = document.createElement("button");
-  questBtn.className = "skip-dialog";
-  questBtn.textContent = "Continuer la quête";
-  questBtn.style.display = "none";
-
-  infoBtn.onclick = () => {
-    infoBox.classList.remove("hidden");
-    questBtn.style.display = "block";
-  };
-
-  questBtn.onclick = () => {
-    hideMiniGame();
-    showLoader(1200, () => {
-      playDialog(
-        [
-          { speaker:"pirate2", text:"Magnifique identité." },
-          { speaker:"pirate3", text:"Passons à la diffusion." }
-        ],
-        startMiniGame3
-      );
-    });
-  };
-
-  box.append(infoBtn, infoBox, questBtn);
-  miniGame.appendChild(box);
-}
-
-/* ================= LOGO ================= */
-
-function showLogoInfo(){
-  showInfoStep(
-    "L’importance du logo",
-    `
-      Le logo est l’élément central de ton identité visuelle.<br><br>
-      ✔ Il doit être simple<br>
-      ✔ Lisible à toutes tailles<br>
-      ✔ Cohérent avec ton univers
-    `,
-    () => showChoiceStep(
-      "Choix du logo",
-      ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
-      showColorInfo,
-      null
-    )
-  );
-}
-
-/* ================= COULEURS ================= */
-
-function showColorInfo(){
-  showInfoStep(
-    "L’importance des couleurs",
-    `
-      Les couleurs transmettent des émotions.<br><br>
-      ✔ Limite-toi à 2–3 couleurs<br>
-      ✔ Reste cohérent émotionnellement
-    `,
-    () => showChoiceStep(
-      "Choix des couleurs",
-      ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
-      showTypoInfo,
-      "images/Couleur1.PNG"
-    )
-  );
-}
-
-/* ================= TYPO ================= */
-
-function showTypoInfo(){
-  showInfoStep(
-    "L’importance de la typographie",
-    `
-      La typographie donne le ton de ta marque.<br><br>
-      ✔ Lisibilité avant tout<br>
-      ✔ Pas trop de polices
-    `,
-    () => showChoiceStep(
-      "Choix de la typographie",
-      ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
-      showIdentityWin,
-      "images/Typo1.PNG"
-    )
-  );
-}
-
-/* ================= INFO STEP ================= */
-
-function showInfoStep(title, text, next){
-  clearMiniGame();
-
-  const box = document.createElement("div");
-  box.className = "mg2-box";
-
-  box.innerHTML = `
-    <div class="mg1-title">${title}</div>
-    <p class="info-text">${text}</p>
-  `;
-
-  const btn = document.createElement("button");
-  btn.textContent = "Continuer";
-  btn.onclick = next;
-
-  box.appendChild(btn);
-  miniGame.appendChild(box);
-}
-
-/* ================= CHOIX STEP ================= */
-
-function showChoiceStep(title, images, next, correct){
-  clearMiniGame();
-
-  const box = document.createElement("div");
-  box.className = "mg2-box";
-
-  box.innerHTML = `<div class="mg1-title">${title}</div>`;
-  miniGame.appendChild(box);
-
-  const wrap = document.createElement("div");
-  wrap.className = "visualChoices big";
-
-  images.forEach(src=>{
-    const w = document.createElement("div");
-    w.className = "imgWrap";
-
-    const img = new Image();
-    img.src = src;
-    img.onclick = () => {
-      if (correct && src !== correct){
-        shake();
-        return;
-      }
-      next();
-    };
-
-    const zoom = document.createElement("button");
-    zoom.textContent = "🔎";
-    zoom.onclick = e => {
-      e.stopPropagation();
-      zoomImage(src);
-    };
-
-    w.append(img, zoom);
-    wrap.appendChild(w);
-  });
-
-  miniGame.appendChild(wrap);
-}
-
-/* ================= ZOOM ================= */
-
-function zoomImage(src){
-  const overlay = document.createElement("div");
-  overlay.id = "zoomOverlay";
-
-  const img = document.createElement("img");
-  img.src = src;
-  img.className = "zoomed-image";
-
-  const close = document.createElement("button");
-  close.className = "zoom-close";
-  close.textContent = "✕";
-
-  close.onclick = () => overlay.remove();
-  overlay.onclick = () => overlay.remove();
-  img.onclick = e => e.stopPropagation();
-
-  overlay.append(img, close);
-  document.body.appendChild(overlay);
-}
-   
-/* ================= FIN IDENTITÉ ================= */
-
-function showIdentityWin(){
-  clearMiniGame();
-
-  const box = document.createElement("div");
-  box.className = "identity-win";
-
-  const title = document.createElement("h2");
-  title.textContent = "Bravo 🎉 Tu as créé ton identité visuelle";
-
-  const imgWrap = document.createElement("div");
-  imgWrap.className = "identity-img-wrap";
-
-  const img = document.createElement("img");
-  img.src = "images/Identiteevisuelle.JPG";
-  img.className = "identity-img";
-
-  const zoomBtn = document.createElement("button");
-  zoomBtn.textContent = "🔎";
-  zoomBtn.className = "zoom-btn";
-  zoomBtn.onclick = () => zoomImage(img.src);
-
-  imgWrap.append(img, zoomBtn);
-  box.append(title, imgWrap);
-  miniGame.appendChild(box);
-
-  const questBtn = document.createElement("button");
-  questBtn.className = "skip-dialog";
-  questBtn.textContent = "Continuer la quête";
-
-  document.body.appendChild(questBtn);
-
-  questBtn.onclick = () => {
-    questBtn.remove();
-    hideMiniGame();
-    playDialog(
-      [
-        { speaker:"pirate2", text:"Magnifique identité." },
-        { speaker:"pirate3", text:"Passons à la diffusion." }
-      ],
-      startMiniGame3
-    );
-  };
-}
-
-
-/* =====================================================
-   🔗 MINI-JEU 3
-===================================================== */
-.mg3-container{
-  display:flex;
-  gap:32px;
-  margin-top:20px;
-}
-
-.mg3-column{
-  flex:1;
+.mg2-box{
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:16px;
+  align-items:center;
 }
 
-.mg3-left-btn{
-  background:linear-gradient(145deg,#1a1208,#3b2208);
-  color:gold;
-  border-color:gold;
+.identity-box{
+  max-width:520px;
+}
+
+.identity-text,
+.info-text{
+  font-size:14px;
+  line-height:1.6;
+  text-align:center;
+}
+
+.info-box{
+  background:#1a1208;
+  border:2px solid gold;
+  border-radius:14px;
+  padding:14px;
+  width:100%;
+}
+
+.info-box ul{
+  list-style:none;
+  text-align:left;
+}
+
+.visualChoices.big{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.imgWrap{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.visualChoices.big img{
+  width:120px;
+  border-radius:12px;
+  border:3px solid gold;
+  cursor:pointer;
 }
 
 /* =====================================================
-   🏆 VICTOIRE — QUÊTE COMMUNICATION
+   🔍 ZOOM
 ===================================================== */
-#communication-win{
+#zoomOverlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.95);
+  background:rgba(0,0,0,.9);
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:10000;
+  z-index:9999;
 }
 
-.win-box{
-  text-align:center;
-  color:#ffd77a;
+.zoomed-image{
+  max-width:90%;
+  max-height:90%;
+  border:4px solid gold;
+  border-radius:14px;
 }
 
-.win-box h2{
-  font-size:34px;
-  margin-bottom:10px;
-  text-shadow:2px 2px 0 #2b1605;
-}
-
-.win-box p{
-  font-size:18px;
-  margin-bottom:30px;
-}
-
-.gems-container{
+.zoom-close{
   position:absolute;
-  inset:0;
-  pointer-events:none;
+  top:20px;
+  right:20px;
 }
 
-.gem{
-  position:absolute;
-  border-radius:50%;
-  animation:gemExplode 1.6s ease-out forwards;
+/* =====================================================
+   🏆 FIN IDENTITÉ
+===================================================== */
+.identity-win{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  align-items:center;
 }
 
-@keyframes gemExplode{
-  0%{
-    transform:translate(-50%,-50%) scale(1);
-    opacity:1;
-  }
-  100%{
-    transform:
-      translate(
-        calc(-50% + var(--x)),
-        calc(-50% + var(--y))
-      )
-      scale(0);
-    opacity:0;
-  }
+.identity-img{
+  width:160px;
+  border-radius:14px;
+  border:3px solid gold;
 }
 
 /* =====================================================
