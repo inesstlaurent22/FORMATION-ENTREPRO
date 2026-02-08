@@ -302,10 +302,10 @@ quiz.forEach(q => {
     b.disabled = true;
     success++;
 
-    if (success === 2) {
-      game2.classList.add("hidden");
-      // suite de ton flow ici (loader, pirate, etc.)
-    }
+if (success === 2) {
+  game2.classList.add("hidden");
+  showLoader(800, showBusinessPlanLoader);
+}
   };
 
   visualChoices.appendChild(b);
@@ -320,6 +320,93 @@ quiz.forEach(q => {
     };
     visualChoices.appendChild(b);
   });
+}
+
+/* =====================================================
+   📘 LOADER BUSINESS PLAN
+===================================================== */
+function showBusinessPlanLoader(){
+
+  const overlay = document.createElement("div");
+  overlay.id = "identity-loader";
+  overlay.innerHTML = `
+    <div class="identity-center">
+      <h2>📘 Construction du Business plan</h2>
+
+      <div class="book-container">
+        <button id="prevPage" class="book-nav-btn hidden">«</button>
+
+        <div class="book-pages">
+          <img id="leftPage" src="" class="hidden">
+          <img id="rightPage" src="images/Businessplancov.png">
+        </div>
+
+        <button id="nextPage" class="book-nav-btn">></button>
+      </div>
+
+      <button id="continueQuestBtn" class="hidden">Continuer la quête</button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const left = overlay.querySelector("#leftPage");
+  const right = overlay.querySelector("#rightPage");
+  const next = overlay.querySelector("#nextPage");
+  const prev = overlay.querySelector("#prevPage");
+  const continueBtn = overlay.querySelector("#continueQuestBtn");
+
+  let step = 0;
+
+  next.onclick = () => {
+    step++;
+
+    if(step === 1){
+      left.src = "images/Businessplan4.png";
+      right.src = "images/Businessplan1.png";
+      left.classList.remove("hidden");
+      prev.classList.remove("hidden");
+    }
+
+    if(step === 2){
+      left.src = "images/Businessplan4.png";
+      right.src = "images/Businessplan2.png";
+    }
+
+    if(step === 3){
+      left.src = "images/Businessplan4.png";
+      right.src = "images/Businessplan3.png";
+      next.classList.add("hidden");
+      continueBtn.classList.remove("hidden");
+    }
+  };
+
+  prev.onclick = () => {
+    step--;
+    next.classList.remove("hidden");
+    continueBtn.classList.add("hidden");
+
+    if(step === 0){
+      left.classList.add("hidden");
+      right.src = "images/Businessplancov.png";
+      prev.classList.add("hidden");
+    }
+
+    if(step === 1){
+      left.src = "images/Businessplan4.png";
+      right.src = "images/Businessplan1.png";
+    }
+
+    if(step === 2){
+      left.src = "images/Businessplan4.png";
+      right.src = "images/Businessplan2.png";
+    }
+  };
+
+  continueBtn.onclick = () => {
+    overlay.remove();
+    showLoader(800, spawnPirate3);
+  };
 }
 
 /* =====================================================
