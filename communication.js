@@ -433,21 +433,69 @@ function startMiniGame3(){
 }
 
 /* =====================================================
-   🏆 FIN COMMUNICATION
+   🏆 VICTOIRE COMMERCE + EXPLOSION
 ===================================================== */
 function showCommunicationWin(){
-  hideMiniGame();
+  showLoader(1000, ()=>{
+    const overlay = document.createElement("div");
+    overlay.id = "communication-win";
+    overlay.innerHTML = `
+      <div class="win-box">
+        <h2>🏴‍☠️ Bravo !</h2>
+        <p>Tu as terminé la quête Communication</p>
+        <div class="gems-container"></div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
 
-  fadeScreen.classList.remove("hidden");
+    requestAnimationFrame(()=>{
+      launchGemsExplosion(
+        overlay.querySelector(".gems-container")
+      );
+    });
 
-  setTimeout(()=>{
-    fadeScreen.classList.add("gems-explosion");
-  },400);
+    /* =====================================================
+       ✅ FLAGS MENU (CRUCIAL)
+    ===================================================== */
+    sessionStorage.setItem("fromCommerce", "true");
+    sessionStorage.setItem("unlock_pirate5", "true");
 
-  setTimeout(()=>{
-    sessionStorage.setItem("unlock_pirate5","true");
-    location.href="menu.html";
-  },1800);
+    setTimeout(()=>{
+      window.location.href = "menu.html";
+    }, 4200);
+  });
+}
+
+/* =====================================================
+   💎 GEMS EXPLOSION
+===================================================== */
+function launchGemsExplosion(container){
+  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+
+  for(let i=0;i<50;i++){
+    const gem = document.createElement("div");
+    gem.className = "gem";
+
+    const size = Math.random()*10 + 8;
+    gem.style.width = size+"px";
+    gem.style.height = size+"px";
+    gem.style.background =
+      colors[Math.floor(Math.random()*colors.length)];
+
+    gem.style.left = "50%";
+    gem.style.top = "50%";
+
+    const angle = Math.random()*Math.PI*2;
+    const distance = Math.random()*260 + 80;
+    gem.style.setProperty("--x",
+      Math.cos(angle)*distance+"px"
+    );
+    gem.style.setProperty("--y",
+      Math.sin(angle)*distance+"px"
+    );
+
+    container.appendChild(gem);
+  }
 }
 
 });
