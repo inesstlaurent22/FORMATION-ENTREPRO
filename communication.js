@@ -251,7 +251,7 @@ function showColorInfo(){
 function showTypoInfo(){
   showInfoStep("La typographie","La typographie donne le ton.",()=>showChoiceStep(
     "Choix de la typographie",
-    ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
+    ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
     showIdentityWin,
     "images/Typo1.PNG"
   ));
@@ -313,7 +313,7 @@ function showIdentityWin(){
   overlay.innerHTML=`
     <div class="identity-center">
       <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
-      <img src="images/Identiteevisuelle.JPG" class="identity-preview">
+      <img src="images/Identitevisuelle.JPG" class="identity-preview">
       <button id="zoomIdentityBtn">🔎</button>
     </div>
     <button id="continueQuestBtn" class="skip-dialog hidden">Continuer la quête</button>
