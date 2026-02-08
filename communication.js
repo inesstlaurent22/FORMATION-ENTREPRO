@@ -307,31 +307,50 @@ function showChoiceStep(title,images,next,correct){
 function showIdentityWin(){
   hideMiniGame();
 
-  const overlay=document.createElement("div");
-  overlay.id="identity-loader";
+  const overlay = document.createElement("div");
+  overlay.id = "identity-loader";
 
-  overlay.innerHTML=`
+  overlay.innerHTML = `
     <div class="identity-center">
       <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
-      <img src="images/Identitevisuelle.JPG" class="identity-preview">
-      <button id="zoomIdentityBtn">🔎</button>
+
+      <div class="identity-preview-wrap">
+        <img
+          src="images/Identitevisuelle.JPG"
+          class="identity-preview"
+          alt="Identité visuelle"
+        >
+        <button id="zoomIdentityBtn" type="button">🔎</button>
+      </div>
     </div>
-    <button id="continueQuestBtn" class="skip-dialog hidden">Continuer la quête</button>
+
+    <button
+      id="continueQuestBtn"
+      class="skip-dialog hidden"
+      type="button"
+    >
+      Continuer la quête
+    </button>
   `;
 
   document.body.appendChild(overlay);
 
-  overlay.querySelector("#zoomIdentityBtn").onclick=()=>{
+  const zoomBtn = overlay.querySelector("#zoomIdentityBtn");
+  const continueBtn = overlay.querySelector("#continueQuestBtn");
+
+  /* 🔎 ZOOM IMAGE (AU-DESSUS, NON DESTRUCTIF) */
+  zoomBtn.onclick = () => {
     openZoom("images/Identitevisuelle.JPG");
-    overlay.querySelector("#continueQuestBtn").classList.remove("hidden");
+    continueBtn.classList.remove("hidden");
   };
 
-  overlay.querySelector("#continueQuestBtn").onclick=()=>{
+  /* ➜ SUITE DE LA QUÊTE */
+  continueBtn.onclick = () => {
     overlay.remove();
     playDialog(
       [
-        {speaker:"pirate2",text:"Magnifique identité."},
-        {speaker:"pirate3",text:"Passons à la diffusion."}
+        { speaker:"pirate2", text:"Magnifique identité." },
+        { speaker:"pirate3", text:"Passons à la diffusion." }
       ],
       startMiniGame3
     );
@@ -351,18 +370,19 @@ function startMiniGame3(){
   const c=document.createElement("div");
   c.className="mg3-container";
 
-  const l=document.createElement("div");
-  l.className="mg3-column mg3-left";
+const l = document.createElement("div");
+l.className = "mg3-column mg3-left";
 
-  const r=document.createElement("div");
-  r.className="mg3-column mg3-right";
+const r = document.createElement("div");
+r.className = "mg3-column mg3-right";
 
   let sel=null, ok=0;
 
-[["Instagram & TikTok","know"],
+[
+ ["Instagram & TikTok","know"],
  ["Facebook & LinkedIn","btob"],
- ["Sites e-commerce","btoc"]]
-.forEach(p=>{
+ ["Sites e-commerce","btoc"]
+].forEach(p=>{
   const b=document.createElement("button");
   b.className="mg3-btn mg3-btn-left";
   b.textContent=p[0];
@@ -370,10 +390,11 @@ function startMiniGame3(){
   l.appendChild(b);
 });
 
-[["Se faire connaître","know"],
+[
+ ["Se faire connaître","know"],
  ["Vendre en BtoB","btob"],
- ["Vendre en BtoC","btoc"]]
-.forEach(t=>{
+ ["Vendre en BtoC","btoc"]
+].forEach(t=>{
   const b=document.createElement("button");
   b.className="mg3-btn mg3-btn-right";
   b.textContent=t[0];
