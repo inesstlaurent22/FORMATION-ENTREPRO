@@ -319,122 +319,252 @@ button:disabled{
 }
 
 /* =====================================================
-   📦 MINI-JEU 2 — IDENTITÉ VISUELLE
+   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE (FINAL PROPRE)
 ===================================================== */
-.mg2-box{
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-  align-items:center;
+function startMiniGame2(){
+  clearMiniGame();
+
+  const box = document.createElement("div");
+  box.className = "mg2-box identity-box";
+
+  box.innerHTML = `
+    <div class="mg1-title">Crée ton identité visuelle</div>
+    <p class="identity-text">
+      L’identité visuelle permet à ta marque d’être reconnue,
+      mémorisée et différenciée.
+    </p>
+  `;
+
+  const infoBtn = document.createElement("button");
+  infoBtn.textContent = "En savoir plus";
+
+  const infoBox = document.createElement("div");
+  infoBox.className = "info-box hidden info-list";
+  infoBox.innerHTML = `
+    <ul>
+      <li>Ton message</li>
+      <li>Ton public</li>
+      <li>Tes valeurs</li>
+      <li>Ton univers graphique</li>
+    </ul>
+  `;
+
+  const questBtn = document.createElement("button");
+  questBtn.className = "skip-dialog";
+  questBtn.textContent = "Continuer la quête";
+  questBtn.style.display = "none";
+
+  infoBtn.onclick = () => {
+    infoBox.classList.remove("hidden");
+    questBtn.style.display = "block";
+  };
+
+  questBtn.onclick = () => {
+    hideMiniGame();
+    showLoader(1200, () => {
+      playDialog(
+        [
+          { speaker:"pirate2", text:"Magnifique identité." },
+          { speaker:"pirate3", text:"Passons à la diffusion." }
+        ],
+        startMiniGame3
+      );
+    });
+  };
+
+  box.append(infoBtn, infoBox, questBtn);
+  miniGame.appendChild(box);
 }
 
-.identity-box{
-  max-width:520px;
-  margin:auto;
+/* ================= LOGO ================= */
+
+function showLogoInfo(){
+  showInfoStep(
+    "L’importance du logo",
+    `
+      Le logo est l’élément central de ton identité visuelle.<br><br>
+      ✔ Il doit être simple<br>
+      ✔ Lisible à toutes tailles<br>
+      ✔ Cohérent avec ton univers
+    `,
+    () => showChoiceStep(
+      "Choix du logo",
+      ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+      showColorInfo,
+      null
+    )
+  );
 }
 
-.identity-text{
-  font-size:14px;
-  line-height:1.6;
+/* ================= COULEURS ================= */
+
+function showColorInfo(){
+  showInfoStep(
+    "L’importance des couleurs",
+    `
+      Les couleurs transmettent des émotions.<br><br>
+      ✔ Limite-toi à 2–3 couleurs<br>
+      ✔ Reste cohérent émotionnellement
+    `,
+    () => showChoiceStep(
+      "Choix des couleurs",
+      ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+      showTypoInfo,
+      "images/Couleur1.PNG"
+    )
+  );
 }
 
-.info-box{
-  background:#1a1208;
-  border:2px solid gold;
-  border-radius:14px;
-  padding:14px;
-  margin-top:10px;
+/* ================= TYPO ================= */
+
+function showTypoInfo(){
+  showInfoStep(
+    "L’importance de la typographie",
+    `
+      La typographie donne le ton de ta marque.<br><br>
+      ✔ Lisibilité avant tout<br>
+      ✔ Pas trop de polices
+    `,
+    () => showChoiceStep(
+      "Choix de la typographie",
+      ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
+      showIdentityWin,
+      "images/Typo1.PNG"
+    )
+  );
 }
 
-.info-box ul{
-  list-style:none;
-  text-align:left;
+/* ================= INFO STEP ================= */
+
+function showInfoStep(title, text, next){
+  clearMiniGame();
+
+  const box = document.createElement("div");
+  box.className = "mg2-box";
+
+  box.innerHTML = `
+    <div class="mg1-title">${title}</div>
+    <p class="info-text">${text}</p>
+  `;
+
+  const btn = document.createElement("button");
+  btn.textContent = "Continuer";
+  btn.onclick = next;
+
+  box.appendChild(btn);
+  miniGame.appendChild(box);
 }
 
-.info-box li{
-  margin-bottom:6px;
+/* ================= CHOIX STEP ================= */
+
+function showChoiceStep(title, images, next, correct){
+  clearMiniGame();
+
+  const box = document.createElement("div");
+  box.className = "mg2-box";
+
+  box.innerHTML = `<div class="mg1-title">${title}</div>`;
+  miniGame.appendChild(box);
+
+  const wrap = document.createElement("div");
+  wrap.className = "visualChoices big";
+
+  images.forEach(src=>{
+    const w = document.createElement("div");
+    w.className = "imgWrap";
+
+    const img = new Image();
+    img.src = src;
+    img.onclick = () => {
+      if (correct && src !== correct){
+        shake();
+        return;
+      }
+      next();
+    };
+
+    const zoom = document.createElement("button");
+    zoom.textContent = "🔎";
+    zoom.onclick = e => {
+      e.stopPropagation();
+      zoomImage(src);
+    };
+
+    w.append(img, zoom);
+    wrap.appendChild(w);
+  });
+
+  miniGame.appendChild(wrap);
 }
 
-/* =====================================================
-   🖼️ CHOIX IMAGES
-===================================================== */
-.visualChoices.big{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-  margin-top:16px;
+/* ================= ZOOM ================= */
+
+function zoomImage(src){
+  const overlay = document.createElement("div");
+  overlay.id = "zoomOverlay";
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.className = "zoomed-image";
+
+  const close = document.createElement("button");
+  close.className = "zoom-close";
+  close.textContent = "✕";
+
+  close.onclick = () => overlay.remove();
+  overlay.onclick = () => overlay.remove();
+  img.onclick = e => e.stopPropagation();
+
+  overlay.append(img, close);
+  document.body.appendChild(overlay);
+}
+   
+/* ================= FIN IDENTITÉ ================= */
+
+function showIdentityWin(){
+  clearMiniGame();
+
+  const box = document.createElement("div");
+  box.className = "identity-win";
+
+  const title = document.createElement("h2");
+  title.textContent = "Bravo 🎉 Tu as créé ton identité visuelle";
+
+  const imgWrap = document.createElement("div");
+  imgWrap.className = "identity-img-wrap";
+
+  const img = document.createElement("img");
+  img.src = "images/Identiteevisuelle.JPG";
+  img.className = "identity-img";
+
+  const zoomBtn = document.createElement("button");
+  zoomBtn.textContent = "🔎";
+  zoomBtn.className = "zoom-btn";
+  zoomBtn.onclick = () => zoomImage(img.src);
+
+  imgWrap.append(img, zoomBtn);
+  box.append(title, imgWrap);
+  miniGame.appendChild(box);
+
+  const questBtn = document.createElement("button");
+  questBtn.className = "skip-dialog";
+  questBtn.textContent = "Continuer la quête";
+
+  document.body.appendChild(questBtn);
+
+  questBtn.onclick = () => {
+    questBtn.remove();
+    hideMiniGame();
+    playDialog(
+      [
+        { speaker:"pirate2", text:"Magnifique identité." },
+        { speaker:"pirate3", text:"Passons à la diffusion." }
+      ],
+      startMiniGame3
+    );
+  };
 }
 
-.imgWrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;
-}
-
-.visualChoices.big img{
-  width:120px;
-  border-radius:12px;
-  border:3px solid gold;
-  cursor:pointer;
-}
-
-/* =====================================================
-   🔍 ZOOM
-===================================================== */
-#fadeScreen{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.zoomed-image{
-  max-width:90%;
-  max-height:90%;
-  border:4px solid gold;
-  border-radius:14px;
-}
-
-.zoom-close{
-  position:absolute;
-  top:20px;
-  right:20px;
-}
-
-/* =====================================================
-   🏆 FIN IDENTITÉ VISUELLE
-===================================================== */
-
-.identity-win{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:16px;
-}
-
-.identity-img-wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-}
-
-.identity-img{
-  width:160px;
-  max-width:80%;
-  border-radius:14px;
-  border:3px solid gold;
-  box-shadow:0 0 18px rgba(255,215,0,.45);
-}
-
-.zoom-btn{
-  padding:6px 12px;
-  font-size:16px;
-}
 
 /* =====================================================
    🔗 MINI-JEU 3
