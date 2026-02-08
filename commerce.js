@@ -233,9 +233,11 @@ function startMiniGame1() {
       const b = document.createElement("button");
       b.textContent = t;
 
-      b.onclick = () => {
-        if (!quiz[i].ok.includes(idx)) return;
-        if (found.includes(idx)) return;
+b.onclick = () => {
+  if (!quiz[i].ok.includes(idx)) {
+    shake(game1);
+    return;
+  }
 
         found.push(idx);
         b.classList.add("pressed");
@@ -287,15 +289,27 @@ function startMiniGame2(){
 
   let success = 0;
 
-  quiz.forEach(q=>{
-    const b = document.createElement("button");
-    b.textContent = q.t;
-    b.onclick = ()=>{
-      b.disabled = true;
-      if(q.ok){
-        success++;
-if(success === 2){
-  game2.classList.add("hidden");
+quiz.forEach(q => {
+  const b = document.createElement("button");
+  b.textContent = q.t;
+
+  b.onclick = () => {
+    if (!q.ok) {
+      shake(game2);
+      return;
+    }
+
+    b.disabled = true;
+    success++;
+
+    if (success === 2) {
+      game2.classList.add("hidden");
+      // suite de ton flow ici (loader, pirate, etc.)
+    }
+  };
+
+  visualChoices.appendChild(b);
+});
 
   // ⬅️ arrêt illumination pirate5 après mini-jeu 2
   pirate5.classList.remove("glowStart");
@@ -339,10 +353,14 @@ function startFinalDialogues(){
 ===================================================== */
 function startMiniGame3(){
   game3.classList.remove("hidden");
-  btnKeep.onclick = ()=>{
-    game3.classList.add("hidden");
-    showCommerceWin();
-  };
+btnKeep.onclick = ()=>{
+  if(!btnKeep.classList.contains("valid")){
+    shake(game3);
+    return;
+  }
+  game3.classList.add("hidden");
+  showCommerceWin();
+};
 }
 
 /* =====================================================
