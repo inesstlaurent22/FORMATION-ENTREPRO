@@ -448,6 +448,15 @@ button:disabled{
   color:#ffd77a;
   font-size:26px;
   line-height:1.3;
+  text-shadow:2px 2px 0 #2b1605;
+}
+
+/* 🖼️ WRAP image + bouton 🔎 */
+.identity-preview-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
 }
 
 /* Image miniature */
@@ -456,15 +465,17 @@ button:disabled{
   max-width:80vw;
   border-radius:14px;
   border:3px solid gold;
+  box-shadow:0 0 18px rgba(255,215,0,.45);
 }
 
-/* Bouton zoom */
+/* 🔎 Bouton ZOOM — SOUS l’image */
 #zoomIdentityBtn{
   font-size:18px;
-  padding:10px 16px;
+  padding:8px 14px;
+  border-radius:12px;
 }
 
-/* Bouton continuer */
+/* ➜ Bouton continuer la quête (haut droite) */
 #continueQuestBtn{
   position:fixed;
   top:18px;
@@ -498,23 +509,29 @@ button:disabled{
   color:#062015;
 }
 
-/* ➡️ BOUTONS DROITE — MARRON CLAIR */
+/* ➡️ MINI-JEU 3 — BOUTONS DROITE (OBJECTIFS) */
 .mg3-btn-right{
-  background:linear-gradient(145deg,#caa14a,#f0d58a);
-  border:3px solid #7b4a12;
+  background:linear-gradient(145deg,#d6b36a,#f3e1a4);
+  border:3px solid #8a5a1f;
   color:#2b1605;
+  font-weight:bold;
   box-shadow:
-    inset 0 0 6px rgba(255,255,255,.4),
-    0 4px 0 #7b4a12;
+    inset 0 0 6px rgba(255,255,255,.45),
+    0 4px 0 #8a5a1f;
 }
 
-/* état enfoncé */
+/* Hover */
+.mg3-btn-right:hover{
+  filter:brightness(1.05);
+}
+
+/* Enfoncé */
 .mg3-btn-right:active,
 .mg3-btn-right.pressed{
   transform:translateY(4px);
   box-shadow:
-    inset 0 0 10px rgba(0,0,0,.35),
-    0 1px 0 #7b4a12;
+    inset 0 0 10px rgba(0,0,0,.4),
+    0 1px 0 #8a5a1f;
 }
 
 /* Boutons MG3 communs */
