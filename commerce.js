@@ -313,17 +313,6 @@ function startMiniGame2(){
   });
 }
 
-  // ⬅️ arrêt illumination pirate5 après mini-jeu 2
-  pirate5.classList.remove("glowStart");
-
-  showLoader(800, spawnPirate3);
-}
-      }
-    };
-    visualChoices.appendChild(b);
-  });
-}
-
 /* =====================================================
    📘 LOADER BUSINESS PLAN
 ===================================================== */
