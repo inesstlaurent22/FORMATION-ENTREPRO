@@ -485,7 +485,6 @@ button:disabled{
 }
 
 .win-box{
-  position:relative;
   text-align:center;
   color:#ffd77a;
 }
@@ -527,6 +526,7 @@ button:disabled{
     opacity:0;
   }
 }
+
 /* =====================================================
    📱 RESPONSIVE
 ===================================================== */
