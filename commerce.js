@@ -312,7 +312,7 @@ function startMiniGame2(){
     visualChoices.appendChild(b);
   });
 }
-
+   
 /* =====================================================
    📘 LOADER BUSINESS PLAN
 ===================================================== */
