@@ -355,7 +355,7 @@ function showIdentityWin(){
       <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
 
       <img
-        src="images/identiteevisuelle.JPG"
+        src="images/Identiteevisuelle.JPG"
         class="identity-preview"
         alt="Identité visuelle"
       />
