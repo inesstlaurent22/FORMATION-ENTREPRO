@@ -166,7 +166,18 @@ function startDialogues1() {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — MULTI BONNES RÉPONSES ✅ CONSERVÉ
+   SHAKE MAUVAISE RÉPONSE
+===================================================== */
+   
+function shake(element){
+  element.classList.add("screen-shake");
+  setTimeout(() => {
+    element.classList.remove("screen-shake");
+  }, 400);
+}
+   
+/* =====================================================
+   🎮 MINI-JEU 1 — MULTI BONNES RÉPONSES 
 ===================================================== */
 function startMiniGame1() {
   game1.classList.remove("hidden");
