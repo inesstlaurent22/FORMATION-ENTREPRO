@@ -237,6 +237,25 @@ function startMiniGame2(){
   document.body.appendChild(questBtn);
 }
 
+function openZoom(src){
+  const overlay=document.createElement("div");
+  overlay.id="zoomOverlay";
+
+  const img=document.createElement("img");
+  img.src=src;
+  img.className="zoomed-image";
+
+  const close=document.createElement("button");
+  close.className="zoom-close";
+  close.textContent="✖";
+
+  close.onclick=()=>overlay.remove();
+  overlay.onclick=e=>{ if(e.target===overlay) overlay.remove(); };
+
+  overlay.append(img,close);
+  document.body.appendChild(overlay);
+}
+
 /* ================= LOGO → COULEURS → TYPO ================= */
 
 function showLogoInfo(){
@@ -300,36 +319,56 @@ function showChoiceStep(title,images,next,correct){
   const wrap=document.createElement("div");
   wrap.className="visualChoices big";
 
-  images.forEach(src=>{
-    const w=document.createElement("div");
-    w.className="imgWrap";
-    const img=new Image();
-    img.src=src;
-    img.onclick=()=>{
-      if(correct && src!==correct){ shake(); return; }
-      next();
-    };
-    w.appendChild(img);
-    wrap.appendChild(w);
-  });
+images.forEach(src=>{
+  const w=document.createElement("div");
+  w.className="imgWrap";
+
+  const img=new Image();
+  img.src=src;
+  img.onclick=()=>{
+    if(correct && src!==correct){ shake(); return; }
+    next();
+  };
+
+  const zoomBtn=document.createElement("button");
+  zoomBtn.textContent="🔎";
+  zoomBtn.onclick=e=>{
+    e.stopPropagation();
+    openZoom(src);
+  };
+
+  w.append(img,zoomBtn);
+  wrap.appendChild(w);
+});
 
   miniGame.appendChild(wrap);
 }
 
 function showIdentityWin(){
-  clearMiniGame();
-  const box=document.createElement("div");
-  box.className="identity-win";
-  box.innerHTML="<h2>Bravo 🎉 Tu as créé ton identité visuelle</h2>";
-  miniGame.appendChild(box);
+  miniGame.innerHTML="";
+  miniGame.classList.remove("hidden");
+
+  const overlay=document.createElement("div");
+  overlay.className="identity-dark";
+
+  const title=document.createElement("h2");
+  title.textContent="Bravo 🎉 Tu as créé ton identité visuelle";
+
+  /* Image miniature */
+  const img=document.createElement("img");
+  img.src="images/identiteevisuelle.JPG";
+  img.className="identity-thumb";
+
+  const zoomBtn=document.createElement("button");
+  zoomBtn.textContent="🔎";
+  zoomBtn.onclick=()=>openZoom(img.src);
 
   const questBtn=document.createElement("button");
-  questBtn.className="skip-dialog";
   questBtn.textContent="Continuer la quête";
-  document.body.appendChild(questBtn);
+  questBtn.className="skip-dialog";
 
   questBtn.onclick=()=>{
-    questBtn.remove();
+    overlay.remove();
     hideMiniGame();
     playDialog(
       [
@@ -339,6 +378,9 @@ function showIdentityWin(){
       startMiniGame3
     );
   };
+
+  overlay.append(title,img,zoomBtn,questBtn);
+  miniGame.appendChild(overlay);
 }
 
 /* =====================================================
@@ -395,10 +437,17 @@ function startMiniGame3(){
 ===================================================== */
 function showCommunicationWin(){
   hideMiniGame();
-  showLoader(1400,()=>{
+
+  fadeScreen.classList.remove("hidden");
+
+  setTimeout(()=>{
+    fadeScreen.classList.add("gems-explosion");
+  },400);
+
+  setTimeout(()=>{
     sessionStorage.setItem("unlock_pirate5","true");
     location.href="menu.html";
-  });
+  },1800);
 }
 
 });
