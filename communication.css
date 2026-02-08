@@ -349,6 +349,14 @@ button:disabled{
   cursor:pointer;
 }
 
+.comm-info-text{
+  margin-bottom:18px; /* ↑ espace avec l’encart question */
+}
+
+.gameQuestion{
+  margin-top:10px;
+}
+
 /* =====================================================
    🔍 ZOOM
 ===================================================== */
