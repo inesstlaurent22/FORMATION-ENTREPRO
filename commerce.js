@@ -289,27 +289,29 @@ function startMiniGame2(){
 
   let success = 0;
 
-quiz.forEach(q => {
-  const b = document.createElement("button");
-  b.textContent = q.t;
+  quiz.forEach(q => {
+    const b = document.createElement("button");
+    b.textContent = q.t;
 
-  b.onclick = () => {
-    if (!q.ok) {
-      shake(game2);
-      return;
-    }
+    b.onclick = () => {
+      if (!q.ok) {
+        shake(game2);
+        return;
+      }
 
-    b.disabled = true;
-    success++;
+      b.disabled = true;
+      success++;
 
-if (success === 2) {
-  game2.classList.add("hidden");
-  showLoader(800, showBusinessPlanLoader);
+      if (success === 2) {
+        game2.classList.add("hidden");
+        pirate5.classList.remove("glowStart");
+        showLoader(800, showBusinessPlanLoader);
+      }
+    };
+
+    visualChoices.appendChild(b);
+  });
 }
-  };
-
-  visualChoices.appendChild(b);
-});
 
   // ⬅️ arrêt illumination pirate5 après mini-jeu 2
   pirate5.classList.remove("glowStart");
