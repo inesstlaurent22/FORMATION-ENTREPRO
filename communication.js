@@ -313,7 +313,7 @@ function showIdentityWin(){
   overlay.innerHTML=`
     <div class="identity-center">
       <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
-      <img src="images/identiteevisuelle.JPG" class="identity-preview">
+      <img src="images/Identiteevisuelle.JPG" class="identity-preview">
       <button id="zoomIdentityBtn">🔎</button>
     </div>
     <button id="continueQuestBtn" class="skip-dialog hidden">Continuer la quête</button>
