@@ -352,29 +352,41 @@ function startMiniGame3(){
   c.className="mg3-container";
 
   const l=document.createElement("div");
+  l.className="mg3-column mg3-left";
+
   const r=document.createElement("div");
+  r.className="mg3-column mg3-right";
 
   let sel=null, ok=0;
 
-  [["Instagram & TikTok","know"],["Facebook & LinkedIn","btob"],["Sites e-commerce","btoc"]]
-  .forEach(p=>{
-    const b=document.createElement("button");
-    b.textContent=p[0];
-    b.onclick=()=>sel={btn:b,key:p[1]};
-    l.appendChild(b);
-  });
+[["Instagram & TikTok","know"],
+ ["Facebook & LinkedIn","btob"],
+ ["Sites e-commerce","btoc"]]
+.forEach(p=>{
+  const b=document.createElement("button");
+  b.className="mg3-btn mg3-btn-left";
+  b.textContent=p[0];
+  b.onclick=()=>sel={btn:b,key:p[1]};
+  l.appendChild(b);
+});
 
-  [["Se faire connaître","know"],["Vendre en BtoB","btob"],["Vendre en BtoC","btoc"]]
-  .forEach(t=>{
-    const b=document.createElement("button");
-    b.textContent=t[0];
-    b.onclick=()=>{
-      if(!sel||sel.key!==t[1]){ shake(); return; }
-      sel.btn.remove(); b.remove(); sel=null; ok++;
-      if(ok===3) showCommunicationWin();
-    };
-    r.appendChild(b);
-  });
+[["Se faire connaître","know"],
+ ["Vendre en BtoB","btob"],
+ ["Vendre en BtoC","btoc"]]
+.forEach(t=>{
+  const b=document.createElement("button");
+  b.className="mg3-btn mg3-btn-right";
+  b.textContent=t[0];
+  b.onclick=()=>{
+    if(!sel||sel.key!==t[1]){ shake(); return; }
+    sel.btn.remove();
+    b.remove();
+    sel=null;
+    ok++;
+    if(ok===3) showCommunicationWin();
+  };
+  r.appendChild(b);
+});
 
   c.append(l,r);
   box.appendChild(c);
