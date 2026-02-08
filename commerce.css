@@ -209,6 +209,24 @@ html, body{
 }
 
 /* =====================================================
+   🌪️ SHAKE
+===================================================== */
+#communicationGame,
+#visualIdentityGame,
+#merchantGame.screen-shake{
+  animation:shake .35s ease;
+}
+
+@keyframes shake{
+  0%{transform:translate(-50%,-50%) translateX(0);}
+  20%{transform:translate(-50%,-50%) translateX(-8px);}
+  40%{transform:translate(-50%,-50%) translateX(8px);}
+  60%{transform:translate(-50%,-50%) translateX(-6px);}
+  80%{transform:translate(-50%,-50%) translateX(6px);}
+  100%{transform:translate(-50%,-50%) translateX(0);}
+}
+
+/* =====================================================
    🎯 TITRES MINI-JEUX
 ===================================================== */
 .mg1-title{
