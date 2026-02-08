@@ -382,13 +382,13 @@ function startMiniGame3(){
 }
 
 /* =====================================================
-   🏆 FIN + EXPLOSION
+   🏆 VICTOIRE + EXPLOSION
 ===================================================== */
 function showCommunicationWin(){
-  showLoader(1000,()=>{
-    const overlay=document.createElement("div");
-    overlay.id="communication-win";
-    overlay.innerHTML=`
+  showLoader(1000, ()=>{
+    const overlay = document.createElement("div");
+    overlay.id = "communication-win";
+    overlay.innerHTML = `
       <div class="win-box">
         <h2>🏴‍☠️ Bravo !</h2>
         <p>Tu as terminé la quête Communication</p>
@@ -396,26 +396,44 @@ function showCommunicationWin(){
       </div>
     `;
     document.body.appendChild(overlay);
-    launchGemsExplosion(overlay.querySelector(".gems-container"));
-    sessionStorage.setItem("unlock_pirate5","true");
-    setTimeout(()=>location.href="menu.html",4200);
+
+    requestAnimationFrame(()=>{
+      launchGemsExplosion(overlay.querySelector(".gems-container"));
+    });
+
+    /* =====================================================
+       ✅ FLAGS MENU (CRUCIAL)
+    ===================================================== */
+    sessionStorage.setItem("unlock_pirate5", "true");     // ➜ débloque pirate 3
+
+    setTimeout(()=>{
+      window.location.href = "menu.html";
+    },4200);
   });
 }
 
+/* =====================================================
+   💎 GEMS
+===================================================== */
 function launchGemsExplosion(container){
-  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+
   for(let i=0;i<50;i++){
-    const g=document.createElement("div");
-    g.className="gem";
-    const a=Math.random()*Math.PI*2;
-    const d=Math.random()*260+80;
-    g.style.setProperty("--x",Math.cos(a)*d+"px");
-    g.style.setProperty("--y",Math.sin(a)*d+"px");
-    g.style.background=colors[Math.floor(Math.random()*colors.length)];
-    g.style.left="50%";
-    g.style.top="50%";
-    container.appendChild(g);
+    const gem = document.createElement("div");
+    gem.className = "gem";
+    const size = Math.random()*10 + 8;
+    gem.style.width = size+"px";
+    gem.style.height = size+"px";
+    gem.style.background = colors[Math.floor(Math.random()*colors.length)];
+    gem.style.left = "50%";
+    gem.style.top = "50%";
+
+    const angle = Math.random()*Math.PI*2;
+    const distance = Math.random()*260 + 80;
+    gem.style.setProperty("--x", Math.cos(angle)*distance+"px");
+    gem.style.setProperty("--y", Math.sin(angle)*distance+"px");
+
+    container.appendChild(gem);
   }
 }
-
 });
