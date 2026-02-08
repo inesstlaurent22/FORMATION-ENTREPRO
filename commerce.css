@@ -321,6 +321,68 @@ button:disabled{
 }
 
 /* =====================================================
+   📘 LOADER BUSINESS PLAN
+===================================================== */
+#identity-loader{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.identity-center{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+  text-align:center;
+  max-width:90%;
+}
+
+.identity-center h2{
+  color:#ffd77a;
+  font-size:26px;
+  text-shadow:2px 2px 0 #2b1605;
+}
+
+/* 📖 Livre */
+.book-container{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.book-pages{
+  display:flex;
+  gap:6px;
+}
+
+.book-pages img{
+  width:180px;
+  max-width:40vw;
+  border-radius:14px;
+  border:3px solid gold;
+  box-shadow:0 0 18px rgba(255,215,0,.45);
+}
+
+/* ➜ Boutons navigation */
+.book-nav-btn{
+  font-size:22px;
+  padding:10px 16px;
+  border-radius:14px;
+}
+
+/* Continuer la quête */
+#continueQuestBtn{
+  position:fixed;
+  top:18px;
+  right:20px;
+}
+
+/* =====================================================
    🎮 MINI-JEU 3
 ===================================================== */
 #merchantGame button{
