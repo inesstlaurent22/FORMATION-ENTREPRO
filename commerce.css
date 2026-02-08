@@ -45,12 +45,20 @@ html, body{
 #videoControls button{
   position:absolute;
   top:18px;
+  background:#1a1208;
+  color:gold;
+  border:3px solid gold;
+  padding:14px 20px;
+  font-size:16px;
+  border-radius:14px;
+  font-weight:bold;
+  cursor:pointer;
   pointer-events:auto;
-  z-index:3001;
 }
 
-#toggleSound{ right:150px; }
-#closeVideo{ right:20px; }
+#toggleSound{right:200px;}
+#closeVideo{right:20px;}
+
 
 /* =====================================================
    🌑 LOADER — 🏴‍☠️ + ROND LUMINEUX
