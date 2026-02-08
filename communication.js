@@ -345,39 +345,50 @@ images.forEach(src=>{
 }
 
 function showIdentityWin(){
-  miniGame.innerHTML="";
-  miniGame.classList.remove("hidden");
+  hideMiniGame();
 
-  const overlay=document.createElement("div");
-  overlay.className="identity-dark";
+  const overlay = document.createElement("div");
+  overlay.id = "identity-loader";
 
-  const title=document.createElement("h2");
-  title.textContent="Bravo 🎉 Tu as créé ton identité visuelle";
+  overlay.innerHTML = `
+    <div class="identity-center">
+      <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
 
-  /* Image miniature */
-  const img=document.createElement("img");
-  img.src="images/identiteevisuelle.JPG";
-  img.className="identity-thumb";
+      <img
+        src="images/identiteevisuelle.JPG"
+        class="identity-preview"
+        alt="Identité visuelle"
+      />
 
-  const zoomBtn=document.createElement("button");
-  zoomBtn.textContent="🔎";
-  zoomBtn.onclick=()=>openZoom(img.src);
+      <button id="zoomIdentityBtn">🔎</button>
+    </div>
 
-  const questBtn=document.createElement("button");
-  questBtn.textContent="Continuer la quête";
-  questBtn.className="skip-dialog";
+    <button id="continueQuestBtn" class="skip-dialog hidden">
+      Continuer la quête
+    </button>
+  `;
 
-  questBtn.onclick=()=>{
+  document.body.appendChild(overlay);
+
+  const zoomBtn = overlay.querySelector("#zoomIdentityBtn");
+  const continueBtn = overlay.querySelector("#continueQuestBtn");
+
+  zoomBtn.onclick = () => {
+    openZoom("images/identiteevisuelle.JPG");
+    continueBtn.classList.remove("hidden");
+  };
+
+  continueBtn.onclick = () => {
     overlay.remove();
-    hideMiniGame();
     playDialog(
       [
-        {speaker:"pirate2",text:"Magnifique identité."},
-        {speaker:"pirate3",text:"Passons à la diffusion."}
+        { speaker:"pirate2", text:"Magnifique identité." },
+        { speaker:"pirate3", text:"Passons à la diffusion." }
       ],
       startMiniGame3
     );
   };
+}
 
   overlay.append(title,img,zoomBtn,questBtn);
   miniGame.appendChild(overlay);
