@@ -124,7 +124,7 @@ function shake(){
 }
 
 /* =====================================================
-   🎯 MINI-JEU 1 — COMMUNICATION
+   🎯 MINI-JEU 1
 ===================================================== */
 const quiz=[
  {q:"À quoi sert principalement la communication ?",ok:[0,1],a:["Être comprise","Créer une relation","Parler uniquement de soi"]},
@@ -139,22 +139,19 @@ function startMiniGame1(){ qi=0; stepMG1(); }
 
 function stepMG1(){
   clearMiniGame(); found=[];
-  const box=document.createElement("div"); box.className="mg1-box";
+  const box=document.createElement("div");
+  box.className="mg1-box";
 
-  const title=document.createElement("div");
-  title.className="mg1-title";
-  title.textContent="À quoi sert la communication ?";
+  box.innerHTML = `
+    <div class="mg1-title">À quoi sert la communication ?</div>
+    <div class="comm-info-text">
+      Réponds à ces questions. Certaines ont plusieurs bonnes réponses.
+    </div>
+    <div class="gameQuestion">${quiz[qi].q}</div>
+  `;
 
-  const info=document.createElement("div");
-  info.className="comm-info-text";
-  info.textContent="Réponds à ces questions pour connaître un peu plus la communication. Les questions peuvent avoir 1, 2 ou 3 bonnes réponses.";
-
-  const q=document.createElement("div");
-  q.className="gameQuestion";
-  q.textContent=quiz[qi].q;
-
-  const a=document.createElement("div");
-  a.className="mg1-answers";
+  const answers=document.createElement("div");
+  answers.className="mg1-answers";
 
   quiz[qi].a.forEach((txt,i)=>{
     const b=document.createElement("button");
@@ -169,10 +166,10 @@ function stepMG1(){
         setTimeout(()=>{ qi++; qi<quiz.length?stepMG1():afterMG1(); },700);
       }
     };
-    a.appendChild(b);
+    answers.appendChild(b);
   });
 
-  box.append(title,info,q,a);
+  box.appendChild(answers);
   miniGame.appendChild(box);
 }
 
@@ -188,55 +185,8 @@ function afterMG1(){
 }
 
 /* =====================================================
-   🎨 MINI-JEU 2 — IDENTITÉ VISUELLE
+   🔎 ZOOM
 ===================================================== */
-function startMiniGame2(){
-  clearMiniGame();
-
-  const box=document.createElement("div");
-  box.className="mg2-box identity-box";
-  box.innerHTML=`
-    <div class="mg1-title">Crée ton identité visuelle</div>
-    <p class="identity-text">
-      L’identité visuelle permet à ta marque d’être reconnue,
-      mémorisée et différenciée.
-    </p>
-  `;
-
-  const infoBtn=document.createElement("button");
-  infoBtn.textContent="En savoir plus";
-
-  const infoBox=document.createElement("div");
-  infoBox.className="info-box hidden";
-  infoBox.innerHTML=`
-    <ul>
-      <li>Ton message</li>
-      <li>Ton public</li>
-      <li>Tes valeurs</li>
-      <li>Ton univers graphique</li>
-    </ul>
-  `;
-
-  const questBtn=document.createElement("button");
-  questBtn.className="skip-dialog";
-  questBtn.textContent="Continuer la quête";
-  questBtn.style.display="none";
-
-  infoBtn.onclick=()=>{
-    infoBox.classList.remove("hidden");
-    questBtn.style.display="block";
-  };
-
-  questBtn.onclick=()=>{
-    questBtn.remove();
-    showLoader(1000, showLogoInfo);
-  };
-
-  box.append(infoBtn,infoBox);
-  miniGame.appendChild(box);
-  document.body.appendChild(questBtn);
-}
-
 function openZoom(src){
   const overlay=document.createElement("div");
   overlay.id="zoomOverlay";
@@ -256,45 +206,55 @@ function openZoom(src){
   document.body.appendChild(overlay);
 }
 
+/* =====================================================
+   🎨 MINI-JEU 2 → IDENTITÉ VISUELLE
+===================================================== */
+function startMiniGame2(){
+  clearMiniGame();
+
+  const box=document.createElement("div");
+  box.className="mg2-box identity-box";
+  box.innerHTML=`
+    <div class="mg1-title">Crée ton identité visuelle</div>
+    <p class="identity-text">
+      L’identité visuelle rend ta marque reconnaissable et mémorable.
+    </p>
+  `;
+
+  const btn=document.createElement("button");
+  btn.textContent="Commencer";
+  btn.onclick=()=>showLogoInfo();
+
+  box.appendChild(btn);
+  miniGame.appendChild(box);
+}
+
 /* ================= LOGO → COULEURS → TYPO ================= */
 
 function showLogoInfo(){
-  showInfoStep(
-    "L’importance du logo",
-    "Le logo est l’élément central de ton identité visuelle.",
-    ()=>showChoiceStep(
-      "Choix du logo",
-      ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
-      showColorInfo,
-      null
-    )
-  );
+  showInfoStep("L’importance du logo","Le logo est central.",()=>showChoiceStep(
+    "Choix du logo",
+    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+    showColorInfo
+  ));
 }
 
 function showColorInfo(){
-  showInfoStep(
-    "L’importance des couleurs",
-    "Les couleurs transmettent des émotions.",
-    ()=>showChoiceStep(
-      "Choix des couleurs",
-      ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
-      showTypoInfo,
-      "images/Couleur1.PNG"
-    )
-  );
+  showInfoStep("Les couleurs","Les couleurs transmettent des émotions.",()=>showChoiceStep(
+    "Choix des couleurs",
+    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+    showTypoInfo,
+    "images/Couleur1.PNG"
+  ));
 }
 
 function showTypoInfo(){
-  showInfoStep(
-    "L’importance de la typographie",
-    "La typographie donne le ton de ta marque.",
-    ()=>showChoiceStep(
-      "Choix de la typographie",
-      ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
-      showIdentityWin,
-      "images/Typo1.PNG"
-    )
-  );
+  showInfoStep("La typographie","La typographie donne le ton.",()=>showChoiceStep(
+    "Choix de la typographie",
+    ["images/Typo1.PNG","images/Typo2.PNG","images/Typo3.PNG"],
+    showIdentityWin,
+    "images/Typo1.PNG"
+  ));
 }
 
 function showInfoStep(title,text,next){
@@ -319,108 +279,86 @@ function showChoiceStep(title,images,next,correct){
   const wrap=document.createElement("div");
   wrap.className="visualChoices big";
 
-images.forEach(src=>{
-  const w=document.createElement("div");
-  w.className="imgWrap";
+  images.forEach(src=>{
+    const w=document.createElement("div");
+    w.className="imgWrap";
 
-  const img=new Image();
-  img.src=src;
-  img.onclick=()=>{
-    if(correct && src!==correct){ shake(); return; }
-    next();
-  };
+    const img=new Image();
+    img.src=src;
+    img.onclick=()=>{
+      if(correct && src!==correct){ shake(); return; }
+      next();
+    };
 
-  const zoomBtn=document.createElement("button");
-  zoomBtn.textContent="🔎";
-  zoomBtn.onclick=e=>{
-    e.stopPropagation();
-    openZoom(src);
-  };
+    const zoom=document.createElement("button");
+    zoom.textContent="🔎";
+    zoom.onclick=e=>{ e.stopPropagation(); openZoom(src); };
 
-  w.append(img,zoomBtn);
-  wrap.appendChild(w);
-});
+    w.append(img,zoom);
+    wrap.appendChild(w);
+  });
 
   miniGame.appendChild(wrap);
 }
 
+/* =====================================================
+   🏆 LOADER IDENTITÉ VISUELLE
+===================================================== */
 function showIdentityWin(){
   hideMiniGame();
 
-  const overlay = document.createElement("div");
-  overlay.id = "identity-loader";
+  const overlay=document.createElement("div");
+  overlay.id="identity-loader";
 
-  overlay.innerHTML = `
+  overlay.innerHTML=`
     <div class="identity-center">
       <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
-
-      <img
-        src="images/Identiteevisuelle.JPG"
-        class="identity-preview"
-        alt="Identité visuelle"
-      />
-
+      <img src="images/identiteevisuelle.JPG" class="identity-preview">
       <button id="zoomIdentityBtn">🔎</button>
     </div>
-
-    <button id="continueQuestBtn" class="skip-dialog hidden">
-      Continuer la quête
-    </button>
+    <button id="continueQuestBtn" class="skip-dialog hidden">Continuer la quête</button>
   `;
 
   document.body.appendChild(overlay);
 
-  const zoomBtn = overlay.querySelector("#zoomIdentityBtn");
-  const continueBtn = overlay.querySelector("#continueQuestBtn");
-
-  zoomBtn.onclick = () => {
+  overlay.querySelector("#zoomIdentityBtn").onclick=()=>{
     openZoom("images/identiteevisuelle.JPG");
-    continueBtn.classList.remove("hidden");
+    overlay.querySelector("#continueQuestBtn").classList.remove("hidden");
   };
 
-  continueBtn.onclick = () => {
+  overlay.querySelector("#continueQuestBtn").onclick=()=>{
     overlay.remove();
     playDialog(
       [
-        { speaker:"pirate2", text:"Magnifique identité." },
-        { speaker:"pirate3", text:"Passons à la diffusion." }
+        {speaker:"pirate2",text:"Magnifique identité."},
+        {speaker:"pirate3",text:"Passons à la diffusion."}
       ],
       startMiniGame3
     );
   };
 }
 
-  overlay.append(title,img,zoomBtn,questBtn);
-  miniGame.appendChild(overlay);
-}
-
 /* =====================================================
-   🔗 MINI-JEU 3 — RÉSEAUX SOCIAUX
+   🔗 MINI-JEU 3
 ===================================================== */
 function startMiniGame3(){
   clearMiniGame();
 
   const box=document.createElement("div");
   box.className="mg3-box";
-
-  const q=document.createElement("div");
-  q.textContent="Associe chaque canal à son objectif";
+  box.innerHTML=`<div>Associe chaque canal à son objectif</div>`;
 
   const c=document.createElement("div");
   c.className="mg3-container";
 
   const l=document.createElement("div");
-  l.className="mg3-column";
-
   const r=document.createElement("div");
-  r.className="mg3-column";
 
   let sel=null, ok=0;
 
   [["Instagram & TikTok","know"],["Facebook & LinkedIn","btob"],["Sites e-commerce","btoc"]]
   .forEach(p=>{
     const b=document.createElement("button");
-    b.className="mg3-left-btn";
     b.textContent=p[0];
     b.onclick=()=>sel={btn:b,key:p[1]};
     l.appendChild(b);
@@ -439,18 +377,18 @@ function startMiniGame3(){
   });
 
   c.append(l,r);
-  box.append(q,c);
+  box.appendChild(c);
   miniGame.appendChild(box);
 }
 
 /* =====================================================
-   🏆 VICTOIRE COMMERCE + EXPLOSION
+   🏆 FIN + EXPLOSION
 ===================================================== */
 function showCommunicationWin(){
-  showLoader(1000, ()=>{
-    const overlay = document.createElement("div");
-    overlay.id = "communication-win";
-    overlay.innerHTML = `
+  showLoader(1000,()=>{
+    const overlay=document.createElement("div");
+    overlay.id="communication-win";
+    overlay.innerHTML=`
       <div class="win-box">
         <h2>🏴‍☠️ Bravo !</h2>
         <p>Tu as terminé la quête Communication</p>
@@ -458,54 +396,25 @@ function showCommunicationWin(){
       </div>
     `;
     document.body.appendChild(overlay);
-
-    requestAnimationFrame(()=>{
-      launchGemsExplosion(
-        overlay.querySelector(".gems-container")
-      );
-    });
-
-    /* =====================================================
-       ✅ FLAGS MENU (CRUCIAL)
-    ===================================================== */
-    sessionStorage.setItem("fromCommerce", "true");
-    sessionStorage.setItem("unlock_pirate5", "true");
-
-    setTimeout(()=>{
-      window.location.href = "menu.html";
-    }, 4200);
+    launchGemsExplosion(overlay.querySelector(".gems-container"));
+    sessionStorage.setItem("unlock_pirate5","true");
+    setTimeout(()=>location.href="menu.html",4200);
   });
 }
 
-/* =====================================================
-   💎 GEMS EXPLOSION
-===================================================== */
 function launchGemsExplosion(container){
-  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
-
+  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
   for(let i=0;i<50;i++){
-    const gem = document.createElement("div");
-    gem.className = "gem";
-
-    const size = Math.random()*10 + 8;
-    gem.style.width = size+"px";
-    gem.style.height = size+"px";
-    gem.style.background =
-      colors[Math.floor(Math.random()*colors.length)];
-
-    gem.style.left = "50%";
-    gem.style.top = "50%";
-
-    const angle = Math.random()*Math.PI*2;
-    const distance = Math.random()*260 + 80;
-    gem.style.setProperty("--x",
-      Math.cos(angle)*distance+"px"
-    );
-    gem.style.setProperty("--y",
-      Math.sin(angle)*distance+"px"
-    );
-
-    container.appendChild(gem);
+    const g=document.createElement("div");
+    g.className="gem";
+    const a=Math.random()*Math.PI*2;
+    const d=Math.random()*260+80;
+    g.style.setProperty("--x",Math.cos(a)*d+"px");
+    g.style.setProperty("--y",Math.sin(a)*d+"px");
+    g.style.background=colors[Math.floor(Math.random()*colors.length)];
+    g.style.left="50%";
+    g.style.top="50%";
+    container.appendChild(g);
   }
 }
 
