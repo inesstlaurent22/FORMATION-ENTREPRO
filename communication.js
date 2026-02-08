@@ -322,7 +322,7 @@ function showIdentityWin(){
   document.body.appendChild(overlay);
 
   overlay.querySelector("#zoomIdentityBtn").onclick=()=>{
-    openZoom("images/identiteevisuelle.JPG");
+    openZoom("images/Identitevisuelle.JPG");
     overlay.querySelector("#continueQuestBtn").classList.remove("hidden");
   };
 
