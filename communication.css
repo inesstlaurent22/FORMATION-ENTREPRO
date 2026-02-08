@@ -422,6 +422,56 @@ button:disabled{
 }
 
 /* =====================================================
+   🎨 LOADER IDENTITÉ VISUELLE
+===================================================== */
+#identity-loader{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Centre texte + image */
+.identity-center{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+  text-align:center;
+  max-width:90%;
+}
+
+.identity-center h2{
+  color:#ffd77a;
+  font-size:26px;
+  line-height:1.3;
+}
+
+/* Image miniature */
+.identity-preview{
+  width:160px;
+  max-width:80vw;
+  border-radius:14px;
+  border:3px solid gold;
+}
+
+/* Bouton zoom */
+#zoomIdentityBtn{
+  font-size:18px;
+  padding:10px 16px;
+}
+
+/* Bouton continuer */
+#continueQuestBtn{
+  position:fixed;
+  top:18px;
+  right:20px;
+}
+
+/* =====================================================
    🏆 VICTOIRE + EXPLOSION
 ===================================================== */
 #communication-win{
