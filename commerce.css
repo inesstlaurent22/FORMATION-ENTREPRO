@@ -226,9 +226,7 @@ html, body{
 /* =====================================================
    🌪️ SHAKE
 ===================================================== */
-#communicationGame,
-#visualIdentityGame,
-#merchantGame.screen-shake{
+.screen-shake{
   animation:shake .35s ease;
 }
 
