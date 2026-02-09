@@ -346,53 +346,108 @@ button:disabled{
   justify-content:center;
 }
 
+/* Centre global */
 .identity-center{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:18px;
+  gap:22px;
   text-align:center;
-  max-width:90%;
+  max-width:96%;
 }
 
 .identity-center h2{
   color:#ffd77a;
-  font-size:26px;
+  font-size:28px;
   text-shadow:2px 2px 0 #2b1605;
 }
 
-/* 📖 Livre */
+/* =====================================================
+   📖 LIVRE
+===================================================== */
 .book-container{
+  position:relative;              /* ⬅️ indispensable pour loader */
   display:flex;
   align-items:center;
-  gap:18px;
+  gap:24px;
 }
 
+/* Pages */
 .book-pages{
   display:flex;
-  gap:6px;
+  gap:12px;
 }
 
+/* Images des pages */
 .book-pages img{
-  width:180px;
-  max-width:40vw;
-  border-radius:14px;
+  width:260px;                    /* ⬅️ agrandi */
+  max-width:42vw;
+  border-radius:16px;
   border:3px solid gold;
-  box-shadow:0 0 18px rgba(255,215,0,.45);
+  background:#000;
+  box-shadow:0 0 22px rgba(255,215,0,.55);
 }
 
-/* ➜ Boutons navigation */
+/* =====================================================
+   🔘 BOUTONS NAVIGATION
+===================================================== */
 .book-nav-btn{
-  font-size:22px;
-  padding:10px 16px;
-  border-radius:14px;
+  font-size:24px;
+  padding:12px 18px;
+  border-radius:16px;
+  min-width:52px;
 }
 
-/* Continuer la quête */
+/* =====================================================
+   ⏳ LOADER DU LIVRE
+===================================================== */
+.book-loading{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.88);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:5;
+  border-radius:18px;
+}
+
+.book-loading span{
+  font-size:52px;
+  animation:spinHourglass 1.2s linear infinite;
+}
+
+@keyframes spinHourglass{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
+}
+
+/* =====================================================
+   ➜ CONTINUER LA QUÊTE
+===================================================== */
 #continueQuestBtn{
   position:fixed;
   top:18px;
   right:20px;
+}
+
+/* =====================================================
+   📱 RESPONSIVE
+===================================================== */
+@media (max-width:768px){
+  .book-pages img{
+    width:180px;
+    max-width:44vw;
+  }
+
+  .book-nav-btn{
+    font-size:20px;
+    padding:10px 14px;
+  }
+
+  .identity-center h2{
+    font-size:22px;
+  }
 }
 
 /* =====================================================
