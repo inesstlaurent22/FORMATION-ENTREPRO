@@ -288,77 +288,90 @@ button:disabled{
 }
 
 /* =====================================================
-   📘 LIVRE BUSINESS PLAN
+   📘 LIVRE — PAGES COLLÉES + ANIMATION
 ===================================================== */
-#identity-loader{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.92);
-  z-index:10000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.identity-center{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:22px;
-  max-width:96%;
-}
-
 .book-container{
   position:relative;
   display:flex;
   align-items:center;
-  gap:28px;
+  gap:20px;
+  perspective:1400px;
 }
 
 .book-pages{
   display:flex;
-  gap:14px;
+  gap:0; /* ⬅️ pages collées */
 }
 
+/* Pages */
 .book-pages img{
   width:280px;
   max-width:44vw;
-  border-radius:16px;
+  height:auto;
+  border-radius:0;
   border:3px solid gold;
   background:#000;
   box-shadow:0 0 24px rgba(255,215,0,.6);
+  cursor:zoom-in;
+  transition:
+    transform .6s ease,
+    box-shadow .4s ease;
 }
 
-/* Navigation livre */
-.book-nav-btn{
-  font-size:24px;
-  padding:12px 18px;
-  border-radius:16px;
-  min-width:56px;
-  z-index:10;
+/* Effet pli central */
+.book-pages img:first-child{
+  border-right:none;
+  border-radius:16px 0 0 16px;
 }
 
-/* Loader ⏳ du livre */
-.book-loading{
-  position:absolute;
+.book-pages img:last-child{
+  border-left:none;
+  border-radius:0 16px 16px 0;
+}
+
+/* ======================
+   Animation page tournée
+====================== */
+.page-turn-right{
+  transform-origin:left center;
+  animation:turnRight .6s ease forwards;
+}
+
+.page-turn-left{
+  transform-origin:right center;
+  animation:turnLeft .6s ease forwards;
+}
+
+@keyframes turnRight{
+  from{ transform:rotateY(0deg); }
+  to{ transform:rotateY(-120deg); }
+}
+
+@keyframes turnLeft{
+  from{ transform:rotateY(0deg); }
+  to{ transform:rotateY(120deg); }
+}
+
+/* ======================
+   ZOOM PAGE
+====================== */
+.page-zoom{
+  position:fixed;
   inset:0;
-  background:rgba(0,0,0,.88);
+  background:rgba(0,0,0,.9);
+  z-index:11000;
   display:flex;
   align-items:center;
   justify-content:center;
-  z-index:5;
+}
+
+.page-zoom img{
+  max-width:90vw;
+  max-height:90vh;
+  border:4px solid gold;
   border-radius:18px;
-  pointer-events:none;
-}
-
-.book-loading span{
-  font-size:52px;
-  animation:spinHourglass 1.2s linear infinite;
-}
-
-@keyframes spinHourglass{
-  from{ transform:rotate(0deg); }
-  to{ transform:rotate(360deg); }
+  box-shadow:0 0 40px gold;
+  cursor:zoom-out;
 }
 
 /* =====================================================
@@ -369,6 +382,32 @@ button:disabled{
   top:18px;
   right:20px;
   z-index:10010;
+}
+
+/* =====================================================
+   🎮 MINI-JEU 3 — TEXTE AÉRÉ
+===================================================== */
+#strategyText{
+  line-height:1.7;
+  font-size:15px;
+}
+
+/* =====================================================
+   💡 BOUTON INDICE — STYLE DIFFÉRENT
+===================================================== */
+#strategyHintBtn{
+  background:linear-gradient(145deg,#1f3c2b,#4fa36a);
+  border:3px solid #1c5a3a;
+  color:#eafff1;
+  margin-top:14px;
+}
+
+#strategyHint{
+  margin-top:12px;
+  padding:12px;
+  background:rgba(0,0,0,.6);
+  border-left:4px solid #4fa36a;
+  font-style:italic;
 }
 
 /* =====================================================
