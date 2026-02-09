@@ -324,15 +324,20 @@ function showBusinessPlanLoader(){
     <div class="identity-center">
       <h2>📘 Construction du Business plan</h2>
 
-      <div class="book-container">
+      <div class="book-container" style="position:relative">
+
+        <div class="book-loading" id="bookLoading">
+          <span>⏳</span>
+        </div>
+
         <button id="prevPage" class="book-nav-btn hidden">«</button>
 
         <div class="book-pages">
-          <img id="leftPage" src="" class="hidden">
-          <img id="rightPage" src="images/Businessplancov.png">
+          <img id="leftPage" class="hidden">
+          <img id="rightPage">
         </div>
 
-        <button id="nextPage" class="book-nav-btn">></button>
+        <button id="nextPage" class="book-nav-btn hidden">></button>
       </div>
 
       <button id="continueQuestBtn" class="hidden">Continuer la quête</button>
@@ -346,60 +351,58 @@ function showBusinessPlanLoader(){
   const next = overlay.querySelector("#nextPage");
   const prev = overlay.querySelector("#prevPage");
   const continueBtn = overlay.querySelector("#continueQuestBtn");
+  const loader = overlay.querySelector("#bookLoading");
+
+  const pages = [
+    ["", "images/Businessplancov.png"],
+    ["images/Businessplan4.png", "images/Businessplan1.png"],
+    ["images/Businessplan4.png", "images/Businessplan2.png"],
+    ["images/Businessplan4.png", "images/Businessplan3.png"]
+  ];
 
   let step = 0;
+  let loaded = 0;
 
-  next.onclick = () => {
-    step++;
+  /* 🔄 Préchargement images */
+  pages.flat().filter(Boolean).forEach(src=>{
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      loaded++;
+      if(loaded === pages.flat().filter(Boolean).length){
+        loader.remove();
+        next.classList.remove("hidden");
+        updatePages();
+      }
+    };
+  });
 
-    if(step === 1){
-      left.src = "images/Businessplan4.png";
-      right.src = "images/Businessplan1.png";
+  function updatePages(){
+    const [l,r] = pages[step];
+    if(l){
+      left.src = l;
       left.classList.remove("hidden");
       prev.classList.remove("hidden");
-    }
-
-    if(step === 2){
-      left.src = "images/Businessplan4.png";
-      right.src = "images/Businessplan2.png";
-    }
-
-    if(step === 3){
-      left.src = "images/Businessplan4.png";
-      right.src = "images/Businessplan3.png";
-      next.classList.add("hidden");
-      continueBtn.classList.remove("hidden");
-    }
-  };
-
-  prev.onclick = () => {
-    step--;
-    next.classList.remove("hidden");
-    continueBtn.classList.add("hidden");
-
-    if(step === 0){
+    }else{
       left.classList.add("hidden");
-      right.src = "images/Businessplancov.png";
       prev.classList.add("hidden");
     }
 
-    if(step === 1){
-      left.src = "images/Businessplan4.png";
-      right.src = "images/Businessplan1.png";
-    }
+    right.src = r;
 
-    if(step === 2){
-      left.src = "images/Businessplan4.png";
-      right.src = "images/Businessplan2.png";
-    }
-  };
+    next.classList.toggle("hidden", step === pages.length - 1);
+    continueBtn.classList.toggle("hidden", step !== pages.length - 1);
+  }
+
+  next.onclick = () => { step++; updatePages(); };
+  prev.onclick = () => { step--; updatePages(); };
 
   continueBtn.onclick = () => {
     overlay.remove();
     showLoader(800, spawnPirate3);
   };
 }
-
+   
 /* =====================================================
    🏴‍☠️ PIRATE 3
 ===================================================== */
