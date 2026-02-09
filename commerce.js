@@ -28,7 +28,6 @@ const game2 = document.getElementById("visualIdentityGame");
 const visualChoices = document.getElementById("visualChoices");
 
 const game3 = document.getElementById("merchantGame");
-const btnKeep = document.getElementById("btnKeep");
 
 /* =====================================================
    🎬 VIDÉO INTRO
@@ -305,7 +304,9 @@ function startMiniGame2(){
       if (success === 2) {
         game2.classList.add("hidden");
         pirate5.classList.remove("glowStart");
-        showLoader(800, showBusinessPlanLoader);
+showLoader(600, () => {
+  requestAnimationFrame(showBusinessPlanLoader);
+});
       }
     };
 
@@ -492,9 +493,12 @@ function startMiniGame3(){
   const hintBox = document.getElementById("strategyHint");
   const hintBtn = document.getElementById("strategyHintBtn");
 
-  let step = 0;
-
-  const steps = [
+  // ⛑️ SÉCURITÉ ANTI-CRASH
+  if(!text || !choices || !hintBox || !hintBtn){
+    console.error("Mini-jeu 3 : éléments HTML manquants");
+    showCommerceWin();
+    return;
+  }
 
     /* =====================================================
        1️⃣ ÉLABORATION DU PRIX
