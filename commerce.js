@@ -312,9 +312,9 @@ function startMiniGame2(){
     visualChoices.appendChild(b);
   });
 }
-   
+
 /* =====================================================
-   📘 LOADER BUSINESS PLAN
+   📘 LOADER BUSINESS PLAN — CORRIGÉ
 ===================================================== */
 function showBusinessPlanLoader(){
 
@@ -324,7 +324,7 @@ function showBusinessPlanLoader(){
     <div class="identity-center">
       <h2>📘 Construction du Business plan</h2>
 
-      <div class="book-container" style="position:relative">
+      <div class="book-container">
 
         <div class="book-loading" id="bookLoading">
           <span>⏳</span>
@@ -360,30 +360,44 @@ function showBusinessPlanLoader(){
     ["images/Businessplan4.png", "images/Businessplan3.png"]
   ];
 
-  let step = 0;
+  const allImages = pages.flat().filter(Boolean);
   let loaded = 0;
+  let step = 0;
 
-  /* 🔄 Préchargement images */
-  pages.flat().filter(Boolean).forEach(src=>{
+  /* =====================================================
+     🔄 PRÉCHARGEMENT ROBUSTE DES IMAGES
+  ===================================================== */
+  allImages.forEach(src => {
     const img = new Image();
-    img.src = src;
-    img.onload = () => {
+
+    img.onload = img.onerror = () => {
       loaded++;
-      if(loaded === pages.flat().filter(Boolean).length){
+      if (loaded >= allImages.length) {
         loader.remove();
         next.classList.remove("hidden");
         updatePages();
       }
     };
+
+    img.src = src;
+
+    // ⚠️ Cas image déjà en cache (Safari / iOS)
+    if (img.complete) {
+      img.onload();
+    }
   });
 
+  /* =====================================================
+     📖 MISE À JOUR DES PAGES
+  ===================================================== */
   function updatePages(){
-    const [l,r] = pages[step];
-    if(l){
+    const [l, r] = pages[step];
+
+    if (l) {
       left.src = l;
       left.classList.remove("hidden");
       prev.classList.remove("hidden");
-    }else{
+    } else {
       left.classList.add("hidden");
       prev.classList.add("hidden");
     }
@@ -394,8 +408,19 @@ function showBusinessPlanLoader(){
     continueBtn.classList.toggle("hidden", step !== pages.length - 1);
   }
 
-  next.onclick = () => { step++; updatePages(); };
-  prev.onclick = () => { step--; updatePages(); };
+  next.onclick = () => {
+    if (step < pages.length - 1) {
+      step++;
+      updatePages();
+    }
+  };
+
+  prev.onclick = () => {
+    if (step > 0) {
+      step--;
+      updatePages();
+    }
+  };
 
   continueBtn.onclick = () => {
     overlay.remove();
