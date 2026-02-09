@@ -355,9 +355,9 @@ function showBusinessPlanLoader(){
 
   const pages = [
     ["", "images/Businessplancov.png"],
-    ["images/Businessplan4.png", "images/Businessplan1.png"],
-    ["images/Businessplan4.png", "images/Businessplan2.png"],
-    ["images/Businessplan4.png", "images/Businessplan3.png"]
+    ["images/Businessplan4.jpg", "images/Businessplan1.jpg"],
+    ["images/Businessplan4.jpg", "images/Businessplan2.jpg"],
+    ["images/Businessplan4.jpg", "images/Businessplan3.jpg"]
   ];
 
   const allImages = pages.flat().filter(Boolean);
