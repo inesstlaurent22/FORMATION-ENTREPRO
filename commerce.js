@@ -44,7 +44,7 @@ function shake(el){
 }
 
 /* =====================================================
-   VIDÉO
+   VIDÉO INTRO
 ===================================================== */
 questVideo.muted = true;
 
@@ -124,23 +124,23 @@ skipBtn.onclick=endDialogues;
 ===================================================== */
 function startDialogues1(){
   playDialogues([
-    {text:"Avant de vendre, il faut comprendre ton marché.", anchor:pirate5},
-    {text:"Clients, concurrence, prix… tout compte.", anchor:pirate5}
-  ], ()=>startMiniGame1());
+    { text:"Avant de vendre quoi que ce soit, il faut comprendre ton marché.", anchor:pirate5 },
+    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au hasard.", anchor:pirate5 }
+  ], startMiniGame1);
 }
 
 /* =====================================================
-   MINI-JEU 1 (simple)
+   MINI-JEU 1 — ÉTUDE DE MARCHÉ
 ===================================================== */
 function startMiniGame1(){
   game1.classList.remove("hidden");
-  q1.textContent="Pourquoi faire une étude de marché ?";
+  q1.textContent="Pourquoi réaliser une étude de marché ?";
   a1.innerHTML="";
 
   [
     {t:"Décorer la boutique",ok:false},
     {t:"Comprendre les clients",ok:true},
-    {t:"Copier les autres",ok:false}
+    {t:"Copier les concurrents",ok:false}
   ].forEach(q=>{
     const b=document.createElement("button");
     b.textContent=q.t;
@@ -158,12 +158,13 @@ function startMiniGame1(){
 ===================================================== */
 function startDialogues2(){
   playDialogues([
-    {text:"Parfait. Construisons maintenant le business plan.", anchor:pirate5}
-  ], ()=>startMiniGame2());
+    { text:"Parfait. Maintenant, il faut structurer tout ça.", anchor:pirate5 },
+    { text:"Un bon business plan évite bien des naufrages.", anchor:pirate5 }
+  ], startMiniGame2);
 }
 
 /* =====================================================
-   MINI-JEU 2
+   MINI-JEU 2 — BUSINESS PLAN
 ===================================================== */
 function startMiniGame2(){
   game2.classList.remove("hidden");
@@ -173,7 +174,7 @@ function startMiniGame2(){
   [
     {t:"Définir la cible",ok:true},
     {t:"Choisir la couleur du bateau",ok:false},
-    {t:"Identifier le problème",ok:true}
+    {t:"Identifier le problème client",ok:true}
   ].forEach(q=>{
     const b=document.createElement("button");
     b.textContent=q.t;
@@ -183,7 +184,7 @@ function startMiniGame2(){
       success++;
       if(success===2){
         game2.classList.add("hidden");
-        showBusinessPlanBook();
+        showBusinessPlanLoader();
       }
     };
     visualChoices.appendChild(b);
@@ -191,25 +192,26 @@ function startMiniGame2(){
 }
 
 /* =====================================================
-   📘 LIVRE BUSINESS PLAN
+   📘 LOADER + LIVRE BUSINESS PLAN
 ===================================================== */
-function showBusinessPlanBook(){
+function showBusinessPlanLoader(){
 
-  const overlay=document.createElement("div");
-  overlay.id="identity-loader";
-  overlay.innerHTML=`
+  const overlay = document.createElement("div");
+  overlay.id = "identity-loader";
+  overlay.innerHTML = `
     <div class="identity-center">
       <h2>📘 Construction du Business plan</h2>
 
       <div class="book-container">
+        <div class="book-loading" id="bookLoading"><span>⏳</span></div>
         <button id="prevPage" class="book-nav-btn hidden">‹</button>
 
         <div class="book-pages">
-          <img id="leftPage">
+          <img id="leftPage" class="hidden">
           <img id="rightPage">
         </div>
 
-        <button id="nextPage" class="book-nav-btn">›</button>
+        <button id="nextPage" class="book-nav-btn hidden">›</button>
       </div>
 
       <button id="continueQuestBtn" class="hidden">Continuer la quête</button>
@@ -217,25 +219,42 @@ function showBusinessPlanBook(){
   `;
   document.body.appendChild(overlay);
 
+  const left = overlay.querySelector("#leftPage");
+  const right = overlay.querySelector("#rightPage");
+  const next = overlay.querySelector("#nextPage");
+  const prev = overlay.querySelector("#prevPage");
+  const cont = overlay.querySelector("#continueQuestBtn");
+  const loader = overlay.querySelector("#bookLoading");
+
   const pages=[
     ["","images/Businessplancov.png"],
-    ["images/Businessplan4.jpg","images/Businessplan1.jpg"],
-    ["images/Businessplan4.jpg","images/Businessplan2.jpg"],
-    ["images/Businessplan4.jpg","images/Businessplan3.jpg"]
+    ["images/Businessplan4.png","images/Businessplan1.png"],
+    ["images/Businessplan4.png","images/Businessplan2.png"],
+    ["images/Businessplan4.png","images/Businessplan3.png"]
   ];
 
-  const left=document.getElementById("leftPage");
-  const right=document.getElementById("rightPage");
-  const next=document.getElementById("nextPage");
-  const prev=document.getElementById("prevPage");
-  const cont=document.getElementById("continueQuestBtn");
+  const allImages = pages.flat().filter(Boolean);
+  let loaded=0, step=0;
 
-  let step=0;
+  allImages.forEach(src=>{
+    const img=new Image();
+    img.onload=img.onerror=()=>{
+      loaded++;
+      if(loaded===allImages.length){
+        loader.remove();
+        next.classList.remove("hidden");
+        update();
+      }
+    };
+    img.src=src;
+    if(img.complete) img.onload();
+  });
 
   function update(){
     const [l,r]=pages[step];
-    left.src=l||""; right.src=r;
-    prev.classList.toggle("hidden",step===0);
+    if(l){ left.src=l; left.classList.remove("hidden"); prev.classList.remove("hidden"); }
+    else{ left.classList.add("hidden"); prev.classList.add("hidden"); }
+    right.src=r;
     next.classList.toggle("hidden",step===pages.length-1);
     cont.classList.toggle("hidden",step!==pages.length-1);
   }
@@ -243,23 +262,20 @@ function showBusinessPlanBook(){
   next.onclick=()=>{ step++; update(); };
   prev.onclick=()=>{ step--; update(); };
 
-  [left,right].forEach(img=>{
-    img.onclick=()=>{
-      if(!img.src) return;
-      const z=document.createElement("div");
-      z.className="page-zoom";
-      z.innerHTML=`<img src="${img.src}">`;
-      z.onclick=()=>z.remove();
-      document.body.appendChild(z);
-    };
-  });
-
   cont.onclick=()=>{
     overlay.remove();
-    spawnPirate3();
+    showLoader(800, startDialogues3);
   };
+}
 
-  update();
+/* =====================================================
+   DIALOGUES 3
+===================================================== */
+function startDialogues3(){
+  playDialogues([
+    { text:"Ton plan est prêt. Il est temps d’affronter le marché.", anchor:pirate5 },
+    { text:"Chaque décision aura un impact direct sur tes ventes.", anchor:pirate5 }
+  ], spawnPirate3);
 }
 
 /* =====================================================
@@ -271,7 +287,7 @@ function spawnPirate3(){
 
   pirate3.onclick=()=>{
     pirate3.classList.remove("glowStart");
-    startMiniGame3();
+    showLoader(800, startMiniGame3);
   };
 }
 
@@ -279,82 +295,115 @@ function spawnPirate3(){
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
 ===================================================== */
 function startMiniGame3(){
+
   game3.classList.remove("hidden");
 
-  const text=document.getElementById("strategyText");
-  const choices=document.getElementById("strategyChoices");
-  const hint=document.getElementById("strategyHint");
-  const hintBtn=document.getElementById("strategyHintBtn");
+  const text = document.getElementById("strategyText");
+  const choices = document.getElementById("strategyChoices");
+  const hintBox = document.getElementById("strategyHint");
+  const hintBtn = document.getElementById("strategyHintBtn");
 
-  let step=0;
+  let step = 0;
 
-  const steps=[
+  const steps = [
     {
-      text:`Les autres vendeurs proposent des pierres à <strong>300 PO</strong>,
-      mais ils n’ont pas de <strong>pierres rouges</strong>.
-      Vous, oui. Les pierres sont vendues en lot.
-      Quel prix afficher ?`,
-      hint:"Vous êtes en position de force grâce aux pierres rouges.",
+      text:`Les autres vendeurs vendent à <strong>300 PO</strong>, sans pierres rouges.
+      Vous en avez. Quel prix afficher ?`,
+      hint:"💡 Avantage concurrentiel = marge possible.",
       answers:[
-        {t:"Augmenter le prix – 350 PO",ok:true},
-        {t:"Prix identique – 300 PO",ok:false},
-        {t:"Baisser le prix – 250 PO",ok:false}
+        {label:"350 PO",correct:true},
+        {label:"300 PO",correct:false},
+        {label:"250 PO",correct:false}
       ]
     },
     {
-      text:`Les concurrents utilisent des sacs de velours fragiles.
-      Vous choisissez des boîtes en bois (20 PO).
+      text:`Vous ajoutez des boîtes en bois (20 PO).
       Comment ajuster le prix ?`,
-      hint:"Le coût des boîtes est déjà inclus.",
+      hint:"💡 Le coût est déjà intégré.",
       answers:[
-        {t:"Augmenter – 370 PO",ok:false},
-        {t:"Prix identique – 350 PO",ok:true},
-        {t:"Baisser – 330 PO",ok:false}
+        {label:"370 PO",correct:false},
+        {label:"350 PO",correct:true},
+        {label:"330 PO",correct:false}
       ]
     },
     {
-      text:`Dernière décision :
-      vendre vite pour acheter un bateau ou vendre plus cher ?
-      Les clients sont très informés.`,
-      hint:"L’objectif est d’acheter un bateau rapidement.",
+      text:`Objectif : acheter un bateau rapidement.`,
+      hint:"💡 Vendre vite plutôt que luxe.",
       answers:[
-        {t:"Augmenter – 400 PO",ok:false},
-        {t:"Prix identique – 350 PO",ok:false},
-        {t:"Baisser – 300 PO",ok:true}
+        {label:"400 PO",correct:false},
+        {label:"350 PO",correct:false},
+        {label:"300 PO",correct:true}
       ],
-      final:`Bonne stratégie.<br><br>
-      Les pirates préfèrent vendre rapidement à 300 PO
-      afin d’acheter leur bateau sans attendre
-      que leur réputation de luxe se construise.`
+      finalText:`<strong>Bonne stratégie.</strong><br>
+      Les pirates vendent plus vite à 300 PO
+      pour acheter leur bateau sans attendre.`
     }
   ];
 
   function render(){
     const s=steps[step];
     text.innerHTML=s.text;
-    hint.textContent=s.hint;
-    hint.classList.add("hidden");
     choices.innerHTML="";
+    hintBox.classList.add("hidden");
+    hintBox.innerHTML=s.hint;
 
     s.answers.forEach(a=>{
       const b=document.createElement("button");
-      b.textContent=a.t;
+      b.textContent=a.label;
       b.onclick=()=>{
-        if(!a.ok){ shake(game3); return; }
-        if(s.final){
-          text.innerHTML=s.final;
+        if(!a.correct){ shake(game3); return; }
+        if(s.finalText){
+          text.innerHTML=s.finalText;
           choices.innerHTML="";
           hintBtn.classList.add("hidden");
-        }else{
-          step++; render();
-        }
+          setTimeout(()=>{ game3.classList.add("hidden"); showCommerceWin(); },3200);
+        }else{ step++; render(); }
       };
       choices.appendChild(b);
     });
   }
 
-  hintBtn.onclick=()=>hint.classList.remove("hidden");
+  hintBtn.onclick=()=>hintBox.classList.remove("hidden");
   render();
+}
+
+/* =====================================================
+   🏆 VICTOIRE + EXPLOSION + REDIRECTION
+===================================================== */
+function showCommerceWin(){
+  showLoader(1000, ()=>{
+    const overlay=document.createElement("div");
+    overlay.id="commerce-win";
+    overlay.innerHTML=`
+      <div class="win-box">
+        <h2>🏴‍☠️ Bravo !</h2>
+        <p>Tu as terminé la quête Commerce</p>
+        <div class="gems-container"></div>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    requestAnimationFrame(()=>{
+      launchGemsExplosion(overlay.querySelector(".gems-container"));
+    });
+
+    sessionStorage.setItem("fromCommerce","true");
+    sessionStorage.setItem("unlock_pirate4","true");
+
+    setTimeout(()=>{ window.location.href="menu.html"; },4200);
+  });
+}
+
+/* =====================================================
+   💎 GEMS
+===================================================== */
+function launchGemsExplosion(container){
+  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+  for(let i=0;i<50;i++){
+    const g=document.createElement("div");
+    g.className="gem";
+    g.style.background=colors[Math.floor(Math.random()*colors.length)];
+    container.appendChild(g);
+  }
 }
 
 });
