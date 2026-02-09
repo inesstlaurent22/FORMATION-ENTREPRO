@@ -364,6 +364,34 @@ function showBusinessPlanLoader(){
   let loaded = 0;
   let step = 0;
 
+   /* ======================
+   Animation page
+====================== */
+function animateTurn(direction){
+  const target = direction === "next" ? right : left;
+  target.classList.add(direction === "next" ? "page-turn-right" : "page-turn-left");
+
+  setTimeout(()=>{
+    target.classList.remove("page-turn-right","page-turn-left");
+  },600);
+}
+
+/* ======================
+   Zoom page
+====================== */
+[left, right].forEach(img=>{
+  img.onclick = ()=>{
+    if(!img.src) return;
+
+    const zoom = document.createElement("div");
+    zoom.className = "page-zoom";
+    zoom.innerHTML = `<img src="${img.src}">`;
+
+    zoom.onclick = ()=> zoom.remove();
+    document.body.appendChild(zoom);
+  };
+});
+
   /* =====================================================
      🔄 PRÉCHARGEMENT ROBUSTE DES IMAGES
   ===================================================== */
@@ -408,19 +436,17 @@ function showBusinessPlanLoader(){
     continueBtn.classList.toggle("hidden", step !== pages.length - 1);
   }
 
-  next.onclick = () => {
-    if (step < pages.length - 1) {
-      step++;
-      updatePages();
-    }
-  };
+next.onclick = ()=>{
+  animateTurn("next");
+  step++;
+  updatePages();
+};
 
-  prev.onclick = () => {
-    if (step > 0) {
-      step--;
-      updatePages();
-    }
-  };
+prev.onclick = ()=>{
+  animateTurn("prev");
+  step--;
+  updatePages();
+};
 
   continueBtn.onclick = () => {
     overlay.remove();
