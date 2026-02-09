@@ -458,15 +458,139 @@ function startFinalDialogues(){
    🎮 MINI-JEU 3
 ===================================================== */
 function startMiniGame3(){
+
   game3.classList.remove("hidden");
-btnKeep.onclick = ()=>{
-  if(!btnKeep.classList.contains("valid")){
-    shake(game3);
-    return;
+
+  const text = document.getElementById("strategyText");
+  const choices = document.getElementById("strategyChoices");
+  const hintBox = document.getElementById("strategyHint");
+  const hintBtn = document.getElementById("strategyHintBtn");
+
+  let step = 0;
+
+  const steps = [
+
+    /* =====================================================
+       1️⃣ ÉLABORATION DU PRIX
+    ===================================================== */
+    {
+      text: `
+Les autres vendeurs du marché proposent des pierres précieuses à <strong>300 PO</strong>,
+mais ils ne possèdent pas de <strong>pierres rouges</strong>.
+
+Nos deux pirates vendent des pierres de toutes les couleurs, y compris des rouges,
+ce qui les différencie fortement de la concurrence.
+Les pierres sont vendues en <strong>lot</strong>.
+
+Quel prix devraient-ils afficher ?
+      `,
+      hint: "💡 Vous êtes en position de force car vous avez des pierres rouges.",
+      answers: [
+        { label:"Augmenter le prix – 350 PO", correct:true },
+        { label:"Prix identique – 300 PO", correct:false },
+        { label:"Baisser le prix – 250 PO", correct:false }
+      ]
+    },
+
+    /* =====================================================
+       2️⃣ ÉLABORATION DU PRODUIT
+    ===================================================== */
+    {
+      text: `
+Les autres vendeurs utilisent des <strong>sacs de velours</strong>.
+C’est luxueux, mais ils se trouent facilement et de nombreux clients
+perdent leurs pierres avant d’arriver chez eux.
+
+Nos pirates décident de vendre leurs pierres dans de
+<strong>petites boîtes en bois</strong>.
+Ces boîtes coûtent <strong>20 PO</strong> à l’unité.
+
+Comment doivent-ils ajuster leur prix ?
+      `,
+      hint: "💡 Le prix des boîtes en bois est déjà inclus dans les 350 PO.",
+      answers: [
+        { label:"Augmenter le prix – 370 PO", correct:false },
+        { label:"Prix identique – 350 PO", correct:true },
+        { label:"Baisser le prix – 330 PO", correct:false }
+      ]
+    },
+
+    /* =====================================================
+       3️⃣ MANIÈRE DE SE VENDRE
+    ===================================================== */
+    {
+      text: `
+Les pirates savent que plus un produit est cher,
+plus il peut sembler <strong>luxueux</strong>.
+Mais les clients sont très informés et se renseignent
+sur les vendeurs avant d’acheter des pierres de valeur.
+
+Les pirates aimeraient devenir une boutique de luxe,
+mais leur objectif principal est de s’acheter un bateau
+<strong>le plus rapidement possible</strong>.
+      `,
+      hint: "💡 L’objectif premier est de vendre vite pour acheter un bateau.",
+      answers: [
+        { label:"Augmenter le prix – 400 PO", correct:false },
+        { label:"Prix identique – 350 PO", correct:false },
+        { label:"Baisser le prix – 300 PO", correct:true }
+      ],
+      finalText: `
+<strong>Bonne stratégie.</strong><br><br>
+Petite feinte obligatoire : l’objectif principal des pirates
+est de vendre rapidement afin de s’acheter un bateau.
+
+Ils préfèrent vendre à <strong>300 PO</strong> plus vite,
+car ce prix attire davantage de clients.
+S’ils avaient choisi une stratégie de luxe,
+ils auraient attendu plus longtemps pour bâtir leur réputation.
+      `
+    }
+
+  ];
+
+  function renderStep(){
+    const current = steps[step];
+    text.innerHTML = current.text;
+    choices.innerHTML = "";
+    hintBox.classList.add("hidden");
+    hintBox.innerHTML = current.hint;
+
+    current.answers.forEach(a=>{
+      const btn = document.createElement("button");
+      btn.textContent = a.label;
+
+      btn.onclick = () => {
+        if(!a.correct){
+          shake(game3);
+          return;
+        }
+
+        if(current.finalText){
+          text.innerHTML = current.finalText;
+          choices.innerHTML = "";
+          hintBtn.classList.add("hidden");
+
+          setTimeout(()=>{
+            game3.classList.add("hidden");
+            showCommerceWin();
+          }, 3200);
+          return;
+        }
+
+        step++;
+        renderStep();
+      };
+
+      choices.appendChild(btn);
+    });
   }
-  game3.classList.add("hidden");
-  showCommerceWin();
-};
+
+  hintBtn.onclick = ()=>{
+    hintBox.classList.remove("hidden");
+  };
+
+  renderStep();
 }
 
 /* =====================================================
