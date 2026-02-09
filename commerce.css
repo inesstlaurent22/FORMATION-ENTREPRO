@@ -19,7 +19,7 @@ html, body{
 .hidden{ display:none !important; }
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   🎬 VIDÉO INTRO (CORRIGÉ)
 ===================================================== */
 #videoContainer{
   position:fixed;
@@ -37,7 +37,8 @@ html, body{
 #videoControls{
   position:absolute;
   inset:0;
-  pointer-events:none;
+  pointer-events:auto;      /* ✅ FIX */
+  z-index:3500;
 }
 
 #videoControls button{
@@ -51,7 +52,6 @@ html, body{
   border-radius:14px;
   font-weight:bold;
   cursor:pointer;
-  pointer-events:auto;
 }
 
 #toggleSound{ right:200px; }
@@ -68,6 +68,7 @@ html, body{
   display:flex;
   align-items:center;
   justify-content:center;
+  pointer-events:none;
 }
 
 .loaderBox{
@@ -131,7 +132,7 @@ html, body{
 #pirate3bis{ left:638px; top:177px; width:235px; }
 
 /* =====================================================
-   ✨ ILLUMINATION PIRATES
+   ✨ ILLUMINATION
 ===================================================== */
 .glowStart{
   animation:glowPulse 1.2s infinite;
@@ -185,7 +186,7 @@ html, body{
 }
 
 /* =====================================================
-   🎮 MINI-JEUX
+   🎮 MINI-JEUX (STYLE D’ORIGINE CONSERVÉ)
 ===================================================== */
 #communicationGame,
 #visualIdentityGame,
@@ -288,7 +289,7 @@ button:disabled{
 }
 
 /* =====================================================
-   📘 LIVRE — PAGES COLLÉES + ANIMATION
+   📘 LIVRE — PAGES COLLÉES + ANIMATION + ZOOM
 ===================================================== */
 .book-container{
   position:relative;
@@ -300,25 +301,19 @@ button:disabled{
 
 .book-pages{
   display:flex;
-  gap:0; /* ⬅️ pages collées */
+  gap:0;
 }
 
-/* Pages */
 .book-pages img{
   width:280px;
   max-width:44vw;
-  height:auto;
-  border-radius:0;
   border:3px solid gold;
   background:#000;
   box-shadow:0 0 24px rgba(255,215,0,.6);
   cursor:zoom-in;
-  transition:
-    transform .6s ease,
-    box-shadow .4s ease;
+  transition:transform .6s ease;
 }
 
-/* Effet pli central */
 .book-pages img:first-child{
   border-right:none;
   border-radius:16px 0 0 16px;
@@ -329,9 +324,7 @@ button:disabled{
   border-radius:0 16px 16px 0;
 }
 
-/* ======================
-   Animation page tournée
-====================== */
+/* Page turn */
 .page-turn-right{
   transform-origin:left center;
   animation:turnRight .6s ease forwards;
@@ -343,18 +336,14 @@ button:disabled{
 }
 
 @keyframes turnRight{
-  from{ transform:rotateY(0deg); }
   to{ transform:rotateY(-120deg); }
 }
 
 @keyframes turnLeft{
-  from{ transform:rotateY(0deg); }
   to{ transform:rotateY(120deg); }
 }
 
-/* ======================
-   ZOOM PAGE
-====================== */
+/* Zoom */
 .page-zoom{
   position:fixed;
   inset:0;
@@ -375,7 +364,7 @@ button:disabled{
 }
 
 /* =====================================================
-   ➜ CONTINUER LA QUÊTE — MINI-JEU 2
+   ➜ CONTINUER LA QUÊTE (MINI-JEU 2)
 ===================================================== */
 #continueQuestBtn{
   position:fixed;
@@ -385,16 +374,13 @@ button:disabled{
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3 — TEXTE AÉRÉ
+   🎮 MINI-JEU 3 — TEXTE & INDICE
 ===================================================== */
 #strategyText{
   line-height:1.7;
   font-size:15px;
 }
 
-/* =====================================================
-   💡 BOUTON INDICE — STYLE DIFFÉRENT
-===================================================== */
 #strategyHintBtn{
   background:linear-gradient(145deg,#1f3c2b,#4fa36a);
   border:3px solid #1c5a3a;
