@@ -16,9 +16,7 @@ html, body{
   overflow:hidden;
 }
 
-.hidden{
-  display:none !important;
-}
+.hidden{ display:none !important; }
 
 /* =====================================================
    🎬 VIDÉO INTRO
@@ -56,12 +54,11 @@ html, body{
   pointer-events:auto;
 }
 
-#toggleSound{right:200px;}
-#closeVideo{right:20px;}
-
+#toggleSound{ right:200px; }
+#closeVideo{ right:20px; }
 
 /* =====================================================
-   🌑 LOADER — 🏴‍☠️ + ROND LUMINEUX
+   🌑 LOADER GLOBAL
 ===================================================== */
 #fadeScreen{
   position:fixed;
@@ -134,7 +131,7 @@ html, body{
 #pirate3bis{ left:638px; top:177px; width:235px; }
 
 /* =====================================================
-   ✨ ILLUMINATION PIRATES
+   ✨ ILLUMINATION
 ===================================================== */
 .glowStart{
   animation:glowPulse 1.2s infinite;
@@ -147,7 +144,7 @@ html, body{
 }
 
 /* =====================================================
-   💬 BULLES DE DIALOGUE
+   💬 DIALOGUES
 ===================================================== */
 #bubbleContainer{
   position:fixed;
@@ -184,11 +181,11 @@ html, body{
   border-radius:14px;
   font-weight:bold;
   cursor:pointer;
-  z-index:10000;
+  z-index:9500; /* ⬅️ sous le livre, au-dessus du jeu */
 }
 
 /* =====================================================
-   🎮 MINI-JEUX — CONTENEURS
+   🎮 MINI-JEUX
 ===================================================== */
 #communicationGame,
 #visualIdentityGame,
@@ -206,26 +203,7 @@ html, body{
   box-shadow:0 0 40px rgba(255,215,0,.45);
 }
 
-.quizBox{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.quizTitle{
-  font-size:26px;
-  text-align:center;
-  color:#ffd77a;
-}
-
-.quizIntro{
-  font-size:14px;
-  text-align:center;
-}
-
-/* =====================================================
-   🌪️ SHAKE
-===================================================== */
+/* SHAKE */
 .screen-shake{
   animation:shake .35s ease;
 }
@@ -240,101 +218,7 @@ html, body{
 }
 
 /* =====================================================
-   🎯 TITRES MINI-JEUX
-===================================================== */
-.mg1-title{
-  font-family:"Pirata One", serif;
-  font-size:26px;
-  text-align:center;
-  color:#ffd77a;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  margin-bottom:16px;
-  text-shadow:2px 2px 0 #2b1605;
-}
-
-/* =====================================================
-   🎯 MINI-JEUX 1 & 2 — RÉPONSES
-===================================================== */
-.mg1-answers{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.mg1-answers button{
-  width:100%;
-}
-
-/* =====================================================
-   ❓ QUESTIONS
-===================================================== */
-#commQuestion,
-.gameQuestion{
-  padding:12px 14px;
-  background:#f6e6b8;
-  color:#2b1605;
-  border-radius:12px;
-  text-align:center;
-  font-weight:bold;
-}
-
-/* =====================================================
-   🔘 BOUTONS — STYLE PIRATE OFFICIEL (UNIFIÉ)
-===================================================== */
-button{
-  background:linear-gradient(145deg,#7b4a12,#caa14a);
-  border:3px solid #3b2208;
-  color:#1a0f05;
-  font-weight:bold;
-  font-size:14px;
-  padding:12px 18px;
-  border-radius:14px;
-  cursor:pointer;
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
-  transition:transform .08s ease, box-shadow .08s ease;
-}
-
-button:active,
-button.pressed{
-  transform:translateY(4px);
-  box-shadow:
-    inset 0 0 4px rgba(255,215,0,.4),
-    0 1px 0 #3b2208;
-}
-
-button:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
-/* =====================================================
-   🎮 MINI-JEU 1
-===================================================== */
-#communicationGame button{
-  color:#000 !important;
-  width:100%;
-}
-
-/* =====================================================
-   🎮 MINI-JEU 2
-===================================================== */
-#visualIdentityGame button{
-  align-self:center;
-  min-width:80%;
-  color:#000 !important;
-}
-
-#visualChoices{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-/* =====================================================
-   📘 LOADER BUSINESS PLAN
+   📘 LIVRE BUSINESS PLAN
 ===================================================== */
 #identity-loader{
   position:fixed;
@@ -346,61 +230,44 @@ button:disabled{
   justify-content:center;
 }
 
-/* Centre global */
 .identity-center{
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:22px;
-  text-align:center;
   max-width:96%;
 }
 
-.identity-center h2{
-  color:#ffd77a;
-  font-size:28px;
-  text-shadow:2px 2px 0 #2b1605;
-}
-
-/* =====================================================
-   📖 LIVRE
-===================================================== */
 .book-container{
-  position:relative;              /* ⬅️ indispensable pour loader */
+  position:relative;
   display:flex;
   align-items:center;
-  gap:24px;
+  gap:28px;
 }
 
-/* Pages */
 .book-pages{
   display:flex;
-  gap:12px;
+  gap:14px;
 }
 
-/* Images des pages */
 .book-pages img{
-  width:260px;                    /* ⬅️ agrandi */
-  max-width:42vw;
+  width:280px;
+  max-width:44vw;
   border-radius:16px;
   border:3px solid gold;
   background:#000;
-  box-shadow:0 0 22px rgba(255,215,0,.55);
+  box-shadow:0 0 24px rgba(255,215,0,.6);
 }
 
-/* =====================================================
-   🔘 BOUTONS NAVIGATION
-===================================================== */
 .book-nav-btn{
   font-size:24px;
   padding:12px 18px;
   border-radius:16px;
-  min-width:52px;
+  min-width:56px;
+  z-index:2;
 }
 
-/* =====================================================
-   ⏳ LOADER DU LIVRE
-===================================================== */
+/* Loader livre */
 .book-loading{
   position:absolute;
   inset:0;
@@ -423,106 +290,10 @@ button:disabled{
 }
 
 /* =====================================================
-   ➜ CONTINUER LA QUÊTE
-===================================================== */
-#continueQuestBtn{
-  position:fixed;
-  top:18px;
-  right:20px;
-}
-
-/* =====================================================
-   📱 RESPONSIVE
-===================================================== */
-@media (max-width:768px){
-  .book-pages img{
-    width:180px;
-    max-width:44vw;
-  }
-
-  .book-nav-btn{
-    font-size:20px;
-    padding:10px 14px;
-  }
-
-  .identity-center h2{
-    font-size:22px;
-  }
-}
-
-/* =====================================================
-   🎮 MINI-JEU 3
-===================================================== */
-#merchantGame button{
-  color:#000 !important;
-  min-width:80%;
-}
-
-#merchantGame .merchantChoices{
-  display:flex;
-  justify-content:center;
-}
-
-/* =====================================================
-   🏆 VICTOIRE + EXPLOSION
-===================================================== */
-#communication-win{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.95);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:10000;
-}
-
-.win-box{
-  text-align:center;
-  color:#ffd77a;
-}
-
-.win-box h2{
-  font-size:34px;
-  margin-bottom:10px;
-}
-
-.win-box p{
-  font-size:18px;
-  margin-bottom:30px;
-}
-
-.gems-container{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-
-.gem{
-  position:absolute;
-  border-radius:50%;
-  animation:gemExplode 1.6s ease-out forwards;
-}
-
-@keyframes gemExplode{
-  0%{
-    transform:translate(-50%,-50%) scale(1);
-    opacity:1;
-  }
-  100%{
-    transform:
-      translate(
-        calc(-50% + var(--x)),
-        calc(-50% + var(--y))
-      )
-      scale(0);
-    opacity:0;
-  }
-}
-
-/* =====================================================
-   📱 RESPONSIVE
+   📱 RESPONSIVE GLOBAL
 ===================================================== */
 @media (max-width:768px){
   .pirate{ display:none; }
   .quizTitle{ font-size:22px; }
+  .book-pages img{ width:180px; }
 }
