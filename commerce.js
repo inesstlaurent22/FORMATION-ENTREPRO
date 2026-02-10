@@ -207,7 +207,7 @@ function startMiniGame2(){
 }
 
 /* =====================================================
-   LIVRE
+   📘 LIVRE
 ===================================================== */
 function showBusinessPlanLoader(){
 
@@ -215,10 +215,11 @@ function showBusinessPlanLoader(){
   overlay.id = "identity-loader";
   overlay.innerHTML = `
     <div class="identity-center">
-<h2 class="bp-title">Bravo 🎉 Tu as créé ton business plan</h2>
+      <h2 class="bp-title">Bravo 🎉 Tu as créé ton business plan</h2>
 
       <div class="book-container">
-        <div class="book-loading" id="bookLoading"><span>⏳</span></div>
+        <div class="book-loading" id="bookLoading">⏳</div>
+
         <button id="prevPage" class="book-nav-btn hidden">‹</button>
 
         <div class="book-pages">
@@ -241,7 +242,7 @@ function showBusinessPlanLoader(){
   const cont = overlay.querySelector("#continueQuestBtn");
   const loader = overlay.querySelector("#bookLoading");
 
-  const pages=[
+  const pages = [
     ["","images/Businessplancov.png"],
     ["images/Businessplan4.jpg","images/Businessplan1.jpg"],
     ["images/Businessplan4.jpg","images/Businessplan2.jpg"],
@@ -249,41 +250,46 @@ function showBusinessPlanLoader(){
   ];
 
   const allImages = pages.flat().filter(Boolean);
-  let loaded=0, step=0;
+  let loaded = 0;
+  let step = 0;
 
   allImages.forEach(src=>{
-    const img=new Image();
-    img.onload=img.onerror=()=>{
+    const img = new Image();
+    img.onload = img.onerror = ()=>{
       loaded++;
-      if(loaded===allImages.length){
-        loader.remove();
+      if(loaded === allImages.length){
+        loader.remove();                 // ⏳ disparaît
         next.classList.remove("hidden");
         update();
       }
     };
-    img.src=src;
-    if(img.complete) img.onload();
+    img.src = src;
   });
 
   function update(){
-    const [l,r]=pages[step];
-    if(l){ left.src=l; left.classList.remove("hidden"); prev.classList.remove("hidden"); }
-    else{ left.classList.add("hidden"); prev.classList.add("hidden"); }
-    right.src=r;
-    next.classList.toggle("hidden",step===pages.length-1);
-    cont.classList.toggle("hidden",step!==pages.length-1);
+    const [l,r] = pages[step];
+    if(l){
+      left.src = l;
+      left.classList.remove("hidden");
+      prev.classList.remove("hidden");
+    }else{
+      left.classList.add("hidden");
+      prev.classList.add("hidden");
+    }
+    right.src = r;
+    next.classList.toggle("hidden", step === pages.length - 1);
+    cont.classList.toggle("hidden", step !== pages.length - 1);
   }
 
-  next.onclick=()=>{ step++; update(); };
-  prev.onclick=()=>{ step--; update(); };
+  next.onclick = ()=>{ step++; update(); };
+  prev.onclick = ()=>{ step--; update(); };
 
-  cont.onclick=()=>{
+  cont.onclick = ()=>{
     overlay.remove();
     showLoader(800, startDialogues3);
   };
 }
-
-/* 
+   
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
 ===================================================== */
