@@ -64,8 +64,12 @@ closeVideo.onclick = endVideo;
 questVideo.onended = endVideo;
 
 function endVideo(){
+  questVideo.pause();
+  questVideo.currentTime = 0;
+
   videoContainer.classList.add("hidden");
-  showScene();
+
+  showLoader(300, showScene);
 }
 
 /* =====================================================
