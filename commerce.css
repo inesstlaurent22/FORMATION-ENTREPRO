@@ -37,8 +37,8 @@ html, body{
 #videoControls{
   position:absolute;
   inset:0;
-  pointer-events:auto;      /* ✅ FIX */
-  z-index:3500;
+  pointer-events:auto;
+  z-index:10001; /* AU-DESSUS DE TOUT */
 }
 
 #videoControls button{
