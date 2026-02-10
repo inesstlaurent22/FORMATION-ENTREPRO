@@ -68,7 +68,7 @@ html, body{
   display:flex;
   align-items:center;
   justify-content:center;
-  pointer-events:none;
+  pointer-events:auto; /* ← FIX */
 }
 
 .loaderBox{
@@ -361,6 +361,16 @@ button:disabled{
   border-radius:18px;
   box-shadow:0 0 40px gold;
   cursor:zoom-out;
+}
+
+#identity-loader{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  z-index:10000; /* AU-DESSUS DU LOADER */
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 /* =====================================================
