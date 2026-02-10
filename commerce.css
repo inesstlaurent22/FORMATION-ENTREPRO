@@ -325,9 +325,10 @@ button:disabled{
   justify-content:center;
   gap:20px;
   padding:30px;
+  z-index:1;
 }
 
-/* Faisceau lumineux */
+/* Faisceau lumineux (halo large) */
 .book-container::before{
   content:"";
   position:absolute;
@@ -338,7 +339,7 @@ button:disabled{
       rgba(255,215,120,.15) 40%,
       rgba(0,0,0,0) 70%
     );
-  filter:blur(12px);
+  filter:blur(14px);
   animation:lightPulse 2.2s ease-in-out infinite;
   z-index:-1;
 }
@@ -349,6 +350,52 @@ button:disabled{
   100%{ opacity:.5; }
 }
 
+/* =====================================================
+   ✨ CONTOUR LUMINEUX DU LIVRE
+===================================================== */
+.book-pages{
+  position:relative;
+}
+
+.book-pages::after{
+  content:"";
+  position:absolute;
+  inset:-14px;
+  border-radius:20px;
+  border:2px solid rgba(255,215,120,.85);
+  box-shadow:
+    0 0 22px rgba(255,215,120,.9),
+    0 0 60px rgba(255,215,120,.5);
+  pointer-events:none;
+  animation:bookGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes bookGlow{
+  0%{ opacity:.6; }
+  50%{ opacity:1; }
+  100%{ opacity:.6; }
+}
+
+/* =====================================================
+   ⏳ LOADER LIVRE — GRAND + ROTATION
+===================================================== */
+.book-loading{
+  font-size:96px;                 /* plus grand */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  animation:spinHourglass 1.4s linear infinite;
+  filter:drop-shadow(0 0 18px gold);
+}
+
+@keyframes spinHourglass{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
+}
+
+/* =====================================================
+   ➜ CONTINUER LA QUÊTE (VISIBLE UNIQUEMENT À LA DERNIÈRE PAGE)
+===================================================== */
 #continueQuestBtn{
   position:fixed;
   top:18px;
@@ -360,6 +407,9 @@ button:disabled{
   font-weight:bold;
   padding:12px 18px;
   border-radius:14px;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.5),
+    0 4px 0 #3b2208;
 }
 /* =====================================================
    🎮 MINI-JEU 3 — INDICE PIRATE
