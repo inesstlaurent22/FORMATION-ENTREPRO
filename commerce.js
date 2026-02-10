@@ -403,12 +403,12 @@ function startMiniGame3(){
 }
 
 /* =====================================================
-   🏆 VICTOIRE COMMERCE + EXPLOSION
+   🏆 VICTOIRE + EXPLOSION
 ===================================================== */
 function showCommunicationWin(){
   showLoader(1000, ()=>{
     const overlay = document.createElement("div");
-    overlay.id = "communication-win"; // on réutilise le style
+    overlay.id = "communication-win";
     overlay.innerHTML = `
       <div class="win-box">
         <h2>🏴‍☠️ Bravo !</h2>
@@ -422,14 +422,7 @@ function showCommunicationWin(){
       launchGemsExplosion(overlay.querySelector(".gems-container"));
     });
 
-    sessionStorage.setItem("fromCommerce","true");
-    sessionStorage.setItem("unlock_pirate4","true");
 
-    setTimeout(()=>{
-      window.location.href = "menu.html";
-    }, 4200);
-  });
-}
 /* =====================================================
    💎 GEMS
 ===================================================== */
@@ -454,5 +447,4 @@ function launchGemsExplosion(container){
     container.appendChild(gem);
   }
 }
-
 });
