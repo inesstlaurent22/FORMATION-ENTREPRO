@@ -64,10 +64,21 @@ closeVideo.onclick = endVideo;
 questVideo.onended = endVideo;
 
 function endVideo(){
+
+  // Stop vidéo proprement
   questVideo.pause();
   questVideo.currentTime = 0;
+
+  // Cache définitivement la vidéo
   videoContainer.classList.add("hidden");
-  showLoader(300, showScene);
+
+  // Sécurité : enlève le loader si présent
+  fadeScreen.classList.add("hidden");
+
+  // Affiche la scène APRÈS la vidéo
+  requestAnimationFrame(()=>{
+    showScene();
+  });
 }
 
 /* =====================================================
