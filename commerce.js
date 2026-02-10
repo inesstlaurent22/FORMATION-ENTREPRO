@@ -403,13 +403,12 @@ function startMiniGame3(){
 }
 
 /* =====================================================
-   🏆 VICTOIRE + EXPLOSION + REDIRECTION
+   🏆 VICTOIRE COMMERCE + EXPLOSION
 ===================================================== */
 function showCommerceWin(){
-  showLoader(1000, () => {
-
+  showLoader(1000, ()=>{
     const overlay = document.createElement("div");
-    overlay.id = "commerce-win";
+    overlay.id = "communication-win"; // on réutilise le style
     overlay.innerHTML = `
       <div class="win-box">
         <h2>🏴‍☠️ Bravo !</h2>
@@ -419,23 +418,18 @@ function showCommerceWin(){
     `;
     document.body.appendChild(overlay);
 
-    // Explosion de gems
-    requestAnimationFrame(() => {
+    requestAnimationFrame(()=>{
       launchGemsExplosion(overlay.querySelector(".gems-container"));
     });
 
-    // Flags de progression
-    sessionStorage.setItem("fromCommerce", "true");
-    sessionStorage.setItem("unlock_pirate4", "true");
+    sessionStorage.setItem("fromCommerce","true");
+    sessionStorage.setItem("unlock_pirate4","true");
 
-    // Redirection finale
-    setTimeout(() => {
+    setTimeout(()=>{
       window.location.href = "menu.html";
     }, 4200);
-
   });
 }
-
 /* =====================================================
    💎 GEMS
 ===================================================== */
