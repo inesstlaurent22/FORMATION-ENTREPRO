@@ -291,7 +291,7 @@ button:disabled{
 }
 
 /* =====================================================
-   📘 BUSINESS PLAN — TITRE + LIVRE
+   📘 BUSINESS PLAN — OVERLAY + TITRE
 ===================================================== */
 #identity-loader{
   position:fixed;
@@ -303,12 +303,13 @@ button:disabled{
   justify-content:center;
 }
 
+/* Titre centré en haut */
 .bp-title{
   position:fixed;
   top:26px;
   left:50%;
   transform:translateX(-50%);
-  font-size:26px;
+  font-size:24px;                /* ↓ légèrement réduit */
   color:#ffd77a;
   text-align:center;
   text-shadow:2px 2px 0 #2b1605;
@@ -316,30 +317,30 @@ button:disabled{
 }
 
 /* =====================================================
-   📘 LIVRE — MISE EN VALEUR LUMINEUSE
+   📘 LIVRE — TAILLE RÉDUITE + HALO
 ===================================================== */
 .book-container{
   position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:20px;
-  padding:30px;
+  gap:16px;
+  padding:20px;                  /* ↓ padding réduit */
   z-index:1;
 }
 
-/* Faisceau lumineux (halo large) */
+/* Faisceau lumineux */
 .book-container::before{
   content:"";
   position:absolute;
-  inset:-40px;
+  inset:-30px;                   /* ↓ halo moins large */
   background:
     radial-gradient(circle at center,
       rgba(255,215,120,.35),
-      rgba(255,215,120,.15) 40%,
-      rgba(0,0,0,0) 70%
+      rgba(255,215,120,.15) 45%,
+      rgba(0,0,0,0) 75%
     );
-  filter:blur(14px);
+  filter:blur(12px);
   animation:lightPulse 2.2s ease-in-out infinite;
   z-index:-1;
 }
@@ -351,8 +352,18 @@ button:disabled{
 }
 
 /* =====================================================
-   ✨ CONTOUR LUMINEUX DU LIVRE
+   📘 PAGES DU LIVRE — PLUS PETITES
 ===================================================== */
+.book-pages img{
+  width:190px;                   /* ✅ taille réduite */
+  max-width:36vw;
+  border:3px solid gold;
+  background:#000;
+  box-shadow:0 0 18px rgba(255,215,0,.6);
+  border-radius:14px;
+}
+
+/* Contour lumineux */
 .book-pages{
   position:relative;
 }
@@ -360,12 +371,12 @@ button:disabled{
 .book-pages::after{
   content:"";
   position:absolute;
-  inset:-14px;
-  border-radius:20px;
+  inset:-10px;                   /* ↓ contour plus serré */
+  border-radius:18px;
   border:2px solid rgba(255,215,120,.85);
   box-shadow:
-    0 0 22px rgba(255,215,120,.9),
-    0 0 60px rgba(255,215,120,.5);
+    0 0 20px rgba(255,215,120,.9),
+    0 0 50px rgba(255,215,120,.5);
   pointer-events:none;
   animation:bookGlow 2.4s ease-in-out infinite;
 }
@@ -377,15 +388,15 @@ button:disabled{
 }
 
 /* =====================================================
-   ⏳ LOADER LIVRE — GRAND + ROTATION
+   ⏳ LOADER — SEUL L’EMOJI TOURNE
 ===================================================== */
 .book-loading{
-  font-size:96px;                 /* plus grand */
+  font-size:88px;                /* grand mais équilibré */
   display:flex;
   align-items:center;
   justify-content:center;
-  animation:spinHourglass 1.4s linear infinite;
-  filter:drop-shadow(0 0 18px gold);
+  animation:spinHourglass 1.6s linear infinite;
+  filter:drop-shadow(0 0 20px gold);
 }
 
 @keyframes spinHourglass{
