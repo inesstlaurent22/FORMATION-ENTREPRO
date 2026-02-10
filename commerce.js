@@ -284,6 +284,7 @@ function startDialogues3(){
 function spawnPirate3(){
   pirate3.classList.remove("hidden");
   pirate3.classList.add("glowStart");
+  pirate3.style.pointerEvents = "auto"; // FIX
 
   pirate3.onclick=()=>{
     pirate3.classList.remove("glowStart");
