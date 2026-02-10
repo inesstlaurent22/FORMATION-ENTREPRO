@@ -19,7 +19,7 @@ html, body{
 .hidden{ display:none !important; }
 
 /* =====================================================
-   🎬 VIDÉO INTRO (CORRIGÉ)
+   🎬 VIDÉO INTRO — VERSION STABLE
 ===================================================== */
 #videoContainer{
   position:fixed;
@@ -28,19 +28,23 @@ html, body{
   z-index:3000;
 }
 
+/* Vidéo plein écran */
 #questVideo{
   width:100%;
   height:100%;
   object-fit:cover;
+  pointer-events:none; /* évite les conflits de clic */
 }
 
+/* Calque des contrôles */
 #videoControls{
-  position:absolute;
+  position:fixed;
   inset:0;
   pointer-events:auto;
-  z-index:10001; /* AU-DESSUS DE TOUT */
+  z-index:10001; /* au-dessus de tous les overlays */
 }
 
+/* Boutons vidéo */
 #videoControls button{
   position:absolute;
   top:18px;
@@ -52,8 +56,11 @@ html, body{
   border-radius:14px;
   font-weight:bold;
   cursor:pointer;
+  pointer-events:auto;
+  touch-action:manipulation; /* FIX mobile iOS */
 }
 
+/* Positions */
 #toggleSound{ right:200px; }
 #closeVideo{ right:20px; }
 
