@@ -318,9 +318,9 @@ function startMiniGame3(){
       Vous en avez. Quel prix afficher ?`,
       hint:"💡 Avantage concurrentiel = marge possible.",
       answers:[
-        {label:"350 PO",correct:true},
-        {label:"300 PO",correct:false},
-        {label:"250 PO",correct:false}
+        { label:"350 PO", correct:true },
+        { label:"300 PO", correct:false },
+        { label:"250 PO", correct:false }
       ]
     },
     {
@@ -328,18 +328,18 @@ function startMiniGame3(){
       Comment ajuster le prix ?`,
       hint:"💡 Le coût est déjà intégré.",
       answers:[
-        {label:"370 PO",correct:false},
-        {label:"350 PO",correct:true},
-        {label:"330 PO",correct:false}
+        { label:"370 PO", correct:false },
+        { label:"350 PO", correct:true },
+        { label:"330 PO", correct:false }
       ]
     },
     {
       text:`Objectif : acheter un bateau rapidement.`,
       hint:"💡 Vendre vite plutôt que luxe.",
       answers:[
-        {label:"400 PO",correct:false},
-        {label:"350 PO",correct:false},
-        {label:"300 PO",correct:true}
+        { label:"400 PO", correct:false },
+        { label:"350 PO", correct:false },
+        { label:"300 PO", correct:true }
       ],
       finalText:`<strong>Bonne stratégie.</strong><br>
       Les pirates vendent plus vite à 300 PO
@@ -347,59 +347,60 @@ function startMiniGame3(){
     }
   ];
 
-function render(){
-  const s = steps[step];
+  function render(){
+    const s = steps[step];
 
-  // Texte principal
-  text.innerHTML = s.text;
+    // Texte principal
+    text.innerHTML = s.text;
 
-  // Reset UI
-  choices.innerHTML = "";
-  hintBox.classList.add("hidden");
-  hintBox.innerHTML = s.hint;
+    // Reset UI
+    choices.innerHTML = "";
+    hintBox.classList.add("hidden");
+    hintBox.innerHTML = s.hint;
 
-  // Réponses
-  s.answers.forEach(a=>{
-    const b = document.createElement("button");
-    b.textContent = a.label;
+    // Réponses
+    s.answers.forEach(a=>{
+      const b = document.createElement("button");
+      b.textContent = a.label;
 
-    b.onclick = ()=>{
-      if(!a.correct){
-        shake(game3);
-        return;
-      }
+      b.onclick = ()=>{
+        if(!a.correct){
+          shake(game3);
+          return;
+        }
 
-      // Empêche double clic
-      b.disabled = true;
+        // Empêche double clic
+        b.disabled = true;
 
-      // Dernière étape
-      if(s.finalText){
-        text.innerHTML = s.finalText;
-        choices.innerHTML = "";
-        hintBtn.classList.add("hidden");
+        // Dernière étape
+        if(s.finalText){
+          text.innerHTML = s.finalText;
+          choices.innerHTML = "";
+          hintBtn.classList.add("hidden");
 
-        setTimeout(()=>{
-          game3.classList.add("hidden");
-          showLoader(1000, showCommerceWin);
-        }, 3200);
+          setTimeout(()=>{
+            game3.classList.add("hidden");
+            showLoader(1000, showCommerceWin);
+          }, 3200);
 
-      }else{
-        step++;
-        render();
-      }
-    };
+        }else{
+          step++;
+          render();
+        }
+      };
 
-    choices.appendChild(b);
-  });
+      choices.appendChild(b);
+    });
+  }
+
+  // Bouton indice
+  hintBtn.onclick = ()=>{
+    hintBox.classList.remove("hidden");
+  };
+
+  // Lancement initial
+  render();
 }
-
-// Bouton indice
-hintBtn.onclick = ()=>{
-  hintBox.classList.remove("hidden");
-};
-
-// Lancement initial
-render();
 
 /* =====================================================
    🏆 VICTOIRE + EXPLOSION + REDIRECTION
