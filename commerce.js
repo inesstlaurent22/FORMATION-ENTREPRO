@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+   fadeScreen.classList.add("hidden");
+
 /* =====================================================
    DOM
 ===================================================== */
