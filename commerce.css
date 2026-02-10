@@ -395,7 +395,9 @@ button:disabled{
   background:linear-gradient(145deg,#1f3c2b,#4fa36a);
   border:3px solid #1c5a3a;
   color:#eafff1;
-  margin-top:14px;
+  display:block;
+  width:100%;
+  margin-top:16px;
 }
 
 #strategyHint{
