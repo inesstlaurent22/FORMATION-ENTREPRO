@@ -398,12 +398,24 @@ function showCommerceWin(){
    💎 GEMS
 ===================================================== */
 function launchGemsExplosion(container){
-  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+
   for(let i=0;i<50;i++){
-    const g=document.createElement("div");
-    g.className="gem";
-    g.style.background=colors[Math.floor(Math.random()*colors.length)];
-    container.appendChild(g);
+    const gem = document.createElement("div");
+    gem.className = "gem";
+    const size = Math.random()*10 + 8;
+    gem.style.width = size+"px";
+    gem.style.height = size+"px";
+    gem.style.background = colors[Math.floor(Math.random()*colors.length)];
+    gem.style.left = "50%";
+    gem.style.top = "50%";
+
+    const angle = Math.random()*Math.PI*2;
+    const distance = Math.random()*260 + 80;
+    gem.style.setProperty("--x", Math.cos(angle)*distance+"px");
+    gem.style.setProperty("--y", Math.sin(angle)*distance+"px");
+
+    container.appendChild(gem);
   }
 }
 
