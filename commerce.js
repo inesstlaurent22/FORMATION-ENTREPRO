@@ -380,7 +380,7 @@ function startMiniGame3(){
 
           setTimeout(()=>{
             game3.classList.add("hidden");
-            showLoader(1000, showCommerceWin);
+             showLoader(1000, showCommunicationWin);
           }, 3200);
 
         }else{
@@ -405,7 +405,7 @@ function startMiniGame3(){
 /* =====================================================
    🏆 VICTOIRE COMMERCE + EXPLOSION
 ===================================================== */
-function showCommerceWin(){
+function showCommunicationWin(){
   showLoader(1000, ()=>{
     const overlay = document.createElement("div");
     overlay.id = "communication-win"; // on réutilise le style
