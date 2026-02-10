@@ -200,7 +200,7 @@ function showBusinessPlanLoader(){
   overlay.id = "identity-loader";
   overlay.innerHTML = `
     <div class="identity-center">
-      <h2>📘 Construction du Business plan</h2>
+<h2 class="bp-title">Bravo 🎉 Tu as créé ton business plan</h2>
 
       <div class="book-container">
         <div class="book-loading" id="bookLoading"><span>⏳</span></div>
@@ -341,32 +341,59 @@ function startMiniGame3(){
     }
   ];
 
-  function render(){
-    const s=steps[step];
-    text.innerHTML=s.text;
-    choices.innerHTML="";
-    hintBox.classList.add("hidden");
-    hintBox.innerHTML=s.hint;
+function render(){
+  const s = steps[step];
 
-    s.answers.forEach(a=>{
-      const b=document.createElement("button");
-      b.textContent=a.label;
-      b.onclick=()=>{
-        if(!a.correct){ shake(game3); return; }
-        if(s.finalText){
-          text.innerHTML=s.finalText;
-          choices.innerHTML="";
-          hintBtn.classList.add("hidden");
-          setTimeout(()=>{ game3.classList.add("hidden"); showCommerceWin(); },3200);
-        }else{ step++; render(); }
-      };
-      choices.appendChild(b);
-    });
-  }
+  // Texte principal
+  text.innerHTML = s.text;
 
-  hintBtn.onclick=()=>hintBox.classList.remove("hidden");
-  render();
+  // Reset UI
+  choices.innerHTML = "";
+  hintBox.classList.add("hidden");
+  hintBox.innerHTML = s.hint;
+
+  // Réponses
+  s.answers.forEach(a=>{
+    const b = document.createElement("button");
+    b.textContent = a.label;
+
+    b.onclick = ()=>{
+      if(!a.correct){
+        shake(game3);
+        return;
+      }
+
+      // Empêche double clic
+      b.disabled = true;
+
+      // Dernière étape
+      if(s.finalText){
+        text.innerHTML = s.finalText;
+        choices.innerHTML = "";
+        hintBtn.classList.add("hidden");
+
+        setTimeout(()=>{
+          game3.classList.add("hidden");
+          showLoader(1000, showCommerceWin);
+        }, 3200);
+
+      }else{
+        step++;
+        render();
+      }
+    };
+
+    choices.appendChild(b);
+  });
 }
+
+// Bouton indice
+hintBtn.onclick = ()=>{
+  hintBox.classList.remove("hidden");
+};
+
+// Lancement initial
+render();
 
 /* =====================================================
    🏆 VICTOIRE + EXPLOSION + REDIRECTION
