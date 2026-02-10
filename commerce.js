@@ -406,25 +406,33 @@ function startMiniGame3(){
    🏆 VICTOIRE + EXPLOSION + REDIRECTION
 ===================================================== */
 function showCommerceWin(){
-  showLoader(1000, ()=>{
-    const overlay=document.createElement("div");
-    overlay.id="commerce-win";
-    overlay.innerHTML=`
+  showLoader(1000, () => {
+
+    const overlay = document.createElement("div");
+    overlay.id = "commerce-win";
+    overlay.innerHTML = `
       <div class="win-box">
         <h2>🏴‍☠️ Bravo !</h2>
         <p>Tu as terminé la quête Commerce</p>
         <div class="gems-container"></div>
-      </div>`;
+      </div>
+    `;
     document.body.appendChild(overlay);
 
-    requestAnimationFrame(()=>{
+    // Explosion de gems
+    requestAnimationFrame(() => {
       launchGemsExplosion(overlay.querySelector(".gems-container"));
     });
 
-    sessionStorage.setItem("fromCommerce","true");
-    sessionStorage.setItem("unlock_pirate4","true");
+    // Flags de progression
+    sessionStorage.setItem("fromCommerce", "true");
+    sessionStorage.setItem("unlock_pirate4", "true");
 
-    setTimeout(()=>{ window.location.href="menu.html"; },4200);
+    // Redirection finale
+    setTimeout(() => {
+      window.location.href = "menu.html";
+    }, 4200);
+
   });
 }
 
