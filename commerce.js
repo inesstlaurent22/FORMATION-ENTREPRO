@@ -66,9 +66,7 @@ questVideo.onended = endVideo;
 function endVideo(){
   questVideo.pause();
   questVideo.currentTime = 0;
-
   videoContainer.classList.add("hidden");
-
   showLoader(300, showScene);
 }
 
@@ -136,7 +134,7 @@ function startDialogues1(){
 }
 
 /* =====================================================
-   MINI-JEU 1 — ÉTUDE DE MARCHÉ
+   MINI-JEU 1
 ===================================================== */
 function startMiniGame1(){
   game1.classList.remove("hidden");
@@ -170,7 +168,7 @@ function startDialogues2(){
 }
 
 /* =====================================================
-   MINI-JEU 2 — BUSINESS PLAN
+   MINI-JEU 2
 ===================================================== */
 function startMiniGame2(){
   game2.classList.remove("hidden");
@@ -198,106 +196,8 @@ function startMiniGame2(){
 }
 
 /* =====================================================
-   📘 LOADER + LIVRE BUSINESS PLAN
+   MINI-JEU 3
 ===================================================== */
-function showBusinessPlanLoader(){
-
-  const overlay = document.createElement("div");
-  overlay.id = "identity-loader";
-  overlay.innerHTML = `
-    <div class="identity-center">
-<h2 class="bp-title">Bravo 🎉 Tu as créé ton business plan</h2>
-
-      <div class="book-container">
-        <div class="book-loading" id="bookLoading"><span>⏳</span></div>
-        <button id="prevPage" class="book-nav-btn hidden">‹</button>
-
-        <div class="book-pages">
-          <img id="leftPage" class="hidden">
-          <img id="rightPage">
-        </div>
-
-        <button id="nextPage" class="book-nav-btn hidden">›</button>
-      </div>
-
-      <button id="continueQuestBtn" class="hidden">Continuer la quête</button>
-    </div>
-  `;
-  document.body.appendChild(overlay);
-
-  const left = overlay.querySelector("#leftPage");
-  const right = overlay.querySelector("#rightPage");
-  const next = overlay.querySelector("#nextPage");
-  const prev = overlay.querySelector("#prevPage");
-  const cont = overlay.querySelector("#continueQuestBtn");
-  const loader = overlay.querySelector("#bookLoading");
-
-  const pages=[
-    ["","images/Businessplancov.png"],
-    ["images/Businessplan4.png","images/Businessplan1.png"],
-    ["images/Businessplan4.png","images/Businessplan2.png"],
-    ["images/Businessplan4.png","images/Businessplan3.png"]
-  ];
-
-  const allImages = pages.flat().filter(Boolean);
-  let loaded=0, step=0;
-
-  allImages.forEach(src=>{
-    const img=new Image();
-    img.onload=img.onerror=()=>{
-      loaded++;
-      if(loaded===allImages.length){
-        loader.remove();
-        next.classList.remove("hidden");
-        update();
-      }
-    };
-    img.src=src;
-    if(img.complete) img.onload();
-  });
-
-  function update(){
-    const [l,r]=pages[step];
-    if(l){ left.src=l; left.classList.remove("hidden"); prev.classList.remove("hidden"); }
-    else{ left.classList.add("hidden"); prev.classList.add("hidden"); }
-    right.src=r;
-    next.classList.toggle("hidden",step===pages.length-1);
-    cont.classList.toggle("hidden",step!==pages.length-1);
-  }
-
-  next.onclick=()=>{ step++; update(); };
-  prev.onclick=()=>{ step--; update(); };
-
-  cont.onclick=()=>{
-    overlay.remove();
-    showLoader(800, startDialogues3);
-  };
-}
-
-/* =====================================================
-   DIALOGUES 3
-===================================================== */
-function startDialogues3(){
-  playDialogues([
-    { text:"Ton plan est prêt. Il est temps d’affronter le marché.", anchor:pirate5 },
-    { text:"Chaque décision aura un impact direct sur tes ventes.", anchor:pirate5 }
-  ], spawnPirate3);
-}
-
-/* =====================================================
-   PIRATE 3 → MINI-JEU 3
-===================================================== */
-function spawnPirate3(){
-  pirate3.classList.remove("hidden");
-  pirate3.classList.add("glowStart");
-  pirate3.style.pointerEvents = "auto"; // FIX
-
-  pirate3.onclick=()=>{
-    pirate3.classList.remove("glowStart");
-    showLoader(800, startMiniGame3);
-  };
-}
-
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
 ===================================================== */
@@ -380,7 +280,7 @@ function startMiniGame3(){
 
           setTimeout(()=>{
             game3.classList.add("hidden");
-             showLoader(1000, showCommunicationWin);
+            showLoader(1000, showCommunicationWin);
           }, 3200);
 
         }else{
@@ -403,48 +303,48 @@ function startMiniGame3(){
 }
 
 /* =====================================================
-   🏆 VICTOIRE + EXPLOSION
+   🏆 VICTOIRE COMMUNICATION
 ===================================================== */
 function showCommunicationWin(){
   showLoader(1000, ()=>{
-    const overlay = document.createElement("div");
-    overlay.id = "communication-win";
-    overlay.innerHTML = `
+    const overlay=document.createElement("div");
+    overlay.id="communication-win";
+    overlay.innerHTML=`
       <div class="win-box">
         <h2>🏴‍☠️ Bravo !</h2>
-        <p>Tu as terminé la quête Commerce</p>
+        <p>Tu as terminé la quête Communication</p>
         <div class="gems-container"></div>
-      </div>
-    `;
+      </div>`;
     document.body.appendChild(overlay);
 
     requestAnimationFrame(()=>{
       launchGemsExplosion(overlay.querySelector(".gems-container"));
     });
-
+  });
+}
 
 /* =====================================================
    💎 GEMS
 ===================================================== */
 function launchGemsExplosion(container){
-  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
-
+  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
   for(let i=0;i<50;i++){
-    const gem = document.createElement("div");
-    gem.className = "gem";
-    const size = Math.random()*10 + 8;
-    gem.style.width = size+"px";
-    gem.style.height = size+"px";
-    gem.style.background = colors[Math.floor(Math.random()*colors.length)];
-    gem.style.left = "50%";
-    gem.style.top = "50%";
+    const g=document.createElement("div");
+    g.className="gem";
+    const size=Math.random()*10+8;
+    g.style.width=size+"px";
+    g.style.height=size+"px";
+    g.style.background=colors[Math.floor(Math.random()*colors.length)];
+    g.style.left="50%";
+    g.style.top="50%";
 
-    const angle = Math.random()*Math.PI*2;
-    const distance = Math.random()*260 + 80;
-    gem.style.setProperty("--x", Math.cos(angle)*distance+"px");
-    gem.style.setProperty("--y", Math.sin(angle)*distance+"px");
+    const angle=Math.random()*Math.PI*2;
+    const dist=Math.random()*260+80;
+    g.style.setProperty("--x",Math.cos(angle)*dist+"px");
+    g.style.setProperty("--y",Math.sin(angle)*dist+"px");
 
-    container.appendChild(gem);
+    container.appendChild(g);
   }
 }
+
 });
