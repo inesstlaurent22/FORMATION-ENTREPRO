@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-   fadeScreen.classList.add("hidden");
-
 /* =====================================================
    DOM
 ===================================================== */
@@ -13,6 +11,8 @@ const pirate3 = document.getElementById("pirate3bis");
 const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
 const fadeScreen = document.getElementById("fadeScreen");
+
+fadeScreen.classList.add("hidden");
 
 const game1 = document.getElementById("communicationGame");
 const q1 = document.getElementById("commQuestion");
