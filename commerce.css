@@ -304,21 +304,63 @@ button:disabled{
 }
 
 .bp-title{
-  width:100%;
-  text-align:center;
+  position:fixed;
+  top:26px;
+  left:50%;
+  transform:translateX(-50%);
   font-size:26px;
   color:#ffd77a;
-  margin-bottom:20px;
+  text-align:center;
   text-shadow:2px 2px 0 #2b1605;
+  z-index:10002;
 }
 
+/* =====================================================
+   📘 LIVRE — MISE EN VALEUR LUMINEUSE
+===================================================== */
 .book-container{
+  position:relative;
   display:flex;
   align-items:center;
+  justify-content:center;
   gap:20px;
-  perspective:1400px;
+  padding:30px;
 }
 
+/* Faisceau lumineux */
+.book-container::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background:
+    radial-gradient(circle at center,
+      rgba(255,215,120,.35),
+      rgba(255,215,120,.15) 40%,
+      rgba(0,0,0,0) 70%
+    );
+  filter:blur(12px);
+  animation:lightPulse 2.2s ease-in-out infinite;
+  z-index:-1;
+}
+
+@keyframes lightPulse{
+  0%{ opacity:.5; }
+  50%{ opacity:1; }
+  100%{ opacity:.5; }
+}
+
+#continueQuestBtn{
+  position:fixed;
+  top:18px;
+  right:20px;
+  z-index:10003;
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  border:3px solid #3b2208;
+  color:#1a0f05;
+  font-weight:bold;
+  padding:12px 18px;
+  border-radius:14px;
+}
 /* =====================================================
    🎮 MINI-JEU 3 — INDICE PIRATE
 ===================================================== */
