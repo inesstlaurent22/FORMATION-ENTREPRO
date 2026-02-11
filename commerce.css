@@ -19,44 +19,70 @@ html, body{
 .hidden{ display:none !important; }
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   🎬 VIDÉO INTRO — VERSION CORRIGÉE
 ===================================================== */
+
 #videoContainer{
   position:fixed;
   inset:0;
   background:#000;
   z-index:3000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
+/* ✅ Vidéo mieux proportionnée */
 #questVideo{
   width:100%;
   height:100%;
-  object-fit:cover;
-  pointer-events:none;
+  object-fit:contain;   /* ⚠️ IMPORTANT → plus de zoom excessif */
+  background:#000;
 }
+
+/* =====================================================
+   🎛️ BOUTONS VIDÉO
+===================================================== */
 
 #videoControls{
-  position:fixed;
+  position:absolute;
   inset:0;
+  pointer-events:none;   /* important */
   z-index:10001;
-  pointer-events:none;
 }
 
+/* Style pirate cohérent */
 #videoControls button{
   position:absolute;
-  top:18px;
+  top:24px;
   pointer-events:auto;
-  background:#1a1208;
-  color:gold;
-  border:3px solid gold;
-  padding:14px 20px;
-  border-radius:14px;
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  border:3px solid #3b2208;
+  color:#1a0f05;
   font-weight:bold;
+  font-size:15px;
+  padding:12px 18px;
+  border-radius:14px;
   cursor:pointer;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
+  transition:transform .08s ease;
 }
 
-#toggleSound{ right:200px; }
-#closeVideo{ right:20px; }
+#videoControls button:active{
+  transform:translateY(4px);
+}
+
+/* 🔊 Bouton son */
+#toggleSound{
+  right:180px;
+}
+
+/* ❌ Passer la vidéo */
+#closeVideo{
+  right:24px;
+}
 
 /* =====================================================
    🌑 LOADER GLOBAL
