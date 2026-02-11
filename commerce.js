@@ -266,7 +266,11 @@ function showBusinessPlanLoader(){
   const allImages = pages.flat().filter(Boolean);
   let loaded = 0;
   let step = 0;
+  let isTurning = false;
 
+  /* ===============================
+     PRELOAD IMAGES
+  =============================== */
   allImages.forEach(src=>{
     const img = new Image();
     img.onload = img.onerror = ()=>{
@@ -288,6 +292,9 @@ function showBusinessPlanLoader(){
     img.src = src;
   });
 
+  /* ===============================
+     UPDATE PAGES
+  =============================== */
   function update(){
 
     const [l,r] = pages[step];
@@ -307,19 +314,72 @@ function showBusinessPlanLoader(){
     cont.classList.toggle("hidden", step !== pages.length - 1);
   }
 
-  next.onclick = ()=>{
-    if(step < pages.length-1){
-      step++;
+  /* ===============================
+     PAGE TURN ANIMATION
+  =============================== */
+  function turnPage(direction){
+
+    if(isTurning) return;
+    isTurning = true;
+
+    const page = direction === "right" ? right : left;
+    const animationClass = direction === "right" ? "turn-right" : "turn-left";
+
+    page.classList.add(animationClass);
+
+    setTimeout(()=>{
+      page.classList.remove(animationClass);
+
+      if(direction === "right" && step < pages.length - 1){
+        step++;
+      }
+      if(direction === "left" && step > 0){
+        step--;
+      }
+
       update();
+      isTurning = false;
+
+    },700);
+  }
+
+  next.onclick = ()=>{
+    if(step < pages.length - 1){
+      turnPage("right");
     }
   };
 
   prev.onclick = ()=>{
     if(step > 0){
-      step--;
-      update();
+      turnPage("left");
     }
   };
+
+  /* ===============================
+     ZOOM PAGE DROITE
+  =============================== */
+zoomBtn.onclick = ()=>{
+  const currentSrc = pages[step][1]; // toujours image droite actuelle
+
+  const zoom = document.createElement("div");
+  zoom.className = "page-zoom";
+  zoom.innerHTML = `<img src="${currentSrc}">`;
+
+  document.body.appendChild(zoom);
+
+  zoom.onclick = ()=>{
+    zoom.remove();
+  };
+};
+
+  /* ===============================
+     CONTINUER
+  =============================== */
+  cont.onclick = ()=>{
+    overlay.remove();
+    illuminatePirate5();   // déclenche pirate5 illuminé
+  };
+}
 
   /* 🔎 ZOOM PAGE DROITE */
   zoomBtn.onclick = ()=>{
@@ -461,23 +521,36 @@ function startMiniGame3(){
    🏆 VICTOIRE COMMUNICATION
 ===================================================== */
 function showCommerceWin(){
-  showLoader(1000, ()=>{
-    const overlay=document.createElement("div");
-    overlay.id="communication-win";
-    overlay.innerHTML=`
-      <div class="win-box">
-        <h2>🏴‍☠️ Bravo !</h2>
-        <p>Tu as gagné la quête Commerce !</p>
-        <div class="gems-container"></div>
-      </div>`;
-    document.body.appendChild(overlay);
 
-    requestAnimationFrame(()=>{
-      launchGemsExplosion(
-        overlay.querySelector(".gems-container")
-      );
-    });
+  // 🔥 Supprime loader pirate s'il est visible
+  fadeScreen.classList.add("hidden");
+
+  const overlay = document.createElement("div");
+  overlay.id="communication-win";
+  overlay.innerHTML=`
+    <div class="win-box">
+      <h2>🏴‍☠️ Bravo !</h2>
+      <p>Tu as gagné la quête Commerce !</p>
+      <div class="gems-container"></div>
+    </div>`;
+
+  document.body.appendChild(overlay);
+
+  const gemsContainer = overlay.querySelector(".gems-container");
+
+  requestAnimationFrame(()=>{
+    launchGemsExplosion(gemsContainer);
   });
+
+  /* 🔓 DÉBLOCAGES */
+  sessionStorage.setItem("unlock_pirate3","true");
+  sessionStorage.setItem("unlock_password_page","true");
+  sessionStorage.setItem("fromCommerce","true");
+
+  /* ⏳ Redirection après explosion */
+  setTimeout(()=>{
+    window.location.href="menu.html";
+  },2500);
 }
 
 /* =====================================================
