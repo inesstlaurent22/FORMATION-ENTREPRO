@@ -94,6 +94,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
+     🔓 PIRATE 2 TOUJOURS ACCESSIBLE
+  ========================================================== */
+
+  if (pirate2) {
+    pirate2.classList.remove("locked");
+    pirate2.classList.add("unlocked");
+    pirate2.style.pointerEvents = "auto";
+  }
+
+  /* ==========================================================
      🔄 TRANSFERT SESSION → LOCAL
   ========================================================== */
 
@@ -123,22 +133,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* ==========================================================
-     🔓 PIRATE 2 TOUJOURS ACCESSIBLE
-  ========================================================== */
-
-  if (pirate2) {
-    pirate2.classList.remove("locked");
-    pirate2.classList.add("unlocked");
-    pirate2.style.pointerEvents = "auto";
-  }
-
   if (newUnlock) {
     showNotification("🏆 Bravo, tu as débloqué un nouveau pirate !");
   }
 
   /* ==========================================================
-     💬 BULLE INTRO PIRATE 2
+     💬 FERMETURE BULLE
+  ========================================================== */
+
+  if (bubbleButton) {
+    bubbleButton.onclick = () => bubble.style.display = "none";
+  }
+
+  /* ==========================================================
+     🏴‍☠️ PIRATE 2 → INTRO (PAS DE NAVIGATION)
   ========================================================== */
 
   if (pirate2) {
@@ -165,12 +173,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (bubbleButton) {
-    bubbleButton.onclick = () => bubble.style.display = "none";
-  }
-
   /* ==========================================================
-     🧭 NAVIGATION (PROTÉGÉE)
+     🧭 NAVIGATION (EXCLUT PIRATE2)
   ========================================================== */
 
   const navMap = {
@@ -181,6 +185,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   pirates.forEach(p => {
+
+    if (p.id === "pirate2") return;
+
     const target = navMap[p.id];
     if (!target) return;
 
@@ -239,9 +246,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = overlay.querySelector("#passwordBtn");
     const error = overlay.querySelector("#passwordError");
 
-    document.body.style.pointerEvents = "none";
-    overlay.style.pointerEvents = "auto";
-
     setTimeout(() => input.focus(), 150);
 
     btn.onclick = validate;
@@ -254,7 +258,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (input.value.trim().toLowerCase() === "mashain") {
 
         sessionStorage.setItem("passwordCleared", "true");
-        document.body.style.pointerEvents = "auto";
         overlay.remove();
         return;
       }
