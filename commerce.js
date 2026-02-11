@@ -340,7 +340,7 @@ function showBusinessPlanLoader(){
       update();
       isTurning = false;
 
-    },700);
+    },600);
   }
 
   next.onclick = ()=>{
