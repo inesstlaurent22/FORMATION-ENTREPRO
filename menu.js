@@ -120,17 +120,25 @@ document.addEventListener("click", () => {
     }
   });
 
-  /* ==========================================================
-     🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
-  ========================================================== */
-  const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
-  const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
+/* ==========================================================
+   🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
+========================================================== */
 
-  if (fromCommerce && !passwordCleared) {
-    showNotification("🔐 Accès verrouillé");
-    setTimeout(showPasswordOverlay, 500);
-    return;
-  }
+const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
+const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
+
+if (fromCommerce && !passwordCleared) {
+
+  // Sécurité : empêche boucle infinie
+  sessionStorage.removeItem("fromCommerce");
+
+  showNotification("🔐 Accès verrouillé");
+
+  setTimeout(() => {
+    showPasswordOverlay();
+  }, 500);
+
+}
 
   /* ==========================================================
      🔓 RÉACTIVATION PIRATES DÉBLOQUÉS
