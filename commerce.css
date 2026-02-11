@@ -266,25 +266,25 @@ button:active{
   perspective:1600px;
 }
 
-/* Halo lumineux */
+/* Halo global propre (aucune séparation centrale) */
 .book-container::before{
   content:"";
   position:absolute;
-  inset:-40px;
+  inset:-60px;
   background:radial-gradient(circle at center,
-    rgba(255,215,120,.35),
-    rgba(255,215,120,.18) 45%,
+    rgba(255,215,120,.25),
+    rgba(255,215,120,.12) 45%,
     rgba(0,0,0,0) 75%);
-  filter:blur(16px);
+  filter:blur(30px);
   pointer-events:none;
   z-index:-1;
 }
 
-/* Pages */
 .book-pages{
   display:flex;
   gap:0;
-  transform-style:preserve-3d;
+  position:relative;
+  z-index:2; /* au-dessus du halo */
 }
 
 .book-pages img{
