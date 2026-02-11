@@ -18,81 +18,64 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-   🌌 BACKGROUND JOUR / NUIT
-========================================================== */
+     🌌 BACKGROUND JOUR / NUIT
+  ========================================================== */
 
-const background = document.getElementById("background");
-const timeToggle = document.getElementById("timeToggle");
-const timeDropdown = document.getElementById("timeDropdown");
+  const background = document.getElementById("background");
+  const timeToggle = document.getElementById("timeToggle");
+  const timeDropdown = document.getElementById("timeDropdown");
 
-const DAY_BG = "images/Fondmenu.PNG";
-const NIGHT_BG = "images/Fondmenusoir.PNG";
+  const DAY_BG = "images/Fondmenu.PNG";
+  const NIGHT_BG = "images/Fondmenusoir.PNG";
 
-/* ⏰ Détection automatique heure */
-function applyAutoBackground(){
-  const hour = new Date().getHours();
-  const isNight = hour >= 19 || hour < 7;
-  setBackground(isNight ? "night" : "day", false);
-}
-
-/* 🌄🌃 Application du fond */
-function setBackground(mode, save = true){
-  background.style.backgroundImage =
-    `url("${mode === "night" ? NIGHT_BG : DAY_BG}")`;
-
-  if(save){
-    localStorage.setItem("menu_background", mode);
+  function applyAutoBackground(){
+    const hour = new Date().getHours();
+    const isNight = hour >= 19 || hour < 7;
+    setBackground(isNight ? "night" : "day", false);
   }
-}
 
-/* 🔁 Chargement */
-const savedMode = localStorage.getItem("menu_background");
-if(savedMode){
-  setBackground(savedMode, false);
-}else{
-  applyAutoBackground();
-}
+  function setBackground(mode, save = true){
+    if (!background) return;
 
-/* ☁️ Toggle dropdown */
-timeToggle.onclick = e => {
-  e.stopPropagation();
-  timeDropdown.style.display =
-    timeDropdown.style.display === "block" ? "none" : "block";
-};
+    background.style.backgroundImage =
+      `url("${mode === "night" ? NIGHT_BG : DAY_BG}")`;
 
-/* 🌅 🌃 Sélection manuelle */
-timeDropdown.querySelectorAll("button").forEach(btn => {
-  btn.onclick = () => {
-    setBackground(btn.dataset.mode);
-    timeDropdown.style.display = "none";
-  };
-});
+    if(save){
+      localStorage.setItem("menu_background", mode);
+    }
+  }
 
-/* ❌ Fermeture clic extérieur */
-document.addEventListener("click", () => {
-  timeDropdown.style.display = "none";
-});
+  const savedMode = localStorage.getItem("menu_background");
+  if(savedMode){
+    setBackground(savedMode, false);
+  }else{
+    applyAutoBackground();
+  }
 
-/* ==========================================================
-   🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
-========================================================== */
-const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
-const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
+  if (timeToggle && timeDropdown) {
 
-if (fromCommerce && !passwordCleared) {
+    timeToggle.onclick = e => {
+      e.stopPropagation();
+      timeDropdown.style.display =
+        timeDropdown.style.display === "block" ? "none" : "block";
+    };
 
-  sessionStorage.removeItem("fromCommerce"); // évite boucle infinie
+    timeDropdown.querySelectorAll("button").forEach(btn => {
+      btn.onclick = () => {
+        setBackground(btn.dataset.mode);
+        timeDropdown.style.display = "none";
+      };
+    });
 
-  showNotification("🔐 Accès verrouillé");
+    document.addEventListener("click", () => {
+      timeDropdown.style.display = "none";
+    });
+  }
 
-  setTimeout(() => {
-    showPasswordOverlay();
-  }, 500);
-}
-  
   /* ==========================================================
      🏴‍☠️ RÉFÉRENCES
   ========================================================== */
+
   const pirates = ["pirate1","pirate2","pirate3","pirate4","pirate5"]
     .map(id => document.getElementById(id))
     .filter(Boolean);
@@ -107,6 +90,7 @@ if (fromCommerce && !passwordCleared) {
   /* ==========================================================
      🔒 VERROUILLAGE PAR DÉFAUT
   ========================================================== */
+
   pirates.forEach(p => {
     p.classList.add("locked");
     p.classList.remove("unlocked","glow");
@@ -116,6 +100,7 @@ if (fromCommerce && !passwordCleared) {
   /* ==========================================================
      🔓 PIRATE 2 TOUJOURS ACCESSIBLE
   ========================================================== */
+
   if (pirate2) {
     pirate2.classList.remove("locked");
     pirate2.classList.add("unlocked");
@@ -123,15 +108,18 @@ if (fromCommerce && !passwordCleared) {
   }
 
   /* ==========================================================
-     🔄 TRANSFERT SESSION → LOCAL (DÉBLOCAGES)
+     🔄 TRANSFERT SESSION → LOCAL
   ========================================================== */
+
   let newUnlock = false;
 
   ["pirate1","pirate3","pirate4","pirate5"].forEach(id => {
     if (sessionStorage.getItem(`unlock_${id}`) === "true") {
+
       if (localStorage.getItem(`${id}_unlocked`) !== "true") {
         newUnlock = true;
       }
+
       localStorage.setItem(`${id}_unlocked`, "true");
       sessionStorage.removeItem(`unlock_${id}`);
     }
@@ -140,6 +128,7 @@ if (fromCommerce && !passwordCleared) {
   /* ==========================================================
      🔓 RÉACTIVATION PIRATES DÉBLOQUÉS
   ========================================================== */
+
   pirates.forEach(p => {
     if (localStorage.getItem(`${p.id}_unlocked`) === "true") {
       p.classList.remove("locked");
@@ -155,6 +144,7 @@ if (fromCommerce && !passwordCleared) {
   /* ==========================================================
      💬 BULLE
   ========================================================== */
+
   if (bubbleButton) {
     bubbleButton.onclick = () => bubble.style.display = "none";
   }
@@ -162,6 +152,7 @@ if (fromCommerce && !passwordCleared) {
   /* ==========================================================
      🧭 NAVIGATION
   ========================================================== */
+
   const navMap = {
     pirate1: "commerce.html",
     pirate3: "communication.html",
@@ -176,159 +167,115 @@ if (fromCommerce && !passwordCleared) {
   });
 
   /* ==========================================================
-     🏴‍☠️ PIRATE 2 → INTRO
+     🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
   ========================================================== */
-  const introSeen = localStorage.getItem("intro_seen") === "true";
 
-  if (pirate2 && !introSeen) {
-    pirate2.addEventListener("click", e => {
-      e.preventDefault();
-      e.stopPropagation();
+  const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
+  const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
 
-      if (bubble) {
-        bubble.style.display = "block";
-        bubble.style.left = "50%";
-        bubble.style.top = "50%";
-      }
+  if (fromCommerce && !passwordCleared) {
 
-      showNotification("🏴‍☠️ Nouveau pirate débloqué !");
+    sessionStorage.removeItem("fromCommerce"); // évite boucle infinie
 
-      if (pirate1) {
-        pirate1.classList.remove("locked");
-        pirate1.classList.add("unlocked","glow");
-        pirate1.style.pointerEvents = "auto";
-        localStorage.setItem("pirate1_unlocked", "true");
-      }
+    showNotification("🔐 Accès verrouillé");
 
-      localStorage.setItem("intro_seen", "true");
-    });
+    setTimeout(() => {
+      showPasswordOverlay();
+    }, 500);
   }
 
   /* ==========================================================
-   🔐 OVERLAY MOT DE PASSE — VERSION CORRIGÉE STABLE
-========================================================== */
-function showPasswordOverlay() {
+     🔐 OVERLAY MOT DE PASSE
+  ========================================================== */
 
-  // 🔒 Empêche double overlay
-  if (document.getElementById("passwordOverlay")) return;
+  function showPasswordOverlay() {
 
-  const overlay = document.createElement("div");
-  overlay.id = "passwordOverlay";
+    if (document.getElementById("passwordOverlay")) return;
 
-  overlay.innerHTML = `
-    <div class="passwordBox">
-      <h2>🔐 Accès verrouillé</h2>
-      <p>Entre le mot de passe pour continuer</p>
+    const overlay = document.createElement("div");
+    overlay.id = "passwordOverlay";
 
-      <input id="passwordInput" type="password" />
-      <button id="passwordBtn">Valider</button>
+    overlay.innerHTML = `
+      <div class="passwordBox">
+        <h2>🔐 Accès verrouillé</h2>
+        <p>Entre le mot de passe pour continuer</p>
 
-      <div id="passwordError" style="display:none;">
-        Mot de passe incorrect
-      </div>
+        <input id="passwordInput" type="password" />
+        <button id="passwordBtn">Valider</button>
 
-      <div class="pirate-actions">
-        <button id="legalBtn" class="pirate-btn left">
-          📜 Mentions légales
-        </button>
+        <div id="passwordError" style="display:none;">
+          Mot de passe incorrect
+        </div>
 
-        <button id="payBtn" class="pirate-btn right">
-          💰 Version complète
-        </button>
-      </div>
-    </div>
+        <div class="pirate-actions">
+          <button id="legalBtn" class="pirate-btn left">
+            📜 Mentions légales
+          </button>
 
-    <div id="legalModal" class="legal-modal" style="display:none;">
-      <div class="legal-content">
-        <span id="closeLegal" class="close-legal">✖</span>
-        <h2>Mentions légales & CGV</h2>
-
-        <div class="legal-scroll">
-          <h3>Mentions légales</h3>
-          <p>
-            Éditeur : [Ton nom]<br>
-            Statut : [Micro-entrepreneur / EI / Société]<br>
-            SIRET : [Numéro SIRET]<br>
-            Email : [Email]
-          </p>
-
-          <p><strong>Propriété intellectuelle :</strong> Tous les contenus sont protégés.</p>
-          <p><strong>Responsabilité :</strong> Les contenus sont éducatifs. Les résultats dépendent de l’implication personnelle.</p>
-
-          <h3>CGV</h3>
-          <p>Les présentes CGV encadrent la vente de services d’éducation en ligne.</p>
-          <p>Paiement sécurisé via PayPal.</p>
-          <p>L’accès est personnel et fourni après paiement.</p>
-          <p>Les contenus numériques accessibles immédiatement ne sont pas soumis au droit de rétractation.</p>
-
-          <h3>Politique de remboursement</h3>
-          <p>Aucun remboursement possible.</p>
-          <p>Exception : achat en double (demande sous 7 jours).</p>
+          <button id="payBtn" class="pirate-btn right">
+            💰 Version complète
+          </button>
         </div>
       </div>
-    </div>
-  `;
 
-  document.body.appendChild(overlay);
+      <div id="legalModal" class="legal-modal" style="display:none;">
+        <div class="legal-content">
+          <span id="closeLegal" class="close-legal">✖</span>
+          <h2>Mentions légales & CGV</h2>
+          <div class="legal-scroll">
+            <p>Contenu légal ici...</p>
+          </div>
+        </div>
+      </div>
+    `;
 
-  const input = overlay.querySelector("#passwordInput");
-  const btn = overlay.querySelector("#passwordBtn");
-  const error = overlay.querySelector("#passwordError");
-  const legalBtn = overlay.querySelector("#legalBtn");
-  const payBtn = overlay.querySelector("#payBtn");
-  const legalModal = overlay.querySelector("#legalModal");
-  const closeLegal = overlay.querySelector("#closeLegal");
+    document.body.appendChild(overlay);
 
-  /* 🔧 FIX iOS CLAVIER */
-  document.body.style.pointerEvents = "none";
-  overlay.style.pointerEvents = "auto";
+    const input = overlay.querySelector("#passwordInput");
+    const btn = overlay.querySelector("#passwordBtn");
+    const error = overlay.querySelector("#passwordError");
+    const legalBtn = overlay.querySelector("#legalBtn");
+    const payBtn = overlay.querySelector("#payBtn");
+    const legalModal = overlay.querySelector("#legalModal");
+    const closeLegal = overlay.querySelector("#closeLegal");
 
-  setTimeout(() => {
-    input.focus();
-  }, 150);
+    document.body.style.pointerEvents = "none";
+    overlay.style.pointerEvents = "auto";
 
-  btn.onclick = validate;
-  input.addEventListener("keydown", e => {
-    if (e.key === "Enter") validate();
-  });
+    setTimeout(() => input.focus(), 150);
 
-  function validate() {
+    btn.onclick = validate;
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") validate();
+    });
 
-    if (input.value.trim().toLowerCase() === "mashain") {
+    function validate() {
 
-      sessionStorage.setItem("passwordCleared", "true");
-      sessionStorage.removeItem("fromCommerce");
+      if (input.value.trim().toLowerCase() === "mashain") {
 
-      document.body.style.pointerEvents = "auto";
+        sessionStorage.setItem("passwordCleared", "true");
+        document.body.style.pointerEvents = "auto";
+        overlay.remove();
+        return;
+      }
 
-      overlay.remove();   // ✅ fermeture propre
-      return;
+      error.style.display = "block";
+      input.value = "";
+      setTimeout(() => input.focus(), 100);
     }
 
-    error.style.display = "block";
-    input.value = "";
-    setTimeout(() => input.focus(), 100);
+    legalBtn.onclick = () => legalModal.style.display = "flex";
+    closeLegal.onclick = () => legalModal.style.display = "none";
+
+    payBtn.onclick = () => {
+      window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
+    };
   }
-
-  /* 📜 OUVERTURE MODAL */
-  legalBtn.onclick = () => {
-    legalModal.style.display = "flex";
-  };
-
-  /* ❌ FERMETURE MODAL */
-  closeLegal.onclick = () => {
-    legalModal.style.display = "none";
-  };
-
-  /* 💰 REDIRECTION PAYPAL */
-  payBtn.onclick = () => {
-    window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
-  };
-}
 
   /* ==========================================================
      🔔 NOTIFICATION
   ========================================================== */
+
   function showNotification(text) {
     if (!notification) return;
     notification.textContent = text;
