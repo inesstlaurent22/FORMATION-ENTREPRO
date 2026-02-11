@@ -73,6 +73,23 @@ document.addEventListener("click", () => {
   timeDropdown.style.display = "none";
 });
 
+/* ==========================================================
+   🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
+========================================================== */
+const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
+const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
+
+if (fromCommerce && !passwordCleared) {
+
+  sessionStorage.removeItem("fromCommerce"); // évite boucle infinie
+
+  showNotification("🔐 Accès verrouillé");
+
+  setTimeout(() => {
+    showPasswordOverlay();
+  }, 500);
+}
+  
   /* ==========================================================
      🏴‍☠️ RÉFÉRENCES
   ========================================================== */
@@ -119,22 +136,6 @@ document.addEventListener("click", () => {
       sessionStorage.removeItem(`unlock_${id}`);
     }
   });
-
-/* ==========================================================
-   🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
-========================================================== */
-const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
-const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
-
-if (fromCommerce && !passwordCleared) {
-
-  showNotification("🔐 Accès verrouillé");
-
-  setTimeout(() => {
-    showPasswordOverlay();
-  }, 600);
-
-}
 
   /* ==========================================================
      🔓 RÉACTIVATION PIRATES DÉBLOQUÉS
@@ -203,9 +204,6 @@ if (fromCommerce && !passwordCleared) {
     });
   }
 
-  /* ==========================================================
-     🔐 OVERLAY MOT DE PASSE (FIX iOS)
-  ========================================================== */
   /* ==========================================================
    🔐 OVERLAY MOT DE PASSE — VERSION CORRIGÉE STABLE
 ========================================================== */
