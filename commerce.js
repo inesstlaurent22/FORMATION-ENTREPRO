@@ -222,6 +222,8 @@ function showBusinessPlanLoader(){
 
       <div class="book-container">
 
+        <button id="prevPage" class="book-nav-btn hidden">‹</button>
+
         <div class="book-loading" id="bookLoading">⏳</div>
 
         <div class="book-pages hidden" id="bookPages">
@@ -229,10 +231,11 @@ function showBusinessPlanLoader(){
           <img id="rightPage">
         </div>
 
-        <button id="prevPage" class="book-nav-btn hidden">‹</button>
         <button id="nextPage" class="book-nav-btn hidden">›</button>
 
       </div>
+
+      <button id="zoomPageBtn" class="hidden">🔎</button>
 
       <button id="continueQuestBtn" class="hidden">
         Continuer la quête
@@ -251,6 +254,7 @@ function showBusinessPlanLoader(){
   const loader = overlay.querySelector("#bookLoading");
   const pagesWrap = overlay.querySelector("#bookPages");
   const title = overlay.querySelector("#bpTitle");
+  const zoomBtn = overlay.querySelector("#zoomPageBtn");
 
   const pages = [
     ["","images/Businessplancov.png"],
@@ -269,14 +273,12 @@ function showBusinessPlanLoader(){
       loaded++;
       if(loaded === allImages.length){
 
-        // ⏳ disparaît
         loader.remove();
 
-        // Livre apparaît
         pagesWrap.classList.remove("hidden");
         next.classList.remove("hidden");
+        zoomBtn.classList.remove("hidden");
 
-        // Titre animé
         title.classList.remove("hidden");
         title.classList.add("title-appear");
 
@@ -305,29 +307,30 @@ function showBusinessPlanLoader(){
     cont.classList.toggle("hidden", step !== pages.length - 1);
   }
 
-  function animateTurn(direction){
-    pagesWrap.classList.add(direction === "next" ? "turn-right" : "turn-left");
-    setTimeout(()=>{
-      pagesWrap.classList.remove("turn-right","turn-left");
-    },600);
-  }
-
   next.onclick = ()=>{
     if(step < pages.length-1){
-      animateTurn("next");
       step++;
-      setTimeout(update,300);
+      update();
     }
   };
 
   prev.onclick = ()=>{
     if(step > 0){
-      animateTurn("prev");
       step--;
-      setTimeout(update,300);
+      update();
     }
   };
 
+  /* 🔎 ZOOM PAGE DROITE */
+  zoomBtn.onclick = ()=>{
+    const zoom = document.createElement("div");
+    zoom.className = "page-zoom";
+    zoom.innerHTML = `<img src="${right.src}">`;
+    document.body.appendChild(zoom);
+    zoom.onclick = ()=> zoom.remove();
+  };
+
+  /* CONTINUER → PIRATE 5 */
   cont.onclick = ()=>{
     overlay.remove();
     illuminatePirate5();
@@ -342,7 +345,11 @@ function illuminatePirate5(){
   pirate5.onclick = ()=>{
     pirate5.classList.remove("glowStart");
     pirate5.style.pointerEvents = "none";
-    startDialogues3();
+
+    playDialogues([
+      { text:"Ton plan est solide.", anchor:pirate5 },
+      { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
+    ], startMiniGame3);
   };
 }
    
