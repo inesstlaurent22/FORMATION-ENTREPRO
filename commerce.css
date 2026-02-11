@@ -348,6 +348,7 @@ button:disabled{
     );
   filter:blur(16px);
   animation:lightPulse 2.4s ease-in-out infinite;
+  pointer-events:none; /* IMPORTANT */
   z-index:-1;
 }
 
