@@ -381,22 +381,6 @@ zoomBtn.onclick = ()=>{
   };
 }
 
-  /* 🔎 ZOOM PAGE DROITE */
-  zoomBtn.onclick = ()=>{
-    const zoom = document.createElement("div");
-    zoom.className = "page-zoom";
-    zoom.innerHTML = `<img src="${right.src}">`;
-    document.body.appendChild(zoom);
-    zoom.onclick = ()=> zoom.remove();
-  };
-
-  /* CONTINUER → PIRATE 5 */
-  cont.onclick = ()=>{
-    overlay.remove();
-    illuminatePirate5();
-  };
-}
-
 function illuminatePirate5(){
 
   pirate5.classList.add("glowStart");
