@@ -123,20 +123,16 @@ document.addEventListener("click", () => {
 /* ==========================================================
    🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
 ========================================================== */
-
 const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
 const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
 
 if (fromCommerce && !passwordCleared) {
 
-  // Sécurité : empêche boucle infinie
-  sessionStorage.removeItem("fromCommerce");
-
   showNotification("🔐 Accès verrouillé");
 
   setTimeout(() => {
     showPasswordOverlay();
-  }, 500);
+  }, 600);
 
 }
 
@@ -210,118 +206,127 @@ if (fromCommerce && !passwordCleared) {
   /* ==========================================================
      🔐 OVERLAY MOT DE PASSE (FIX iOS)
   ========================================================== */
-  function showPasswordOverlay() {
+  /* ==========================================================
+   🔐 OVERLAY MOT DE PASSE — VERSION CORRIGÉE STABLE
+========================================================== */
+function showPasswordOverlay() {
 
-    const overlay = document.createElement("div");
-    overlay.id = "passwordOverlay";
+  // 🔒 Empêche double overlay
+  if (document.getElementById("passwordOverlay")) return;
 
-    overlay.innerHTML = `
-  <div class="passwordBox">
-    <h2>🔐 Accès verrouillé</h2>
-    <p>Entre le mot de passe pour continuer</p>
+  const overlay = document.createElement("div");
+  overlay.id = "passwordOverlay";
 
-    <input id="passwordInput" type="password" />
-    <button id="passwordBtn">Valider</button>
+  overlay.innerHTML = `
+    <div class="passwordBox">
+      <h2>🔐 Accès verrouillé</h2>
+      <p>Entre le mot de passe pour continuer</p>
 
-    <div id="passwordError">Mot de passe incorrect</div>
+      <input id="passwordInput" type="password" />
+      <button id="passwordBtn">Valider</button>
 
-    <!-- 🏴‍☠️ BOUTONS PIRATE -->
-    <div class="pirate-actions">
-      <button id="legalBtn" class="pirate-btn left">
-        📜 Mentions légales
-      </button>
+      <div id="passwordError" style="display:none;">
+        Mot de passe incorrect
+      </div>
 
-      <button id="payBtn" class="pirate-btn right">
-        💰 Version complète
-      </button>
-    </div>
-  </div>
+      <div class="pirate-actions">
+        <button id="legalBtn" class="pirate-btn left">
+          📜 Mentions légales
+        </button>
 
-  <!-- 📜 MODAL -->
-  <div id="legalModal" class="legal-modal">
-    <div class="legal-content">
-      <span id="closeLegal" class="close-legal">✖</span>
-      <h2>Mentions légales & CGV</h2>
-
-      <div class="legal-scroll">
-
-        <h3>Mentions légales</h3>
-        <p>
-          Éditeur : [Ton nom]<br>
-          Statut : [Micro-entrepreneur / EI / Société]<br>
-          SIRET : [Numéro SIRET]<br>
-          Email : [Email]
-        </p>
-
-        <p><strong>Propriété intellectuelle :</strong> Tous les contenus sont protégés.</p>
-        <p><strong>Responsabilité :</strong> Les contenus sont éducatifs. Les résultats dépendent de l’implication personnelle.</p>
-
-        <h3>CGV</h3>
-        <p>Les présentes CGV encadrent la vente de services d’éducation en ligne.</p>
-        <p>Paiement sécurisé via PayPal.</p>
-        <p>L’accès est personnel et fourni après paiement.</p>
-        <p>Les contenus numériques accessibles immédiatement ne sont pas soumis au droit de rétractation.</p>
-
-        <h3>Politique de remboursement</h3>
-        <p>Aucun remboursement possible.</p>
-        <p>Exception : achat en double (demande sous 7 jours).</p>
-
+        <button id="payBtn" class="pirate-btn right">
+          💰 Version complète
+        </button>
       </div>
     </div>
-  </div>
-`;
 
-    document.body.appendChild(overlay);
+    <div id="legalModal" class="legal-modal" style="display:none;">
+      <div class="legal-content">
+        <span id="closeLegal" class="close-legal">✖</span>
+        <h2>Mentions légales & CGV</h2>
 
-    const input = overlay.querySelector("#passwordInput");
-    const btn = overlay.querySelector("#passwordBtn");
-    const error = overlay.querySelector("#passwordError");
+        <div class="legal-scroll">
+          <h3>Mentions légales</h3>
+          <p>
+            Éditeur : [Ton nom]<br>
+            Statut : [Micro-entrepreneur / EI / Société]<br>
+            SIRET : [Numéro SIRET]<br>
+            Email : [Email]
+          </p>
 
-    /* 🔧 FIX iOS CLAVIER */
-    document.body.style.pointerEvents = "none";
-    overlay.style.pointerEvents = "auto";
+          <p><strong>Propriété intellectuelle :</strong> Tous les contenus sont protégés.</p>
+          <p><strong>Responsabilité :</strong> Les contenus sont éducatifs. Les résultats dépendent de l’implication personnelle.</p>
 
-    setTimeout(() => {
-      input.focus();
-      input.click();
-    }, 150);
+          <h3>CGV</h3>
+          <p>Les présentes CGV encadrent la vente de services d’éducation en ligne.</p>
+          <p>Paiement sécurisé via PayPal.</p>
+          <p>L’accès est personnel et fourni après paiement.</p>
+          <p>Les contenus numériques accessibles immédiatement ne sont pas soumis au droit de rétractation.</p>
 
-    btn.onclick = validate;
-    input.addEventListener("keydown", e => {
-      if (e.key === "Enter") validate();
-    });
+          <h3>Politique de remboursement</h3>
+          <p>Aucun remboursement possible.</p>
+          <p>Exception : achat en double (demande sous 7 jours).</p>
+        </div>
+      </div>
+    </div>
+  `;
 
-    function validate() {
-      if (input.value.trim().toLowerCase() === "mashain") {
+  document.body.appendChild(overlay);
 
-        sessionStorage.setItem("passwordCleared", "true");
-        sessionStorage.removeItem("fromCommerce");
+  const input = overlay.querySelector("#passwordInput");
+  const btn = overlay.querySelector("#passwordBtn");
+  const error = overlay.querySelector("#passwordError");
+  const legalBtn = overlay.querySelector("#legalBtn");
+  const payBtn = overlay.querySelector("#payBtn");
+  const legalModal = overlay.querySelector("#legalModal");
+  const closeLegal = overlay.querySelector("#closeLegal");
 
-        document.body.style.pointerEvents = "auto";
-        location.reload();
+  /* 🔧 FIX iOS CLAVIER */
+  document.body.style.pointerEvents = "none";
+  overlay.style.pointerEvents = "auto";
 
-      } else {
-        error.style.display = "block";
-        input.value = "";
-        setTimeout(() => input.focus(), 100);
-      }
+  setTimeout(() => {
+    input.focus();
+  }, 150);
+
+  btn.onclick = validate;
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") validate();
+  });
+
+  function validate() {
+
+    if (input.value.trim().toLowerCase() === "mashain") {
+
+      sessionStorage.setItem("passwordCleared", "true");
+      sessionStorage.removeItem("fromCommerce");
+
+      document.body.style.pointerEvents = "auto";
+
+      overlay.remove();   // ✅ fermeture propre
+      return;
     }
 
-    /* 📜 OUVERTURE MODAL */
-overlay.querySelector("#legalBtn").onclick = () => {
-  overlay.querySelector("#legalModal").style.display = "flex";
-};
-
-/* ❌ FERMETURE MODAL */
-overlay.querySelector("#closeLegal").onclick = () => {
-  overlay.querySelector("#legalModal").style.display = "none";
-};
-
-/* 💰 REDIRECTION PAYPAL */
-overlay.querySelector("#payBtn").onclick = () => {
-  window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
-};
+    error.style.display = "block";
+    input.value = "";
+    setTimeout(() => input.focus(), 100);
   }
+
+  /* 📜 OUVERTURE MODAL */
+  legalBtn.onclick = () => {
+    legalModal.style.display = "flex";
+  };
+
+  /* ❌ FERMETURE MODAL */
+  closeLegal.onclick = () => {
+    legalModal.style.display = "none";
+  };
+
+  /* 💰 REDIRECTION PAYPAL */
+  payBtn.onclick = () => {
+    window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
+  };
+}
 
   /* ==========================================================
      🔔 NOTIFICATION
