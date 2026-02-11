@@ -226,19 +226,61 @@ document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.createElement("div");
     overlay.id = "passwordOverlay";
 
-    overlay.innerHTML = `
-      <div class="passwordBox">
-        <h2>🔐 Accès verrouillé</h2>
-        <p>Entre le mot de passe pour continuer</p>
+overlay.innerHTML = `
+  <div class="passwordBox">
+    <h2>🔐 Accès verrouillé</h2>
+    <p>Entre le mot de passe pour continuer</p>
 
-        <input id="passwordInput" type="password" />
-        <button id="passwordBtn">Valider</button>
+    <input id="passwordInput" type="password" />
+    <button id="passwordBtn">Valider</button>
 
-        <div id="passwordError" style="display:none;">
-          Mot de passe incorrect
-        </div>
+    <div id="passwordError">Mot de passe incorrect</div>
+
+    <!-- 🏴‍☠️ BOUTONS PIRATE -->
+    <div class="pirate-actions">
+      <button id="legalBtn" class="pirate-btn left">
+        📜 Mentions légales
+      </button>
+
+      <button id="payBtn" class="pirate-btn right">
+        💰 Version complète
+      </button>
+    </div>
+  </div>
+
+  <!-- 📜 MODAL -->
+  <div id="legalModal" class="legal-modal">
+    <div class="legal-content">
+      <span id="closeLegal" class="close-legal">✖</span>
+      <h2>Mentions légales & CGV</h2>
+
+      <div class="legal-scroll">
+
+        <h3>Mentions légales</h3>
+        <p>
+          Éditeur : [Ton nom]<br>
+          Statut : [Micro-entrepreneur / EI / Société]<br>
+          SIRET : [Numéro SIRET]<br>
+          Email : [Email]
+        </p>
+
+        <p><strong>Propriété intellectuelle :</strong> Tous les contenus sont protégés.</p>
+        <p><strong>Responsabilité :</strong> Les contenus sont éducatifs. Les résultats dépendent de l’implication personnelle.</p>
+
+        <h3>CGV</h3>
+        <p>Les présentes CGV encadrent la vente de services d’éducation en ligne.</p>
+        <p>Paiement sécurisé via PayPal.</p>
+        <p>L’accès est personnel et fourni après paiement.</p>
+        <p>Les contenus numériques accessibles immédiatement ne sont pas soumis au droit de rétractation.</p>
+
+        <h3>Politique de remboursement</h3>
+        <p>Aucun remboursement possible.</p>
+        <p>Exception : achat en double (demande sous 7 jours).</p>
+
       </div>
-    `;
+    </div>
+  </div>
+`;
 
     document.body.appendChild(overlay);
 
@@ -266,6 +308,20 @@ document.addEventListener("DOMContentLoaded", () => {
       input.value = "";
       setTimeout(() => input.focus(), 100);
     }
+    /* 📜 OUVERTURE MODAL */
+overlay.querySelector("#legalBtn").onclick = () => {
+  overlay.querySelector("#legalModal").style.display = "flex";
+};
+
+/* ❌ FERMETURE MODAL */
+overlay.querySelector("#closeLegal").onclick = () => {
+  overlay.querySelector("#legalModal").style.display = "none";
+};
+
+/* 💰 REDIRECTION PAYPAL */
+overlay.querySelector("#payBtn").onclick = () => {
+  window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
+};
   }
 
   /* ==========================================================
