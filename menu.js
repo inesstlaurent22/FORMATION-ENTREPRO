@@ -298,6 +298,21 @@ document.addEventListener("click", () => {
         setTimeout(() => input.focus(), 100);
       }
     }
+
+    /* 📜 OUVERTURE MODAL */
+overlay.querySelector("#legalBtn").onclick = () => {
+  overlay.querySelector("#legalModal").style.display = "flex";
+};
+
+/* ❌ FERMETURE MODAL */
+overlay.querySelector("#closeLegal").onclick = () => {
+  overlay.querySelector("#legalModal").style.display = "none";
+};
+
+/* 💰 REDIRECTION PAYPAL */
+overlay.querySelector("#payBtn").onclick = () => {
+  window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
+};
   }
 
   /* ==========================================================
