@@ -321,84 +321,115 @@ button:disabled{
     transform:translateY(0);
   }
 }
-
 /* =====================================================
-   📘 LIVRE — TAILLE RÉDUITE + HALO
+   📘 LIVRE — TAILLE + HALO PROPRE
 ===================================================== */
 .book-container{
   position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:16px;
-  padding:20px;                  /* ↓ padding réduit */
+  gap:20px;
+  padding:30px;
+  perspective:1400px;     /* nécessaire pour rotation 3D */
   z-index:1;
 }
 
-/* Faisceau lumineux */
+/* Halo lumineux derrière le livre (ne sépare pas les pages) */
 .book-container::before{
   content:"";
   position:absolute;
-  inset:-30px;                   /* ↓ halo moins large */
+  inset:-40px;
   background:
     radial-gradient(circle at center,
       rgba(255,215,120,.35),
-      rgba(255,215,120,.15) 45%,
+      rgba(255,215,120,.18) 45%,
       rgba(0,0,0,0) 75%
     );
-  filter:blur(12px);
-  animation:lightPulse 2.2s ease-in-out infinite;
+  filter:blur(16px);
+  animation:lightPulse 2.4s ease-in-out infinite;
   z-index:-1;
 }
 
 @keyframes lightPulse{
-  0%{ opacity:.5; }
+  0%{ opacity:.6; }
   50%{ opacity:1; }
-  100%{ opacity:.5; }
+  100%{ opacity:.6; }
 }
 
 /* =====================================================
-   📘 PAGES DU LIVRE — PLUS PETITES
+   📘 PAGES DU LIVRE — PLUS GRANDES & COLLÉES
 ===================================================== */
 .book-pages{
   display:flex;
-  gap:0;
+  gap:0;                  /* pages collées */
+  position:relative;
 }
 
 .book-pages img{
-  width:180px;
-  border-radius:12px;
+  width:220px;            /* ↑ livre plus grand */
+  max-width:40vw;
   border:3px solid gold;
+  background:#000;
+  box-shadow:0 0 18px rgba(255,215,0,.6);
+  transition:transform .6s ease;
+  backface-visibility:hidden;
 }
 
+/* Pages collées proprement */
 .book-pages img:first-child{
   border-right:none;
-  border-radius:12px 0 0 12px;
+  border-radius:16px 0 0 16px;
+  transform-origin:right center;
 }
 
 .book-pages img:last-child{
   border-left:none;
-  border-radius:0 12px 12px 0;
+  border-radius:0 16px 16px 0;
+  transform-origin:left center;
 }
 
+/* =====================================================
+   🔁 ANIMATION DE PAGE 3D PLUS RÉALISTE
+===================================================== */
 .turn-right{
-  animation:turnRight .6s ease;
+  animation:pageTurnRight .7s ease forwards;
 }
 
 .turn-left{
-  animation:turnLeft .6s ease;
+  animation:pageTurnLeft .7s ease forwards;
 }
 
-@keyframes turnRight{
-  0%{ transform:rotateY(0); }
-  50%{ transform:rotateY(-90deg); }
-  100%{ transform:rotateY(0); }
+@keyframes pageTurnRight{
+  0%   { transform:rotateY(0deg); }
+  50%  { transform:rotateY(-110deg); }
+  100% { transform:rotateY(0deg); }
 }
 
-@keyframes turnLeft{
-  0%{ transform:rotateY(0); }
-  50%{ transform:rotateY(90deg); }
-  100%{ transform:rotateY(0); }
+@keyframes pageTurnLeft{
+  0%   { transform:rotateY(0deg); }
+  50%  { transform:rotateY(110deg); }
+  100% { transform:rotateY(0deg); }
+}
+
+/* =====================================================
+   ◀ ▶ BOUTONS AUTOUR DU LIVRE
+===================================================== */
+.book-nav-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:22px;
+  padding:12px 16px;
+  z-index:5;
+}
+
+#prevPage{
+  left:-60px;
+}
+
+#nextPage{
+  right:-60px;
 }
 
 /* =====================================================
