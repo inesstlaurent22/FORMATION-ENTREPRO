@@ -303,17 +303,23 @@ button:disabled{
   justify-content:center;
 }
 
-/* Titre centré en haut */
 .bp-title{
-  position:fixed;
-  top:26px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:24px;                /* ↓ légèrement réduit */
-  color:#ffd77a;
-  text-align:center;
-  text-shadow:2px 2px 0 #2b1605;
-  z-index:10002;
+  position:relative;
+  margin-bottom:18px;
+  font-size:24px;
+  opacity:0;
+  transform:translateY(-15px);
+}
+
+.title-appear{
+  animation:titleAppear .8s ease forwards;
+}
+
+@keyframes titleAppear{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
 /* =====================================================
@@ -354,37 +360,45 @@ button:disabled{
 /* =====================================================
    📘 PAGES DU LIVRE — PLUS PETITES
 ===================================================== */
-.book-pages img{
-  width:190px;                   /* ✅ taille réduite */
-  max-width:36vw;
-  border:3px solid gold;
-  background:#000;
-  box-shadow:0 0 18px rgba(255,215,0,.6);
-  border-radius:14px;
-}
-
-/* Contour lumineux */
 .book-pages{
-  position:relative;
+  display:flex;
+  gap:0;
 }
 
-.book-pages::after{
-  content:"";
-  position:absolute;
-  inset:-10px;                   /* ↓ contour plus serré */
-  border-radius:18px;
-  border:2px solid rgba(255,215,120,.85);
-  box-shadow:
-    0 0 20px rgba(255,215,120,.9),
-    0 0 50px rgba(255,215,120,.5);
-  pointer-events:none;
-  animation:bookGlow 2.4s ease-in-out infinite;
+.book-pages img{
+  width:180px;
+  border-radius:12px;
+  border:3px solid gold;
 }
 
-@keyframes bookGlow{
-  0%{ opacity:.6; }
-  50%{ opacity:1; }
-  100%{ opacity:.6; }
+.book-pages img:first-child{
+  border-right:none;
+  border-radius:12px 0 0 12px;
+}
+
+.book-pages img:last-child{
+  border-left:none;
+  border-radius:0 12px 12px 0;
+}
+
+.turn-right{
+  animation:turnRight .6s ease;
+}
+
+.turn-left{
+  animation:turnLeft .6s ease;
+}
+
+@keyframes turnRight{
+  0%{ transform:rotateY(0); }
+  50%{ transform:rotateY(-90deg); }
+  100%{ transform:rotateY(0); }
+}
+
+@keyframes turnLeft{
+  0%{ transform:rotateY(0); }
+  50%{ transform:rotateY(90deg); }
+  100%{ transform:rotateY(0); }
 }
 
 /* =====================================================
