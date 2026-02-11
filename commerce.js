@@ -215,24 +215,32 @@ function showBusinessPlanLoader(){
   overlay.id = "identity-loader";
   overlay.innerHTML = `
     <div class="identity-center">
-      <h2 class="bp-title">Bravo 🎉 Tu as créé ton business plan</h2>
+
+      <h2 class="bp-title hidden" id="bpTitle">
+        Bravo 🎉 Tu as créé ton business plan
+      </h2>
 
       <div class="book-container">
+
         <div class="book-loading" id="bookLoading">⏳</div>
 
-        <button id="prevPage" class="book-nav-btn hidden">‹</button>
-
-        <div class="book-pages">
+        <div class="book-pages hidden" id="bookPages">
           <img id="leftPage" class="hidden">
           <img id="rightPage">
         </div>
 
+        <button id="prevPage" class="book-nav-btn hidden">‹</button>
         <button id="nextPage" class="book-nav-btn hidden">›</button>
+
       </div>
 
-      <button id="continueQuestBtn" class="hidden">Continuer la quête</button>
+      <button id="continueQuestBtn" class="hidden">
+        Continuer la quête
+      </button>
+
     </div>
   `;
+
   document.body.appendChild(overlay);
 
   const left = overlay.querySelector("#leftPage");
@@ -241,6 +249,8 @@ function showBusinessPlanLoader(){
   const prev = overlay.querySelector("#prevPage");
   const cont = overlay.querySelector("#continueQuestBtn");
   const loader = overlay.querySelector("#bookLoading");
+  const pagesWrap = overlay.querySelector("#bookPages");
+  const title = overlay.querySelector("#bpTitle");
 
   const pages = [
     ["","images/Businessplancov.png"],
@@ -258,8 +268,18 @@ function showBusinessPlanLoader(){
     img.onload = img.onerror = ()=>{
       loaded++;
       if(loaded === allImages.length){
-        loader.remove();                 // ⏳ disparaît
+
+        // ⏳ disparaît
+        loader.remove();
+
+        // Livre apparaît
+        pagesWrap.classList.remove("hidden");
         next.classList.remove("hidden");
+
+        // Titre animé
+        title.classList.remove("hidden");
+        title.classList.add("title-appear");
+
         update();
       }
     };
@@ -267,7 +287,9 @@ function showBusinessPlanLoader(){
   });
 
   function update(){
+
     const [l,r] = pages[step];
+
     if(l){
       left.src = l;
       left.classList.remove("hidden");
@@ -276,17 +298,51 @@ function showBusinessPlanLoader(){
       left.classList.add("hidden");
       prev.classList.add("hidden");
     }
+
     right.src = r;
+
     next.classList.toggle("hidden", step === pages.length - 1);
     cont.classList.toggle("hidden", step !== pages.length - 1);
   }
 
-  next.onclick = ()=>{ step++; update(); };
-  prev.onclick = ()=>{ step--; update(); };
+  function animateTurn(direction){
+    pagesWrap.classList.add(direction === "next" ? "turn-right" : "turn-left");
+    setTimeout(()=>{
+      pagesWrap.classList.remove("turn-right","turn-left");
+    },600);
+  }
+
+  next.onclick = ()=>{
+    if(step < pages.length-1){
+      animateTurn("next");
+      step++;
+      setTimeout(update,300);
+    }
+  };
+
+  prev.onclick = ()=>{
+    if(step > 0){
+      animateTurn("prev");
+      step--;
+      setTimeout(update,300);
+    }
+  };
 
   cont.onclick = ()=>{
     overlay.remove();
-    showLoader(800, startDialogues3);
+    illuminatePirate5();
+  };
+}
+
+function illuminatePirate5(){
+
+  pirate5.classList.add("glowStart");
+  pirate5.style.pointerEvents = "auto";
+
+  pirate5.onclick = ()=>{
+    pirate5.classList.remove("glowStart");
+    pirate5.style.pointerEvents = "none";
+    startDialogues3();
   };
 }
    
@@ -372,7 +428,7 @@ function startMiniGame3(){
 
           setTimeout(()=>{
             game3.classList.add("hidden");
-            showLoader(1000, showCommunicationWin);
+         showLoader(1000, showCommerceWin);
           }, 3200);
 
         }else{
@@ -397,20 +453,22 @@ function startMiniGame3(){
 /* =====================================================
    🏆 VICTOIRE COMMUNICATION
 ===================================================== */
-function showCommunicationWin(){
+function showCommerceWin(){
   showLoader(1000, ()=>{
     const overlay=document.createElement("div");
     overlay.id="communication-win";
     overlay.innerHTML=`
       <div class="win-box">
         <h2>🏴‍☠️ Bravo !</h2>
-        <p>Tu as terminé la quête Communication</p>
+        <p>Tu as gagné la quête Commerce !</p>
         <div class="gems-container"></div>
       </div>`;
     document.body.appendChild(overlay);
 
     requestAnimationFrame(()=>{
-      launchGemsExplosion(overlay.querySelector(".gems-container"));
+      launchGemsExplosion(
+        overlay.querySelector(".gems-container")
+      );
     });
   });
 }
