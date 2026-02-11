@@ -46,11 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const savedMode = localStorage.getItem("menu_background");
-  if(savedMode){
-    setBackground(savedMode, false);
-  }else{
-    applyAutoBackground();
-  }
+  savedMode ? setBackground(savedMode, false) : applyAutoBackground();
 
   if (timeToggle && timeDropdown) {
 
@@ -98,16 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================
-     🔓 PIRATE 2 TOUJOURS ACCESSIBLE
-  ========================================================== */
-
-  if (pirate2) {
-    pirate2.classList.remove("locked");
-    pirate2.classList.add("unlocked");
-    pirate2.style.pointerEvents = "auto";
-  }
-
-  /* ==========================================================
      🔄 TRANSFERT SESSION → LOCAL
   ========================================================== */
 
@@ -137,20 +123,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  /* ==========================================================
+     🔓 PIRATE 2 TOUJOURS ACCESSIBLE
+  ========================================================== */
+
+  if (pirate2) {
+    pirate2.classList.remove("locked");
+    pirate2.classList.add("unlocked");
+    pirate2.style.pointerEvents = "auto";
+  }
+
   if (newUnlock) {
     showNotification("🏆 Bravo, tu as débloqué un nouveau pirate !");
   }
 
   /* ==========================================================
-     💬 BULLE
+     💬 BULLE INTRO PIRATE 2
   ========================================================== */
+
+  if (pirate2) {
+    pirate2.addEventListener("click", e => {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (bubble) {
+        bubble.style.display = "block";
+        bubble.style.left = "50%";
+        bubble.style.top = "50%";
+        bubble.style.transform = "translate(-50%, -50%)";
+      }
+
+      showNotification("🏴‍☠️ Nouveau pirate débloqué !");
+
+      if (pirate1 && !localStorage.getItem("pirate1_unlocked")) {
+        pirate1.classList.remove("locked");
+        pirate1.classList.add("unlocked","glow");
+        pirate1.style.pointerEvents = "auto";
+        localStorage.setItem("pirate1_unlocked", "true");
+      }
+    });
+  }
 
   if (bubbleButton) {
     bubbleButton.onclick = () => bubble.style.display = "none";
   }
 
   /* ==========================================================
-     🧭 NAVIGATION
+     🧭 NAVIGATION (PROTÉGÉE)
   ========================================================== */
 
   const navMap = {
@@ -163,7 +183,11 @@ document.addEventListener("DOMContentLoaded", () => {
   pirates.forEach(p => {
     const target = navMap[p.id];
     if (!target) return;
-    p.addEventListener("click", () => location.href = target);
+
+    p.addEventListener("click", () => {
+      if (!p.classList.contains("unlocked")) return;
+      location.href = target;
+    });
   });
 
   /* ==========================================================
@@ -175,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (fromCommerce && !passwordCleared) {
 
-    sessionStorage.removeItem("fromCommerce"); // évite boucle infinie
+    sessionStorage.removeItem("fromCommerce");
 
     showNotification("🔐 Accès verrouillé");
 
@@ -206,26 +230,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <div id="passwordError" style="display:none;">
           Mot de passe incorrect
         </div>
-
-        <div class="pirate-actions">
-          <button id="legalBtn" class="pirate-btn left">
-            📜 Mentions légales
-          </button>
-
-          <button id="payBtn" class="pirate-btn right">
-            💰 Version complète
-          </button>
-        </div>
-      </div>
-
-      <div id="legalModal" class="legal-modal" style="display:none;">
-        <div class="legal-content">
-          <span id="closeLegal" class="close-legal">✖</span>
-          <h2>Mentions légales & CGV</h2>
-          <div class="legal-scroll">
-            <p>Contenu légal ici...</p>
-          </div>
-        </div>
       </div>
     `;
 
@@ -234,10 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = overlay.querySelector("#passwordInput");
     const btn = overlay.querySelector("#passwordBtn");
     const error = overlay.querySelector("#passwordError");
-    const legalBtn = overlay.querySelector("#legalBtn");
-    const payBtn = overlay.querySelector("#payBtn");
-    const legalModal = overlay.querySelector("#legalModal");
-    const closeLegal = overlay.querySelector("#closeLegal");
 
     document.body.style.pointerEvents = "none";
     overlay.style.pointerEvents = "auto";
@@ -263,13 +263,6 @@ document.addEventListener("DOMContentLoaded", () => {
       input.value = "";
       setTimeout(() => input.focus(), 100);
     }
-
-    legalBtn.onclick = () => legalModal.style.display = "flex";
-    closeLegal.onclick = () => legalModal.style.display = "none";
-
-    payBtn.onclick = () => {
-      window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
-    };
   }
 
   /* ==========================================================
