@@ -392,6 +392,34 @@ window.checkMonthlyAmort = ok => {
     { s: pirate5, t: "Voici l’épreuve finale." }
   ];
 
+  function bindStep(stepElement, onSuccess) {
+
+  const buttons = stepElement.querySelectorAll("button");
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+
+      if (btn.dataset.ok === "true") {
+
+        btn.classList.add("correctAnswer");
+        buttons.forEach(b => b.disabled = true);
+
+        setTimeout(() => {
+          onSuccess();
+        }, 400);
+
+      } else {
+        screenShake();
+      }
+
+    });
+  });
+}
+
+function goToNext(current, next) {
+  current.classList.add("hidden");
+  next.classList.remove("hidden");
+}
 /* =====================================================
    🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE
 ===================================================== */
@@ -478,25 +506,36 @@ function startMiniGame3() {
   };
 
   /* 💡 Indice */
-  const hintBtn = miniGame3.querySelector(".hintBtn");
-  const hintBox = miniGame3.querySelector(".hintImage");
-  const hintImg = miniGame3.querySelector(".zoomable");
+/* 💡 Indice avec loader */
+const hintBtn = miniGame3.querySelector(".hintBtn");
+const hintBox = miniGame3.querySelector(".hintImage");
+const hintImg = miniGame3.querySelector(".zoomable");
 
-  hintBtn.onclick = () => hintBox.classList.remove("hidden");
-  hintBox.onclick = () => hintBox.classList.add("hidden");
+hintBtn.onclick = () => {
 
-  hintImg.onclick = (e) => {
-    e.stopPropagation();
-    const overlay = document.createElement("div");
-    overlay.className = "imageZoomOverlay";
+  // Création overlay loader
+  const loaderOverlay = document.createElement("div");
+  loaderOverlay.className = "loaderOverlay";
 
-    const img = document.createElement("img");
-    img.src = hintImg.src;
+  loaderOverlay.innerHTML = `
+    <div class="loaderBubble">
+      <div class="spinner">⏳</div>
+    </div>
+  `;
 
-    overlay.appendChild(img);
-    document.body.appendChild(overlay);
-    overlay.onclick = () => overlay.remove();
+  document.body.appendChild(loaderOverlay);
+
+  // Forcer rechargement image
+  const tempImg = new Image();
+  tempImg.src = hintImg.src;
+
+  tempImg.onload = () => {
+
+    loaderOverlay.remove();
+    hintBox.classList.remove("hidden");
+
   };
+};
 
   bindStep(step1, () => goToNext(step1, step2));
   bindStep(step2, () => goToNext(step2, step3));
