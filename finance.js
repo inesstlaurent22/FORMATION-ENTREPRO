@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const part2 = document.getElementById("part2");
   const part3 = document.getElementById("part3");
 
+  const bill = document.getElementById("bill");
+  const amortMonth = document.getElementById("amortMonth");
+
   let pirateClickable = false;
   let dialogueActive = false;
 
