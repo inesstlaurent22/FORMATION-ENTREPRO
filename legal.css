@@ -317,13 +317,14 @@ button.selectedAnswer{
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:10000;
+  z-index:99999 !important; /* ← force au-dessus de tout */
 }
 
 .win-box{
   text-align:center;
   color:#ffd77a;
-  position:relative; /* ← important */
+  position:relative;
+  z-index:100000;
 }
 
 .gems-container{
