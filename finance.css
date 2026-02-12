@@ -285,7 +285,7 @@ button.selectedAnswer {
 #miniGame3 .hintImage {
   position: fixed;
   inset: 0;
-  background: transparent;
+  background: rgba(0,0,0,.7); /* 🔥 meilleur contraste */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -381,7 +381,7 @@ button:disabled {
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:10000;
+  z-index:11000;
 }
 
 .win-box{
@@ -427,6 +427,7 @@ button:disabled {
 
 .shake {
   animation: screenShake 0.4s ease;
+  will-change: transform;
 }
 
 /* =====================================================
