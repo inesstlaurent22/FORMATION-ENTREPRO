@@ -77,7 +77,6 @@ function removeSkipDialoguesBtn(){
 /* =====================================================
    🏴‍☠️ PIRATES & DIALOGUES
 ===================================================== */
-const pirateLegal = document.getElementById("pirateLegal");
 const dLegal = document.getElementById("dialogueLegal");
 const dPirate = document.getElementById("dialoguePirate");
 let dIndex = 0;
