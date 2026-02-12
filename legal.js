@@ -456,6 +456,12 @@ function showCoffreTVA(){
   miniGame4.innerHTML = steps[step4];
 }
 
+window.endMiniGame4 = function(){
+  miniGame4.style.display = "none";
+  scene.classList.remove("sceneDim");
+  showLegalWin();
+};
+
 
 /* =====================================================
    ▶️ AVANCEMENT ÉTAPES
@@ -477,17 +483,11 @@ window.coffreAnswer = function(good){
   }
 };
 
-window.endMiniGame4 = function(){
-  miniGame4.style.display = "none";
-  scene.classList.remove("sceneDim");
-  showLegalWin();
-};
-
 
 /* =====================================================
    🏆 VICTOIRE LEGAL
 ===================================================== */
-function showLegalWin(){
+window.showLegalWin = function(){
 
   const overlay = document.createElement("div");
   overlay.id = "communication-win";
