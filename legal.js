@@ -477,15 +477,11 @@ window.coffreAnswer = function(good){
   }
 };
 
-
-/* =====================================================
-   🏁 FIN MINI-JEU
-===================================================== */
-function endMiniGame4(){
+window.endMiniGame4 = function(){
   miniGame4.style.display = "none";
   scene.classList.remove("sceneDim");
   showLegalWin();
-}
+};
 
 
 /* =====================================================
