@@ -345,6 +345,39 @@ button.correctAnswer{
     inset 0 0 12px rgba(0,0,0,.8);
 }
 
+/* ================= LOADER INDICE ================= */
+
+.loaderOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.loaderBubble{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle, gold 0%, rgba(255,215,0,0.4) 40%, transparent 70%);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  box-shadow:0 0 40px gold;
+}
+
+.spinner{
+  font-size:50px;
+  animation:spin 1.2s linear infinite;
+}
+
+@keyframes spin{
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 /* =====================================================
    🔘 BOUTONS — BASE OFFICIELLE
 ===================================================== */
