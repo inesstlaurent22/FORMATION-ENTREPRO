@@ -69,12 +69,30 @@ const dPirate = document.getElementById("dialoguePirate");
 let dIndex = 0;
 
 function runDialogues(list, callback){
-  if(dIndex >= list.length){
-    dLegal.style.display = "none";
-    dPirate.style.display = "none";
-    callback && callback();
-    return;
+
+  createSkipDialoguesBtn(callback);
+
+  function next(){
+    if(dIndex >= list.length){
+      dLegal.style.display = "none";
+      dPirate.style.display = "none";
+      removeSkipDialoguesBtn();
+      callback && callback();
+      return;
+    }
+
+    const cur = list[dIndex];
+    cur.el.innerHTML = `<p>${cur.text}</p>`;
+    cur.el.style.display = "block";
+    cur.el.onclick = () => {
+      cur.el.style.display = "none";
+      dIndex++;
+      next();
+    };
   }
+
+  next();
+}
   const cur = list[dIndex];
   cur.el.innerHTML = `<p>${cur.text}</p>`;
   cur.el.style.display = "block";
@@ -420,58 +438,67 @@ window.coffreAnswer = good => {
   showCoffreTVA();
 };
 
-function endMiniGame4() {
-
-  // 1. Fermer l'encart du mini-jeu
+function endMiniGame4(){
   miniGame4.style.display = "none";
-
-  // 2. Retirer l'assombrissement → retour background normal
   scene.classList.remove("sceneDim");
-
-  // 3. 🔓 Débloquer pirate4 AVANT retour menu
-  sessionStorage.setItem("unlock_pirate4", "true");
-
-  // 4. Afficher le loader de victoire
-  const loader = document.createElement("div");
-  loader.className = "loaderBox";
-  loader.textContent = "🏆 Bravo, tu as gagné cette quête";
-  document.body.appendChild(loader);
-
-  // 5. Explosion de gems
-  explodeGems();
-
-  // 6. Redirection vers le menu
-  setTimeout(() => {
-    window.location.href = "menu.html";
-  }, 4000);
+  showLegalWin();
 }
 
 /* =====================================================
-   🏆 VICTOIRE
+   🏆 VICTOIRE LEGAL
 ===================================================== */
-function showVictory(){
-  const box = document.createElement("div");
-  box.className = "loaderBox";
-  box.textContent = "🏆 Bravo, tu as gagné cette quête";
-  document.body.appendChild(box);
-  explodeGems();
-  setTimeout(()=>location.href="menu.html",4000);
+function showLegalWin(){
+
+  const overlay = document.createElement("div");
+  overlay.id="communication-win";
+  overlay.innerHTML=`
+    <div class="win-box">
+      <h2>🏴‍☠️ Bravo !</h2>
+      <p>Tu as gagné la quête Legal !</p>
+      <div class="gems-container"></div>
+    </div>`;
+
+  document.body.appendChild(overlay);
+
+  const gemsContainer = overlay.querySelector(".gems-container");
+
+  requestAnimationFrame(()=>{
+    launchGemsExplosion(gemsContainer);
+  });
+
+  /* 🔓 Déblocage pirate4 */
+  sessionStorage.setItem("unlock_pirate4","true");
+
+  /* ⏳ Redirection */
+  setTimeout(()=>{
+    window.location.href="menu.html";
+  },2500);
 }
 
 /* =====================================================
    💎 GEMS
 ===================================================== */
-function explodeGems(){
-  for(let i=0;i<100;i++){
-    const g = document.createElement("div");
-    g.className = "gem";
-    g.style.left = "50%";
-    g.style.top = "50%";
-    g.style.background = `hsl(${Math.random()*360},100%,60%)`;
-    g.style.setProperty("--x",(Math.random()*800-400)+"px");
-    g.style.setProperty("--y",(Math.random()*800-400)+"px");
-    document.body.appendChild(g);
-    setTimeout(()=>g.remove(),1600);
+function launchGemsExplosion(container){
+  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+
+  for(let i=0;i<50;i++){
+    const g=document.createElement("div");
+    g.className="gem";
+
+    const size=Math.random()*10+8;
+    g.style.width=size+"px";
+    g.style.height=size+"px";
+    g.style.background=colors[Math.floor(Math.random()*colors.length)];
+    g.style.left="50%";
+    g.style.top="50%";
+
+    const angle=Math.random()*Math.PI*2;
+    const dist=Math.random()*260+80;
+
+    g.style.setProperty("--x",Math.cos(angle)*dist+"px");
+    g.style.setProperty("--y",Math.sin(angle)*dist+"px");
+
+    container.appendChild(g);
   }
 }
 
