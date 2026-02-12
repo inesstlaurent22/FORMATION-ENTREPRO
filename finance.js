@@ -336,11 +336,26 @@ window.chooseClient = btn => {
 };
 
 /* ===== RÉSULTAT ===== */
-window.checkResult = ok => {
-  if (!ok) return screenShake();
+window.checkMonthlyAmort = ok => {
+  if (!ok) {
+    screenShake();
+    return;
+  }
+
+  // Masquer proprement toutes les parties
+  part1.classList.add("hidden");
   part2.classList.add("hidden");
-  part3.classList.remove("hidden");
-  injectCalculator(part3);
+  part3.classList.add("hidden");
+
+  // Masquer le conteneur principal
+  financeGame.classList.add("hidden");
+
+  // Petite transition fluide
+  setTimeout(() => {
+    startDialogues(dialoguesEBE, () => {
+      startMiniGame3();
+    });
+  }, 300);
 };
 
 /* ===== AMORTISSEMENTS ===== */
