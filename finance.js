@@ -510,15 +510,17 @@ function startMiniGame3() {
     }
   };
 
-  /* 💡 Indice */
-/* 💡 Indice avec loader */
+/* =====================================================
+   💡 INDICE — LOADER + ZOOM + FERMETURE PROPRE
+===================================================== */
+
 const hintBtn = miniGame3.querySelector(".hintBtn");
 const hintBox = miniGame3.querySelector(".hintImage");
 const hintImg = miniGame3.querySelector(".zoomable");
 
 hintBtn.onclick = () => {
 
-  // Création overlay loader
+  /* 🔄 OVERLAY LOADER */
   const loaderOverlay = document.createElement("div");
   loaderOverlay.className = "loaderOverlay";
 
@@ -530,17 +532,48 @@ hintBtn.onclick = () => {
 
   document.body.appendChild(loaderOverlay);
 
-  // Forcer rechargement image
+  /* 🔄 Chargement image réel */
   const tempImg = new Image();
   tempImg.src = hintImg.src;
 
   tempImg.onload = () => {
-
     loaderOverlay.remove();
     hintBox.classList.remove("hidden");
+  };
 
+  tempImg.onerror = () => {
+    loaderOverlay.remove();
+    console.error("Erreur chargement image indice");
   };
 };
+
+/* ================================
+   🖼 FERMETURE SIMPLE
+================================ */
+hintBox.addEventListener("click", () => {
+  hintBox.classList.add("hidden");
+});
+
+/* ================================
+   🔍 ZOOM PLEIN ÉCRAN
+================================ */
+hintImg.addEventListener("click", (e) => {
+
+  e.stopPropagation(); // empêche fermeture automatique
+
+  const overlay = document.createElement("div");
+  overlay.className = "imageZoomOverlay";
+
+  const img = document.createElement("img");
+  img.src = hintImg.src;
+
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+
+  overlay.addEventListener("click", () => {
+    overlay.remove();
+  });
+});
 
   bindStep(step1, () => goToNext(step1, step2));
   bindStep(step2, () => goToNext(step2, step3));
