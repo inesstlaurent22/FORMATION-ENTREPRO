@@ -406,7 +406,10 @@ function startMiniGame4(){
 }
 
 function showCoffreTVA(){
+
   const steps = [
+
+    /* Étape 1 */
     `
     <h3>💰 Coffre de la TVA</h3>
     <p>TVA collectée : 200 €</p>
@@ -414,8 +417,10 @@ function showCoffreTVA(){
     <div id="qChoices">
       <button onclick="coffreAnswer(false)">Je la garde</button>
       <button onclick="coffreAnswer(true)">Je la mets de côté pour l’État</button>
-    </div>`,
+    </div>
+    `,
 
+    /* Étape 2 */
     `
     <h3>🧾 Dépense pro</h3>
     <p>Logiciel : 120 € TTC (TVA 20 €)</p>
@@ -423,8 +428,10 @@ function showCoffreTVA(){
     <div id="qChoices">
       <button onclick="coffreAnswer(true)">Récupérable</button>
       <button onclick="coffreAnswer(false)">Perdue</button>
-    </div>`,
+    </div>
+    `,
 
+    /* Étape 3 */
     `
     <h3>🏛️ TVA à reverser</h3>
     <p>200 € − 20 € = ?</p>
@@ -432,29 +439,32 @@ function showCoffreTVA(){
       <button onclick="coffreAnswer(false)">200 €</button>
       <button onclick="coffreAnswer(true)">180 €</button>
       <button onclick="coffreAnswer(false)">20 €</button>
-    </div>`,
+    </div>
+    `,
 
+    /* Étape 4 — Résumé + Validation */
     `
     <h3>📜 Résumé</h3>
     <p>Tu récupères 20 €</p>
     <p>Tu reverses 180 €</p>
-    <button onclick="endMiniGame4()">Valider</button>`
+    <div id="qChoices">
+      <button onclick="endMiniGame4()">Valider</button>
+    </div>
+    `
   ];
 
   miniGame4.innerHTML = steps[step4];
 }
 
-window.coffreAnswer = good => {
-  if(!good){ shake(); return; }
-  step4++;
-  showCoffreTVA();
-};
+window.validateFinal = function(){
 
-function endMiniGame4(){
+  // Masque le mini-jeu
   miniGame4.style.display = "none";
   scene.classList.remove("sceneDim");
+
+  // Lance écran victoire
   showLegalWin();
-}
+};
 
 /* =====================================================
    🏆 VICTOIRE LEGAL
