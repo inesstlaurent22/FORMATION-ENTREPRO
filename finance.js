@@ -511,69 +511,75 @@ function startMiniGame3() {
   };
 
 /* =====================================================
-   💡 INDICE — LOADER + ZOOM + FERMETURE PROPRE
+   💡 INDICE — LOADER + ZOOM + FERMETURE STABLE
 ===================================================== */
 
-const hintBtn = miniGame3.querySelector(".hintBtn");
-const hintBox = miniGame3.querySelector(".hintImage");
-const hintImg = miniGame3.querySelector(".zoomable");
+const hintBtn  = miniGame3.querySelector(".hintBtn");
+const hintBox  = miniGame3.querySelector(".hintImage");
+const hintImg  = miniGame3.querySelector(".zoomable");
 
-hintBtn.onclick = () => {
+if (hintBtn && hintBox && hintImg) {
 
-  /* 🔄 OVERLAY LOADER */
-  const loaderOverlay = document.createElement("div");
-  loaderOverlay.className = "loaderOverlay";
+  /* ================================
+     🔄 OUVERTURE AVEC LOADER
+  ================================= */
+  hintBtn.addEventListener("click", () => {
 
-  loaderOverlay.innerHTML = `
-    <div class="loaderBubble">
-      <div class="spinner">⏳</div>
-    </div>
-  `;
+    const loaderOverlay = document.createElement("div");
+    loaderOverlay.className = "loaderOverlay";
 
-  document.body.appendChild(loaderOverlay);
+    loaderOverlay.innerHTML = `
+      <div class="loaderBubble">
+        <div class="spinner">⏳</div>
+      </div>
+    `;
 
-  /* 🔄 Chargement image réel */
-  const tempImg = new Image();
-  tempImg.src = hintImg.src;
+    document.body.appendChild(loaderOverlay);
 
-  tempImg.onload = () => {
-    loaderOverlay.remove();
-    hintBox.classList.remove("hidden");
-  };
+    const tempImg = new Image();
+    tempImg.src = hintImg.src;
 
-  tempImg.onerror = () => {
-    loaderOverlay.remove();
-    console.error("Erreur chargement image indice");
-  };
-};
+    tempImg.onload = () => {
+      loaderOverlay.remove();
+      hintBox.classList.remove("hidden");
+    };
 
-/* ================================
-   🖼 FERMETURE SIMPLE
-================================ */
-hintBox.addEventListener("click", () => {
-  hintBox.classList.add("hidden");
-});
-
-/* ================================
-   🔍 ZOOM PLEIN ÉCRAN
-================================ */
-hintImg.addEventListener("click", (e) => {
-
-  e.stopPropagation(); // empêche fermeture automatique
-
-  const overlay = document.createElement("div");
-  overlay.className = "imageZoomOverlay";
-
-  const img = document.createElement("img");
-  img.src = hintImg.src;
-
-  overlay.appendChild(img);
-  document.body.appendChild(overlay);
-
-  overlay.addEventListener("click", () => {
-    overlay.remove();
+    tempImg.onerror = () => {
+      loaderOverlay.remove();
+      console.error("Erreur chargement image indice");
+    };
   });
-});
+
+  /* ================================
+     🖼 FERMETURE SI CLIC FOND NOIR
+  ================================= */
+  hintBox.addEventListener("click", (e) => {
+    if (e.target === hintBox) {
+      hintBox.classList.add("hidden");
+    }
+  });
+
+  /* ================================
+     🔍 ZOOM PLEIN ÉCRAN
+  ================================= */
+  hintImg.addEventListener("click", (e) => {
+
+    e.stopPropagation(); // empêche fermeture de hintBox
+
+    const overlay = document.createElement("div");
+    overlay.className = "imageZoomOverlay";
+
+    const img = document.createElement("img");
+    img.src = hintImg.src;
+
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener("click", () => {
+      overlay.remove();
+    });
+  });
+}
 
   bindStep(step1, () => goToNext(step1, step2));
   bindStep(step2, () => goToNext(step2, step3));
