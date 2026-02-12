@@ -323,7 +323,7 @@ button.selectedAnswer{
 .win-box{
   text-align:center;
   color:#ffd77a;
-  position:relative;
+  position:relative; /* ← important */
 }
 
 .gems-container{
@@ -334,6 +334,8 @@ button.selectedAnswer{
 
 .gem{
   position:absolute;
+  width:12px;
+  height:12px;
   border-radius:50%;
   animation:gemExplode 1.6s ease-out forwards;
 }
