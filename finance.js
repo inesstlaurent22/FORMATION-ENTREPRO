@@ -392,16 +392,20 @@ window.checkMonthlyAmort = ok => {
     { s: pirate5, t: "Voici l’épreuve finale." }
   ];
 
-  function bindStep(stepElement, onSuccess) {
+function bindStep(stepElement, onSuccess) {
 
   const buttons = stepElement.querySelectorAll("button");
 
   buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
 
-      if (btn.dataset.ok === "true") {
+    btn.addEventListener("click", function() {
 
-        btn.classList.add("correctAnswer");
+      const isCorrect = this.getAttribute("data-ok") === "true";
+
+      if (isCorrect) {
+
+        this.classList.add("correctAnswer");
+
         buttons.forEach(b => b.disabled = true);
 
         setTimeout(() => {
@@ -413,6 +417,7 @@ window.checkMonthlyAmort = ok => {
       }
 
     });
+
   });
 }
 
