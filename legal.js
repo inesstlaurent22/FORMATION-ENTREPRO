@@ -442,7 +442,7 @@ function showCoffreTVA(){
     </div>
     `,
 
-    /* Étape 4 — Résumé + Validation */
+    /* Étape 4 — Résumé */
     `
     <h3>📜 Résumé</h3>
     <p>Tu récupères 20 €</p>
@@ -456,15 +456,37 @@ function showCoffreTVA(){
   miniGame4.innerHTML = steps[step4];
 }
 
-window.validateFinal = function(){
 
-  // Masque le mini-jeu
+/* =====================================================
+   ▶️ AVANCEMENT ÉTAPES
+===================================================== */
+window.coffreAnswer = function(good){
+
+  if(!good){
+    shake();
+    return;
+  }
+
+  step4++;
+
+  if(step4 < 3){
+    showCoffreTVA();
+  } else {
+    step4 = 3;
+    showCoffreTVA();
+  }
+};
+
+
+/* =====================================================
+   🏁 FIN MINI-JEU
+===================================================== */
+function endMiniGame4(){
   miniGame4.style.display = "none";
   scene.classList.remove("sceneDim");
-
-  // Lance écran victoire
   showLegalWin();
-};
+}
+
 
 /* =====================================================
    🏆 VICTOIRE LEGAL
@@ -472,13 +494,15 @@ window.validateFinal = function(){
 function showLegalWin(){
 
   const overlay = document.createElement("div");
-  overlay.id="communication-win";
-  overlay.innerHTML=`
+  overlay.id = "communication-win";
+
+  overlay.innerHTML = `
     <div class="win-box">
       <h2>🏴‍☠️ Bravo !</h2>
       <p>Tu as gagné la quête Legal !</p>
       <div class="gems-container"></div>
-    </div>`;
+    </div>
+  `;
 
   document.body.appendChild(overlay);
 
@@ -493,32 +517,36 @@ function showLegalWin(){
 
   /* ⏳ Redirection */
   setTimeout(()=>{
-    window.location.href="menu.html";
-  },2500);
+    window.location.href = "menu.html";
+  }, 2500);
 }
 
+
 /* =====================================================
-   💎 GEMS
+   💎 EXPLOSION DE GEMS
 ===================================================== */
 function launchGemsExplosion(container){
-  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
 
-  for(let i=0;i<50;i++){
-    const g=document.createElement("div");
-    g.className="gem";
+  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
 
-    const size=Math.random()*10+8;
-    g.style.width=size+"px";
-    g.style.height=size+"px";
-    g.style.background=colors[Math.floor(Math.random()*colors.length)];
-    g.style.left="50%";
-    g.style.top="50%";
+  for(let i = 0; i < 50; i++){
 
-    const angle=Math.random()*Math.PI*2;
-    const dist=Math.random()*260+80;
+    const g = document.createElement("div");
+    g.className = "gem";
 
-    g.style.setProperty("--x",Math.cos(angle)*dist+"px");
-    g.style.setProperty("--y",Math.sin(angle)*dist+"px");
+    const size = Math.random()*10 + 8;
+    g.style.width = size + "px";
+    g.style.height = size + "px";
+    g.style.background = colors[Math.floor(Math.random()*colors.length)];
+
+    g.style.left = "50%";
+    g.style.top = "50%";
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = Math.random()*260 + 80;
+
+    g.style.setProperty("--x", Math.cos(angle)*dist + "px");
+    g.style.setProperty("--y", Math.sin(angle)*dist + "px");
 
     container.appendChild(g);
   }
