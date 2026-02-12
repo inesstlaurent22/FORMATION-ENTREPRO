@@ -378,6 +378,10 @@ function startMiniGame3() {
       que tu maîtrises réellement les chiffres de ta boutique pirate.
     </p>
 
+    <!-- 🧮 CALCULATRICE -->
+    <button class="calcToggle">🧮 Calculatrice</button>
+    <input id="calcFinal" class="calcInput hidden" placeholder="Ex : 10000 - 4250 - 1000">
+
     <!-- 💡 INDICE -->
     <button class="hintBtn">💡 Indice</button>
     <div class="hintImage hidden">
@@ -385,11 +389,7 @@ function startMiniGame3() {
         <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
       </div>
     </div>
-
-    <!-- 🧮 CALCULATRICE -->
-    <button class="calcToggle">🧮 Calculatrice</button>
-    <input id="calcFinal" class="calcInput hidden" placeholder="Ex : 10000 - 4250 - 1000">
-
+    
     <!-- STEP 1 -->
     <div id="step1">
       <p><strong>1️⃣ Calcul de la marge</strong></p>
