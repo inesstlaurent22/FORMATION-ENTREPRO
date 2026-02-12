@@ -71,21 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
     pirateClickable = true;
   }
 
-  /* =====================================================
-   ⏭️ SKIP DIALOGUES
-===================================================== */
-const skipBtn = document.createElement("button");
-skipBtn.id = "skipDialoguesBtn";
-skipBtn.textContent = "Passer les dialogues";
-skipBtn.classList.add("hidden");
-document.body.appendChild(skipBtn);
-
-skipBtn.onclick = () => {
-  bubble.classList.add("hidden");
-  skipBtn.classList.add("hidden");
-  dialogueActive = false;
-  afterDialogues && afterDialogues();
-};
   
   /* =====================================================
      ✨ PIRATE 5 — SURVOL & CLIC
@@ -116,14 +101,15 @@ skipBtn.onclick = () => {
   let dIndex = 0;
   let afterDialogues = null;
 
-  function startDialogues(arr, cb) {
-    dialogues = arr;
-    dIndex = 0;
-    afterDialogues = cb;
-    dialogueActive = true;
-    bubble.classList.remove("hidden");
-    showDialogue();
-  }
+function startDialogues(arr, cb) {
+  dialogues = arr;
+  dIndex = 0;
+  afterDialogues = cb;
+  dialogueActive = true;
+  bubble.classList.remove("hidden");
+  skipBtn.classList.remove("hidden");
+  showDialogue();
+}
 
   function showDialogue() {
     const d = dialogues[dIndex];
@@ -134,17 +120,34 @@ skipBtn.onclick = () => {
     bubble.style.top = r.top - 90 + "px";
     bubble.style.transform = "translateX(-50%)";
 
-    bubble.onclick = () => {
-      dIndex++;
-      if (dIndex < dialogues.length) {
-        showDialogue();
-      } else {
-        bubble.classList.add("hidden");
-        dialogueActive = false;
-        afterDialogues && afterDialogues();
-      }
-    };
+bubble.onclick = () => {
+  dIndex++;
+  if (dIndex < dialogues.length) {
+    showDialogue();
+  } else {
+    bubble.classList.add("hidden");
+    skipBtn.classList.add("hidden");
+    dialogueActive = false;
+    afterDialogues && afterDialogues();
   }
+};
+  }
+
+  /* =====================================================
+   ⏭️ SKIP DIALOGUES
+===================================================== */
+const skipBtn = document.createElement("button");
+skipBtn.id = "skipDialoguesBtn";
+skipBtn.textContent = "Passer les dialogues";
+skipBtn.classList.add("hidden");
+document.body.appendChild(skipBtn);
+
+skipBtn.onclick = () => {
+  bubble.classList.add("hidden");
+  skipBtn.classList.add("hidden");
+  dialogueActive = false;
+  afterDialogues && afterDialogues();
+};
 
   /* =====================================================
      💬 DIALOGUES — INTRO
@@ -211,7 +214,7 @@ skipBtn.onclick = () => {
       btn.textContent = a.t;
       btn.onclick = () => {
         if (a.ok) {
-          btn.classList.add("selectedAnswer");
+btn.classList.add("correctAnswer");
           btn.disabled = true;
           goodCount++;
           if (goodCount === questions[qIndex].good.length) {
@@ -509,7 +512,11 @@ function goToNext(current, next) {
 function bindStep(step, cb) {
   step.querySelectorAll("button[data-ok]").forEach(btn => {
     btn.onclick = () => {
-      if (btn.dataset.ok === "true") cb();
+if (btn.dataset.ok === "true") {
+  btn.classList.add("correctAnswer");
+  btn.disabled = true;
+  setTimeout(cb, 400);
+}
       else if (typeof screenShake === "function") screenShake();
     };
   });
@@ -524,33 +531,63 @@ function endMiniGame3() {
   miniGame3.classList.add("hidden");
 
   setTimeout(() => {
-    showFinalVictory();
+showCommerceWin();
   }, 500);
 }
 
-function showFinalVictory() {
+/* =====================================================
+   🏆 VICTOIRE FINANCE
+===================================================== */
+function showCommerceWin(){
 
-  // Fermer mini-jeu
-  const miniGame3 = document.getElementById("miniGame3");
-  if (miniGame3) miniGame3.classList.add("hidden");
-
-  // Overlay victoire
   const overlay = document.createElement("div");
-  overlay.className = "finalVictory";
-
-  overlay.innerHTML = `
-    <div class="victoryBox">
-      <h2>🏆 Bravo Capitaine 🏴‍☠️</h2>
-      <p>Tu as gagné la quête financière</p>
-      <p class="sub">Le trésor est désormais tien.</p>
-    </div>
-    <canvas id="gemsCanvas"></canvas>
-  `;
+  overlay.id="communication-win";
+  overlay.innerHTML=`
+    <div class="win-box">
+      <h2>🏴‍☠️ Bravo !</h2>
+      <p>Tu as gagné la quête Finance !</p>
+      <div class="gems-container"></div>
+    </div>`;
 
   document.body.appendChild(overlay);
 
-  // Explosion de gems
-  if (typeof launchGems === "function") launchGems();
+  const gemsContainer = overlay.querySelector(".gems-container");
+
+  requestAnimationFrame(()=>{
+    launchGemsExplosion(gemsContainer);
+  });
+
+  sessionStorage.setItem("unlock_pirate4","true");
+  sessionStorage.setItem("fromFinance","true");
+
+  setTimeout(()=>{
+    window.location.href="menu.html";
+  },2500);
+}
+
+/* =====================================================
+   💎 GEMS
+===================================================== */
+function launchGemsExplosion(container){
+  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+  for(let i=0;i<50;i++){
+    const g=document.createElement("div");
+    g.className="gem";
+    const size=Math.random()*10+8;
+    g.style.width=size+"px";
+    g.style.height=size+"px";
+    g.style.background=colors[Math.floor(Math.random()*colors.length)];
+    g.style.left="50%";
+    g.style.top="50%";
+
+    const angle=Math.random()*Math.PI*2;
+    const dist=Math.random()*260+80;
+    g.style.setProperty("--x",Math.cos(angle)*dist+"px");
+    g.style.setProperty("--y",Math.sin(angle)*dist+"px");
+
+    container.appendChild(g);
+  }
+}
 
 /* =====================================================
    ✅ FLAGS MENU (FINANCE)
@@ -563,47 +600,7 @@ sessionStorage.setItem("fromFinance", "true"); // optionnel / futur
     window.location.href = "menu.html";
   }, 2500);
 }
-/* =====================================================
-   💎 EXPLOSION DE GEMS
-===================================================== */
 
-function launchGems() {
-  const canvas = document.getElementById("gemsCanvas");
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const colors = ["#ffd700", "#00ffff", "#ff4dff", "#00ff6a", "#ff4444"];
-  const gems = [];
-
-  for (let i = 0; i < 140; i++) {
-    gems.push({
-      x: canvas.width / 2,
-      y: canvas.height / 2,
-      vx: (Math.random() - 0.5) * 12,
-      vy: (Math.random() - 0.5) * 12,
-      r: Math.random() * 6 + 3,
-      c: colors[Math.floor(Math.random() * colors.length)]
-    });
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    gems.forEach(g => {
-      g.x += g.vx;
-      g.y += g.vy;
-      g.vy += 0.05;
-      ctx.fillStyle = g.c;
-      ctx.beginPath();
-      ctx.arc(g.x, g.y, g.r, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-}
   
   /* =====================================================
      🧯 SHAKE
