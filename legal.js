@@ -8,6 +8,10 @@ const video = document.getElementById("questVideo");
 const skipBtn = document.getElementById("skipVideo");
 const soundBtn = document.getElementById("soundBtn");
 const scene = document.getElementById("scene");
+const pirateLegal = document.getElementById("pirateLegal");
+const dLegal = document.getElementById("dialogueLegal");
+const dPirate = document.getElementById("dialoguePirate");
+const scene = document.getElementById("scene");
 
 video.muted = true;
 soundBtn.textContent = "🔊";
@@ -92,15 +96,6 @@ function runDialogues(list, callback){
   }
 
   next();
-}
-  const cur = list[dIndex];
-  cur.el.innerHTML = `<p>${cur.text}</p>`;
-  cur.el.style.display = "block";
-  cur.el.onclick = () => {
-    cur.el.style.display = "none";
-    dIndex++;
-    runDialogues(list, callback);
-  };
 }
 
 /* =====================================================
