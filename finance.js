@@ -358,6 +358,17 @@ window.checkMonthlyAmort = ok => {
   }, 300);
 };
 
+  /* ===== RÉSULTAT ANNUEL ===== */
+window.checkResult = ok => {
+  if (!ok) {
+    screenShake();
+    return;
+  }
+
+  part2.classList.add("hidden");
+  part3.classList.remove("hidden");
+};
+
 /* ===== AMORTISSEMENTS ===== */
 window.checkAmortBase = ok => {
   if (!ok) return screenShake();
