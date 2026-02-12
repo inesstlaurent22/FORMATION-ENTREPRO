@@ -370,8 +370,8 @@ window.checkMonthlyAmort = ok => {
 
 let step1, step2, step3, step4, step5;
 
-function startMiniGame3() {
-  const miniGame3 = document.getElementById("miniGame3");
+function endMiniGame3() {
+  miniGame3.classList.add("hidden");
 
   miniGame3.innerHTML = `
     <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
