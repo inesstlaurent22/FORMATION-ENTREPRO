@@ -9,27 +9,37 @@ const skipBtn = document.getElementById("skipVideo");
 const soundBtn = document.getElementById("soundBtn");
 const scene = document.getElementById("scene");
 const pirateLegal = document.getElementById("pirateLegal");
-const dLegal = document.getElementById("dialogueLegal");
-const dPirate = document.getElementById("dialoguePirate");
-const scene = document.getElementById("scene");
 
 video.muted = true;
-soundBtn.textContent = "🔊";
 
-soundBtn.onclick = e => {
+/* 🔊 Son */
+soundBtn.addEventListener("click", (e)=>{
   e.stopPropagation();
   video.muted = !video.muted;
   soundBtn.textContent = video.muted ? "🔊" : "🔈";
-  video.play().catch(()=>{});
-};
+});
 
-skipBtn.onclick = endVideo;
-video.onended = endVideo;
+/* ⏭ Passer vidéo */
+skipBtn.addEventListener("click", (e)=>{
+  e.preventDefault();
+  e.stopPropagation();
+  endVideo();
+});
+
+/* 📼 Fin automatique */
+video.addEventListener("ended", endVideo);
 
 function endVideo(){
+
+  if(!videoContainer) return;
+
   video.pause();
+
   videoContainer.style.display = "none";
+
   scene.style.display = "block";
+
+  pirateLegal.style.pointerEvents = "auto";
   pirateLegal.onclick = startDialogues1;
 }
 
