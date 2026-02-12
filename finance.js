@@ -350,9 +350,17 @@ window.checkAmortBase = ok => {
 };
 
 window.checkMonthlyAmort = ok => {
-  if (!ok) return screenShake();
+  if (!ok) {
+    screenShake();
+    return;
+  }
+
+  part3.classList.add("hidden");
   financeGame.classList.add("hidden");
-  startDialogues(dialoguesEBE, startMiniGame3);
+
+  setTimeout(() => {
+    startDialogues(dialoguesEBE, startMiniGame3);
+  }, 300);
 };
   
   /* =====================================================
