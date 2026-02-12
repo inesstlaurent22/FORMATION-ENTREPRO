@@ -89,6 +89,7 @@ button.selectedAnswer{
    🌊 SCÈNE
 ===================================================== */
 #scene{
+  display:none;
   position:fixed;
   inset:0;
   background:url("images/Legal.PNG") no-repeat center/cover;
