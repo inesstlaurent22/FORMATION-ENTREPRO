@@ -248,7 +248,7 @@ btn.classList.add("correctAnswer");
     { s: pirate5, t: "Passons à la gestion réelle." }
   ];
 
-  /* =====================================================
+ /* =====================================================
    🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE
 ===================================================== */
 
@@ -286,7 +286,11 @@ function injectCalculator(container) {
 /* ===== LANCEMENT ===== */
 function startMiniGame2() {
   financeGame.classList.remove("hidden");
+
   part1.classList.remove("hidden");
+  part2.classList.add("hidden");
+  part3.classList.add("hidden");
+
   injectCalculator(part1);
 }
 
@@ -310,7 +314,7 @@ window.showBill = client => {
 };
 
 function checkAllBillsRead() {
-  const allRead = Object.values(billsSeen).every(v => v === true);
+  const allRead = Object.values(billsSeen).every(v => v);
   if (!allRead) return;
 
   document
@@ -319,12 +323,12 @@ function checkAllBillsRead() {
 }
 
 window.chooseClient = btn => {
-  const choices = [...document.querySelectorAll(".clients button:last-child")];
 
-  // sécurité
   if (!Object.values(billsSeen).every(v => v)) {
     return screenShake();
   }
+
+  const choices = [...document.querySelectorAll(".clients button:last-child")];
 
   if (btn === choices[0]) {
     part1.classList.add("hidden");
@@ -335,30 +339,9 @@ window.chooseClient = btn => {
   }
 };
 
-/* ===== RÉSULTAT ===== */
-window.checkMonthlyAmort = ok => {
-  if (!ok) {
-    screenShake();
-    return;
-  }
-
-  // Masquer proprement toutes les parties
-  part1.classList.add("hidden");
-  part2.classList.add("hidden");
-  part3.classList.add("hidden");
-
-  // Masquer le conteneur principal
-  financeGame.classList.add("hidden");
-
-  // Petite transition fluide
-  setTimeout(() => {
-    startDialogues(dialoguesEBE, () => {
-      startMiniGame3();
-    });
-  }, 300);
-};
-
-  /* ===== RÉSULTAT ANNUEL ===== */
+/* =====================================================
+   📊 RÉSULTAT ANNUEL
+===================================================== */
 window.checkResult = ok => {
   if (!ok) {
     screenShake();
@@ -367,14 +350,25 @@ window.checkResult = ok => {
 
   part2.classList.add("hidden");
   part3.classList.remove("hidden");
+
+  injectCalculator(part3);
 };
 
-/* ===== AMORTISSEMENTS ===== */
+/* =====================================================
+   🧾 AMORTISSEMENTS
+===================================================== */
 window.checkAmortBase = ok => {
-  if (!ok) return screenShake();
+  if (!ok) {
+    screenShake();
+    return;
+  }
+
   amortMonth.classList.remove("hidden");
 };
 
+/* =====================================================
+   ✅ FIN MINI-JEU 2
+===================================================== */
 window.checkMonthlyAmort = ok => {
   if (!ok) {
     screenShake();
