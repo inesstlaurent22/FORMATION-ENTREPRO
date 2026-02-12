@@ -70,6 +70,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // Débloquer interactions
     pirateClickable = true;
   }
+
+  /* =====================================================
+   ⏭️ SKIP DIALOGUES
+===================================================== */
+const skipBtn = document.createElement("button");
+skipBtn.id = "skipDialoguesBtn";
+skipBtn.textContent = "Passer les dialogues";
+skipBtn.classList.add("hidden");
+document.body.appendChild(skipBtn);
+
+skipBtn.onclick = () => {
+  bubble.classList.add("hidden");
+  skipBtn.classList.add("hidden");
+  dialogueActive = false;
+  afterDialogues && afterDialogues();
+};
   
   /* =====================================================
      ✨ PIRATE 5 — SURVOL & CLIC
