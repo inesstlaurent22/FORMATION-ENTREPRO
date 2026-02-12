@@ -10,37 +10,45 @@ const soundBtn = document.getElementById("soundBtn");
 const scene = document.getElementById("scene");
 const pirateLegal = document.getElementById("pirateLegal");
 
-video.muted = true;
+/* Sécurité : vérifier que tout existe */
+if(video && soundBtn && skipBtn){
 
-/* 🔊 Son */
-soundBtn.addEventListener("click", (e)=>{
-  e.stopPropagation();
-  video.muted = !video.muted;
-  soundBtn.textContent = video.muted ? "🔊" : "🔈";
-});
+  video.muted = true;
 
-/* ⏭ Passer vidéo */
-skipBtn.addEventListener("click", (e)=>{
-  e.preventDefault();
-  e.stopPropagation();
-  endVideo();
-});
+  soundBtn.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    video.muted = !video.muted;
+    soundBtn.textContent = video.muted ? "🔊" : "🔈";
+  });
 
-/* 📼 Fin automatique */
-video.addEventListener("ended", endVideo);
+  skipBtn.addEventListener("click", (e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    endVideo();
+  });
+
+  video.addEventListener("ended", endVideo);
+}
 
 function endVideo(){
 
-  if(!videoContainer) return;
+  if(video){
+    video.pause();
+    video.currentTime = 0;
+  }
 
-  video.pause();
+  if(videoContainer){
+    videoContainer.classList.add("hidden");
+  }
 
-  videoContainer.style.display = "none";
+  if(scene){
+    scene.style.display = "block";
+  }
 
-  scene.style.display = "block";
-
-  pirateLegal.style.pointerEvents = "auto";
-  pirateLegal.onclick = startDialogues1;
+  if(pirateLegal){
+    pirateLegal.style.pointerEvents = "auto";
+    pirateLegal.onclick = startDialogues1;
+  }
 }
 
 /* =====================================================
