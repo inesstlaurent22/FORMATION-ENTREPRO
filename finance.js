@@ -588,19 +588,6 @@ function launchGemsExplosion(container){
     container.appendChild(g);
   }
 }
-
-/* =====================================================
-   ✅ FLAGS MENU (FINANCE)
-===================================================== */
-sessionStorage.setItem("unlock_pirate4", "true");
-sessionStorage.setItem("fromFinance", "true"); // optionnel / futur
-
-  // Retour menu (avec délai visuel)
-  setTimeout(() => {
-    window.location.href = "menu.html";
-  }, 2500);
-}
-
   
   /* =====================================================
      🧯 SHAKE
