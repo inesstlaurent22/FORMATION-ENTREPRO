@@ -335,4 +335,45 @@ overlay.querySelector("#payBtn").onclick = () => {
     setTimeout(() => notification.classList.remove("show"), 3000);
   }
 
+  /* ======================================
+     🎯 DÉTECTION RETOUR DEPUIS LEGAL
+  ====================================== */
+
+  if (sessionStorage.getItem("questCompleted") === "true") {
+
+    const loader = document.getElementById("questLoader");
+    const chest = document.getElementById("questChest");
+
+    loader.classList.remove("hidden");
+
+    // Après 3 secondes → déplacement vers bouton météo
+    setTimeout(() => {
+
+      const weatherBtn = document.getElementById("weatherButton");
+      const rect = weatherBtn.getBoundingClientRect();
+
+      chest.classList.add("move-to-weather");
+
+      chest.style.top = rect.top + "px";
+      chest.style.left = (rect.right + 10) + "px";
+      chest.style.width = weatherBtn.offsetWidth + "px";
+
+      document.getElementById("questText").style.opacity = "0";
+
+      // On masque le fond noir après déplacement
+      setTimeout(()=>{
+        loader.style.background = "transparent";
+      }, 1000);
+
+    }, 3000);
+
+    // Redirection vers trésor
+    chest.addEventListener("click", () => {
+      window.location.href = "tresor.html";
+    });
+
+  }
+
+});
+
 });
