@@ -30,6 +30,37 @@ function endVideo(){
 }
 
 /* =====================================================
+   ⏭ BOUTON SKIP DIALOGUES
+===================================================== */
+let currentDialogueCallback = null;
+let skipBtnDialogues = null;
+
+function createSkipDialoguesBtn(callback){
+  removeSkipDialoguesBtn();
+
+  currentDialogueCallback = callback;
+
+  skipBtnDialogues = document.createElement("button");
+  skipBtnDialogues.id = "skipDialoguesBtn";
+  skipBtnDialogues.textContent = "Passer les dialogues";
+  skipBtnDialogues.onclick = () => {
+    dLegal.style.display = "none";
+    dPirate.style.display = "none";
+    removeSkipDialoguesBtn();
+    callback && callback();
+  };
+
+  document.body.appendChild(skipBtnDialogues);
+}
+
+function removeSkipDialoguesBtn(){
+  if(skipBtnDialogues){
+    skipBtnDialogues.remove();
+    skipBtnDialogues = null;
+  }
+}
+   
+/* =====================================================
    🏴‍☠️ PIRATES & DIALOGUES
 ===================================================== */
 const pirateLegal = document.getElementById("pirateLegal");
