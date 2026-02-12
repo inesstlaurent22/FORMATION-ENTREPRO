@@ -393,8 +393,7 @@ window.checkMonthlyAmort = ok => {
 
 let step1, step2, step3, step4, step5;
 
-function endMiniGame3() {
-  miniGame3.classList.add("hidden");
+function startMiniGame3() {
 
   miniGame3.innerHTML = `
     <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
@@ -416,45 +415,35 @@ function endMiniGame3() {
       </div>
     </div>
     
-    <!-- STEP 1 -->
     <div id="step1">
       <p><strong>1️⃣ Calcul de la marge</strong></p>
-      <p class="hint">💡 CA − Achats de marchandises</p>
+      <p class="hint">💡 CA − Achats</p>
       <p>CA : 10 000 PO / Achats : 0 PO</p>
       <button data-ok="true">10 000 PO</button>
       <button data-ok="false">5 000 PO</button>
     </div>
 
-    <!-- STEP 2 -->
     <div id="step2" class="hidden">
       <p><strong>2️⃣ Calcul de l’EBE</strong></p>
-      <p class="hint">💡 Marge − Charges − Impôts − Salaires</p>
-      <p>Charges : 4 250 PO / Impôts : 500 PO / Salaires : 0 PO</p>
+      <p>Charges : 4 250 PO / Impôts : 500 PO</p>
       <button data-ok="true">5 250 PO</button>
       <button data-ok="false">9 500 PO</button>
     </div>
 
-    <!-- STEP 3 -->
     <div id="step3" class="hidden">
-      <p><strong>3️⃣ Dotation aux amortissements</strong></p>
-      <p class="hint">💡 (500 − 150) ÷ 3</p>
+      <p><strong>3️⃣ Amortissements</strong></p>
       <button data-ok="true">≈ 117 PO</button>
       <button data-ok="false">350 PO</button>
     </div>
 
-    <!-- STEP 4 -->
     <div id="step4" class="hidden">
-      <p><strong>4️⃣ Résultat de l’exploitation</strong></p>
-      <p class="hint">💡 EBE − Amortissements</p>
+      <p><strong>4️⃣ Résultat exploitation</strong></p>
       <button data-ok="true">≈ 5 133 PO</button>
       <button data-ok="false">5 250 PO</button>
     </div>
 
-    <!-- STEP 5 -->
     <div id="step5" class="hidden">
       <p><strong>5️⃣ Capacité d’autofinancement</strong></p>
-      <p class="hint">💡 Résultat − Charges financières − IR</p>
-      <p>Prêt : 5 000 PO sur 5 ans → 1 000 PO/an<br>IR : 0 PO</p>
       <button data-ok="true">≈ 4 133 PO</button>
       <button data-ok="false">5 133 PO</button>
     </div>
@@ -483,81 +472,43 @@ function endMiniGame3() {
     }
   };
 
-  /* 💡 INDICE + ZOOM */
+  /* 💡 Indice */
   const hintBtn = miniGame3.querySelector(".hintBtn");
   const hintBox = miniGame3.querySelector(".hintImage");
   const hintImg = miniGame3.querySelector(".zoomable");
 
-  /* Ouvrir l’indice */
-  hintBtn.onclick = () => {
-    hintBox.classList.remove("hidden");
-  };
+  hintBtn.onclick = () => hintBox.classList.remove("hidden");
+  hintBox.onclick = () => hintBox.classList.add("hidden");
 
-  /* Zoom image */
   hintImg.onclick = (e) => {
     e.stopPropagation();
-
     const overlay = document.createElement("div");
     overlay.className = "imageZoomOverlay";
 
-    const frame = document.createElement("div");
-    frame.className = "imageFrame";
+    const img = document.createElement("img");
+    img.src = hintImg.src;
 
-    const zoomedImg = document.createElement("img");
-    zoomedImg.src = hintImg.src;
-
-    frame.appendChild(zoomedImg);
-    overlay.appendChild(frame);
+    overlay.appendChild(img);
     document.body.appendChild(overlay);
-
     overlay.onclick = () => overlay.remove();
   };
 
-  /* Clic ailleurs → fermer l’indice */
-  hintBox.onclick = () => {
-    hintBox.classList.add("hidden");
-  };
-
-  /* Enchaînement des steps */
   bindStep(step1, () => goToNext(step1, step2));
   bindStep(step2, () => goToNext(step2, step3));
   bindStep(step3, () => goToNext(step3, step4));
   bindStep(step4, () => goToNext(step4, step5));
-  bindStep(step5, endMiniGame3);
+  bindStep(step5, finishMiniGame3);
 }
 
 /* =====================================================
-   🔗 OUTILS MINI-JEU
+   🔚 FIN MINI-JEU 3
 ===================================================== */
 
-function goToNext(current, next) {
-  current.classList.add("hidden");
-  next.classList.remove("hidden");
-}
-
-function bindStep(step, cb) {
-  step.querySelectorAll("button[data-ok]").forEach(btn => {
-    btn.onclick = () => {
-if (btn.dataset.ok === "true") {
-  btn.classList.add("correctAnswer");
-  btn.disabled = true;
-  setTimeout(cb, 400);
-}
-      else if (typeof screenShake === "function") screenShake();
-    };
-  });
-}
-
-/* =====================================================
-   🔚 FIN MINI-JEU 3 → VICTOIRE
-===================================================== */
-
-function endMiniGame3() {
-  const miniGame3 = document.getElementById("miniGame3");
+function finishMiniGame3() {
   miniGame3.classList.add("hidden");
 
   setTimeout(() => {
-showCommerceWin();
+    showCommerceWin();
   }, 500);
 }
 
