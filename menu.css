@@ -79,6 +79,18 @@ body.overlay-open {
   transition: transform .25s ease, filter .25s ease, opacity .25s ease;
 }
 
+#pirate1 { left: 170px; top: 400px; width: 160px; }
+#pirate2 { left: 850px; top: 650px; width: 180px; }
+#pirate3 { left: 740px; top: 360px; width: 135px; }
+#pirate4 { left: 1140px; top: 30px; width: 160px; }
+#pirate5 { left: 240px; top: 150px; width: 160px; }
+
+@media (max-width: 768px) {
+  #pirate1, #pirate2, #pirate3, #pirate4, #pirate5 {
+    transform: scale(0.8);
+  }
+    }
+
 .pirate.locked {
   filter: grayscale(100%) brightness(0.6);
   opacity: 0.6;
@@ -98,22 +110,6 @@ body.overlay-open {
 
 .pirate.unlocked:hover {
   transform: scale(1.08);
-}
-
-/* ================================================= */
-/* 📍 POSITIONS PIRATES */
-/* ================================================= */
-
-#pirate1 { left: 170px; top: 400px; width: 160px; }
-#pirate2 { left: 825px; top: 650px; width: 180px; }
-#pirate3 { left: 740px; top: 310px; width: 135px; }
-#pirate4 { left: 1140px; top: 30px; width: 160px; }
-#pirate5 { left: 240px; top: 150px; width: 160px; }
-
-@media (max-width: 768px) {
-  #pirate1, #pirate2, #pirate3, #pirate4, #pirate5 {
-    transform: scale(0.8);
-  }
 }
 
 /* ================================================= */
@@ -507,41 +503,36 @@ body.overlay-open {
 /* =====================================
    🎬 APPARITION LOADER COFFRE
 ===================================== */
-
 #finalChest {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 6000;
-  transition: transform 0.8s cubic-bezier(.4,2,.6,1);
-  opacity: 0;
+  z-index: 7000;
+  transition: transform 1s cubic-bezier(.4,2,.6,1);
 }
 
 #finalChest.show {
   transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
-
-/* Style bouton type météo */
-.chest {
-  width: 90px;
-  padding: 10px;
-  background: rgba(0,0,0,.75);
-  border-radius: 10px;
-  border: 2px solid gold;
-  box-shadow: 0 0 12px rgba(255,215,0,.5);
-  cursor: pointer;
-}
-
-.chest:hover {
-  scale: 1.05;
 }
 
 #finalChest.hidden {
+  display: none;
+}
+
+#treasureButton {
+  position: fixed;
+  background: rgba(0,0,0,.75);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 22px;
+  cursor: pointer;
+  color: white;
+  z-index: 6000;
+}
+
+#treasureButton.hidden {
   display: none;
 }
 
