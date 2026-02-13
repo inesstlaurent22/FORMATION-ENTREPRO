@@ -8,19 +8,19 @@ html, body {
   margin: 0;
   font-family: Arial, sans-serif;
   overflow: hidden;
+  position: relative;
 }
 
+/* ================================================= */
 /* 🌌 BACKGROUND */
+/* ================================================= */
 
 #background {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: url("images/Fondmenu.PNG") no-repeat center center;
   background-size: cover;
-  z-index: -1; /* ⚠️ IMPORTANT */
+  z-index: 0; /* ✅ derrière tout */
 }
 
 /* ================================================= */
@@ -75,7 +75,7 @@ html, body {
 .pirate {
   position: absolute;
   cursor: pointer;
-  z-index: 10; /* ⚠️ au-dessus du fond */
+  z-index: 100; /* ✅ au-dessus du background */
   object-fit: contain;
   transition: transform .25s ease, filter .25s ease, opacity .25s ease;
 }
@@ -103,7 +103,7 @@ body.night-mode .pirate.unlocked {
 }
 
 /* ================================================= */
-/* 📍 POSITIONS PIRATES (REMIS EXACTEMENT COMME AVANT) */
+/* 📍 POSITIONS PIRATES */
 /* ================================================= */
 
 #pirate1 { left: 170px; top: 400px; width: 160px; }
@@ -198,21 +198,6 @@ body.night-mode .pirate.unlocked {
   width: 90%;
 }
 
-/* Titre */
-.passwordBox h2 {
-  margin-bottom: 15px;
-  color: gold;
-  font-size: 22px;
-}
-
-/* Texte */
-.passwordBox p {
-  margin-bottom: 15px;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-/* Input */
 .passwordBox input {
   padding: 10px;
   width: 220px;
@@ -221,63 +206,11 @@ body.night-mode .pirate.unlocked {
   background: #1a1208;
   border: 1px solid gold;
   color: #fff;
-  outline: none;
   border-radius: 8px;
 }
 
-/* Bouton principal */
-.passwordBox #passwordBtn {
-  margin-top: 15px;
-  padding: 10px 25px;
-  background: linear-gradient(145deg, #6b4b24, #3a2a18);
-  border: 1px solid gold;
-  color: #fff2cc;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: 0.3s ease;
-}
-
-.passwordBox #passwordBtn:hover {
-  box-shadow: 0 0 10px gold;
-}
-
-/* Erreur */
-#passwordError {
-  display: none;
-  color: #ff4d4d;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
 /* ================================================= */
-/* 🏴‍☠️ BOUTONS SECONDAIRES */
-/* ================================================= */
-
-.pirate-actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.pirate-btn {
-  flex: 1;
-  padding: 8px 10px;
-  font-size: 13px;
-  border: 1px solid gold;
-  background: rgba(40,20,10,0.8);
-  color: #fff2cc;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: 0.3s ease;
-}
-
-.pirate-btn:hover {
-  box-shadow: 0 0 8px gold;
-}
-
-/* ================================================= */
-/* 📜 MODAL LÉGALE */
+/* 📜 MODAL */
 /* ================================================= */
 
 .legal-modal {
@@ -290,73 +223,38 @@ body.night-mode .pirate.unlocked {
   z-index: 10000;
 }
 
-.legal-content {
-  background: #140a00;
-  border: 2px solid gold;
-  padding: 25px;
-  width: 90%;
-  max-width: 600px;
-  color: #fff2cc;
-  border-radius: 12px;
-  position: relative;
-}
-
-.legal-scroll {
-  max-height: 350px;
-  overflow-y: auto;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.close-legal {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  cursor: pointer;
-  font-size: 18px;
-  color: gold;
-}
-
 /* ================================================= */
-/* ✨ ANIMATION */
+/* 🎬 COFFRE CINÉMATIQUE */
 /* ================================================= */
 
-@keyframes fadeInOverlay {
-  from { opacity: 0; transform: scale(0.9); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* ================================================= */
-/* 🏆 LOADER FIN DE QUÊTE */
-/* ================================================= */
-
-#questLoader {
+#cinematicChest {
   position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center, #140a00 0%, #000 70%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9998;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: transform 1.2s cubic-bezier(.4,2,.6,1), opacity 1s ease;
+  z-index: 9500;
 }
 
-#questLoader.show {
+#cinematicChest.show {
+  transform: translate(-50%, -50%) scale(1);
   opacity: 1;
 }
 
-#questLoaderText {
-  color: gold;
-  font-size: 22px;
-  text-align: center;
-  max-width: 500px;
-  animation: pulseText 1.5s infinite alternate;
+#cinematicChest.hidden {
+  display: none;
 }
 
-@keyframes pulseText {
-  from { transform: scale(1); opacity: 0.8; }
-  to   { transform: scale(1.05); opacity: 1; }
+.chest-container {
+  position: relative;
+  width: 420px;
+  cursor: pointer;
+}
+
+#chestBase {
+  width: 100%;
+  display: block;
 }
 
 /* ================================================= */
@@ -377,4 +275,41 @@ body.night-mode .pirate.unlocked {
 
 #treasureBtn.hidden {
   display: none;
+}
+
+/* ================================================= */
+/* 🎁 DROPDOWN CANVA */
+/* ================================================= */
+
+#treasureDropdown {
+  position: fixed;
+  display: none;
+  margin-top: 8px;
+  background: rgba(120,120,120,0.35);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 6000;
+}
+
+#treasureDropdown img {
+  display: block;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  padding: 8px;
+  cursor: pointer;
+}
+
+#treasureDropdown img:hover {
+  background: rgba(255,255,255,.2);
+}
+
+/* ================================================= */
+/* ✨ ANIMATION */
+/* ================================================= */
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
 }
