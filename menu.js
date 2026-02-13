@@ -507,4 +507,25 @@ if (sessionStorage.getItem("questCompleted") === "true") {
   });
 }
 
+  const treasureBtn = document.getElementById("treasureBtn");
+const treasureImages = document.getElementById("treasureImages");
+
+if (treasureBtn && treasureImages) {
+
+  treasureBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    const rect = treasureBtn.getBoundingClientRect();
+
+    treasureImages.style.left = rect.left + "px";
+    treasureImages.style.top = (rect.bottom + 8) + "px";
+
+    treasureImages.classList.toggle("hidden");
+  });
+
+  document.addEventListener("click", () => {
+    treasureImages.classList.add("hidden");
+  });
+}
+
 });
