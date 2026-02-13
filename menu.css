@@ -6,31 +6,32 @@ html, body {
   width: 100%;
   height: 100%;
   margin: 0;
-  background: #000;
-  overflow: hidden;
   font-family: Arial, sans-serif;
+  overflow: hidden;
 }
+
+/* 🌌 BACKGROUND */
 
 #background {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: url("images/Fondmenu.PNG") no-repeat center center;
   background-size: cover;
-  z-index: 0;
+  z-index: -1; /* ⚠️ IMPORTANT */
 }
 
 /* ================================================= */
-/* 🌤 SELECTEUR JOUR / NUIT */
+/* 🌤 MÉTÉO */
 /* ================================================= */
 
 #timeSelector{
   position: fixed;
   top: 15px;
   right: 15px;
-  z-index: 9000;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  z-index: 2000;
 }
 
 #timeToggle{
@@ -41,11 +42,6 @@ html, body {
   font-size: 22px;
   cursor: pointer;
   color: white;
-  transition: transform .2s ease;
-}
-
-#timeToggle:hover{
-  transform: scale(1.08);
 }
 
 #timeDropdown{
@@ -55,7 +51,6 @@ html, body {
   backdrop-filter: blur(8px);
   border-radius: 12px;
   overflow: hidden;
-  min-width: 70px;
 }
 
 #timeDropdown button{
@@ -74,100 +69,46 @@ html, body {
 }
 
 /* ================================================= */
-/* 🎁 BOUTON FINAL */
-/* ================================================= */
-
-#treasureBtn{
-  position: fixed;
-  background: rgba(0,0,0,.75);
-  border: 2px solid gold;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 22px;
-  cursor: pointer;
-  color: white;
-  z-index: 8000;
-  transition: transform .3s ease;
-}
-
-#treasureBtn:hover{
-  transform: scale(1.1);
-}
-
-#treasureBtn.hidden{
-  display: none;
-}
-
-/* ================================================= */
-/* 🎁 DROPDOWN CANVA */
-/* ================================================= */
-
-#treasureDropdown{
-  position: fixed;
-  display: none;
-  margin-top: 8px;
-  background: rgba(120,120,120,0.35);
-  backdrop-filter: blur(8px);
-  border-radius: 12px;
-  overflow: hidden;
-  z-index: 8000;
-}
-
-#treasureDropdown img{
-  display: block;
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  padding: 8px;
-  cursor: pointer;
-  transition: background .2s ease;
-}
-
-#treasureDropdown img:hover{
-  background: rgba(255,255,255,.2);
-}
-
-/* ================================================= */
 /* 🏴‍☠️ PIRATES */
 /* ================================================= */
 
-.pirate{
+.pirate {
   position: absolute;
   cursor: pointer;
-  z-index: 5;
+  z-index: 10; /* ⚠️ au-dessus du fond */
   object-fit: contain;
   transition: transform .25s ease, filter .25s ease, opacity .25s ease;
 }
 
-.pirate.locked{
+.pirate.locked {
   filter: grayscale(100%) brightness(0.6);
   opacity: 0.6;
   pointer-events: none;
 }
 
-.pirate.unlocked{
+.pirate.unlocked {
   opacity: 1;
   pointer-events: auto;
 }
 
-.pirate.unlocked:hover{
+.pirate.unlocked:hover {
   transform: scale(1.08);
 }
 
 /* 🌙 Contour lumineux nuit */
-body.night-mode .pirate.unlocked{
+body.night-mode .pirate.unlocked {
   filter:
     drop-shadow(0 0 6px rgba(255,255,200,0.6))
     drop-shadow(0 0 12px rgba(255,215,0,0.4));
 }
 
 /* ================================================= */
-/* 📍 POSITIONS PIRATES */
+/* 📍 POSITIONS PIRATES (REMIS EXACTEMENT COMME AVANT) */
 /* ================================================= */
 
 #pirate1 { left: 170px; top: 400px; width: 160px; }
-#pirate2 { left: 850px; top: 650px; width: 180px; }
-#pirate3 { left: 740px; top: 360px; width: 135px; }
+#pirate2 { left: 825px; top: 650px; width: 180px; }
+#pirate3 { left: 740px; top: 310px; width: 135px; }
 #pirate4 { left: 1140px; top: 30px; width: 160px; }
 #pirate5 { left: 240px; top: 150px; width: 160px; }
 
@@ -175,7 +116,7 @@ body.night-mode .pirate.unlocked{
 /* 🔔 NOTIFICATION */
 /* ================================================= */
 
-#notification{
+#notification {
   position: fixed;
   top: -140px;
   left: 50%;
@@ -187,11 +128,11 @@ body.night-mode .pirate.unlocked{
   font-size: 17px;
   font-weight: bold;
   box-shadow: 0 6px 18px rgba(0,0,0,.35);
-  z-index: 7000;
+  z-index: 4000;
   transition: top 1s ease;
 }
 
-#notification.show{
+#notification.show {
   top: 10%;
 }
 
@@ -199,7 +140,7 @@ body.night-mode .pirate.unlocked{
 /* 💬 BULLE */
 /* ================================================= */
 
-#bubble{
+#bubble {
   position: fixed;
   display: none;
   max-width: 360px;
@@ -210,24 +151,14 @@ body.night-mode .pirate.unlocked{
   color: #2b1a0b;
   font-family: Georgia, serif;
   font-weight: bold;
-  z-index: 6000;
-}
-
-#bubble button{
-  margin-top: 14px;
-  width: 100%;
-  padding: 10px;
-  border: 3px solid #4a2c12;
-  border-radius: 14px;
-  background: #dfc79b;
-  cursor: pointer;
+  z-index: 3000;
 }
 
 /* ================================================= */
 /* 🔄 RESET */
 /* ================================================= */
 
-#resetButton{
+#resetButton {
   position: fixed;
   top: 15px;
   left: 15px;
@@ -235,70 +166,27 @@ body.night-mode .pirate.unlocked{
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  z-index: 9000;
+  z-index: 2000;
   background: rgba(0,0,0,.75);
   color: white;
 }
 
 /* ================================================= */
-/* 🎬 COFFRE CINÉMATIQUE */
+/* 🎁 BOUTON FINAL */
 /* ================================================= */
 
-#cinematicChest{
+#treasureBtn {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.2);
-  opacity: 0;
-  transition: transform 1.2s cubic-bezier(.4,2,.6,1), opacity 1s ease;
-  z-index: 9500;
-}
-
-#cinematicChest.show{
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
-
-#cinematicChest.hidden{
-  display: none;
-}
-
-.chest-container{
-  position: relative;
-  width: 420px;
-  perspective: 1200px;
+  background: rgba(0,0,0,.75);
+  border: 2px solid gold;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 22px;
   cursor: pointer;
+  color: white;
+  z-index: 5000;
 }
 
-#chestBase{
-  width: 100%;
-  display: block;
-}
-
-#chestLid{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  transform-origin: top center;
-  transition: transform 1s cubic-bezier(.4,2,.6,1);
-  backface-visibility: hidden;
-}
-
-.opening #chestLid{
-  transform: rotateX(-120deg);
-}
-
-/* ================================================= */
-/* 📱 RESPONSIVE */
-/* ================================================= */
-
-@media (max-width: 500px){
-  .chest-container{
-    width: 280px;
-  }
-
-  #treasureBtn{
-    font-size: 20px;
-  }
+#treasureBtn.hidden {
+  display: none;
 }
