@@ -172,6 +172,161 @@ body.night-mode .pirate.unlocked {
 }
 
 /* ================================================= */
+/* 🔐 OVERLAY MOT DE PASSE */
+/* ================================================= */
+
+#passwordOverlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #140a00 0%, #000 70%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.passwordBox {
+  background: rgba(20, 10, 0, 0.92);
+  border: 2px solid gold;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+  padding: 35px 45px;
+  text-align: center;
+  color: #fff2cc;
+  border-radius: 18px;
+  animation: fadeInOverlay 0.6s ease;
+  max-width: 400px;
+  width: 90%;
+}
+
+/* Titre */
+.passwordBox h2 {
+  margin-bottom: 15px;
+  color: gold;
+  font-size: 22px;
+}
+
+/* Texte */
+.passwordBox p {
+  margin-bottom: 15px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Input */
+.passwordBox input {
+  padding: 10px;
+  width: 220px;
+  font-size: 16px;
+  text-align: center;
+  background: #1a1208;
+  border: 1px solid gold;
+  color: #fff;
+  outline: none;
+  border-radius: 8px;
+}
+
+/* Bouton principal */
+.passwordBox #passwordBtn {
+  margin-top: 15px;
+  padding: 10px 25px;
+  background: linear-gradient(145deg, #6b4b24, #3a2a18);
+  border: 1px solid gold;
+  color: #fff2cc;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.passwordBox #passwordBtn:hover {
+  box-shadow: 0 0 10px gold;
+}
+
+/* Erreur */
+#passwordError {
+  display: none;
+  color: #ff4d4d;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* ================================================= */
+/* 🏴‍☠️ BOUTONS SECONDAIRES */
+/* ================================================= */
+
+.pirate-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pirate-btn {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 13px;
+  border: 1px solid gold;
+  background: rgba(40,20,10,0.8);
+  color: #fff2cc;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.pirate-btn:hover {
+  box-shadow: 0 0 8px gold;
+}
+
+/* ================================================= */
+/* 📜 MODAL LÉGALE */
+/* ================================================= */
+
+.legal-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.legal-content {
+  background: #140a00;
+  border: 2px solid gold;
+  padding: 25px;
+  width: 90%;
+  max-width: 600px;
+  color: #fff2cc;
+  border-radius: 12px;
+  position: relative;
+}
+
+.legal-scroll {
+  max-height: 350px;
+  overflow-y: auto;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.close-legal {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  color: gold;
+}
+
+/* ================================================= */
+/* ✨ ANIMATION */
+/* ================================================= */
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ================================================= */
 /* 🎁 BOUTON FINAL */
 /* ================================================= */
 
