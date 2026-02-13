@@ -352,6 +352,64 @@ overlay.querySelector("#payBtn").onclick = () => {
     setTimeout(() => notification.classList.remove("show"), 3000);
   }
 
+  
+/* ======================================
+   🎬 CINÉMATIQUE COFFRE
+====================================== */
+
+if (sessionStorage.getItem("questCompleted") === "true") {
+
+  sessionStorage.removeItem("questCompleted");
+
+  const cinematic = document.getElementById("cinematicChest");
+  const chestContainer = document.getElementById("chestContainer");
+  const treasureBtn = document.getElementById("treasureBtn");
+  const timeToggle = document.getElementById("timeToggle");
+
+  if (!cinematic || !chestContainer) return;
+
+  /* 1️⃣ Apparition */
+  cinematic.classList.remove("hidden");
+
+  setTimeout(() => {
+    cinematic.classList.add("show");
+  }, 50);
+
+  /* 2️⃣ Ouverture au clic */
+  chestContainer.addEventListener("click", () => {
+
+    chestContainer.classList.add("opening");
+
+    /* 3️⃣ Transformation après ouverture */
+    setTimeout(() => {
+
+      cinematic.classList.remove("show");
+
+      setTimeout(() => {
+        cinematic.classList.add("hidden");
+
+        if (timeToggle && treasureBtn) {
+
+          const rect = timeToggle.getBoundingClientRect();
+
+          treasureBtn.style.top = (rect.bottom + 10) + "px";
+          treasureBtn.style.left = rect.left + "px";
+
+          treasureBtn.classList.remove("hidden");
+
+          treasureBtn.onclick = () => {
+            window.location.href = "tresor.html";
+          };
+        }
+
+      }, 600);
+
+    }, 1200);
+
+  });
+}
+
+
 /* ======================================
    🎯 DÉTECTION RETOUR DEPUIS LEGAL
 ====================================== */
