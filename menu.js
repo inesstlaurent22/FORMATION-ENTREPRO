@@ -209,7 +209,20 @@ if (sessionStorage.getItem("unlock_pirate4") === "true") {
 }
 
 /* ==========================================================
-   🔐 MOT DE PASSE
+   🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
+========================================================== */
+
+const fromCommerce = sessionStorage.getItem("fromCommerce") === "true";
+const passwordCleared = sessionStorage.getItem("passwordCleared") === "true";
+
+if (fromCommerce && !passwordCleared) {
+  sessionStorage.removeItem("fromCommerce");
+  showNotification("🔐 Accès verrouillé");
+  setTimeout(showPasswordOverlay, 600);
+}
+
+/* ==========================================================
+   🔐 OVERLAY MOT DE PASSE
 ========================================================== */
 
 function showPasswordOverlay() {
@@ -224,13 +237,47 @@ function showPasswordOverlay() {
       <h2>🔐 Accès verrouillé</h2>
       <p>Entre le mot de passe pour continuer</p>
 
-      <input id="passwordInput" type="password"/>
+      <input id="passwordInput" type="password" />
       <button id="passwordBtn">Valider</button>
       <div id="passwordError">Mot de passe incorrect</div>
 
       <div class="pirate-actions">
-        <button id="legalBtn" class="pirate-btn left">📜 Mentions légales</button>
-        <button id="payBtn" class="pirate-btn right">💰 Version complète</button>
+        <button id="legalBtn" class="pirate-btn">
+          📜 Mentions légales
+        </button>
+        <button id="payBtn" class="pirate-btn">
+          💰 Version complète
+        </button>
+      </div>
+    </div>
+
+    <div id="legalModal" class="legal-modal">
+      <div class="legal-content">
+        <span id="closeLegal" class="close-legal">✖</span>
+        <h2>Mentions légales & CGV</h2>
+
+        <div class="legal-scroll">
+          <h3>Mentions légales</h3>
+          <p>
+            Éditeur : Ton Nom<br>
+            Statut : Micro-entrepreneur<br>
+            SIRET : XXXXXXXX<br>
+            Email : contact@email.com
+          </p>
+
+          <p><strong>Propriété intellectuelle :</strong>
+          Tous les contenus sont protégés.</p>
+
+          <p><strong>Responsabilité :</strong>
+          Les contenus sont éducatifs.</p>
+
+          <h3>Conditions Générales de Vente</h3>
+          <p>Accès personnel et non transférable.</p>
+          <p>Paiement sécurisé via PayPal.</p>
+
+          <h3>Politique de remboursement</h3>
+          <p>Aucun remboursement possible.</p>
+        </div>
       </div>
     </div>
   `;
@@ -241,19 +288,37 @@ function showPasswordOverlay() {
   const btn = overlay.querySelector("#passwordBtn");
   const error = overlay.querySelector("#passwordError");
 
-  btn.onclick = () => {
+  setTimeout(() => input.focus(), 200);
+
+  btn.addEventListener("click", validate);
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") validate();
+  });
+
+  function validate() {
     if (input.value.trim().toLowerCase() === "mashain") {
+      sessionStorage.setItem("passwordCleared", "true");
       overlay.remove();
     } else {
       error.style.display = "block";
+      input.value = "";
+      input.focus();
     }
+  }
+
+  overlay.querySelector("#legalBtn").onclick = () => {
+    overlay.querySelector("#legalModal").style.display = "flex";
+  };
+
+  overlay.querySelector("#closeLegal").onclick = () => {
+    overlay.querySelector("#legalModal").style.display = "none";
   };
 
   overlay.querySelector("#payBtn").onclick = () => {
     window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
   };
 }
-
+   
 /* ==========================================================
    🎬 COFFRE FINAL
 ========================================================== */
