@@ -37,13 +37,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function setBackground(mode, save = true){
     if (!background) return;
 
-    background.style.backgroundImage =
-      `url("${mode === "night" ? NIGHT_BG : DAY_BG}")`;
+function setBackground(mode, save = true){
+  if (!background) return;
 
-    if(save){
-      localStorage.setItem("menu_background", mode);
-    }
+  background.style.backgroundImage =
+    `url("${mode === "night" ? NIGHT_BG : DAY_BG}")`;
+
+  document.body.classList.toggle("night-mode", mode === "night");
+
+  if(save){
+    localStorage.setItem("menu_background", mode);
   }
+}
 
   const savedMode = localStorage.getItem("menu_background");
   savedMode ? setBackground(savedMode, false) : applyAutoBackground();
