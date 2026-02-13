@@ -335,53 +335,40 @@ overlay.querySelector("#payBtn").onclick = () => {
     setTimeout(() => notification.classList.remove("show"), 3000);
   }
 
- /* ======================================
+/* ======================================
    🎯 DÉTECTION RETOUR DEPUIS LEGAL
 ====================================== */
 
 if (sessionStorage.getItem("questCompleted") === "true") {
 
-  const loader = document.getElementById("questLoader");
-  const chest = document.getElementById("questChest");
-  const questText = document.getElementById("questText");
-  const weatherBtn = document.getElementById("timeToggle"); // ⚠️ corrigé
+  const chestWrapper = document.getElementById("finalChest");
+  const weatherBtn = document.getElementById("timeToggle");
+  const openBtn = document.getElementById("openChestBtn");
+  const chest = document.getElementById("chest");
 
-  if (!loader || !chest) return;
-
-  // Affiche le loader
-  loader.classList.remove("hidden");
+  if (!chestWrapper || !weatherBtn) return;
 
   // On évite que ça se rejoue au refresh
   sessionStorage.removeItem("questCompleted");
 
-  // Après 3 secondes → déplacement vers bouton météo
-  setTimeout(() => {
+  // Positionnement sous le bouton météo
+  const rect = weatherBtn.getBoundingClientRect();
 
-    if (weatherBtn) {
+  chestWrapper.style.top = (rect.bottom + 15) + "px";
+  chestWrapper.style.left = rect.left + "px";
 
-      const rect = weatherBtn.getBoundingClientRect();
+  chestWrapper.classList.remove("hidden");
 
-      chest.classList.add("move-to-weather");
+  // Ouverture coffre
+  if (openBtn && chest) {
+    openBtn.onclick = () => {
+      chest.classList.toggle("open");
 
-      chest.style.top = rect.top + "px";
-      chest.style.left = (rect.right + 10) + "px";
-      chest.style.width = weatherBtn.offsetWidth + "px";
-    }
-
-    if (questText) {
-      questText.style.opacity = "0";
-    }
-
-    // On enlève le fond noir progressivement
-    setTimeout(() => {
-      loader.style.background = "transparent";
-    }, 1000);
-
-  }, 3000);
-
-  // Redirection vers trésor
-  chest.addEventListener("click", () => {
-    window.location.href = "tresor.html";
-  });
+      // Redirection après ouverture
+      setTimeout(() => {
+        window.location.href = "tresor.html";
+      }, 2000);
+    };
+  }
 }
 });
