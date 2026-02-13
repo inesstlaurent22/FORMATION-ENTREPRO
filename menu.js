@@ -384,3 +384,4 @@ if (sessionStorage.getItem("questCompleted") === "true") {
     window.location.href = "tresor.html";
   });
 }
+});
