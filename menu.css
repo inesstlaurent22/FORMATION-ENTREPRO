@@ -178,39 +178,81 @@ body.night-mode .pirate.unlocked {
 #passwordOverlay {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at center, #140a00 0%, #000 70%);
-  z-index: 9999;
+  background: radial-gradient(circle at center, #140a00 0%, #000 75%);
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
 }
 
+/* ================================================= */
+/* 📦 BOÎTE PRINCIPALE */
+/* ================================================= */
+
 .passwordBox {
-  background: rgba(20, 10, 0, 0.92);
+  background: rgba(20, 10, 0, 0.95);
   border: 2px solid gold;
-  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.45);
   padding: 35px 45px;
   text-align: center;
   color: #fff2cc;
   border-radius: 18px;
+  max-width: 420px;
+  width: 100%;
+  box-sizing: border-box;
   animation: fadeInOverlay 0.6s ease;
-  max-width: 400px;
-  width: 90%;
 }
 
+/* ================================================= */
+/* 📝 TITRE */
+/* ================================================= */
+
+.passwordBox h2 {
+  color: gold;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+/* ================================================= */
+/* ⌨ INPUT */
+/* ================================================= */
+
 .passwordBox input {
-  padding: 10px;
-  width: 220px;
+  padding: 12px;
+  width: 100%;
+  max-width: 250px;
   font-size: 16px;
   text-align: center;
   background: #1a1208;
   border: 1px solid gold;
   color: #fff;
   border-radius: 8px;
+  outline: none;
+  margin-top: 10px;
+  transition: box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.passwordBox input:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 8px gold;
 }
 
 /* ================================================= */
-/* 📜 MODAL */
+/* ❌ ERREUR */
+/* ================================================= */
+
+#passwordError {
+  display: none;
+  color: #ff4d4d;
+  margin-top: 12px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* ================================================= */
+/* 📜 MODAL LÉGALE */
 /* ================================================= */
 
 .legal-modal {
@@ -220,7 +262,7 @@ body.night-mode .pirate.unlocked {
   background: rgba(0,0,0,0.85);
   align-items: center;
   justify-content: center;
-  z-index: 10000;
+  z-index: 100000;
 }
 
 /* ================================================= */
@@ -233,7 +275,9 @@ body.night-mode .pirate.unlocked {
   left: 50%;
   transform: translate(-50%, -50%) scale(0.2);
   opacity: 0;
-  transition: transform 1.2s cubic-bezier(.4,2,.6,1), opacity 1s ease;
+  transition:
+    transform 1.2s cubic-bezier(.4,2,.6,1),
+    opacity 1s ease;
   z-index: 9500;
 }
 
@@ -246,23 +290,36 @@ body.night-mode .pirate.unlocked {
   display: none;
 }
 
+/* Coffre */
 .chest-container {
   position: relative;
   width: 420px;
+  max-width: 80vw;
   cursor: pointer;
+  user-select: none;
 }
 
 #chestBase {
   width: 100%;
   display: block;
+  transition: transform .4s ease;
+}
+
+.chest-container:hover #chestBase {
+  transform: scale(1.03);
 }
 
 /* ================================================= */
-/* 🎁 BOUTON FINAL */
+/* 🎁 SELECTEUR CADEAUX */
 /* ================================================= */
 
-#treasureBtn {
+#treasureSelector {
   position: fixed;
+  z-index: 3000;
+}
+
+/* Bouton 🎁 (identique météo) */
+#treasureBtn {
   background: rgba(0,0,0,.75);
   border: 2px solid gold;
   border-radius: 12px;
@@ -270,7 +327,12 @@ body.night-mode .pirate.unlocked {
   font-size: 22px;
   cursor: pointer;
   color: white;
-  z-index: 5000;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+#treasureBtn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 8px gold;
 }
 
 #treasureBtn.hidden {
@@ -278,38 +340,51 @@ body.night-mode .pirate.unlocked {
 }
 
 /* ================================================= */
-/* 🎁 DROPDOWN CANVA */
+/* 📂 DROPDOWN CANVA */
 /* ================================================= */
 
 #treasureDropdown {
-  position: fixed;
   display: none;
   margin-top: 8px;
   background: rgba(120,120,120,0.35);
   backdrop-filter: blur(8px);
   border-radius: 12px;
   overflow: hidden;
-  z-index: 6000;
 }
 
-#treasureDropdown img {
-  display: block;
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
-  padding: 8px;
+#treasureDropdown button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
   cursor: pointer;
 }
 
-#treasureDropdown img:hover {
+#treasureDropdown button:hover {
   background: rgba(255,255,255,.2);
 }
 
+/* Images Canva */
+#treasureDropdown img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
 /* ================================================= */
-/* ✨ ANIMATION */
+/* ✨ ANIMATION UNIQUE */
 /* ================================================= */
 
 @keyframes fadeInOverlay {
-  from { opacity: 0; transform: scale(0.9); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
