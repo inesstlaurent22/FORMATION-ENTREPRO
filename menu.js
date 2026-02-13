@@ -318,112 +318,118 @@ function showPasswordOverlay() {
    🎬 COFFRE FINAL — UNIQUEMENT RETOUR LEGAL
 ========================================================== */
 
-const treasureBtn = document.getElementById("treasureBtn");
-const treasureDropdown = document.getElementById("treasureDropdown");
+document.addEventListener("DOMContentLoaded", () => {
 
-if (sessionStorage.getItem("questCompleted") === "true") {
-
-  sessionStorage.removeItem("questCompleted");
-
+  const treasureBtn = document.getElementById("treasureBtn");
+  const treasureDropdown = document.getElementById("treasureDropdown");
   const cinematic = document.getElementById("cinematicChest");
   const chestContainer = document.getElementById("chestContainer");
+  const chestBase = document.getElementById("chestBase");
   const timeToggle = document.getElementById("timeToggle");
 
-  if (!cinematic || !chestContainer) return;
+  /* ==========================================================
+     🎉 DÉCLENCHEMENT UNIQUEMENT SI RETOUR LEGAL
+  ========================================================== */
 
-  /* ===============================
-     1️⃣ LOADER DE VICTOIRE
-  =============================== */
+  if (sessionStorage.getItem("questCompleted") === "true") {
 
-  const loader = document.createElement("div");
-  loader.id = "questLoader";
+    sessionStorage.removeItem("questCompleted");
 
-  loader.innerHTML = `
-    <div id="questLoaderText">
-      🏆 Bravo tu as gagné toute la quête !<br><br>
-      🎁 Récupère vite tes cadeaux !
-    </div>
-  `;
+    if (!cinematic || !chestContainer || !chestBase) return;
 
-  document.body.appendChild(loader);
+    /* ===============================
+       1️⃣ LOADER DE VICTOIRE
+    =============================== */
 
-  setTimeout(() => loader.classList.add("show"), 50);
+    const loader = document.createElement("div");
+    loader.id = "questLoader";
 
-  /* ===============================
-     2️⃣ APPARITION COFFRE
-  =============================== */
+    loader.innerHTML = `
+      <div id="questLoaderText">
+        🏆 Bravo tu as gagné toute la quête !<br><br>
+        🎁 Récupère vite tes cadeaux !
+      </div>
+    `;
 
-  setTimeout(() => {
+    document.body.appendChild(loader);
+    setTimeout(() => loader.classList.add("show"), 50);
 
-    loader.classList.remove("show");
+    /* ===============================
+       2️⃣ APPARITION COFFRE
+    =============================== */
 
     setTimeout(() => {
-      loader.remove();
 
-      cinematic.classList.remove("hidden");
+      loader.classList.remove("show");
 
       setTimeout(() => {
-        cinematic.classList.add("show");
-      }, 50);
+        loader.remove();
 
-      /* ===============================
-         3️⃣ OUVERTURE COFFRE
-      =============================== */
+        cinematic.classList.remove("hidden");
+        setTimeout(() => cinematic.classList.add("show"), 50);
 
-      chestContainer.addEventListener("click", function openChest() {
+      }, 600);
 
-        chestContainer.classList.add("opening");
-        chestContainer.removeEventListener("click", openChest);
+    }, 2500);
+
+    /* ===============================
+       3️⃣ OUVERTURE COFFRE
+    =============================== */
+
+    chestContainer.addEventListener("click", function openChest() {
+
+      chestContainer.removeEventListener("click", openChest);
+
+      /* 🔓 Animation ouverture (changement image) */
+      chestBase.src = "images/Tresorouvert.png";
+      chestBase.style.transform = "scale(1.05)";
+
+      setTimeout(() => {
+
+        cinematic.classList.remove("show");
 
         setTimeout(() => {
 
-          cinematic.classList.remove("show");
+          cinematic.classList.add("hidden");
 
-          setTimeout(() => {
+          if (timeToggle && treasureBtn) {
 
-            cinematic.classList.add("hidden");
+            const rect = timeToggle.getBoundingClientRect();
 
-            if (timeToggle && treasureBtn) {
+            treasureBtn.style.position = "fixed";
+            treasureBtn.style.top = (rect.bottom + 10) + "px";
+            treasureBtn.style.left = rect.left + "px";
 
-              const rect = timeToggle.getBoundingClientRect();
+            treasureBtn.classList.remove("hidden");
+          }
 
-              treasureBtn.style.position = "fixed";
-              treasureBtn.style.top = (rect.bottom + 10) + "px";
-              treasureBtn.style.left = rect.left + "px";
+        }, 600);
 
-              treasureBtn.classList.remove("hidden");
-            }
+      }, 1000);
 
-          }, 600);
+    });
+  }
 
-        }, 1200);
+  /* ==========================================================
+     🎁 DROPDOWN CANVA
+  ========================================================== */
 
-      });
+  if (treasureBtn && treasureDropdown) {
 
-    }, 600);
+    treasureBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
 
-  }, 2500);
-}
+      treasureDropdown.style.display =
+        treasureDropdown.style.display === "block"
+          ? "none"
+          : "block";
+    });
 
+    document.addEventListener("click", () => {
+      treasureDropdown.style.display = "none";
+    });
+  }
 
-/* ==========================================================
-   🎁 DROPDOWN CANVA
-========================================================== */
-
-if (treasureBtn && treasureDropdown) {
-
-  treasureBtn.addEventListener("click", e => {
-    e.stopPropagation();
-
-    treasureDropdown.style.display =
-      treasureDropdown.style.display === "block"
-        ? "none"
-        : "block";
-  });
-
-  document.addEventListener("click", () => {
-    treasureDropdown.style.display = "none";
-  });
-}
+});
 
 });
