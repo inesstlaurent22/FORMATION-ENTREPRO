@@ -343,25 +343,44 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 
   const chestWrapper = document.getElementById("finalChest");
   const chest = document.getElementById("chest");
+  const treasureBtn = document.getElementById("treasureButton");
+  const timeToggle = document.getElementById("timeToggle");
 
   if (!chestWrapper || !chest) return;
 
   sessionStorage.removeItem("questCompleted");
 
-  // Affiche le coffre au centre avec effet zoom
+  // Apparition au centre
   chestWrapper.classList.remove("hidden");
 
   setTimeout(() => {
     chestWrapper.classList.add("show");
   }, 50);
 
-  // Ouverture coffre au clic
+  // Clic ouverture
   chest.addEventListener("click", () => {
 
     chest.classList.add("open");
 
+    // Après animation ouverture
     setTimeout(() => {
-      window.location.href = "tresor.html";
+
+      chestWrapper.classList.add("hidden");
+
+      if (timeToggle && treasureBtn) {
+
+        const rect = timeToggle.getBoundingClientRect();
+
+        treasureBtn.style.top = (rect.bottom + 10) + "px";
+        treasureBtn.style.left = rect.left + "px";
+
+        treasureBtn.classList.remove("hidden");
+
+        treasureBtn.onclick = () => {
+          window.location.href = "tresor.html";
+        };
+      }
+
     }, 2000);
 
   });
