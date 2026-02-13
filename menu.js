@@ -112,11 +112,6 @@ const bubble = document.getElementById("bubble");
 const bubbleText = document.getElementById("bubbleText");
 const bubbleButton = document.getElementById("bubbleButton");
 
-if (bubbleText) {
-  bubbleText.innerHTML =
-    "🏴‍☠️ Bravo, tu as débloqué ton premier pirate !<br><br>" +
-    "Clique dessus pour continuer ta quête.";
-}
 
 if (bubbleButton) {
   bubbleButton.addEventListener("click", () => {
