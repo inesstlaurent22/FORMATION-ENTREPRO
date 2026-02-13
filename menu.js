@@ -375,5 +375,3 @@ overlay.querySelector("#payBtn").onclick = () => {
   }
 
 });
-
-});
