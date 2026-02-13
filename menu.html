@@ -79,17 +79,21 @@
     Réinitialiser la progression
   </button>
 
-  <!-- ===============================
-   🏆 LOADER FIN DE QUÊTE
-================================== -->
-<div id="questLoader" class="quest-loader hidden">
-  <div class="quest-center">
-    <img src="coffre.png" alt="Coffre" id="questChest">
-    <p id="questText">
-      Bravo tu as gagné toute la quête,<br>
-      ouvre vite ton nouveau coffre
-    </p>
+<!-- 🏆 COFFRE FINAL -->
+<div id="finalChest" class="chest-wrapper hidden">
+  <div class="chest" id="chest">
+    <img src="coffre.png" class="chest-base" alt="coffre">
+    <div class="lid"></div>
+    <div class="glow"></div>
+
+    <div class="loot">
+      <div class="gem red"></div>
+      <div class="gem green"></div>
+      <div class="gem blue"></div>
+    </div>
   </div>
+
+  <button id="openChestBtn">Ouvrir</button>
 </div>
 
   <!-- 📜 Script du menu -->
