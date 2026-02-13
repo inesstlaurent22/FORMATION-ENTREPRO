@@ -342,40 +342,28 @@ overlay.querySelector("#payBtn").onclick = () => {
 if (sessionStorage.getItem("questCompleted") === "true") {
 
   const chestWrapper = document.getElementById("finalChest");
-  const timeToggle = document.getElementById("timeToggle");
-  const openBtn = document.getElementById("openChestBtn");
   const chest = document.getElementById("chest");
 
-  if (!chestWrapper || !timeToggle) {
-    console.log("Elements coffre manquants");
-    return;
-  }
-
-  console.log("Affichage coffre final");
+  if (!chestWrapper || !chest) return;
 
   sessionStorage.removeItem("questCompleted");
 
-  // Petit délai pour laisser le DOM se stabiliser
+  // Affiche le coffre au centre avec effet zoom
+  chestWrapper.classList.remove("hidden");
+
   setTimeout(() => {
+    chestWrapper.classList.add("show");
+  }, 50);
 
-    const rect = timeToggle.getBoundingClientRect();
+  // Ouverture coffre au clic
+  chest.addEventListener("click", () => {
 
-    chestWrapper.style.top = (rect.bottom + 15) + "px";
-    chestWrapper.style.left =
-      (rect.left + rect.width / 2 - chestWrapper.offsetWidth / 2) + "px";
+    chest.classList.add("open");
 
-    chestWrapper.classList.remove("hidden");
+    setTimeout(() => {
+      window.location.href = "tresor.html";
+    }, 2000);
 
-  }, 200);
-
-  if (openBtn && chest) {
-    openBtn.onclick = () => {
-      chest.classList.add("open");
-
-      setTimeout(() => {
-        window.location.href = "tresor.html";
-      }, 2000);
-    };
-  }
+  });
 }
 });
