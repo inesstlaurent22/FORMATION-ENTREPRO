@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================================================== */
 
   const background = document.getElementById("background");
-  const timeToggle = document.getElementById("timeToggle");
+  const weatherBtn = document.getElementById("timeToggle");
   const timeDropdown = document.getElementById("timeDropdown");
 
   const DAY_BG = "images/Fondmenu.PNG";
