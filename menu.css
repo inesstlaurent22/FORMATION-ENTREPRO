@@ -1,345 +1,343 @@
-/* ================================================= */
-/* 🎨 BASE / FOND */
-/* ================================================= */
+document.addEventListener("DOMContentLoaded", () => {
 
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  background: #000;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
+/* ==========================================================
+   🔁 RESET
+========================================================== */
+
+const resetButton = document.getElementById("resetButton");
+if (resetButton) {
+  resetButton.addEventListener("click", () => {
+    if (!confirm("Réinitialiser toute la progression ?")) return;
+    localStorage.clear();
+    sessionStorage.clear();
+    location.reload();
+  });
 }
 
-#background {
-  position: fixed;
-  inset: 0;
-  background: url("images/Fondmenu.PNG") no-repeat center center;
-  background-size: cover;
-  z-index: 0;
+/* ==========================================================
+   🌌 MÉTÉO
+========================================================== */
+
+const background = document.getElementById("background");
+const timeToggle = document.getElementById("timeToggle");
+const timeDropdown = document.getElementById("timeDropdown");
+
+const DAY_BG = "images/Fondmenu.PNG";
+const NIGHT_BG = "images/Fondmenusoir.PNG";
+
+function setBackground(mode, save = true){
+  if(!background) return;
+
+  background.style.backgroundImage =
+    `url("${mode === "night" ? NIGHT_BG : DAY_BG}")`;
+
+  document.body.classList.toggle("night-mode", mode === "night");
+
+  if (save) localStorage.setItem("menu_background", mode);
 }
 
-/* ================================================= */
-/* 🌤 SELECTEUR JOUR / NUIT */
-/* ================================================= */
-
-#timeSelector{
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  z-index: 9000;
+const savedMode = localStorage.getItem("menu_background");
+if (savedMode) setBackground(savedMode, false);
+else {
+  const hour = new Date().getHours();
+  setBackground(hour >= 19 || hour < 7 ? "night" : "day", false);
 }
 
-#timeToggle{
-  background: rgba(0,0,0,.75);
-  border: 2px solid gold;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 22px;
-  cursor: pointer;
-  color: white;
-  box-shadow: 0 0 12px rgba(255,215,0,.4);
-  transition: transform .2s ease;
+if (timeToggle && timeDropdown) {
+  timeToggle.addEventListener("click", e => {
+    e.stopPropagation();
+    timeDropdown.style.display =
+      timeDropdown.style.display === "block" ? "none" : "block";
+  });
+
+  timeDropdown.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      setBackground(btn.dataset.mode);
+      timeDropdown.style.display = "none";
+    });
+  });
+
+  document.addEventListener("click", () => {
+    timeDropdown.style.display = "none";
+  });
 }
 
-#timeToggle:hover{
-  transform: scale(1.08);
+/* ==========================================================
+   🔔 NOTIFICATION
+========================================================== */
+
+const notification = document.getElementById("notification");
+function showNotification(text){
+  if(!notification) return;
+  notification.textContent = text;
+  notification.classList.add("show");
+  setTimeout(() => notification.classList.remove("show"), 3000);
 }
 
-/* ===============================
-   DROPDOWN MÉTÉO
-================================ */
+/* ==========================================================
+   🏴‍☠️ PIRATES
+========================================================== */
 
-#timeDropdown{
-  position: absolute;
-  top: 100%;
-  right: 0;
-  display: none;
-  margin-top: 6px;
-  background: rgba(120,120,120,0.55);
-  backdrop-filter: blur(6px);
-  border-radius: 12px;
-  overflow: hidden;
-  z-index: 10000;
+const pirate1 = document.getElementById("pirate1");
+const pirate2 = document.getElementById("pirate2");
+const pirate3 = document.getElementById("pirate3");
+const pirate4 = document.getElementById("pirate4");
+const pirate5 = document.getElementById("pirate5");
+
+const pirates = [pirate1,pirate2,pirate3,pirate4,pirate5];
+
+pirates.forEach(p=>{
+  if(!p) return;
+  p.classList.add("locked");
+  p.style.pointerEvents="none";
+});
+
+/* Pirate2 actif par défaut */
+pirate2.classList.remove("locked");
+pirate2.classList.add("unlocked");
+pirate2.style.pointerEvents="auto";
+
+/* ==========================================================
+   💬 BULLE PIRATE2
+========================================================== */
+
+const bubble = document.getElementById("bubble");
+const bubbleText = document.getElementById("bubbleText");
+const bubbleButton = document.getElementById("bubbleButton");
+
+if (bubbleText) {
+  bubbleText.innerHTML =
+  "🏴‍☠️ Bravo, tu as débloqué ton premier pirate !<br><br>" +
+  "Clique dessus pour continuer ta quête et découvrir les prochaines aventures.";
 }
 
-#timeDropdown button{
-  display: block;
-  width: 100%;
-  padding: 10px 14px;
-  font-size: 22px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: white;
+if (bubbleButton) {
+  bubbleButton.addEventListener("click", ()=>{
+    bubble.style.display="none";
+  });
 }
 
-#timeDropdown button:hover{
-  background: rgba(255,255,255,0.2);
+pirate2.addEventListener("click", ()=>{
+  bubble.style.display="block";
+  bubble.style.left="50%";
+  bubble.style.top="50%";
+  bubble.style.transform="translate(-50%,-50%)";
+
+  showNotification("🏴‍☠️ Premier pirate débloqué !");
+  unlockPirate(pirate1);
+});
+
+/* ==========================================================
+   🔓 UNLOCK
+========================================================== */
+
+function unlockPirate(p){
+  if(!p) return;
+  p.classList.remove("locked");
+  p.classList.add("unlocked");
+  p.style.pointerEvents="auto";
 }
 
-/* ===============================
-   DROPDOWN TRÉSOR
-================================ */
+/* ==========================================================
+   🧭 NAVIGATION
+========================================================== */
 
-#treasureDropdown{
-  position: absolute;
-  top: 100%;
-  display: none;
-  margin-top: 6px;
-  background: rgba(120,120,120,0.55);
-  backdrop-filter: blur(6px);
-  border-radius: 12px;
-  overflow: hidden;
-  z-index: 10000;
+pirate1.addEventListener("click",()=>{
+  if(!pirate1.classList.contains("unlocked")) return;
+  location.href="commerce.html";
+});
+
+pirate3.addEventListener("click",()=>{
+  if(!pirate3.classList.contains("unlocked")) return;
+  location.href="communication.html";
+});
+
+pirate5.addEventListener("click",()=>{
+  if(!pirate5.classList.contains("unlocked")) return;
+  location.href="finance.html";
+});
+
+pirate4.addEventListener("click",()=>{
+  if(!pirate4.classList.contains("unlocked")) return;
+  location.href="legal.html";
+});
+
+/* ==========================================================
+   🔄 RETOURS
+========================================================== */
+
+/* Commerce */
+if(sessionStorage.getItem("unlock_pirate3")==="true"){
+  sessionStorage.removeItem("unlock_pirate3");
+  showNotification("📦 Nouvelle quête débloquée !");
+  unlockPirate(pirate3);
+  showPasswordOverlay();
 }
 
-#treasureDropdown button{
-  display: block;
-  width: 100%;
-  padding: 10px 14px;
-  background: none;
-  border: none;
-  cursor: pointer;
+/* Communication */
+if(sessionStorage.getItem("unlock_pirate5")==="true"){
+  sessionStorage.removeItem("unlock_pirate5");
+  showNotification("💰 Pirate Finance débloqué !");
+  unlockPirate(pirate5);
 }
 
-#treasureDropdown img{
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
+/* Finance */
+if(sessionStorage.getItem("unlock_pirate4")==="true"){
+  sessionStorage.removeItem("unlock_pirate4");
+  showNotification("⚖️ Pirate Légal débloqué !");
+  unlockPirate(pirate4);
 }
 
-#treasureDropdown button:hover{
-  background: rgba(255,255,255,0.2);
+/* ==========================================================
+   🔐 MOT DE PASSE + MENTIONS LÉGALES
+========================================================== */
+
+function showPasswordOverlay(){
+
+  if(document.getElementById("passwordOverlay")) return;
+
+  const overlay=document.createElement("div");
+  overlay.id="passwordOverlay";
+
+  overlay.innerHTML=`
+  <div class="passwordBox">
+    <h2>🔐 Accès verrouillé</h2>
+    <p>Entre le mot de passe pour continuer</p>
+
+    <input id="passwordInput" type="password"/>
+    <button id="passwordBtn">Valider</button>
+    <div id="passwordError">Mot de passe incorrect</div>
+
+    <div class="pirate-actions">
+      <button id="legalBtn" class="pirate-btn left">
+        📜 Mentions légales
+      </button>
+      <button id="payBtn" class="pirate-btn right">
+        💰 Version complète
+      </button>
+    </div>
+  </div>
+
+  <div id="legalModal" class="legal-modal">
+    <div class="legal-content">
+      <span id="closeLegal" class="close-legal">✖</span>
+      <h2>Mentions légales & CGV</h2>
+      <div class="legal-scroll">
+
+        <h3>Mentions légales</h3>
+        <p>
+          Éditeur : Ton Nom<br>
+          Statut : Micro-entrepreneur<br>
+          SIRET : XXXXXXXX<br>
+          Email : contact@email.com
+        </p>
+
+        <p><strong>Propriété intellectuelle :</strong>
+        Tous les contenus présents sur cette plateforme
+        sont protégés par le droit d’auteur.</p>
+
+        <p><strong>Responsabilité :</strong>
+        Les contenus sont éducatifs.
+        Les résultats dépendent de l’implication personnelle.</p>
+
+        <h3>Conditions Générales de Vente</h3>
+        <p>Accès personnel et non transférable.</p>
+        <p>Paiement sécurisé via PayPal.</p>
+        <p>Contenu numérique accessible immédiatement :
+        aucun droit de rétractation.</p>
+
+        <h3>Politique de remboursement</h3>
+        <p>Aucun remboursement possible.</p>
+        <p>Exception : achat en double (demande sous 7 jours).</p>
+
+      </div>
+    </div>
+  </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const input=overlay.querySelector("#passwordInput");
+  const btn=overlay.querySelector("#passwordBtn");
+  const error=overlay.querySelector("#passwordError");
+
+  btn.onclick=()=>{
+    if(input.value.trim().toLowerCase()==="mashain"){
+      overlay.remove();
+    }else{
+      error.style.display="block";
+    }
+  };
+
+  overlay.querySelector("#legalBtn").onclick=()=>{
+    overlay.querySelector("#legalModal").style.display="flex";
+  };
+
+  overlay.querySelector("#closeLegal").onclick=()=>{
+    overlay.querySelector("#legalModal").style.display="none";
+  };
+
+  overlay.querySelector("#payBtn").onclick=()=>{
+    window.location.href="https://www.paypal.com/paypalme/TONLIEN";
+  };
 }
 
-/* ================================================= */
-/* 🏴‍☠️ PIRATES */
-/* ================================================= */
+/* ==========================================================
+   🎬 COFFRE FINAL
+========================================================== */
 
-.pirate {
-  position: absolute;
-  cursor: pointer;
-  z-index: 5;
-  object-fit: contain;
-  transition: transform .25s ease, filter .25s ease, opacity .25s ease;
+const cinematic=document.getElementById("cinematicChest");
+const chestContainer=document.getElementById("chestContainer");
+const treasureBtn=document.getElementById("treasureBtn");
+const treasureDropdown=document.getElementById("treasureDropdown");
+
+if(sessionStorage.getItem("questCompleted")==="true"){
+
+  sessionStorage.removeItem("questCompleted");
+
+  cinematic.classList.remove("hidden");
+  setTimeout(()=>cinematic.classList.add("show"),50);
+
+  chestContainer.addEventListener("click",function openChest(){
+
+    chestContainer.classList.add("opening");
+    chestContainer.removeEventListener("click",openChest);
+
+    setTimeout(()=>{
+      cinematic.classList.remove("show");
+
+      setTimeout(()=>{
+        cinematic.classList.add("hidden");
+
+        const rect=timeToggle.getBoundingClientRect();
+        treasureBtn.style.position="fixed";
+        treasureBtn.style.top=(rect.bottom+10)+"px";
+        treasureBtn.style.left=rect.left+"px";
+
+        treasureBtn.classList.remove("hidden");
+
+      },600);
+
+    },1200);
+
+  });
 }
 
-.pirate.locked {
-  filter: grayscale(100%) brightness(0.6);
-  opacity: 0.6;
-  pointer-events: none;
+/* ==========================================================
+   🎁 DROPDOWN CANVA
+========================================================== */
+
+if(treasureBtn && treasureDropdown){
+
+  treasureBtn.addEventListener("click",e=>{
+    e.stopPropagation();
+    treasureDropdown.style.display=
+      treasureDropdown.style.display==="block"?"none":"block";
+  });
+
+  document.addEventListener("click",()=>{
+    treasureDropdown.style.display="none";
+  });
 }
 
-.pirate.unlocked {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.pirate.unlocked:hover {
-  transform: scale(1.08);
-}
-
-/* 🌙 Contour lumineux uniquement en mode nuit */
-body.night-mode .pirate.unlocked {
-  filter:
-    drop-shadow(0 0 6px rgba(255,255,200,0.6))
-    drop-shadow(0 0 12px rgba(255,215,0,0.4));
-}
-
-/* ================================================= */
-/* 📍 POSITIONS PIRATES */
-/* ================================================= */
-
-#pirate1 { left: 170px; top: 400px; width: 160px; }
-#pirate2 { left: 850px; top: 650px; width: 180px; }
-#pirate3 { left: 740px; top: 360px; width: 135px; }
-#pirate4 { left: 1140px; top: 30px; width: 160px; }
-#pirate5 { left: 240px; top: 150px; width: 160px; }
-
-/* ================================================= */
-/* 🔔 NOTIFICATION */
-/* ================================================= */
-
-#notification {
-  position: fixed;
-  top: -140px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ff9f1c;
-  color: #fff;
-  padding: 14px 22px;
-  border-radius: 18px;
-  font-size: 17px;
-  font-weight: bold;
-  box-shadow: 0 6px 18px rgba(0,0,0,.35);
-  z-index: 4000;
-  transition: top 1s ease;
-}
-
-#notification.show {
-  top: 10%;
-}
-
-/* ================================================= */
-/* 💬 BULLE PIRATE */
-/* ================================================= */
-
-#bubble {
-  position: fixed;
-  display: none;
-  max-width: 360px;
-  padding: 22px;
-  background: #f4dfb3;
-  border: 4px solid #4a2c12;
-  border-radius: 18px;
-  color: #2b1a0b;
-  font-family: Georgia, serif;
-  font-weight: bold;
-  z-index: 250;
-}
-
-#bubble button {
-  margin-top: 14px;
-  width: 100%;
-  padding: 10px;
-  border: 3px solid #4a2c12;
-  border-radius: 14px;
-  background: #dfc79b;
-  cursor: pointer;
-}
-
-#bubble button:active {
-  transform: scale(.92);
-}
-
-/* ================================================= */
-/* 🔄 RESET BUTTON */
-/* ================================================= */
-
-#resetButton {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  z-index: 2000;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-}
-
-/* ================================================= */
-/* 🎬 COFFRE CINÉMATIQUE */
-/* ================================================= */
-
-#cinematicChest {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.2);
-  opacity: 0;
-  transition: transform 1.2s cubic-bezier(.4,2,.6,1), opacity 1s ease;
-  z-index: 9500;
-}
-
-#cinematicChest.show {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
-
-#cinematicChest.hidden {
-  display: none;
-}
-
-.chest-container {
-  position: relative;
-  width: 420px;
-  perspective: 1200px;
-  cursor: pointer;
-}
-
-#chestBase {
-  width: 100%;
-  display: block;
-}
-
-#chestLid {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  transform-origin: top center;
-  transition: transform 1s cubic-bezier(.4,2,.6,1);
-  backface-visibility: hidden;
-}
-
-.opening #chestLid {
-  transform: rotateX(-120deg);
-}
-
-/* ================================================= */
-/* 🎁 BOUTON FINAL */
-/* ================================================= */
-
-#treasureBtn {
-  position: fixed;
-  background: rgba(0,0,0,.75);
-  border: 2px solid gold;
-  border-radius: 12px;
-  padding: 12px 16px;
-  font-size: 24px;
-  cursor: pointer;
-  color: white;
-  z-index: 6000;
-  transition: transform .3s ease, opacity .4s ease;
-}
-
-#treasureBtn:hover {
-  transform: scale(1.1);
-}
-
-#treasureBtn.hidden {
-  display: none;
-}
-
-#treasureImages{
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 7000;
-}
-
-#treasureImages img{
-  width: 28px; /* même taille que 🌅🌃 */
-  height: 28px;
-}
-
-#treasureImages.hidden{
-  display: none;
-}
-
-/* ================================================= */
-/* ✨ ANIMATIONS */
-/* ================================================= */
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* ================================================= */
-/* 📱 RESPONSIVE */
-/* ================================================= */
-
-@media (max-width: 500px){
-  .chest-container {
-    width: 280px;
-  }
-
-  #treasureBtn {
-    font-size: 20px;
-  }
-}
+});
