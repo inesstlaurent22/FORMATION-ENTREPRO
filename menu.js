@@ -17,25 +17,20 @@ document.addEventListener("DOMContentLoaded", () => {
     location.reload();
   });
 
-  /* ==========================================================
-     🌌 BACKGROUND JOUR / NUIT
-  ========================================================== */
+/* ==========================================================
+   🌌 BACKGROUND JOUR / NUIT
+========================================================== */
 
-  const background = document.getElementById("background");
-  const weatherBtn = document.getElementById("timeToggle");
-  const timeDropdown = document.getElementById("timeDropdown");
+const background = document.getElementById("background");
+const timeToggle = document.getElementById("timeToggle");
+const timeDropdown = document.getElementById("timeDropdown");
 
-  const DAY_BG = "images/Fondmenu.PNG";
-  const NIGHT_BG = "images/Fondmenusoir.PNG";
+const DAY_BG = "images/Fondmenu.PNG";
+const NIGHT_BG = "images/Fondmenusoir.PNG";
 
-  function applyAutoBackground(){
-    const hour = new Date().getHours();
-    const isNight = hour >= 19 || hour < 7;
-    setBackground(isNight ? "night" : "day", false);
-  }
-
-  function setBackground(mode, save = true){
-    if (!background) return;
+/* ==========================================================
+   🎯 FONCTION PRINCIPALE
+========================================================== */
 
 function setBackground(mode, save = true){
   if (!background) return;
@@ -45,34 +40,51 @@ function setBackground(mode, save = true){
 
   document.body.classList.toggle("night-mode", mode === "night");
 
-  if(save){
+  if (save) {
     localStorage.setItem("menu_background", mode);
   }
 }
 
-  const savedMode = localStorage.getItem("menu_background");
-  savedMode ? setBackground(savedMode, false) : applyAutoBackground();
+/* ==========================================================
+   🌗 AUTO MODE SI AUCUNE SAUVEGARDE
+========================================================== */
 
-  if (timeToggle && timeDropdown) {
+function applyAutoBackground(){
+  const hour = new Date().getHours();
+  const isNight = hour >= 19 || hour < 7;
+  setBackground(isNight ? "night" : "day", false);
+}
 
-    timeToggle.onclick = e => {
-      e.stopPropagation();
-      timeDropdown.style.display =
-        timeDropdown.style.display === "block" ? "none" : "block";
-    };
+const savedMode = localStorage.getItem("menu_background");
+if (savedMode) {
+  setBackground(savedMode, false);
+} else {
+  applyAutoBackground();
+}
 
-    timeDropdown.querySelectorAll("button").forEach(btn => {
-      btn.onclick = () => {
-        setBackground(btn.dataset.mode);
-        timeDropdown.style.display = "none";
-      };
-    });
+/* ==========================================================
+   🌤 DROPDOWN MÉTÉO
+========================================================== */
 
-    document.addEventListener("click", () => {
+if (timeToggle && timeDropdown) {
+
+  timeToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    timeDropdown.style.display =
+      timeDropdown.style.display === "block" ? "none" : "block";
+  });
+
+  timeDropdown.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      setBackground(btn.dataset.mode);
       timeDropdown.style.display = "none";
     });
-  }
+  });
 
+  document.addEventListener("click", () => {
+    timeDropdown.style.display = "none";
+  });
+}
   /* ==========================================================
      🏴‍☠️ RÉFÉRENCES
   ========================================================== */
