@@ -320,23 +320,64 @@ function showPasswordOverlay() {
 }
    
 /* ==========================================================
-   🎬 COFFRE FINAL
+   🎬 COFFRE FINAL — UNIQUEMENT RETOUR LEGAL
 ========================================================== */
-
-const cinematic = document.getElementById("cinematicChest");
-const chestContainer = document.getElementById("chestContainer");
-const treasureBtn = document.getElementById("treasureBtn");
-const treasureDropdown = document.getElementById("treasureDropdown");
 
 if (sessionStorage.getItem("questCompleted") === "true") {
 
   sessionStorage.removeItem("questCompleted");
 
+  const cinematic = document.getElementById("cinematicChest");
+  const chestContainer = document.getElementById("chestContainer");
+  const treasureBtn = document.getElementById("treasureBtn");
+  const timeToggle = document.getElementById("timeToggle");
+
   if (!cinematic || !chestContainer) return;
 
-  cinematic.classList.remove("hidden");
+  /* ===============================
+     1️⃣ LOADER DE VICTOIRE
+  =============================== */
 
-  setTimeout(() => cinematic.classList.add("show"), 50);
+  const loader = document.createElement("div");
+  loader.id = "questLoader";
+
+  loader.innerHTML = `
+    <div id="questLoaderText">
+      🏆 Bravo tu as gagné toute la quête !<br><br>
+      🎁 Récupère vite tes cadeaux !
+    </div>
+  `;
+
+  document.body.appendChild(loader);
+
+  setTimeout(() => {
+    loader.classList.add("show");
+  }, 50);
+
+  /* ===============================
+     2️⃣ APPARITION COFFRE
+  =============================== */
+
+  setTimeout(() => {
+
+    loader.classList.remove("show");
+
+    setTimeout(() => {
+      loader.remove();
+
+      cinematic.classList.remove("hidden");
+
+      setTimeout(() => {
+        cinematic.classList.add("show");
+      }, 50);
+
+    }, 600);
+
+  }, 2500);
+
+  /* ===============================
+     3️⃣ OUVERTURE COFFRE
+  =============================== */
 
   chestContainer.addEventListener("click", function openChest() {
 
@@ -352,6 +393,7 @@ if (sessionStorage.getItem("questCompleted") === "true") {
         cinematic.classList.add("hidden");
 
         if (timeToggle && treasureBtn) {
+
           const rect = timeToggle.getBoundingClientRect();
 
           treasureBtn.style.position = "fixed";
@@ -366,7 +408,6 @@ if (sessionStorage.getItem("questCompleted") === "true") {
     }, 1200);
   });
 }
-
 /* ==========================================================
    🎁 DROPDOWN CANVA
 ========================================================== */
