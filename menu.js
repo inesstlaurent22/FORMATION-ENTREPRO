@@ -65,26 +65,56 @@ if (savedMode) {
 /* ==========================================================
    🌤 DROPDOWN MÉTÉO
 ========================================================== */
-
 if (timeToggle && timeDropdown) {
 
   timeToggle.addEventListener("click", (e) => {
     e.stopPropagation();
-    timeDropdown.style.display =
-      timeDropdown.style.display === "block" ? "none" : "block";
+
+    const treasureBtn = document.getElementById("treasureBtn");
+
+    // Référence pour positionnement
+    const referenceBtn = treasureBtn && 
+      !treasureBtn.classList.contains("hidden")
+      ? treasureBtn
+      : timeToggle;
+
+    const rect = referenceBtn.getBoundingClientRect();
+
+    // On affiche temporairement pour mesurer la hauteur
+    timeDropdown.style.display = "block";
+    timeDropdown.style.visibility = "hidden";
+
+    const dropdownHeight = timeDropdown.offsetHeight;
+
+    // Position au-dessus du bouton
+    timeDropdown.style.left = rect.left + "px";
+    timeDropdown.style.top = (rect.top - dropdownHeight - 8) + "px";
+
+    // Toggle propre
+    if (timeDropdown.classList.contains("open")) {
+      timeDropdown.style.display = "none";
+      timeDropdown.classList.remove("open");
+    } else {
+      timeDropdown.style.display = "block";
+      timeDropdown.style.visibility = "visible";
+      timeDropdown.classList.add("open");
+    }
   });
 
   timeDropdown.querySelectorAll("button").forEach(btn => {
     btn.addEventListener("click", () => {
       setBackground(btn.dataset.mode);
       timeDropdown.style.display = "none";
+      timeDropdown.classList.remove("open");
     });
   });
 
   document.addEventListener("click", () => {
     timeDropdown.style.display = "none";
+    timeDropdown.classList.remove("open");
   });
 }
+  
   /* ==========================================================
      🏴‍☠️ RÉFÉRENCES
   ========================================================== */
@@ -409,105 +439,66 @@ if (sessionStorage.getItem("questCompleted") === "true") {
   });
 }
 
-
 /* ======================================
    🎯 DÉTECTION RETOUR DEPUIS LEGAL
 ====================================== */
 
 if (sessionStorage.getItem("questCompleted") === "true") {
 
-  const chestWrapper = document.getElementById("finalChest");
-  const chest = document.getElementById("chest");
-  const treasureBtn = document.getElementById("treasureButton");
-  const timeToggle = document.getElementById("timeToggle");
-
-  if (!chestWrapper || !chest) return;
-
   sessionStorage.removeItem("questCompleted");
 
-  // Apparition au centre
-  chestWrapper.classList.remove("hidden");
-
-  setTimeout(() => {
-    chestWrapper.classList.add("show");
-  }, 50);
-
-  // Clic ouverture
-  chest.addEventListener("click", () => {
-
-    chest.classList.add("open");
-
-    // Après animation ouverture
-    setTimeout(() => {
-
-      chestWrapper.classList.add("hidden");
-
-      if (timeToggle && treasureBtn) {
-
-        const rect = timeToggle.getBoundingClientRect();
-
-        treasureBtn.style.top = (rect.bottom + 10) + "px";
-        treasureBtn.style.left = rect.left + "px";
-
-        treasureBtn.classList.remove("hidden");
-
-        treasureBtn.onclick = () => {
-          window.location.href = "tresor.html";
-        };
-      }
-
-    }, 2000);
-
-  });
-}
-
-  
-if (sessionStorage.getItem("questCompleted") === "true") {
-
-  const chestWrapper = document.getElementById("finalChest");
-  const chest = document.getElementById("chest");
-  const treasureBtn = document.getElementById("treasureButton");
-  const timeToggle = document.getElementById("timeToggle");
-
-  if (!chestWrapper || !chest) return;
-
-  sessionStorage.removeItem("questCompleted");
-
-  // Apparition progressive
-  chestWrapper.classList.remove("hidden");
-
-  setTimeout(() => {
-    chestWrapper.classList.add("show");
-  }, 50);
-
-  chest.addEventListener("click", () => {
-
-    chest.classList.add("open");
-
-    setTimeout(() => {
-
-      chestWrapper.classList.add("hidden");
-
-      if (timeToggle && treasureBtn) {
-
-        const rect = timeToggle.getBoundingClientRect();
-
-        treasureBtn.style.top = (rect.bottom + 10) + "px";
-        treasureBtn.style.left = rect.left + "px";
-
-        treasureBtn.classList.remove("hidden");
-
-        treasureBtn.onclick = () => {
-          window.location.href = "tresor.html";
-        };
-      }
-
-    }, 2000);
-
-  });
-}
-
+  const cinematicChest = document.getElementById("cinematicChest");
+  const chestContainer = document.getElementById("chestContainer");
   const treasureBtn = document.getElementById("treasureBtn");
+  const timeToggle = document.getElementById("timeToggle");
+
+  if (!cinematicChest || !chestContainer) return;
+
+  /* 1️⃣ Apparition du coffre */
+  cinematicChest.classList.remove("hidden");
+
+  setTimeout(() => {
+    cinematicChest.classList.add("show");
+  }, 50);
+
+  /* 2️⃣ Ouverture au clic */
+  chestContainer.addEventListener("click", function openChest() {
+
+    chestContainer.classList.add("opening");
+
+    /* Empêche double clic */
+    chestContainer.removeEventListener("click", openChest);
+
+    /* 3️⃣ Transformation en bouton 🎁 */
+    setTimeout(() => {
+
+      cinematicChest.classList.remove("show");
+
+      setTimeout(() => {
+        cinematicChest.classList.add("hidden");
+
+        if (timeToggle && treasureBtn) {
+
+          const rect = timeToggle.getBoundingClientRect();
+
+          treasureBtn.style.top = (rect.bottom + 10) + "px";
+          treasureBtn.style.left = rect.left + "px";
+
+          treasureBtn.classList.remove("hidden");
+        }
+
+      }, 600);
+
+    }, 1200);
+
+  });
+}
+
+/* ======================================
+   🎁 GESTION BOUTON TRÉSOR
+====================================== */
+
+const treasureBtn = document.getElementById("treasureBtn");
 const treasureImages = document.getElementById("treasureImages");
 
 if (treasureBtn && treasureImages) {
