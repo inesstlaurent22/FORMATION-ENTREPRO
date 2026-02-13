@@ -67,6 +67,10 @@ body.overlay-open {
   background: rgba(255,255,255,.1);
 }
 
+/* ================================================= */
+/* 🏴‍☠️ PIRATES */
+/* ================================================= */
+
 .pirate {
   position: absolute;
   cursor: pointer;
@@ -87,13 +91,15 @@ body.overlay-open {
   pointer-events: auto;
 }
 
-.pirate.glow {
-  filter: drop-shadow(0 0 14px gold)
-          drop-shadow(0 0 28px rgba(255,215,0,.6));
-}
-
 .pirate.unlocked:hover {
   transform: scale(1.08);
+}
+
+/* 🌙 Contour lumineux uniquement en mode nuit */
+body.night-mode .pirate.unlocked {
+  filter:
+    drop-shadow(0 0 6px rgba(255,255,200,0.6))
+    drop-shadow(0 0 12px rgba(255,215,0,0.4));
 }
 
 /* ================================================= */
@@ -105,12 +111,6 @@ body.overlay-open {
 #pirate3 { left: 740px; top: 360px; width: 135px; }
 #pirate4 { left: 1140px; top: 30px; width: 160px; }
 #pirate5 { left: 240px; top: 150px; width: 160px; }
-
-@media (max-width: 768px) {
-  #pirate1, #pirate2, #pirate3, #pirate4, #pirate5 {
-    transform: scale(0.8);
-  }
-}
 
 /* ================================================= */
 /* 🔔 NOTIFICATION */
@@ -208,8 +208,6 @@ body.overlay-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: auto;
-  touch-action: auto;
 }
 
 .passwordBox {
@@ -223,222 +221,9 @@ body.overlay-open {
   animation: fadeIn 0.6s ease;
 }
 
-.passwordBox h2 {
-  margin-bottom: 15px;
-  color: gold;
-}
-
-.passwordBox input {
-  padding: 10px;
-  width: 200px;
-  font-size: 16px;
-  text-align: center;
-  background: #1a1208;
-  border: 1px solid gold;
-  color: #fff;
-  outline: none;
-  pointer-events: auto;
-  touch-action: manipulation;
-  -webkit-user-select: text;
-  user-select: text;
-  -webkit-appearance: none;
-}
-
-.passwordBox button {
-  margin-top: 15px;
-  padding: 10px 25px;
-  background: linear-gradient(145deg, #6b4b24, #3a2a18);
-  border: 1px solid gold;
-  color: #fff2cc;
-  cursor: pointer;
-}
-
-.passwordBox button:hover {
-  box-shadow: 0 0 10px gold;
-}
-
-#passwordError {
-  display: none;
-  color: #ff4d4d;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
 /* ================================================= */
-/* 🏴‍☠️ BOUTONS PIRATE OVERLAY */
+/* 🎬 APPARITION COFFRE CENTRE */
 /* ================================================= */
-
-.pirate-actions {
-  margin-top: 20px;
-  display: flex;
-  gap: 15px;
-  justify-content: space-between;
-}
-
-.pirate-btn {
-  flex: 1;
-  padding: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: .3s ease;
-}
-
-.pirate-btn.left {
-  background: #3b2a1a;
-  border: 2px solid gold;
-  color: gold;
-}
-
-.pirate-btn.left:hover {
-  background: gold;
-  color: #3b2a1a;
-}
-
-.pirate-btn.right {
-  background: #0070ba;
-  border: 2px solid #003087;
-  color: white;
-}
-
-.pirate-btn.right:hover {
-  background: #003087;
-}
-
-/* ================================================= */
-/* 📜 MODAL MENTIONS LÉGALES */
-/* ================================================= */
-
-.legal-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.85);
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-}
-
-.legal-content {
-  width: 80%;
-  max-width: 700px;
-  max-height: 80vh;
-  background: #1e1e1e;
-  border: 2px solid gold;
-  padding: 25px;
-  color: white;
-  position: relative;
-}
-
-.legal-scroll {
-  overflow-y: auto;
-  max-height: 60vh;
-  padding-right: 10px;
-}
-
-.close-legal {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-  color: gold;
-  font-weight: bold;
-}
-
-/* ================================================= */
-/* 🏴‍☠️ BOUTONS PIRATE OVERLAY */
-/* ================================================= */
-
-.pirate-actions {
-  margin-top: 20px;
-  display: flex;
-  gap: 15px;
-  justify-content: space-between;
-}
-
-.pirate-btn {
-  flex: 1;
-  padding: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: .3s ease;
-}
-
-.pirate-btn.left {
-  background: #3b2a1a;
-  border: 2px solid gold;
-  color: gold;
-}
-
-.pirate-btn.left:hover {
-  background: gold;
-  color: #3b2a1a;
-}
-
-.pirate-btn.right {
-  background: #0070ba;
-  border: 2px solid #003087;
-  color: white;
-}
-
-.pirate-btn.right:hover {
-  background: #003087;
-}
-
-/* ================================================= */
-/* 📜 MODAL MENTIONS LÉGALES */
-/* ================================================= */
-
-.legal-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.85);
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-}
-
-.legal-content {
-  width: 80%;
-  max-width: 700px;
-  max-height: 80vh;
-  background: #1e1e1e;
-  border: 2px solid gold;
-  padding: 25px;
-  color: white;
-  position: relative;
-  border-radius: 12px;
-}
-
-.legal-scroll {
-  overflow-y: auto;
-  max-height: 60vh;
-  padding-right: 10px;
-}
-
-.close-legal {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-  color: gold;
-  font-weight: bold;
-}
-
-/* ================================================= */
-/* ✨ ANIMATIONS */
-/* ================================================= */
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* =========================
-   APPARITION COFFRE CENTRE
-========================= */
 
 #finalChest {
   position: fixed;
@@ -457,14 +242,15 @@ body.overlay-open {
   display: none;
 }
 
-/* =========================
-   STRUCTURE COFFRE
-========================= */
+/* ================================================= */
+/* 🪙 STRUCTURE COFFRE */
+/* ================================================= */
 
 .chest {
   position: relative;
   width: 250px;
   cursor: pointer;
+  perspective: 800px;
 }
 
 .chest-base {
@@ -479,74 +265,20 @@ body.overlay-open {
   width: 100%;
   transform-origin: top center;
   transition: transform 0.8s cubic-bezier(.4,2,.6,1);
+  backface-visibility: hidden;
 }
 
 .chest.open .lid {
   transform: rotateX(-110deg);
 }
 
-/* =========================
-   LUMIÈRE
-========================= */
+/* ================================================= */
+/* ✨ ANIMATIONS */
+/* ================================================= */
 
-.glow {
-  position: absolute;
-  bottom: 40%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 120px;
-  background: radial-gradient(circle, rgba(255,255,180,0.9) 0%, rgba(255,200,0,0.4) 50%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-
-.chest.open .glow {
-  opacity: 1;
-  animation: pulse 1.2s infinite alternate;
-}
-
-@keyframes pulse {
-  from { transform: translateX(-50%) scale(1); }
-  to   { transform: translateX(-50%) scale(1.2); }
-}
-
-/* =========================
-   GEMMES
-========================= */
-
-.loot {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 15px;
-}
-
-.gem {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  opacity: 0;
-}
-
-.red { background: #ff5b5b; }
-.green { background: #3bff99; }
-.blue { background: #4da6ff; }
-
-.chest.open .gem {
-  animation: pop 0.6s forwards;
-}
-
-.chest.open .gem:nth-child(1) { animation-delay: 0.2s; }
-.chest.open .gem:nth-child(2) { animation-delay: 0.4s; }
-.chest.open .gem:nth-child(3) { animation-delay: 0.6s; }
-
-@keyframes pop {
-  0%   { transform: translateY(0); opacity: 0; }
-  50%  { transform: translateY(-40px); opacity: 1; }
-  100% { transform: translateY(-20px); opacity: 1; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 /* ================================================= */
@@ -557,9 +289,5 @@ body.overlay-open {
   .passwordBox{
     width: 90%;
     padding: 25px 20px;
-  }
-
-  .passwordBox input{
-    width: 100%;
   }
 }
