@@ -342,29 +342,36 @@ overlay.querySelector("#payBtn").onclick = () => {
 if (sessionStorage.getItem("questCompleted") === "true") {
 
   const chestWrapper = document.getElementById("finalChest");
-  const weatherBtn = document.getElementById("timeToggle");
+  const timeToggle = document.getElementById("timeToggle");
   const openBtn = document.getElementById("openChestBtn");
   const chest = document.getElementById("chest");
 
-  if (!chestWrapper || !weatherBtn) return;
+  if (!chestWrapper || !timeToggle) {
+    console.log("Elements coffre manquants");
+    return;
+  }
 
-  // On évite que ça se rejoue au refresh
+  console.log("Affichage coffre final");
+
   sessionStorage.removeItem("questCompleted");
 
-  // Positionnement sous le bouton météo
-  const rect = weatherBtn.getBoundingClientRect();
+  // Petit délai pour laisser le DOM se stabiliser
+  setTimeout(() => {
 
-  chestWrapper.style.top = (rect.bottom + 15) + "px";
-  chestWrapper.style.left = rect.left + "px";
+    const rect = timeToggle.getBoundingClientRect();
 
-  chestWrapper.classList.remove("hidden");
+    chestWrapper.style.top = (rect.bottom + 15) + "px";
+    chestWrapper.style.left =
+      (rect.left + rect.width / 2 - chestWrapper.offsetWidth / 2) + "px";
 
-  // Ouverture coffre
+    chestWrapper.classList.remove("hidden");
+
+  }, 200);
+
   if (openBtn && chest) {
     openBtn.onclick = () => {
-      chest.classList.toggle("open");
+      chest.classList.add("open");
 
-      // Redirection après ouverture
       setTimeout(() => {
         window.location.href = "tresor.html";
       }, 2000);
