@@ -62,56 +62,46 @@ if (savedMode) {
   applyAutoBackground();
 }
 
-/* ==========================================================
-   🌤 DROPDOWN MÉTÉO
-========================================================== */
+
+/* ===============================
+   MÉTÉO
+================================ */
+
 if (timeToggle && timeDropdown) {
 
   timeToggle.addEventListener("click", (e) => {
     e.stopPropagation();
-
-    const treasureBtn = document.getElementById("treasureBtn");
-
-    // Référence pour positionnement
-    const referenceBtn = treasureBtn && 
-      !treasureBtn.classList.contains("hidden")
-      ? treasureBtn
-      : timeToggle;
-
-    const rect = referenceBtn.getBoundingClientRect();
-
-    // On affiche temporairement pour mesurer la hauteur
-    timeDropdown.style.display = "block";
-    timeDropdown.style.visibility = "hidden";
-
-    const dropdownHeight = timeDropdown.offsetHeight;
-
-    // Position au-dessus du bouton
-    timeDropdown.style.left = rect.left + "px";
-    timeDropdown.style.top = (rect.top - dropdownHeight - 8) + "px";
-
-    // Toggle propre
-    if (timeDropdown.classList.contains("open")) {
-      timeDropdown.style.display = "none";
-      timeDropdown.classList.remove("open");
-    } else {
-      timeDropdown.style.display = "block";
-      timeDropdown.style.visibility = "visible";
-      timeDropdown.classList.add("open");
-    }
-  });
-
-  timeDropdown.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      setBackground(btn.dataset.mode);
-      timeDropdown.style.display = "none";
-      timeDropdown.classList.remove("open");
-    });
+    timeDropdown.style.display =
+      timeDropdown.style.display === "block" ? "none" : "block";
   });
 
   document.addEventListener("click", () => {
     timeDropdown.style.display = "none";
-    timeDropdown.classList.remove("open");
+  });
+}
+
+/* ===============================
+   TRÉSOR
+================================ */
+
+const treasureBtn = document.getElementById("treasureBtn");
+const treasureDropdown = document.getElementById("treasureDropdown");
+
+if (treasureBtn && treasureDropdown) {
+
+  treasureBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    treasureDropdown.style.left = treasureBtn.offsetLeft + "px";
+    treasureDropdown.style.top =
+      (treasureBtn.offsetTop + treasureBtn.offsetHeight + 6) + "px";
+
+    treasureDropdown.style.display =
+      treasureDropdown.style.display === "block" ? "none" : "block";
+  });
+
+  document.addEventListener("click", () => {
+    treasureDropdown.style.display = "none";
   });
 }
   
