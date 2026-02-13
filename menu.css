@@ -79,17 +79,12 @@ body.overlay-open {
   transition: transform .25s ease, filter .25s ease, opacity .25s ease;
 }
 
+/* Dimensions exactes originales */
 #pirate1 { left: 170px; top: 400px; width: 160px; }
 #pirate2 { left: 850px; top: 650px; width: 180px; }
 #pirate3 { left: 740px; top: 360px; width: 135px; }
 #pirate4 { left: 1140px; top: 30px; width: 160px; }
 #pirate5 { left: 240px; top: 150px; width: 160px; }
-
-@media (max-width: 768px) {
-  #pirate1, #pirate2, #pirate3, #pirate4, #pirate5 {
-    transform: scale(0.8);
-  }
-    }
 
 .pirate.locked {
   filter: grayscale(100%) brightness(0.6);
