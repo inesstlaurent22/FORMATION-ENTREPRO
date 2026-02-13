@@ -513,6 +513,7 @@ window.showLegalWin = function(){
 
   /* ⏳ Redirection */
   setTimeout(()=>{
+    sessionStorage.setItem("questCompleted", "true");
     window.location.href = "menu.html";
   }, 2500);
 }
