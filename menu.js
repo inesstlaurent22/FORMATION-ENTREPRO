@@ -318,8 +318,6 @@ function showPasswordOverlay() {
    🎬 COFFRE FINAL — UNIQUEMENT RETOUR LEGAL
 ========================================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
-
   const treasureBtn = document.getElementById("treasureBtn");
   const treasureDropdown = document.getElementById("treasureDropdown");
   const cinematic = document.getElementById("cinematicChest");
@@ -429,7 +427,5 @@ document.addEventListener("DOMContentLoaded", () => {
       treasureDropdown.style.display = "none";
     });
   }
-
-});
 
 });
