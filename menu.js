@@ -385,4 +385,51 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 
   });
 }
+
+  
+if (sessionStorage.getItem("questCompleted") === "true") {
+
+  const chestWrapper = document.getElementById("finalChest");
+  const chest = document.getElementById("chest");
+  const treasureBtn = document.getElementById("treasureButton");
+  const timeToggle = document.getElementById("timeToggle");
+
+  if (!chestWrapper || !chest) return;
+
+  sessionStorage.removeItem("questCompleted");
+
+  // Apparition progressive
+  chestWrapper.classList.remove("hidden");
+
+  setTimeout(() => {
+    chestWrapper.classList.add("show");
+  }, 50);
+
+  chest.addEventListener("click", () => {
+
+    chest.classList.add("open");
+
+    setTimeout(() => {
+
+      chestWrapper.classList.add("hidden");
+
+      if (timeToggle && treasureBtn) {
+
+        const rect = timeToggle.getBoundingClientRect();
+
+        treasureBtn.style.top = (rect.bottom + 10) + "px";
+        treasureBtn.style.left = rect.left + "px";
+
+        treasureBtn.classList.remove("hidden");
+
+        treasureBtn.onclick = () => {
+          window.location.href = "tresor.html";
+        };
+      }
+
+    }, 2000);
+
+  });
+}
+
 });
