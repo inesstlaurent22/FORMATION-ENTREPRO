@@ -323,13 +323,15 @@ function showPasswordOverlay() {
    🎬 COFFRE FINAL — UNIQUEMENT RETOUR LEGAL
 ========================================================== */
 
+const treasureBtn = document.getElementById("treasureBtn");
+const treasureDropdown = document.getElementById("treasureDropdown");
+
 if (sessionStorage.getItem("questCompleted") === "true") {
 
   sessionStorage.removeItem("questCompleted");
 
   const cinematic = document.getElementById("cinematicChest");
   const chestContainer = document.getElementById("chestContainer");
-  const treasureBtn = document.getElementById("treasureBtn");
   const timeToggle = document.getElementById("timeToggle");
 
   if (!cinematic || !chestContainer) return;
@@ -350,9 +352,7 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 
   document.body.appendChild(loader);
 
-  setTimeout(() => {
-    loader.classList.add("show");
-  }, 50);
+  setTimeout(() => loader.classList.add("show"), 50);
 
   /* ===============================
      2️⃣ APPARITION COFFRE
@@ -371,43 +371,46 @@ if (sessionStorage.getItem("questCompleted") === "true") {
         cinematic.classList.add("show");
       }, 50);
 
+      /* ===============================
+         3️⃣ OUVERTURE COFFRE
+      =============================== */
+
+      chestContainer.addEventListener("click", function openChest() {
+
+        chestContainer.classList.add("opening");
+        chestContainer.removeEventListener("click", openChest);
+
+        setTimeout(() => {
+
+          cinematic.classList.remove("show");
+
+          setTimeout(() => {
+
+            cinematic.classList.add("hidden");
+
+            if (timeToggle && treasureBtn) {
+
+              const rect = timeToggle.getBoundingClientRect();
+
+              treasureBtn.style.position = "fixed";
+              treasureBtn.style.top = (rect.bottom + 10) + "px";
+              treasureBtn.style.left = rect.left + "px";
+
+              treasureBtn.classList.remove("hidden");
+            }
+
+          }, 600);
+
+        }, 1200);
+
+      });
+
     }, 600);
 
   }, 2500);
-
-  /* ===============================
-     3️⃣ OUVERTURE COFFRE
-  =============================== */
-
-  chestContainer.addEventListener("click", function openChest() {
-
-    chestContainer.classList.add("opening");
-    chestContainer.removeEventListener("click", openChest);
-
-    setTimeout(() => {
-
-      cinematic.classList.remove("show");
-
-      setTimeout(() => {
-
-        cinematic.classList.add("hidden");
-
-        if (timeToggle && treasureBtn) {
-
-          const rect = timeToggle.getBoundingClientRect();
-
-          treasureBtn.style.position = "fixed";
-          treasureBtn.style.top = (rect.bottom + 10) + "px";
-          treasureBtn.style.left = rect.left + "px";
-
-          treasureBtn.classList.remove("hidden");
-        }
-
-      }, 600);
-
-    }, 1200);
-  });
 }
+
+
 /* ==========================================================
    🎁 DROPDOWN CANVA
 ========================================================== */
@@ -416,8 +419,11 @@ if (treasureBtn && treasureDropdown) {
 
   treasureBtn.addEventListener("click", e => {
     e.stopPropagation();
+
     treasureDropdown.style.display =
-      treasureDropdown.style.display === "block" ? "none" : "block";
+      treasureDropdown.style.display === "block"
+        ? "none"
+        : "block";
   });
 
   document.addEventListener("click", () => {
