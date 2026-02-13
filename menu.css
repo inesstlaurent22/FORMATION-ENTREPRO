@@ -86,6 +86,14 @@ body.overlay-open {
 #pirate4 { left: 1140px; top: 30px; width: 160px; }
 #pirate5 { left: 240px; top: 150px; width: 160px; }
 
+
+#pirate1,
+#pirate3,
+#pirate4,
+#pirate5 {
+  transform: scale(1) !important;
+}
+
 .pirate.locked {
   filter: grayscale(100%) brightness(0.6);
   opacity: 0.6;
