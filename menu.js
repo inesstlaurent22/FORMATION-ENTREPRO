@@ -433,10 +433,6 @@ if (sessionStorage.getItem("questCompleted") === "true") {
    🎯 DÉTECTION RETOUR DEPUIS LEGAL
 ====================================== */
 
-if (sessionStorage.getItem("questCompleted") === "true") {
-
-  sessionStorage.removeItem("questCompleted");
-
   const cinematicChest = document.getElementById("cinematicChest");
   const chestContainer = document.getElementById("chestContainer");
   const treasureBtn = document.getElementById("treasureBtn");
@@ -485,11 +481,63 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 }
 
 /* ======================================
-   🎁 GESTION BOUTON TRÉSOR
+   🎬 CINÉMATIQUE COFFRE UNIQUE
 ====================================== */
 
 const treasureBtn = document.getElementById("treasureBtn");
 const treasureImages = document.getElementById("treasureImages");
+
+if (sessionStorage.getItem("questCompleted") === "true") {
+
+  sessionStorage.removeItem("questCompleted");
+
+  const cinematic = document.getElementById("cinematicChest");
+  const chestContainer = document.getElementById("chestContainer");
+  const timeToggle = document.getElementById("timeToggle");
+
+  if (!cinematic || !chestContainer) return;
+
+  /* 1️⃣ Apparition */
+  cinematic.classList.remove("hidden");
+
+  setTimeout(() => {
+    cinematic.classList.add("show");
+  }, 50);
+
+  /* 2️⃣ Ouverture */
+  chestContainer.addEventListener("click", function openChest() {
+
+    chestContainer.classList.add("opening");
+    chestContainer.removeEventListener("click", openChest);
+
+    setTimeout(() => {
+
+      cinematic.classList.remove("show");
+
+      setTimeout(() => {
+        cinematic.classList.add("hidden");
+
+        if (timeToggle && treasureBtn) {
+
+          const rect = timeToggle.getBoundingClientRect();
+
+          treasureBtn.style.position = "fixed";
+          treasureBtn.style.top = (rect.bottom + 10) + "px";
+          treasureBtn.style.left = rect.left + "px";
+
+          treasureBtn.classList.remove("hidden");
+        }
+
+      }, 600);
+
+    }, 1200);
+
+  });
+}
+
+/* ======================================
+   🎁 GESTION BOUTON TRÉSOR
+====================================== */
 
 if (treasureBtn && treasureImages) {
 
@@ -498,6 +546,7 @@ if (treasureBtn && treasureImages) {
 
     const rect = treasureBtn.getBoundingClientRect();
 
+    treasureImages.style.position = "fixed";
     treasureImages.style.left = rect.left + "px";
     treasureImages.style.top = (rect.bottom + 8) + "px";
 
