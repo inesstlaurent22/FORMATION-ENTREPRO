@@ -46,10 +46,18 @@ html, body {
   transform: scale(1.08);
 }
 
+/* ===============================
+   DROPDOWN MÉTÉO
+================================ */
+
 #timeDropdown{
-  position: fixed;
+  position: absolute;
+  top: 100%;
+  right: 0;
   display: none;
-  background: rgba(0,0,0,.85);
+  margin-top: 6px;
+  background: rgba(120,120,120,0.55);
+  backdrop-filter: blur(6px);
   border-radius: 12px;
   overflow: hidden;
   z-index: 10000;
@@ -59,7 +67,7 @@ html, body {
   display: block;
   width: 100%;
   padding: 10px 14px;
-  font-size: 18px;
+  font-size: 22px;
   background: none;
   border: none;
   cursor: pointer;
@@ -67,7 +75,42 @@ html, body {
 }
 
 #timeDropdown button:hover{
-  background: rgba(255,255,255,.15);
+  background: rgba(255,255,255,0.2);
+}
+
+/* ===============================
+   DROPDOWN TRÉSOR
+================================ */
+
+#treasureDropdown{
+  position: absolute;
+  top: 100%;
+  display: none;
+  margin-top: 6px;
+  background: rgba(120,120,120,0.55);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 10000;
+}
+
+#treasureDropdown button{
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#treasureDropdown img{
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+#treasureDropdown button:hover{
+  background: rgba(255,255,255,0.2);
 }
 
 /* ================================================= */
