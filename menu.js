@@ -341,10 +341,16 @@ overlay.querySelector("#payBtn").onclick = () => {
 
   if (sessionStorage.getItem("questCompleted") === "true") {
 
-    const loader = document.getElementById("questLoader");
-    const chest = document.getElementById("questChest");
+if (sessionStorage.getItem("questCompleted") === "true") {
 
-    loader.classList.remove("hidden");
+  const loader = document.getElementById("questLoader");
+  const chest = document.getElementById("questChest");
+
+  if (!loader || !chest) return;
+
+  loader.classList.remove("hidden");
+
+  sessionStorage.removeItem("questCompleted");
 
     // Après 3 secondes → déplacement vers bouton météo
     setTimeout(() => {
