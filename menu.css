@@ -504,23 +504,44 @@ body.overlay-open {
   transition:all 1s ease-in-out;
 }
 
-/* ===============================
-   🏆 COFFRE FINAL MENU
-================================= */
+/* =====================================
+   🎬 APPARITION LOADER COFFRE
+===================================== */
 
 #finalChest {
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 20px;
-  z-index: 5000;
+  z-index: 6000;
+  transition: transform 0.8s cubic-bezier(.4,2,.6,1);
+}
+
+#finalChest.show {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Style bouton type météo */
+.chest {
+  width: 90px;
+  padding: 10px;
+  background: rgba(0,0,0,.75);
+  border-radius: 10px;
+  border: 2px solid gold;
+  box-shadow: 0 0 12px rgba(255,215,0,.5);
+  cursor: pointer;
+}
+
+.chest:hover {
+  transform: scale(1.05);
 }
 
 #finalChest.hidden {
   display: none;
 }
-
 /* ================================================= */
 /* 📱 RESPONSIVE */
 /* ================================================= */
