@@ -26,20 +26,19 @@ body.overlay-open {
 /* ================================================= */
 /* 🌤 SELECTEUR JOUR / NUIT */
 /* ================================================= */
-
 #timeSelector{
   position: fixed;
   top: 15px;
   right: 15px;
-  z-index: 2000;
+  z-index: 9000;
 }
 
 #timeToggle{
   background: rgba(0,0,0,.75);
   border: none;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 20px;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 22px;
   cursor: pointer;
   color: white;
 }
@@ -64,7 +63,7 @@ body.overlay-open {
 }
 
 #timeDropdown button:hover{
-  background: rgba(255,255,255,.1);
+  background: rgba(255,255,255,.15);
 }
 
 /* ================================================= */
