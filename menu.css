@@ -32,20 +32,27 @@ html, body {
 
 #timeToggle{
   background: rgba(0,0,0,.75);
-  border: none;
+  border: 2px solid gold;
   border-radius: 12px;
   padding: 10px 14px;
   font-size: 22px;
   cursor: pointer;
   color: white;
+  box-shadow: 0 0 12px rgba(255,215,0,.4);
+  transition: transform .2s ease;
+}
+
+#timeToggle:hover{
+  transform: scale(1.08);
 }
 
 #timeDropdown{
+  position: fixed;
   display: none;
-  margin-top: 6px;
   background: rgba(0,0,0,.85);
   border-radius: 12px;
   overflow: hidden;
+  z-index: 10000;
 }
 
 #timeDropdown button{
@@ -251,6 +258,23 @@ body.night-mode .pirate.unlocked {
 }
 
 #treasureBtn.hidden {
+  display: none;
+}
+
+#treasureImages{
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 7000;
+}
+
+#treasureImages img{
+  width: 28px; /* même taille que 🌅🌃 */
+  height: 28px;
+}
+
+#treasureImages.hidden{
   display: none;
 }
 
