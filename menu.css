@@ -312,13 +312,19 @@ body.night-mode .pirate.unlocked {
 /* ================================================= */
 /* 🎁 SELECTEUR CADEAUX */
 /* ================================================= */
+/* ==========================================================
+   🎁 TREASURE SELECTOR
+========================================================== */
 
+/* Conteneur global (placé sous le bouton météo ⛅️) */
 #treasureSelector {
   position: fixed;
+  top: 80px;      /* Ajuste si besoin */
+  right: 20px;
   z-index: 3000;
 }
 
-/* Bouton 🎁 (identique météo) */
+/* Bouton 🎁 */
 #treasureBtn {
   background: rgba(0,0,0,.75);
   border: 2px solid gold;
@@ -330,13 +336,56 @@ body.night-mode .pirate.unlocked {
   transition: transform .2s ease, box-shadow .2s ease;
 }
 
+/* Hover */
 #treasureBtn:hover {
   transform: scale(1.08);
   box-shadow: 0 0 8px gold;
 }
 
+/* Caché par défaut */
 #treasureBtn.hidden {
   display: none;
+}
+
+/* Dropdown 🎁 */
+#treasureDropdown {
+  display: none;
+  margin-top: 10px;
+  background: rgba(0,0,0,.9);
+  border: 2px solid gold;
+  border-radius: 12px;
+  padding: 10px;
+  min-width: 160px;
+}
+
+/* Dropdown visible */
+#treasureDropdown.show {
+  display: block;
+}
+
+/* Boutons Canva */
+#treasureDropdown button {
+  width: 100%;
+  background: transparent;
+  border: 1px solid gold;
+  color: white;
+  padding: 8px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+
+/* Hover boutons */
+#treasureDropdown button:hover {
+  background: gold;
+  color: black;
+  transform: scale(1.03);
+}
+
+/* Supprime la marge du dernier bouton */
+#treasureDropdown button:last-child {
+  margin-bottom: 0;
 }
 
 /* ================================================= */
