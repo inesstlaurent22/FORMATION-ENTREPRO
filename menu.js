@@ -361,15 +361,8 @@ setTimeout(() => {
     =============================== */
 
     setTimeout(() => {
-
-      loader.classList.remove("show");
-
-      setTimeout(() => {
-        loader.remove();
-
-
          cinematic.classList.remove("hidden");
-setTimeout(() => cinematic.classList.add("show"), 50);"
+setTimeout(() => cinematic.classList.add("show"), 50);
 
       }, 600);
 
@@ -378,33 +371,32 @@ setTimeout(() => cinematic.classList.add("show"), 50);"
 /* ===============================
    3️⃣ OUVERTURE COFFRE
 =============================== */
+if (cinematic && chestContainer && chestBase) {
+  chestContainer.addEventListener("click", function openChest() {
 
-if (!chestContainer || !chestBase || !cinematic) return;
+    chestContainer.removeEventListener("click", openChest);
 
-chestContainer.addEventListener("click", function openChest() {
-
-  chestContainer.removeEventListener("click", openChest);
-
-  chestBase.src = "images/Tresorouvert.png";
-  chestBase.style.transform = "scale(1.05)";
-
-  setTimeout(() => {
-
-    cinematic.classList.remove("show");
+    chestBase.src = "images/Tresorouvert.png";
+    chestBase.style.transform = "scale(1.05)";
 
     setTimeout(() => {
 
-      cinematic.classList.add("hidden");
+      cinematic.classList.remove("show");
 
-      if (treasureBtn) {
-        treasureBtn.classList.remove("hidden");
-      }
+      setTimeout(() => {
 
-    }, 600);
+        cinematic.classList.add("hidden");
 
-  }, 1000);
+        if (treasureBtn) {
+          treasureBtn.classList.remove("hidden");
+        }
 
-});
+      }, 600);
+
+    }, 1000);
+
+  });
+}
 
   /* ==========================================================
      🎁 DROPDOWN CANVA
