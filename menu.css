@@ -53,12 +53,12 @@ html, body {
   display:none;
   flex-direction:column;
   position:absolute;
-  bottom:60px;          /* AU-DESSUS du bouton */
+  top:60px;          /* vers le bas */
   right:0;
   background:rgba(0,0,0,.9);
   border:2px solid gold;
   border-radius:12px;
-  overflow:visible;     /* important */
+  overflow:visible;
   z-index:6000;
 }
 
@@ -111,51 +111,22 @@ html, body {
 /* ================================================= */
 /* ✨ FAISCEAU LUMINEUX (HALO ARRIÈRE) */
 /* ================================================= */
-
-.pirate.unlocked::before{
-  content:"";
-  position:absolute;
-  top:50%;
-  left:50%;
-  width:150%;
-  height:150%;
-  transform:translate(-50%, -50%) scale(0.6);
-  background:radial-gradient(circle,
-      rgba(255,215,0,.9) 0%,
-      rgba(255,200,0,.5) 40%,
-      rgba(255,200,0,.2) 60%,
-      transparent 75%);
-  border-radius:50%;
-  opacity:0;
-  transition:opacity .3s ease, transform .3s ease;
-  pointer-events:none;
-  z-index:-1;
+.pirate.unlocked{
+  transition: transform .3s ease, filter .3s ease;
 }
 
-/* ================================================= */
-/* 🌅 MODE JOUR */
-/* ================================================= */
-
-body:not(.night-mode) .pirate.unlocked:hover{
+.pirate.unlocked:hover{
   transform:scale(1.1);
+  filter:
+    drop-shadow(0 0 10px gold)
+    drop-shadow(0 0 20px orange);
 }
-
-body:not(.night-mode) .pirate.unlocked:hover::before{
-  opacity:0.8;
-  transform:translate(-50%, -50%) scale(1);
-}
-
-/* ================================================= */
-/* 🌙 MODE NUIT (PLUS INTENSE) */
-/* ================================================= */
 
 body.night-mode .pirate.unlocked:hover{
   transform:scale(1.12);
-}
-
-body.night-mode .pirate.unlocked:hover::before{
-  opacity:1;
-  transform:translate(-50%, -50%) scale(1.1);
+  filter:
+    drop-shadow(0 0 15px #fff3a0)
+    drop-shadow(0 0 35px gold);
 }
 
 /* ================================================= */
@@ -311,6 +282,13 @@ body.night-mode .pirate.unlocked:hover::before{
   box-shadow:0 0 12px gold;
 }
 
+.pirate-actions{
+  margin-top:30px;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+}
+
 /* Boutons pirate overlay */
 .pirate-btn{
   padding:10px 16px;
@@ -447,14 +425,16 @@ body.night-mode .pirate.unlocked:hover::before{
   object-fit:contain;
 }
 
-#treasureDropdown {
-  display: none;
-  margin-top: 10px;
-  background: rgba(0,0,0,.9);
-  border: 2px solid gold;
-  border-radius: 12px;
-  padding: 6px 0;
-  min-width: 160px;
+#treasureDropdown{
+  display:none;
+  position:absolute;
+  top:58px;              /* sous le bouton */
+  right:0;
+  background:rgba(0,0,0,.9);
+  border:2px solid gold;
+  border-radius:12px;
+  padding:6px 0;
+  width:60px;            /* largeur fixe */
   overflow:visible;
 }
 
