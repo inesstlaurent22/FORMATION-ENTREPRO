@@ -104,28 +104,57 @@ html, body {
 .pirate.unlocked {
   opacity: 1;
   pointer-events: auto;
+  position: absolute;
 }
 
 /* ================================================= */
-/* 🌅 HOVER MODE JOUR */
+/* ✨ FAISCEAU LUMINEUX (HALO ARRIÈRE) */
 /* ================================================= */
 
-body:not(.night-mode) .pirate.unlocked:hover {
-  transform: scale(1.1);
-  filter:
-    drop-shadow(0 0 8px rgba(255,215,0,.7))
-    drop-shadow(0 0 15px rgba(255,200,0,.6));
+.pirate.unlocked::before{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:150%;
+  height:150%;
+  transform:translate(-50%, -50%) scale(0.6);
+  background:radial-gradient(circle,
+      rgba(255,215,0,.9) 0%,
+      rgba(255,200,0,.5) 40%,
+      rgba(255,200,0,.2) 60%,
+      transparent 75%);
+  border-radius:50%;
+  opacity:0;
+  transition:opacity .3s ease, transform .3s ease;
+  pointer-events:none;
+  z-index:-1;
 }
 
 /* ================================================= */
-/* 🌙 HOVER MODE NUIT (plus intense) */
+/* 🌅 MODE JOUR */
 /* ================================================= */
 
-body.night-mode .pirate.unlocked:hover {
-  transform: scale(1.12);
-  filter:
-    drop-shadow(0 0 12px rgba(255,255,200,.9))
-    drop-shadow(0 0 25px rgba(255,215,0,1));
+body:not(.night-mode) .pirate.unlocked:hover{
+  transform:scale(1.1);
+}
+
+body:not(.night-mode) .pirate.unlocked:hover::before{
+  opacity:0.8;
+  transform:translate(-50%, -50%) scale(1);
+}
+
+/* ================================================= */
+/* 🌙 MODE NUIT (PLUS INTENSE) */
+/* ================================================= */
+
+body.night-mode .pirate.unlocked:hover{
+  transform:scale(1.12);
+}
+
+body.night-mode .pirate.unlocked:hover::before{
+  opacity:1;
+  transform:translate(-50%, -50%) scale(1.1);
 }
 
 /* ================================================= */
