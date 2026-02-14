@@ -11,6 +11,11 @@ html, body {
   position: relative;
 }
 
+/* Classe utilitaire globale */
+.hidden {
+  display: none !important;
+}
+
 /* ================================================= */
 /* 🌌 BACKGROUND */
 /* ================================================= */
