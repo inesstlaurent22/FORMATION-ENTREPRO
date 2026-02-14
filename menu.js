@@ -362,15 +362,16 @@ function showPasswordOverlay() {
       chestBase.src = "images/Tresorouvert.png";
       chestBase.style.transform = "scale(1.05)";
 
-      setTimeout(() => {
-        cinematic.classList.remove("show");
-        setTimeout(() => {
-          cinematic.classList.add("hidden");
+     setTimeout(() => {
+  cinematic.classList.remove("show");
+  cinematic.classList.add("final-position");
 
-          const treasureSelector = document.getElementById("treasureSelector");
-          if (treasureSelector) {
-            treasureSelector.classList.remove("hidden");
-          }
+  const treasureSelector = document.getElementById("treasureSelector");
+  if (treasureSelector) {
+    treasureSelector.classList.remove("hidden");
+  }
+
+}, 1000);
 
         }, 600);
       }, 1000);
@@ -396,5 +397,28 @@ if (treasureBtn && treasureDropdown) {
     treasureDropdown.classList.remove("show");
   });
 }
+
+const labels = ["Commerce","Communication","Finance","Legal"];
+const canvaButtons = document.querySelectorAll("#treasureDropdown button");
+
+canvaButtons.forEach((btn,index)=>{
+
+  const tooltip = document.createElement("div");
+  tooltip.className="tooltip";
+  tooltip.textContent=labels[index];
+  btn.appendChild(tooltip);
+
+  btn.addEventListener("mouseenter",()=>{
+    tooltip.style.opacity="1";
+    tooltip.style.left="110%";
+    tooltip.style.top="50%";
+    tooltip.style.transform="translateY(-50%)";
+  });
+
+  btn.addEventListener("mouseleave",()=>{
+    tooltip.style.opacity="0";
+  });
+
+});
 
 });
