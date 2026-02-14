@@ -318,17 +318,17 @@ function showPasswordOverlay() {
 /* ==========================================================
    🎬 COFFRE FINAL — UNIQUEMENT RETOUR LEGAL
 ========================================================== */
+/* ==========================================================
+   🎬 COFFRE FINAL — UNIQUEMENT RETOUR LEGAL
+========================================================== */
 
-  const treasureBtn = document.getElementById("treasureBtn");
-  const treasureDropdown = document.getElementById("treasureDropdown");
-  const cinematic = document.getElementById("cinematicChest");
-  const chestContainer = document.getElementById("chestContainer");
-  const chestBase = document.getElementById("chestBase");
+const treasureBtn = document.getElementById("treasureBtn");
+const treasureDropdown = document.getElementById("treasureDropdown");
+const cinematic = document.getElementById("cinematicChest");
+const chestContainer = document.getElementById("chestContainer");
+const chestBase = document.getElementById("chestBase");
 
-  /* ==========================================================
-     🎉 DÉCLENCHEMENT UNIQUEMENT SI RETOUR LEGAL
-  ========================================================== */
-   if (sessionStorage.getItem("questCompleted") === "true") {
+if (sessionStorage.getItem("questCompleted") === "true") {
 
   sessionStorage.removeItem("questCompleted");
 
@@ -345,6 +345,7 @@ function showPasswordOverlay() {
     document.body.appendChild(loader);
 
     setTimeout(() => loader.classList.add("show"), 50);
+
     setTimeout(() => {
       loader.classList.remove("show");
       setTimeout(() => loader.remove(), 600);
@@ -352,7 +353,7 @@ function showPasswordOverlay() {
 
     setTimeout(() => {
       cinematic.classList.remove("hidden");
-      setTimeout(() => cinematic.classList.add("show"), 50);
+      cinematic.classList.add("show");
     }, 2500);
 
     chestContainer.addEventListener("click", function openChest() {
@@ -362,23 +363,21 @@ function showPasswordOverlay() {
       chestBase.src = "images/Tresorouvert.png";
       chestBase.style.transform = "scale(1.05)";
 
-     setTimeout(() => {
-  cinematic.classList.remove("show");
-  cinematic.classList.add("final-position");
+      setTimeout(() => {
 
-  const treasureSelector = document.getElementById("treasureSelector");
-  if (treasureSelector) {
-    treasureSelector.classList.remove("hidden");
-  }
+        cinematic.classList.remove("show");
+        cinematic.classList.add("final-position");
 
-}, 1000);
+        const treasureSelector = document.getElementById("treasureSelector");
+        if (treasureSelector) {
+          treasureSelector.classList.remove("hidden");
+        }
 
-        }, 600);
       }, 1000);
+
     });
   }
 }
-
   /* ==========================================================
      🎁 DROPDOWN CANVA
   ========================================================== */
