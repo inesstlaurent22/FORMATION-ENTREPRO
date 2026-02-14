@@ -50,19 +50,20 @@ html, body {
 
 /* Dropdown vertical au-dessus du 🎁 */
 #timeDropdown{
-  display: none;
-  flex-direction: column;
-  position: absolute;
-  top: 60px;
-  right: 0;
-  background: rgba(0,0,0,.85);
-  border: 2px solid gold;
-  border-radius: 12px;
-  overflow: hidden;
+  display:none;
+  flex-direction:column;
+  position:absolute;
+  bottom:60px;          /* AU-DESSUS du bouton */
+  right:0;
+  background:rgba(0,0,0,.9);
+  border:2px solid gold;
+  border-radius:12px;
+  overflow:visible;     /* important */
+  z-index:6000;
 }
 
 #timeDropdown.show{
-  display: flex;
+  display:flex;
 }
 
 #timeDropdown button{
@@ -218,21 +219,21 @@ body.night-mode .pirate.unlocked:hover::before{
 .pirate-btn-main{
   display:block;
   margin:20px auto 0;
-  padding:12px 24px;
-  background:#8b5a2b; /* marron clair */
+  padding:12px 28px;
+  background:#8b5a2b;
   border:3px solid #4a2c12;
-  border-radius:14px;
+  border-radius:16px;
   color:#fff8dc;
+  font-family:Georgia, serif;
   font-weight:bold;
-  font-family: Georgia, serif;
   cursor:pointer;
   transition:.3s ease;
-  box-shadow:0 4px 10px rgba(0,0,0,.4);
+  box-shadow:0 6px 15px rgba(0,0,0,.5);
 }
 
 .pirate-btn-main:hover{
   transform:scale(1.08);
-  box-shadow:0 0 15px rgba(255,215,0,.6);
+  box-shadow:0 0 18px rgba(255,215,0,.7);
 }
 
 /* ================================================= */
@@ -280,6 +281,37 @@ body.night-mode .pirate.unlocked:hover::before{
   animation: fadeInOverlay .6s ease;
 }
 
+#passwordInput{
+  width:100%;
+  max-width:260px;
+  padding:12px;
+  margin-top:10px;
+  background:#f4dfb3;
+  border:3px solid #4a2c12;
+  border-radius:12px;
+  font-family:Georgia, serif;
+  text-align:center;
+  font-weight:bold;
+}
+
+#passwordBtn{
+  margin-top:15px;
+  padding:10px 22px;
+  background:#8b5a2b;
+  border:3px solid #4a2c12;
+  border-radius:14px;
+  color:#fff8dc;
+  font-family:Georgia, serif;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.3s ease;
+}
+
+#passwordBtn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 12px gold;
+}
+
 /* Boutons pirate overlay */
 .pirate-btn{
   padding:10px 16px;
@@ -323,7 +355,7 @@ body.night-mode .pirate.unlocked:hover::before{
   padding:30px;
   max-width:500px;
   width:90%;
-  color:#2b1a0b;
+  color:#000;
   font-family: Georgia, serif;
   box-shadow:0 0 30px rgba(0,0,0,.6);
   position:relative;
@@ -402,6 +434,7 @@ body.night-mode .pirate.unlocked:hover::before{
   color: white;
   position: relative;
   transform: none !important;
+  transition: none !important;
   width: 48px;
   height: 48px;
   display:flex;
@@ -423,6 +456,7 @@ body.night-mode .pirate.unlocked:hover::before{
   border-radius: 12px;
   padding: 6px 0;
   min-width: 160px;
+  overflow:visible;
 }
 
 #treasureDropdown.show {
@@ -455,10 +489,10 @@ body.night-mode .pirate.unlocked:hover::before{
 /* Tooltip Canva */
 .tooltip{
   position:absolute;
-  left:120%;
+  right:120%;             /* GAUCHE */
   top:50%;
   transform:translateY(-50%);
-  background:rgba(60,60,60,.85);
+  background:rgba(0,0,0,.85);
   color:#fff;
   padding:6px 12px;
   border-radius:8px;
@@ -468,7 +502,7 @@ body.night-mode .pirate.unlocked:hover::before{
   opacity:0;
   pointer-events:none;
   transition:opacity .2s ease;
-  box-shadow:0 4px 12px rgba(0,0,0,.4);
+  z-index:8000;
 }
 
 #treasureDropdown button:hover .tooltip{
