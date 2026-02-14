@@ -97,14 +97,12 @@ pirates.forEach(p => {
   if (!p) return;
   p.classList.add("locked");
   p.classList.remove("unlocked");
-  p.style.pointerEvents = "none";
 });
 
 /* Pirate2 actif */
 if (pirate2) {
   pirate2.classList.remove("locked");
   pirate2.classList.add("unlocked");
-  pirate2.style.pointerEvents = "auto";
 }
 
 /* ==========================================================
