@@ -213,7 +213,6 @@ body.night-mode .pirate.unlocked:hover::before{
   left:50%;
   transform:translate(-50%, -50%);
 }
-}
 
 /* Bouton pirate principal */
 .pirate-btn-main{
