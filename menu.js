@@ -126,9 +126,6 @@ if (pirate2) {
 
     if (bubble) {
       bubble.style.display = "block";
-      bubble.style.left = "50%";
-      bubble.style.top = "50%";
-      bubble.style.transform = "translate(-50%, -50%)";
     }
 
     showNotification("🏴‍☠️ Premier pirate débloqué !");
