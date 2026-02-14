@@ -319,9 +319,6 @@ function showPasswordOverlay() {
 /* ==========================================================
    🎬 COFFRE FINAL — UNIQUEMENT RETOUR LEGAL
 ========================================================== */
-/* ==========================================================
-   🎬 COFFRE FINAL — UNIQUEMENT RETOUR LEGAL
-========================================================== */
 
 const treasureBtn = document.getElementById("treasureBtn");
 const treasureDropdown = document.getElementById("treasureDropdown");
@@ -397,27 +394,22 @@ if (treasureBtn && treasureDropdown) {
     treasureDropdown.classList.remove("show");
   });
 }
+const labels = [
+  "Commerce",
+  "Communication",
+  "Finance",
+  "Legal"
+];
 
-const labels = ["Commerce","Communication","Finance","Legal"];
 const canvaButtons = document.querySelectorAll("#treasureDropdown button");
 
-canvaButtons.forEach((btn,index)=>{
+canvaButtons.forEach((btn, index) => {
 
   const tooltip = document.createElement("div");
-  tooltip.className="tooltip";
-  tooltip.textContent=labels[index];
+  tooltip.className = "tooltip";
+  tooltip.textContent = labels[index];
+
   btn.appendChild(tooltip);
-
-  btn.addEventListener("mouseenter",()=>{
-    tooltip.style.opacity="1";
-    tooltip.style.left="110%";
-    tooltip.style.top="50%";
-    tooltip.style.transform="translateY(-50%)";
-  });
-
-  btn.addEventListener("mouseleave",()=>{
-    tooltip.style.opacity="0";
-  });
 
 });
 
