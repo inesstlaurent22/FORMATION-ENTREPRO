@@ -112,6 +112,11 @@ if (pirate2) {
   pirate2.classList.add("unlocked");
 }
 
+   // 🔁 Restauration pirate1 au chargement
+if (localStorage.getItem("pirate1_unlocked") === "true") {
+  unlockPirate(pirate1);
+}
+
 /* ==========================================================
    💬 BULLE PIRATE2
 ========================================================== */
