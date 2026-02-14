@@ -96,8 +96,14 @@ const pirates = [pirate1, pirate2, pirate3, pirate4, pirate5];
 
 pirates.forEach(p => {
   if (!p) return;
-  p.classList.add("locked");
-  p.classList.remove("unlocked");
+
+  if (localStorage.getItem(p.id + "_unlocked") === "true") {
+    p.classList.remove("locked");
+    p.classList.add("unlocked");
+  } else {
+    p.classList.add("locked");
+    p.classList.remove("unlocked");
+  }
 });
 
 /* Pirate2 actif */
@@ -139,9 +145,12 @@ if (pirate2) {
 
 function unlockPirate(p) {
   if (!p) return;
+
   p.classList.remove("locked");
   p.classList.add("unlocked");
   p.style.pointerEvents = "auto";
+
+  localStorage.setItem(p.id + "_unlocked", "true");
 }
 
 /* ==========================================================
@@ -289,16 +298,37 @@ function showPasswordOverlay() {
     if (e.key === "Enter") validate();
   });
 
-  function validate() {
-    if (input.value.trim().toLowerCase() === "mashain") {
-      sessionStorage.setItem("passwordCleared", "true");
-      overlay.remove();
-    } else {
-      error.style.display = "block";
-      input.value = "";
-      input.focus();
+function validate() {
+
+  const value = input.value.trim().toLowerCase();
+
+  if (value === "mashain") {
+
+    // 🔓 Sauvegarde déblocage permanent
+    localStorage.setItem("pirate1_unlocked", "true");
+    sessionStorage.setItem("passwordCleared", "true");
+
+    // 🔓 Débloque visuellement pirate1
+    const pirate1 = document.getElementById("pirate1");
+    if (pirate1) {
+      pirate1.classList.remove("locked");
+      pirate1.classList.add("unlocked");
+      pirate1.style.pointerEvents = "auto";
     }
+
+    // 🔕 Cache message erreur
+    error.style.display = "none";
+
+    // ❌ Ferme overlay
+    overlay.remove();
+
+  } else {
+
+    error.style.display = "block";
+    input.value = "";
+    input.focus();
   }
+}
 
   overlay.querySelector("#legalBtn").onclick = () => {
     overlay.querySelector("#legalModal").style.display = "flex";
