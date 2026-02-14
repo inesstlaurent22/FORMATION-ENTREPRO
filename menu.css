@@ -106,24 +106,69 @@ html, body {
   transform: scale(1.08);
 }
 
-/* 🌙 MODE NUIT : faisceau constant */
+/* ================================================= */
+/* 🌙 MODE NUIT : halo animé au survol */
+/* ================================================= */
+
+body.night-mode .pirate.unlocked{
+  position: relative;
+}
+
 body.night-mode .pirate.unlocked::after{
   content:"";
   position:absolute;
-  inset:-25px;
-  background:radial-gradient(circle, rgba(255,215,0,.6) 0%, transparent 70%);
-  filter:blur(20px);
+  top:50%;
+  left:50%;
+  width:120%;
+  height:120%;
+  transform:translate(-50%, -50%) scale(0.8);
+  background:radial-gradient(circle,
+      rgba(255,215,0,.9) 0%,
+      rgba(255,200,0,.6) 40%,
+      rgba(255,200,0,.2) 65%,
+      transparent 80%);
+  border-radius:50%;
+  opacity:0;
+  transition:opacity .3s ease, transform .3s ease;
+  pointer-events:none;
   z-index:-1;
 }
 
-/* 🌅 MODE JOUR : faisceau uniquement hover */
-body:not(.night-mode) .pirate.unlocked:hover::after{
+body.night-mode .pirate.unlocked:hover::after{
+  opacity:1;
+  transform:translate(-50%, -50%) scale(1);
+}
+
+/* ================================================= */
+/* 🌅 MODE JOUR : halo plus léger au hover */
+/* ================================================= */
+
+body:not(.night-mode) .pirate.unlocked{
+  position: relative;
+}
+
+body:not(.night-mode) .pirate.unlocked::after{
   content:"";
   position:absolute;
-  inset:-25px;
-  background:radial-gradient(circle, rgba(255,215,0,.7) 0%, transparent 70%);
-  filter:blur(20px);
+  top:50%;
+  left:50%;
+  width:115%;
+  height:115%;
+  transform:translate(-50%, -50%) scale(0.8);
+  background:radial-gradient(circle,
+      rgba(255,215,0,.6) 0%,
+      rgba(255,215,0,.3) 50%,
+      transparent 75%);
+  border-radius:50%;
+  opacity:0;
+  transition:opacity .3s ease, transform .3s ease;
+  pointer-events:none;
   z-index:-1;
+}
+
+body:not(.night-mode) .pirate.unlocked:hover::after{
+  opacity:1;
+  transform:translate(-50%, -50%) scale(1);
 }
 
 /* ================================================= */
@@ -183,19 +228,21 @@ body:not(.night-mode) .pirate.unlocked:hover::after{
 .pirate-btn-main{
   display:block;
   margin:20px auto 0;
-  padding:12px 22px;
-  background:#1a1208;
-  border:3px solid gold;
-  border-radius:12px;
-  color:gold;
+  padding:12px 24px;
+  background:#8b5a2b; /* marron clair */
+  border:3px solid #4a2c12;
+  border-radius:14px;
+  color:#fff8dc;
   font-weight:bold;
+  font-family: Georgia, serif;
   cursor:pointer;
   transition:.3s ease;
+  box-shadow:0 4px 10px rgba(0,0,0,.4);
 }
 
 .pirate-btn-main:hover{
   transform:scale(1.08);
-  box-shadow:0 0 20px gold;
+  box-shadow:0 0 15px rgba(255,215,0,.6);
 }
 
 /* ================================================= */
@@ -269,6 +316,38 @@ body:not(.night-mode) .pirate.unlocked:hover::after{
   color:white;
 }
 
+.legal-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  align-items:center;
+  justify-content:center;
+  z-index:100000;
+}
+
+.legal-content{
+  background:#f4dfb3;
+  border:4px solid #4a2c12;
+  border-radius:18px;
+  padding:30px;
+  max-width:500px;
+  width:90%;
+  color:#2b1a0b;
+  font-family: Georgia, serif;
+  box-shadow:0 0 30px rgba(0,0,0,.6);
+  position:relative;
+}
+
+.close-legal{
+  position:absolute;
+  top:10px;
+  right:15px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:18px;
+}
+
 /* ================================================= */
 /* 🎬 COFFRE */
 /* ================================================= */
@@ -324,16 +403,26 @@ body:not(.night-mode) .pirate.unlocked:hover::after{
   z-index: 5000;
 }
 
-#treasureBtn {
+#treasureBtn{
   background: rgba(0,0,0,.8);
   border: 2px solid gold;
   border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 22px;
+  padding: 8px;
   cursor: pointer;
   color: white;
   position: relative;
   transform: none !important;
+  width: 48px;
+  height: 48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#treasureBtn img{
+  width:28px;
+  height:28px;
+  object-fit:contain;
 }
 
 #treasureDropdown {
