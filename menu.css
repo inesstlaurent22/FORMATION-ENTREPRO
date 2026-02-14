@@ -439,14 +439,23 @@ body:not(.night-mode) .pirate.unlocked:hover::after{
   display: block;
 }
 
-#treasureDropdown button {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+#treasureDropdown button{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  position:relative;
+  padding:0;
+}
+
+#treasureDropdown button img{
+  width:28px;
+  height:28px;
+  object-fit:contain;
 }
 
 #treasureDropdown button:hover {
@@ -456,17 +465,20 @@ body:not(.night-mode) .pirate.unlocked:hover::after{
 /* Tooltip Canva */
 .tooltip{
   position:absolute;
-  left:110%;
+  left:120%;
   top:50%;
   transform:translateY(-50%);
-  background:rgba(80,80,80,.7);
-  color:white;
-  padding:6px 10px;
+  background:rgba(60,60,60,.85);
+  color:#fff;
+  padding:6px 12px;
   border-radius:8px;
   font-size:13px;
+  font-weight:bold;
   white-space:nowrap;
   opacity:0;
-  transition:.2s ease;
+  pointer-events:none;
+  transition:opacity .2s ease;
+  box-shadow:0 4px 12px rgba(0,0,0,.4);
 }
 
 #treasureDropdown button:hover .tooltip{
