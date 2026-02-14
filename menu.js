@@ -356,19 +356,19 @@ setTimeout(() => {
   setTimeout(() => loader.remove(), 600);
 }, 2500);
 
-    /* ===============================
-       2️⃣ APPARITION COFFRE
-    =============================== */
+/* ===============================
+   2️⃣ APPARITION COFFRE
+=============================== */
+
 setTimeout(() => {
 
-  cinematic.classList.remove("hidden");
-  setTimeout(() => cinematic.classList.add("show"), 50);
+  if (cinematic) {
+    cinematic.classList.remove("hidden");
+    setTimeout(() => cinematic.classList.add("show"), 50);
+  }
 
 }, 2500);
 
-/* ===============================
-   3️⃣ OUVERTURE COFFRE
-=============================== */
 /* ===============================
    3️⃣ OUVERTURE COFFRE
 =============================== */
