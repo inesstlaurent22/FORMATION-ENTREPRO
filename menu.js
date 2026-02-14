@@ -47,21 +47,24 @@ if (savedMode) {
 
 if (timeToggle && timeDropdown) {
 
-  timeToggle.addEventListener("click", e => {
+  timeToggle.addEventListener("click", (e) => {
     e.stopPropagation();
-    timeDropdown.style.display =
-      timeDropdown.style.display === "block" ? "none" : "block";
+    timeDropdown.classList.toggle("show");
+  });
+
+  document.addEventListener("click", () => {
+    timeDropdown.classList.remove("show");
+  });
+
+  timeDropdown.addEventListener("click", (e) => {
+    e.stopPropagation();
   });
 
   timeDropdown.querySelectorAll("button").forEach(btn => {
     btn.addEventListener("click", () => {
       setBackground(btn.dataset.mode);
-      timeDropdown.style.display = "none";
+      timeDropdown.classList.remove("show");
     });
-  });
-
-  document.addEventListener("click", () => {
-    timeDropdown.style.display = "none";
   });
 }
 
@@ -323,7 +326,6 @@ function showPasswordOverlay() {
   const cinematic = document.getElementById("cinematicChest");
   const chestContainer = document.getElementById("chestContainer");
   const chestBase = document.getElementById("chestBase");
-  const timeToggle = document.getElementById("timeToggle");
 
   /* ==========================================================
      🎉 DÉCLENCHEMENT UNIQUEMENT SI RETOUR LEGAL
@@ -373,62 +375,54 @@ setTimeout(() => cinematic.classList.add("show"), 50);"
 
     }, 2500);
 
-    /* ===============================
-       3️⃣ OUVERTURE COFFRE
-    =============================== */
+/* ===============================
+   3️⃣ OUVERTURE COFFRE
+=============================== */
 
-    chestContainer.addEventListener("click", function openChest() {
+if (!chestContainer || !chestBase || !cinematic) return;
 
-      chestContainer.removeEventListener("click", openChest);
+chestContainer.addEventListener("click", function openChest() {
 
-      /* 🔓 Animation ouverture (changement image) */
-      chestBase.src = "images/Tresorouvert.png";
-      chestBase.style.transform = "scale(1.05)";
+  chestContainer.removeEventListener("click", openChest);
 
-      setTimeout(() => {
+  chestBase.src = "images/Tresorouvert.png";
+  chestBase.style.transform = "scale(1.05)";
 
-        cinematic.classList.remove("show");
+  setTimeout(() => {
 
-        setTimeout(() => {
+    cinematic.classList.remove("show");
 
-          cinematic.classList.add("hidden");
+    setTimeout(() => {
 
-          if (timeToggle && treasureBtn) {
+      cinematic.classList.add("hidden");
 
-            const rect = timeToggle.getBoundingClientRect();
+      if (treasureBtn) {
+        treasureBtn.classList.remove("hidden");
+      }
 
-            treasureBtn.style.position = "fixed";
-            treasureBtn.style.top = (rect.bottom + 10) + "px";
-            treasureBtn.style.left = rect.left + "px";
+    }, 600);
 
-            treasureBtn.classList.remove("hidden");
-          }
+  }, 1000);
 
-        }, 600);
-
-      }, 1000);
-
-    });
-  }
+});
 
   /* ==========================================================
      🎁 DROPDOWN CANVA
   ========================================================== */
+if (treasureBtn && treasureDropdown) {
 
-  if (treasureBtn && treasureDropdown) {
+  treasureBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    treasureDropdown.classList.toggle("show");
+  });
 
-    treasureBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
+  treasureDropdown.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
 
-      treasureDropdown.style.display =
-        treasureDropdown.style.display === "block"
-          ? "none"
-          : "block";
-    });
-
-    document.addEventListener("click", () => {
-      treasureDropdown.style.display = "none";
-    });
-  }
+  document.addEventListener("click", () => {
+    treasureDropdown.classList.remove("show");
+  });
+}
 
 });
