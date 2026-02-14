@@ -399,7 +399,7 @@ body.night-mode .pirate.unlocked:hover{
   position: fixed;
   top: 80px;
   right: 20px;
-  z-index: 5000;
+  z-index: 8000;
 }
 
 #treasureBtn{
@@ -481,7 +481,7 @@ body.night-mode .pirate.unlocked:hover{
   opacity:0;
   pointer-events:none;
   transition:opacity .2s ease;
-  z-index:8000;
+  z-index:10000;
 }
 
 #treasureDropdown button:hover .tooltip{
