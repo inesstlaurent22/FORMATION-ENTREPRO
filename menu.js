@@ -338,19 +338,21 @@ function showPasswordOverlay() {
     /* ===============================
        1️⃣ LOADER DE VICTOIRE
     =============================== */
+const loader = document.createElement("div");
+loader.id = "questLoader";
+loader.innerHTML = `
+  <div id="questLoaderText">
+    🏆 Bravo tu as gagné toute la quête !<br><br>
+    🎁 Récupère vite tes cadeaux !
+  </div>
+`;
+document.body.appendChild(loader);
 
-    const loader = document.createElement("div");
-    loader.id = "questLoader";
-
-    loader.innerHTML = `
-      <div id="questLoaderText">
-        🏆 Bravo tu as gagné toute la quête !<br><br>
-        🎁 Récupère vite tes cadeaux !
-      </div>
-    `;
-
-    document.body.appendChild(loader);
-    setTimeout(() => loader.classList.add("show"), 50);
+     setTimeout(() => loader.classList.add("show"), 50);
+setTimeout(() => {
+  loader.classList.remove("show");
+  setTimeout(() => loader.remove(), 600);
+}, 2500);
 
     /* ===============================
        2️⃣ APPARITION COFFRE
@@ -363,8 +365,9 @@ function showPasswordOverlay() {
       setTimeout(() => {
         loader.remove();
 
-        cinematic.classList.remove("hidden");
-        setTimeout(() => cinematic.classList.add("show"), 50);
+
+         cinematic.classList.remove("hidden");
+setTimeout(() => cinematic.classList.add("show"), 50);"
 
       }, 600);
 
