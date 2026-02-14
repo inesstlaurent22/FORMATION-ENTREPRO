@@ -328,82 +328,56 @@ function showPasswordOverlay() {
   /* ==========================================================
      🎉 DÉCLENCHEMENT UNIQUEMENT SI RETOUR LEGAL
   ========================================================== */
+   if (sessionStorage.getItem("questCompleted") === "true") {
 
-  if (sessionStorage.getItem("questCompleted") === "true") {
+  sessionStorage.removeItem("questCompleted");
 
-    sessionStorage.removeItem("questCompleted");
+  if (cinematic && chestContainer && chestBase) {
 
-    if (!cinematic || !chestContainer || !chestBase) return;
+    const loader = document.createElement("div");
+    loader.id = "questLoader";
+    loader.innerHTML = `
+      <div id="questLoaderText">
+        🏆 Bravo tu as gagné toute la quête !<br><br>
+        🎁 Récupère vite tes cadeaux !
+      </div>
+    `;
+    document.body.appendChild(loader);
 
-    /* ===============================
-       1️⃣ LOADER DE VICTOIRE
-    =============================== */
-const loader = document.createElement("div");
-loader.id = "questLoader";
-loader.innerHTML = `
-  <div id="questLoaderText">
-    🏆 Bravo tu as gagné toute la quête !<br><br>
-    🎁 Récupère vite tes cadeaux !
-  </div>
-`;
-document.body.appendChild(loader);
-
-     setTimeout(() => loader.classList.add("show"), 50);
-setTimeout(() => {
-  loader.classList.remove("show");
-  setTimeout(() => loader.remove(), 600);
-}, 2500);
-
-/* ===============================
-   2️⃣ APPARITION COFFRE
-=============================== */
-
-setTimeout(() => {
-
-  if (cinematic) {
-    cinematic.classList.remove("hidden");
-    setTimeout(() => cinematic.classList.add("show"), 50);
-  }
-
-}, 2500);
-
-/* ===============================
-   3️⃣ OUVERTURE COFFRE
-=============================== */
-
-if (cinematic && chestContainer && chestBase) {
-
-  chestContainer.addEventListener("click", function openChest() {
-
-    // Empêche double clic
-    chestContainer.removeEventListener("click", openChest);
-
-    // Animation ouverture
-    chestBase.src = "images/Tresorouvert.png";
-    chestBase.style.transform = "scale(1.05)";
-
-    // Fermeture cinématique
+    setTimeout(() => loader.classList.add("show"), 50);
     setTimeout(() => {
+      loader.classList.remove("show");
+      setTimeout(() => loader.remove(), 600);
+    }, 2500);
 
-      cinematic.classList.remove("show");
+    setTimeout(() => {
+      cinematic.classList.remove("hidden");
+      setTimeout(() => cinematic.classList.add("show"), 50);
+    }, 2500);
+
+    chestContainer.addEventListener("click", function openChest() {
+
+      chestContainer.removeEventListener("click", openChest);
+
+      chestBase.src = "images/Tresorouvert.png";
+      chestBase.style.transform = "scale(1.05)";
 
       setTimeout(() => {
+        cinematic.classList.remove("show");
+        setTimeout(() => {
+          cinematic.classList.add("hidden");
 
-        cinematic.classList.add("hidden");
+          const treasureSelector = document.getElementById("treasureSelector");
+          if (treasureSelector) {
+            treasureSelector.classList.remove("hidden");
+          }
 
-        // Apparition bouton 🎁
-        const treasureSelector = document.getElementById("treasureSelector");
-        if (treasureSelector) {
-          treasureSelector.classList.remove("hidden");
-        }
-
-      }, 600);
-
-    }, 1000);
-
-  });
-
+        }, 600);
+      }, 1000);
+    });
+  }
 }
+
   /* ==========================================================
      🎁 DROPDOWN CANVA
   ========================================================== */
