@@ -35,7 +35,7 @@ html, body {
   position: fixed;
   top: 15px;
   right: 20px;
-  z-index: 5000;
+  z-index: 15000;
 }
 
 #timeToggle{
@@ -59,7 +59,7 @@ html, body {
   border:2px solid gold;
   border-radius:12px;
   overflow:visible;
-  z-index:6000;
+  z-index:16000;
 }
 
 #timeDropdown.show{
