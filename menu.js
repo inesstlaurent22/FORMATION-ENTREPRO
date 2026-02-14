@@ -386,26 +386,28 @@ if (sessionStorage.getItem("questCompleted") === "true") {
       cinematic.classList.add("show");
     }, 2500);
 
-    chestContainer.addEventListener("click", function openChest() {
+chestContainer.addEventListener("click", function openChest() {
 
-      chestContainer.removeEventListener("click", openChest);
+  chestContainer.removeEventListener("click", openChest);
 
-      chestBase.src = "images/Tresorouvert.png";
-      chestBase.style.transform = "scale(1.05)";
+  chestBase.src = "images/Tresorouvert.png";
+  chestBase.style.transform = "scale(1.05)";
 
-      setTimeout(() => {
+  setTimeout(() => {
 
-        cinematic.classList.remove("show");
-        cinematic.classList.add("final-position");
+    cinematic.classList.remove("show");
 
-        const treasureSelector = document.getElementById("treasureSelector");
-        if (treasureSelector) {
-          treasureSelector.classList.remove("hidden");
-        }
+    // ❌ Supprime complètement l'animation
+    cinematic.remove();
 
-      }, 1000);
+    const treasureSelector = document.getElementById("treasureSelector");
+    if (treasureSelector) {
+      treasureSelector.classList.remove("hidden");
+    }
 
-    });
+  }, 1000);
+
+});
   }
 }
   /* ==========================================================
