@@ -496,5 +496,3 @@ canvaButtons.forEach((btn, index) => {
   }
 
 });
-
-});
