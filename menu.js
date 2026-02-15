@@ -415,19 +415,27 @@ chestContainer.addEventListener("click", function openChest() {
   ========================================================== */
 if (treasureBtn && treasureDropdown) {
 
+  // 🔽 Ouvrir / fermer menu 🎁
   treasureBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     treasureDropdown.classList.toggle("show");
   });
 
+  // Empêche fermeture si clic dans le menu
   treasureDropdown.addEventListener("click", (e) => {
     e.stopPropagation();
   });
 
+  // Ferme si clic ailleurs
   document.addEventListener("click", () => {
     treasureDropdown.classList.remove("show");
   });
 }
+
+/* ==========================================================
+   🎁 BOUTONS CANVA
+========================================================== */
+
 const labels = [
   "Commerce",
   "Communication",
@@ -435,16 +443,29 @@ const labels = [
   "Legal"
 ];
 
+const downloadLinks = [
+  "https://drive.google.com/uc?export=download&id=1ssn5e4Nf6Th11d7z_Rzg6rvnBhjgDtiP",
+  null,
+  null,
+  null
+];
+
 const canvaButtons = document.querySelectorAll("#treasureDropdown button");
 
 canvaButtons.forEach((btn, index) => {
 
+  // 🔔 Tooltip
   const tooltip = document.createElement("div");
   tooltip.className = "tooltip";
   tooltip.textContent = labels[index];
-
   btn.appendChild(tooltip);
 
-});
+  // 📥 Téléchargement si lien existant
+  if (downloadLinks[index]) {
+    btn.addEventListener("click", () => {
+      window.open(downloadLinks[index], "_blank");
+    });
+  }
 
+});
 });
