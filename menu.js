@@ -351,7 +351,6 @@ function validate() {
 /* ==========================================================
    🎬 COFFRE FINAL — UNIQUEMENT RETOUR LEGAL
 ========================================================== */
-
 const treasureBtn = document.getElementById("treasureBtn");
 const treasureDropdown = document.getElementById("treasureDropdown");
 const cinematic = document.getElementById("cinematicChest");
@@ -409,9 +408,6 @@ if (sessionStorage.getItem("questCompleted") === "true") {
   }
 }
 
-/* ==========================================================
-   🎁 DROPDOWN + TÉLÉCHARGEMENT
-========================================================== */
 /* ==========================================================
    🎁 DROPDOWN + TÉLÉCHARGEMENT
 ========================================================== */
@@ -495,5 +491,4 @@ canvaButtons.forEach((btn, index) => {
 
   }
 
-});
    });
