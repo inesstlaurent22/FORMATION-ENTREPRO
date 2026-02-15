@@ -143,11 +143,11 @@ body.night-mode .pirate.unlocked:hover{
 /* 🌙 POSITIONS PIRATES MODE NUIT */
 /* ================================================= */
 
-body.night-mode #pirate1 { left: 240px; top: 470px; }
-body.night-mode #pirate2 { left: 895px; top: 693px; }
-body.night-mode #pirate3 { left: 829px; top: 363px; }
-body.night-mode #pirate4 { left: 1210px; top: 76px; }
-body.night-mode #pirate5 { left: 307px; top: 176px; }
+body.night-mode #pirate1 { left: 240px; top: 400px; }
+body.night-mode #pirate2 { left: 885px; top: 663px; }
+body.night-mode #pirate3 { left: 820px; top: 355px; }
+body.night-mode #pirate4 { left: 1190px; top: 68px; }
+body.night-mode #pirate5 { left: 300px; top: 160px; }
 
 
 /* ================================================= */
