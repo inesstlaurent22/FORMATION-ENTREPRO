@@ -136,18 +136,18 @@ body.night-mode .pirate.unlocked:hover{
 #pirate1 { left: 170px; top: 400px; width: 160px; }
 #pirate2 { left: 825px; top: 650px; width: 180px; }
 #pirate3 { left: 740px; top: 310px; width: 135px; }
-#pirate4 { left: 1140px; top: 30px; width: 160px; }
+#pirate4 { left: 1194px; top: 76px; width: 138px; }
 #pirate5 { left: 240px; top: 150px; width: 160px; }
 
 /* ================================================= */
 /* 🌙 POSITIONS PIRATES MODE NUIT */
 /* ================================================= */
 
-body.night-mode #pirate1 { left: 220px; top: 350px; }
-body.night-mode #pirate2 { left: 810px; top: 550px; }
-body.night-mode #pirate3 { left: 690px; top: 260px; }
-body.night-mode #pirate4 { left: 1080px; top: 80px; }
-body.night-mode #pirate5 { left: 280px; top: 150px; }
+body.night-mode #pirate1 { left: 240px; top: 470px; }
+body.night-mode #pirate2 { left: 895px; top: 693px; }
+body.night-mode #pirate3 { left: 829px; top: 363px; }
+body.night-mode #pirate4 { left: 1210px; top: 76px; }
+body.night-mode #pirate5 { left: 307px; top: 176px; }
 
 
 /* ================================================= */
