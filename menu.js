@@ -386,33 +386,49 @@ if (sessionStorage.getItem("questCompleted") === "true") {
       cinematic.classList.add("show");
     }, 2500);
 
-chestContainer.addEventListener("click", function openChest() {
+    chestContainer.addEventListener("click", function openChest() {
 
-  chestContainer.removeEventListener("click", openChest);
+      chestContainer.removeEventListener("click", openChest);
 
-  chestBase.src = "images/Tresorouvert.png";
-  chestBase.style.transform = "scale(1.05)";
+      chestBase.src = "images/Tresorouvert.png";
+      chestBase.style.transform = "scale(1.05)";
 
-  setTimeout(() => {
+      setTimeout(() => {
 
-    cinematic.classList.remove("show");
+        // ❌ Supprime totalement l’animation du coffre
+        cinematic.remove();
 
-    // ❌ Supprime complètement l'animation
-    cinematic.remove();
+        const treasureSelector = document.getElementById("treasureSelector");
+        if (treasureSelector) {
+          treasureSelector.classList.remove("hidden");
+        }
 
-    const treasureSelector = document.getElementById("treasureSelector");
-    if (treasureSelector) {
-      treasureSelector.classList.remove("hidden");
-    }
+      }, 800);
 
-  }, 1000);
-
-});
+    });
   }
 }
-  /* ==========================================================
-     🎁 DROPDOWN CANVA
-  ========================================================== */
+
+
+/* ==========================================================
+   🎁 DROPDOWN CANVA + TÉLÉCHARGEMENT LOCAL
+========================================================== */
+
+if (treasureBtn && treasureDropdown) {
+
+  treasureBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    treasureDropdown.classList.toggle("show");
+  });
+
+  treasureDropdown.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  document.addEventListener("click", () => {
+    treasureDropdown.classList.remove("show");
+  });
+}
 
 const labels = [
   "Commerce",
@@ -421,9 +437,9 @@ const labels = [
   "Legal"
 ];
 
-// ⚠️ Lien direct Google Drive (export download)
+// 📁 Fichiers locaux
 const downloadLinks = [
-  "https://drive.google.com/uc?export=download&id=1ssn5e4Nf6Th11d7z_Rzg6rvnBhjgDtiP",
+  "dossiers/Commerce.pdf",
   null,
   null,
   null
@@ -441,16 +457,23 @@ canvaButtons.forEach((btn, index) => {
 
   // Téléchargement direct
   if (downloadLinks[index]) {
-    btn.addEventListener("click", () => {
+
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
 
       const link = document.createElement("a");
       link.href = downloadLinks[index];
-      link.setAttribute("download", "Commerce.pdf"); // nom du fichier
+      link.download = "Commerce.pdf";
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
+      treasureDropdown.classList.remove("show");
     });
+
   }
+
+});
 
 });
