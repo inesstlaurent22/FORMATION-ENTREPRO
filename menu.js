@@ -413,6 +413,9 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 /* ==========================================================
    🎁 DROPDOWN CANVA + TÉLÉCHARGEMENT LOCAL
 ========================================================== */
+/* ==========================================================
+   🎁 DROPDOWN + TÉLÉCHARGEMENT
+========================================================== */
 
 if (treasureBtn && treasureDropdown) {
 
@@ -429,6 +432,10 @@ if (treasureBtn && treasureDropdown) {
     treasureDropdown.classList.remove("show");
   });
 }
+
+/* ==========================================================
+   📌 LABELS + DOWNLOADS
+========================================================== */
 
 const labels = [
   "Commerce",
@@ -449,21 +456,28 @@ const canvaButtons = document.querySelectorAll("#treasureDropdown button");
 
 canvaButtons.forEach((btn, index) => {
 
-  // Tooltip
+  // Sécurité si index dépasse
+  if (!btn) return;
+
+  /* ---------- TOOLTIP ---------- */
   const tooltip = document.createElement("div");
   tooltip.className = "tooltip";
-  tooltip.textContent = labels[index];
+  tooltip.textContent = labels[index] || "";
   btn.appendChild(tooltip);
 
-  // Téléchargement direct
-  if (downloadLinks[index]) {
+  /* ---------- DOWNLOAD ---------- */
+  const filePath = downloadLinks[index];
+
+  if (filePath) {
 
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
 
       const link = document.createElement("a");
-      link.href = downloadLinks[index];
-      link.download = "Commerce.pdf";
+      link.href = filePath;
+
+      // Nom automatique basé sur le fichier
+      link.download = filePath.split("/").pop();
 
       document.body.appendChild(link);
       link.click();
