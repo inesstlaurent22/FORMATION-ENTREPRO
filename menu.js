@@ -349,13 +349,8 @@ function validate() {
 }
    
 /* ==========================================================
-   🎬 COFFRE FINAL — UNIQUEMENT RETOUR LEGAL
+   🎬 COFFRE FINAL
 ========================================================== */
-const treasureBtn = document.getElementById("treasureBtn");
-const treasureDropdown = document.getElementById("treasureDropdown");
-const cinematic = document.getElementById("cinematicChest");
-const chestContainer = document.getElementById("chestContainer");
-const chestBase = document.getElementById("chestBase");
 
 if (sessionStorage.getItem("questCompleted") === "true") {
 
@@ -363,48 +358,68 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 
   if (cinematic && chestContainer && chestBase) {
 
-    const loader = document.createElement("div");
-    loader.id = "questLoader";
-    loader.innerHTML = `
-      <div id="questLoaderText">
-        🏆 Bravo tu as gagné toute la quête !<br><br>
-        🎁 Récupère vite tes cadeaux !
-      </div>
-    `;
-    document.body.appendChild(loader);
-
-    setTimeout(() => loader.classList.add("show"), 50);
-
-    setTimeout(() => {
-      loader.classList.remove("show");
-      setTimeout(() => loader.remove(), 600);
-    }, 2500);
-
     setTimeout(() => {
       cinematic.classList.remove("hidden");
       cinematic.classList.add("show");
-    }, 2500);
+    }, 500);
 
     chestContainer.addEventListener("click", function openChest() {
 
       chestContainer.removeEventListener("click", openChest);
 
+      /* --- OUVERTURE IMAGE --- */
       chestBase.src = "images/Tresorouvert.png";
-      chestBase.style.transform = "scale(1.05)";
 
+      /* --- EXPLOSION GEMS --- */
+      launchGemsExplosion(
+        document.getElementById("gemsContainer")
+      );
+
+      /* --- DEPLACEMENT FINAL --- */
       setTimeout(() => {
+        cinematic.classList.add("final-position");
+      }, 800);
 
-        // ❌ Supprime totalement l’animation du coffre
-        cinematic.remove();
-
-        const treasureSelector = document.getElementById("treasureSelector");
+      /* --- ACTIVER BOUTON 🎁 --- */
+      setTimeout(() => {
+        const treasureSelector =
+          document.getElementById("treasureSelector");
         if (treasureSelector) {
           treasureSelector.classList.remove("hidden");
         }
-
-      }, 800);
+      }, 1500);
 
     });
+  }
+}
+
+/* =====================================================
+   💎 GEMS
+===================================================== */
+
+function launchGemsExplosion(container){
+  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+
+  for(let i=0;i<50;i++){
+    const g=document.createElement("div");
+    g.className="gem";
+
+    const size=Math.random()*10+8;
+    g.style.width=size+"px";
+    g.style.height=size+"px";
+    g.style.background=colors[Math.floor(Math.random()*colors.length)];
+    g.style.left="50%";
+    g.style.top="50%";
+
+    const angle=Math.random()*Math.PI*2;
+    const dist=Math.random()*260+80;
+
+    g.style.setProperty("--x",Math.cos(angle)*dist+"px");
+    g.style.setProperty("--y",Math.sin(angle)*dist+"px");
+
+    container.appendChild(g);
+
+    setTimeout(()=>g.remove(),1600);
   }
 }
 
