@@ -444,7 +444,7 @@ const labels = [
 ];
 
 const downloadLinks = [
-  "dossiers/Commerce.pdf",
+  "dossiers/Commerce.zip",
   null,
   null,
   null
