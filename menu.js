@@ -412,9 +412,9 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 /* ==========================================================
    🎁 DROPDOWN + TÉLÉCHARGEMENT
 ========================================================== */
-
-const treasureBtn = document.getElementById("treasureBtn");
-const treasureDropdown = document.getElementById("treasureDropdown");
+/* ==========================================================
+   🎁 DROPDOWN + TÉLÉCHARGEMENT
+========================================================== */
 
 if (treasureBtn && treasureDropdown) {
 
