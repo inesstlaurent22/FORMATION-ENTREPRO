@@ -431,7 +431,6 @@ if (treasureBtn && treasureDropdown) {
 /* ==========================================================
    📌 LABELS + DOWNLOADS
 ========================================================== */
-
 const labels = [
   "Commerce",
   "Communication",
@@ -458,38 +457,28 @@ canvaButtons.forEach((btn, index) => {
   tooltip.textContent = labels[index] || "";
   btn.appendChild(tooltip);
 
-  /* ---------- DOWNLOAD FORCÉ ---------- */
+  /* ---------- DOWNLOAD DIRECT ---------- */
   const filePath = downloadLinks[index];
 
   if (filePath) {
 
-    btn.addEventListener("click", async (e) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
       e.stopPropagation();
 
-      try {
-        const response = await fetch(filePath);
-        const blob = await response.blob();
+      const link = document.createElement("a");
+      link.href = filePath;
+      link.download = "Commerce.zip"; // nom forcé
+      link.style.display = "none";
 
-        const blobUrl = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-
-        link.href = blobUrl;
-        link.download = filePath.split("/").pop();
-
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        window.URL.revokeObjectURL(blobUrl);
-
-      } catch (error) {
-        console.error("Erreur téléchargement :", error);
-      }
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       treasureDropdown.classList.remove("show");
     });
 
   }
 
-   });
+});
    });
