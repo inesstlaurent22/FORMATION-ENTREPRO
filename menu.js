@@ -413,25 +413,6 @@ chestContainer.addEventListener("click", function openChest() {
   /* ==========================================================
      🎁 DROPDOWN CANVA
   ========================================================== */
-if (treasureBtn && treasureDropdown) {
-
-  treasureBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    treasureDropdown.classList.toggle("show");
-  });
-
-  treasureDropdown.addEventListener("click", (e) => {
-    e.stopPropagation();
-  });
-
-  document.addEventListener("click", () => {
-    treasureDropdown.classList.remove("show");
-  });
-}
-
-/* ==========================================================
-   🎁 BOUTONS CANVA – TÉLÉCHARGEMENT DIRECT
-========================================================== */
 
 const labels = [
   "Commerce",
@@ -472,5 +453,4 @@ canvaButtons.forEach((btn, index) => {
     });
   }
 
-});
 });
