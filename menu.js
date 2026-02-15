@@ -409,13 +409,12 @@ if (sessionStorage.getItem("questCompleted") === "true") {
   }
 }
 
-
-/* ==========================================================
-   🎁 DROPDOWN CANVA + TÉLÉCHARGEMENT LOCAL
-========================================================== */
 /* ==========================================================
    🎁 DROPDOWN + TÉLÉCHARGEMENT
 ========================================================== */
+
+const treasureBtn = document.getElementById("treasureBtn");
+const treasureDropdown = document.getElementById("treasureDropdown");
 
 if (treasureBtn && treasureDropdown) {
 
@@ -444,7 +443,6 @@ const labels = [
   "Legal"
 ];
 
-// 📁 Fichiers locaux
 const downloadLinks = [
   "dossiers/Commerce.pdf",
   null,
@@ -456,7 +454,6 @@ const canvaButtons = document.querySelectorAll("#treasureDropdown button");
 
 canvaButtons.forEach((btn, index) => {
 
-  // Sécurité si index dépasse
   if (!btn) return;
 
   /* ---------- TOOLTIP ---------- */
@@ -465,23 +462,33 @@ canvaButtons.forEach((btn, index) => {
   tooltip.textContent = labels[index] || "";
   btn.appendChild(tooltip);
 
-  /* ---------- DOWNLOAD ---------- */
+  /* ---------- DOWNLOAD FORCÉ ---------- */
   const filePath = downloadLinks[index];
 
   if (filePath) {
 
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
       e.stopPropagation();
 
-      const link = document.createElement("a");
-      link.href = filePath;
+      try {
+        const response = await fetch(filePath);
+        const blob = await response.blob();
 
-      // Nom automatique basé sur le fichier
-      link.download = filePath.split("/").pop();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
 
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+        link.href = blobUrl;
+        link.download = filePath.split("/").pop();
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(blobUrl);
+
+      } catch (error) {
+        console.error("Erreur téléchargement :", error);
+      }
 
       treasureDropdown.classList.remove("show");
     });
