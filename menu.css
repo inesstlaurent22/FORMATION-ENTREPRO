@@ -133,7 +133,7 @@ body.night-mode .pirate.unlocked:hover{
 /* 📍 POSITIONS PIRATES */
 /* ================================================= */
 
-#pirate1 { left: 170px; top: 400px; width: 160px; }
+#pirate1 { left: 170px; top: 400px; width: 120px; height: 222px; }
 #pirate2 { left: 825px; top: 650px; width: 180px; }
 #pirate3 { left: 740px; top: 310px; width: 135px; }
 #pirate4 { left: 1194px; top: 76px; width: 138px; }
