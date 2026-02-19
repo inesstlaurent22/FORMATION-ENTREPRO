@@ -349,13 +349,16 @@ function validate() {
 }
    
 /* ==========================================================
-   🎬 COFFRE FINAL (RETOUR LEGAL)
+   🎬 COFFRE FINAL (RETOUR LEGAL → TRANSFORMATION BOUTON)
 ========================================================== */
 
 const cinematic = document.getElementById("cinematicChest");
 const chestWrapper = document.querySelector(".chest-wrapper");
 const chestContainer = document.querySelector(".chest-container");
 const chestBase = document.getElementById("chestBase");
+const treasureSelector = document.getElementById("treasureSelector");
+const treasureBtn = document.getElementById("treasureBtn");
+const treasureDropdown = document.getElementById("treasureDropdown");
 
 if (sessionStorage.getItem("questCompleted") === "true") {
 
@@ -365,44 +368,50 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 
     cinematic.classList.remove("hidden");
 
-    // ⚡ Apparition + grossissement
+    /* 🔹 Apparition petit → grossit */
     setTimeout(() => {
       cinematic.classList.add("show");
     }, 100);
 
-    // ⛔ Bloque clic pendant l’animation
+    /* 🔒 Bloque clic pendant animation */
     chestContainer.style.pointerEvents = "none";
-
     setTimeout(() => {
       chestContainer.style.pointerEvents = "auto";
-    }, 1300);
+    }, 1200);
 
-    // 🖱️ Ouverture coffre
+    /* ===============================
+       🖱️ OUVERTURE COFFRE
+    =============================== */
+
     chestContainer.addEventListener("click", function openChest() {
 
       chestContainer.removeEventListener("click", openChest);
 
-      // 🎁 Changement image
+      /* 🎁 Image ouverte */
       chestBase.src = "images/Tresorouvert.png";
 
-      // 💎 Explosion
+      /* 💎 Explosion */
       const gemsContainer = document.createElement("div");
       gemsContainer.className = "gems-container";
       chestContainer.appendChild(gemsContainer);
-
       launchGemsExplosion(gemsContainer);
 
-      // 🚀 Déplacement sous météo
+      /* 🚀 Déplacement sous météo */
       setTimeout(() => {
         cinematic.classList.add("final-position");
-      }, 800);
+      }, 700);
 
-      // 🎁 Active bouton trésor
+      /* 🔄 TRANSFORMATION EN BOUTON */
       setTimeout(() => {
-        const treasureSelector = document.getElementById("treasureSelector");
+
+        // Cache complètement animation
+        cinematic.style.display = "none";
+
+        // Affiche bouton final
         if (treasureSelector) {
           treasureSelector.classList.remove("hidden");
         }
+
       }, 1500);
 
     });
