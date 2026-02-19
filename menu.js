@@ -402,17 +402,15 @@ if (sessionStorage.getItem("questCompleted") === "true") {
       }, 700);
 
       /* 🔄 TRANSFORMATION EN BOUTON */
-      setTimeout(() => {
+setTimeout(() => {
 
-        // Cache complètement animation
-        cinematic.style.display = "none";
+  cinematic.remove(); // ⬅️ Supprime totalement le coffre
 
-        // Affiche bouton final
-        if (treasureSelector) {
-          treasureSelector.classList.remove("hidden");
-        }
+  if (treasureSelector) {
+    treasureSelector.classList.remove("hidden");
+  }
 
-      }, 1500);
+}, 1500);
 
     });
   }
