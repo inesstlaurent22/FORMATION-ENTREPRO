@@ -3,12 +3,13 @@
 /* ================================================= */
 
 html, body {
-  width: 100%;
-  height: 100%;
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  width: 100vw;
+  height: 100svh;   /* viewport stable iOS */
   overflow: hidden;
-  position: relative;
+  font-family: Arial, sans-serif;
+  background-color: #000;  /* empêche toute bande blanche */
 }
 
 .hidden {
@@ -16,13 +17,27 @@ html, body {
 }
 
 /* ================================================= */
-/* 🌌 BACKGROUND */
+/* 🌌 BACKGROUND FIX FULLSCREEN */
 /* ================================================= */
 
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #000; /* sécurité anti-blanc */
+}
+
+/* Fond principal */
 #background {
   position: fixed;
-  inset: 0;
-  background: url("images/Fondmenu.PNG") no-repeat center center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-position: center center;
+  background-repeat: no-repeat;
   background-size: cover;
   z-index: 0;
 }
