@@ -478,10 +478,10 @@ const labels = [
 ];
 
 const downloadLinks = [
-  "dossiers/Commerce1.pdf",
-  "dossiers/Communication1.pdf",
-  "dossiers/Finance1.pdf",
-  "dossiers/Legal1.pdf"
+  "dossiers/Commerce1.zip",
+  "dossiers/Communication1.zip",
+  "dossiers/Finance1.zip",
+  "dossiers/Legal1.zip"
 ];
 
 const canvaButtons = document.querySelectorAll("#treasureDropdown button");
