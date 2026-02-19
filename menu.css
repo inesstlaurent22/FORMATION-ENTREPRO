@@ -145,26 +145,26 @@ body.night-mode .pirate.unlocked:hover{
 
 body.night-mode #pirate1 {
   left: 240px;
-  top: 450px;
+  top: 400px;
   width: 144px;
   height: 266px;
 }
 
 body.night-mode #pirate2 {
-  left: 870px;
+  left: 855px;
   top: 620px;
 }
 
 body.night-mode #pirate3 {
   left: 800px;
-  top: 355px;
+  top: 300px;
   width: 147px;
   height: 240px;
 }
 
 body.night-mode #pirate4 {
-  left: 1132px;
-  top: 22px;
+  left: 1090px;
+  top: 19px;
   width: 178px;
   height: 223px;
 }
@@ -172,8 +172,8 @@ body.night-mode #pirate4 {
 body.night-mode #pirate5 {
   left: 250px;
   top: 100px;
-  width: 178px;
-  height: 233px;
+  width: 168px;
+  height: 220px;
 }
 
 /* ================================================= */
