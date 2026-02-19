@@ -457,7 +457,7 @@ const downloadLinks = [
   "dossiers/Commerce1.pdf",
   "dossiers/Communication1.pdf",
   "dossiers/Finance1.pdf",
-  null
+  "dossiers/Legal1.pdf"
 ];
 
 const canvaButtons = document.querySelectorAll("#treasureDropdown button");
@@ -483,7 +483,7 @@ canvaButtons.forEach((btn, index) => {
 
       const link = document.createElement("a");
       link.href = filePath;
-      link.download = "Commerce.zip"; // nom forcé
+      link.download = "Commerce1.pdf"; // nom forcé
       link.style.display = "none";
 
       document.body.appendChild(link);
