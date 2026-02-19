@@ -349,41 +349,57 @@ function validate() {
 }
    
 /* ==========================================================
-   🎬 COFFRE FINAL
+   🎬 COFFRE FINAL (RETOUR LEGAL)
 ========================================================== */
+
+const cinematic = document.getElementById("cinematicChest");
+const chestWrapper = document.querySelector(".chest-wrapper");
+const chestContainer = document.querySelector(".chest-container");
+const chestBase = document.getElementById("chestBase");
 
 if (sessionStorage.getItem("questCompleted") === "true") {
 
   sessionStorage.removeItem("questCompleted");
 
-  if (cinematic && chestContainer && chestBase) {
+  if (cinematic && chestWrapper && chestContainer && chestBase) {
+
+    cinematic.classList.remove("hidden");
+
+    // ⚡ Apparition + grossissement
+    setTimeout(() => {
+      cinematic.classList.add("show");
+    }, 100);
+
+    // ⛔ Bloque clic pendant l’animation
+    chestContainer.style.pointerEvents = "none";
 
     setTimeout(() => {
-      cinematic.classList.remove("hidden");
-      cinematic.classList.add("show");
-    }, 500);
+      chestContainer.style.pointerEvents = "auto";
+    }, 1300);
 
+    // 🖱️ Ouverture coffre
     chestContainer.addEventListener("click", function openChest() {
 
       chestContainer.removeEventListener("click", openChest);
 
-      /* --- OUVERTURE IMAGE --- */
+      // 🎁 Changement image
       chestBase.src = "images/Tresorouvert.png";
 
-      /* --- EXPLOSION GEMS --- */
-      launchGemsExplosion(
-        document.getElementById("gemsContainer")
-      );
+      // 💎 Explosion
+      const gemsContainer = document.createElement("div");
+      gemsContainer.className = "gems-container";
+      chestContainer.appendChild(gemsContainer);
 
-      /* --- DEPLACEMENT FINAL --- */
+      launchGemsExplosion(gemsContainer);
+
+      // 🚀 Déplacement sous météo
       setTimeout(() => {
         cinematic.classList.add("final-position");
       }, 800);
 
-      /* --- ACTIVER BOUTON 🎁 --- */
+      // 🎁 Active bouton trésor
       setTimeout(() => {
-        const treasureSelector =
-          document.getElementById("treasureSelector");
+        const treasureSelector = document.getElementById("treasureSelector");
         if (treasureSelector) {
           treasureSelector.classList.remove("hidden");
         }
