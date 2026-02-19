@@ -144,7 +144,7 @@ body.night-mode .pirate.unlocked:hover{
 /* ================================================= */
 
 body.night-mode #pirate1 {
-  left: 240px;
+  left: 230px;
   top: 400px;
   width: 144px;
   height: 266px;
@@ -156,14 +156,14 @@ body.night-mode #pirate2 {
 }
 
 body.night-mode #pirate3 {
-  left: 800px;
+  left: 780px;
   top: 300px;
   width: 147px;
   height: 240px;
 }
 
 body.night-mode #pirate4 {
-  left: 1090px;
+  left: 1080px;
   top: 19px;
   width: 178px;
   height: 223px;
