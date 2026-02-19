@@ -446,6 +446,7 @@ if (treasureBtn && treasureDropdown) {
 /* ==========================================================
    📌 LABELS + DOWNLOADS
 ========================================================== */
+
 const labels = [
   "Commerce",
   "Communication",
@@ -483,14 +484,18 @@ canvaButtons.forEach((btn, index) => {
 
       const link = document.createElement("a");
       link.href = filePath;
-      link.download = "Commerce1.pdf"; // nom forcé
-      link.style.display = "none";
 
+      // Nom automatique basé sur le fichier
+      link.download = filePath.split("/").pop();
+
+      link.style.display = "none";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
-      treasureDropdown.classList.remove("show");
+      if (typeof treasureDropdown !== "undefined" && treasureDropdown) {
+        treasureDropdown.classList.remove("show");
+      }
     });
 
   }
