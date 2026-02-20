@@ -48,34 +48,54 @@ function shake(el){
 /* =====================================================
    VIDÉO INTRO
 ===================================================== */
-questVideo.muted = true;
+/* =====================================================
+   VIDÉO INTRO
+===================================================== */
 
-questVideo.oncanplay = ()=>{
-  fadeScreen.classList.add("hidden");
-  questVideo.play().catch(()=>{});
-};
+if(questVideo){
 
-toggleSound.onclick = ()=>{
-  questVideo.muted = !questVideo.muted;
-  toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-};
+  questVideo.muted = true;
 
-closeVideo.onclick = endVideo;
-questVideo.onended = endVideo;
+  questVideo.addEventListener("canplay", () => {
+    fadeScreen.classList.add("hidden");
+    questVideo.play().catch(()=>{});
+  });
+
+  questVideo.addEventListener("ended", endVideo);
+}
+
+if(toggleSound){
+  toggleSound.addEventListener("click", () => {
+    if(!questVideo) return;
+    questVideo.muted = !questVideo.muted;
+    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  });
+}
+
+if(closeVideo){
+  closeVideo.addEventListener("click", endVideo);
+}
+
+let videoEnded = false;
 
 function endVideo(){
 
-  // Stop vidéo proprement
-  questVideo.pause();
-  questVideo.currentTime = 0;
+  if(videoEnded) return; // empêche double exécution
+  videoEnded = true;
 
-  // Cache définitivement la vidéo
-  videoContainer.classList.add("hidden");
+  if(questVideo){
+    questVideo.pause();
+    questVideo.currentTime = 0;
+    questVideo.removeAttribute("src");
+    questVideo.load();
+  }
 
-  // Sécurité : enlève le loader si présent
+  if(videoContainer){
+    videoContainer.classList.add("hidden");
+  }
+
   fadeScreen.classList.add("hidden");
 
-  // Affiche la scène APRÈS la vidéo
   requestAnimationFrame(()=>{
     showScene();
   });
