@@ -148,10 +148,10 @@ body.night-mode .pirate.unlocked:hover{
 /* 📍 POSITIONS PIRATES */
 /* ================================================= */
 
-#pirate1 { left: 260px; top: 445px; width: 147px; height: 270px; }
-#pirate2 { left: 825px; top: 650px; width: 180px; }
-#pirate3 { left: 770px; top: 310px; width: 129px; height: 237px; }
-#pirate4 { left: 1020px; top: 15px; width: 154px; height: 223px; }
+#pirate1 { left: 250px; top: 445px; width: 147px; height: 270px; }
+#pirate2 { left: 825px; top: 665px; width: 180px; }
+#pirate3 { left: 780px; top: 310px; width: 129px; height: 237px; }
+#pirate4 { left: 1030px; top: 15px; width: 154px; height: 223px; }
 #pirate5 { left: 240px; top: 150px; width: 160px; }
 
 /* ================================================= */
@@ -160,7 +160,7 @@ body.night-mode .pirate.unlocked:hover{
 
 body.night-mode #pirate1 {
   left: 230px;
-  top: 415px;
+  top: 425px;
   width: 144px;
   height: 266px;
 }
