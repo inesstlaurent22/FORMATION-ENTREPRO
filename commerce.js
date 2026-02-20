@@ -419,18 +419,29 @@ function update(){
   /* ===============================
      PAGE TURN ANIMATION
   =============================== */
+let isTurning = false;
+
 function turnPage(direction){
+
+  if(isTurning) return;
 
   if(direction === "right" && step >= pages.length - 1) return;
   if(direction === "left" && step <= 0) return;
 
+  isTurning = true;
+
   step += (direction === "right") ? 1 : -1;
 
   update();
+
+  // réactive immédiatement après le rendu
+  requestAnimationFrame(()=>{
+    isTurning = false;
+  });
 }
 
-next.onclick = () => turnPage("right");
-prev.onclick = () => turnPage("left");
+next.addEventListener("click", () => turnPage("right"));
+prev.addEventListener("click", () => turnPage("left"));
    
 /* ===============================
    ZOOM PAGE DROITE
