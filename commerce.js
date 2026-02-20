@@ -235,9 +235,17 @@ function showBusinessPlanLoader(){
         <div class="book-loading" id="bookLoading">⏳</div>
 
         <div class="book-pages hidden" id="bookPages">
-          <img id="leftPage" class="hidden">
-          <img id="rightPage">
-        </div>
+
+  <div class="left-wrapper">
+    <img id="leftPage" class="hidden">
+  </div>
+
+  <div class="right-wrapper">
+    <img id="rightPage">
+    <button id="zoomPageBtn" class="zoom-btn hidden">🔎</button>
+  </div>
+
+</div>
 
         <button id="nextPage" class="book-nav-btn hidden">›</button>
 
@@ -276,9 +284,6 @@ function showBusinessPlanLoader(){
   let step = 0;
   let isTurning = false;
 
-  /* ===============================
-     PRELOAD IMAGES
-  =============================== */
 /* ===============================
    PRELOAD IMAGES
 =============================== */
