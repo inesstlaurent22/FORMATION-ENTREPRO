@@ -273,6 +273,15 @@ button:disabled{
   cursor:not-allowed;
 }
 
+button.correct-locked{
+  background:#5c3a0c !important;
+  color:#ffd77a !important;
+  box-shadow:
+    inset 0 0 10px gold,
+    0 2px 0 #3b2208;
+  transform:translateY(4px);
+}
+
 /* =====================================================
    🔒 NEUTRALISATION — MINI-JEU 3 UNIQUEMENT
 ===================================================== */
