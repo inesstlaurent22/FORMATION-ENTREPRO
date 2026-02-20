@@ -530,7 +530,7 @@ function startMiniGame3(){
 
           setTimeout(()=>{
             game3.classList.add("hidden");
-         showLoader(1000, showCommerceWin);
+         showCommerceWin();
           }, 3200);
 
         }else{
