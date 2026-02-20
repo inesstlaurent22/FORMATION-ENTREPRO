@@ -357,43 +357,19 @@ right.src = r;
   =============================== */
 function turnPage(direction){
 
-  if(isTurning) return;
-  isTurning = true;
+  // Empêche sortie des limites
+  if(direction === "right" && step >= pages.length - 1) return;
+  if(direction === "left" && step <= 0) return;
 
-  loader.classList.remove("hidden");
-  pagesWrap.classList.add("hidden");
+  // Mise à jour immédiate
+  step += (direction === "right") ? 1 : -1;
 
-  setTimeout(()=>{
-
-    if(direction === "right" && step < pages.length - 1){
-      step++;
-    }
-    if(direction === "left" && step > 0){
-      step--;
-    }
-
-    update();
-
-    pagesWrap.classList.remove("hidden");
-    loader.classList.add("hidden");
-
-    isTurning = false;
-
-  },400);
+  update();
 }
 
-  next.onclick = ()=>{
-    if(step < pages.length - 1){
-      turnPage("right");
-    }
-  };
-
-  prev.onclick = ()=>{
-    if(step > 0){
-      turnPage("left");
-    }
-  };
-
+next.onclick = () => turnPage("right");
+prev.onclick = () => turnPage("left");
+   
 /* ===============================
    ZOOM PAGE DROITE
 =============================== */
