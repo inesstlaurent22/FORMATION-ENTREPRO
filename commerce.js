@@ -325,43 +325,36 @@ if(allImages.length === 0){
   /* ===============================
      UPDATE PAGES
   =============================== */
-  function update(){
+function update(){
 
-    const [l,r] = pages[step];
+  const [l, r] = pages[step];
 
-    if(l){
-      left.src = l;
-      left.classList.remove("hidden");
-      prev.classList.remove("hidden");
-    }else{
-      left.classList.add("hidden");
-      prev.classList.add("hidden");
-    }
-
-   loader.classList.remove("hidden");
-pagesWrap.classList.add("hidden");
-
-right.onload = ()=>{
-  loader.classList.add("hidden");
-  pagesWrap.classList.remove("hidden");
-};
-
-right.src = r;
-
-    next.classList.toggle("hidden", step === pages.length - 1);
-    cont.classList.toggle("hidden", step !== pages.length - 1);
+  /* PAGE GAUCHE */
+  if(l){
+    left.src = l;
+    left.classList.remove("hidden");
+    prev.classList.remove("hidden");
+  }else{
+    left.classList.add("hidden");
+    prev.classList.add("hidden");
   }
 
+  /* PAGE DROITE */
+  right.src = r;
+
+  /* NAVIGATION */
+  next.classList.toggle("hidden", step === pages.length - 1);
+  cont.classList.toggle("hidden", step !== pages.length - 1);
+}
+   
   /* ===============================
      PAGE TURN ANIMATION
   =============================== */
 function turnPage(direction){
 
-  // Empêche sortie des limites
   if(direction === "right" && step >= pages.length - 1) return;
   if(direction === "left" && step <= 0) return;
 
-  // Mise à jour immédiate
   step += (direction === "right") ? 1 : -1;
 
   update();
