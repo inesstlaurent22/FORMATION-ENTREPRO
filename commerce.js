@@ -48,9 +48,6 @@ function shake(el){
 /* =====================================================
    VIDÉO INTRO
 ===================================================== */
-/* =====================================================
-   VIDÉO INTRO
-===================================================== */
 
 if(questVideo){
 
@@ -120,39 +117,102 @@ function showScene(){
 /* =====================================================
    DIALOGUES ENGINE
 ===================================================== */
-let dialogues=[], index=0, callback=null;
+let dialogues = [];
+let index = 0;
+let callback = null;
+let dialogueLocked = false;
 
 function playDialogues(list, cb){
-  dialogues=list; index=0; callback=cb;
-  skipBtn.classList.remove("hidden");
+
+  if(!bubbleContainer) return;
+
+  dialogues = Array.isArray(list) ? list : [];
+  index = 0;
+  callback = typeof cb === "function" ? cb : null;
+
+  if(skipBtn){
+    skipBtn.classList.remove("hidden");
+  }
+
   renderDialogue();
 }
 
 function renderDialogue(){
-  bubbleContainer.innerHTML="";
-  if(index>=dialogues.length){ endDialogues(); return; }
 
-  const d=dialogues[index];
-  const b=document.createElement("div");
-  b.className="dialogue-bubble";
-  b.innerHTML=d.text;
+  if(!bubbleContainer) return;
 
-  const r=d.anchor.getBoundingClientRect();
-  b.style.left=r.left+r.width/2+"px";
-  b.style.top=r.top-120+"px";
-  b.style.transform="translateX(-50%)";
+  bubbleContainer.innerHTML = "";
 
-  b.onclick=()=>{ index++; renderDialogue(); };
-  bubbleContainer.appendChild(b);
+  if(index >= dialogues.length){
+    endDialogues();
+    return;
+  }
+
+  const d = dialogues[index];
+  if(!d || !d.text){
+    index++;
+    renderDialogue();
+    return;
+  }
+
+  const bubble = document.createElement("div");
+  bubble.className = "dialogue-bubble";
+  bubble.innerHTML = d.text;
+
+  // Positionnement sécurisé
+  if(d.anchor && d.anchor.getBoundingClientRect){
+
+    const rect = d.anchor.getBoundingClientRect();
+
+    bubble.style.left = rect.left + rect.width / 2 + "px";
+    bubble.style.top = rect.top - 120 + "px";
+    bubble.style.transform = "translateX(-50%)";
+
+  }else{
+    // fallback centre écran
+    bubble.style.left = "50%";
+    bubble.style.top = "30%";
+    bubble.style.transform = "translate(-50%, -50%)";
+  }
+
+  bubble.addEventListener("click", () => {
+
+    if(dialogueLocked) return;
+    dialogueLocked = true;
+
+    index++;
+
+    requestAnimationFrame(() => {
+      dialogueLocked = false;
+      renderDialogue();
+    });
+
+  });
+
+  bubbleContainer.appendChild(bubble);
 }
 
 function endDialogues(){
-  bubbleContainer.innerHTML="";
-  skipBtn.classList.add("hidden");
-  callback && callback();
+
+  if(bubbleContainer){
+    bubbleContainer.innerHTML = "";
+  }
+
+  if(skipBtn){
+    skipBtn.classList.add("hidden");
+  }
+
+  const cb = callback;
+  callback = null;
+
+  if(cb){
+    cb();
+  }
 }
 
-skipBtn.onclick=endDialogues;
+if(skipBtn){
+  skipBtn.addEventListener("click", endDialogues);
+}
 
 /* =====================================================
    DIALOGUES 1
