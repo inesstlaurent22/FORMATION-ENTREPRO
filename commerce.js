@@ -220,6 +220,7 @@ function showBusinessPlanLoader(){
 
   const overlay = document.createElement("div");
   overlay.id = "identity-loader";
+
   overlay.innerHTML = `
     <div class="identity-center">
 
