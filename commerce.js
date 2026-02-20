@@ -188,31 +188,95 @@ function startDialogues2(){
    MINI-JEU 2
 ===================================================== */
 function startMiniGame2(){
+
   game2.classList.remove("hidden");
-  visualChoices.innerHTML="";
-  let success=0;
 
-  [
-    {t:"Définir la cible",ok:true},
-    {t:"Choisir la couleur du bateau",ok:false},
-    {t:"Identifier le problème client",ok:true}
-  ].forEach(q=>{
-    const b=document.createElement("button");
-    b.textContent=q.t;
-    b.onclick=()=>{
-      if(!q.ok){ shake(game2); return; }
-      b.classList.add("correct-locked");
-      b.disabled=true;
-      success++;
-      if(success===2){
-        game2.classList.add("hidden");
-        showBusinessPlanLoader();
-      }
-    };
-    visualChoices.appendChild(b);
-  });
+  const questions = [
+
+    {
+      question: "Étude du produit, qu’est-ce que je dois analyser en premier ?",
+      answers: [
+        { t: "Les besoins du client", ok: true },
+        { t: "La couleur du logo", ok: false },
+        { t: "La valeur apportée par le produit", ok: true },
+        { t: "Le nombre de likes Instagram", ok: false }
+      ]
+    },
+
+    {
+      question: "Étude du marché, est-ce que je dois analyser seulement les concurrents ?",
+      answers: [
+        { t: "Oui", ok: false },
+        { t: "Non, il faut aussi analyser les clients et les tendances", ok: true }
+      ]
+    },
+
+    {
+      question: "Construction du business plan",
+      answers: [
+        { t: "Définir la cible", ok: true },
+        { t: "Choisir la couleur du bateau", ok: false },
+        { t: "Identifier le problème client", ok: true }
+      ]
+    }
+
+  ];
+
+  let current = 0;
+
+  function renderQuestion(){
+
+    visualChoices.innerHTML = "";
+
+    const qBox = document.createElement("div");
+    qBox.className = "gameQuestion";
+    qBox.textContent = questions[current].question;
+
+    visualChoices.appendChild(qBox);
+
+    let success = 0;
+    const correctCount = questions[current].answers.filter(a => a.ok).length;
+
+    questions[current].answers.forEach(q => {
+
+      const b = document.createElement("button");
+      b.textContent = q.t;
+
+      b.onclick = ()=>{
+
+        if(!q.ok){
+          shake(game2);
+          return;
+        }
+
+        if(b.classList.contains("correct-locked")) return;
+
+        b.classList.add("correct-locked");
+        b.disabled = true;
+        success++;
+
+        if(success === correctCount){
+
+          setTimeout(()=>{
+            current++;
+
+            if(current < questions.length){
+              renderQuestion();
+            }else{
+              game2.classList.add("hidden");
+              showBusinessPlanLoader();
+            }
+
+          },800);
+        }
+      };
+
+      visualChoices.appendChild(b);
+    });
+  }
+
+  renderQuestion();
 }
-
 /* =====================================================
    📘 LIVRE
 ===================================================== */
