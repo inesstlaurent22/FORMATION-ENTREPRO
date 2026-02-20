@@ -315,8 +315,6 @@ function showBusinessPlanLoader(){
 
       </div>
 
-      <button id="zoomPageBtn" class="hidden">🔎</button>
-
       <button id="continueQuestBtn" class="hidden">
         Continuer la quête
       </button>
@@ -346,7 +344,6 @@ function showBusinessPlanLoader(){
   const allImages = pages.flat().filter(Boolean);
   let loaded = 0;
   let step = 0;
-  let isTurning = false;
 
 /* ===============================
    PRELOAD IMAGES
@@ -590,9 +587,6 @@ function startMiniGame3(){
         }
 
         b.classList.add("correct-locked");
-        b.disabled = true;
-
-        // Empêche double clic
         b.disabled = true;
 
         // Dernière étape
