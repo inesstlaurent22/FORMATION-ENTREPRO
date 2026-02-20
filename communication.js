@@ -138,9 +138,12 @@ let qi=0, found=[];
 function startMiniGame1(){ qi=0; stepMG1(); }
 
 function stepMG1(){
-  clearMiniGame(); found=[];
-  const box=document.createElement("div");
-  box.className="mg1-box";
+
+  clearMiniGame();
+  found = [];
+
+  const box = document.createElement("div");
+  box.className = "mg1-box";
 
   box.innerHTML = `
     <div class="mg1-title">À quoi sert la communication ?</div>
@@ -150,22 +153,45 @@ function stepMG1(){
     <div class="gameQuestion">${quiz[qi].q}</div>
   `;
 
-  const answers=document.createElement("div");
-  answers.className="mg1-answers";
+  const answers = document.createElement("div");
+  answers.className = "mg1-answers";
 
-  quiz[qi].a.forEach((txt,i)=>{
-    const b=document.createElement("button");
-    b.textContent=txt;
-    b.onclick=()=>{
-      if(!quiz[qi].ok.includes(i)){ shake(); return; }
+  quiz[qi].a.forEach((txt, i)=>{
+
+    const b = document.createElement("button");
+    b.textContent = txt;
+
+    b.onclick = ()=>{
+
+      // ❌ Mauvaise réponse
+      if(!quiz[qi].ok.includes(i)){
+        shake(miniGame);
+        return;
+      }
+
+      // Empêche double validation
       if(found.includes(i)) return;
+
+      // ✅ Bonne réponse
       found.push(i);
-      b.classList.add("pressed");
-      b.disabled=true;
-      if(found.length===quiz[qi].ok.length){
-        setTimeout(()=>{ qi++; qi<quiz.length?stepMG1():afterMG1(); },700);
+      b.classList.add("correct-locked");
+      b.disabled = true;
+
+      // Si toutes les bonnes réponses trouvées
+      if(found.length === quiz[qi].ok.length){
+
+        // Désactive tous les boutons
+        Array.from(answers.children).forEach(btn=>{
+          btn.disabled = true;
+        });
+
+        setTimeout(()=>{
+          qi++;
+          qi < quiz.length ? stepMG1() : afterMG1();
+        }, 800);
       }
     };
+
     answers.appendChild(b);
   });
 
