@@ -160,9 +160,15 @@ function startMiniGame1(){
     const b=document.createElement("button");
     b.textContent=q.t;
     b.onclick=()=>{
-      if(!q.ok){ shake(game1); return; }
-      game1.classList.add("hidden");
-      startDialogues2();
+if(!q.ok){ shake(game1); return; }
+
+b.classList.add("correct-locked");
+b.disabled = true;
+
+setTimeout(()=>{
+  game1.classList.add("hidden");
+  startDialogues2();
+},800);
     };
     a1.appendChild(b);
   });
@@ -195,6 +201,7 @@ function startMiniGame2(){
     b.textContent=q.t;
     b.onclick=()=>{
       if(!q.ok){ shake(game2); return; }
+      b.classList.add("correct-locked");
       b.disabled=true;
       success++;
       if(success===2){
@@ -271,13 +278,33 @@ function showBusinessPlanLoader(){
   /* ===============================
      PRELOAD IMAGES
   =============================== */
-  allImages.forEach(src=>{
-    const img = new Image();
-    img.onload = img.onerror = ()=>{
-      loaded++;
-      if(loaded === allImages.length){
+/* ===============================
+   PRELOAD IMAGES
+=============================== */
+if(allImages.length === 0){
+  loader.classList.add("hidden");
+  pagesWrap.classList.remove("hidden");
+  update();
+}else{
 
-        loader.remove();
+  let finished = false;
+
+  allImages.forEach(src=>{
+
+    const img = new Image();
+
+    img.onload = img.onerror = ()=>{
+
+      if(finished) return;
+
+      loaded++;
+
+      if(loaded >= allImages.length){
+
+        finished = true;
+
+        // On cache le loader (on ne le supprime plus)
+        loader.classList.add("hidden");
 
         pagesWrap.classList.remove("hidden");
         next.classList.remove("hidden");
@@ -289,8 +316,10 @@ function showBusinessPlanLoader(){
         update();
       }
     };
+
     img.src = src;
   });
+}
 
   /* ===============================
      UPDATE PAGES
@@ -308,7 +337,15 @@ function showBusinessPlanLoader(){
       prev.classList.add("hidden");
     }
 
-    right.src = r;
+   loader.classList.remove("hidden");
+pagesWrap.classList.add("hidden");
+
+right.onload = ()=>{
+  loader.classList.add("hidden");
+  pagesWrap.classList.remove("hidden");
+};
+
+right.src = r;
 
     next.classList.toggle("hidden", step === pages.length - 1);
     cont.classList.toggle("hidden", step !== pages.length - 1);
@@ -317,31 +354,32 @@ function showBusinessPlanLoader(){
   /* ===============================
      PAGE TURN ANIMATION
   =============================== */
-  function turnPage(direction){
+function turnPage(direction){
 
-    if(isTurning) return;
-    isTurning = true;
+  if(isTurning) return;
+  isTurning = true;
 
-    const page = direction === "right" ? right : left;
-    const animationClass = direction === "right" ? "turn-right" : "turn-left";
+  loader.classList.remove("hidden");
+  pagesWrap.classList.add("hidden");
 
-    page.classList.add(animationClass);
+  setTimeout(()=>{
 
-    setTimeout(()=>{
-      page.classList.remove(animationClass);
+    if(direction === "right" && step < pages.length - 1){
+      step++;
+    }
+    if(direction === "left" && step > 0){
+      step--;
+    }
 
-      if(direction === "right" && step < pages.length - 1){
-        step++;
-      }
-      if(direction === "left" && step > 0){
-        step--;
-      }
+    update();
 
-      update();
-      isTurning = false;
+    pagesWrap.classList.remove("hidden");
+    loader.classList.add("hidden");
 
-    },600);
-  }
+    isTurning = false;
+
+  },400);
+}
 
   next.onclick = ()=>{
     if(step < pages.length - 1){
@@ -355,36 +393,69 @@ function showBusinessPlanLoader(){
     }
   };
 
-  /* ===============================
-     ZOOM PAGE DROITE
-  =============================== */
+/* ===============================
+   ZOOM PAGE DROITE
+=============================== */
 zoomBtn.onclick = ()=>{
-  const currentSrc = pages[step][1]; // toujours image droite actuelle
 
+  const currentSrc = pages[step] && pages[step][1];
+  if(!currentSrc) return;
+
+  // Création overlay
   const zoom = document.createElement("div");
   zoom.className = "page-zoom";
-  zoom.innerHTML = `<img src="${currentSrc}">`;
 
+  // Loader
+  const loader = document.createElement("div");
+  loader.className = "book-loading";
+  loader.textContent = "⏳";
+
+  const img = document.createElement("img");
+  img.style.display = "none";
+
+  zoom.appendChild(loader);
+  zoom.appendChild(img);
   document.body.appendChild(zoom);
 
-  zoom.onclick = ()=>{
-    zoom.remove();
+  // Chargement image
+  img.onload = ()=>{
+    loader.remove();
+    img.style.display = "block";
+  };
+
+  img.onerror = ()=>{
+    loader.textContent = "Erreur de chargement";
+  };
+
+  img.src = currentSrc;
+
+  // Ferme seulement si clic hors image
+  zoom.onclick = (e)=>{
+    if(e.target === zoom){
+      zoom.remove();
+    }
   };
 };
 
-  /* ===============================
-     CONTINUER
-  =============================== */
-  cont.onclick = ()=>{
-    overlay.remove();
-    illuminatePirate5();   // déclenche pirate5 illuminé
-  };
+/* ===============================
+   CONTINUER
+=============================== */
+cont.onclick = ()=>{
+  overlay.remove();
+  illuminatePirate5();
+};
 }
 
+/* ===============================
+   ILLUMINATION PIRATE
+=============================== */
 function illuminatePirate5(){
 
   pirate5.classList.add("glowStart");
   pirate5.style.pointerEvents = "auto";
+
+  // Nettoie ancien handler
+  pirate5.onclick = null;
 
   pirate5.onclick = ()=>{
     pirate5.classList.remove("glowStart");
@@ -467,6 +538,9 @@ function startMiniGame3(){
           shake(game3);
           return;
         }
+
+        b.classList.add("correct-locked");
+        b.disabled = true;
 
         // Empêche double clic
         b.disabled = true;
