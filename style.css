@@ -42,7 +42,7 @@ html, body {
 #introOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.75); /* fond assombri */
+  background: rgba(0,0,0,0.75);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,22 +50,31 @@ html, body {
 }
 
 .intro-box {
-  max-width: 650px;
-  padding: 40px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.15); /* transparent */
+  max-width: 680px;
+  padding: 50px 40px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.12);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   color: white;
   text-align: center;
-  line-height: 1.6;
-  font-size: 1.1rem;
-  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  line-height: 1.7;
+  font-size: 1.05rem;
+  box-shadow: 0 0 50px rgba(0,0,0,0.6);
+  animation: fadeInIntro 0.8s ease;
+}
+
+.intro-logo {
+  width: 90px;
+  margin-bottom: 25px;
+}
+
+.intro-text {
+  margin-bottom: 35px;
 }
 
 #startFormation {
-  margin-top: 30px;
-  padding: 14px 30px;
+  padding: 14px 35px;
   border-radius: 30px;
   border: none;
   background: gold;
@@ -77,8 +86,13 @@ html, body {
 }
 
 #startFormation:hover {
-  transform: scale(1.05);
+  transform: scale(1.07);
   box-shadow: 0 0 20px gold;
+}
+
+@keyframes fadeInIntro {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* ===================== */
