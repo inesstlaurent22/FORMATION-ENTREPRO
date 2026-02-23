@@ -14,6 +14,17 @@ const clickSound = document.getElementById("clickSound");
 const errorSound = document.getElementById("errorSound");
 
 /* ===================== */
+/* INTRO MODAL */
+/* ===================== */
+
+const introOverlay = document.getElementById("introOverlay");
+const startFormation = document.getElementById("startFormation");
+
+startFormation.onclick = () => {
+  window.location.href = "index.html";
+};
+
+/* ===================== */
 /* 💎 GEMS + 🪙 OR */
 /* ===================== */
 
