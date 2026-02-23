@@ -20,9 +20,13 @@ const errorSound = document.getElementById("errorSound");
 const introOverlay = document.getElementById("introOverlay");
 const startFormation = document.getElementById("startFormation");
 
-startFormation.onclick = () => {
-  introOverlay.style.display = "none";
-};
+startFormation.addEventListener("click", function(e) {
+  e.preventDefault();
+  introOverlay.style.opacity = "0";
+  setTimeout(() => {
+    introOverlay.style.display = "none";
+  }, 400);
+});
 
 /* ===================== */
 /* 💎 GEMS + 🪙 OR */
