@@ -36,6 +36,52 @@ html, body {
 }
 
 /* ===================== */
+/* INTRO MODAL */
+/* ===================== */
+
+#introOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75); /* fond assombri */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.intro-box {
+  max-width: 650px;
+  padding: 40px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.15); /* transparent */
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  color: white;
+  text-align: center;
+  line-height: 1.6;
+  font-size: 1.1rem;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+
+#startFormation {
+  margin-top: 30px;
+  padding: 14px 30px;
+  border-radius: 30px;
+  border: none;
+  background: gold;
+  color: black;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#startFormation:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px gold;
+}
+
+/* ===================== */
 /* COFFRE */
 /* ===================== */
 .tresor-button {
