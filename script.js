@@ -21,7 +21,7 @@ const introOverlay = document.getElementById("introOverlay");
 const startFormation = document.getElementById("startFormation");
 
 startFormation.onclick = () => {
-  window.location.href = "index.html";
+  introOverlay.style.display = "none";
 };
 
 /* ===================== */
