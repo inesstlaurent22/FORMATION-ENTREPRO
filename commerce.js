@@ -500,12 +500,8 @@ let isTurning = false;
 
 function turnPage(direction){
 
-  if(isTurning) return;
-
   if(direction === "right" && step >= pages.length - 1) return;
   if(direction === "left" && step <= 0) return;
-
-  isTurning = true;
 
   const pageToAnimate = direction === "right" ? right : left;
 
@@ -513,7 +509,10 @@ function turnPage(direction){
     direction === "right" ? "turn-right" : "turn-left"
   );
 
-  setTimeout(() => {
+  // On attend la fin réelle de l’animation
+  pageToAnimate.addEventListener("animationend", function handler(){
+
+    pageToAnimate.removeEventListener("animationend", handler);
 
     step += (direction === "right") ? 1 : -1;
 
@@ -521,9 +520,7 @@ function turnPage(direction){
 
     pageToAnimate.classList.remove("turn-right", "turn-left");
 
-    isTurning = false;
-
-  }, 600); // durée identique à l’animation CSS
+  }, { once: true });
 }
 
 next.addEventListener("click", () => turnPage("right"));
