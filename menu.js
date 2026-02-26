@@ -1,21 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-   console.log("JS chargé");
-/* ==========================================================
-   🔁 RESET
-========================================================== */
+  console.log("JS chargé");
 
-const resetButton = document.getElementById("resetButton");
+  /* ==========================================================
+     🔁 RESET
+  ========================================================== */
 
-if (resetButton) {
-  resetButton.addEventListener("click", () => {
-    if (!confirm("Réinitialiser toute la progression ?")) return;
-    localStorage.clear();
-    sessionStorage.clear();
-    location.reload();
-  });
-}
+  const resetButton = document.getElementById("resetButton");
 
+  if (resetButton) {
+    resetButton.addEventListener("click", () => {
+      if (!confirm("Réinitialiser toute la progression ?")) return;
+      localStorage.clear();
+      sessionStorage.clear();
+      location.reload();
+    });
+  }
+
+  /* ==========================================================
+     🔓 DÉBLOCAGE PIRATE 3 SI VALIDÉ
+  ========================================================== */
+
+  if (localStorage.getItem("pirate3_unlocked") === "true") {
+    const pirate3 = document.getElementById("pirate3");
+    if (pirate3) {
+      pirate3.classList.remove("locked");
+      pirate3.classList.add("unlocked");
+      pirate3.style.pointerEvents = "auto";
+    }
+  }
+
+  /* ==========================================================
+     🔔 NOTIFICATION APRÈS MOT DE PASSE
+  ========================================================== */
+
+  const unlockMessage = sessionStorage.getItem("unlockMessage");
+  if (unlockMessage) {
+    showNotification(unlockMessage);
+    sessionStorage.removeItem("unlockMessage");
+  }
+
+});
 /* ==========================================================
    🌌 MÉTÉO
 ========================================================== */
