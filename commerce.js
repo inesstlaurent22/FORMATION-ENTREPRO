@@ -507,14 +507,23 @@ function turnPage(direction){
 
   isTurning = true;
 
-  step += (direction === "right") ? 1 : -1;
+  const pageToAnimate = direction === "right" ? right : left;
 
-  update();
+  pageToAnimate.classList.add(
+    direction === "right" ? "turn-right" : "turn-left"
+  );
 
-  // réactive immédiatement après le rendu
-  requestAnimationFrame(()=>{
+  setTimeout(() => {
+
+    step += (direction === "right") ? 1 : -1;
+
+    update();
+
+    pageToAnimate.classList.remove("turn-right", "turn-left");
+
     isTurning = false;
-  });
+
+  }, 600); // durée identique à l’animation CSS
 }
 
 next.addEventListener("click", () => turnPage("right"));
