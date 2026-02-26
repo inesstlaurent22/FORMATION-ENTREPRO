@@ -216,6 +216,7 @@ if (sessionStorage.getItem("unlock_pirate4") === "true") {
   unlockPirate(pirate4);
 }
 
+   
 /* ==========================================================
    🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
 ========================================================== */
@@ -250,12 +251,8 @@ function showPasswordOverlay() {
       <div id="passwordError">Mot de passe incorrect</div>
 
       <div class="pirate-actions">
-        <button id="legalBtn" class="pirate-btn">
-          📜 Mentions légales
-        </button>
-        <button id="payBtn" class="pirate-btn">
-          💰 Version complète
-        </button>
+        <button id="legalBtn" class="pirate-btn">📜 Mentions légales</button>
+        <button id="payBtn" class="pirate-btn">💰 Version complète</button>
       </div>
     </div>
 
@@ -296,6 +293,9 @@ function showPasswordOverlay() {
   const btn = overlay.querySelector("#passwordBtn");
   const error = overlay.querySelector("#passwordError");
 
+  // Caché par défaut
+  error.style.display = "none";
+
   setTimeout(() => input.focus(), 200);
 
   btn.addEventListener("click", validate);
@@ -303,38 +303,32 @@ function showPasswordOverlay() {
     if (e.key === "Enter") validate();
   });
 
-function validate() {
+  function validate() {
 
-  const value = input.value.trim().toLowerCase();
+    const value = input.value.trim().toLowerCase();
 
-  if (value === "mashain") {
+    if (value === "mashain") {
 
-    // 🔓 Sauvegarde déblocage permanent
-    localStorage.setItem("pirate1_unlocked", "true");
-    sessionStorage.setItem("passwordCleared", "true");
+      // 🔓 Déblocage permanent pirate3
+      localStorage.setItem("pirate3_unlocked", "true");
 
-    // 🔓 Débloque visuellement pirate1
-    const pirate1 = document.getElementById("pirate1");
-    if (pirate1) {
-      pirate1.classList.remove("locked");
-      pirate1.classList.add("unlocked");
-      pirate1.style.pointerEvents = "auto";
+      // 🔔 Notification à afficher au retour menu
+      sessionStorage.setItem("unlockMessage", "🏴‍☠️ Pirate 3 débloqué !");
+      sessionStorage.setItem("passwordCleared", "true");
+
+      // 🔁 Redirection vers menu
+      window.location.href = "menu.html";
+
+    } else {
+
+      error.style.display = "block";
+      input.value = "";
+      input.focus();
+
     }
-
-    // 🔕 Cache message erreur
-    error.style.display = "none";
-
-    // ❌ Ferme overlay
-    overlay.remove();
-
-  } else {
-
-    error.style.display = "block";
-    input.value = "";
-    input.focus();
   }
-}
 
+  // 🔹 Mentions légales
   overlay.querySelector("#legalBtn").onclick = () => {
     overlay.querySelector("#legalModal").style.display = "flex";
   };
@@ -343,11 +337,12 @@ function validate() {
     overlay.querySelector("#legalModal").style.display = "none";
   };
 
+  // 🔹 Paiement
   overlay.querySelector("#payBtn").onclick = () => {
     window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
   };
 }
-   
+
 /* ==========================================================
    🎬 COFFRE FINAL (RETOUR LEGAL → TRANSFORMATION BOUTON)
 ========================================================== */
