@@ -17,16 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ==========================================================
-     🔔 NOTIFICATION APRÈS MOT DE PASSE
-  ========================================================== */
-
-  const unlockMessage = sessionStorage.getItem("unlockMessage");
-  if (unlockMessage) {
-    showNotification(unlockMessage);
-    sessionStorage.removeItem("unlockMessage");
-  }
-
 /* ==========================================================
    🌌 MÉTÉO
 ========================================================== */
