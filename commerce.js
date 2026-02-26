@@ -12,7 +12,9 @@ const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
 const fadeScreen = document.getElementById("fadeScreen");
 
-fadeScreen.classList.add("hidden");
+if(fadeScreen){
+  fadeScreen.classList.add("hidden");
+}
 
 const game1 = document.getElementById("communicationGame");
 const q1 = document.getElementById("commQuestion");
@@ -33,6 +35,7 @@ const closeVideo = document.getElementById("closeVideo");
    OUTILS
 ===================================================== */
 function showLoader(duration = 800, cb){
+  if(!fadeScreen) return;
   fadeScreen.classList.remove("hidden");
   setTimeout(()=>{
     fadeScreen.classList.add("hidden");
@@ -91,7 +94,9 @@ function endVideo(){
     videoContainer.classList.add("hidden");
   }
 
+  if(fadeScreen){
   fadeScreen.classList.add("hidden");
+  }
 
   requestAnimationFrame(()=>{
     showScene();
@@ -686,7 +691,9 @@ function startMiniGame3(){
 function showCommerceWin(){
 
   // 🔥 Supprime loader pirate s'il est visible
-  fadeScreen.classList.add("hidden");
+  if(fadeScreen){
+    fadeScreen.classList.add("hidden");
+  }
 
   const overlay = document.createElement("div");
   overlay.id="communication-win";
