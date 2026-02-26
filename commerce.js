@@ -52,55 +52,58 @@ function shake(el){
    VIDÉO INTRO
 ===================================================== */
 
-if(questVideo){
+let videoEnded = false;
+
+if (questVideo) {
 
   questVideo.muted = true;
 
-questVideo.addEventListener("canplay", () => {
-  if(fadeScreen){
-    fadeScreen.classList.add("hidden");
-  }
-  questVideo.play().catch(()=>{});
-});
+  questVideo.addEventListener("canplay", () => {
+    if (fadeScreen) {
+      fadeScreen.classList.add("hidden");
+    }
+
+    // Sécurise autoplay (iOS safe)
+    const playPromise = questVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
+    }
+  });
 
   questVideo.addEventListener("ended", endVideo);
 }
 
-if(toggleSound){
+if (toggleSound && questVideo) {
   toggleSound.addEventListener("click", () => {
-    if(!questVideo) return;
     questVideo.muted = !questVideo.muted;
     toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
   });
 }
 
-if(closeVideo){
+if (closeVideo) {
   closeVideo.addEventListener("click", endVideo);
 }
 
-let videoEnded = false;
+function endVideo() {
 
-function endVideo(){
-
-  if(videoEnded) return; // empêche double exécution
+  if (videoEnded) return;
   videoEnded = true;
 
-  if(questVideo){
+  if (questVideo) {
     questVideo.pause();
-    questVideo.currentTime = 0;
     questVideo.removeAttribute("src");
     questVideo.load();
   }
 
-  if(videoContainer){
+  if (videoContainer) {
     videoContainer.classList.add("hidden");
   }
 
-  if(fadeScreen){
-  fadeScreen.classList.add("hidden");
+  if (fadeScreen) {
+    fadeScreen.classList.add("hidden");
   }
 
-  requestAnimationFrame(()=>{
+  requestAnimationFrame(() => {
     showScene();
   });
 }
