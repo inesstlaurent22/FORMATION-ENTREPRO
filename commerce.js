@@ -553,15 +553,6 @@ function showBusinessPlanLoader(){
     illuminatePirate5();
   };
 }
-   
-/* ===============================
-   CONTINUER
-=============================== */
-cont.onclick = ()=>{
-  overlay.remove();
-  illuminatePirate5();
-};
-}
 
 /* ===============================
    ILLUMINATION PIRATE
