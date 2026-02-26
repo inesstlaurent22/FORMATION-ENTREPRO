@@ -157,7 +157,10 @@ tresor.onclick = () => {
 /* ===================== */
 
 let order = [];
-const correct = ["piece1", "piece2", "piece3"];
+const correctOrders = [
+  ["piece1", "piece2", "piece3"], // gauche → milieu → droite
+  ["piece3", "piece2", "piece1"]  // droite → milieu → gauche
+];
 
 let attempts = 0; // 🔥 compteur
 
@@ -245,7 +248,11 @@ function showErrorFeedback() {
 function checkResult() {
   mapGame.style.display = "none";
 
-  if (JSON.stringify(order) === JSON.stringify(correct)) {
+  const isCorrect = correctOrders.some(correct =>
+    JSON.stringify(order) === JSON.stringify(correct)
+  );
+
+  if (isCorrect) {
     victory.style.display = "flex";
 
     setTimeout(() => {
