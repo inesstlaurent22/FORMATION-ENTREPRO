@@ -18,19 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     🔓 DÉBLOCAGE PIRATE 3 SI VALIDÉ
-  ========================================================== */
-
-  if (localStorage.getItem("pirate3_unlocked") === "true") {
-    const pirate3 = document.getElementById("pirate3");
-    if (pirate3) {
-      pirate3.classList.remove("locked");
-      pirate3.classList.add("unlocked");
-      pirate3.style.pointerEvents = "auto";
-    }
-  }
-
-  /* ==========================================================
      🔔 NOTIFICATION APRÈS MOT DE PASSE
   ========================================================== */
 
