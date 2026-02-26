@@ -496,8 +496,6 @@ function update(){
   /* ===============================
      PAGE TURN ANIMATION
   =============================== */
-let isTurning = false;
-
 function turnPage(direction){
 
   if(direction === "right" && step >= pages.length - 1) return;
