@@ -20,15 +20,6 @@ html, body {
 /* 🌌 BACKGROUND FIX FULLSCREEN */
 /* ================================================= */
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #000; /* sécurité anti-blanc */
-}
-
 /* Fond principal */
 #background {
   position: fixed;
