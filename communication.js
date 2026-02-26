@@ -261,7 +261,7 @@ function startMiniGame2(){
 
 function showLogoInfo(){
   showInfoStep("L’importance du logo","Le logo est central.",()=>showChoiceStep(
-    "Choix du logo",
+    "Choix du logo - Choix libre",
     ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
     showColorInfo
   ));
