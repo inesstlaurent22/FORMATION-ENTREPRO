@@ -73,7 +73,7 @@ pirate3.onclick = () => {
 ===================================================== */
 const dialogBox  = document.getElementById("dialogBox");
 const dialogText = document.getElementById("dialogText");
-const skipDialog = document.getElementById("skipDialog");
+const skipDialoguesBtn = document.getElementById("skipDialoguesBtn");
 
 let dialogs=[], dIndex=0, dCallback=null;
 
@@ -98,13 +98,15 @@ dialogBox.onclick = () => {
   dIndex<dialogs.length ? showDialog() : endDialogs();
 };
 
-skipDialog.onclick = e => {
-  e.preventDefault(); e.stopPropagation(); endDialogs();
+skipDialoguesBtn.onclick = e => {
+  e.preventDefault();
+  e.stopPropagation();
+  endDialogs();
 };
 
 function endDialogs(){
   dialogBox.classList.add("hidden");
-  skipDialog.classList.add("hidden");
+  skipDialoguesBtn.classList.add("hidden");
   if(dCallback){ const cb=dCallback; dCallback=null; cb(); }
 }
 
