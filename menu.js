@@ -29,7 +29,12 @@ const DAY_BG = "images/Fondmenu.PNG";
 const NIGHT_BG = "images/Fondmenusoir.PNG";
 
 function setBackground(mode, save = true) {
-  if (!background) return;
+  if (!background) {
+    console.log("background introuvable");
+    return;
+  }
+
+  console.log("mode appliqué :", mode);
 
   background.style.backgroundImage =
     `url("${mode === "night" ? NIGHT_BG : DAY_BG}")`;
