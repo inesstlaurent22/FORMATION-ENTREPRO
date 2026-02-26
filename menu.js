@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.removeItem("unlockMessage");
   }
 
-});
 /* ==========================================================
    🌌 MÉTÉO
 ========================================================== */
