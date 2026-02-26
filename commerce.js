@@ -56,10 +56,12 @@ if(questVideo){
 
   questVideo.muted = true;
 
-  questVideo.addEventListener("canplay", () => {
+questVideo.addEventListener("canplay", () => {
+  if(fadeScreen){
     fadeScreen.classList.add("hidden");
-    questVideo.play().catch(()=>{});
-  });
+  }
+  questVideo.play().catch(()=>{});
+});
 
   questVideo.addEventListener("ended", endVideo);
 }
