@@ -279,6 +279,13 @@ body.night-mode #pirate5 {
 /* 🔐 OVERLAY MOT DE PASSE */
 /* ================================================= */
 
+#passwordError{
+  display:none;
+  margin-top:12px;
+  font-weight:bold;
+  color:#ff3b3b;
+}
+
 #passwordOverlay {
   position: fixed;
   inset: 0;
@@ -364,7 +371,7 @@ body.night-mode #pirate5 {
   padding:15px;
   border:1px solid white;
   border-radius:10px;
-  color:white;
+  color:#000;;
 }
 
 .legal-modal{
