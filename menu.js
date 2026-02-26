@@ -222,6 +222,16 @@ if (sessionStorage.getItem("unlock_pirate4") === "true") {
   unlockPirate(pirate4);
 }
 
+  /* ==========================================================
+   🔔 MESSAGE DÉBLOCAGE MOT DE PASSE
+========================================================== */
+
+const unlockMessage = sessionStorage.getItem("unlockMessage");
+
+if (unlockMessage) {
+  sessionStorage.removeItem("unlockMessage");
+  showNotification(unlockMessage);
+}
    
 /* ==========================================================
    🔐 SAS MOT DE PASSE (RETOUR COMMERCE)
@@ -347,17 +357,6 @@ function showPasswordOverlay() {
   overlay.querySelector("#payBtn").onclick = () => {
     window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
   };
-}
-
-  /* ==========================================================
-   🔔 MESSAGE DÉBLOCAGE MOT DE PASSE
-========================================================== */
-
-const unlockMessage = sessionStorage.getItem("unlockMessage");
-
-if (unlockMessage) {
-  sessionStorage.removeItem("unlockMessage");
-  showNotification(unlockMessage);
 }
 
 /* ==========================================================
