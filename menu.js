@@ -319,7 +319,7 @@ function showPasswordOverlay() {
       localStorage.setItem("pirate3_unlocked", "true");
 
       // 🔔 Notification à afficher au retour menu
-      sessionStorage.setItem("unlockMessage", "🏴‍☠️ Pirate 3 débloqué !");
+      sessionStorage.setItem("unlockMessage", "🏴‍☠️ Quête Communication débloqué !");
       sessionStorage.setItem("passwordCleared", "true");
 
       // 🔁 Redirection vers menu
@@ -347,6 +347,17 @@ function showPasswordOverlay() {
   overlay.querySelector("#payBtn").onclick = () => {
     window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
   };
+}
+
+  /* ==========================================================
+   🔔 MESSAGE DÉBLOCAGE MOT DE PASSE
+========================================================== */
+
+const unlockMessage = sessionStorage.getItem("unlockMessage");
+
+if (unlockMessage) {
+  sessionStorage.removeItem("unlockMessage");
+  showNotification(unlockMessage);
 }
 
 /* ==========================================================
