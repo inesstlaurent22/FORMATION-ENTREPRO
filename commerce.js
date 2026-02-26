@@ -374,24 +374,20 @@ function showBusinessPlanLoader(){
 
       <div class="book-container">
 
-        <button id="prevPage" class="book-nav-btn hidden">‹</button>
-
         <div class="book-loading" id="bookLoading">⏳</div>
 
         <div class="book-pages hidden" id="bookPages">
 
-  <div class="left-wrapper">
-    <img id="leftPage" class="hidden">
-  </div>
+          <div class="left-wrapper">
+            <img id="leftPage" class="hidden">
+          </div>
 
-  <div class="right-wrapper">
-    <img id="rightPage">
-    <button id="zoomPageBtn" class="zoom-btn hidden">🔎</button>
-  </div>
+          <div class="right-wrapper">
+            <img id="rightPage">
+            <button id="zoomPageBtn" class="zoom-btn hidden">🔎</button>
+          </div>
 
-</div>
-
-        <button id="nextPage" class="book-nav-btn hidden">›</button>
+        </div>
 
       </div>
 
@@ -406,8 +402,6 @@ function showBusinessPlanLoader(){
 
   const left = overlay.querySelector("#leftPage");
   const right = overlay.querySelector("#rightPage");
-  const next = overlay.querySelector("#nextPage");
-  const prev = overlay.querySelector("#prevPage");
   const cont = overlay.querySelector("#continueQuestBtn");
   const loader = overlay.querySelector("#bookLoading");
   const pagesWrap = overlay.querySelector("#bookPages");
@@ -425,152 +419,141 @@ function showBusinessPlanLoader(){
   let loaded = 0;
   let step = 0;
 
-/* ===============================
-   PRELOAD IMAGES
-=============================== */
-if(allImages.length === 0){
-  loader.classList.add("hidden");
-  pagesWrap.classList.remove("hidden");
-  update();
-}else{
+  /* ===============================
+     PRELOAD IMAGES
+  =============================== */
+  if(allImages.length === 0){
+    finishLoading();
+  }else{
+    let finished = false;
 
-  let finished = false;
+    allImages.forEach(src=>{
+      const img = new Image();
 
-  allImages.forEach(src=>{
+      img.onload = img.onerror = ()=>{
+        if(finished) return;
+        loaded++;
 
-    const img = new Image();
+        if(loaded >= allImages.length){
+          finished = true;
+          finishLoading();
+        }
+      };
 
-    img.onload = img.onerror = ()=>{
+      img.src = src;
+    });
+  }
 
-      if(finished) return;
-
-      loaded++;
-
-      if(loaded >= allImages.length){
-
-        finished = true;
-
-        // On cache le loader (on ne le supprime plus)
-        loader.classList.add("hidden");
-
-        pagesWrap.classList.remove("hidden");
-        next.classList.remove("hidden");
-        zoomBtn.classList.remove("hidden");
-
-        title.classList.remove("hidden");
-        title.classList.add("title-appear");
-
-        update();
-      }
-    };
-
-    img.src = src;
-  });
-}
+  function finishLoading(){
+    loader.classList.add("hidden");
+    pagesWrap.classList.remove("hidden");
+    zoomBtn.classList.remove("hidden");
+    title.classList.remove("hidden");
+    title.classList.add("title-appear");
+    update();
+  }
 
   /* ===============================
      UPDATE PAGES
   =============================== */
-function update(){
+  function update(){
 
-  const [l, r] = pages[step];
+    const [l, r] = pages[step];
 
-  /* PAGE GAUCHE */
-  if(l){
-    left.src = l;
-    left.classList.remove("hidden");
-    prev.classList.remove("hidden");
-  }else{
-    left.classList.add("hidden");
-    prev.classList.add("hidden");
+    if(l){
+      left.src = l;
+      left.classList.remove("hidden");
+    }else{
+      left.classList.add("hidden");
+    }
+
+    right.src = r;
+
+    cont.classList.toggle("hidden", step !== pages.length - 1);
   }
 
-  /* PAGE DROITE */
-  right.src = r;
-
-  /* NAVIGATION */
-  next.classList.toggle("hidden", step === pages.length - 1);
-  cont.classList.toggle("hidden", step !== pages.length - 1);
-}
-   
   /* ===============================
-     PAGE TURN ANIMATION
+     PAGE TURN
   =============================== */
+  function turnPage(direction){
 
-function turnPage(direction){
+    if(direction === "right" && step >= pages.length - 1) return;
+    if(direction === "left" && step <= 0) return;
 
-  if(direction === "right" && step >= pages.length - 1) return;
-  if(direction === "left" && step <= 0) return;
+    const pageToAnimate = direction === "right" ? right : left;
+    const animClass = direction === "right" ? "turn-right" : "turn-left";
 
-  const pageToAnimate = direction === "right" ? right : left;
-  const animClass = direction === "right" ? "turn-right" : "turn-left";
+    pageToAnimate.classList.remove("turn-right","turn-left");
+    void pageToAnimate.offsetWidth;
+    pageToAnimate.classList.add(animClass);
 
-  // Supprime d'abord toute animation en cours
-  pageToAnimate.classList.remove("turn-right","turn-left");
+    pageToAnimate.addEventListener("animationend", () => {
 
-  // Force reflow (IMPORTANT sur iOS)
-  void pageToAnimate.offsetWidth;
+      step += (direction === "right") ? 1 : -1;
+      update();
+      pageToAnimate.classList.remove(animClass);
 
-  pageToAnimate.classList.add(animClass);
+    }, { once:true });
+  }
 
-  pageToAnimate.addEventListener("animationend", () => {
+  /* ===============================
+     CLIC DIRECT SUR LES PAGES
+  =============================== */
+  right.style.cursor = "pointer";
+  left.style.cursor = "pointer";
 
-    step += (direction === "right") ? 1 : -1;
+  right.addEventListener("click", ()=> turnPage("right"));
+  left.addEventListener("click", ()=> turnPage("left"));
 
-    update();
+  /* ===============================
+     ZOOM PAGE DROITE
+  =============================== */
+  zoomBtn.onclick = ()=>{
 
-    pageToAnimate.classList.remove(animClass);
+    const currentSrc = pages[step][1];
+    if(!currentSrc) return;
 
-  }, { once:true });
+    const zoom = document.createElement("div");
+    zoom.className = "page-zoom";
+
+    const loaderZoom = document.createElement("div");
+    loaderZoom.className = "book-loading";
+    loaderZoom.textContent = "⏳";
+
+    const img = document.createElement("img");
+    img.style.display = "none";
+
+    zoom.appendChild(loaderZoom);
+    zoom.appendChild(img);
+    document.body.appendChild(zoom);
+
+    img.onload = ()=>{
+      loaderZoom.remove();
+      img.style.display = "block";
+    };
+
+    img.onerror = ()=>{
+      loaderZoom.textContent = "Erreur de chargement";
+    };
+
+    img.src = currentSrc;
+
+    zoom.onclick = (e)=>{
+      if(e.target === zoom){
+        zoom.remove();
+      }
+    };
+  };
+
+  /* ===============================
+     CONTINUER
+  =============================== */
+  cont.onclick = ()=>{
+    overlay.remove();
+    illuminatePirate5();
+  };
 }
-
-next.addEventListener("click", () => turnPage("right"));
-prev.addEventListener("click", () => turnPage("left"));
    
-/* ===============================
-   ZOOM PAGE DROITE
-=============================== */
-zoomBtn.onclick = ()=>{
-
-  const currentSrc = pages[step] && pages[step][1];
-  if(!currentSrc) return;
-
-  // Création overlay
-  const zoom = document.createElement("div");
-  zoom.className = "page-zoom";
-
-  // Loader
-  const loader = document.createElement("div");
-  loader.className = "book-loading";
-  loader.textContent = "⏳";
-
-  const img = document.createElement("img");
-  img.style.display = "none";
-
-  zoom.appendChild(loader);
-  zoom.appendChild(img);
-  document.body.appendChild(zoom);
-
-  // Chargement image
-  img.onload = ()=>{
-    loader.remove();
-    img.style.display = "block";
-  };
-
-  img.onerror = ()=>{
-    loader.textContent = "Erreur de chargement";
-  };
-
-  img.src = currentSrc;
-
-  // Ferme seulement si clic hors image
-  zoom.onclick = (e)=>{
-    if(e.target === zoom){
-      zoom.remove();
-    }
-  };
-};
-
 /* ===============================
    CONTINUER
 =============================== */
