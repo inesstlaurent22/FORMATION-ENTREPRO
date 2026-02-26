@@ -496,29 +496,32 @@ function update(){
   /* ===============================
      PAGE TURN ANIMATION
   =============================== */
+
 function turnPage(direction){
 
   if(direction === "right" && step >= pages.length - 1) return;
   if(direction === "left" && step <= 0) return;
 
   const pageToAnimate = direction === "right" ? right : left;
+  const animClass = direction === "right" ? "turn-right" : "turn-left";
 
-  pageToAnimate.classList.add(
-    direction === "right" ? "turn-right" : "turn-left"
-  );
+  // Supprime d'abord toute animation en cours
+  pageToAnimate.classList.remove("turn-right","turn-left");
 
-  // On attend la fin réelle de l’animation
-  pageToAnimate.addEventListener("animationend", function handler(){
+  // Force reflow (IMPORTANT sur iOS)
+  void pageToAnimate.offsetWidth;
 
-    pageToAnimate.removeEventListener("animationend", handler);
+  pageToAnimate.classList.add(animClass);
+
+  pageToAnimate.addEventListener("animationend", () => {
 
     step += (direction === "right") ? 1 : -1;
 
     update();
 
-    pageToAnimate.classList.remove("turn-right", "turn-left");
+    pageToAnimate.classList.remove(animClass);
 
-  }, { once: true });
+  }, { once:true });
 }
 
 next.addEventListener("click", () => turnPage("right"));
