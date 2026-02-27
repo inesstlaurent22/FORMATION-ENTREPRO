@@ -26,17 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let pirateClickable = false;
   let dialogueActive = false;
 
-/* =====================================================
-   🔀 SHUFFLE UTILITAIRE GLOBAL
-===================================================== */
-function shuffleArray(array){
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-  
   /* =====================================================
      🎬 VIDÉO — LOGIQUE CORRIGÉE
   ===================================================== */
@@ -220,10 +209,10 @@ miniGame1.innerHTML = `
     const qChoices = document.getElementById("qChoices");
     qChoices.innerHTML = "";
 
-const answers = shuffleArray([
-  ...questions[qIndex].good.map(t => ({ t, ok: true })),
-  ...questions[qIndex].bad.map(t => ({ t, ok: false }))
-]);
+    const answers = [
+      ...questions[qIndex].good.map(t => ({ t, ok: true })),
+      ...questions[qIndex].bad.map(t => ({ t, ok: false }))
+    ].sort(() => Math.random() - 0.5);
 
     answers.forEach(a => {
       const btn = document.createElement("button");
@@ -261,130 +250,92 @@ btn.classList.add("correctAnswer");
     { s: pirate5, t: "Passons à la gestion réelle." }
   ];
 
-/* =====================================================
-   🧮 CALCULATRICE
+ /* =====================================================
+   🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE
 ===================================================== */
-function injectCalculator(container) {
 
-  if (!container || container.querySelector(".calcWrapper")) return;
+/* ===== CALCULATRICE ===== */
+function injectCalculator(container) {
+  if (container.querySelector(".calcWrapper")) return;
 
   const wrapper = document.createElement("div");
   wrapper.className = "calcWrapper";
 
   const btn = document.createElement("button");
-  btn.type = "button";
   btn.className = "calcToggle";
   btn.textContent = "🧮 Calculatrice";
 
   const input = document.createElement("input");
   input.className = "calcInput hidden";
   input.placeholder = "Ex : 12000 - 8500";
-  input.autocomplete = "off";
 
-  btn.addEventListener("click", () => {
-    input.classList.toggle("hidden");
-    if (!input.classList.contains("hidden")) input.focus();
-  });
+  btn.onclick = () => input.classList.toggle("hidden");
 
-  input.addEventListener("keydown", e => {
+  input.onkeydown = e => {
     if (e.key === "Enter") {
       try {
-        const result = Function('"use strict";return (' + input.value + ')')();
-        input.value = result;
+        input.value = Function("return " + input.value)();
       } catch {
         input.value = "Erreur";
       }
     }
-  });
+  };
 
   wrapper.append(btn, input);
   container.prepend(wrapper);
 }
 
-/* =====================================================
-   🚀 LANCEMENT MINI-JEU 2
-===================================================== */
-
-let billsSeen = { A:false, B:false, C:false };
-
+/* ===== LANCEMENT ===== */
 function startMiniGame2() {
-
-  if (!financeGame) return;
-
   financeGame.classList.remove("hidden");
 
-  part1?.classList.remove("hidden");
-  part2?.classList.add("hidden");
-  part3?.classList.add("hidden");
-
-  // Reset lecture factures
-  billsSeen = { A:false, B:false, C:false };
-
-  // Reset affichage facture
-  if (bill) bill.textContent = "";
-
-  // Désactiver tous les boutons "Je choisis"
-  financeGame
-    .querySelectorAll(".chooseBtn")
-    .forEach(btn => {
-      btn.disabled = true;
-      btn.classList.remove("correctAnswer");
-    });
+  part1.classList.remove("hidden");
+  part2.classList.add("hidden");
+  part3.classList.add("hidden");
 
   injectCalculator(part1);
 }
 
-/* =====================================================
-   📜 FACTURES
-===================================================== */
+/* ================= CLIENTS — LECTURE OBLIGATOIRE ================= */
 
-window.showBill = function(client){
+let billsSeen = {
+  A: false,
+  B: false,
+  C: false
+};
 
-  if (!billsSeen) return;
-
-  const prices = {
+window.showBill = client => {
+  bill.textContent = {
     A: "🧾 Barbe-Cuivre : 950 PO",
     B: "🧾 Vent-Noir : 850 PO",
     C: "🧾 Crâne-Rouge : 530 PO"
-  };
-
-  if (bill) bill.textContent = prices[client] || "";
+  }[client];
 
   billsSeen[client] = true;
   checkAllBillsRead();
 };
 
-function checkAllBillsRead(){
-
+function checkAllBillsRead() {
   const allRead = Object.values(billsSeen).every(v => v);
   if (!allRead) return;
 
-  financeGame
-    .querySelectorAll(".chooseBtn")
+  document
+    .querySelectorAll(".clients button:last-child")
     .forEach(btn => btn.disabled = false);
 }
 
-/* =====================================================
-   👑 CHOIX CLIENT
-===================================================== */
-
-window.chooseClient = function(btn){
+window.chooseClient = btn => {
 
   if (!Object.values(billsSeen).every(v => v)) {
     return screenShake();
   }
 
-  const isCorrect = btn.dataset.correct === "true";
+  const choices = [...document.querySelectorAll(".clients button:last-child")];
 
-  if (isCorrect) {
-
-    btn.classList.add("correctAnswer");
-
+  if (btn === choices[0]) {
     part1.classList.add("hidden");
     part2.classList.remove("hidden");
-
     injectCalculator(part2);
-
   } else {
     screenShake();
   }
@@ -393,10 +344,11 @@ window.chooseClient = function(btn){
 /* =====================================================
    📊 RÉSULTAT ANNUEL
 ===================================================== */
-
-window.checkResult = function(ok){
-
-  if (!ok) return screenShake();
+window.checkResult = ok => {
+  if (!ok) {
+    screenShake();
+    return;
+  }
 
   part2.classList.add("hidden");
   part3.classList.remove("hidden");
@@ -407,21 +359,23 @@ window.checkResult = function(ok){
 /* =====================================================
    🧾 AMORTISSEMENTS
 ===================================================== */
+window.checkAmortBase = ok => {
+  if (!ok) {
+    screenShake();
+    return;
+  }
 
-window.checkAmortBase = function(ok){
-
-  if (!ok) return screenShake();
-
-  amortMonth?.classList.remove("hidden");
+  amortMonth.classList.remove("hidden");
 };
 
 /* =====================================================
    ✅ FIN MINI-JEU 2
 ===================================================== */
-
-window.checkMonthlyAmort = function(ok){
-
-  if (!ok) return screenShake();
+window.checkMonthlyAmort = ok => {
+  if (!ok) {
+    screenShake();
+    return;
+  }
 
   part3.classList.add("hidden");
   financeGame.classList.add("hidden");
@@ -430,45 +384,34 @@ window.checkMonthlyAmort = function(ok){
     startDialogues(dialoguesEBE, startMiniGame3);
   }, 300);
 };
+  
+  /* =====================================================
+     💬 DIALOGUES — EBE
+  ===================================================== */
+  const dialoguesEBE = [
+    { s: pirate5, t: "L’EBE mesure la richesse créée par l’exploitation." },
+    { s: pirate2, t: "Avant amortissements, impôts et finance." },
+    { s: pirate5, t: "Voici l’épreuve finale." }
+  ];
 
-/* =====================================================
-   💬 DIALOGUES — EBE
-===================================================== */
+function bindStep(stepElement, onSuccess) {
 
-const dialoguesEBE = [
-  { s: pirate5, t: "L’EBE mesure la richesse créée par l’exploitation." },
-  { s: pirate2, t: "Avant amortissements, impôts et finance." },
-  { s: pirate5, t: "Voici l’épreuve finale." }
-];
-
-/* =====================================================
-   🔐 BIND STEP SÉCURISÉ
-   (n'affecte QUE les boutons data-ok)
-===================================================== */
-
-function bindStepSafe(stepElement, onSuccess){
-
-  if (!stepElement) return;
-
-  const buttons = stepElement.querySelectorAll("button[data-ok]");
-  if (!buttons.length) return;
+  const buttons = stepElement.querySelectorAll("button");
 
   buttons.forEach(btn => {
 
-    btn.addEventListener("click", function(){
+    btn.addEventListener("click", function() {
 
-      const isCorrect = this.dataset.ok === "true";
+      const isCorrect = this.getAttribute("data-ok") === "true";
 
-      if (isCorrect){
+      if (isCorrect) {
 
         this.classList.add("correctAnswer");
 
         buttons.forEach(b => b.disabled = true);
 
         setTimeout(() => {
-          if (typeof onSuccess === "function") {
-            onSuccess();
-          }
+          onSuccess();
         }, 400);
 
       } else {
@@ -479,45 +422,18 @@ function bindStepSafe(stepElement, onSuccess){
 
   });
 }
-  
+
+function goToNext(current, next) {
+  current.classList.add("hidden");
+  next.classList.remove("hidden");
+}
 /* =====================================================
-   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION STABLE)
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE
 ===================================================== */
 
 let step1, step2, step3, step4, step5;
 
-/* =====================================================
-   🔀 MÉLANGE DES BOUTONS
-===================================================== */
-function shuffleStepButtons(stepElement){
-  if (!stepElement) return;
-
-  const buttons = Array.from(
-    stepElement.querySelectorAll("button[data-ok]")
-  );
-
-  shuffleArray(buttons);
-
-  buttons.forEach(btn => stepElement.appendChild(btn));
-}
-
-/* =====================================================
-   🔄 TRANSITION ENTRE ÉTAPES
-===================================================== */
-function goToNext(current, next){
-  if (!current || !next) return;
-
-  current.classList.add("hidden");
-  next.classList.remove("hidden");
-}
-
-/* =====================================================
-   🚀 START MINI GAME 3
-===================================================== */
-
-function startMiniGame3(){
-
-  if (!miniGame3) return;
+function startMiniGame3() {
 
   miniGame3.innerHTML = `
     <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
@@ -527,24 +443,18 @@ function startMiniGame3(){
       que tu maîtrises réellement les chiffres de ta boutique pirate.
     </p>
 
-    <div class="calcWrapper">
-      <button class="calcToggle" type="button">🧮 Calculatrice</button>
-      <input 
-        id="calcFinal"
-        class="calcInput hidden"
-        placeholder="Ex : 10000 - 4250 - 1000"
-        autocomplete="off"
-      >
-    </div>
+    <!-- 🧮 CALCULATRICE -->
+    <button class="calcToggle">🧮 Calculatrice</button>
+    <input id="calcFinal" class="calcInput hidden" placeholder="Ex : 10000 - 4250 - 1000">
 
-    <button class="hintBtn" type="button">💡 Indice</button>
-
+    <!-- 💡 INDICE -->
+    <button class="hintBtn">💡 Indice</button>
     <div class="hintImage hidden">
       <div class="imageFrame">
         <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
       </div>
     </div>
-
+    
     <div id="step1">
       <p><strong>1️⃣ Calcul de la marge</strong></p>
       <p class="hint">💡 CA − Achats</p>
@@ -556,7 +466,7 @@ function startMiniGame3(){
     <div id="step2" class="hidden">
       <p><strong>2️⃣ Calcul de l’EBE</strong></p>
       <p>Charges : 4 250 PO / Impôts : 500 PO</p>
-      <button data-ok="true">5 750 PO</button>
+      <button data-ok="true">5 250 PO</button>
       <button data-ok="false">9 500 PO</button>
     </div>
 
@@ -581,111 +491,117 @@ function startMiniGame3(){
 
   miniGame3.classList.remove("hidden");
 
-  /* ================= RÉFÉRENCES ================= */
-
   step1 = miniGame3.querySelector("#step1");
   step2 = miniGame3.querySelector("#step2");
   step3 = miniGame3.querySelector("#step3");
   step4 = miniGame3.querySelector("#step4");
   step5 = miniGame3.querySelector("#step5");
 
-  /* 🔀 Mélange automatique */
-  shuffleStepButtons(step1);
-  shuffleStepButtons(step2);
-  shuffleStepButtons(step3);
-  shuffleStepButtons(step4);
-  shuffleStepButtons(step5);
-
-  /* =====================================================
-     🧮 CALCULATRICE
-  ===================================================== */
-
+  /* 🧮 Calculatrice */
   const calcBtn = miniGame3.querySelector(".calcToggle");
-  const calcInput = miniGame3.querySelector("#calcFinal");
+  const calc = miniGame3.querySelector("#calcFinal");
 
-  if (calcBtn && calcInput) {
-
-    calcBtn.addEventListener("click", () => {
-      calcInput.classList.toggle("hidden");
-      if (!calcInput.classList.contains("hidden")) {
-        calcInput.focus();
+  calcBtn.onclick = () => calc.classList.toggle("hidden");
+  calc.onkeydown = e => {
+    if (e.key === "Enter") {
+      try {
+        calc.value = Function("return " + calc.value)();
+      } catch {
+        calc.value = "Erreur";
       }
-    });
+    }
+  };
 
-    calcInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        try {
-          const result = Function('"use strict";return (' + calcInput.value + ')')();
-          calcInput.value = result;
-        } catch {
-          calcInput.value = "Erreur";
-        }
-      }
-    });
-  }
+/* =====================================================
+   💡 INDICE — LOADER + ZOOM + FERMETURE STABLE
+===================================================== */
 
-  /* =====================================================
-     💡 INDICE
-  ===================================================== */
+const hintBtn  = miniGame3.querySelector(".hintBtn");
+const hintBox  = miniGame3.querySelector(".hintImage");
+const hintImg  = miniGame3.querySelector(".zoomable");
 
-  const hintBtn  = miniGame3.querySelector(".hintBtn");
-  const hintBox  = miniGame3.querySelector(".hintImage");
-  const hintImg  = miniGame3.querySelector(".zoomable");
+if (hintBtn && hintBox && hintImg) {
 
-  if (hintBtn && hintBox && hintImg) {
+  /* ================================
+     🔄 OUVERTURE AVEC LOADER
+  ================================= */
+  hintBtn.addEventListener("click", () => {
 
-    hintBtn.addEventListener("click", () => {
+    const loaderOverlay = document.createElement("div");
+    loaderOverlay.className = "loaderOverlay";
+
+    loaderOverlay.innerHTML = `
+      <div class="loaderBubble">
+        <div class="spinner">⏳</div>
+      </div>
+    `;
+
+    document.body.appendChild(loaderOverlay);
+
+    const tempImg = new Image();
+    tempImg.src = hintImg.src;
+
+    tempImg.onload = () => {
+      loaderOverlay.remove();
       hintBox.classList.remove("hidden");
+    };
+
+    tempImg.onerror = () => {
+      loaderOverlay.remove();
+      console.error("Erreur chargement image indice");
+    };
+  });
+
+  /* ================================
+     🖼 FERMETURE SI CLIC FOND NOIR
+  ================================= */
+  hintBox.addEventListener("click", (e) => {
+    if (e.target === hintBox) {
+      hintBox.classList.add("hidden");
+    }
+  });
+
+  /* ================================
+     🔍 ZOOM PLEIN ÉCRAN
+  ================================= */
+  hintImg.addEventListener("click", (e) => {
+
+    e.stopPropagation(); // empêche fermeture de hintBox
+
+    const overlay = document.createElement("div");
+    overlay.className = "imageZoomOverlay";
+
+    const img = document.createElement("img");
+    img.src = hintImg.src;
+
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener("click", () => {
+      overlay.remove();
     });
+  });
+}
 
-    hintBox.addEventListener("click", (e) => {
-      if (e.target === hintBox) {
-        hintBox.classList.add("hidden");
-      }
-    });
-
-    hintImg.addEventListener("click", (e) => {
-      e.stopPropagation();
-
-      const overlay = document.createElement("div");
-      overlay.className = "imageZoomOverlay";
-
-      const img = document.createElement("img");
-      img.src = hintImg.src;
-
-      overlay.appendChild(img);
-      document.body.appendChild(overlay);
-
-      overlay.addEventListener("click", () => overlay.remove());
-    });
-  }
-
-  /* =====================================================
-     🔗 ENCHAÎNEMENT
-  ===================================================== */
-
-  bindStepSafe(step1, () => goToNext(step1, step2));
-  bindStepSafe(step2, () => goToNext(step2, step3));
-  bindStepSafe(step3, () => goToNext(step3, step4));
-  bindStepSafe(step4, () => goToNext(step4, step5));
-  bindStepSafe(step5, finishMiniGame3);
+  bindStep(step1, () => goToNext(step1, step2));
+  bindStep(step2, () => goToNext(step2, step3));
+  bindStep(step3, () => goToNext(step3, step4));
+  bindStep(step4, () => goToNext(step4, step5));
+  bindStep(step5, finishMiniGame3);
 }
 
 /* =====================================================
    🔚 FIN MINI-JEU 3
 ===================================================== */
 
-function finishMiniGame3(){
-
-  if (!miniGame3) return;
-
+function finishMiniGame3() {
   miniGame3.classList.add("hidden");
 
   setTimeout(() => {
     showCommerceWin();
   }, 500);
 }
-  
+
 /* =====================================================
    🏆 VICTOIRE FINANCE
 ===================================================== */
@@ -748,4 +664,4 @@ function launchGemsExplosion(container){
     setTimeout(() => document.body.classList.remove("shake"), 400);
   }
 
-});
+}); 
