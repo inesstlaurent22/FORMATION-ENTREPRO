@@ -258,7 +258,7 @@ btn.classList.add("correctAnswer");
   ];
 
 /* =====================================================
-   🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE (CORRIGÉ)
+   🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE (VERSION STABLE)
 ===================================================== */
 
 /* =====================================================
@@ -305,23 +305,31 @@ function injectCalculator(container) {
    🚀 LANCEMENT MINI-JEU 2
 ===================================================== */
 
-let billsSeen;
+let billsSeen = { A:false, B:false, C:false };
 
 function startMiniGame2() {
 
+  if (!financeGame) return;
+
   financeGame.classList.remove("hidden");
 
-  part1.classList.remove("hidden");
-  part2.classList.add("hidden");
-  part3.classList.add("hidden");
+  part1?.classList.remove("hidden");
+  part2?.classList.add("hidden");
+  part3?.classList.add("hidden");
 
   // Reset lecture factures
   billsSeen = { A:false, B:false, C:false };
 
+  // Reset affichage facture
+  if (bill) bill.textContent = "";
+
   // Désactiver tous les boutons "Je choisis"
   financeGame
-    .querySelectorAll(".clients .chooseBtn")
-    .forEach(btn => btn.disabled = true);
+    .querySelectorAll(".chooseBtn")
+    .forEach(btn => {
+      btn.disabled = true;
+      btn.classList.remove("correctAnswer");
+    });
 
   injectCalculator(part1);
 }
@@ -330,7 +338,9 @@ function startMiniGame2() {
    📜 FACTURES
 ===================================================== */
 
-window.showBill = client => {
+window.showBill = function(client){
+
+  if (!billsSeen) return;
 
   const prices = {
     A: "🧾 Barbe-Cuivre : 950 PO",
@@ -338,7 +348,7 @@ window.showBill = client => {
     C: "🧾 Crâne-Rouge : 530 PO"
   };
 
-  bill.textContent = prices[client] || "";
+  if (bill) bill.textContent = prices[client] || "";
 
   billsSeen[client] = true;
   checkAllBillsRead();
@@ -347,10 +357,10 @@ window.showBill = client => {
 function checkAllBillsRead(){
 
   const allRead = Object.values(billsSeen).every(v => v);
-  if(!allRead) return;
+  if (!allRead) return;
 
   financeGame
-    .querySelectorAll(".clients div button:nth-child(2)")
+    .querySelectorAll(".chooseBtn")
     .forEach(btn => btn.disabled = false);
 }
 
@@ -358,14 +368,13 @@ function checkAllBillsRead(){
    👑 CHOIX CLIENT
 ===================================================== */
 
-window.chooseClient = btn => {
+window.chooseClient = function(btn){
 
-  // Sécurité : toutes les factures doivent être lues
   if (!Object.values(billsSeen).every(v => v)) {
     return screenShake();
   }
 
-  const isCorrect = btn.getAttribute("data-correct") === "true";
+  const isCorrect = btn.dataset.correct === "true";
 
   if (isCorrect) {
 
@@ -385,7 +394,7 @@ window.chooseClient = btn => {
    📊 RÉSULTAT ANNUEL
 ===================================================== */
 
-window.checkResult = ok => {
+window.checkResult = function(ok){
 
   if (!ok) return screenShake();
 
@@ -399,18 +408,18 @@ window.checkResult = ok => {
    🧾 AMORTISSEMENTS
 ===================================================== */
 
-window.checkAmortBase = ok => {
+window.checkAmortBase = function(ok){
 
   if (!ok) return screenShake();
 
-  amortMonth.classList.remove("hidden");
+  amortMonth?.classList.remove("hidden");
 };
 
 /* =====================================================
    ✅ FIN MINI-JEU 2
 ===================================================== */
 
-window.checkMonthlyAmort = ok => {
+window.checkMonthlyAmort = function(ok){
 
   if (!ok) return screenShake();
 
@@ -434,25 +443,33 @@ const dialoguesEBE = [
 
 /* =====================================================
    🔐 BIND STEP SÉCURISÉ
-   (n'affecte PAS calculatrice ni autres boutons)
+   (n'affecte QUE les boutons data-ok)
 ===================================================== */
 
-function bindStep(stepElement, onSuccess){
+function bindStepSafe(stepElement, onSuccess){
+
+  if (!stepElement) return;
 
   const buttons = stepElement.querySelectorAll("button[data-ok]");
+  if (!buttons.length) return;
 
   buttons.forEach(btn => {
 
     btn.addEventListener("click", function(){
 
-      const isCorrect = this.getAttribute("data-ok") === "true";
+      const isCorrect = this.dataset.ok === "true";
 
-      if(isCorrect){
+      if (isCorrect){
 
         this.classList.add("correctAnswer");
+
         buttons.forEach(b => b.disabled = true);
 
-        setTimeout(onSuccess, 400);
+        setTimeout(() => {
+          if (typeof onSuccess === "function") {
+            onSuccess();
+          }
+        }, 400);
 
       } else {
         screenShake();
@@ -462,6 +479,7 @@ function bindStep(stepElement, onSuccess){
 
   });
 }
+  
 /* =====================================================
    🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (CORRIGÉ)
 ===================================================== */
