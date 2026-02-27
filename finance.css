@@ -159,6 +159,31 @@ html, body {
 }
 
 /* =====================================================
+   🎮 BOUTONS MINI-JEUX UNIFIÉS
+===================================================== */
+
+#miniGame0 button,
+#financeGame button{
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  border:3px solid #3b2208;
+  color:#1a0f05;
+  font-weight:bold;
+  padding:12px 18px;
+  border-radius:14px;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
+}
+
+#miniGame0 button:active,
+#financeGame button:active{
+  transform:translateY(4px);
+  box-shadow:inset 0 0 12px rgba(0,0,0,.8);
+}
+
+
+
+/* =====================================================
    🎮 MINI-JEU 1 — QCM
 ===================================================== */
 #miniGame0 {
@@ -329,34 +354,44 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   🧮 CALCULATRICE
+   🧮 CALCULATRICE VERSION PIRATE
 ===================================================== */
-.calcToggle {
-  background: linear-gradient(#2b2b2b,#1a1a1a);
-  border: 2px solid #777;
-  color: #f5f5f5;
-  font-family: monospace;
-  font-size: 16px;
-  padding: 10px 18px;
-  border-radius: 10px;
-}
 
-.calcInput {
-  margin: 10px auto;
-  padding: 10px;
-  width: 260px;
-  text-align: center;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-}
-
-button.correctAnswer{
-  background:linear-gradient(145deg,#3a2a18,#5b3a14);
-  color:#f5e6c8;
-  transform:translateY(4px);
+.calcToggle{
+  background:linear-gradient(145deg,#4b2c0f,#8b5a1c);
+  border:3px solid gold;
+  color:#ffd77a;
+  font-weight:bold;
+  font-size:16px;
+  padding:12px 22px;
+  border-radius:16px;
+  cursor:pointer;
   box-shadow:
-    inset 0 0 12px rgba(0,0,0,.8);
+    inset 0 0 12px rgba(255,215,0,.6),
+    0 6px 0 #3b2208,
+    0 0 18px rgba(255,215,0,.5);
+  transition:all .2s ease;
+}
+
+.calcToggle:hover{
+  transform:translateY(2px);
+}
+
+.calcToggle:active{
+  transform:translateY(6px);
+  box-shadow:
+    inset 0 0 14px rgba(0,0,0,.8);
+}
+
+.calcInput{
+  background:#1a1208;
+  border:3px solid gold;
+  color:#ffd77a;
+  font-family:monospace;
+  font-size:16px;
+  padding:12px;
+  border-radius:12px;
+  box-shadow:0 0 14px rgba(255,215,0,.4);
 }
 
 /* ================= LOADER INDICE ================= */
