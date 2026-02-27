@@ -433,7 +433,7 @@ function goToNext(current, next) {
 
 let step1, step2, step3, step4, step5;
 
-function startMiniGame3() {
+function startMiniGame3(){
 
   miniGame3.innerHTML = `
     <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
@@ -444,17 +444,25 @@ function startMiniGame3() {
     </p>
 
     <!-- 🧮 CALCULATRICE -->
-    <button class="calcToggle">🧮 Calculatrice</button>
-    <input id="calcFinal" class="calcInput hidden" placeholder="Ex : 10000 - 4250 - 1000">
+    <div class="calcWrapper">
+      <button class="calcToggle">🧮 Calculatrice</button>
+      <input 
+        id="calcFinal" 
+        class="calcInput hidden" 
+        placeholder="Ex : 10000 - 4250 - 1000"
+        autocomplete="off"
+      >
+    </div>
 
     <!-- 💡 INDICE -->
     <button class="hintBtn">💡 Indice</button>
+
     <div class="hintImage hidden">
       <div class="imageFrame">
         <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
       </div>
     </div>
-    
+
     <div id="step1">
       <p><strong>1️⃣ Calcul de la marge</strong></p>
       <p class="hint">💡 CA − Achats</p>
@@ -491,27 +499,14 @@ function startMiniGame3() {
 
   miniGame3.classList.remove("hidden");
 
+  /* ================= RÉFÉRENCES ÉTAPES ================= */
+
   step1 = miniGame3.querySelector("#step1");
   step2 = miniGame3.querySelector("#step2");
   step3 = miniGame3.querySelector("#step3");
   step4 = miniGame3.querySelector("#step4");
   step5 = miniGame3.querySelector("#step5");
-
-  /* 🧮 Calculatrice */
-  const calcBtn = miniGame3.querySelector(".calcToggle");
-  const calc = miniGame3.querySelector("#calcFinal");
-
-  calcBtn.onclick = () => calc.classList.toggle("hidden");
-  calc.onkeydown = e => {
-    if (e.key === "Enter") {
-      try {
-        calc.value = Function("return " + calc.value)();
-      } catch {
-        calc.value = "Erreur";
-      }
-    }
-  };
-
+  
 /* =====================================================
    💡 INDICE — LOADER + ZOOM + FERMETURE STABLE
 ===================================================== */
