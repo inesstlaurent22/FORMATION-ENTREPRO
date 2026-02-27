@@ -70,44 +70,126 @@
   <div id="financeGame" class="hidden">
 
     <!-- ===== PARTIE 1 : ANALYSE DES CLIENTS ===== -->
-    <div id="part1" class="hidden">
+<div id="financeGame" class="hidden">
 
-      <h3>🧾 Analyse des clients</h3>
+  <!-- ===== PARTIE 1 : ANALYSE DES CLIENTS ===== -->
+  <div id="part1" class="hidden">
 
-      <div class="questionBox">
-        <p>
-          Consulte chaque facture avant de choisir le client le plus rentable.
-        </p>
+    <h3>🧾 Analyse des clients</h3>
+
+    <div class="questionBox">
+      <p>
+        Consulte chaque facture avant de choisir le client le plus rentable.
+      </p>
+    </div>
+
+    <div class="clients">
+
+      <div class="clientBlock">
+        <button type="button" onclick="showBill('A')">
+          🧾 Barbe-Cuivre
+        </button>
+
+        <button 
+          type="button" 
+          class="chooseBtn"
+          onclick="chooseClient(this)" 
+          disabled
+        >
+          Je choisis ce pirate
+        </button>
       </div>
 
-      <div class="clients">
+      <div class="clientBlock">
+        <button type="button" onclick="showBill('B')">
+          🧾 Vent-Noir
+        </button>
 
-        <div>
-          <button type="button" onclick="showBill('A')">🧾 Barbe-Cuivre</button>
-          <button type="button" onclick="chooseClient(this)" disabled>
-            Je choisis ce pirate
-          </button>
-        </div>
-
-        <div>
-          <button type="button" onclick="showBill('B')">🧾 Vent-Noir</button>
-          <button type="button" onclick="chooseClient(this)" disabled>
-            Je choisis ce pirate
-          </button>
-        </div>
-
-        <div>
-          <button type="button" onclick="showBill('C')">🧾 Crâne-Rouge</button>
-          <button type="button" onclick="chooseClient(this)" disabled>
-            Je choisis ce pirate
-          </button>
-        </div>
-
+        <button 
+          type="button" 
+          class="chooseBtn"
+          onclick="chooseClient(this)" 
+          disabled
+        >
+          Je choisis ce pirate
+        </button>
       </div>
 
-      <div id="bill"></div>
+      <div class="clientBlock">
+        <button type="button" onclick="showBill('C')">
+          🧾 Crâne-Rouge
+        </button>
+
+        <button 
+          type="button" 
+          class="chooseBtn"
+          onclick="chooseClient(this)" 
+          disabled
+        >
+          Je choisis ce pirate
+        </button>
+      </div>
 
     </div>
+
+    <div id="bill"></div>
+
+  </div>
+
+  <!-- ===== PARTIE 2 : RÉSULTAT ===== -->
+  <div id="part2" class="hidden">
+
+    <h3>💰 Résultat annuel</h3>
+
+    <div class="questionBox">
+      <p>Chiffre d’affaires : <strong>12 000 PO</strong></p>
+      <p>Charges : <strong>8 500 PO</strong></p>
+    </div>
+
+    <button type="button" onclick="checkResult(false)">
+      Charges + Produits
+    </button>
+
+    <button type="button" onclick="checkResult(true)">
+      Produits − Charges
+    </button>
+
+    <button type="button" onclick="checkResult(false)">
+      Charges × Produits
+    </button>
+
+  </div>
+
+  <!-- ===== PARTIE 3 : AMORTISSEMENTS ===== -->
+  <div id="part3" class="hidden">
+
+    <h3>🛠️ Amortissements</h3>
+
+    <div class="questionBox">
+      <p>Prix d’achat : <strong>500 PO</strong></p>
+      <p>Provision : <strong>150 PO</strong></p>
+      <p>Durée : <strong>3 ans</strong></p>
+    </div>
+
+    <button type="button" onclick="checkAmortBase(false)">500</button>
+    <button type="button" onclick="checkAmortBase(true)">350</button>
+    <button type="button" onclick="checkAmortBase(false)">150</button>
+
+    <div id="amortMonth" class="hidden">
+
+      <div class="questionBox">
+        <p>Amortissement annuel ?</p>
+      </div>
+
+      <button type="button" onclick="checkMonthlyAmort(false)">97 PO</button>
+      <button type="button" onclick="checkMonthlyAmort(true)">117 PO</button>
+      <button type="button" onclick="checkMonthlyAmort(false)">150 PO</button>
+
+    </div>
+
+  </div>
+
+</div>
 
     <!-- ===== PARTIE 2 : RÉSULTAT ===== -->
     <div id="part2" class="hidden">
