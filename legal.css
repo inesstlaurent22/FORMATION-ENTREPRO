@@ -170,6 +170,18 @@ button.selectedAnswer{
   top:500px;
 }
 
+#skipDialoguesBtn{
+  position:fixed;
+  top:24px;
+  right:24px;
+  pointer-events:auto;
+  z-index:10001;
+}
+
+#skipDialoguesBtn:active{
+  transform:translateY(4px);
+}
+
 /* =====================================================
    🎮 MINI-JEUX — CARTES OFFICIELLES (1 → 4)
 ===================================================== */
@@ -291,21 +303,6 @@ button.selectedAnswer{
   to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}
 }
 
-/* =====================================================
-   ⏭ PASSER DIALOGUES
-===================================================== */
-#skipDialoguesBtn{
-  position:fixed;
-  top:18px;
-  right:20px;
-  z-index:9500;
-  background:#1a1208;
-  color:gold;
-  border:3px solid gold;
-  padding:12px 18px;
-  border-radius:14px;
-  cursor:pointer;
-}
 
 /* =====================================================
    🏆 VICTOIRE
