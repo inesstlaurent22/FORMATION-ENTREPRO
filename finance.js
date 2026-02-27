@@ -462,17 +462,6 @@ function bindStep(stepElement, onSuccess){
 
   });
 }
-
-/* =====================================================
-   🔄 TRANSITION ÉTAPES
-===================================================== */
-
-function goToNext(current, next){
-  current.classList.add("hidden");
-  next.classList.remove("hidden");
-}
-
-
 /* =====================================================
    🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (CORRIGÉ)
 ===================================================== */
@@ -498,9 +487,64 @@ function goToNext(current, next){
 }
 
 /* =====================================================
-   START MINI GAME 3
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION STABLE)
 ===================================================== */
-  
+
+let step1, step2, step3, step4, step5;
+
+/* =====================================================
+   🔀 MÉLANGE DES BOUTONS
+===================================================== */
+function shuffleStepButtons(stepElement){
+  const buttons = Array.from(
+    stepElement.querySelectorAll("button[data-ok]")
+  );
+  shuffleArray(buttons);
+  buttons.forEach(btn => stepElement.appendChild(btn));
+}
+
+/* =====================================================
+   🔄 TRANSITION ENTRE ÉTAPES
+===================================================== */
+function goToNext(current, next){
+  current.classList.add("hidden");
+  next.classList.remove("hidden");
+}
+
+/* =====================================================
+   🔐 BIND STEP SÉCURISÉ
+   (n'affecte QUE les boutons data-ok)
+===================================================== */
+function bindStepSafe(stepElement, onSuccess){
+
+  const buttons = stepElement.querySelectorAll("button[data-ok]");
+
+  buttons.forEach(btn => {
+
+    btn.addEventListener("click", function(){
+
+      const isCorrect = this.getAttribute("data-ok") === "true";
+
+      if(isCorrect){
+
+        this.classList.add("correctAnswer");
+        buttons.forEach(b => b.disabled = true);
+
+        setTimeout(onSuccess, 400);
+
+      } else {
+        screenShake();
+      }
+
+    });
+
+  });
+}
+
+/* =====================================================
+   🚀 START MINI GAME 3
+===================================================== */
+
 function startMiniGame3(){
 
   miniGame3.innerHTML = `
@@ -567,7 +611,7 @@ function startMiniGame3(){
 
   miniGame3.classList.remove("hidden");
 
-  /* ================= ÉTAPES ================= */
+  /* ================= RÉFÉRENCES ================= */
 
   step1 = miniGame3.querySelector("#step1");
   step2 = miniGame3.querySelector("#step2");
@@ -575,7 +619,7 @@ function startMiniGame3(){
   step4 = miniGame3.querySelector("#step4");
   step5 = miniGame3.querySelector("#step5");
 
-  /* 🔀 Mélange automatique des réponses */
+  /* 🔀 Mélange automatique */
   shuffleStepButtons(step1);
   shuffleStepButtons(step2);
   shuffleStepButtons(step3);
@@ -632,7 +676,6 @@ function startMiniGame3(){
 
     hintImg.addEventListener("click", (e) => {
       e.stopPropagation();
-
       const overlay = document.createElement("div");
       overlay.className = "imageZoomOverlay";
 
@@ -642,50 +685,19 @@ function startMiniGame3(){
       overlay.appendChild(img);
       document.body.appendChild(overlay);
 
-      overlay.addEventListener("click", () => {
-        overlay.remove();
-      });
+      overlay.addEventListener("click", () => overlay.remove());
     });
   }
 
   /* =====================================================
-     🔗 ENCHAÎNEMENT
+     🔗 ENCHAÎNEMENT SÉCURISÉ
   ===================================================== */
 
-bindStep(step1, () => goToNext(step1, step2));
-bindStep(step2, () => goToNext(step2, step3));
-bindStep(step3, () => goToNext(step3, step4));
-bindStep(step4, () => goToNext(step4, step5));
-bindStep(step5, finishMiniGame3);
-
-/* =====================================================
-   🔐 BIND STEP SÉCURISÉ
-===================================================== */
-
-function bindStepSafe(stepElement, onSuccess){
-
-  const buttons = stepElement.querySelectorAll("button[data-ok]");
-
-  buttons.forEach(btn => {
-
-    btn.addEventListener("click", function(){
-
-      const isCorrect = this.getAttribute("data-ok") === "true";
-
-      if(isCorrect){
-
-        this.classList.add("correctAnswer");
-        buttons.forEach(b => b.disabled = true);
-
-        setTimeout(onSuccess, 400);
-
-      } else {
-        screenShake();
-      }
-
-    });
-
-  });
+  bindStepSafe(step1, () => goToNext(step1, step2));
+  bindStepSafe(step2, () => goToNext(step2, step3));
+  bindStepSafe(step3, () => goToNext(step3, step4));
+  bindStepSafe(step4, () => goToNext(step4, step5));
+  bindStepSafe(step5, finishMiniGame3);
 }
 
 /* =====================================================
@@ -700,7 +712,7 @@ function finishMiniGame3(){
     showCommerceWin();
   }, 500);
 }
-  
+
 /* =====================================================
    🏆 VICTOIRE FINANCE
 ===================================================== */
