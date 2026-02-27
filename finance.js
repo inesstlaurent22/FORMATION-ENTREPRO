@@ -8,13 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleSoundBtn = document.getElementById("toggleSound");
   const closeVideoBtn = document.getElementById("closeVideo");
 
-  const background = document.getElementById("background");
+  const scene = document.getElementById("scene");
   const pirate5 = document.getElementById("pirate5bis");
   const pirate2 = document.getElementById("pirate2bis");
 
-  const miniGame1 = document.getElementById("miniGame0");
-  const financeGame = document.getElementById("financeGame");
-  const miniGame3 = document.getElementById("miniGame3");
+  const miniGame = document.getElementById("miniGameContainer");
 
   const part1 = document.getElementById("part1");
   const part2 = document.getElementById("part2");
@@ -35,6 +33,18 @@ function shuffleArray(array){
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
+}
+
+  function showLoader(duration = 1200, cb){
+  const fadeScreen = document.getElementById("fadeScreen");
+  if(!fadeScreen){ cb && cb(); return; }
+
+  fadeScreen.classList.remove("hidden");
+
+  setTimeout(() => {
+    fadeScreen.classList.add("hidden");
+    cb && cb();
+  }, duration);
 }
   
   /* =====================================================
@@ -77,7 +87,7 @@ function shuffleArray(array){
     videoContainer.classList.add("hidden");
 
     // Afficher la scène
-    background.classList.remove("hidden");
+    scene.classList.remove("hidden");
     pirate5.classList.remove("hidden");
     pirate2.classList.remove("hidden");
 
