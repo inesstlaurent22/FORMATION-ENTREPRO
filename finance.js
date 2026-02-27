@@ -8,11 +8,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleSoundBtn = document.getElementById("toggleSound");
   const closeVideoBtn = document.getElementById("closeVideo");
 
-  const scene = document.getElementById("scene");
+  const background = document.getElementById("background");
   const pirate5 = document.getElementById("pirate5bis");
   const pirate2 = document.getElementById("pirate2bis");
 
-  const miniGame = document.getElementById("miniGameContainer");
+  const miniGame1 = document.getElementById("miniGame0");
+  const financeGame = document.getElementById("financeGame");
+  const miniGame3 = document.getElementById("miniGame3");
+
+  const part1 = document.getElementById("part1");
+  const part2 = document.getElementById("part2");
+  const part3 = document.getElementById("part3");
+
+  const bill = document.getElementById("bill");
+  const amortMonth = document.getElementById("amortMonth");
 
   let pirateClickable = false;
   let dialogueActive = false;
@@ -26,18 +35,6 @@ function shuffleArray(array){
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
-}
-
-  function showLoader(duration = 1200, cb){
-  const fadeScreen = document.getElementById("fadeScreen");
-  if(!fadeScreen){ cb && cb(); return; }
-
-  fadeScreen.classList.remove("hidden");
-
-  setTimeout(() => {
-    fadeScreen.classList.add("hidden");
-    cb && cb();
-  }, duration);
 }
   
   /* =====================================================
@@ -80,7 +77,7 @@ function shuffleArray(array){
     videoContainer.classList.add("hidden");
 
     // Afficher la scène
-    scene.classList.remove("hidden");
+    background.classList.remove("hidden");
     pirate5.classList.remove("hidden");
     pirate2.classList.remove("hidden");
 
@@ -112,7 +109,7 @@ function shuffleArray(array){
   const bubble = document.createElement("div");
   bubble.id = "dialogueBox";
   bubble.classList.add("hidden");
-  scene.appendChild(bubble);
+  background.appendChild(bubble);
 
   let dialogues = [];
   let dIndex = 0;
@@ -204,21 +201,18 @@ skipBtn.onclick = () => {
   let qIndex = 0;
   let goodCount = 0;
 
-function startMiniGame1() {
-
-  miniGame.innerHTML = `
-    <h3>📘 Épreuve des registres</h3>
-    <div class="questionBox">
-      <p id="qText"></p>
-    </div>
-    <div id="qChoices"></div>
-  `;
-
-  miniGame.classList.remove("hidden");
-
-  qIndex = 0;
-  showQuestion();
-}
+  function startMiniGame1() {
+miniGame1.innerHTML = `
+  <h3>📘 Épreuve des registres</h3>
+  <div class="questionBox">
+    <p id="qText"></p>
+  </div>
+  <div id="qChoices"></div>
+`;
+    miniGame1.classList.remove("hidden");
+    qIndex = 0;
+    showQuestion();
+  }
 
   function showQuestion() {
     goodCount = 0;
@@ -253,10 +247,10 @@ btn.classList.add("correctAnswer");
     });
   }
 
-function endMiniGame1() {
-  miniGame.classList.add("hidden");
-  startDialogues(dialoguesBeforeMini2, startMiniGame2);
-}
+  function endMiniGame1() {
+    miniGame1.classList.add("hidden");
+    startDialogues(dialoguesBeforeMini2, startMiniGame2);
+  }
 
   /* =====================================================
      💬 DIALOGUES — ANALYSE
@@ -313,99 +307,129 @@ function injectCalculator(container) {
 
 let billsSeen = { A:false, B:false, C:false };
 
-function startMiniGame2(){
+function startMiniGame2() {
 
-  miniGame.innerHTML = `
-    <h3>🧾 Analyse des clients</h3>
+  if (!financeGame) return;
 
-    <div class="questionBox">
-      <p>Consulte chaque facture avant de choisir le client le plus rentable.</p>
-    </div>
+  financeGame.classList.remove("hidden");
 
-    <div class="clients">
+  part1?.classList.remove("hidden");
+  part2?.classList.add("hidden");
+  part3?.classList.add("hidden");
 
-      <button onclick="showBill('A')">🧾 Barbe-Cuivre</button>
-      <button onclick="showBill('B')">🧾 Vent-Noir</button>
-      <button onclick="showBill('C')">🧾 Crâne-Rouge</button>
-
-    </div>
-
-    <div id="bill" style="margin-top:15px;"></div>
-
-    <button id="continueClientBtn" disabled>
-      Je choisis le meilleur client
-    </button>
-  `;
-
-  miniGame.classList.remove("hidden");
-
+  // Reset lecture factures
   billsSeen = { A:false, B:false, C:false };
 
-  const continueBtn = document.getElementById("continueClientBtn");
+  // Reset affichage facture
+  if (bill) bill.textContent = "";
 
-  window.showBill = function(client){
+  // Désactiver tous les boutons "Je choisis"
+  financeGame
+    .querySelectorAll(".chooseBtn")
+    .forEach(btn => {
+      btn.disabled = true;
+      btn.classList.remove("correctAnswer");
+    });
 
-    const prices = {
-      A: 950,
-      B: 850,
-      C: 530
-    };
-
-    document.getElementById("bill").textContent =
-      `🧾 ${client} : ${prices[client]} PO`;
-
-    billsSeen[client] = true;
-
-    if(Object.values(billsSeen).every(v=>v)){
-      continueBtn.disabled = false;
-    }
-  };
-
-  continueBtn.onclick = () => {
-    miniGame.innerHTML = `
-      <h3>💰 Résultat annuel</h3>
-
-      <div class="questionBox">
-        <p>Chiffre d’affaires : <strong>12 000 PO</strong></p>
-        <p>Charges : <strong>8 500 PO</strong></p>
-      </div>
-
-      <button onclick="checkResult(false)">Charges + Produits</button>
-      <button onclick="checkResult(true)">Produits − Charges</button>
-      <button onclick="checkResult(false)">Charges × Produits</button>
-    `;
-  };
-
-  window.checkResult = function(ok){
-
-    if(!ok) return screenShake();
-
-    miniGame.innerHTML = `
-      <h3>🛠️ Amortissements</h3>
-
-      <div class="questionBox">
-        <p>Prix d’achat : <strong>500 PO</strong></p>
-        <p>Provision : <strong>150 PO</strong></p>
-        <p>Durée : <strong>3 ans</strong></p>
-      </div>
-
-      <button onclick="checkAmort(false)">500</button>
-      <button onclick="checkAmort(true)">350</button>
-      <button onclick="checkAmort(false)">150</button>
-    `;
-  };
-
-  window.checkAmort = function(ok){
-
-    if(!ok) return screenShake();
-
-    miniGame.classList.add("hidden");
-
-    setTimeout(()=>{
-      startDialogues(dialoguesEBE, startMiniGame3);
-    },300);
-  };
+  injectCalculator(part1);
 }
+
+/* =====================================================
+   📜 FACTURES
+===================================================== */
+
+window.showBill = function(client){
+
+  if (!billsSeen) return;
+
+  const prices = {
+    A: "🧾 Barbe-Cuivre : 950 PO",
+    B: "🧾 Vent-Noir : 850 PO",
+    C: "🧾 Crâne-Rouge : 530 PO"
+  };
+
+  if (bill) bill.textContent = prices[client] || "";
+
+  billsSeen[client] = true;
+  checkAllBillsRead();
+};
+
+function checkAllBillsRead(){
+
+  const allRead = Object.values(billsSeen).every(v => v);
+  if (!allRead) return;
+
+  financeGame
+    .querySelectorAll(".chooseBtn")
+    .forEach(btn => btn.disabled = false);
+}
+
+/* =====================================================
+   👑 CHOIX CLIENT
+===================================================== */
+
+window.chooseClient = function(btn){
+
+  if (!Object.values(billsSeen).every(v => v)) {
+    return screenShake();
+  }
+
+  const isCorrect = btn.dataset.correct === "true";
+
+  if (isCorrect) {
+
+    btn.classList.add("correctAnswer");
+
+    part1.classList.add("hidden");
+    part2.classList.remove("hidden");
+
+    injectCalculator(part2);
+
+  } else {
+    screenShake();
+  }
+};
+
+/* =====================================================
+   📊 RÉSULTAT ANNUEL
+===================================================== */
+
+window.checkResult = function(ok){
+
+  if (!ok) return screenShake();
+
+  part2.classList.add("hidden");
+  part3.classList.remove("hidden");
+
+  injectCalculator(part3);
+};
+
+/* =====================================================
+   🧾 AMORTISSEMENTS
+===================================================== */
+
+window.checkAmortBase = function(ok){
+
+  if (!ok) return screenShake();
+
+  amortMonth?.classList.remove("hidden");
+};
+
+/* =====================================================
+   ✅ FIN MINI-JEU 2
+===================================================== */
+
+window.checkMonthlyAmort = function(ok){
+
+  if (!ok) return screenShake();
+
+  part3.classList.add("hidden");
+  financeGame.classList.add("hidden");
+
+  setTimeout(() => {
+    startDialogues(dialoguesEBE, startMiniGame3);
+  }, 300);
+};
 
 /* =====================================================
    💬 DIALOGUES — EBE
@@ -493,9 +517,9 @@ function goToNext(current, next){
 
 function startMiniGame3(){
 
-  if (!miniGame) return;
+  if (!miniGame3) return;
 
-  miniGame.innerHTML = `
+  miniGame3.innerHTML = `
     <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
 
     <p>
@@ -555,15 +579,15 @@ function startMiniGame3(){
     </div>
   `;
 
-  miniGame.classList.remove("hidden");
+  miniGame3.classList.remove("hidden");
 
   /* ================= RÉFÉRENCES ================= */
 
-  step1 = miniGame.querySelector("#step1");
-  step2 = miniGame.querySelector("#step2");
-  step3 = miniGame.querySelector("#step3");
-  step4 = miniGame.querySelector("#step4");
-  step5 = miniGame.querySelector("#step5");
+  step1 = miniGame3.querySelector("#step1");
+  step2 = miniGame3.querySelector("#step2");
+  step3 = miniGame3.querySelector("#step3");
+  step4 = miniGame3.querySelector("#step4");
+  step5 = miniGame3.querySelector("#step5");
 
   /* 🔀 Mélange automatique */
   shuffleStepButtons(step1);
@@ -653,9 +677,9 @@ function startMiniGame3(){
 
 function finishMiniGame3(){
 
-  if (!miniGame) return;
+  if (!miniGame3) return;
 
-  miniGame.classList.add("hidden");
+  miniGame3.classList.add("hidden");
 
   setTimeout(() => {
     showCommerceWin();
@@ -724,4 +748,4 @@ function launchGemsExplosion(container){
     setTimeout(() => document.body.classList.remove("shake"), 400);
   }
 
-});
+}); 
