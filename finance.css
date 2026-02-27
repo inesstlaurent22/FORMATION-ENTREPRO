@@ -158,26 +158,45 @@ html, body {
 }
 
 /* =====================================================
-   🎮 BOUTONS MINI-JEUX UNIFIÉS
+   🔘 BOUTONS — STYLE GLOBAL
 ===================================================== */
-
-#miniGame0 button,
-#financeGame button{
+button{
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
   font-weight:bold;
+  font-size:14px;
   padding:12px 18px;
   border-radius:14px;
+  cursor:pointer;
   box-shadow:
     inset 0 0 6px rgba(255,215,0,.6),
     0 4px 0 #3b2208;
+  transition:transform .08s ease, box-shadow .08s ease;
 }
 
-#miniGame0 button:active,
-#financeGame button:active{
+button:active,
+button.pressed{
   transform:translateY(4px);
-  box-shadow:inset 0 0 12px rgba(0,0,0,.8);
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.6),
+    0 1px 0 #3b2208;
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+button.correct-locked{
+  background:#5c3a0c !important;
+  color:#ffd77a !important;
+  transform:translateY(4px) !important;
+  box-shadow:
+    inset 0 0 14px rgba(255,215,0,.9),
+    inset 0 4px 10px rgba(0,0,0,.7),
+    0 1px 0 #3b2208 !important;
+  pointer-events:none;
 }
 
 /* =====================================================
@@ -201,30 +220,26 @@ html, body {
 }
 
 /* =====================================================
-   🎯 MINI-JEU 1 — QCM
+   🎯 MINI-JEU 1
 ===================================================== */
-
-#qChoices{
-  margin-top:20px;
+.mg1-answers{
   display:flex;
   flex-direction:column;
   gap:14px;
-  align-items:center;
 }
 
-#qChoices button{
-  width:100%;
+.comm-info-text{
+  font-size:14px;
+  margin-bottom:10px;
 }
 
-/* Question style */
-.gameQuestion,
-#miniGame0 .questionBox{
+.gameQuestion{
   padding:12px 14px;
   background:#f6e6b8;
   color:#2b1605;
   border-radius:12px;
   font-weight:bold;
-  margin-bottom:16px;
+  margin-bottom:14px;
 }
 
 /* =====================================================
