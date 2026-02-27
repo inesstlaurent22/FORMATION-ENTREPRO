@@ -471,7 +471,8 @@ function goToNext(current, next){
   current.classList.add("hidden");
   next.classList.remove("hidden");
 }
-  
+
+
 /* =====================================================
    🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (CORRIGÉ)
 ===================================================== */
@@ -488,6 +489,18 @@ function shuffleStepButtons(stepElement){
   buttons.forEach(btn => stepElement.appendChild(btn));
 }
 
+/* =====================================================
+   🔄 TRANSITION ÉTAPES
+===================================================== */
+function goToNext(current, next){
+  current.classList.add("hidden");
+  next.classList.remove("hidden");
+}
+
+/* =====================================================
+   START MINI GAME 3
+===================================================== */
+  
 function startMiniGame3(){
 
   miniGame3.innerHTML = `
