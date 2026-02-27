@@ -481,9 +481,6 @@ let step1, step2, step3, step4, step5;
 /* =====================================================
    🔀 SHUFFLE UTILITAIRE
 ===================================================== */
-function shuffleArray(arr){
-  return arr.sort(() => Math.random() - 0.5);
-}
 
 function shuffleStepButtons(stepElement){
   const buttons = Array.from(stepElement.querySelectorAll("button[data-ok]"));
@@ -642,12 +639,11 @@ function startMiniGame3(){
      🔗 ENCHAÎNEMENT
   ===================================================== */
 
-  bindStepSafe(step1, () => goToNext(step1, step2));
-  bindStepSafe(step2, () => goToNext(step2, step3));
-  bindStepSafe(step3, () => goToNext(step3, step4));
-  bindStepSafe(step4, () => goToNext(step4, step5));
-  bindStepSafe(step5, finishMiniGame3);
-}
+bindStep(step1, () => goToNext(step1, step2));
+bindStep(step2, () => goToNext(step2, step3));
+bindStep(step3, () => goToNext(step3, step4));
+bindStep(step4, () => goToNext(step4, step5));
+bindStep(step5, finishMiniGame3);
 
 /* =====================================================
    🔐 BIND STEP SÉCURISÉ
