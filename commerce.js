@@ -669,22 +669,22 @@ function startMiniGame3(){
   ];
 
   function render(){
+
     const s = steps[step];
 
-    // Texte principal
     text.innerHTML = s.text;
 
-    // Reset UI
     choices.innerHTML = "";
     hintBox.classList.add("hidden");
     hintBox.innerHTML = s.hint;
 
-    // Réponses
     s.answers.forEach(a=>{
+
       const b = document.createElement("button");
       b.textContent = a.label;
 
       b.onclick = ()=>{
+
         if(!a.correct){
           shake(game3);
           return;
@@ -693,26 +693,28 @@ function startMiniGame3(){
         b.classList.add("correct-locked");
         b.disabled = true;
 
-        // Dernière étape
-if(s.finalText){
+        // ===== DERNIÈRE ÉTAPE =====
+        if(s.finalText){
 
-  text.innerHTML = s.finalText;
-  choices.innerHTML = "";
-  hintBtn.classList.add("hidden");
+          text.innerHTML = s.finalText;
+          choices.innerHTML = "";
+          hintBtn.classList.add("hidden");
 
-  setTimeout(()=>{
+          setTimeout(()=>{
 
-    game3.classList.add("hidden");
+            game3.classList.add("hidden");
 
-    showLoader(1200, ()=>{
-      showCommerceWin();
-    });
+            showLoader(1200, ()=>{
+              showCommerceWin();
+            });
 
-  }, 3200);
-}
+          }, 3200);
+
         }else{
+
           step++;
           render();
+
         }
       };
 
@@ -720,15 +722,13 @@ if(s.finalText){
     });
   }
 
-  // Bouton indice
   hintBtn.onclick = ()=>{
     hintBox.classList.remove("hidden");
   };
 
-  // Lancement initial
   render();
 }
-
+   
 /* =====================================================
    🏆 VICTOIRE COMMUNICATION
 ===================================================== */
