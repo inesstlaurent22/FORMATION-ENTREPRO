@@ -429,7 +429,7 @@ function goToNext(current, next) {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION STABLE)
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE
 ===================================================== */
 
 let step1, step2, step3, step4, step5;
@@ -446,7 +446,7 @@ function startMiniGame3(){
 
     <!-- 🧮 CALCULATRICE -->
     <div class="calcWrapper">
-      <button class="calcToggle">🧮 Calculatrice</button>
+      <button class="calcToggle" type="button">🧮 Calculatrice</button>
       <input 
         id="calcFinal"
         class="calcInput hidden"
@@ -456,7 +456,7 @@ function startMiniGame3(){
     </div>
 
     <!-- 💡 INDICE -->
-    <button class="hintBtn">💡 Indice</button>
+    <button class="hintBtn" type="button">💡 Indice</button>
 
     <div class="hintImage hidden">
       <div class="imageFrame">
@@ -508,46 +508,36 @@ function startMiniGame3(){
   step4 = miniGame3.querySelector("#step4");
   step5 = miniGame3.querySelector("#step5");
 
-/* =====================================================
-   🧮 CALCULATRICE — VERSION ULTRA STABLE
-===================================================== */
+  /* =====================================================
+     🧮 CALCULATRICE
+  ===================================================== */
 
-const calcBtn = miniGame3.querySelector(".calcToggle");
-const calcInput = miniGame3.querySelector("#calcFinal");
+  const calcBtn = miniGame3.querySelector(".calcToggle");
+  const calcInput = miniGame3.querySelector("#calcFinal");
 
-if (calcBtn && calcInput) {
+  if (calcBtn && calcInput) {
 
-  // Force pointer events (sécurité CSS)
-  calcBtn.style.pointerEvents = "auto";
-
-  calcBtn.addEventListener("click", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const isHidden = calcInput.classList.contains("hidden");
-
-    if (isHidden) {
-      calcInput.classList.remove("hidden");
-      calcInput.focus();
-    } else {
-      calcInput.classList.add("hidden");
-    }
-  });
-
-  calcInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      try {
-        const result = Function('"use strict";return (' + calcInput.value + ')')();
-        calcInput.value = result;
-      } catch {
-        calcInput.value = "Erreur";
+    calcBtn.addEventListener("click", () => {
+      calcInput.classList.toggle("hidden");
+      if (!calcInput.classList.contains("hidden")) {
+        calcInput.focus();
       }
-    }
-  });
-}
+    });
+
+    calcInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        try {
+          const result = Function('"use strict";return (' + calcInput.value + ')')();
+          calcInput.value = result;
+        } catch {
+          calcInput.value = "Erreur";
+        }
+      }
+    });
+  }
 
   /* =====================================================
-     💡 INDICE — LOADER + ZOOM
+     💡 INDICE
   ===================================================== */
 
   const hintBtn  = miniGame3.querySelector(".hintBtn");
@@ -557,28 +547,7 @@ if (calcBtn && calcInput) {
   if (hintBtn && hintBox && hintImg) {
 
     hintBtn.addEventListener("click", () => {
-
-      const loader = document.createElement("div");
-      loader.className = "loaderOverlay";
-      loader.innerHTML = `
-        <div class="loaderBubble">
-          <div class="spinner">⏳</div>
-        </div>
-      `;
-      document.body.appendChild(loader);
-
-      const imgTest = new Image();
-      imgTest.src = hintImg.src;
-
-      imgTest.onload = () => {
-        loader.remove();
-        hintBox.classList.remove("hidden");
-      };
-
-      imgTest.onerror = () => {
-        loader.remove();
-        console.error("Erreur chargement image indice");
-      };
+      hintBox.classList.remove("hidden");
     });
 
     hintBox.addEventListener("click", (e) => {
@@ -590,30 +559,65 @@ if (calcBtn && calcInput) {
     hintImg.addEventListener("click", (e) => {
       e.stopPropagation();
 
-      const zoomOverlay = document.createElement("div");
-      zoomOverlay.className = "imageZoomOverlay";
+      const overlay = document.createElement("div");
+      overlay.className = "imageZoomOverlay";
 
       const img = document.createElement("img");
       img.src = hintImg.src;
 
-      zoomOverlay.appendChild(img);
-      document.body.appendChild(zoomOverlay);
+      overlay.appendChild(img);
+      document.body.appendChild(overlay);
 
-      zoomOverlay.addEventListener("click", () => {
-        zoomOverlay.remove();
+      overlay.addEventListener("click", () => {
+        overlay.remove();
       });
     });
   }
 
   /* =====================================================
-     🔗 ENCHAÎNEMENT
+     🔗 ENCHAÎNEMENT — VERSION SÉCURISÉE
+     (uniquement boutons data-ok)
   ===================================================== */
 
-  bindStep(step1, () => goToNext(step1, step2));
-  bindStep(step2, () => goToNext(step2, step3));
-  bindStep(step3, () => goToNext(step3, step4));
-  bindStep(step4, () => goToNext(step4, step5));
-  bindStep(step5, finishMiniGame3);
+  bindStepSafe(step1, () => goToNext(step1, step2));
+  bindStepSafe(step2, () => goToNext(step2, step3));
+  bindStepSafe(step3, () => goToNext(step3, step4));
+  bindStepSafe(step4, () => goToNext(step4, step5));
+  bindStepSafe(step5, finishMiniGame3);
+}
+
+
+/* =====================================================
+   🔐 BIND STEP SÉCURISÉ
+   (n'affecte pas la calculatrice)
+===================================================== */
+
+function bindStepSafe(stepElement, onSuccess){
+
+  const buttons = stepElement.querySelectorAll("button[data-ok]");
+
+  buttons.forEach(btn => {
+
+    btn.addEventListener("click", function(){
+
+      const isCorrect = this.getAttribute("data-ok") === "true";
+
+      if(isCorrect){
+
+        this.classList.add("correctAnswer");
+        buttons.forEach(b => b.disabled = true);
+
+        setTimeout(() => {
+          onSuccess();
+        }, 400);
+
+      } else {
+        screenShake();
+      }
+
+    });
+
+  });
 }
 
 
@@ -625,10 +629,10 @@ function finishMiniGame3(){
   miniGame3.classList.add("hidden");
 
   setTimeout(() => {
-    showCommerceWin(); // ou showFinanceWin si tu l’as renommé
+    showCommerceWin(); // ou showFinanceWin
   }, 500);
 }
-
+  
 /* =====================================================
    🏆 VICTOIRE FINANCE
 ===================================================== */
