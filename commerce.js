@@ -605,7 +605,6 @@ function illuminatePirate5(){
   pirate5.classList.add("glowStart");
   pirate5.style.pointerEvents = "auto";
 
-  // Nettoie ancien handler
   pirate5.onclick = null;
 
   pirate5.onclick = ()=>{
@@ -618,6 +617,7 @@ function illuminatePirate5(){
     ], startMiniGame3);
   };
 }
+} 
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
