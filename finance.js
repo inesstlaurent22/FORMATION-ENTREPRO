@@ -477,7 +477,7 @@ function bindStepSafe(stepElement, onSuccess){
 }
   
 /* =====================================================
-   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (CORRIGÉ)
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION STABLE)
 ===================================================== */
 
 let step1, step2, step3, step4, step5;
@@ -486,10 +486,14 @@ let step1, step2, step3, step4, step5;
    🔀 MÉLANGE DES BOUTONS
 ===================================================== */
 function shuffleStepButtons(stepElement){
+  if (!stepElement) return;
+
   const buttons = Array.from(
     stepElement.querySelectorAll("button[data-ok]")
   );
+
   shuffleArray(buttons);
+
   buttons.forEach(btn => stepElement.appendChild(btn));
 }
 
@@ -497,6 +501,8 @@ function shuffleStepButtons(stepElement){
    🔄 TRANSITION ENTRE ÉTAPES
 ===================================================== */
 function goToNext(current, next){
+  if (!current || !next) return;
+
   current.classList.add("hidden");
   next.classList.remove("hidden");
 }
@@ -507,6 +513,8 @@ function goToNext(current, next){
 
 function startMiniGame3(){
 
+  if (!miniGame3) return;
+
   miniGame3.innerHTML = `
     <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
 
@@ -515,7 +523,6 @@ function startMiniGame3(){
       que tu maîtrises réellement les chiffres de ta boutique pirate.
     </p>
 
-    <!-- 🧮 CALCULATRICE -->
     <div class="calcWrapper">
       <button class="calcToggle" type="button">🧮 Calculatrice</button>
       <input 
@@ -526,7 +533,6 @@ function startMiniGame3(){
       >
     </div>
 
-    <!-- 💡 INDICE -->
     <button class="hintBtn" type="button">💡 Indice</button>
 
     <div class="hintImage hidden">
@@ -636,6 +642,7 @@ function startMiniGame3(){
 
     hintImg.addEventListener("click", (e) => {
       e.stopPropagation();
+
       const overlay = document.createElement("div");
       overlay.className = "imageZoomOverlay";
 
@@ -650,7 +657,7 @@ function startMiniGame3(){
   }
 
   /* =====================================================
-     🔗 ENCHAÎNEMENT SÉCURISÉ
+     🔗 ENCHAÎNEMENT
   ===================================================== */
 
   bindStepSafe(step1, () => goToNext(step1, step2));
@@ -666,13 +673,15 @@ function startMiniGame3(){
 
 function finishMiniGame3(){
 
+  if (!miniGame3) return;
+
   miniGame3.classList.add("hidden");
 
   setTimeout(() => {
     showCommerceWin();
   }, 500);
 }
-
+  
 /* =====================================================
    🏆 VICTOIRE FINANCE
 ===================================================== */
