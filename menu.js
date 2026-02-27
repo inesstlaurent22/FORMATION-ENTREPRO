@@ -268,7 +268,18 @@ function showPasswordOverlay() {
 
       <div class="pirate-actions">
         <button id="legalBtn" class="pirate-btn">📜 Mentions légales</button>
-        <button id="payBtn" class="pirate-btn">💰 Version complète</button>
+        <div class="pirate-btn">
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    <input type="hidden" name="cmd" value="_s-xclick" />
+    <input type="hidden" name="hosted_button_id" value="85KKQVSF27MY6" />
+    <input type="hidden" name="currency_code" value="EUR" />
+    <input type="image"
+           src="https://www.paypalobjects.com/fr_XC/i/btn/btn_buynowCC_LG.gif"
+           border="0"
+           name="submit"
+           alt="Acheter la version complète" />
+  </form>
+</div>
       </div>
     </div>
 
