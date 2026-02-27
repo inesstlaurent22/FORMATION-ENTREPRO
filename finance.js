@@ -508,33 +508,43 @@ function startMiniGame3(){
   step4 = miniGame3.querySelector("#step4");
   step5 = miniGame3.querySelector("#step5");
 
-  /* =====================================================
-     🧮 CALCULATRICE — FIX PROPRE
-  ===================================================== */
+/* =====================================================
+   🧮 CALCULATRICE — VERSION ULTRA STABLE
+===================================================== */
 
-  const calcBtn = miniGame3.querySelector(".calcToggle");
-  const calcInput = miniGame3.querySelector("#calcFinal");
+const calcBtn = miniGame3.querySelector(".calcToggle");
+const calcInput = miniGame3.querySelector("#calcFinal");
 
-  if (calcBtn && calcInput) {
+if (calcBtn && calcInput) {
 
-    calcBtn.addEventListener("click", () => {
-      calcInput.classList.toggle("hidden");
-      if (!calcInput.classList.contains("hidden")) {
-        calcInput.focus();
+  // Force pointer events (sécurité CSS)
+  calcBtn.style.pointerEvents = "auto";
+
+  calcBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const isHidden = calcInput.classList.contains("hidden");
+
+    if (isHidden) {
+      calcInput.classList.remove("hidden");
+      calcInput.focus();
+    } else {
+      calcInput.classList.add("hidden");
+    }
+  });
+
+  calcInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      try {
+        const result = Function('"use strict";return (' + calcInput.value + ')')();
+        calcInput.value = result;
+      } catch {
+        calcInput.value = "Erreur";
       }
-    });
-
-    calcInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        try {
-          const result = Function('"use strict";return (' + calcInput.value + ')')();
-          calcInput.value = result;
-        } catch {
-          calcInput.value = "Erreur";
-        }
-      }
-    });
-  }
+    }
+  });
+}
 
   /* =====================================================
      💡 INDICE — LOADER + ZOOM
