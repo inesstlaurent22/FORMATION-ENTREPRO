@@ -67,9 +67,6 @@
   <!-- =====================================================
        🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE
   ===================================================== -->
-  <div id="financeGame" class="hidden">
-
-    <!-- ===== PARTIE 1 : ANALYSE DES CLIENTS ===== -->
 <div id="financeGame" class="hidden">
 
   <!-- ===== PARTIE 1 : ANALYSE DES CLIENTS ===== -->
@@ -85,6 +82,7 @@
 
     <div class="clients">
 
+      <!-- ✅ BON CLIENT -->
       <div class="clientBlock">
         <button type="button" onclick="showBill('A')">
           🧾 Barbe-Cuivre
@@ -93,6 +91,7 @@
         <button 
           type="button" 
           class="chooseBtn"
+          data-correct="true"
           onclick="chooseClient(this)" 
           disabled
         >
@@ -100,6 +99,7 @@
         </button>
       </div>
 
+      <!-- ❌ MAUVAIS CLIENT -->
       <div class="clientBlock">
         <button type="button" onclick="showBill('B')">
           🧾 Vent-Noir
@@ -108,6 +108,7 @@
         <button 
           type="button" 
           class="chooseBtn"
+          data-correct="false"
           onclick="chooseClient(this)" 
           disabled
         >
@@ -115,6 +116,7 @@
         </button>
       </div>
 
+      <!-- ❌ MAUVAIS CLIENT -->
       <div class="clientBlock">
         <button type="button" onclick="showBill('C')">
           🧾 Crâne-Rouge
@@ -123,6 +125,7 @@
         <button 
           type="button" 
           class="chooseBtn"
+          data-correct="false"
           onclick="chooseClient(this)" 
           disabled
         >
@@ -135,6 +138,8 @@
     <div id="bill"></div>
 
   </div>
+
+</div>
 
   <!-- ===== PARTIE 2 : RÉSULTAT ===== -->
   <div id="part2" class="hidden">
