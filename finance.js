@@ -427,8 +427,9 @@ function goToNext(current, next) {
   current.classList.add("hidden");
   next.classList.remove("hidden");
 }
+
 /* =====================================================
-   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION STABLE)
 ===================================================== */
 
 let step1, step2, step3, step4, step5;
@@ -447,8 +448,8 @@ function startMiniGame3(){
     <div class="calcWrapper">
       <button class="calcToggle">🧮 Calculatrice</button>
       <input 
-        id="calcFinal" 
-        class="calcInput hidden" 
+        id="calcFinal"
+        class="calcInput hidden"
         placeholder="Ex : 10000 - 4250 - 1000"
         autocomplete="off"
       >
@@ -499,84 +500,104 @@ function startMiniGame3(){
 
   miniGame3.classList.remove("hidden");
 
-  /* ================= RÉFÉRENCES ÉTAPES ================= */
+  /* ================= ÉTAPES ================= */
 
   step1 = miniGame3.querySelector("#step1");
   step2 = miniGame3.querySelector("#step2");
   step3 = miniGame3.querySelector("#step3");
   step4 = miniGame3.querySelector("#step4");
   step5 = miniGame3.querySelector("#step5");
-  
-/* =====================================================
-   💡 INDICE — LOADER + ZOOM + FERMETURE STABLE
-===================================================== */
 
-const hintBtn  = miniGame3.querySelector(".hintBtn");
-const hintBox  = miniGame3.querySelector(".hintImage");
-const hintImg  = miniGame3.querySelector(".zoomable");
+  /* =====================================================
+     🧮 CALCULATRICE — FIX PROPRE
+  ===================================================== */
 
-if (hintBtn && hintBox && hintImg) {
+  const calcBtn = miniGame3.querySelector(".calcToggle");
+  const calcInput = miniGame3.querySelector("#calcFinal");
 
-  /* ================================
-     🔄 OUVERTURE AVEC LOADER
-  ================================= */
-  hintBtn.addEventListener("click", () => {
+  if (calcBtn && calcInput) {
 
-    const loaderOverlay = document.createElement("div");
-    loaderOverlay.className = "loaderOverlay";
-
-    loaderOverlay.innerHTML = `
-      <div class="loaderBubble">
-        <div class="spinner">⏳</div>
-      </div>
-    `;
-
-    document.body.appendChild(loaderOverlay);
-
-    const tempImg = new Image();
-    tempImg.src = hintImg.src;
-
-    tempImg.onload = () => {
-      loaderOverlay.remove();
-      hintBox.classList.remove("hidden");
-    };
-
-    tempImg.onerror = () => {
-      loaderOverlay.remove();
-      console.error("Erreur chargement image indice");
-    };
-  });
-
-  /* ================================
-     🖼 FERMETURE SI CLIC FOND NOIR
-  ================================= */
-  hintBox.addEventListener("click", (e) => {
-    if (e.target === hintBox) {
-      hintBox.classList.add("hidden");
-    }
-  });
-
-  /* ================================
-     🔍 ZOOM PLEIN ÉCRAN
-  ================================= */
-  hintImg.addEventListener("click", (e) => {
-
-    e.stopPropagation(); // empêche fermeture de hintBox
-
-    const overlay = document.createElement("div");
-    overlay.className = "imageZoomOverlay";
-
-    const img = document.createElement("img");
-    img.src = hintImg.src;
-
-    overlay.appendChild(img);
-    document.body.appendChild(overlay);
-
-    overlay.addEventListener("click", () => {
-      overlay.remove();
+    calcBtn.addEventListener("click", () => {
+      calcInput.classList.toggle("hidden");
+      if (!calcInput.classList.contains("hidden")) {
+        calcInput.focus();
+      }
     });
-  });
-}
+
+    calcInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        try {
+          const result = Function('"use strict";return (' + calcInput.value + ')')();
+          calcInput.value = result;
+        } catch {
+          calcInput.value = "Erreur";
+        }
+      }
+    });
+  }
+
+  /* =====================================================
+     💡 INDICE — LOADER + ZOOM
+  ===================================================== */
+
+  const hintBtn  = miniGame3.querySelector(".hintBtn");
+  const hintBox  = miniGame3.querySelector(".hintImage");
+  const hintImg  = miniGame3.querySelector(".zoomable");
+
+  if (hintBtn && hintBox && hintImg) {
+
+    hintBtn.addEventListener("click", () => {
+
+      const loader = document.createElement("div");
+      loader.className = "loaderOverlay";
+      loader.innerHTML = `
+        <div class="loaderBubble">
+          <div class="spinner">⏳</div>
+        </div>
+      `;
+      document.body.appendChild(loader);
+
+      const imgTest = new Image();
+      imgTest.src = hintImg.src;
+
+      imgTest.onload = () => {
+        loader.remove();
+        hintBox.classList.remove("hidden");
+      };
+
+      imgTest.onerror = () => {
+        loader.remove();
+        console.error("Erreur chargement image indice");
+      };
+    });
+
+    hintBox.addEventListener("click", (e) => {
+      if (e.target === hintBox) {
+        hintBox.classList.add("hidden");
+      }
+    });
+
+    hintImg.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const zoomOverlay = document.createElement("div");
+      zoomOverlay.className = "imageZoomOverlay";
+
+      const img = document.createElement("img");
+      img.src = hintImg.src;
+
+      zoomOverlay.appendChild(img);
+      document.body.appendChild(zoomOverlay);
+
+      zoomOverlay.addEventListener("click", () => {
+        zoomOverlay.remove();
+      });
+    });
+  }
+
+  /* =====================================================
+     🔗 ENCHAÎNEMENT
+  ===================================================== */
 
   bindStep(step1, () => goToNext(step1, step2));
   bindStep(step2, () => goToNext(step2, step3));
@@ -585,15 +606,16 @@ if (hintBtn && hintBox && hintImg) {
   bindStep(step5, finishMiniGame3);
 }
 
+
 /* =====================================================
    🔚 FIN MINI-JEU 3
 ===================================================== */
 
-function finishMiniGame3() {
+function finishMiniGame3(){
   miniGame3.classList.add("hidden");
 
   setTimeout(() => {
-    showCommerceWin();
+    showCommerceWin(); // ou showFinanceWin si tu l’as renommé
   }, 500);
 }
 
