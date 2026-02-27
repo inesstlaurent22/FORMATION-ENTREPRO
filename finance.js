@@ -191,11 +191,13 @@ skipBtn.onclick = () => {
   let goodCount = 0;
 
   function startMiniGame1() {
-    miniGame1.innerHTML = `
-      <h3>📘 Épreuve des registres</h3>
-      <p id="qText"></p>
-      <div id="qChoices"></div>
-    `;
+miniGame1.innerHTML = `
+  <h3>📘 Épreuve des registres</h3>
+  <div class="questionBox">
+    <p id="qText"></p>
+  </div>
+  <div id="qChoices"></div>
+`;
     miniGame1.classList.remove("hidden");
     qIndex = 0;
     showQuestion();
