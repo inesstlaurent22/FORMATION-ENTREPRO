@@ -487,30 +487,6 @@ function bindStepSafe(stepElement, onSuccess){
 let step1, step2, step3, step4, step5;
 
 /* =====================================================
-   🔀 SHUFFLE UTILITAIRE
-===================================================== */
-
-function shuffleStepButtons(stepElement){
-  const buttons = Array.from(stepElement.querySelectorAll("button[data-ok]"));
-  shuffleArray(buttons);
-  buttons.forEach(btn => stepElement.appendChild(btn));
-}
-
-/* =====================================================
-   🔄 TRANSITION ÉTAPES
-===================================================== */
-function goToNext(current, next){
-  current.classList.add("hidden");
-  next.classList.remove("hidden");
-}
-
-/* =====================================================
-   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION STABLE)
-===================================================== */
-
-let step1, step2, step3, step4, step5;
-
-/* =====================================================
    🔀 MÉLANGE DES BOUTONS
 ===================================================== */
 function shuffleStepButtons(stepElement){
@@ -527,36 +503,6 @@ function shuffleStepButtons(stepElement){
 function goToNext(current, next){
   current.classList.add("hidden");
   next.classList.remove("hidden");
-}
-
-/* =====================================================
-   🔐 BIND STEP SÉCURISÉ
-   (n'affecte QUE les boutons data-ok)
-===================================================== */
-function bindStepSafe(stepElement, onSuccess){
-
-  const buttons = stepElement.querySelectorAll("button[data-ok]");
-
-  buttons.forEach(btn => {
-
-    btn.addEventListener("click", function(){
-
-      const isCorrect = this.getAttribute("data-ok") === "true";
-
-      if(isCorrect){
-
-        this.classList.add("correctAnswer");
-        buttons.forEach(b => b.disabled = true);
-
-        setTimeout(onSuccess, 400);
-
-      } else {
-        screenShake();
-      }
-
-    });
-
-  });
 }
 
 /* =====================================================
