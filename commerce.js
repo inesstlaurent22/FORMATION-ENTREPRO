@@ -245,31 +245,44 @@ function startDialogues1(){
    MINI-JEU 1
 ===================================================== */
 function startMiniGame1(){
-  game1.classList.remove("hidden");
-  q1.textContent="Pourquoi réaliser une étude de marché ?";
-  a1.innerHTML="";
 
-  [
-    {t:"Décorer la boutique",ok:false},
-    {t:"Comprendre les clients",ok:true},
-    {t:"Copier les concurrents",ok:false}
-  ].forEach(q=>{
-    const b=document.createElement("button");
-    b.textContent=q.t;
-    b.onclick=()=>{
-if(!q.ok){ shake(game1); return; }
+  showLoader(900, ()=>{
 
-b.classList.add("correct-locked");
-b.disabled = true;
+    game1.classList.remove("hidden");
+    q1.textContent="Pourquoi réaliser une étude de marché ?";
+    a1.innerHTML="";
 
-setTimeout(()=>{
-  showLoader(1000, ()=>{
-  game1.classList.remove("hidden");
-});
-  startDialogues2();
-},800);
-    };
-    a1.appendChild(b);
+    [
+      {t:"Décorer la boutique",ok:false},
+      {t:"Comprendre les clients",ok:true},
+      {t:"Copier les concurrents",ok:false}
+    ].forEach(q=>{
+
+      const b=document.createElement("button");
+      b.textContent=q.t;
+
+      b.onclick=()=>{
+
+        if(!q.ok){
+          shake(game1);
+          return;
+        }
+
+        b.classList.add("correct-locked");
+        b.disabled = true;
+
+        setTimeout(()=>{
+
+          game1.classList.add("hidden");
+
+          startDialogues2();
+
+        },600);
+      };
+
+      a1.appendChild(b);
+    });
+
   });
 }
 
@@ -288,9 +301,11 @@ function startDialogues2(){
 ===================================================== */
 function startMiniGame2(){
 
-  game2.classList.remove("hidden");
+  showLoader(900, ()=>{
 
-  const questions = [
+    game2.classList.remove("hidden");
+
+    const questions = [
 
     {
       question: "Étude du produit, qu’est-ce que je dois analyser en premier ?",
@@ -362,10 +377,11 @@ function startMiniGame2(){
             if(current < questions.length){
               renderQuestion();
             }else{
-              showLoader(1000, ()=>{
-  game2.classList.remove("hidden");
-});
-              showBusinessPlanLoader();
+game2.classList.add("hidden");
+
+setTimeout(()=>{
+  showBusinessPlanLoader();
+},600);
             }
 
           },800);
@@ -569,11 +585,16 @@ function showBusinessPlanLoader(){
   /* ===============================
      CONTINUER
   =============================== */
-  cont.onclick = ()=>{
-    overlay.remove();
-    illuminatePirate5();
-  };
-}
+cont.onclick = ()=>{
+
+  overlay.remove();
+
+  playDialogues([
+    { text:"Ton plan est solide.", anchor:pirate5 },
+    { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
+  ], startMiniGame3);
+
+};
 
 /* ===============================
    ILLUMINATION PIRATE
@@ -677,11 +698,11 @@ function startMiniGame3(){
           choices.innerHTML = "";
           hintBtn.classList.add("hidden");
 
-          setTimeout(()=>{
-            showLoader(1000, ()=>{
-  game3.classList.remove("hidden");
+game3.classList.add("hidden");
+
+showLoader(1200, ()=>{
+  showCommerceWin();
 });
-         showCommerceWin();
           }, 3200);
 
         }else{
