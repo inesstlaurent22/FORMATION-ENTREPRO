@@ -78,9 +78,13 @@ const skipDialoguesBtn = document.getElementById("skipDialoguesBtn");
 let dialogs=[], dIndex=0, dCallback=null;
 
 function playDialog(list, cb){
-  dialogs=list; dIndex=0; dCallback=cb;
+  dialogs = list;
+  dIndex = 0;
+  dCallback = cb;
+
   dialogBox.classList.remove("hidden");
-  skipDialog.classList.remove("hidden");
+  skipDialoguesBtn.classList.remove("hidden"); // ✅ correction
+
   showDialog();
 }
 
