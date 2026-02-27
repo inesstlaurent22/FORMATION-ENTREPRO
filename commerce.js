@@ -693,17 +693,22 @@ function startMiniGame3(){
         b.disabled = true;
 
         // Dernière étape
-        if(s.finalText){
-          text.innerHTML = s.finalText;
-          choices.innerHTML = "";
-          hintBtn.classList.add("hidden");
+if(s.finalText){
 
-game3.classList.add("hidden");
+  text.innerHTML = s.finalText;
+  choices.innerHTML = "";
+  hintBtn.classList.add("hidden");
 
-showLoader(1200, ()=>{
-  showCommerceWin();
-});
-          }, 3200);
+  setTimeout(()=>{
+
+    game3.classList.add("hidden");
+
+    showLoader(1200, ()=>{
+      showCommerceWin();
+    });
+
+  }, 3200);
+}
 
         }else{
           step++;
