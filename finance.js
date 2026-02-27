@@ -748,4 +748,4 @@ function launchGemsExplosion(container){
     setTimeout(() => document.body.classList.remove("shake"), 400);
   }
 
-}); 
+})
