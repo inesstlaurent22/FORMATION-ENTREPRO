@@ -34,12 +34,19 @@ const closeVideo = document.getElementById("closeVideo");
 /* =====================================================
    OUTILS
 ===================================================== */
-function showLoader(duration = 800, cb){
-  if(!fadeScreen) return;
-  fadeScreen.classList.remove("hidden");
-  setTimeout(()=>{
-    fadeScreen.classList.add("hidden");
+function showLoader(duration = 1200, cb){
+  if(!fadeScreen){
     cb && cb();
+    return;
+  }
+
+  fadeScreen.classList.remove("hidden");
+
+  setTimeout(() => {
+    fadeScreen.classList.add("hidden");
+    if(typeof cb === "function"){
+      cb();
+    }
   }, duration);
 }
 
@@ -215,9 +222,9 @@ function endDialogues(){
   const cb = callback;
   callback = null;
 
-  if(cb){
-    cb();
-  }
+if(cb){
+  showLoader(1000, cb);
+}
 }
 
 if(skipBtn){
@@ -256,7 +263,9 @@ b.classList.add("correct-locked");
 b.disabled = true;
 
 setTimeout(()=>{
-  game1.classList.add("hidden");
+  showLoader(1000, ()=>{
+  game1.classList.remove("hidden");
+});
   startDialogues2();
 },800);
     };
@@ -353,7 +362,9 @@ function startMiniGame2(){
             if(current < questions.length){
               renderQuestion();
             }else{
-              game2.classList.add("hidden");
+              showLoader(1000, ()=>{
+  game2.classList.remove("hidden");
+});
               showBusinessPlanLoader();
             }
 
@@ -667,7 +678,9 @@ function startMiniGame3(){
           hintBtn.classList.add("hidden");
 
           setTimeout(()=>{
-            game3.classList.add("hidden");
+            showLoader(1000, ()=>{
+  game3.classList.remove("hidden");
+});
          showCommerceWin();
           }, 3200);
 
