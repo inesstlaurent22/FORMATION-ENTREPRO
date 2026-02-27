@@ -466,7 +466,7 @@ function startMiniGame3() {
     <div id="step2" class="hidden">
       <p><strong>2️⃣ Calcul de l’EBE</strong></p>
       <p>Charges : 4 250 PO / Impôts : 500 PO</p>
-      <button data-ok="true">5 250 PO</button>
+      <button data-ok="true">5 750 PO</button>
       <button data-ok="false">9 500 PO</button>
     </div>
 
