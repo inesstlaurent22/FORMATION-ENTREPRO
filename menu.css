@@ -398,6 +398,26 @@ body.night-mode #pirate5 {
   font-size:18px;
 }
 
+/* ================================================= */
+/* 💰 PAYPAL VERSION COMPLÈTE */
+/* ================================================= */
+
+.pirate-actions form{
+  margin:0;
+}
+
+.pirate-actions input[type="image"]{
+  width: 170px;
+  cursor:pointer;
+  transition:.3s ease;
+  border-radius:12px;
+}
+
+.pirate-actions input[type="image"]:hover{
+  transform:scale(1.05);
+  filter:drop-shadow(0 0 12px gold);
+}
+
 /* =========================
    🎬 COFFRE CINEMATIQUE
 ========================= */
