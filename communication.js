@@ -89,12 +89,34 @@ function playDialog(list, cb){
 }
 
 function showDialog(){
+
   const d = dialogs[dIndex];
   dialogText.textContent = d.text;
-  const p = d.speaker==="pirate2"?pirate2:pirate3;
-  const r = p.getBoundingClientRect();
-  dialogBox.style.left = `${r.left+r.width/2-dialogBox.offsetWidth/2}px`;
-  dialogBox.style.top  = `${Math.max(20, r.top-dialogBox.offsetHeight-30)}px`;
+
+  // Force le navigateur à recalculer la taille
+  dialogBox.style.visibility = "hidden";
+  dialogBox.classList.remove("hidden");
+
+  requestAnimationFrame(() => {
+
+    const p = d.speaker === "pirate2" ? pirate2 : pirate3;
+    const r = p.getBoundingClientRect();
+
+    const boxWidth  = dialogBox.offsetWidth;
+    const boxHeight = dialogBox.offsetHeight;
+
+    let left = r.left + r.width/2 - boxWidth/2;
+    let top  = r.top - boxHeight - 30;
+
+    // Empêche sortie écran
+    left = Math.max(10, Math.min(left, window.innerWidth - boxWidth - 10));
+    top  = Math.max(20, top);
+
+    dialogBox.style.left = left + "px";
+    dialogBox.style.top  = top  + "px";
+
+    dialogBox.style.visibility = "visible";
+  });
 }
 
 dialogBox.onclick = () => {
