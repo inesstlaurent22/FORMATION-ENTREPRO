@@ -360,17 +360,16 @@ function checkAllBillsRead(){
 
 window.chooseClient = btn => {
 
+  // Sécurité : toutes les factures doivent être lues
   if (!Object.values(billsSeen).every(v => v)) {
     return screenShake();
   }
 
-  const choices = [
-    ...financeGame.querySelectorAll(".clients .chooseBtn")
-  ];
+  const isCorrect = btn.getAttribute("data-correct") === "true";
 
-  const correctBtn = choices[0]; // premier bloc = bon client
+  if (isCorrect) {
 
-  if (btn === correctBtn) {
+    btn.classList.add("correctAnswer");
 
     part1.classList.add("hidden");
     part2.classList.remove("hidden");
