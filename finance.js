@@ -347,11 +347,10 @@ window.showBill = client => {
 function checkAllBillsRead(){
 
   const allRead = Object.values(billsSeen).every(v => v);
-
   if(!allRead) return;
 
   financeGame
-    .querySelectorAll(".clients .chooseBtn")
+    .querySelectorAll(".clients div button:nth-child(2)")
     .forEach(btn => btn.disabled = false);
 }
 
