@@ -393,6 +393,7 @@ setTimeout(()=>{
   }
 
   renderQuestion();
+  }); 
 }
 /* =====================================================
    📘 LIVRE
@@ -709,7 +710,6 @@ if(s.finalText){
 
   }, 3200);
 }
-
         }else{
           step++;
           render();
