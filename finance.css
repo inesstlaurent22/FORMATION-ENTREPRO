@@ -145,13 +145,13 @@ html, body {
    📜 ENCART QUESTION BLANC MINI JEU 
 ===================================================== */
 .questionBox{
-  background:#ffffff;
-  color:#1a0f05;
-  padding:20px 24px;
-  border-radius:16px;
-  margin:18px 0 22px 0;
-  border:3px solid gold;
-  box-shadow:0 0 18px rgba(0,0,0,.25);
+  padding:12px 14px;
+  background:#f6e6b8;
+  color:#2b1605;   /* ← TEXTE NOIR/BRUN */
+  border-radius:12px;
+  font-weight:bold;
+  margin:18px 0 20px 0;
+  border:2px solid gold;
 }
 
 .questionBox strong{
@@ -246,7 +246,7 @@ button.selectedAnswer {
 }
 
 #financeGame p {
-  color: #fff;
+  color:#2b1605; /* texte noir */
   font-size: 16px;
 }
 
@@ -301,7 +301,7 @@ button.selectedAnswer {
 }
 
 #miniGame3 p {
-  color: #fff;
+  color:#2b1605; /* noir */
   font-size: 16px;
   font-weight: bold;
 }
@@ -331,6 +331,12 @@ button.selectedAnswer {
   border-radius:14px;
   cursor:zoom-in;
   transition:transform .25s ease;
+}
+
+#miniGame3 .questionBox,
+#financeGame .questionBox{
+  background:#f6e6b8;
+  color:#2b1605;
 }
 
 /* ================= ZOOM PLEIN ÉCRAN ================= */
