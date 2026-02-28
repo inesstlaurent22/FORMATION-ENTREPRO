@@ -378,24 +378,22 @@ button.selectedAnswer {
   margin-top: 20px;
 }
 
-/* Bloc client (les 2 boutons) */
 .clientBlock {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;              /* espace léger mais propre */
+  gap: 2px;            /* 🔥 quasi collés */
 }
 
-/* Boutons du bloc client */
 .clients .clientBlock button {
   width: 220px;
-  margin: 4px 0;         /* supprime marges auto héritées */
-  padding: 10px 16px;    /* légèrement plus compact */
+  margin: 0;           /* 🔥 supprime totalement l’espace vertical */
+  padding: 8px 14px;   /* 🔥 réduit légèrement la hauteur */
 }
 
-/* Bouton "Je choisis" */
+/* Bouton "Je choisis" encore plus proche */
 .clients .clientBlock button:last-child {
-  margin-top: 2px;       /* léger rapprochement naturel */
+  margin-top: -1px;    /* 🔥 rapprochement maximal propre */
 }
 
 .hintImage img{
