@@ -294,10 +294,15 @@ button.selectedAnswer {
   margin-top: 24px;
 }
 
-.clients > div {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.clientBlock{
+  display:flex;
+  flex-direction:column;
+  gap:8px;              /* 🔥 réduit l’espace */
+  align-items:center;
+}
+
+.clientBlock button:first-child{
+  margin-bottom:4px;    /* 🔥 rapproche encore visuellement */
 }
 
 .hintImage img{
