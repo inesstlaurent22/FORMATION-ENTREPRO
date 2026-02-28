@@ -102,65 +102,104 @@ function closeIntro(){
     startDialogues(dialoguesIntro, startMiniGame1);
   };
 
-   /* =====================================================
-   ⏭️ SKIP DIALOGUES
+/* =====================================================
+   💬 MOTEUR DE DIALOGUES
 ===================================================== */
+
+const bubble = document.createElement("div");
+bubble.id = "dialogueBox";
+bubble.classList.add("hidden");
+background.appendChild(bubble);
+
+let dialogues = [];
+let dIndex = 0;
+let afterDialogues = null;
+let dialogueActive = false;
+
+/* =====================================================
+   ⏭️ SKIP DIALOGUES — VERSION STABLE
+===================================================== */
+
 const skipBtn = document.createElement("button");
 skipBtn.id = "skipDialoguesBtn";
 skipBtn.textContent = "Passer les dialogues";
 skipBtn.classList.add("hidden");
 document.body.appendChild(skipBtn);
 
-skipBtn.onclick = () => {
+skipBtn.addEventListener("click", () => {
+
+  if (!dialogueActive) return;
+
   bubble.classList.add("hidden");
   skipBtn.classList.add("hidden");
+
   dialogueActive = false;
-  afterDialogues && afterDialogues();
-};
 
-  /* =====================================================
-     💬 MOTEUR DE DIALOGUES
-  ===================================================== */
-  const bubble = document.createElement("div");
-  bubble.id = "dialogueBox";
-  bubble.classList.add("hidden");
-  background.appendChild(bubble);
+  if (typeof afterDialogues === "function") {
+    const cb = afterDialogues;
+    afterDialogues = null; // empêche double appel
+    cb();
+  }
+});
 
-  let dialogues = [];
-  let dIndex = 0;
-  let afterDialogues = null;
+/* =====================================================
+   ▶️ START DIALOGUES
+===================================================== */
 
 function startDialogues(arr, cb) {
+
   dialogues = arr;
   dIndex = 0;
   afterDialogues = cb;
   dialogueActive = true;
+
   bubble.classList.remove("hidden");
   skipBtn.classList.remove("hidden");
+
   showDialogue();
 }
 
-  function showDialogue() {
-    const d = dialogues[dIndex];
-    bubble.textContent = d.t;
+/* =====================================================
+   💬 AFFICHAGE DIALOGUE
+===================================================== */
 
-    const r = d.s.getBoundingClientRect();
-    bubble.style.left = (r.left + r.width / 2 + window.scrollX) + "px";
-    bubble.style.top = (r.top - 90 + window.scrollY) + "px";
-    bubble.style.transform = "translateX(-50%)";
+function showDialogue() {
 
-bubble.onclick = () => {
-  dIndex++;
-  if (dIndex < dialogues.length) {
-    showDialogue();
-  } else {
-    bubble.classList.add("hidden");
-    skipBtn.classList.add("hidden");
-    dialogueActive = false;
-    afterDialogues && afterDialogues();
-  }
-};
-  }
+  if (!dialogues[dIndex]) return;
+
+  const d = dialogues[dIndex];
+  bubble.textContent = d.t;
+
+  const r = d.s.getBoundingClientRect();
+
+  bubble.style.left =
+    (r.left + r.width / 2 + window.scrollX) + "px";
+
+  bubble.style.top =
+    (r.top - 90 + window.scrollY) + "px";
+
+  bubble.style.transform = "translateX(-50%)";
+
+  bubble.onclick = () => {
+
+    dIndex++;
+
+    if (dIndex < dialogues.length) {
+      showDialogue();
+    } else {
+
+      bubble.classList.add("hidden");
+      skipBtn.classList.add("hidden");
+      dialogueActive = false;
+
+      if (typeof afterDialogues === "function") {
+        const cb = afterDialogues;
+        afterDialogues = null;
+        cb();
+      }
+    }
+  };
+}
 
   /* =====================================================
      💬 DIALOGUES — INTRO
@@ -172,99 +211,127 @@ bubble.onclick = () => {
   ];
 
   /* =====================================================
-     🎮 MINI-JEU 1 — QCM
-  ===================================================== */
-  const questions = [
-    {
-      q: "À quoi sert le journal des ventes ?",
-      good: ["À noter toutes les ventes de la journée"],
-      bad: ["À payer les impôts", "À gérer l’équipage"]
-    },
-    {
-      q: "Pourquoi tenir un grand livre ?",
-      good: ["Pour regrouper les opérations par compte"],
-      bad: ["Pour décorer la boutique", "Pour stocker l’or"]
-    },
-    {
-      q: "À quoi sert la balance comptable ?",
-      good: ["À vérifier l’équilibre des comptes"],
-      bad: ["À peser les marchandises"]
-    },
-    {
-      q: "Quels documents composent les comptes annuels ?",
-      good: ["Le bilan comptable", "Le compte de résultat"],
-      bad: ["Le journal des ventes"]
-    }
-  ];
+   🎮 MINI-JEU 1 — QCM (VERSION SÉCURISÉE)
+===================================================== */
 
-  let qIndex = 0;
-  let goodCount = 0;
+const questions = [
+  {
+    q: "À quoi sert le journal des ventes ?",
+    good: ["À noter toutes les ventes de la journée"],
+    bad: ["À payer les impôts", "À gérer l’équipage"]
+  },
+  {
+    q: "Pourquoi tenir un grand livre ?",
+    good: ["Pour regrouper les opérations par compte"],
+    bad: ["Pour décorer la boutique", "Pour stocker l’or"]
+  },
+  {
+    q: "À quoi sert la balance comptable ?",
+    good: ["À vérifier l’équilibre des comptes"],
+    bad: ["À peser les marchandises"]
+  },
+  {
+    q: "Quels documents composent les comptes annuels ?",
+    good: ["Le bilan comptable", "Le compte de résultat"],
+    bad: ["Le journal des ventes"]
+  }
+];
+
+let qIndex = 0;
+let goodCount = 0;
 
 function startMiniGame1() {
 
-  showLoader(); // 🔥 Affiche le loader
+  if (!miniGame1) return;
+
+  showLoader();
 
   setTimeout(() => {
 
     miniGame1.innerHTML = `
       <div class="mg1-title">📘 Épreuve des registres</div>
-
       <div class="gameQuestion">
         <span id="qText"></span>
       </div>
-
       <div id="qChoices" class="mg1-answers"></div>
     `;
 
     miniGame1.classList.remove("hidden");
 
     qIndex = 0;
-    goodCount = 0; // 🔥 sécurité reset
+    goodCount = 0;
+
     showQuestion();
 
-    hideLoader(); // 🔥 Cache le loader
+    hideLoader();
 
-  }, 1000); // durée du loader
+  }, 1000);
 }
 
-  function showQuestion() {
-    goodCount = 0;
-    document.getElementById("qText").textContent = questions[qIndex].q;
-    const qChoices = document.getElementById("qChoices");
-    qChoices.innerHTML = "";
+function showQuestion() {
 
-    const answers = [
-      ...questions[qIndex].good.map(t => ({ t, ok: true })),
-      ...questions[qIndex].bad.map(t => ({ t, ok: false }))
-    ].sort(() => Math.random() - 0.5);
-
-    answers.forEach(a => {
-      const btn = document.createElement("button");
-      btn.textContent = a.t;
-      btn.onclick = () => {
-        if (a.ok) {
-btn.classList.add("selectedAnswer");
-          btn.disabled = true;
-          goodCount++;
-          if (goodCount === questions[qIndex].good.length) {
-            qIndex++;
-            qIndex < questions.length
-              ? showQuestion()
-              : endMiniGame1();
-          }
-        } else {
-          screenShake();
-        }
-      };
-      qChoices.appendChild(btn);
-    });
+  if (!questions[qIndex]) {
+    endMiniGame1();
+    return;
   }
 
-  function endMiniGame1() {
-    miniGame1.classList.add("hidden");
+  goodCount = 0;
+
+  const qText = document.getElementById("qText");
+  const qChoices = document.getElementById("qChoices");
+
+  if (!qText || !qChoices) return;
+
+  qText.textContent = questions[qIndex].q;
+  qChoices.innerHTML = "";
+
+  const answers = [
+    ...questions[qIndex].good.map(t => ({ t, ok: true })),
+    ...questions[qIndex].bad.map(t => ({ t, ok: false }))
+  ].sort(() => Math.random() - 0.5);
+
+  answers.forEach(a => {
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = a.t;
+
+    btn.addEventListener("click", () => {
+
+      if (a.ok) {
+
+        btn.classList.add("selectedAnswer");
+        btn.disabled = true;
+        goodCount++;
+
+        if (goodCount === questions[qIndex].good.length) {
+
+          qIndex++;
+
+          setTimeout(() => {
+            showQuestion();
+          }, 400);
+        }
+
+      } else {
+        screenShake();
+      }
+    });
+
+    qChoices.appendChild(btn);
+  });
+}
+
+function endMiniGame1() {
+
+  if (!miniGame1) return;
+
+  miniGame1.classList.add("hidden");
+
+  if (typeof startDialogues === "function") {
     startDialogues(dialoguesBeforeMini2, startMiniGame2);
   }
-
+}
   /* =====================================================
      💬 DIALOGUES — ANALYSE
   ===================================================== */
