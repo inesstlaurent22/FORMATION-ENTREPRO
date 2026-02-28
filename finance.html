@@ -64,9 +64,9 @@
   ===================================================== -->
   <div id="miniGame0" class="hidden"></div>
 
-  <!-- =====================================================
-       🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE
-  ===================================================== -->
+<!-- =====================================================
+     🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE
+===================================================== -->
 <div id="financeGame" class="hidden">
 
   <!-- ===== PARTIE 1 : ANALYSE DES CLIENTS ===== -->
@@ -82,53 +82,41 @@
 
     <div class="clients">
 
-      <!-- ✅ BON CLIENT -->
       <div class="clientBlock">
         <button type="button" onclick="showBill('A')">
           🧾 Barbe-Cuivre
         </button>
 
         <button 
-          type="button" 
-          class="chooseBtn"
-          data-correct="true"
-          onclick="chooseClient(this)" 
-          disabled
-        >
+          type="button"
+          onclick="chooseClient(this)"
+          disabled>
           Je choisis ce pirate
         </button>
       </div>
 
-      <!-- ❌ MAUVAIS CLIENT -->
       <div class="clientBlock">
         <button type="button" onclick="showBill('B')">
           🧾 Vent-Noir
         </button>
 
         <button 
-          type="button" 
-          class="chooseBtn"
-          data-correct="false"
-          onclick="chooseClient(this)" 
-          disabled
-        >
+          type="button"
+          onclick="chooseClient(this)"
+          disabled>
           Je choisis ce pirate
         </button>
       </div>
 
-      <!-- ❌ MAUVAIS CLIENT -->
       <div class="clientBlock">
         <button type="button" onclick="showBill('C')">
           🧾 Crâne-Rouge
         </button>
 
         <button 
-          type="button" 
-          class="chooseBtn"
-          data-correct="false"
-          onclick="chooseClient(this)" 
-          disabled
-        >
+          type="button"
+          onclick="chooseClient(this)"
+          disabled>
           Je choisis ce pirate
         </button>
       </div>
@@ -138,8 +126,6 @@
     <div id="bill"></div>
 
   </div>
-
-</div>
 
   <!-- ===== PARTIE 2 : RÉSULTAT ===== -->
   <div id="part2" class="hidden">
@@ -195,54 +181,7 @@
   </div>
 
 </div>
-
-    <!-- ===== PARTIE 2 : RÉSULTAT ===== -->
-    <div id="part2" class="hidden">
-
-      <h3>💰 Résultat annuel</h3>
-
-      <div class="questionBox">
-        <p>Chiffre d’affaires : <strong>12 000 PO</strong></p>
-        <p>Charges : <strong>8 500 PO</strong></p>
-      </div>
-
-<button onclick="checkResult(false)">Charges + Produits</button>
-<button onclick="checkResult(true)">Produits − Charges</button>
-<button onclick="checkResult(false)">Charges × Produits</button>
-
-    </div>
-
-    <!-- ===== PARTIE 3 : AMORTISSEMENTS ===== -->
-    <div id="part3" class="hidden">
-
-      <h3>🛠️ Amortissements</h3>
-
-      <div class="questionBox">
-        <p>Prix d’achat : <strong>500 PO</strong></p>
-        <p>Provision : <strong>150 PO</strong></p>
-        <p>Durée : <strong>3 ans</strong></p>
-      </div>
-
-      <button type="button" onclick="checkAmortBase(false)">500</button>
-      <button type="button" onclick="checkAmortBase(true)">350</button>
-      <button type="button" onclick="checkAmortBase(false)">150</button>
-
-      <div id="amortMonth" class="hidden">
-
-        <div class="questionBox">
-          <p>Amortissement annuel ?</p>
-        </div>
-
-        <button type="button" onclick="checkMonthlyAmort(false)">97 PO</button>
-        <button type="button" onclick="checkMonthlyAmort(true)">117 PO</button>
-        <button type="button" onclick="checkMonthlyAmort(false)">150 PO</button>
-
-      </div>
-
-    </div>
-
-  </div>
-
+  
   <!-- =====================================================
        🎮 MINI-JEU 3 — CONTENU INJECTÉ PAR finance.js
   ===================================================== -->
