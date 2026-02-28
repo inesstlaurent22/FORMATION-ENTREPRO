@@ -270,6 +270,10 @@ html, body {
   z-index:10;
 }
 
+#miniGame0 button{
+  margin: 6px auto;   /* 🔥 boutons rapprochés */
+}
+
 /* Liste réponses */
 #qChoices {
   margin-top: 26px;
