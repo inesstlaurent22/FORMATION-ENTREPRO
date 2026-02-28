@@ -102,8 +102,9 @@ html, body {
 }
 
 /* =====================================================
-   🌑 LOADER — 🏴‍☠️
+   🌑 LOADER — 🏴‍☠️ VERSION STABLE
 ===================================================== */
+
 #fadeScreen{
   position:fixed;
   inset:0;
@@ -127,17 +128,13 @@ html, body {
   justify-content:center;
 }
 
+/* Emoji statique (ne tourne plus) */
 .loaderEmoji{
   font-size:64px;
   z-index:2;
-  animation:emojiSpin 1.2s linear infinite;
 }
 
-@keyframes emojiSpin{
-  from{transform:rotate(0deg);}
-  to{transform:rotate(360deg);}
-}
-
+/* Anneau lumineux */
 .loaderBox::before{
   content:"";
   position:absolute;
@@ -148,7 +145,8 @@ html, body {
   border-top:4px solid gold;
   border-right:4px solid rgba(255,215,0,.4);
   animation:spinLoader 1.2s linear infinite;
-  box-shadow:0 0 18px gold;
+  box-shadow:0 0 20px gold;
+  will-change:transform;
 }
 
 @keyframes spinLoader{
@@ -330,6 +328,17 @@ button.selectedAnswer {
   z-index: 10;
 }
 
+/* ===== MINI JEU 2 — BOUTONS COMPACTS ===== */
+
+#financeGame .finance-step button{
+  margin:4px 0;     /* 🔥 réduit fortement l’espace */
+  padding:10px 16px;
+}
+
+#financeGame .finance-step{
+  padding:24px;     /* réduit espace interne */
+}
+
 /* =====================================================
    📦 ÉTAPES FINANCE (part1 → part4)
 ===================================================== */
@@ -419,32 +428,38 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   🧾 ENCART AMORTISSEMENT SÉPARÉ
+   🧾 ENCART AMORTISSEMENT — VERSION PROPRE
 ===================================================== */
 
+/* Bloc séparateur amortissement */
 .amortBox{
-  margin-top:28px;                 /* 🔥 espace clair entre blocs */
-  padding-top:10px;
+  margin-top:22px;                    /* espace plus équilibré */
+  padding-top:12px;
   border-top:2px solid rgba(255,215,0,.3);
 }
 
+/* Question amortissement */
 .amortBox .gameQuestion{
   background:linear-gradient(180deg,#f6e6b8,#e8d39a);
   color:#2b1605;
-  max-width:500px;
+  max-width:520px;
+  margin:0 auto;
 }
 
-.amortChoices{
-  margin-top:18px;
+/* Boutons amortissement */
+#part4 .amortChoices{
+  margin-top:14px;                    /* espace réduit */
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:8px;
+  gap:6px;                            /* boutons plus proches */
 }
 
-#part4 button{
+/* Largeur boutons */
+#part4 .amortChoices button{
   width:100%;
   max-width:520px;
+  margin:2px 0;                       /* réduit l’espace vertical */
 }
 
 /* =====================================================
