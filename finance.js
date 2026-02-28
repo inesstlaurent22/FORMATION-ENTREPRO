@@ -426,12 +426,11 @@ window.checkAmortBase = (ok) => {
     screenShake();
     return;
   }
+part3.classList.add("hidden");
+part4.classList.remove("hidden");
 
-  /* Cache étape 3 */
-  part3.classList.add("hidden");
-
-  /* Affiche étape 4 */
-  part4.classList.remove("hidden");
+/* 🔥 Injection calculatrice pour part4 */
+injectCalculator(part4);
 };
 
 /* =====================================================
