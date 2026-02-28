@@ -436,7 +436,7 @@ injectCalculator(part4);
 /* =====================================================
    ✅ FIN MINI-JEU 2
 ===================================================== */
-  window.checkMonthlyAmort = (ok) => {
+window.checkMonthlyAmort = (ok) => {
 
   if (!ok) {
     screenShake();
@@ -446,17 +446,29 @@ injectCalculator(part4);
   /* 🔒 Sécurité anti double clic */
   if (!part4 || part4.classList.contains("hidden")) return;
 
-  /* Masque uniquement la partie 4 */
+  /* Désactive les boutons pour éviter spam */
+  part4.querySelectorAll("button").forEach(btn => btn.disabled = true);
+
+  /* Masque étape 4 */
   part4.classList.add("hidden");
 
-  /* Ferme le mini-jeu */
+  /* Ferme complètement le mini-jeu 2 */
   financeGame.classList.add("hidden");
 
-  /* Transition vers dialogues */
+  /* 🔥 Reset miniGame3 pour éviter blocage */
+  if (miniGame3) {
+    miniGame3.classList.add("hidden");
+    miniGame3.innerHTML = "";
+  }
+
+  /* Transition vers dialogues EBE */
   setTimeout(() => {
-    if (typeof startDialogues === "function") {
-      startDialogues(dialoguesEBE, startMiniGame3);
-    }
+
+    dialogueActive = false;   // sécurité
+    pirateClickable = false;  // sécurité
+
+    startDialogues(dialoguesEBE, startMiniGame3);
+
   }, 300);
 };
   
@@ -511,11 +523,14 @@ function startMiniGame3() {
 
   if (!miniGame3) return;
 
-  miniGame3.classList.add("hidden");  // 🔥 reset propre
-
   showLoader();
 
   setTimeout(() => {
+
+    miniGame3.innerHTML = "";      // 🔥 reset complet
+    miniGame3.classList.remove("hidden");
+
+    /* le reste de ton code */
 
     miniGame3.innerHTML = `
       <div class="mg1-title">
