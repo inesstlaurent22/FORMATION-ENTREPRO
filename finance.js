@@ -509,7 +509,9 @@ function goToNext(current, next) {
 
 function startMiniGame3() {
 
-  if (!miniGame3 || !miniGame3.classList.contains("hidden")) return;
+  if (!miniGame3) return;
+
+  miniGame3.classList.add("hidden");  // 🔥 reset propre
 
   showLoader();
 
