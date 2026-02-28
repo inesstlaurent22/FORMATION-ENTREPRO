@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const part1 = document.getElementById("part1");
   const part2 = document.getElementById("part2");
   const part3 = document.getElementById("part3");
+  const part4 = document.getElementById("part4");
 
   const bill = document.getElementById("bill");
   const amortMonth = document.getElementById("amortMonth");
@@ -511,15 +512,11 @@ let step1, step2, step3, step4, step5;
 
 function startMiniGame3() {
 
-  // 🔒 Sécurité : éviter double lancement
   if (!miniGame3.classList.contains("hidden")) return;
 
-  showLoader(); // 🔥 Affiche le loader
+  showLoader();
 
   setTimeout(() => {
-
-    // 🔄 Reset complet
-    miniGame3.innerHTML = "";
 
     miniGame3.innerHTML = `
       <div class="mg1-title">
@@ -531,12 +528,10 @@ function startMiniGame3() {
         réellement les chiffres de ta boutique pirate.
       </div>
 
-      <!-- 🧮 CALCULATRICE -->
       <button class="calcToggle">🧮 Calculatrice</button>
       <input id="calcFinal" class="calcInput hidden" 
              placeholder="Ex : 10000 - 4250 - 1000">
 
-      <!-- 💡 INDICE -->
       <button class="hintBtn">💡 Indice</button>
       <div class="hintImage hidden">
         <div class="imageFrame">
@@ -552,7 +547,6 @@ function startMiniGame3() {
           <span class="hint">💡 CA − Achats</span><br>
           CA : 10 000 PO / Achats : 0 PO
         </div>
-
         <button data-ok="true">10 000 PO</button>
         <button data-ok="false">5 000 PO</button>
       </div>
@@ -562,7 +556,6 @@ function startMiniGame3() {
           <strong>2️⃣ Calcul de l’EBE</strong><br>
           Charges : 4 250 PO / Impôts : 500 PO
         </div>
-
         <button data-ok="true">5 250 PO</button>
         <button data-ok="false">9 500 PO</button>
       </div>
@@ -571,7 +564,6 @@ function startMiniGame3() {
         <div class="gameQuestion">
           <strong>3️⃣ Amortissements</strong>
         </div>
-
         <button data-ok="true">≈ 117 PO</button>
         <button data-ok="false">350 PO</button>
       </div>
@@ -580,7 +572,6 @@ function startMiniGame3() {
         <div class="gameQuestion">
           <strong>4️⃣ Résultat d’exploitation</strong>
         </div>
-
         <button data-ok="true">≈ 5 133 PO</button>
         <button data-ok="false">5 250 PO</button>
       </div>
@@ -589,7 +580,6 @@ function startMiniGame3() {
         <div class="gameQuestion">
           <strong>5️⃣ Capacité d’autofinancement</strong>
         </div>
-
         <button data-ok="true">≈ 4 133 PO</button>
         <button data-ok="false">5 133 PO</button>
       </div>
@@ -597,32 +587,61 @@ function startMiniGame3() {
 
     miniGame3.classList.remove("hidden");
 
-    // 🔎 Références propres
+    // 🔎 Récupération des éléments APRÈS injection
+    const calcBtn = miniGame3.querySelector(".calcToggle");
+    const calc = miniGame3.querySelector("#calcFinal");
+
+    const hintBtn  = miniGame3.querySelector(".hintBtn");
+    const hintBox  = miniGame3.querySelector(".hintImage");
+    const hintImg  = miniGame3.querySelector(".zoomable");
+
     step1 = miniGame3.querySelector("#step1");
     step2 = miniGame3.querySelector("#step2");
     step3 = miniGame3.querySelector("#step3");
     step4 = miniGame3.querySelector("#step4");
     step5 = miniGame3.querySelector("#step5");
 
-    hideLoader(); // 🔥 Cache le loader
+    /* 🧮 Calculatrice */
+    calcBtn.onclick = () => calc.classList.toggle("hidden");
+    calc.onkeydown = e => {
+      if (e.key === "Enter") {
+        try {
+          calc.value = Function("return " + calc.value)();
+        } catch {
+          calc.value = "Erreur";
+        }
+      }
+    };
+
+    /* 💡 Indice */
+    if (hintBtn && hintBox && hintImg) {
+
+      hintBtn.addEventListener("click", () => {
+        hintBox.classList.remove("hidden");
+      });
+
+      hintBox.addEventListener("click", (e) => {
+        if (e.target === hintBox) {
+          hintBox.classList.add("hidden");
+        }
+      });
+
+      hintImg.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+    }
+
+    /* 🎯 Bind steps */
+    bindStep(step1, () => goToNext(step1, step2));
+    bindStep(step2, () => goToNext(step2, step3));
+    bindStep(step3, () => goToNext(step3, step4));
+    bindStep(step4, () => goToNext(step4, step5));
+    bindStep(step5, finishMiniGame3);
+
+    hideLoader();
 
   }, 1000);
 }
-
-  /* 🧮 Calculatrice */
-  const calcBtn = miniGame3.querySelector(".calcToggle");
-  const calc = miniGame3.querySelector("#calcFinal");
-
-  calcBtn.onclick = () => calc.classList.toggle("hidden");
-  calc.onkeydown = e => {
-    if (e.key === "Enter") {
-      try {
-        calc.value = Function("return " + calc.value)();
-      } catch {
-        calc.value = "Erreur";
-      }
-    }
-  };
 
 /* =====================================================
    💡 INDICE — LOADER + ZOOM + FERMETURE STABLE
