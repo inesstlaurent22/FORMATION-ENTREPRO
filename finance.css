@@ -286,23 +286,33 @@ button.selectedAnswer {
   color:#000;
 }
 
-/* ===== CLIENTS ===== */
+/* ================= CLIENTS ================= */
+
 .clients {
   display: flex;
   justify-content: center;
-  gap: 28px;
-  margin-top: 24px;
+  align-items: flex-start;
+  gap: 22px;          /* 🔥 un peu moins large */
+  margin-top: 20px;
 }
 
-.clientBlock{
-  display:flex;
-  flex-direction:column;
-  gap:8px;              /* 🔥 réduit l’espace */
-  align-items:center;
+/* Bloc client (les 2 boutons) */
+.clientBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;           /* 🔥 rapproche fortement */
 }
 
-.clientBlock button:first-child{
-  margin-bottom:4px;    /* 🔥 rapproche encore visuellement */
+/* Boutons alignés proprement */
+.clientBlock button {
+  width: 220px;
+  margin: 0;          /* 🔥 supprime marges auto héritées */
+}
+
+/* Bouton "Je choisis" encore plus proche */
+.clientBlock button:last-child {
+  margin-top: -2px;   /* 🔥 micro ajustement vertical */
 }
 
 .hintImage img{
