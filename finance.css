@@ -494,9 +494,9 @@ button.selectedAnswer {
 /* ================= INDICE ================= */
 
 #miniGame3 .hint{
+  color:#000;          /* 🔥 texte noir */
   font-size:14px;
   font-style:italic;
-  color:#d8caa0;
 }
 
 #miniGame3 .hintImage{
