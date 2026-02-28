@@ -224,6 +224,18 @@ html,body{
   z-index:10;
 }
 
+/* =====================================================
+   🎯 TITRE OFFICIEL MINI-JEUX — STYLE UNIFIÉ
+===================================================== */
+.mg1-title,
+.quizTitle,
+.bp-title{
+  font-family:"Pirata One", serif;
+  font-size:26px;
+  color:#ffd77a;
+  margin-bottom:16px;
+  text-shadow:2px 2px 0 #2b1605;
+}
 
 /* =====================================================
    🔥 BOUTONS VERTICAUX MINI-JEUX 1 & 2
@@ -268,13 +280,6 @@ html,body{
 ===================================================== */
 .quizBox{
   text-align:center;
-}
-
-.quizTitle{
-  font-size:26px;
-  color:#ffd77a;
-  margin-bottom:16px;
-  text-shadow:2px 2px 0 #2b1605;
 }
 
 .quizIntro{
