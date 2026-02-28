@@ -383,18 +383,19 @@ button.selectedAnswer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;           /* 🔥 rapproche fortement */
+  gap: 6px;              /* espace léger mais propre */
 }
 
-/* Boutons alignés proprement */
-.clientBlock button {
+/* Boutons du bloc client */
+.clients .clientBlock button {
   width: 220px;
-  margin: 0;          /* 🔥 supprime marges auto héritées */
+  margin: 4px 0;         /* supprime marges auto héritées */
+  padding: 10px 16px;    /* légèrement plus compact */
 }
 
-/* Bouton "Je choisis" encore plus proche */
-.clientBlock button:last-child {
-  margin-top: -2px;   /* 🔥 micro ajustement vertical */
+/* Bouton "Je choisis" */
+.clients .clientBlock button:last-child {
+  margin-top: 2px;       /* léger rapprochement naturel */
 }
 
 .hintImage img{
