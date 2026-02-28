@@ -102,6 +102,22 @@ function closeIntro(){
     startDialogues(dialoguesIntro, startMiniGame1);
   };
 
+   /* =====================================================
+   ⏭️ SKIP DIALOGUES
+===================================================== */
+const skipBtn = document.createElement("button");
+skipBtn.id = "skipDialoguesBtn";
+skipBtn.textContent = "Passer les dialogues";
+skipBtn.classList.add("hidden");
+document.body.appendChild(skipBtn);
+
+skipBtn.onclick = () => {
+  bubble.classList.add("hidden");
+  skipBtn.classList.add("hidden");
+  dialogueActive = false;
+  afterDialogues && afterDialogues();
+};
+
   /* =====================================================
      💬 MOTEUR DE DIALOGUES
   ===================================================== */
@@ -145,22 +161,6 @@ bubble.onclick = () => {
   }
 };
   }
-
-  /* =====================================================
-   ⏭️ SKIP DIALOGUES
-===================================================== */
-const skipBtn = document.createElement("button");
-skipBtn.id = "skipDialoguesBtn";
-skipBtn.textContent = "Passer les dialogues";
-skipBtn.classList.add("hidden");
-document.body.appendChild(skipBtn);
-
-skipBtn.onclick = () => {
-  bubble.classList.add("hidden");
-  skipBtn.classList.add("hidden");
-  dialogueActive = false;
-  afterDialogues && afterDialogues();
-};
 
   /* =====================================================
      💬 DIALOGUES — INTRO
@@ -243,7 +243,7 @@ function startMiniGame1() {
       btn.textContent = a.t;
       btn.onclick = () => {
         if (a.ok) {
-btn.classList.add("correctAnswer");
+btn.classList.add("selectedAnswer");
           btn.disabled = true;
           goodCount++;
           if (goodCount === questions[qIndex].good.length) {
