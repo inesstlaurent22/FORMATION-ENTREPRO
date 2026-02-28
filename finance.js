@@ -443,33 +443,29 @@ window.checkMonthlyAmort = (ok) => {
     return;
   }
 
-  /* 🔒 Sécurité anti double clic */
   if (!part4 || part4.classList.contains("hidden")) return;
 
-  /* Désactive les boutons pour éviter spam */
+  /* Désactive les boutons */
   part4.querySelectorAll("button").forEach(btn => btn.disabled = true);
 
-  /* Masque étape 4 */
+  /* Ferme Mini-Jeu 2 */
   part4.classList.add("hidden");
-
-  /* Ferme complètement le mini-jeu 2 */
   financeGame.classList.add("hidden");
 
-  /* 🔥 Reset miniGame3 pour éviter blocage */
+  /* Reset Mini-Jeu 3 */
   if (miniGame3) {
     miniGame3.classList.add("hidden");
     miniGame3.innerHTML = "";
   }
 
-  /* Transition vers dialogues EBE */
+  /* Sécurité dialogue */
+  dialogueActive = false;
+
   setTimeout(() => {
-
-    dialogueActive = false;   // sécurité
-    pirateClickable = false;  // sécurité
-
-    startDialogues(dialoguesEBE, startMiniGame3);
-
-  }, 300);
+    startDialogues(dialoguesEBE, () => {
+      startMiniGame3();
+    });
+  }, 400);
 };
   
   /* =====================================================
@@ -527,7 +523,7 @@ function startMiniGame3() {
 
   setTimeout(() => {
 
-    miniGame3.innerHTML = "";      // 🔥 reset complet
+    miniGame3.innerHTML = "";
     miniGame3.classList.remove("hidden");
 
     /* le reste de ton code */
