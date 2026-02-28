@@ -64,22 +64,20 @@
   ===================================================== -->
   <div id="miniGame0" class="hidden"></div>
 
-<!-- =====================================================
+  <!-- =====================================================
      🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE
 ===================================================== -->
 <div id="financeGame" class="hidden">
 
-  <!-- ===== PARTIE 1 : ANALYSE DES CLIENTS ===== -->
-  <div id="part1" class="hidden">
+  <!-- ================= 1️⃣ ANALYSE DES CLIENTS ================= -->
+  <div id="part1" class="hidden finance-step">
 
-<div class="mg1-title">
-  🧾 Analyse des clients
-</div>
+    <div class="mg1-title">
+      🧾 Analyse des clients
+    </div>
 
     <div class="questionBox">
-      <p>
-        Consulte chaque facture avant de choisir le client le plus rentable.
-      </p>
+      Consulte chaque facture avant de choisir le client le plus rentable.
     </div>
 
     <div class="clients">
@@ -88,11 +86,7 @@
         <button type="button" onclick="showBill('A')">
           🧾 Barbe-Cuivre
         </button>
-
-        <button 
-          type="button"
-          onclick="chooseClient(this)"
-          disabled>
+        <button type="button" onclick="chooseClient(this)" disabled>
           Je choisis ce pirate
         </button>
       </div>
@@ -101,11 +95,7 @@
         <button type="button" onclick="showBill('B')">
           🧾 Vent-Noir
         </button>
-
-        <button 
-          type="button"
-          onclick="chooseClient(this)"
-          disabled>
+        <button type="button" onclick="chooseClient(this)" disabled>
           Je choisis ce pirate
         </button>
       </div>
@@ -114,29 +104,28 @@
         <button type="button" onclick="showBill('C')">
           🧾 Crâne-Rouge
         </button>
-
-        <button 
-          type="button"
-          onclick="chooseClient(this)"
-          disabled>
+        <button type="button" onclick="chooseClient(this)" disabled>
           Je choisis ce pirate
         </button>
       </div>
 
     </div>
 
-    <div id="bill"></div>
+    <div id="bill" class="questionBox smallBox"></div>
 
   </div>
 
-  <!-- ===== PARTIE 2 : RÉSULTAT ===== -->
-  <div id="part2" class="hidden">
 
-    <h3>💰 Résultat annuel</h3>
+  <!-- ================= 2️⃣ RÉSULTAT ANNUEL ================= -->
+  <div id="part2" class="hidden finance-step">
+
+    <div class="mg1-title">
+      💰 Résultat annuel
+    </div>
 
     <div class="questionBox">
-      <p>Chiffre d’affaires : <strong>12 000 PO</strong></p>
-      <p>Charges : <strong>8 500 PO</strong></p>
+      Chiffre d’affaires : <strong>12 000 PO</strong><br>
+      Charges : <strong>8 500 PO</strong>
     </div>
 
     <button type="button" onclick="checkResult(false)">
@@ -153,32 +142,41 @@
 
   </div>
 
-  <!-- ===== PARTIE 3 : AMORTISSEMENTS ===== -->
-  <div id="part3" class="hidden">
 
-    <h3>🛠️ Amortissements</h3>
+  <!-- ================= 3️⃣ AMORTISSEMENT ================= -->
+  <div id="part3" class="hidden finance-step">
+
+    <div class="mg1-title">
+      🛠️ Amortissement
+    </div>
 
     <div class="questionBox">
-      <p>Prix d’achat : <strong>500 PO</strong></p>
-      <p>Provision : <strong>150 PO</strong></p>
-      <p>Durée : <strong>3 ans</strong></p>
+      Prix d’achat : <strong>500 PO</strong><br>
+      Provision : <strong>150 PO</strong><br>
+      Durée : <strong>3 ans</strong>
     </div>
 
     <button type="button" onclick="checkAmortBase(false)">500</button>
     <button type="button" onclick="checkAmortBase(true)">350</button>
     <button type="button" onclick="checkAmortBase(false)">150</button>
 
-<div id="amortMonth" class="hidden amortBox">
-
-  <div class="gameQuestion">
-    <strong>📆 Amortissement annuel</strong>
   </div>
 
-      <button type="button" onclick="checkMonthlyAmort(false)">97 PO</button>
-      <button type="button" onclick="checkMonthlyAmort(true)">117 PO</button>
-      <button type="button" onclick="checkMonthlyAmort(false)">150 PO</button>
 
+  <!-- ================= 4️⃣ AMORTISSEMENT ANNUEL ================= -->
+  <div id="part4" class="hidden finance-step">
+
+    <div class="mg1-title">
+      📆 Amortissement annuel
     </div>
+
+    <div class="questionBox">
+      Calcule l’amortissement annuel à partir des données précédentes.
+    </div>
+
+    <button type="button" onclick="checkMonthlyAmort(false)">97 PO</button>
+    <button type="button" onclick="checkMonthlyAmort(true)">117 PO</button>
+    <button type="button" onclick="checkMonthlyAmort(false)">150 PO</button>
 
   </div>
 
