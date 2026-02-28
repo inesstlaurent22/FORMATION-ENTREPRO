@@ -318,6 +318,22 @@ button.selectedAnswer {
 }
 
 /* =====================================================
+   🧾 ENCART AMORTISSEMENT SÉPARÉ
+===================================================== */
+
+.amortBox{
+  margin-top:28px;                 /* 🔥 espace clair entre blocs */
+  padding-top:10px;
+  border-top:2px solid rgba(255,215,0,.3);
+}
+
+.amortBox .gameQuestion{
+  background:linear-gradient(180deg,#f6e6b8,#e8d39a);
+  color:#2b1605;
+  max-width:500px;
+}
+
+/* =====================================================
    🎮 MINI-JEU 3 — EBE / CAF
 ===================================================== */
 #miniGame3 {
@@ -375,6 +391,10 @@ button.selectedAnswer {
 #miniGame3 .calcInput{
   display:block;
   margin-top:12px;
+}
+
+#miniGame3 .calcToggle{
+  margin-top:24px;   /* 🔥 espace avec le texte */
 }
 
 /* ================= ZOOM PLEIN ÉCRAN ================= */
