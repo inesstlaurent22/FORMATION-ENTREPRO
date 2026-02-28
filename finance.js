@@ -182,18 +182,22 @@ skipBtn.onclick = () => {
   let qIndex = 0;
   let goodCount = 0;
 
-  function startMiniGame1() {
-miniGame1.innerHTML = `
-  <h3>📘 Épreuve des registres</h3>
-  <div class="questionBox">
-    <p id="qText"></p>
-  </div>
-  <div id="qChoices"></div>
-`;
-    miniGame1.classList.remove("hidden");
-    qIndex = 0;
-    showQuestion();
-  }
+function startMiniGame1() {
+
+  miniGame1.innerHTML = `
+    <div class="mg1-title">📘 Épreuve des registres</div>
+
+    <div class="gameQuestion">
+      <span id="qText"></span>
+    </div>
+
+    <div id="qChoices" class="mg1-answers"></div>
+  `;
+
+  miniGame1.classList.remove("hidden");
+  qIndex = 0;
+  showQuestion();
+}
 
   function showQuestion() {
     goodCount = 0;
@@ -242,94 +246,121 @@ btn.classList.add("correctAnswer");
     { s: pirate5, t: "Passons à la gestion réelle." }
   ];
 
- /* =====================================================
-   🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE
+/* =====================================================
+   🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE (VERSION STABLE)
 ===================================================== */
 
-/* ===== CALCULATRICE ===== */
+/* ===== CALCULATRICE SÉCURISÉE ===== */
 function injectCalculator(container) {
-  if (container.querySelector(".calcWrapper")) return;
+
+  if (!container || container.querySelector(".calcWrapper")) return;
 
   const wrapper = document.createElement("div");
   wrapper.className = "calcWrapper";
 
   const btn = document.createElement("button");
   btn.className = "calcToggle";
+  btn.type = "button";
   btn.textContent = "🧮 Calculatrice";
 
   const input = document.createElement("input");
   input.className = "calcInput hidden";
   input.placeholder = "Ex : 12000 - 8500";
 
-  btn.onclick = () => input.classList.toggle("hidden");
+  btn.addEventListener("click", () => {
+    input.classList.toggle("hidden");
+  });
 
-  input.onkeydown = e => {
+  /* ⚠️ Évaluation sécurisée (opérations simples uniquement) */
+  input.addEventListener("keydown", e => {
     if (e.key === "Enter") {
       try {
-        input.value = Function("return " + input.value)();
+        if (!/^[0-9+\-*/().\s]+$/.test(input.value)) {
+          throw new Error();
+        }
+        input.value = eval(input.value);
       } catch {
         input.value = "Erreur";
       }
     }
-  };
+  });
 
-wrapper.appendChild(btn);
-wrapper.appendChild(input);
+  wrapper.appendChild(btn);
+  wrapper.appendChild(input);
 
-container.insertBefore(wrapper, container.firstChild);
+  container.insertBefore(wrapper, container.firstChild);
 }
 
 /* ===== LANCEMENT ===== */
 function startMiniGame2() {
+
   financeGame.classList.remove("hidden");
 
   part1.classList.remove("hidden");
   part2.classList.add("hidden");
   part3.classList.add("hidden");
 
+  /* 🔄 Reset factures */
+  billsSeen = { A:false, B:false, C:false };
+  bill.textContent = "";
+
+  document
+    .querySelectorAll(".clients button:last-child")
+    .forEach(btn => btn.disabled = true);
+
   injectCalculator(part1);
 }
 
 /* ================= CLIENTS — LECTURE OBLIGATOIRE ================= */
 
-let billsSeen = {
-  A: false,
-  B: false,
-  C: false
-};
+let billsSeen = { A:false, B:false, C:false };
 
 window.showBill = client => {
-  bill.textContent = {
+
+  const data = {
     A: "🧾 Barbe-Cuivre : 950 PO",
     B: "🧾 Vent-Noir : 850 PO",
     C: "🧾 Crâne-Rouge : 530 PO"
-  }[client];
+  };
 
+  if (!data[client]) return;
+
+  bill.textContent = data[client];
   billsSeen[client] = true;
+
   checkAllBillsRead();
 };
 
 function checkAllBillsRead() {
-  const allRead = Object.values(billsSeen).every(v => v);
+
+  const allRead = Object.values(billsSeen).every(Boolean);
   if (!allRead) return;
 
   document
-    .querySelectorAll(".clients button:last-child")
+    .querySelectorAll(".clients .clientBlock button:last-child")
     .forEach(btn => btn.disabled = false);
 }
 
 window.chooseClient = btn => {
 
-  if (!Object.values(billsSeen).every(v => v)) {
-    return screenShake();
+  const allRead = Object.values(billsSeen).every(Boolean);
+
+  if (!allRead) {
+    screenShake();
+    return;
   }
 
-  const choices = [...document.querySelectorAll(".clients button:last-child")];
+  const choices = [
+    ...document.querySelectorAll(".clients .clientBlock button:last-child")
+  ];
 
   if (btn === choices[0]) {
+
     part1.classList.add("hidden");
     part2.classList.remove("hidden");
+
     injectCalculator(part2);
+
   } else {
     screenShake();
   }
@@ -339,6 +370,7 @@ window.chooseClient = btn => {
    📊 RÉSULTAT ANNUEL
 ===================================================== */
 window.checkResult = ok => {
+
   if (!ok) {
     screenShake();
     return;
@@ -354,6 +386,7 @@ window.checkResult = ok => {
    🧾 AMORTISSEMENTS
 ===================================================== */
 window.checkAmortBase = ok => {
+
   if (!ok) {
     screenShake();
     return;
@@ -366,6 +399,7 @@ window.checkAmortBase = ok => {
    ✅ FIN MINI-JEU 2
 ===================================================== */
 window.checkMonthlyAmort = ok => {
+
   if (!ok) {
     screenShake();
     return;
@@ -429,13 +463,15 @@ let step1, step2, step3, step4, step5;
 
 function startMiniGame3() {
 
-  miniGame3.innerHTML = `
-    <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
+miniGame3.innerHTML = `
+  <div class="mg1-title">
+    🏴‍☠️ L’épreuve du maître comptable
+  </div>
 
-    <p>
-      Après une année de ventes prospères, tu dois prouver
-      que tu maîtrises réellement les chiffres de ta boutique pirate.
-    </p>
+  <div class="comm-info-text">
+    Après une année prospère, prouve que tu maîtrises
+    réellement les chiffres de ta boutique pirate.
+  </div>
 
     <!-- 🧮 CALCULATRICE -->
     <button class="calcToggle">🧮 Calculatrice</button>
@@ -449,39 +485,54 @@ function startMiniGame3() {
       </div>
     </div>
     
-    <div id="step1">
-      <p><strong>1️⃣ Calcul de la marge</strong></p>
-      <p class="hint">💡 CA − Achats</p>
-      <p>CA : 10 000 PO / Achats : 0 PO</p>
-      <button data-ok="true">10 000 PO</button>
-      <button data-ok="false">5 000 PO</button>
-    </div>
+<div id="step1">
+  <div class="gameQuestion">
+    <strong>1️⃣ Calcul de la marge</strong><br>
+    <span class="hint">💡 CA − Achats</span><br>
+    CA : 10 000 PO / Achats : 0 PO
+  </div>
 
-    <div id="step2" class="hidden">
-      <p><strong>2️⃣ Calcul de l’EBE</strong></p>
-      <p>Charges : 4 250 PO / Impôts : 500 PO</p>
-      <button data-ok="true">5 250 PO</button>
-      <button data-ok="false">9 500 PO</button>
-    </div>
+  <button data-ok="true">10 000 PO</button>
+  <button data-ok="false">5 000 PO</button>
+</div>
 
-    <div id="step3" class="hidden">
-      <p><strong>3️⃣ Amortissements</strong></p>
-      <button data-ok="true">≈ 117 PO</button>
-      <button data-ok="false">350 PO</button>
-    </div>
+<div id="step2" class="hidden">
+  <div class="gameQuestion">
+    <strong>2️⃣ Calcul de l’EBE</strong><br>
+    Charges : 4 250 PO / Impôts : 500 PO
+  </div>
 
-    <div id="step4" class="hidden">
-      <p><strong>4️⃣ Résultat exploitation</strong></p>
-      <button data-ok="true">≈ 5 133 PO</button>
-      <button data-ok="false">5 250 PO</button>
-    </div>
+  <button data-ok="true">5 250 PO</button>
+  <button data-ok="false">9 500 PO</button>
+</div>
 
-    <div id="step5" class="hidden">
-      <p><strong>5️⃣ Capacité d’autofinancement</strong></p>
-      <button data-ok="true">≈ 4 133 PO</button>
-      <button data-ok="false">5 133 PO</button>
-    </div>
-  `;
+<div id="step3" class="hidden">
+  <div class="gameQuestion">
+    <strong>3️⃣ Amortissements</strong>
+  </div>
+
+  <button data-ok="true">≈ 117 PO</button>
+  <button data-ok="false">350 PO</button>
+</div>
+
+<div id="step4" class="hidden">
+  <div class="gameQuestion">
+    <strong>4️⃣ Résultat d’exploitation</strong>
+  </div>
+
+  <button data-ok="true">≈ 5 133 PO</button>
+  <button data-ok="false">5 250 PO</button>
+</div>
+
+<div id="step5" class="hidden">
+  <div class="gameQuestion">
+    <strong>5️⃣ Capacité d’autofinancement</strong>
+  </div>
+
+  <button data-ok="true">≈ 4 133 PO</button>
+  <button data-ok="false">5 133 PO</button>
+</div>
+`;
 
   miniGame3.classList.remove("hidden");
 
