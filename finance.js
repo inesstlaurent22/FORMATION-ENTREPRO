@@ -504,15 +504,16 @@ function goToNext(current, next) {
   current.classList.add("hidden");
   next.classList.remove("hidden");
 }
+
 /* =====================================================
-   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION PROPRE)
 ===================================================== */
 
 let step1, step2, step3, step4, step5;
 
 function startMiniGame3() {
 
-  if (!miniGame3.classList.contains("hidden")) return;
+  if (!miniGame3 || !miniGame3.classList.contains("hidden")) return;
 
   showLoader();
 
@@ -587,13 +588,16 @@ function startMiniGame3() {
 
     miniGame3.classList.remove("hidden");
 
-    // 🔎 Récupération des éléments APRÈS injection
-    const calcBtn = miniGame3.querySelector(".calcToggle");
-    const calc = miniGame3.querySelector("#calcFinal");
+    /* ===============================
+       RÉCUPÉRATION DES ÉLÉMENTS
+    =============================== */
 
-    const hintBtn  = miniGame3.querySelector(".hintBtn");
-    const hintBox  = miniGame3.querySelector(".hintImage");
-    const hintImg  = miniGame3.querySelector(".zoomable");
+    const calcBtn = miniGame3.querySelector(".calcToggle");
+    const calc    = miniGame3.querySelector("#calcFinal");
+
+    const hintBtn = miniGame3.querySelector(".hintBtn");
+    const hintBox = miniGame3.querySelector(".hintImage");
+    const hintImg = miniGame3.querySelector(".zoomable");
 
     step1 = miniGame3.querySelector("#step1");
     step2 = miniGame3.querySelector("#step2");
@@ -601,23 +605,56 @@ function startMiniGame3() {
     step4 = miniGame3.querySelector("#step4");
     step5 = miniGame3.querySelector("#step5");
 
-    /* 🧮 Calculatrice */
-    calcBtn.onclick = () => calc.classList.toggle("hidden");
-    calc.onkeydown = e => {
-      if (e.key === "Enter") {
-        try {
-          calc.value = Function("return " + calc.value)();
-        } catch {
-          calc.value = "Erreur";
-        }
-      }
-    };
+    /* ===============================
+       🧮 CALCULATRICE
+    =============================== */
 
-    /* 💡 Indice */
+    if (calcBtn && calc) {
+
+      calcBtn.addEventListener("click", () => {
+        calc.classList.toggle("hidden");
+      });
+
+      calc.addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+          try {
+            if (!/^[0-9+\-*/().\s]+$/.test(calc.value)) {
+              throw new Error();
+            }
+            calc.value = eval(calc.value);
+          } catch {
+            calc.value = "Erreur";
+          }
+        }
+      });
+    }
+
+    /* ===============================
+       💡 INDICE
+    =============================== */
+
     if (hintBtn && hintBox && hintImg) {
 
       hintBtn.addEventListener("click", () => {
-        hintBox.classList.remove("hidden");
+
+        const loader = document.createElement("div");
+        loader.className = "loaderOverlay";
+        loader.innerHTML = `
+          <div class="loaderBubble">
+            <div class="spinner">⏳</div>
+          </div>
+        `;
+        document.body.appendChild(loader);
+
+        const tempImg = new Image();
+        tempImg.src = hintImg.src;
+
+        tempImg.onload = () => {
+          loader.remove();
+          hintBox.classList.remove("hidden");
+        };
+
+        tempImg.onerror = () => loader.remove();
       });
 
       hintBox.addEventListener("click", (e) => {
@@ -628,97 +665,35 @@ function startMiniGame3() {
 
       hintImg.addEventListener("click", (e) => {
         e.stopPropagation();
+
+        const overlay = document.createElement("div");
+        overlay.className = "imageZoomOverlay";
+
+        const img = document.createElement("img");
+        img.src = hintImg.src;
+
+        overlay.appendChild(img);
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener("click", () => {
+          overlay.remove();
+        });
       });
     }
 
-    /* 🎯 Bind steps */
-    bindStep(step1, () => goToNext(step1, step2));
-    bindStep(step2, () => goToNext(step2, step3));
-    bindStep(step3, () => goToNext(step3, step4));
-    bindStep(step4, () => goToNext(step4, step5));
-    bindStep(step5, finishMiniGame3);
+    /* ===============================
+       🎯 BIND DES ÉTAPES
+    =============================== */
+
+    if (step1) bindStep(step1, () => goToNext(step1, step2));
+    if (step2) bindStep(step2, () => goToNext(step2, step3));
+    if (step3) bindStep(step3, () => goToNext(step3, step4));
+    if (step4) bindStep(step4, () => goToNext(step4, step5));
+    if (step5) bindStep(step5, finishMiniGame3);
 
     hideLoader();
 
   }, 1000);
-}
-
-/* =====================================================
-   💡 INDICE — LOADER + ZOOM + FERMETURE STABLE
-===================================================== */
-
-const hintBtn  = miniGame3.querySelector(".hintBtn");
-const hintBox  = miniGame3.querySelector(".hintImage");
-const hintImg  = miniGame3.querySelector(".zoomable");
-
-if (hintBtn && hintBox && hintImg) {
-
-  /* ================================
-     🔄 OUVERTURE AVEC LOADER
-  ================================= */
-  hintBtn.addEventListener("click", () => {
-
-    const loaderOverlay = document.createElement("div");
-    loaderOverlay.className = "loaderOverlay";
-
-    loaderOverlay.innerHTML = `
-      <div class="loaderBubble">
-        <div class="spinner">⏳</div>
-      </div>
-    `;
-
-    document.body.appendChild(loaderOverlay);
-
-    const tempImg = new Image();
-    tempImg.src = hintImg.src;
-
-    tempImg.onload = () => {
-      loaderOverlay.remove();
-      hintBox.classList.remove("hidden");
-    };
-
-    tempImg.onerror = () => {
-      loaderOverlay.remove();
-      console.error("Erreur chargement image indice");
-    };
-  });
-
-  /* ================================
-     🖼 FERMETURE SI CLIC FOND NOIR
-  ================================= */
-  hintBox.addEventListener("click", (e) => {
-    if (e.target === hintBox) {
-      hintBox.classList.add("hidden");
-    }
-  });
-
-  /* ================================
-     🔍 ZOOM PLEIN ÉCRAN
-  ================================= */
-  hintImg.addEventListener("click", (e) => {
-
-    e.stopPropagation(); // empêche fermeture de hintBox
-
-    const overlay = document.createElement("div");
-    overlay.className = "imageZoomOverlay";
-
-    const img = document.createElement("img");
-    img.src = hintImg.src;
-
-    overlay.appendChild(img);
-    document.body.appendChild(overlay);
-
-    overlay.addEventListener("click", () => {
-      overlay.remove();
-    });
-  });
-}
-
-  bindStep(step1, () => goToNext(step1, step2));
-  bindStep(step2, () => goToNext(step2, step3));
-  bindStep(step3, () => goToNext(step3, step4));
-  bindStep(step4, () => goToNext(step4, step5));
-  bindStep(step5, finishMiniGame3);
 }
 
 /* =====================================================
