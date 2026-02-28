@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const part4 = document.getElementById("part4");
 
   const bill = document.getElementById("bill");
-  const amortMonth = document.getElementById("amortMonth");
 
   let pirateClickable = false;
   let dialogueActive = false;
@@ -508,8 +507,6 @@ function goToNext(current, next) {
 /* =====================================================
    🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION PROPRE)
 ===================================================== */
-
-let step1, step2, step3, step4, step5;
 
 function startMiniGame3() {
 
