@@ -457,9 +457,9 @@ body.night-mode #pirate5 {
   font-family:Georgia, serif;
   font-size:26px;
   font-weight:bold;
-  color:gold;
+  color:#000;              /* texte noir */
   margin-bottom:20px;
-  text-shadow:0 0 15px gold;
+  text-shadow:none;        /* 🔥 supprime le halo doré */
 }
 
 .chest-container{
