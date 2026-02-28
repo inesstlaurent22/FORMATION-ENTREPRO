@@ -353,16 +353,6 @@ button.correct-locked{
   justify-content:center;
 }
 
-.bp-title{
-  text-align:center;
-  margin-bottom:20px;
-  font-size:26px;
-  color:#ffd77a;
-  text-shadow:2px 2px 0 #2b1605;
-  opacity:0;
-  transform:translateY(-15px);
-}
-
 .title-appear{
   animation:titleAppear .8s ease forwards;
 }
