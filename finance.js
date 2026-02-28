@@ -129,8 +129,8 @@ function startDialogues(arr, cb) {
     bubble.textContent = d.t;
 
     const r = d.s.getBoundingClientRect();
-    bubble.style.left = r.left + r.width / 2 + "px";
-    bubble.style.top = r.top - 90 + "px";
+    bubble.style.left = (r.left + r.width / 2 + window.scrollX) + "px";
+    bubble.style.top = (r.top - 90 + window.scrollY) + "px";
     bubble.style.transform = "translateX(-50%)";
 
 bubble.onclick = () => {
@@ -306,7 +306,7 @@ function injectCalculator(container) {
         if (!/^[0-9+\-*/().\s]+$/.test(input.value)) {
           throw new Error();
         }
-        input.value = eval(input.value);
+        input.value = Function('"use strict";return (' + input.value + ')')();
       } catch {
         input.value = "Erreur";
       }
@@ -612,18 +612,20 @@ function startMiniGame3() {
         calc.classList.toggle("hidden");
       });
 
-      calc.addEventListener("keydown", e => {
-        if (e.key === "Enter") {
-          try {
-            if (!/^[0-9+\-*/().\s]+$/.test(calc.value)) {
-              throw new Error();
-            }
-            calc.value = eval(calc.value);
-          } catch {
-            calc.value = "Erreur";
-          }
-        }
-      });
+calc.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    try {
+      if (!/^[0-9+\-*/().\s]+$/.test(calc.value)) {
+        throw new Error();
+      }
+
+      calc.value = Function('"use strict";return (' + calc.value + ')')();
+
+    } catch {
+      calc.value = "Erreur";
+    }
+  }
+});
     }
 
     /* ===============================
