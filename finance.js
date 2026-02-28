@@ -385,14 +385,18 @@ window.checkResult = ok => {
 /* =====================================================
    🧾 AMORTISSEMENTS
 ===================================================== */
-window.checkAmortBase = ok => {
+window.checkAmortBase = (ok) => {
 
   if (!ok) {
     screenShake();
     return;
   }
 
-  amortMonth.classList.remove("hidden");
+  /* Cache étape 3 */
+  part3.classList.add("hidden");
+
+  /* Affiche étape 4 */
+  part4.classList.remove("hidden");
 };
 
 /* =====================================================
