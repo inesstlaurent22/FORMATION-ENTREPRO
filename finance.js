@@ -743,6 +743,11 @@ function startMiniGame3() {
 
   }, 1000);
 }
+
+  function finishMiniGame3(){
+  miniGame3.classList.add("hidden");
+  showCommerceWin();
+}
   
 /* =====================================================
    🏆 VICTOIRE FINANCE
