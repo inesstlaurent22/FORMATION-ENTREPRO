@@ -512,7 +512,7 @@ function goToNext(current, next) {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION PROPRE)
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION STABLE)
 ===================================================== */
 
 function startMiniGame3() {
@@ -523,10 +523,8 @@ function startMiniGame3() {
 
   setTimeout(() => {
 
-    miniGame3.innerHTML = "";
+    /* Reset propre */
     miniGame3.classList.remove("hidden");
-
-    /* le reste de ton code */
 
     miniGame3.innerHTML = `
       <div class="mg1-title">
@@ -595,24 +593,22 @@ function startMiniGame3() {
       </div>
     `;
 
-    miniGame3.classList.remove("hidden");
-
     /* ===============================
        RÉCUPÉRATION DES ÉLÉMENTS
     =============================== */
 
     const calcBtn = miniGame3.querySelector(".calcToggle");
-    const calc    = miniGame3.querySelector("#calcFinal");
+    const calc = miniGame3.querySelector("#calcFinal");
 
     const hintBtn = miniGame3.querySelector(".hintBtn");
     const hintBox = miniGame3.querySelector(".hintImage");
     const hintImg = miniGame3.querySelector(".zoomable");
 
-    step1 = miniGame3.querySelector("#step1");
-    step2 = miniGame3.querySelector("#step2");
-    step3 = miniGame3.querySelector("#step3");
-    step4 = miniGame3.querySelector("#step4");
-    step5 = miniGame3.querySelector("#step5");
+    const step1 = miniGame3.querySelector("#step1");
+    const step2 = miniGame3.querySelector("#step2");
+    const step3 = miniGame3.querySelector("#step3");
+    const step4El = miniGame3.querySelector("#step4");
+    const step5 = miniGame3.querySelector("#step5");
 
     /* ===============================
        🧮 CALCULATRICE
@@ -624,20 +620,18 @@ function startMiniGame3() {
         calc.classList.toggle("hidden");
       });
 
-calc.addEventListener("keydown", e => {
-  if (e.key === "Enter") {
-    try {
-      if (!/^[0-9+\-*/().\s]+$/.test(calc.value)) {
-        throw new Error();
-      }
-
-      calc.value = Function('"use strict";return (' + calc.value + ')')();
-
-    } catch {
-      calc.value = "Erreur";
-    }
-  }
-});
+      calc.addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+          try {
+            if (!/^[0-9+\-*/().\s]+$/.test(calc.value)) {
+              throw new Error();
+            }
+            calc.value = Function('"use strict";return (' + calc.value + ')')();
+          } catch {
+            calc.value = "Erreur";
+          }
+        }
+      });
     }
 
     /* ===============================
@@ -647,25 +641,7 @@ calc.addEventListener("keydown", e => {
     if (hintBtn && hintBox && hintImg) {
 
       hintBtn.addEventListener("click", () => {
-
-        const loader = document.createElement("div");
-        loader.className = "loaderOverlay";
-        loader.innerHTML = `
-          <div class="loaderBubble">
-            <div class="spinner">⏳</div>
-          </div>
-        `;
-        document.body.appendChild(loader);
-
-        const tempImg = new Image();
-        tempImg.src = hintImg.src;
-
-        tempImg.onload = () => {
-          loader.remove();
-          hintBox.classList.remove("hidden");
-        };
-
-        tempImg.onerror = () => loader.remove();
+        hintBox.classList.remove("hidden");
       });
 
       hintBox.addEventListener("click", (e) => {
@@ -676,19 +652,13 @@ calc.addEventListener("keydown", e => {
 
       hintImg.addEventListener("click", (e) => {
         e.stopPropagation();
-
         const overlay = document.createElement("div");
         overlay.className = "imageZoomOverlay";
-
         const img = document.createElement("img");
         img.src = hintImg.src;
-
         overlay.appendChild(img);
         document.body.appendChild(overlay);
-
-        overlay.addEventListener("click", () => {
-          overlay.remove();
-        });
+        overlay.addEventListener("click", () => overlay.remove());
       });
     }
 
@@ -698,27 +668,15 @@ calc.addEventListener("keydown", e => {
 
     if (step1) bindStep(step1, () => goToNext(step1, step2));
     if (step2) bindStep(step2, () => goToNext(step2, step3));
-    if (step3) bindStep(step3, () => goToNext(step3, step4));
-    if (step4) bindStep(step4, () => goToNext(step4, step5));
+    if (step3) bindStep(step3, () => goToNext(step3, step4El));
+    if (step4El) bindStep(step4El, () => goToNext(step4El, step5));
     if (step5) bindStep(step5, finishMiniGame3);
 
     hideLoader();
 
   }, 1000);
 }
-
-/* =====================================================
-   🔚 FIN MINI-JEU 3
-===================================================== */
-
-function finishMiniGame3() {
-  miniGame3.classList.add("hidden");
-
-  setTimeout(() => {
-    showCommerceWin();
-  }, 500);
-}
-
+  
 /* =====================================================
    🏆 VICTOIRE FINANCE
 ===================================================== */
