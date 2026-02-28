@@ -21,6 +21,16 @@ document.addEventListener("DOMContentLoaded", () => {
   let pirateClickable = false;
   let dialogueActive = false;
 
+  const fadeScreen = document.getElementById("fadeScreen");
+
+function showLoader(){
+  fadeScreen.classList.remove("hidden");
+}
+
+function hideLoader(){
+  fadeScreen.classList.add("hidden");
+}
+
 /* =====================================================
    🎬 VIDÉO INTRO — VERSION STABLE
 ===================================================== */
@@ -60,11 +70,19 @@ function closeIntro(){
   video.pause();
   videoContainer.classList.add("hidden");
 
-  background.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
-  pirate2.classList.remove("hidden");
+  showLoader();
 
-  pirateClickable = true; // 🔥 IMPORTANT
+  setTimeout(() => {
+
+    background.classList.remove("hidden");
+    pirate5.classList.remove("hidden");
+    pirate2.classList.remove("hidden");
+
+    pirateClickable = true;
+
+    hideLoader();
+
+  }, 1200); // durée loader
 }
   
   /* =====================================================
@@ -184,19 +202,29 @@ skipBtn.onclick = () => {
 
 function startMiniGame1() {
 
-  miniGame1.innerHTML = `
-    <div class="mg1-title">📘 Épreuve des registres</div>
+  showLoader(); // 🔥 Affiche le loader
 
-    <div class="gameQuestion">
-      <span id="qText"></span>
-    </div>
+  setTimeout(() => {
 
-    <div id="qChoices" class="mg1-answers"></div>
-  `;
+    miniGame1.innerHTML = `
+      <div class="mg1-title">📘 Épreuve des registres</div>
 
-  miniGame1.classList.remove("hidden");
-  qIndex = 0;
-  showQuestion();
+      <div class="gameQuestion">
+        <span id="qText"></span>
+      </div>
+
+      <div id="qChoices" class="mg1-answers"></div>
+    `;
+
+    miniGame1.classList.remove("hidden");
+
+    qIndex = 0;
+    goodCount = 0; // 🔥 sécurité reset
+    showQuestion();
+
+    hideLoader(); // 🔥 Cache le loader
+
+  }, 1000); // durée du loader
 }
 
   function showQuestion() {
@@ -294,21 +322,28 @@ function injectCalculator(container) {
 /* ===== LANCEMENT ===== */
 function startMiniGame2() {
 
-  financeGame.classList.remove("hidden");
+  showLoader();
 
-  part1.classList.remove("hidden");
-  part2.classList.add("hidden");
-  part3.classList.add("hidden");
+  setTimeout(() => {
 
-  /* 🔄 Reset factures */
-  billsSeen = { A:false, B:false, C:false };
-  bill.textContent = "";
+    financeGame.classList.remove("hidden");
 
-  document
-    .querySelectorAll(".clients button:last-child")
-    .forEach(btn => btn.disabled = true);
+    part1.classList.remove("hidden");
+    part2.classList.add("hidden");
+    part3.classList.add("hidden");
 
-  injectCalculator(part1);
+    billsSeen = { A:false, B:false, C:false };
+    bill.textContent = "";
+
+    document
+      .querySelectorAll(".clients button:last-child")
+      .forEach(btn => btn.disabled = true);
+
+    injectCalculator(part1);
+
+    hideLoader();
+
+  }, 1000);
 }
 
 /* ================= CLIENTS — LECTURE OBLIGATOIRE ================= */
@@ -476,84 +511,103 @@ let step1, step2, step3, step4, step5;
 
 function startMiniGame3() {
 
-miniGame3.innerHTML = `
-  <div class="mg1-title">
-    🏴‍☠️ L’épreuve du maître comptable
-  </div>
+  // 🔒 Sécurité : éviter double lancement
+  if (!miniGame3.classList.contains("hidden")) return;
 
-  <div class="comm-info-text">
-    Après une année prospère, prouve que tu maîtrises
-    réellement les chiffres de ta boutique pirate.
-  </div>
+  showLoader(); // 🔥 Affiche le loader
 
-    <!-- 🧮 CALCULATRICE -->
-    <button class="calcToggle">🧮 Calculatrice</button>
-    <input id="calcFinal" class="calcInput hidden" placeholder="Ex : 10000 - 4250 - 1000">
+  setTimeout(() => {
 
-    <!-- 💡 INDICE -->
-    <button class="hintBtn">💡 Indice</button>
-    <div class="hintImage hidden">
-      <div class="imageFrame">
-        <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
+    // 🔄 Reset complet
+    miniGame3.innerHTML = "";
+
+    miniGame3.innerHTML = `
+      <div class="mg1-title">
+        🏴‍☠️ L’épreuve du maître comptable
       </div>
-    </div>
-    
-<div id="step1">
-  <div class="gameQuestion">
-    <strong>1️⃣ Calcul de la marge</strong><br>
-    <span class="hint">💡 CA − Achats</span><br>
-    CA : 10 000 PO / Achats : 0 PO
-  </div>
 
-  <button data-ok="true">10 000 PO</button>
-  <button data-ok="false">5 000 PO</button>
-</div>
+      <div class="comm-info-text">
+        Après une année prospère, prouve que tu maîtrises
+        réellement les chiffres de ta boutique pirate.
+      </div>
 
-<div id="step2" class="hidden">
-  <div class="gameQuestion">
-    <strong>2️⃣ Calcul de l’EBE</strong><br>
-    Charges : 4 250 PO / Impôts : 500 PO
-  </div>
+      <!-- 🧮 CALCULATRICE -->
+      <button class="calcToggle">🧮 Calculatrice</button>
+      <input id="calcFinal" class="calcInput hidden" 
+             placeholder="Ex : 10000 - 4250 - 1000">
 
-  <button data-ok="true">5 250 PO</button>
-  <button data-ok="false">9 500 PO</button>
-</div>
+      <!-- 💡 INDICE -->
+      <button class="hintBtn">💡 Indice</button>
+      <div class="hintImage hidden">
+        <div class="imageFrame">
+          <img src="images/EBE.PNG" 
+               alt="Indice EBE" 
+               class="zoomable">
+        </div>
+      </div>
 
-<div id="step3" class="hidden">
-  <div class="gameQuestion">
-    <strong>3️⃣ Amortissements</strong>
-  </div>
+      <div id="step1">
+        <div class="gameQuestion">
+          <strong>1️⃣ Calcul de la marge</strong><br>
+          <span class="hint">💡 CA − Achats</span><br>
+          CA : 10 000 PO / Achats : 0 PO
+        </div>
 
-  <button data-ok="true">≈ 117 PO</button>
-  <button data-ok="false">350 PO</button>
-</div>
+        <button data-ok="true">10 000 PO</button>
+        <button data-ok="false">5 000 PO</button>
+      </div>
 
-<div id="step4" class="hidden">
-  <div class="gameQuestion">
-    <strong>4️⃣ Résultat d’exploitation</strong>
-  </div>
+      <div id="step2" class="hidden">
+        <div class="gameQuestion">
+          <strong>2️⃣ Calcul de l’EBE</strong><br>
+          Charges : 4 250 PO / Impôts : 500 PO
+        </div>
 
-  <button data-ok="true">≈ 5 133 PO</button>
-  <button data-ok="false">5 250 PO</button>
-</div>
+        <button data-ok="true">5 250 PO</button>
+        <button data-ok="false">9 500 PO</button>
+      </div>
 
-<div id="step5" class="hidden">
-  <div class="gameQuestion">
-    <strong>5️⃣ Capacité d’autofinancement</strong>
-  </div>
+      <div id="step3" class="hidden">
+        <div class="gameQuestion">
+          <strong>3️⃣ Amortissements</strong>
+        </div>
 
-  <button data-ok="true">≈ 4 133 PO</button>
-  <button data-ok="false">5 133 PO</button>
-</div>
-`;
+        <button data-ok="true">≈ 117 PO</button>
+        <button data-ok="false">350 PO</button>
+      </div>
 
-  miniGame3.classList.remove("hidden");
+      <div id="step4" class="hidden">
+        <div class="gameQuestion">
+          <strong>4️⃣ Résultat d’exploitation</strong>
+        </div>
 
-  step1 = miniGame3.querySelector("#step1");
-  step2 = miniGame3.querySelector("#step2");
-  step3 = miniGame3.querySelector("#step3");
-  step4 = miniGame3.querySelector("#step4");
-  step5 = miniGame3.querySelector("#step5");
+        <button data-ok="true">≈ 5 133 PO</button>
+        <button data-ok="false">5 250 PO</button>
+      </div>
+
+      <div id="step5" class="hidden">
+        <div class="gameQuestion">
+          <strong>5️⃣ Capacité d’autofinancement</strong>
+        </div>
+
+        <button data-ok="true">≈ 4 133 PO</button>
+        <button data-ok="false">5 133 PO</button>
+      </div>
+    `;
+
+    miniGame3.classList.remove("hidden");
+
+    // 🔎 Références propres
+    step1 = miniGame3.querySelector("#step1");
+    step2 = miniGame3.querySelector("#step2");
+    step3 = miniGame3.querySelector("#step3");
+    step4 = miniGame3.querySelector("#step4");
+    step5 = miniGame3.querySelector("#step5");
+
+    hideLoader(); // 🔥 Cache le loader
+
+  }, 1000);
+}
 
   /* 🧮 Calculatrice */
   const calcBtn = miniGame3.querySelector(".calcToggle");
