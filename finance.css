@@ -354,6 +354,24 @@ button.selectedAnswer {
 }
 
 /* =====================================================
+   🎮 MINI-JEU 2 — CENTRAGE DES BOUTONS
+===================================================== */
+
+#financeGame .finance-step{
+  display:flex;
+  flex-direction:column;
+  align-items:center;   /* 🔥 centre tout le contenu */
+}
+
+#financeGame .finance-step button{
+  display:block;
+  width:100%;
+  max-width:520px;
+  margin:6px auto;      /* 🔥 centrage horizontal */
+  text-align:center;
+}
+
+/* =====================================================
    📜 ENCART QUESTION UNIFIÉ
 ===================================================== */
 
