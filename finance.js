@@ -3,11 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================================================
      🎬 RÉFÉRENCES
   ===================================================== */
-  const video = document.getElementById("questVideo");
-  const videoContainer = document.getElementById("videoContainer");
-  const toggleSoundBtn = document.getElementById("toggleSound");
-  const closeVideoBtn = document.getElementById("closeVideo");
-
   const background = document.getElementById("background");
   const pirate5 = document.getElementById("pirate5bis");
   const pirate2 = document.getElementById("pirate2bis");
@@ -26,54 +21,42 @@ document.addEventListener("DOMContentLoaded", () => {
   let pirateClickable = false;
   let dialogueActive = false;
 
-  /* =====================================================
-     🎬 VIDÉO — LOGIQUE CORRIGÉE
-  ===================================================== */
+/* =====================================================
+   🎬 VIDÉO INTRO
+===================================================== */
+const videoContainer = document.getElementById("videoContainer");
+const video     = document.getElementById("questVideo");
+const toggleSound    = document.getElementById("toggleSound");
+const closeVideo     = document.getElementById("closeVideo");
 
-  // État initial
-  video.muted = true;
-  toggleSoundBtn.textContent = "🔇";
+let videoClosed = false;
 
-  // Sécurité : empêcher la vidéo de capter les clics
-  video.style.pointerEvents = "none";
+introVideo.muted = true;
+introVideo.playsInline = true;
+introVideo.autoplay = true;
+introVideo.style.pointerEvents = "none";
+introVideo.play().catch(()=>{});
 
-  // Lancement safe (Safari / iOS)
-  const tryPlayVideo = () => {
-    if (video.paused) {
-      video.play().catch(() => {});
-    }
-  };
+toggleSound.onclick = e => {
+  e.stopPropagation();
+  introVideo.muted = !introVideo.muted;
+  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+};
 
-  tryPlayVideo();
+closeVideo.onclick = e => {
+  e.stopPropagation();
+  closeIntro();
+};
 
-  // 🔊 Activer / couper le son
-  toggleSoundBtn.addEventListener("click", () => {
-    video.muted = !video.muted;
-    toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
-  });
+introVideo.onended = closeIntro;
 
-  // ⏭️ Passer la vidéo
-  closeVideoBtn.addEventListener("click", endVideo);
-
-  // 🎬 Fin automatique de la vidéo
-  video.addEventListener("ended", endVideo);
-
-  function endVideo() {
-    // Stop vidéo
-    video.pause();
-
-    // Masquer la vidéo
-    videoContainer.classList.add("hidden");
-
-    // Afficher la scène
-    background.classList.remove("hidden");
-    pirate5.classList.remove("hidden");
-    pirate2.classList.remove("hidden");
-
-    // Débloquer interactions
-    pirateClickable = true;
-  }
-
+function closeIntro(){
+  if(videoClosed) return;
+  videoClosed = true;
+  introVideo.pause();
+  videoContainer.style.display = "none";
+  showLoader(1200, () => scene.classList.remove("hidden"));
+}
   
   /* =====================================================
      ✨ PIRATE 5 — SURVOL & CLIC
