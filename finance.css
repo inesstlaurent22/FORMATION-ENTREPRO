@@ -20,50 +20,44 @@ html, body {
 }
 
 /* =====================================================
-   VIDEO
+   🎬 BOUTONS VIDÉO — VERSION UNIFORME
 ===================================================== */
-
-#videoContainer{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:3000;
-}
-
-#questVideo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
 
 #videoControls{
   position:fixed;
-  top:20px;
-  right:20px;
+  top:24px;
+  right:24px;
   display:flex;
-  gap:12px;
-  z-index:10000;
+  gap:14px;
+  z-index:10001;
 }
 
 #videoControls button{
-  position:absolute;
-  top:24px;
-  pointer-events:auto;
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
   font-weight:bold;
   font-size:15px;
-  padding:12px 18px;
+  padding:12px 20px;
   border-radius:14px;
   cursor:pointer;
   box-shadow:
     inset 0 0 6px rgba(255,215,0,.6),
     0 4px 0 #3b2208;
+
+  white-space:nowrap;      /* 🔥 force 1 seule ligne */
+  height:48px;             /* 🔥 même hauteur que skip */
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-#toggleSound{ right:180px; }
-#closeVideo{ right:24px; }
+#videoControls button:active{
+  transform:translateY(4px);
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.6),
+    0 1px 0 #3b2208;
+}
 
 /* =====================================================
    🌅 BACKGROUND
@@ -146,18 +140,20 @@ html, body {
    📜 ENCART QUESTION — VERSION PREMIUM PARCHEMIN
 ===================================================== */
 .questionBox{
-  background: linear-gradient(180deg,#f5e6c8,#e6d3a4);
-  color:#1a0f05;
-  padding:22px 28px;
-  border-radius:18px;
+  background:linear-gradient(180deg,#f6e6b8,#e8d39a);
+  color:#2b1605;
+  padding:20px 26px;
+  border-radius:16px;
   margin:22px auto;
   border:3px solid #caa14a;
   font-weight:bold;
   width:100%;
-  max-width:640px;
+  max-width:600px;
+
   box-shadow:
-    0 8px 18px rgba(0,0,0,.35),
+    0 6px 16px rgba(0,0,0,.35),
     inset 0 2px 6px rgba(255,255,255,.6);
+
   text-align:center;
 }
 
@@ -166,58 +162,56 @@ html, body {
 }
 
 /* =====================================================
-   🎮 BOUTONS MINI-JEUX — STYLE DORÉ PROFOND
+   🔘 BOUTONS MINI-JEUX — VERSION COMMUNICATION
 ===================================================== */
 
 #miniGame0 button,
 #financeGame button{
   display:block;
   width:100%;
-  max-width:480px;
-  margin:14px auto;
+  max-width:520px;
+  margin:16px auto;
 
-  background: linear-gradient(180deg,#caa14a,#a8751f);
-  border:3px solid #5c3b0d;
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  border:3px solid #3b2208;
   color:#1a0f05;
+
   font-weight:bold;
-  font-size:16px;
-  padding:14px 20px;
-  border-radius:18px;
+  font-size:15px;
+
+  padding:14px 22px;
+  border-radius:14px;
   cursor:pointer;
 
   box-shadow:
-    inset 0 2px 4px rgba(255,255,255,.4),
-    0 6px 0 #5c3b0d;
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
 
-  transition: all .2s ease;
-}
-
-#miniGame0 button:hover,
-#financeGame button:hover{
-  transform:translateY(2px);
+  transition:transform .08s ease;
 }
 
 #miniGame0 button:active,
 #financeGame button:active{
-  transform:translateY(6px);
-  box-shadow: inset 0 0 12px rgba(0,0,0,.8);
+  transform:translateY(4px);
 }
 
 /* =====================================================
    🎮 MINI-JEU 1 — QCM STRUCTURE PROPRE
 ===================================================== */
-#miniGame0 {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(92%, 760px);
-  background: linear-gradient(180deg,#1a0f05,#0f0702);
-  border: 5px solid #d4af37;
-  border-radius: 26px;
-  padding: 40px 36px;
-  z-index: 20;
-  text-align: center;
+#miniGame0{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:min(92%,600px);
+  background:#120b05;
+  border:4px solid gold;
+  border-radius:22px;
+  padding:28px;
+  box-shadow:0 0 40px rgba(255,215,0,.45);
+  text-align:center;
+  z-index:10;
+}
 
   box-shadow:
     0 0 60px rgba(255,215,0,.45),
@@ -244,6 +238,14 @@ button.selectedAnswer {
   color: #f5e6c8;
   transform: translateY(4px);
   box-shadow: inset 0 0 12px rgba(0,0,0,.8);
+}
+
+.mg1-title{
+  font-family:"Pirata One", serif;
+  font-size:26px;
+  color:#ffd77a;
+  margin-bottom:22px;
+  text-shadow:2px 2px 0 #2b1605;
 }
 
 /* =====================================================
