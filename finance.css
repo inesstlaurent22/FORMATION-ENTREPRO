@@ -251,39 +251,53 @@ button.selectedAnswer {
 /* =====================================================
    🎮 MINI-JEU 2 — FINANCE
 ===================================================== */
+
 #financeGame {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(92%, 900px);
+  inset: 0;                     /* 🔥 couvre tout l’écran */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,.75);  /* 🔥 fond assombri */
+  z-index: 10;
+}
+
+/* =====================================================
+   📦 ÉTAPES FINANCE (part1 → part4)
+===================================================== */
+
+.finance-step {
+  width: min(92%, 760px);
   background: #120b05;
   border: 4px solid gold;
   border-radius: 22px;
   padding: 32px;
-  z-index: 10;
   text-align: center;
   box-shadow: 0 0 40px rgba(255,215,0,.45);
 }
 
-#financeGame h3 {
-  color: gold;
-  font-size: 24px;
-  margin-bottom: 16px;
+/* =====================================================
+   📜 ENCART QUESTION UNIFIÉ
+===================================================== */
+
+#financeGame .questionBox {
+  background: linear-gradient(180deg,#f6e6b8,#e8d39a);
+  color: #2b1605;
+  padding: 20px 26px;
+  border-radius: 16px;
+  margin: 22px auto;
+  border: 3px solid #caa14a;
+  font-weight: bold;
+  max-width: 600px;
+  box-shadow:
+    0 6px 16px rgba(0,0,0,.35),
+    inset 0 2px 6px rgba(255,255,255,.6);
 }
 
-#financeGame p {
-  color: #fff;
-  font-size: 16px;
-}
-
-#financeGame .questionBox{
-  background:#ffffff;
-  color:#000;
-}
-
-#financeGame .questionBox p{
-  color:#000;
+/* Petite version pour facture affichée */
+.smallBox{
+  max-width: 420px;
+  margin-top: 18px;
 }
 
 /* ================= CLIENTS ================= */
