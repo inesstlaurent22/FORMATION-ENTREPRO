@@ -422,6 +422,24 @@ button.selectedAnswer {
   margin-bottom:20px;
 }
 
+#miniGame3 .calcToggle{
+  display:block;
+  margin: 0 auto 16px auto;   /* centré */
+}
+
+#miniGame3 .hintBtn{
+  display:block;
+  margin: 0 auto 20px auto;   /* centré sous calculatrice */
+}
+
+#miniGame3 .calcInput{
+  display:block;
+  margin: 12px auto 24px auto; /* centré */
+  text-align:center;
+  width:260px;
+  max-width:80%;
+}
+
 /* ================= LOADER INDICE ================= */
 
 .loaderOverlay{
