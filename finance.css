@@ -368,39 +368,55 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   🎮 MINI-JEU 3 — EBE / CAF
+   🎮 MINI-JEU 3 — EBE / CAF (VERSION UNIFIÉE)
 ===================================================== */
-#miniGame3 {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(92%, 860px);
-  background: #120b05;
-  border: 4px solid gold;
-  border-radius: 26px;
-  padding: 36px;
-  z-index: 20;
-  text-align: center;
-  box-shadow: 0 0 45px rgba(255,215,0,.6);
+
+#miniGame3{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:min(92%, 860px);
+  background:#120b05;
+  border:4px solid gold;
+  border-radius:26px;
+  padding:36px;
+  z-index:20;
+  text-align:center;
+  box-shadow:0 0 45px rgba(255,215,0,.6);
 }
 
-#miniGame3 h3 {
-  color: gold;
-  font-size: 26px;
-  margin-bottom: 22px;
+/* ================= TEXTE INTRO ================= */
+
+#miniGame3 .comm-info-text{
+  color:#f5e6c8;
+  font-size:16px;
+  font-weight:bold;
+  line-height:1.6;
+  margin-bottom:28px;  /* 🔥 espace sous le texte */
 }
 
-#miniGame3 p {
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
+/* ================= CALCULATRICE ================= */
+
+#miniGame3 .calcToggle{
+  margin:0 auto 16px auto;  /* 🔥 espace sous bouton */
+  display:block;
 }
 
-#miniGame3 .hint {
-  font-size: 14px;
-  font-style: italic;
-  color: #d8caa0;
+#miniGame3 .calcInput{
+  display:block;
+  margin:0 auto 24px auto;
+  text-align:center;
+  width:260px;
+  max-width:80%;
+}
+
+/* ================= INDICE ================= */
+
+#miniGame3 .hint{
+  font-size:14px;
+  font-style:italic;
+  color:#d8caa0;
 }
 
 #miniGame3 .hintImage{
@@ -420,21 +436,6 @@ button.selectedAnswer {
   border-radius:14px;
   cursor:zoom-in;
   transition:transform .25s ease;
-}
-
-#miniGame3 .calcInput{
-  display:block;
-  margin-top:12px;
-}
-
-/* ================= ESPACE TEXTE → CALCULATRICE ================= */
-
-#miniGame3 .comm-info-text{
-  margin-bottom:28px;   /* 🔥 espace sous le texte */
-}
-
-#miniGame3 .calcToggle{
-  margin-top:0;         /* évite double marge */
 }
 
 /* ================= ZOOM PLEIN ÉCRAN ================= */
