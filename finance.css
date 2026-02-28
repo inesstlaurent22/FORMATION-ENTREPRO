@@ -341,6 +341,16 @@ button.selectedAnswer {
   border-radius:14px;
 }
 
+/* ================= FACTURE SANS ENCADRÉ ================= */
+
+.billDisplay{
+  margin-top:18px;
+  font-weight:bold;
+  font-size:18px;
+  color:#ffd77a;
+  text-shadow:1px 1px 0 #000;
+}
+
 /* =====================================================
    🧾 ENCART AMORTISSEMENT SÉPARÉ
 ===================================================== */
