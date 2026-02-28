@@ -427,8 +427,14 @@ button.selectedAnswer {
   margin-top:12px;
 }
 
+/* ================= ESPACE TEXTE → CALCULATRICE ================= */
+
+#miniGame3 .comm-info-text{
+  margin-bottom:28px;   /* 🔥 espace sous le texte */
+}
+
 #miniGame3 .calcToggle{
-  margin-top:24px;   /* 🔥 espace avec le texte */
+  margin-top:0;         /* évite double marge */
 }
 
 /* ================= ZOOM PLEIN ÉCRAN ================= */
