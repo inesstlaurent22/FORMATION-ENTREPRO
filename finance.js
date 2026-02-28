@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const part1 = document.getElementById("part1");
   const part2 = document.getElementById("part2");
   const part3 = document.getElementById("part3");
+  const part4 = document.getElementById("part4");
 
   const bill = document.getElementById("bill");
   const amortMonth = document.getElementById("amortMonth");
@@ -266,7 +267,7 @@ function injectCalculator(container) {
   input.onkeydown = e => {
     if (e.key === "Enter") {
       try {
-        input.value = Function("return " + input.value)();
+        input.value = eval(input.value);
       } catch {
         input.value = "Erreur";
       }
@@ -359,7 +360,10 @@ window.checkAmortBase = ok => {
     return;
   }
 
-  amortMonth.classList.remove("hidden");
+  part3.classList.add("hidden");
+  part4.classList.remove("hidden");
+
+  injectCalculator(part4);
 };
 
 /* =====================================================
@@ -371,7 +375,7 @@ window.checkMonthlyAmort = ok => {
     return;
   }
 
-  part3.classList.add("hidden");
+  part4.classList.add("hidden");
   financeGame.classList.add("hidden");
 
   setTimeout(() => {
@@ -432,10 +436,11 @@ function startMiniGame3() {
   miniGame3.innerHTML = `
     <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
 
-    <p>
-      Après une année de ventes prospères, tu dois prouver
-      que tu maîtrises réellement les chiffres de ta boutique pirate.
-    </p>
+   <p class="comm-info-text">
+  Après une année de ventes prospères,
+  tu dois prouver que tu maîtrises réellement
+  les chiffres de ta boutique pirate.
+</p>
 
     <!-- 🧮 CALCULATRICE -->
     <button class="calcToggle">🧮 Calculatrice</button>
@@ -499,7 +504,7 @@ function startMiniGame3() {
   calc.onkeydown = e => {
     if (e.key === "Enter") {
       try {
-        calc.value = Function("return " + calc.value)();
+        calc.value = eval(calc.value);
       } catch {
         calc.value = "Erreur";
       }
