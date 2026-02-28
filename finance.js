@@ -281,8 +281,10 @@ function injectCalculator(container) {
     }
   };
 
-  wrapper.append(btn, input);
-  container.prepend(wrapper);
+wrapper.appendChild(btn);
+wrapper.appendChild(input);
+
+container.insertBefore(wrapper, container.firstChild);
 }
 
 /* ===== LANCEMENT ===== */
