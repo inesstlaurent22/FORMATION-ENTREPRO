@@ -114,7 +114,6 @@ background.appendChild(bubble);
 let dialogues = [];
 let dIndex = 0;
 let afterDialogues = null;
-let dialogueActive = false;
 
 /* =====================================================
    ⏭️ SKIP DIALOGUES — VERSION STABLE
