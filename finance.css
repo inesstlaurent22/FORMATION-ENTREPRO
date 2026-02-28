@@ -37,9 +37,12 @@ html, body {
 }
 
 #videoControls{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
+  position:fixed;
+  top:20px;
+  right:20px;
+  display:flex;
+  gap:12px;
+  z-index:10000;
 }
 
 #videoControls button{
