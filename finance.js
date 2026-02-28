@@ -22,40 +22,49 @@ document.addEventListener("DOMContentLoaded", () => {
   let dialogueActive = false;
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   🎬 VIDÉO INTRO — VERSION STABLE
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
-const video     = document.getElementById("questVideo");
-const toggleSound    = document.getElementById("toggleSound");
-const closeVideo     = document.getElementById("closeVideo");
+const video = document.getElementById("questVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo = document.getElementById("closeVideo");
 
 let videoClosed = false;
 
-introVideo.muted = true;
-introVideo.playsInline = true;
-introVideo.autoplay = true;
-introVideo.style.pointerEvents = "none";
-introVideo.play().catch(()=>{});
+// Sécurité
+video.muted = true;
+video.playsInline = true;
+video.style.pointerEvents = "none";
 
+video.play().catch(()=>{});
+
+// 🔊 Son
 toggleSound.onclick = e => {
   e.stopPropagation();
-  introVideo.muted = !introVideo.muted;
-  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+  video.muted = !video.muted;
+  toggleSound.textContent = video.muted ? "🔇" : "🔊";
 };
 
+// ⏭️ Skip
 closeVideo.onclick = e => {
   e.stopPropagation();
   closeIntro();
 };
 
-introVideo.onended = closeIntro;
+video.onended = closeIntro;
 
 function closeIntro(){
   if(videoClosed) return;
   videoClosed = true;
-  introVideo.pause();
-  videoContainer.style.display = "none";
-  showLoader(1200, () => scene.classList.remove("hidden"));
+
+  video.pause();
+  videoContainer.classList.add("hidden");
+
+  background.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
+  pirate2.classList.remove("hidden");
+
+  pirateClickable = true; // 🔥 IMPORTANT
 }
   
   /* =====================================================
