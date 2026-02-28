@@ -326,8 +326,6 @@ button.selectedAnswer {
   color: #d8caa0;
 }
 
-/* ================= INDICE OVERLAY ================= */
-
 #miniGame3 .hintImage{
   position:fixed;
   inset:0;
@@ -345,6 +343,11 @@ button.selectedAnswer {
   border-radius:14px;
   cursor:zoom-in;
   transition:transform .25s ease;
+}
+
+#miniGame3 .calcInput{
+  display:block;
+  margin-top:12px;
 }
 
 /* ================= ZOOM PLEIN ÉCRAN ================= */
@@ -406,6 +409,14 @@ button.selectedAnswer {
   padding:12px;
   border-radius:12px;
   box-shadow:0 0 14px rgba(255,215,0,.4);
+}
+
+.calcWrapper{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
 }
 
 /* ================= LOADER INDICE ================= */
