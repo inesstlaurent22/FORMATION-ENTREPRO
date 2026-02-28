@@ -14,22 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const part1 = document.getElementById("part1");
   const part2 = document.getElementById("part2");
   const part3 = document.getElementById("part3");
-  const part4 = document.getElementById("part4");
 
   const bill = document.getElementById("bill");
+  const amortMonth = document.getElementById("amortMonth");
 
   let pirateClickable = false;
   let dialogueActive = false;
-
-  const fadeScreen = document.getElementById("fadeScreen");
-
-function showLoader(){
-  fadeScreen.classList.remove("hidden");
-}
-
-function hideLoader(){
-  fadeScreen.classList.add("hidden");
-}
 
 /* =====================================================
    🎬 VIDÉO INTRO — VERSION STABLE
@@ -70,19 +60,11 @@ function closeIntro(){
   video.pause();
   videoContainer.classList.add("hidden");
 
-  showLoader();
+  background.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
+  pirate2.classList.remove("hidden");
 
-  setTimeout(() => {
-
-    background.classList.remove("hidden");
-    pirate5.classList.remove("hidden");
-    pirate2.classList.remove("hidden");
-
-    pirateClickable = true;
-
-    hideLoader();
-
-  }, 1200); // durée loader
+  pirateClickable = true; // 🔥 IMPORTANT
 }
   
   /* =====================================================
@@ -102,103 +84,65 @@ function closeIntro(){
     startDialogues(dialoguesIntro, startMiniGame1);
   };
 
-/* =====================================================
-   💬 MOTEUR DE DIALOGUES
+  /* =====================================================
+     💬 MOTEUR DE DIALOGUES
+  ===================================================== */
+  const bubble = document.createElement("div");
+  bubble.id = "dialogueBox";
+  bubble.classList.add("hidden");
+  background.appendChild(bubble);
+
+  let dialogues = [];
+  let dIndex = 0;
+  let afterDialogues = null;
+
+function startDialogues(arr, cb) {
+  dialogues = arr;
+  dIndex = 0;
+  afterDialogues = cb;
+  dialogueActive = true;
+  bubble.classList.remove("hidden");
+  skipBtn.classList.remove("hidden");
+  showDialogue();
+}
+
+  function showDialogue() {
+    const d = dialogues[dIndex];
+    bubble.textContent = d.t;
+
+    const r = d.s.getBoundingClientRect();
+    bubble.style.left = r.left + r.width / 2 + "px";
+    bubble.style.top = r.top - 90 + "px";
+    bubble.style.transform = "translateX(-50%)";
+
+bubble.onclick = () => {
+  dIndex++;
+  if (dIndex < dialogues.length) {
+    showDialogue();
+  } else {
+    bubble.classList.add("hidden");
+    skipBtn.classList.add("hidden");
+    dialogueActive = false;
+    afterDialogues && afterDialogues();
+  }
+};
+  }
+
+  /* =====================================================
+   ⏭️ SKIP DIALOGUES
 ===================================================== */
-
-const bubble = document.createElement("div");
-bubble.id = "dialogueBox";
-bubble.classList.add("hidden");
-background.appendChild(bubble);
-
-let dialogues = [];
-let dIndex = 0;
-let afterDialogues = null;
-
-/* =====================================================
-   ⏭️ SKIP DIALOGUES — VERSION STABLE
-===================================================== */
-
 const skipBtn = document.createElement("button");
 skipBtn.id = "skipDialoguesBtn";
 skipBtn.textContent = "Passer les dialogues";
 skipBtn.classList.add("hidden");
 document.body.appendChild(skipBtn);
 
-skipBtn.addEventListener("click", () => {
-
-  if (!dialogueActive) return;
-
+skipBtn.onclick = () => {
   bubble.classList.add("hidden");
   skipBtn.classList.add("hidden");
-
   dialogueActive = false;
-
-  if (typeof afterDialogues === "function") {
-    const cb = afterDialogues;
-    afterDialogues = null; // empêche double appel
-    cb();
-  }
-});
-
-/* =====================================================
-   ▶️ START DIALOGUES
-===================================================== */
-
-function startDialogues(arr, cb) {
-
-  dialogues = arr;
-  dIndex = 0;
-  afterDialogues = cb;
-  dialogueActive = true;
-
-  bubble.classList.remove("hidden");
-  skipBtn.classList.remove("hidden");
-
-  showDialogue();
-}
-
-/* =====================================================
-   💬 AFFICHAGE DIALOGUE
-===================================================== */
-
-function showDialogue() {
-
-  if (!dialogues[dIndex]) return;
-
-  const d = dialogues[dIndex];
-  bubble.textContent = d.t;
-
-  const r = d.s.getBoundingClientRect();
-
-  bubble.style.left =
-    (r.left + r.width / 2 + window.scrollX) + "px";
-
-  bubble.style.top =
-    (r.top - 90 + window.scrollY) + "px";
-
-  bubble.style.transform = "translateX(-50%)";
-
-  bubble.onclick = () => {
-
-    dIndex++;
-
-    if (dIndex < dialogues.length) {
-      showDialogue();
-    } else {
-
-      bubble.classList.add("hidden");
-      skipBtn.classList.add("hidden");
-      dialogueActive = false;
-
-      if (typeof afterDialogues === "function") {
-        const cb = afterDialogues;
-        afterDialogues = null;
-        cb();
-      }
-    }
-  };
-}
+  afterDialogues && afterDialogues();
+};
 
   /* =====================================================
      💬 DIALOGUES — INTRO
@@ -210,127 +154,85 @@ function showDialogue() {
   ];
 
   /* =====================================================
-   🎮 MINI-JEU 1 — QCM (VERSION SÉCURISÉE)
-===================================================== */
+     🎮 MINI-JEU 1 — QCM
+  ===================================================== */
+  const questions = [
+    {
+      q: "À quoi sert le journal des ventes ?",
+      good: ["À noter toutes les ventes de la journée"],
+      bad: ["À payer les impôts", "À gérer l’équipage"]
+    },
+    {
+      q: "Pourquoi tenir un grand livre ?",
+      good: ["Pour regrouper les opérations par compte"],
+      bad: ["Pour décorer la boutique", "Pour stocker l’or"]
+    },
+    {
+      q: "À quoi sert la balance comptable ?",
+      good: ["À vérifier l’équilibre des comptes"],
+      bad: ["À peser les marchandises"]
+    },
+    {
+      q: "Quels documents composent les comptes annuels ?",
+      good: ["Le bilan comptable", "Le compte de résultat"],
+      bad: ["Le journal des ventes"]
+    }
+  ];
 
-const questions = [
-  {
-    q: "À quoi sert le journal des ventes ?",
-    good: ["À noter toutes les ventes de la journée"],
-    bad: ["À payer les impôts", "À gérer l’équipage"]
-  },
-  {
-    q: "Pourquoi tenir un grand livre ?",
-    good: ["Pour regrouper les opérations par compte"],
-    bad: ["Pour décorer la boutique", "Pour stocker l’or"]
-  },
-  {
-    q: "À quoi sert la balance comptable ?",
-    good: ["À vérifier l’équilibre des comptes"],
-    bad: ["À peser les marchandises"]
-  },
-  {
-    q: "Quels documents composent les comptes annuels ?",
-    good: ["Le bilan comptable", "Le compte de résultat"],
-    bad: ["Le journal des ventes"]
-  }
-];
+  let qIndex = 0;
+  let goodCount = 0;
 
-let qIndex = 0;
-let goodCount = 0;
-
-function startMiniGame1() {
-
-  if (!miniGame1) return;
-
-  showLoader();
-
-  setTimeout(() => {
-
-    miniGame1.innerHTML = `
-      <div class="mg1-title">📘 Épreuve des registres</div>
-      <div class="gameQuestion">
-        <span id="qText"></span>
-      </div>
-      <div id="qChoices" class="mg1-answers"></div>
-    `;
-
+  function startMiniGame1() {
+miniGame1.innerHTML = `
+  <h3>📘 Épreuve des registres</h3>
+  <div class="questionBox">
+    <p id="qText"></p>
+  </div>
+  <div id="qChoices"></div>
+`;
     miniGame1.classList.remove("hidden");
-
     qIndex = 0;
-    goodCount = 0;
-
     showQuestion();
-
-    hideLoader();
-
-  }, 1000);
-}
-
-function showQuestion() {
-
-  if (!questions[qIndex]) {
-    endMiniGame1();
-    return;
   }
 
-  goodCount = 0;
+  function showQuestion() {
+    goodCount = 0;
+    document.getElementById("qText").textContent = questions[qIndex].q;
+    const qChoices = document.getElementById("qChoices");
+    qChoices.innerHTML = "";
 
-  const qText = document.getElementById("qText");
-  const qChoices = document.getElementById("qChoices");
+    const answers = [
+      ...questions[qIndex].good.map(t => ({ t, ok: true })),
+      ...questions[qIndex].bad.map(t => ({ t, ok: false }))
+    ].sort(() => Math.random() - 0.5);
 
-  if (!qText || !qChoices) return;
-
-  qText.textContent = questions[qIndex].q;
-  qChoices.innerHTML = "";
-
-  const answers = [
-    ...questions[qIndex].good.map(t => ({ t, ok: true })),
-    ...questions[qIndex].bad.map(t => ({ t, ok: false }))
-  ].sort(() => Math.random() - 0.5);
-
-  answers.forEach(a => {
-
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.textContent = a.t;
-
-    btn.addEventListener("click", () => {
-
-      if (a.ok) {
-
-        btn.classList.add("selectedAnswer");
-        btn.disabled = true;
-        goodCount++;
-
-        if (goodCount === questions[qIndex].good.length) {
-
-          qIndex++;
-
-          setTimeout(() => {
-            showQuestion();
-          }, 400);
+    answers.forEach(a => {
+      const btn = document.createElement("button");
+      btn.textContent = a.t;
+      btn.onclick = () => {
+        if (a.ok) {
+btn.classList.add("correctAnswer");
+          btn.disabled = true;
+          goodCount++;
+          if (goodCount === questions[qIndex].good.length) {
+            qIndex++;
+            qIndex < questions.length
+              ? showQuestion()
+              : endMiniGame1();
+          }
+        } else {
+          screenShake();
         }
-
-      } else {
-        screenShake();
-      }
+      };
+      qChoices.appendChild(btn);
     });
+  }
 
-    qChoices.appendChild(btn);
-  });
-}
-
-function endMiniGame1() {
-
-  if (!miniGame1) return;
-
-  miniGame1.classList.add("hidden");
-
-  if (typeof startDialogues === "function") {
+  function endMiniGame1() {
+    miniGame1.classList.add("hidden");
     startDialogues(dialoguesBeforeMini2, startMiniGame2);
   }
-}
+
   /* =====================================================
      💬 DIALOGUES — ANALYSE
   ===================================================== */
@@ -340,128 +242,94 @@ function endMiniGame1() {
     { s: pirate5, t: "Passons à la gestion réelle." }
   ];
 
-/* =====================================================
-   🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE (VERSION STABLE)
+ /* =====================================================
+   🎮 MINI-JEU 2 — ANALYSE FINANCIÈRE
 ===================================================== */
 
-/* ===== CALCULATRICE SÉCURISÉE ===== */
+/* ===== CALCULATRICE ===== */
 function injectCalculator(container) {
-
-  if (!container || container.querySelector(".calcWrapper")) return;
+  if (container.querySelector(".calcWrapper")) return;
 
   const wrapper = document.createElement("div");
   wrapper.className = "calcWrapper";
 
   const btn = document.createElement("button");
   btn.className = "calcToggle";
-  btn.type = "button";
   btn.textContent = "🧮 Calculatrice";
 
   const input = document.createElement("input");
   input.className = "calcInput hidden";
   input.placeholder = "Ex : 12000 - 8500";
 
-  btn.addEventListener("click", () => {
-    input.classList.toggle("hidden");
-  });
+  btn.onclick = () => input.classList.toggle("hidden");
 
-  /* ⚠️ Évaluation sécurisée (opérations simples uniquement) */
-  input.addEventListener("keydown", e => {
+  input.onkeydown = e => {
     if (e.key === "Enter") {
       try {
-        if (!/^[0-9+\-*/().\s]+$/.test(input.value)) {
-          throw new Error();
-        }
-        input.value = Function('"use strict";return (' + input.value + ')')();
+        input.value = Function("return " + input.value)();
       } catch {
         input.value = "Erreur";
       }
     }
-  });
+  };
 
-  wrapper.appendChild(btn);
-  wrapper.appendChild(input);
+wrapper.appendChild(btn);
+wrapper.appendChild(input);
 
-  container.insertBefore(wrapper, container.firstChild);
+container.insertBefore(wrapper, container.firstChild);
 }
 
 /* ===== LANCEMENT ===== */
 function startMiniGame2() {
+  financeGame.classList.remove("hidden");
 
-  showLoader();
+  part1.classList.remove("hidden");
+  part2.classList.add("hidden");
+  part3.classList.add("hidden");
 
-  setTimeout(() => {
-
-    financeGame.classList.remove("hidden");
-
-    part1.classList.remove("hidden");
-    part2.classList.add("hidden");
-    part3.classList.add("hidden");
-
-    billsSeen = { A:false, B:false, C:false };
-    bill.textContent = "";
-
-    document
-      .querySelectorAll(".clients button:last-child")
-      .forEach(btn => btn.disabled = true);
-
-    injectCalculator(part1);
-
-    hideLoader();
-
-  }, 1000);
+  injectCalculator(part1);
 }
 
 /* ================= CLIENTS — LECTURE OBLIGATOIRE ================= */
 
-let billsSeen = { A:false, B:false, C:false };
+let billsSeen = {
+  A: false,
+  B: false,
+  C: false
+};
 
 window.showBill = client => {
-
-  const data = {
+  bill.textContent = {
     A: "🧾 Barbe-Cuivre : 950 PO",
     B: "🧾 Vent-Noir : 850 PO",
     C: "🧾 Crâne-Rouge : 530 PO"
-  };
+  }[client];
 
-  if (!data[client]) return;
-
-  bill.textContent = data[client];
   billsSeen[client] = true;
-
   checkAllBillsRead();
 };
 
 function checkAllBillsRead() {
-
-  const allRead = Object.values(billsSeen).every(Boolean);
+  const allRead = Object.values(billsSeen).every(v => v);
   if (!allRead) return;
 
   document
-    .querySelectorAll(".clients .clientBlock button:last-child")
+    .querySelectorAll(".clients button:last-child")
     .forEach(btn => btn.disabled = false);
 }
 
 window.chooseClient = btn => {
 
-  const allRead = Object.values(billsSeen).every(Boolean);
-
-  if (!allRead) {
-    screenShake();
-    return;
+  if (!Object.values(billsSeen).every(v => v)) {
+    return screenShake();
   }
 
-  const choices = [
-    ...document.querySelectorAll(".clients .clientBlock button:last-child")
-  ];
+  const choices = [...document.querySelectorAll(".clients button:last-child")];
 
   if (btn === choices[0]) {
-
     part1.classList.add("hidden");
     part2.classList.remove("hidden");
-
     injectCalculator(part2);
-
   } else {
     screenShake();
   }
@@ -471,7 +339,6 @@ window.chooseClient = btn => {
    📊 RÉSULTAT ANNUEL
 ===================================================== */
 window.checkResult = ok => {
-
   if (!ok) {
     screenShake();
     return;
@@ -486,52 +353,30 @@ window.checkResult = ok => {
 /* =====================================================
    🧾 AMORTISSEMENTS
 ===================================================== */
-window.checkAmortBase = (ok) => {
-
+window.checkAmortBase = ok => {
   if (!ok) {
     screenShake();
     return;
   }
-part3.classList.add("hidden");
-part4.classList.remove("hidden");
 
-/* 🔥 Injection calculatrice pour part4 */
-injectCalculator(part4);
+  amortMonth.classList.remove("hidden");
 };
 
 /* =====================================================
    ✅ FIN MINI-JEU 2
 ===================================================== */
-window.checkMonthlyAmort = (ok) => {
-
+window.checkMonthlyAmort = ok => {
   if (!ok) {
     screenShake();
     return;
   }
 
-  if (!part4 || part4.classList.contains("hidden")) return;
-
-  /* Désactive les boutons */
-  part4.querySelectorAll("button").forEach(btn => btn.disabled = true);
-
-  /* Ferme Mini-Jeu 2 */
-  part4.classList.add("hidden");
+  part3.classList.add("hidden");
   financeGame.classList.add("hidden");
 
-  /* Reset Mini-Jeu 3 */
-  if (miniGame3) {
-    miniGame3.classList.add("hidden");
-    miniGame3.innerHTML = "";
-  }
-
-  /* Sécurité dialogue */
-  dialogueActive = false;
-
   setTimeout(() => {
-    startDialogues(dialoguesEBE, () => {
-      startMiniGame3();
-    });
-  }, 400);
+    startDialogues(dialoguesEBE, startMiniGame3);
+  }, 300);
 };
   
   /* =====================================================
@@ -576,178 +421,181 @@ function goToNext(current, next) {
   current.classList.add("hidden");
   next.classList.remove("hidden");
 }
-
 /* =====================================================
-   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE (VERSION STABLE)
+   🎮 MINI-JEU 3 — COMPTABILITÉ AVANCÉE
 ===================================================== */
+
+let step1, step2, step3, step4, step5;
 
 function startMiniGame3() {
 
-  if (!miniGame3) return;
+  miniGame3.innerHTML = `
+    <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
 
-  showLoader();
+    <p>
+      Après une année de ventes prospères, tu dois prouver
+      que tu maîtrises réellement les chiffres de ta boutique pirate.
+    </p>
 
-  setTimeout(() => {
+    <!-- 🧮 CALCULATRICE -->
+    <button class="calcToggle">🧮 Calculatrice</button>
+    <input id="calcFinal" class="calcInput hidden" placeholder="Ex : 10000 - 4250 - 1000">
 
-    /* Reset propre */
-    miniGame3.classList.remove("hidden");
-
-    miniGame3.innerHTML = `
-      <div class="mg1-title">
-        🏴‍☠️ L’épreuve du maître comptable
+    <!-- 💡 INDICE -->
+    <button class="hintBtn">💡 Indice</button>
+    <div class="hintImage hidden">
+      <div class="imageFrame">
+        <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
       </div>
+    </div>
+    
+    <div id="step1">
+      <p><strong>1️⃣ Calcul de la marge</strong></p>
+      <p class="hint">💡 CA − Achats</p>
+      <p>CA : 10 000 PO / Achats : 0 PO</p>
+      <button data-ok="true">10 000 PO</button>
+      <button data-ok="false">5 000 PO</button>
+    </div>
 
-      <div class="comm-info-text">
-        Après une année prospère, prouve que tu maîtrises
-        réellement les chiffres de ta boutique pirate.
-      </div>
+    <div id="step2" class="hidden">
+      <p><strong>2️⃣ Calcul de l’EBE</strong></p>
+      <p>Charges : 4 250 PO / Impôts : 500 PO</p>
+      <button data-ok="true">5 250 PO</button>
+      <button data-ok="false">9 500 PO</button>
+    </div>
 
-      <button class="calcToggle">🧮 Calculatrice</button>
-      <input id="calcFinal" class="calcInput hidden" 
-             placeholder="Ex : 10000 - 4250 - 1000">
+    <div id="step3" class="hidden">
+      <p><strong>3️⃣ Amortissements</strong></p>
+      <button data-ok="true">≈ 117 PO</button>
+      <button data-ok="false">350 PO</button>
+    </div>
 
-      <button class="hintBtn">💡 Indice</button>
-      <div class="hintImage hidden">
-        <div class="imageFrame">
-          <img src="images/EBE.PNG" 
-               alt="Indice EBE" 
-               class="zoomable">
-        </div>
-      </div>
+    <div id="step4" class="hidden">
+      <p><strong>4️⃣ Résultat exploitation</strong></p>
+      <button data-ok="true">≈ 5 133 PO</button>
+      <button data-ok="false">5 250 PO</button>
+    </div>
 
-      <div id="step1">
-        <div class="gameQuestion">
-          <strong>1️⃣ Calcul de la marge</strong><br>
-          <span class="hint">💡 CA − Achats</span><br>
-          CA : 10 000 PO / Achats : 0 PO
-        </div>
-        <button data-ok="true">10 000 PO</button>
-        <button data-ok="false">5 000 PO</button>
-      </div>
+    <div id="step5" class="hidden">
+      <p><strong>5️⃣ Capacité d’autofinancement</strong></p>
+      <button data-ok="true">≈ 4 133 PO</button>
+      <button data-ok="false">5 133 PO</button>
+    </div>
+  `;
 
-      <div id="step2" class="hidden">
-        <div class="gameQuestion">
-          <strong>2️⃣ Calcul de l’EBE</strong><br>
-          Charges : 4 250 PO / Impôts : 500 PO
-        </div>
-        <button data-ok="true">5 250 PO</button>
-        <button data-ok="false">9 500 PO</button>
-      </div>
+  miniGame3.classList.remove("hidden");
 
-      <div id="step3" class="hidden">
-        <div class="gameQuestion">
-          <strong>3️⃣ Amortissements</strong>
-        </div>
-        <button data-ok="true">≈ 117 PO</button>
-        <button data-ok="false">350 PO</button>
-      </div>
+  step1 = miniGame3.querySelector("#step1");
+  step2 = miniGame3.querySelector("#step2");
+  step3 = miniGame3.querySelector("#step3");
+  step4 = miniGame3.querySelector("#step4");
+  step5 = miniGame3.querySelector("#step5");
 
-      <div id="step4" class="hidden">
-        <div class="gameQuestion">
-          <strong>4️⃣ Résultat d’exploitation</strong>
-        </div>
-        <button data-ok="true">≈ 5 133 PO</button>
-        <button data-ok="false">5 250 PO</button>
-      </div>
+  /* 🧮 Calculatrice */
+  const calcBtn = miniGame3.querySelector(".calcToggle");
+  const calc = miniGame3.querySelector("#calcFinal");
 
-      <div id="step5" class="hidden">
-        <div class="gameQuestion">
-          <strong>5️⃣ Capacité d’autofinancement</strong>
-        </div>
-        <button data-ok="true">≈ 4 133 PO</button>
-        <button data-ok="false">5 133 PO</button>
+  calcBtn.onclick = () => calc.classList.toggle("hidden");
+  calc.onkeydown = e => {
+    if (e.key === "Enter") {
+      try {
+        calc.value = Function("return " + calc.value)();
+      } catch {
+        calc.value = "Erreur";
+      }
+    }
+  };
+
+/* =====================================================
+   💡 INDICE — LOADER + ZOOM + FERMETURE STABLE
+===================================================== */
+
+const hintBtn  = miniGame3.querySelector(".hintBtn");
+const hintBox  = miniGame3.querySelector(".hintImage");
+const hintImg  = miniGame3.querySelector(".zoomable");
+
+if (hintBtn && hintBox && hintImg) {
+
+  /* ================================
+     🔄 OUVERTURE AVEC LOADER
+  ================================= */
+  hintBtn.addEventListener("click", () => {
+
+    const loaderOverlay = document.createElement("div");
+    loaderOverlay.className = "loaderOverlay";
+
+    loaderOverlay.innerHTML = `
+      <div class="loaderBubble">
+        <div class="spinner">⏳</div>
       </div>
     `;
 
-    /* ===============================
-       RÉCUPÉRATION DES ÉLÉMENTS
-    =============================== */
+    document.body.appendChild(loaderOverlay);
 
-    const calcBtn = miniGame3.querySelector(".calcToggle");
-    const calc = miniGame3.querySelector("#calcFinal");
+    const tempImg = new Image();
+    tempImg.src = hintImg.src;
 
-    const hintBtn = miniGame3.querySelector(".hintBtn");
-    const hintBox = miniGame3.querySelector(".hintImage");
-    const hintImg = miniGame3.querySelector(".zoomable");
+    tempImg.onload = () => {
+      loaderOverlay.remove();
+      hintBox.classList.remove("hidden");
+    };
 
-    const step1 = miniGame3.querySelector("#step1");
-    const step2 = miniGame3.querySelector("#step2");
-    const step3 = miniGame3.querySelector("#step3");
-    const step4El = miniGame3.querySelector("#step4");
-    const step5 = miniGame3.querySelector("#step5");
+    tempImg.onerror = () => {
+      loaderOverlay.remove();
+      console.error("Erreur chargement image indice");
+    };
+  });
 
-    /* ===============================
-       🧮 CALCULATRICE
-    =============================== */
-
-    if (calcBtn && calc) {
-
-      calcBtn.addEventListener("click", () => {
-        calc.classList.toggle("hidden");
-      });
-
-      calc.addEventListener("keydown", e => {
-        if (e.key === "Enter") {
-          try {
-            if (!/^[0-9+\-*/().\s]+$/.test(calc.value)) {
-              throw new Error();
-            }
-            calc.value = Function('"use strict";return (' + calc.value + ')')();
-          } catch {
-            calc.value = "Erreur";
-          }
-        }
-      });
+  /* ================================
+     🖼 FERMETURE SI CLIC FOND NOIR
+  ================================= */
+  hintBox.addEventListener("click", (e) => {
+    if (e.target === hintBox) {
+      hintBox.classList.add("hidden");
     }
+  });
 
-    /* ===============================
-       💡 INDICE
-    =============================== */
+  /* ================================
+     🔍 ZOOM PLEIN ÉCRAN
+  ================================= */
+  hintImg.addEventListener("click", (e) => {
 
-    if (hintBtn && hintBox && hintImg) {
+    e.stopPropagation(); // empêche fermeture de hintBox
 
-      hintBtn.addEventListener("click", () => {
-        hintBox.classList.remove("hidden");
-      });
+    const overlay = document.createElement("div");
+    overlay.className = "imageZoomOverlay";
 
-      hintBox.addEventListener("click", (e) => {
-        if (e.target === hintBox) {
-          hintBox.classList.add("hidden");
-        }
-      });
+    const img = document.createElement("img");
+    img.src = hintImg.src;
 
-      hintImg.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const overlay = document.createElement("div");
-        overlay.className = "imageZoomOverlay";
-        const img = document.createElement("img");
-        img.src = hintImg.src;
-        overlay.appendChild(img);
-        document.body.appendChild(overlay);
-        overlay.addEventListener("click", () => overlay.remove());
-      });
-    }
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
 
-    /* ===============================
-       🎯 BIND DES ÉTAPES
-    =============================== */
-
-    if (step1) bindStep(step1, () => goToNext(step1, step2));
-    if (step2) bindStep(step2, () => goToNext(step2, step3));
-    if (step3) bindStep(step3, () => goToNext(step3, step4El));
-    if (step4El) bindStep(step4El, () => goToNext(step4El, step5));
-    if (step5) bindStep(step5, finishMiniGame3);
-
-    hideLoader();
-
-  }, 1000);
+    overlay.addEventListener("click", () => {
+      overlay.remove();
+    });
+  });
 }
 
-  function finishMiniGame3(){
+  bindStep(step1, () => goToNext(step1, step2));
+  bindStep(step2, () => goToNext(step2, step3));
+  bindStep(step3, () => goToNext(step3, step4));
+  bindStep(step4, () => goToNext(step4, step5));
+  bindStep(step5, finishMiniGame3);
+}
+
+/* =====================================================
+   🔚 FIN MINI-JEU 3
+===================================================== */
+
+function finishMiniGame3() {
   miniGame3.classList.add("hidden");
-  showCommerceWin();
+
+  setTimeout(() => {
+    showCommerceWin();
+  }, 500);
 }
-  
+
 /* =====================================================
    🏆 VICTOIRE FINANCE
 ===================================================== */
@@ -810,4 +658,4 @@ function launchGemsExplosion(container){
     setTimeout(() => document.body.classList.remove("shake"), 400);
   }
 
-}); 
+});
