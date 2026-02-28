@@ -398,18 +398,27 @@ window.checkAmortBase = ok => {
 /* =====================================================
    ✅ FIN MINI-JEU 2
 ===================================================== */
-window.checkMonthlyAmort = ok => {
+  window.checkMonthlyAmort = (ok) => {
 
   if (!ok) {
     screenShake();
     return;
   }
 
-  part3.classList.add("hidden");
+  /* 🔒 Sécurité anti double clic */
+  if (!part4 || part4.classList.contains("hidden")) return;
+
+  /* Masque uniquement la partie 4 */
+  part4.classList.add("hidden");
+
+  /* Ferme le mini-jeu */
   financeGame.classList.add("hidden");
 
+  /* Transition vers dialogues */
   setTimeout(() => {
-    startDialogues(dialoguesEBE, startMiniGame3);
+    if (typeof startDialogues === "function") {
+      startDialogues(dialoguesEBE, startMiniGame3);
+    }
   }, 300);
 };
   
