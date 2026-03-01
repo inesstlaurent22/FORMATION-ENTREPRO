@@ -20,44 +20,50 @@ html, body {
 }
 
 /* =====================================================
-   🎬 BOUTONS VIDÉO — VERSION UNIFORME
+   VIDEO
 ===================================================== */
+
+#videoContainer{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:3000;
+}
+
+#questVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
 #videoControls{
   position:fixed;
-  top:24px;
-  right:24px;
+  top:20px;
+  right:20px;
   display:flex;
-  gap:14px;
-  z-index:10001;
+  gap:12px;
+  z-index:10000;
 }
 
 #videoControls button{
+  position:absolute;
+  top:24px;
+  pointer-events:auto;
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
   font-weight:bold;
   font-size:15px;
-  padding:12px 20px;
+  padding:12px 18px;
   border-radius:14px;
   cursor:pointer;
   box-shadow:
     inset 0 0 6px rgba(255,215,0,.6),
     0 4px 0 #3b2208;
-
-  white-space:nowrap;      /* 🔥 force 1 seule ligne */
-  height:48px;             /* 🔥 même hauteur que skip */
-  display:flex;
-  align-items:center;
-  justify-content:center;
 }
 
-#videoControls button:active{
-  transform:translateY(4px);
-  box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
-}
+#toggleSound{ right:180px; }
+#closeVideo{ right:24px; }
 
 /* =====================================================
    🌅 BACKGROUND
@@ -102,59 +108,6 @@ html, body {
 }
 
 /* =====================================================
-   🌑 LOADER — 🏴‍☠️ VERSION STABLE
-===================================================== */
-
-#fadeScreen{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  z-index:9000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-#fadeScreen.hidden{
-  display:none!important;
-}
-
-.loaderBox{
-  position:relative;
-  width:120px;
-  height:120px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* Emoji statique (ne tourne plus) */
-.loaderEmoji{
-  font-size:64px;
-  z-index:2;
-}
-
-/* Anneau lumineux */
-.loaderBox::before{
-  content:"";
-  position:absolute;
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  border:4px solid transparent;
-  border-top:4px solid gold;
-  border-right:4px solid rgba(255,215,0,.4);
-  animation:spinLoader 1.2s linear infinite;
-  box-shadow:0 0 20px gold;
-  will-change:transform;
-}
-
-@keyframes spinLoader{
-  from{ transform:rotate(0deg); }
-  to{ transform:rotate(360deg); }
-}
-
-/* =====================================================
    💬 DIALOGUE
 ===================================================== */
 #dialogueBox {
@@ -193,20 +146,18 @@ html, body {
    📜 ENCART QUESTION — VERSION PREMIUM PARCHEMIN
 ===================================================== */
 .questionBox{
-  background:linear-gradient(180deg,#f6e6b8,#e8d39a);
-  color:#2b1605;
-  padding:20px 26px;
-  border-radius:16px;
+  background: linear-gradient(180deg,#f5e6c8,#e6d3a4);
+  color:#1a0f05;
+  padding:22px 28px;
+  border-radius:18px;
   margin:22px auto;
   border:3px solid #caa14a;
   font-weight:bold;
   width:100%;
-  max-width:600px;
-
+  max-width:640px;
   box-shadow:
-    0 6px 16px rgba(0,0,0,.35),
+    0 8px 18px rgba(0,0,0,.35),
     inset 0 2px 6px rgba(255,255,255,.6);
-
   text-align:center;
 }
 
@@ -215,70 +166,76 @@ html, body {
 }
 
 /* =====================================================
-   🔘 BOUTONS MINI-JEUX — VERSION OPTIMISÉE
-   (Complément du style global button)
+   🎮 BOUTONS MINI-JEUX — STYLE DORÉ PROFOND
 ===================================================== */
 
 #miniGame0 button,
-#financeGame button {
-  display: block;
-  width: 100%;
-  max-width: 520px;
-  margin: 14px auto;
+#financeGame button{
+  display:block;
+  width:100%;
+  max-width:480px;
+  margin:14px auto;
+
+  background: linear-gradient(180deg,#caa14a,#a8751f);
+  border:3px solid #5c3b0d;
+  color:#1a0f05;
+  font-weight:bold;
+  font-size:16px;
+  padding:14px 20px;
+  border-radius:18px;
+  cursor:pointer;
+
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,.4),
+    0 6px 0 #5c3b0d;
+
+  transition: all .2s ease;
 }
 
-/* Hover spécifique mini-jeux (optionnel si déjà global) */
 #miniGame0 button:hover,
-#financeGame button:hover {
-  transform: translateY(2px);
+#financeGame button:hover{
+  transform:translateY(2px);
 }
 
-/* Active spécifique mini-jeux */
 #miniGame0 button:active,
-#financeGame button:active {
-  transform: translateY(4px);
-}
-
-/* Réponse correcte (utilisée dans ton JS) */
-#miniGame0 button.correctAnswer,
-#financeGame button.correctAnswer {
-  background: linear-gradient(145deg,#3a2a18,#6b4b24);
-  color: #f5e6c8;
+#financeGame button:active{
+  transform:translateY(6px);
   box-shadow: inset 0 0 12px rgba(0,0,0,.8);
-  transform: translateY(4px);
-}
-
-/* Désactivé spécifique */
-#miniGame0 button:disabled,
-#financeGame button:disabled {
-  opacity: .6;
-  cursor: not-allowed;
-  transform: none;
 }
 
 /* =====================================================
-   🎮 MINI-JEU 1 — QCM STRUCTURE OPTIMISÉE
+   🎮 MINI-JEU 1 — QCM STRUCTURE PROPRE
 ===================================================== */
+#miniGame0 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92%, 760px);
+  background: linear-gradient(180deg,#1a0f05,#0f0702);
+  border: 5px solid #d4af37;
+  border-radius: 26px;
+  padding: 40px 36px;
+  z-index: 20;
+  text-align: center;
 
-#miniGame0{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  box-shadow:
+    0 0 60px rgba(255,215,0,.45),
+    inset 0 0 30px rgba(255,215,0,.15);
 }
 
-#miniGame0 #qChoices{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;
+/* Liste réponses */
+#qChoices {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
-#miniGame0 #qChoices button{
-  width:100%;
-  max-width:520px;
-  margin:4px auto;
-  display:block;
+#qChoices button {
+  width: 100%;
+  max-width: 520px;
 }
 
 /* Sélection / validation */
@@ -289,133 +246,56 @@ button.selectedAnswer {
   box-shadow: inset 0 0 12px rgba(0,0,0,.8);
 }
 
-.mg1-title{
-  font-family:"Pirata One", serif;
-  font-size:26px;
-  color:#ffd77a;
-  margin-bottom:22px;
-  text-shadow:2px 2px 0 #2b1605;
-}
-
-/* =====================================================
-   📜 STYLE UNIFIÉ — QUESTIONS MINI-JEUX
-===================================================== */
-.gameQuestion{
-  padding:12px 14px;
-  background:#f6e6b8;
-  color:#2b1605;
-  border-radius:12px;
-  font-weight:bold;
-  margin-bottom:14px;
-}
-
 /* =====================================================
    🎮 MINI-JEU 2 — FINANCE
 ===================================================== */
-
 #financeGame {
   position: fixed;
-  inset: 0;                     /* 🔥 couvre tout l’écran */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,.75);  /* 🔥 fond assombri */
-  z-index: 10;
-}
-
-/* ===== MINI JEU 2 — BOUTONS COMPACTS ===== */
-
-#financeGame .finance-step button{
-  margin:4px 0;     /* 🔥 réduit fortement l’espace */
-  padding:10px 16px;
-}
-
-#financeGame .finance-step{
-  padding:24px;     /* réduit espace interne */
-}
-
-/* =====================================================
-   📦 ÉTAPES FINANCE (part1 → part4)
-===================================================== */
-
-.finance-step {
-  width: min(92%, 760px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92%, 900px);
   background: #120b05;
   border: 4px solid gold;
   border-radius: 22px;
   padding: 32px;
+  z-index: 10;
   text-align: center;
   box-shadow: 0 0 40px rgba(255,215,0,.45);
 }
 
-/* =====================================================
-   🎮 MINI-JEU 2 — CENTRAGE DES BOUTONS
-===================================================== */
-
-#financeGame .finance-step{
-  display:flex;
-  flex-direction:column;
-  align-items:center;   /* 🔥 centre tout le contenu */
+#financeGame h3 {
+  color: gold;
+  font-size: 24px;
+  margin-bottom: 16px;
 }
 
-#financeGame .finance-step button{
-  display:block;
-  width:100%;
-  max-width:520px;
-  margin:6px auto;      /* 🔥 centrage horizontal */
-  text-align:center;
+#financeGame p {
+  color: #fff;
+  font-size: 16px;
 }
 
-/* =====================================================
-   📜 ENCART QUESTION UNIFIÉ
-===================================================== */
-
-#financeGame .questionBox {
-  background: linear-gradient(180deg,#f6e6b8,#e8d39a);
-  color: #2b1605;
-  padding: 20px 26px;
-  border-radius: 16px;
-  margin: 22px auto;
-  border: 3px solid #caa14a;
-  font-weight: bold;
-  max-width: 600px;
-  box-shadow:
-    0 6px 16px rgba(0,0,0,.35),
-    inset 0 2px 6px rgba(255,255,255,.6);
+#financeGame .questionBox{
+  background:#ffffff;
+  color:#000;
 }
 
-/* Petite version pour facture affichée */
-.smallBox{
-  max-width: 420px;
-  margin-top: 18px;
+#financeGame .questionBox p{
+  color:#000;
 }
 
-/* ================= CLIENTS ================= */
-
+/* ===== CLIENTS ===== */
 .clients {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  gap: 22px;          /* 🔥 un peu moins large */
-  margin-top: 20px;
+  gap: 28px;
+  margin-top: 24px;
 }
 
-.clientBlock {
+.clients > div {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2px;            /* 🔥 quasi collés */
-}
-
-.clients .clientBlock button {
-  width: 220px;
-  margin: 0;           /* 🔥 supprime totalement l’espace vertical */
-  padding: 8px 14px;   /* 🔥 réduit légèrement la hauteur */
-}
-
-/* Bouton "Je choisis" encore plus proche */
-.clients .clientBlock button:last-child {
-  margin-top: -1px;    /* 🔥 rapprochement maximal propre */
+  gap: 12px;
 }
 
 .hintImage img{
@@ -430,106 +310,40 @@ button.selectedAnswer {
   border-radius:14px;
 }
 
-/* ================= FACTURE SANS ENCADRÉ ================= */
-
-.billDisplay{
-  margin-top:18px;
-  font-weight:bold;
-  font-size:18px;
-  color:#ffd77a;
-  text-shadow:1px 1px 0 #000;
-}
-
 /* =====================================================
-   🧾 ENCART AMORTISSEMENT — VERSION PROPRE
+   🎮 MINI-JEU 3 — EBE / CAF
 ===================================================== */
-
-/* Bloc séparateur amortissement */
-.amortBox{
-  margin-top:22px;                    /* espace plus équilibré */
-  padding-top:12px;
-  border-top:2px solid rgba(255,215,0,.3);
+#miniGame3 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92%, 860px);
+  background: #120b05;
+  border: 4px solid gold;
+  border-radius: 26px;
+  padding: 36px;
+  z-index: 20;
+  text-align: center;
+  box-shadow: 0 0 45px rgba(255,215,0,.6);
 }
 
-/* Question amortissement */
-.amortBox .gameQuestion{
-  background:linear-gradient(180deg,#f6e6b8,#e8d39a);
-  color:#2b1605;
-  max-width:520px;
-  margin:0 auto;
+#miniGame3 h3 {
+  color: gold;
+  font-size: 26px;
+  margin-bottom: 22px;
 }
 
-/* Boutons amortissement */
-#part4 .amortChoices{
-  margin-top:14px;                    /* espace réduit */
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;                            /* boutons plus proches */
+#miniGame3 p {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-/* Largeur boutons */
-#part4 .amortChoices button{
-  width:100%;
-  max-width:520px;
-  margin:2px 0;                       /* réduit l’espace vertical */
-}
-
-#part4 .gameQuestion{
-  max-width:520px;
-  margin:0 auto 16px auto;
-}
-
-/* =====================================================
-   🎮 MINI-JEU 3 — EBE / CAF (VERSION UNIFIÉE)
-===================================================== */
-
-#miniGame3{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  width:min(92%, 860px);
-  background:#120b05;
-  border:4px solid gold;
-  border-radius:26px;
-  padding:36px;
-  z-index:20;
-  text-align:center;
-  box-shadow:0 0 45px rgba(255,215,0,.6);
-}
-
-/* ================= TEXTE INTRO ================= */
-
-#miniGame3 .comm-info-text{
-  color:#f5e6c8;
-  font-size:16px;
-  font-weight:bold;
-  line-height:1.6;
-  margin-bottom:28px;  /* 🔥 espace sous le texte */
-}
-
-/* ================= CALCULATRICE ================= */
-
-#miniGame3 .calcToggle{
-  margin:0 auto 16px auto;  /* 🔥 espace sous bouton */
-  display:block;
-}
-
-#miniGame3 .calcInput{
-  display:block;
-  margin:0 auto 24px auto;
-  text-align:center;
-  width:260px;
-  max-width:80%;
-}
-
-/* ================= INDICE ================= */
-
-#miniGame3 .hint{
-  color:#000;          /* 🔥 texte noir */
-  font-size:14px;
-  font-style:italic;
+#miniGame3 .hint {
+  font-size: 14px;
+  font-style: italic;
+  color: #d8caa0;
 }
 
 #miniGame3 .hintImage{
@@ -551,12 +365,11 @@ button.selectedAnswer {
   transition:transform .25s ease;
 }
 
-#miniGame3 h3 {
-  font-family:"Pirata One", serif;
-  font-size:28px;
-  color:#ffd77a;
-  margin-bottom:20px;
+#miniGame3 .calcInput{
+  display:block;
+  margin-top:12px;
 }
+
 /* ================= ZOOM PLEIN ÉCRAN ================= */
 
 .imageZoomOverlay{
