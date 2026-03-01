@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const part1 = document.getElementById("part1");
   const part2 = document.getElementById("part2");
   const part3 = document.getElementById("part3");
-  const part4 = document.getElementById("part4");
 
   const bill = document.getElementById("bill");
+  const amortMonth = document.getElementById("amortMonth");
 
   let pirateClickable = false;
   let dialogueActive = false;
@@ -106,41 +106,27 @@ function startDialogues(arr, cb) {
   showDialogue();
 }
 
-function showDialogue() {
+  function showDialogue() {
+    const d = dialogues[dIndex];
+    bubble.textContent = d.t;
 
-  const d = dialogues[dIndex];
-  bubble.textContent = d.t;
-
-  const target = d.s;
-
-  if (target && target.offsetParent !== null) {
-
-    const r = target.getBoundingClientRect();
-
-    bubble.style.left = (r.left + r.width / 2) + "px";
-    bubble.style.top = (r.top - 90) + "px";
+    const r = d.s.getBoundingClientRect();
+    bubble.style.left = r.left + r.width / 2 + "px";
+    bubble.style.top = r.top - 90 + "px";
     bubble.style.transform = "translateX(-50%)";
 
+bubble.onclick = () => {
+  dIndex++;
+  if (dIndex < dialogues.length) {
+    showDialogue();
   } else {
-    // Fallback centré si problème de mesure
-    bubble.style.left = "50%";
-    bubble.style.top = "20%";
-    bubble.style.transform = "translateX(-50%)";
+    bubble.classList.add("hidden");
+    skipBtn.classList.add("hidden");
+    dialogueActive = false;
+    afterDialogues && afterDialogues();
   }
-
-  bubble.onclick = () => {
-    dIndex++;
-
-    if (dIndex < dialogues.length) {
-      showDialogue();
-    } else {
-      bubble.classList.add("hidden");
-      skipBtn.classList.add("hidden");
-      dialogueActive = false;
-      afterDialogues && afterDialogues();
-    }
-  };
-}
+};
+  }
 
   /* =====================================================
    ⏭️ SKIP DIALOGUES
@@ -373,10 +359,7 @@ window.checkAmortBase = ok => {
     return;
   }
 
-  part3.classList.add("hidden");
-  part4.classList.remove("hidden");
-
-  injectCalculator(part4);
+  amortMonth.classList.remove("hidden");
 };
 
 /* =====================================================
@@ -388,7 +371,7 @@ window.checkMonthlyAmort = ok => {
     return;
   }
 
-  part4.classList.add("hidden");
+  part3.classList.add("hidden");
   financeGame.classList.add("hidden");
 
   setTimeout(() => {
@@ -449,11 +432,10 @@ function startMiniGame3() {
   miniGame3.innerHTML = `
     <h3>🏴‍☠️ L’épreuve du maître comptable</h3>
 
-   <p class="comm-info-text">
-  Après une année de ventes prospères,
-  tu dois prouver que tu maîtrises réellement
-  les chiffres de ta boutique pirate.
-</p>
+    <p>
+      Après une année de ventes prospères, tu dois prouver
+      que tu maîtrises réellement les chiffres de ta boutique pirate.
+    </p>
 
     <!-- 🧮 CALCULATRICE -->
     <button class="calcToggle">🧮 Calculatrice</button>
