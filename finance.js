@@ -111,14 +111,18 @@ function showDialogue() {
   const d = dialogues[dIndex];
   bubble.textContent = d.t;
 
-  const r = d.s?.getBoundingClientRect();
+  const target = d.s;
 
-  if (r && r.width > 0 && r.height > 0) {
-    bubble.style.left = r.left + r.width / 2 + "px";
-    bubble.style.top = r.top - 90 + "px";
+  if (target && target.offsetParent !== null) {
+
+    const r = target.getBoundingClientRect();
+
+    bubble.style.left = (r.left + r.width / 2) + "px";
+    bubble.style.top = (r.top - 90) + "px";
     bubble.style.transform = "translateX(-50%)";
+
   } else {
-    // Fallback centré si le pirate n'est pas mesurable
+    // Fallback centré si problème de mesure
     bubble.style.left = "50%";
     bubble.style.top = "20%";
     bubble.style.transform = "translateX(-50%)";
@@ -513,7 +517,7 @@ function startMiniGame3() {
   calc.onkeydown = e => {
     if (e.key === "Enter") {
       try {
-        calc.value = eval(calc.value);
+        calc.value = Function("return " + calc.value)();
       } catch {
         calc.value = "Erreur";
       }
