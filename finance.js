@@ -106,27 +106,37 @@ function startDialogues(arr, cb) {
   showDialogue();
 }
 
-  function showDialogue() {
-    const d = dialogues[dIndex];
-    bubble.textContent = d.t;
+function showDialogue() {
 
-    const r = d.s.getBoundingClientRect();
+  const d = dialogues[dIndex];
+  bubble.textContent = d.t;
+
+  const r = d.s?.getBoundingClientRect();
+
+  if (r && r.width > 0 && r.height > 0) {
     bubble.style.left = r.left + r.width / 2 + "px";
     bubble.style.top = r.top - 90 + "px";
     bubble.style.transform = "translateX(-50%)";
-
-bubble.onclick = () => {
-  dIndex++;
-  if (dIndex < dialogues.length) {
-    showDialogue();
   } else {
-    bubble.classList.add("hidden");
-    skipBtn.classList.add("hidden");
-    dialogueActive = false;
-    afterDialogues && afterDialogues();
+    // Fallback centré si le pirate n'est pas mesurable
+    bubble.style.left = "50%";
+    bubble.style.top = "20%";
+    bubble.style.transform = "translateX(-50%)";
   }
-};
-  }
+
+  bubble.onclick = () => {
+    dIndex++;
+
+    if (dIndex < dialogues.length) {
+      showDialogue();
+    } else {
+      bubble.classList.add("hidden");
+      skipBtn.classList.add("hidden");
+      dialogueActive = false;
+      afterDialogues && afterDialogues();
+    }
+  };
+}
 
   /* =====================================================
    ⏭️ SKIP DIALOGUES
