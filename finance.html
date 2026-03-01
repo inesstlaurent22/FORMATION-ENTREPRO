@@ -152,33 +152,37 @@
   </div>
 
   <!-- ===== PARTIE 3 : AMORTISSEMENTS ===== -->
-  <div id="part3" class="hidden">
+<!-- ===== PARTIE 3 : AMORTISSEMENT ===== -->
+<div id="part3" class="hidden">
 
-    <h3>🛠️ Amortissements</h3>
+  <h3>🛠️ Amortissement</h3>
 
-    <div class="questionBox">
-      <p>Prix d’achat : <strong>500 PO</strong></p>
-      <p>Provision : <strong>150 PO</strong></p>
-      <p>Durée : <strong>3 ans</strong></p>
-    </div>
-
-    <button type="button" onclick="checkAmortBase(false)">500</button>
-    <button type="button" onclick="checkAmortBase(true)">350</button>
-    <button type="button" onclick="checkAmortBase(false)">150</button>
-
-    <div id="amortMonth" class="hidden">
-
-      <div class="questionBox">
-        <p>Amortissement annuel ?</p>
-      </div>
-
-      <button type="button" onclick="checkMonthlyAmort(false)">97 PO</button>
-      <button type="button" onclick="checkMonthlyAmort(true)">117 PO</button>
-      <button type="button" onclick="checkMonthlyAmort(false)">150 PO</button>
-
-    </div>
-
+  <div class="questionBox">
+    <p>Prix d’achat : <strong>500 PO</strong></p>
+    <p>Provision : <strong>150 PO</strong></p>
+    <p>Durée : <strong>3 ans</strong></p>
   </div>
+
+  <button type="button" onclick="checkAmortBase(false)">500</button>
+  <button type="button" onclick="checkAmortBase(true)">350</button>
+  <button type="button" onclick="checkAmortBase(false)">150</button>
+
+</div>
+
+<!-- ===== PARTIE 4 : AMORTISSEMENT ANNUEL ===== -->
+<div id="part4" class="hidden">
+
+  <h3>📆 Amortissement annuel</h3>
+
+  <div class="questionBox">
+    <p>Quel est l’amortissement annuel ?</p>
+  </div>
+
+  <button type="button" onclick="checkMonthlyAmort(false)">97 PO</button>
+  <button type="button" onclick="checkMonthlyAmort(true)">117 PO</button>
+  <button type="button" onclick="checkMonthlyAmort(false)">150 PO</button>
+
+</div>
 
 </div>
   
