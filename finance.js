@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const part4 = document.getElementById("part4");
 
   const bill = document.getElementById("bill");
-  const amortMonth = document.getElementById("amortMonth");
 
   let pirateClickable = false;
   let dialogueActive = false;
@@ -267,7 +266,7 @@ function injectCalculator(container) {
   input.onkeydown = e => {
     if (e.key === "Enter") {
       try {
-        input.value = eval(input.value);
+        input.value = Function("return " + input.value)();
       } catch {
         input.value = "Erreur";
       }
