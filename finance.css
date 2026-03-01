@@ -215,37 +215,45 @@ html, body {
 }
 
 /* =====================================================
-   🔘 BOUTONS MINI-JEUX — VERSION COMMUNICATION
+   🔘 BOUTONS MINI-JEUX — VERSION OPTIMISÉE
+   (Complément du style global button)
 ===================================================== */
 
 #miniGame0 button,
-#financeGame button{
-  display:block;
-  width:100%;
-  max-width:520px;
-  margin:16px auto;
-
-  background:linear-gradient(145deg,#7b4a12,#caa14a);
-  border:3px solid #3b2208;
-  color:#1a0f05;
-
-  font-weight:bold;
-  font-size:15px;
-
-  padding:14px 22px;
-  border-radius:14px;
-  cursor:pointer;
-
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
-
-  transition:transform .08s ease;
+#financeGame button {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  margin: 14px auto;
 }
 
+/* Hover spécifique mini-jeux (optionnel si déjà global) */
+#miniGame0 button:hover,
+#financeGame button:hover {
+  transform: translateY(2px);
+}
+
+/* Active spécifique mini-jeux */
 #miniGame0 button:active,
-#financeGame button:active{
-  transform:translateY(4px);
+#financeGame button:active {
+  transform: translateY(4px);
+}
+
+/* Réponse correcte (utilisée dans ton JS) */
+#miniGame0 button.correctAnswer,
+#financeGame button.correctAnswer {
+  background: linear-gradient(145deg,#3a2a18,#6b4b24);
+  color: #f5e6c8;
+  box-shadow: inset 0 0 12px rgba(0,0,0,.8);
+  transform: translateY(4px);
+}
+
+/* Désactivé spécifique */
+#miniGame0 button:disabled,
+#financeGame button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* =====================================================
@@ -543,6 +551,12 @@ button.selectedAnswer {
   transition:transform .25s ease;
 }
 
+#miniGame3 h3 {
+  font-family:"Pirata One", serif;
+  font-size:28px;
+  color:#ffd77a;
+  margin-bottom:20px;
+}
 /* ================= ZOOM PLEIN ÉCRAN ================= */
 
 .imageZoomOverlay{
