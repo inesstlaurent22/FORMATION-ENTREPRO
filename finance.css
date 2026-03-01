@@ -244,17 +244,18 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   MINI-JEU 1 — BOUTONS COMPACT
+   MINI-JEU 1 — ESPACEMENT ULTRA COMPACT
 ===================================================== */
 
 #miniGame0 #qChoices{
-  gap:10px;              /* plus proche */
+  gap:6px;              /* très proche */
 }
 
 #miniGame0 button{
-  max-width:360px;       /* plus petit */
-  padding:10px 14px;     /* moins haut */
-  font-size:14px;        /* plus compact */
+  margin:4px auto;      /* écrase le margin:14px */
+  max-width:320px;
+  padding:8px 12px;
+  font-size:13px;
 }
 
 /* =====================================================
