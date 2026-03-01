@@ -359,7 +359,8 @@ window.checkAmortBase = ok => {
     return;
   }
 
-  amortMonth.classList.remove("hidden");
+  part3.classList.add("hidden");
+ document.getElementById("part4").classList.remove("hidden");
 };
 
 /* =====================================================
@@ -371,7 +372,7 @@ window.checkMonthlyAmort = ok => {
     return;
   }
 
-  part3.classList.add("hidden");
+  document.getElementById("part4").classList.add("hidden");
   financeGame.classList.add("hidden");
 
   setTimeout(() => {
