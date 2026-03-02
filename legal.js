@@ -162,34 +162,79 @@ let aeIndex = 0, aeGood = 0;
 function startMiniGame1(){
   scene.classList.add("sceneDim");
   miniGame1.style.display = "block";
-  miniGame1.innerHTML = `<h3>📜 Devoirs de l’auto-entrepreneur</h3><p id="qText"></p><div id="qChoices"></div>`;
+  miniGame1.innerHTML = `
+  <h3>📜 Devoirs de l’auto-entrepreneur</h3>
+  <div id="qText" class="gameQuestion"></div>
+  <div id="qChoices"></div>
+`;
   aeIndex = 0;
   showAEQuestion();
 }
 
 function showAEQuestion(){
+
+  /* Sécurité si index dépasse */
+  if(aeIndex >= aeQuestions.length){
+    endMiniGame1();
+    return;
+  }
+
   aeGood = 0;
-  document.getElementById("qText").textContent = aeQuestions[aeIndex].q;
+
+  const questionData = aeQuestions[aeIndex];
+
+  const qText = document.getElementById("qText");
   const box = document.getElementById("qChoices");
+
+  qText.textContent = questionData.q;
   box.innerHTML = "";
 
-  [...aeQuestions[aeIndex].good.map(t=>({t,ok:true})),
-   ...aeQuestions[aeIndex].bad.map(t=>({t,ok:false}))]
-  .sort(()=>Math.random()-0.5)
-  .forEach(a=>{
+  /* Fusion + shuffle propre */
+  const answers = [
+    ...questionData.good.map(t => ({ text:t, ok:true })),
+    ...questionData.bad.map(t => ({ text:t, ok:false }))
+  ].sort(() => Math.random() - 0.5);
+
+  answers.forEach(answer => {
+
     const b = document.createElement("button");
-    b.textContent = a.t;
+    b.textContent = answer.text;
+
     b.onclick = () => {
-      if(a.ok){
-        b.classList.add("selectedAnswer");
+
+      /* Bloque double clic */
+      if(b.disabled) return;
+
+      /* Effet bouton appuyé */
+      b.classList.add("pressed");
+      setTimeout(()=>b.classList.remove("pressed"),120);
+
+      if(answer.ok){
+
+        b.classList.add("correct-locked");
         b.disabled = true;
+
         aeGood++;
-        if(aeGood === aeQuestions[aeIndex].good.length){
-          aeIndex++;
-          aeIndex < aeQuestions.length ? showAEQuestion() : endMiniGame1();
+
+        /* Si toutes les bonnes réponses trouvées */
+        if(aeGood === questionData.good.length){
+
+          /* Désactive tous les boutons restants */
+          box.querySelectorAll("button").forEach(btn=>{
+            btn.disabled = true;
+          });
+
+          setTimeout(()=>{
+            aeIndex++;
+            showAEQuestion();
+          }, 500);
         }
-      } else shake();
+
+      } else {
+        shake();
+      }
     };
+
     box.appendChild(b);
   });
 }
@@ -342,7 +387,11 @@ let tvaI = 0, tvaGood = 0;
 function startMiniGame3(){
   scene.classList.add("sceneDim");
   miniGame3.style.display = "block";
-  miniGame3.innerHTML = `<h3>💰 TVA</h3><p id="tvaQ"></p><div id="tvaChoices"></div>`;
+  miniGame3.innerHTML = `
+  <h3>💰 TVA</h3>
+  <div id="tvaQ" class="gameQuestion"></div>
+  <div id="tvaChoices"></div>
+`;
   tvaI = 0;
   showTVAQ();
 }
@@ -360,7 +409,7 @@ function showTVAQ(){
     b.textContent = a.t;
     b.onclick = ()=>{
       if(a.ok){
-        b.classList.add("selectedAnswer");
+        b.classList.add("correct-locked");
         b.disabled = true;
         tvaGood++;
         if(tvaGood === tvaQ[tvaI].good.length){
@@ -413,7 +462,7 @@ function showCoffreTVA(){
     `
     <h3>💰 Coffre de la TVA</h3>
     <p>TVA collectée : 200 €</p>
-    <p>Que fais-tu de cette somme ?</p>
+    <div class="gameQuestion">Que fais-tu de cette somme ? </div>
     <div id="qChoices">
       <button onclick="coffreAnswer(false)">Je la garde</button>
       <button onclick="coffreAnswer(true)">Je la mets de côté pour l’État</button>
@@ -424,7 +473,7 @@ function showCoffreTVA(){
     `
     <h3>🧾 Dépense pro</h3>
     <p>Logiciel : 120 € TTC (TVA 20 €)</p>
-    <p>Cette TVA est :</p>
+    <div class="gameQuestion">La TVA est : </div>
     <div id="qChoices">
       <button onclick="coffreAnswer(true)">Récupérable</button>
       <button onclick="coffreAnswer(false)">Perdue</button>
@@ -434,7 +483,7 @@ function showCoffreTVA(){
     /* Étape 3 */
     `
     <h3>🏛️ TVA à reverser</h3>
-    <p>200 € − 20 € = ?</p>
+    <div class="gameQuestion">200 - 20 €</div>
     <div id="qChoices">
       <button onclick="coffreAnswer(false)">200 €</button>
       <button onclick="coffreAnswer(true)">180 €</button>
@@ -553,8 +602,17 @@ function launchGemsExplosion(container){
    📳 SHAKE
 ===================================================== */
 function shake(){
-  document.body.classList.add("shake");
-  setTimeout(()=>document.body.classList.remove("shake"),350);
+  const activeGame = document.querySelector(
+    "#miniGame:not([style*='none'])," +
+    "#miniGame2:not([style*='none'])," +
+    "#miniGame3:not([style*='none'])," +
+    "#miniGame4:not([style*='none'])"
+  );
+
+  if(activeGame){
+    activeGame.classList.add("miniGame-shake");
+    setTimeout(()=>activeGame.classList.remove("miniGame-shake"),350);
+  }
 }
 
 });
