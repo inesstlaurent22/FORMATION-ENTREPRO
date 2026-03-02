@@ -20,7 +20,7 @@ html, body {
 }
 
 /* =====================================================
-   VIDEO
+   VIDEO — VERSION STABLE iOS
 ===================================================== */
 
 #videoContainer{
@@ -28,12 +28,20 @@ html, body {
   inset:0;
   background:#000;
   z-index:3000;
+
+  /* Empêche la vidéo de bloquer les clics */
+  pointer-events:none;
 }
 
 #questVideo{
+  position:absolute;
+  inset:0;
   width:100%;
   height:100%;
   object-fit:cover;
+
+  /* La vidéo ne capte aucun clic */
+  pointer-events:none;
 }
 
 /* Overlay contrôles */
@@ -41,25 +49,24 @@ html, body {
   position:absolute;
   top:24px;
   right:24px;
-  z-index:3100;
+  z-index:5000;      /* plus élevé que la vidéo */
   display:flex;
   gap:16px;
+
+  /* Réactive les clics uniquement ici */
+  pointer-events:auto;
 }
 
 #videoControls button{
   pointer-events:auto;
+  position:relative;
+  z-index:5001;
 }
 
 #videoControls button:hover{
   transform:translateY(2px);
 }
 
-#questVideo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  pointer-events:none;   /* 🔥 IMPORTANT */
-}
 /* =====================================================
    🌑 LOADER GLOBAL — VERSION STABLE
 ===================================================== */
