@@ -28,9 +28,6 @@ html, body {
   inset:0;
   background:#000;
   z-index:3000;
-
-  /* Empêche la vidéo de bloquer les clics */
-  pointer-events:none;
 }
 
 #questVideo{
