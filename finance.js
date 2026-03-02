@@ -36,39 +36,40 @@ console.log("closeVideo =", closeVideo);
   ];
 
 /* =====================================================
-   🎬 VIDÉO INTRO — VERSION CORRIGÉE
+   🎬 VIDÉO INTRO — VERSION PROPRE
 ===================================================== */
 
 const videoContainer = document.getElementById("videoContainer");
 const introVideo     = document.getElementById("questVideo");
 const toggleSound    = document.getElementById("toggleSound");
-const closeVideo     = document.getElementById("closeVideo");
+const closeVideoBtn  = document.getElementById("closeVideo");
 const fadeScreen     = document.getElementById("fadeScreen");
 
 let videoClosed = false;
 
 if (introVideo) {
+
   introVideo.muted = true;
   introVideo.playsInline = true;
   introVideo.autoplay = true;
   introVideo.play().catch(() => {});
 
   if (toggleSound) {
-    toggleSound.onclick = e => {
+    toggleSound.addEventListener("click", e => {
       e.stopPropagation();
       introVideo.muted = !introVideo.muted;
       toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-    };
+    });
   }
 
-  if (closeVideo) {
-    closeVideo.onclick = e => {
+  if (closeVideoBtn) {
+    closeVideoBtn.addEventListener("click", e => {
       e.stopPropagation();
       closeIntro();
-    };
+    });
   }
 
-  introVideo.onended = closeIntro;
+  introVideo.addEventListener("ended", closeIntro);
 }
 
 /* =====================================================
@@ -76,8 +77,9 @@ if (introVideo) {
 ===================================================== */
 
 function showLoader(duration = 900, cb) {
+
   if (!fadeScreen) {
-    cb && cb();
+    if (cb) cb();
     return;
   }
 
@@ -85,7 +87,7 @@ function showLoader(duration = 900, cb) {
 
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
-    cb && cb();
+    if (cb) cb();
   }, duration);
 }
 
