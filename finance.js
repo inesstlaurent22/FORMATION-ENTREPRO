@@ -20,10 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const bill = document.getElementById("bill");
 
-console.log("closeVideo =", closeVideo);
-
   let dialogueActive = false;
-  let videoClosed    = false;
 
   /* =====================================================
      💬 DIALOGUES — INTRO (DÉCLARÉ AVANT USAGE)
