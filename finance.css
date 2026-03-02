@@ -63,6 +63,70 @@ html, body {
 #closeVideo{ right:24px; }
 
 /* =====================================================
+   🌑 LOADER GLOBAL — 🏴‍☠️ FINANCE
+===================================================== */
+
+#fadeScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  z-index:20000; /* au-dessus de tout */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  backdrop-filter:blur(2px);
+  opacity:1;
+  transition:opacity .4s ease;
+}
+
+#fadeScreen.hidden{
+  opacity:0;
+  pointer-events:none;
+}
+
+/* Conteneur loader */
+.loaderBox{
+  position:relative;
+  width:120px;
+  height:120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Emoji pirate */
+.loaderEmoji{
+  font-size:64px;
+  z-index:2;
+  animation:emojiSpin 1.2s linear infinite;
+  filter:drop-shadow(0 0 10px gold);
+}
+
+@keyframes emojiSpin{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+
+/* Cercle lumineux */
+.loaderBox::before{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  border:4px solid transparent;
+  border-top:4px solid gold;
+  border-right:4px solid rgba(255,215,0,.4);
+  animation:spinLoader 1.2s linear infinite;
+  box-shadow:0 0 25px gold;
+}
+
+@keyframes spinLoader{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
+}
+
+/* =====================================================
    🌅 BACKGROUND
 ===================================================== */
 #background {
