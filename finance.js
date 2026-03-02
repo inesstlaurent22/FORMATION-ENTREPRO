@@ -78,12 +78,19 @@ function closeIntro(){
 const fadeScreen = document.getElementById("fadeScreen");
 
 function showLoader(duration = 900, callback = null){
+
   fadeScreen.classList.remove("hidden");
 
   setTimeout(() => {
+
     fadeScreen.classList.add("hidden");
-    if(callback) callback();
+
+    setTimeout(() => {
+      if(callback) callback();
+    }, 400); // laisse le fade finir
+
   }, duration);
+
 }
   
   /* =====================================================
