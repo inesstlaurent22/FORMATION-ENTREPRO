@@ -159,12 +159,11 @@ html,body{
 /* =====================================================
    🏴‍☠️ PIRATES
 ===================================================== */
-.pirate{
-  position:absolute;
-  background-size:contain;
-  background-repeat:no-repeat;
-  cursor:pointer;
-  z-index:2;
+.pirate {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  transition: filter .25s ease, transform .25s ease;
 }
 
 #pirate3{
@@ -623,7 +622,6 @@ button.correct-locked{
   min-width:220px;
   text-align:center;
 }
-
 
 
 /* =====================================================
