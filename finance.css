@@ -245,6 +245,7 @@ button.selectedAnswer{
 /* =====================================================
    🎮 MINI-JEU 2 — FINANCE
 ===================================================== */
+
 #financeGame {
   position: fixed;
   top: 50%;
@@ -260,17 +261,29 @@ button.selectedAnswer{
   box-shadow: 0 0 40px rgba(255,215,0,.45);
 }
 
+/* 🎯 TITRES STYLE BOUTON PREMIUM */
 #financeGame h3 {
-  color: gold;
-  font-size: 24px;
-  margin-bottom: 16px;
+  display:inline-block;
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  border:3px solid #3b2208;
+  color:#1a0f05;
+  font-weight:bold;
+  font-size:15px;
+  padding:12px 22px;
+  border-radius:14px;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
+  margin-bottom:20px;
 }
 
+/* Texte */
 #financeGame p {
   color: #fff;
   font-size: 16px;
 }
 
+/* Encadré question */
 #financeGame .questionBox{
   background:#ffffff;
   color:#000;
@@ -294,28 +307,9 @@ button.selectedAnswer{
   gap: 12px;
 }
 
-.hintImage img{
-  border:4px solid gold;
-  box-shadow:0 0 30px 10px rgba(255,215,0,.8);
-  border-radius:12px;
-}
-
-.imageZoomOverlay img{
-  border:4px solid gold;
-  box-shadow:0 0 40px 15px rgba(255,215,0,.9);
-  border-radius:14px;
-}
-
 /* =====================================================
-   MINI-JEU 2 — BOUTONS COMPACT PARTIE 4
+   MINI-JEU 2 — PARTIE 4 (séparée visuellement)
 ===================================================== */
-
-#amortMonth button{
-  max-width:360px;
-  padding:10px 14px;
-  font-size:14px;
-  margin:10px auto;
-}
 
 #part4{
   position: fixed;
@@ -330,6 +324,30 @@ button.selectedAnswer{
   z-index: 11;
   text-align: center;
   box-shadow: 0 0 40px rgba(255,215,0,.45);
+}
+
+/* Boutons compacts partie 4 */
+#part4 button{
+  max-width:360px;
+  padding:10px 14px;
+  font-size:14px;
+  margin:10px auto;
+}
+
+/* =====================================================
+   INDICE / ZOOM
+===================================================== */
+
+.hintImage img{
+  border:4px solid gold;
+  box-shadow:0 0 30px 10px rgba(255,215,0,.8);
+  border-radius:12px;
+}
+
+.imageZoomOverlay img{
+  border:4px solid gold;
+  box-shadow:0 0 40px 15px rgba(255,215,0,.9);
+  border-radius:14px;
 }
 
 /* =====================================================
