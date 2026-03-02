@@ -25,7 +25,7 @@ html,body{
   position:fixed;
   inset:0;
   background:#000;
-  z-index:3000;
+  z-index:15000;
 }
 
 #questVideo{
@@ -63,10 +63,11 @@ html,body{
 /* =====================================================
    🌊 SCÈNE
 ===================================================== */
-#scene{
-  position:fixed;
-  inset:0;
-  z-index:1;
+#scene {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .fondImage{
