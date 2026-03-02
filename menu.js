@@ -215,13 +215,6 @@ if (sessionStorage.getItem("unlock_pirate5") === "true") {
   unlockPirate(pirate5);
 }
 
-/* Finance */
-if (sessionStorage.getItem("unlock_pirate4") === "true") {
-  sessionStorage.removeItem("unlock_pirate4");
-  showNotification("⚖️ Pirate Légal débloqué !");
-  unlockPirate(pirate4);
-}
-
   /* ==========================================================
    🔔 MESSAGE DÉBLOCAGE MOT DE PASSE
 ========================================================== */
