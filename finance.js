@@ -185,10 +185,11 @@ skipBtn.onclick = () => {
   function startMiniGame1() {
 miniGame1.innerHTML = `
   <h3 class="mg1-title">📘 Épreuve des registres</h3>
-  <p class="comm-info-text">Réponds correctement pour avancer.</p>
+
   <div class="gameQuestion">
     <p id="qText"></p>
   </div>
+
   <div id="qChoices" class="mg1-answers"></div>
 `;
     miniGame1.classList.remove("hidden");
