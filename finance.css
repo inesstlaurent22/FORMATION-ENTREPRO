@@ -20,51 +20,6 @@ html, body {
 }
 
 /* =====================================================
-   VIDEO — VERSION STABLE iOS
-===================================================== */
-
-#videoContainer{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:3000;
-}
-
-#questVideo{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-
-  /* La vidéo ne capte aucun clic */
-  pointer-events:none;
-}
-
-/* Overlay contrôles */
-#videoControls{
-  position:absolute;
-  top:24px;
-  right:24px;
-  z-index:5000;      /* plus élevé que la vidéo */
-  display:flex;
-  gap:16px;
-
-  /* Réactive les clics uniquement ici */
-  pointer-events:auto;
-}
-
-#videoControls button{
-  pointer-events:auto;
-  position:relative;
-  z-index:5001;
-}
-
-#videoControls button:hover{
-  transform:translateY(2px);
-}
-
-/* =====================================================
    🌑 LOADER GLOBAL — VERSION STABLE
 ===================================================== */
 
