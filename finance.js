@@ -60,11 +60,30 @@ function closeIntro(){
   video.pause();
   videoContainer.classList.add("hidden");
 
-  background.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
-  pirate2.classList.remove("hidden");
+  showLoader(1200, () => {
 
-  pirateClickable = true; // 🔥 IMPORTANT
+    background.classList.remove("hidden");
+    pirate5.classList.remove("hidden");
+    pirate2.classList.remove("hidden");
+
+    pirateClickable = true;
+
+  });
+}
+  
+  /* =====================================================
+   🌑 LOADER GLOBAL
+===================================================== */
+
+const fadeScreen = document.getElementById("fadeScreen");
+
+function showLoader(duration = 900, callback = null){
+  fadeScreen.classList.remove("hidden");
+
+  setTimeout(() => {
+    fadeScreen.classList.add("hidden");
+    if(callback) callback();
+  }, duration);
 }
   
   /* =====================================================
@@ -182,20 +201,24 @@ skipBtn.onclick = () => {
   let qIndex = 0;
   let goodCount = 0;
 
-  function startMiniGame1() {
-miniGame1.innerHTML = `
-  <h3 class="mg1-title">📘 Épreuve des registres</h3>
+function startMiniGame1() {
 
-  <div class="gameQuestion">
-    <p id="qText"></p>
-  </div>
+  showLoader(900, () => {
 
-  <div id="qChoices" class="mg1-answers"></div>
-`;
+    miniGame1.innerHTML = `
+      <h3 class="mg1-title">📘 Épreuve des registres</h3>
+      <div class="gameQuestion">
+        <p id="qText"></p>
+      </div>
+      <div id="qChoices" class="mg1-answers"></div>
+    `;
+
     miniGame1.classList.remove("hidden");
     qIndex = 0;
     showQuestion();
-  }
+
+  });
+}
 
   function showQuestion() {
     goodCount = 0;
@@ -283,13 +306,18 @@ container.insertBefore(wrapper, container.firstChild);
 
 /* ===== LANCEMENT ===== */
 function startMiniGame2() {
-  financeGame.classList.remove("hidden");
 
-  part1.classList.remove("hidden");
-  part2.classList.add("hidden");
-  part3.classList.add("hidden");
+  showLoader(900, () => {
 
-  injectCalculator(part1);
+    financeGame.classList.remove("hidden");
+
+    part1.classList.remove("hidden");
+    part2.classList.add("hidden");
+    part3.classList.add("hidden");
+
+    injectCalculator(part1);
+
+  });
 }
 
 /* ================= CLIENTS — LECTURE OBLIGATOIRE ================= */
@@ -432,8 +460,10 @@ let step1, step2, step3, step4, step5;
 
 function startMiniGame3() {
 
-  miniGame3.innerHTML = `
-    <h3 class="mg2-title">🏴‍☠️ L’épreuve du maître comptable</h3>
+  showLoader(900, () => {
+
+    miniGame3.innerHTML = `
+      <h3 class="mg2-title">🏴‍☠️ L’épreuve du maître comptable</h3>
 
     <p>
       Après une année de ventes prospères, tu dois prouver
