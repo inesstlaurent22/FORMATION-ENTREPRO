@@ -215,6 +215,23 @@ if (sessionStorage.getItem("unlock_pirate5") === "true") {
   unlockPirate(pirate5);
 }
 
+  /* Legal */
+if (sessionStorage.getItem("unlock_pirate4") === "true") {
+
+  // On supprime le flag
+  sessionStorage.removeItem("unlock_pirate4");
+
+  // 🔕 On NE montre PAS de notification
+  // (au cas où un ancien message serait stocké)
+  if (notification) {
+    notification.classList.remove("show");
+    notification.textContent = "";
+  }
+
+  // On débloque simplement le pirate
+  unlockPirate(pirate4);
+}
+
   /* ==========================================================
    🔔 MESSAGE DÉBLOCAGE MOT DE PASSE
 ========================================================== */
