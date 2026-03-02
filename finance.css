@@ -15,8 +15,10 @@ html, body {
   color: #f5e6c8;
 }
 
-.hidden {
-  display: none !important;
+.hidden{
+  opacity:0;
+  pointer-events:none;
+  visibility:hidden;
 }
 
 /* =====================================================
@@ -63,28 +65,28 @@ html, body {
 #closeVideo{ right:24px; }
 
 /* =====================================================
-   🌑 LOADER GLOBAL — 🏴‍☠️ FINANCE
+   🌑 LOADER GLOBAL — VERSION STABLE
 ===================================================== */
 
 #fadeScreen{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.92);
-  z-index:20000; /* au-dessus de tout */
+  z-index:20000;
   display:flex;
   align-items:center;
   justify-content:center;
   backdrop-filter:blur(2px);
-  opacity:1;
   transition:opacity .4s ease;
 }
 
 #fadeScreen.hidden{
   opacity:0;
+  visibility:hidden;
   pointer-events:none;
 }
 
-/* Conteneur loader */
+/* Loader visuel */
 .loaderBox{
   position:relative;
   width:120px;
@@ -94,12 +96,10 @@ html, body {
   justify-content:center;
 }
 
-/* Emoji pirate */
 .loaderEmoji{
   font-size:64px;
-  z-index:2;
   animation:emojiSpin 1.2s linear infinite;
-  filter:drop-shadow(0 0 10px gold);
+  filter:drop-shadow(0 0 12px gold);
 }
 
 @keyframes emojiSpin{
@@ -107,7 +107,6 @@ html, body {
   to{transform:rotate(360deg);}
 }
 
-/* Cercle lumineux */
 .loaderBox::before{
   content:"";
   position:absolute;
@@ -430,12 +429,6 @@ button.selectedAnswer{
   z-index: 20;
   text-align: center;
   box-shadow: 0 0 45px rgba(255,215,0,.6);
-}
-
-#miniGame3 h3 {
-  color: gold;
-  font-size: 26px;
-  margin-bottom: 22px;
 }
 
 #miniGame3 p {
