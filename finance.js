@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const background   = document.getElementById("background");
   const pirate5      = document.getElementById("pirate5bis");
   const pirate2      = document.getElementById("pirate2bis");
+  const fadeScreen   = document.getElementById("fadeScreen");
 
   const miniGame1    = document.getElementById("miniGame0");
   const financeGame  = document.getElementById("financeGame");
