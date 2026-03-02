@@ -36,76 +36,79 @@ console.log("closeVideo =", closeVideo);
   ];
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   🎬 VIDÉO INTRO — VERSION CORRIGÉE
 ===================================================== */
+
 const videoContainer = document.getElementById("videoContainer");
 const introVideo     = document.getElementById("questVideo");
 const toggleSound    = document.getElementById("toggleSound");
 const closeVideo     = document.getElementById("closeVideo");
-const scene          = document.getElementById("scene");
 const fadeScreen     = document.getElementById("fadeScreen");
 
 let videoClosed = false;
 
-introVideo.muted = true;
-introVideo.playsInline = true;
-introVideo.autoplay = true;
-introVideo.style.pointerEvents = "none";
-introVideo.play().catch(()=>{});
+if (introVideo) {
+  introVideo.muted = true;
+  introVideo.playsInline = true;
+  introVideo.autoplay = true;
+  introVideo.play().catch(() => {});
 
-toggleSound.onclick = e => {
-  e.stopPropagation();
-  introVideo.muted = !introVideo.muted;
-  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-};
+  if (toggleSound) {
+    toggleSound.onclick = e => {
+      e.stopPropagation();
+      introVideo.muted = !introVideo.muted;
+      toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+    };
+  }
 
-closeVideo.onclick = e => {
-  e.stopPropagation();
-  closeIntro();
-};
+  if (closeVideo) {
+    closeVideo.onclick = e => {
+      e.stopPropagation();
+      closeIntro();
+    };
+  }
 
-introVideo.onended = closeIntro;
-
-function closeIntro(){
-  if(videoClosed) return;
-  videoClosed = true;
-  introVideo.pause();
-  videoContainer.style.display = "none";
-  showLoader(1200, () => scene.classList.remove("hidden"));
+  introVideo.onended = closeIntro;
 }
 
 /* =====================================================
    🌑 LOADER
 ===================================================== */
-function showLoader(duration = 1200, cb){
-  if(!fadeScreen){ cb && cb(); return; }
+
+function showLoader(duration = 900, cb) {
+  if (!fadeScreen) {
+    cb && cb();
+    return;
+  }
+
   fadeScreen.classList.remove("hidden");
+
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
     cb && cb();
   }, duration);
 }
 
-  /* =====================================================
-     FERMETURE INTRO
-  ===================================================== */
+/* =====================================================
+   FERMETURE INTRO
+===================================================== */
 
-  function closeIntro() {
+function closeIntro() {
 
-    if (videoClosed) return;
-    videoClosed = true;
+  if (videoClosed) return;
+  videoClosed = true;
 
-    if (video) video.pause();
-    if (videoContainer) videoContainer.style.display = "none";
+  if (introVideo) introVideo.pause();
+  if (videoContainer) videoContainer.style.display = "none";
 
-    background?.classList.remove("hidden");
-    pirate5?.classList.remove("hidden");
-    pirate2?.classList.remove("hidden");
+  background?.classList.remove("hidden");
+  pirate5?.classList.remove("hidden");
+  pirate2?.classList.remove("hidden");
 
-    showLoader(900, () => {
-      startDialogues(dialoguesIntro);
-    });
-  }
+  showLoader(900, () => {
+    startDialogues(dialoguesIntro, startMiniGame1);
+  });
+}
 
   /* =====================================================
      💬 MOTEUR DE DIALOGUES
