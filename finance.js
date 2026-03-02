@@ -112,7 +112,7 @@ if (closeVideo) {
     pirate2?.classList.remove("hidden");
 
     showLoader(900, () => {
-      startDialogues(dialoguesIntro, startMiniGame1);
+      startDialogues(dialoguesIntro);
     });
   }
 
