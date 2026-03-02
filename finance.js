@@ -661,4 +661,11 @@ function screenShake() {
   }, 400);
 }
 
+/* =====================================================
+   🚀 LANCEMENT INITIAL
+===================================================== */
+
+background.classList.remove("hidden");
+startDialogues(dialoguesIntro, startMiniGame1);
+
 });
