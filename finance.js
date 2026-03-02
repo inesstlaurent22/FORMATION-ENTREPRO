@@ -141,30 +141,37 @@ function closeIntro() {
     showDialogue();
   }
 
-  function showDialogue() {
+function showDialogue() {
 
-    const d = dialogues[dIndex];
-    if (!d) return;
+  const d = dialogues[dIndex];
+  if (!d || !d.s) return;
 
-    bubble.textContent = d.t;
+  bubble.textContent = d.t;
 
-    const r = d.s.getBoundingClientRect();
+  const r = d.s.getBoundingClientRect();
+
+  if (r.width === 0) {
+    bubble.style.left = "50%";
+    bubble.style.top = "30%";
+  } else {
     bubble.style.left = r.left + r.width / 2 + "px";
     bubble.style.top = r.top - 90 + "px";
-    bubble.style.transform = "translateX(-50%)";
-
-    bubble.onclick = () => {
-      dIndex++;
-      if (dIndex < dialogues.length) {
-        showDialogue();
-      } else {
-        bubble.classList.add("hidden");
-        skipBtn.classList.add("hidden");
-        dialogueActive = false;
-        afterDialogues && afterDialogues();
-      }
-    };
   }
+
+  bubble.style.transform = "translateX(-50%)";
+
+  bubble.onclick = () => {
+    dIndex++;
+    if (dIndex < dialogues.length) {
+      showDialogue();
+    } else {
+      bubble.classList.add("hidden");
+      skipBtn.classList.add("hidden");
+      dialogueActive = false;
+      afterDialogues && afterDialogues();
+    }
+  };
+}
 
   skipBtn.onclick = () => {
     bubble.classList.add("hidden");
@@ -320,6 +327,14 @@ function startMiniGame2() {
     part1.classList.remove("hidden");
     part2.classList.add("hidden");
     part3.classList.add("hidden");
+    part4.classList.add("hidden");
+
+    billsSeen = { A:false, B:false, C:false };
+    bill.textContent = "";
+
+    document
+      .querySelectorAll(".clients button:last-child")
+      .forEach(btn => btn.disabled = true);
 
     injectCalculator(part1);
 
@@ -396,7 +411,7 @@ window.checkAmortBase = ok => {
   }
 
   part3.classList.add("hidden");
-  part4?.classList.add("hidden");
+  part4.classList.remove("hidden");   // ✅ CORRECTION
 };
 
 /* =====================================================
