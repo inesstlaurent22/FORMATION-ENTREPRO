@@ -63,11 +63,14 @@ html, body {
   inset:0;
   background:rgba(0,0,0,.92);
   z-index:20000;
-  display:flex;
+  display:none; /* important */
   align-items:center;
   justify-content:center;
   backdrop-filter:blur(2px);
-  transition:opacity .4s ease;
+}
+
+#fadeScreen.active{
+  display:flex;
 }
 
 #fadeScreen.hidden{
