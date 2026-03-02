@@ -22,52 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let dialogueActive = false;
 
-  /* =====================================================
-     💬 DIALOGUES — INTRO (DÉCLARÉ AVANT USAGE)
-  ===================================================== */
 
-  const dialoguesIntro = [
-    { s: pirate5, t: "Avant de gérer l’or, il faut comprendre les registres." },
-    { s: pirate2, t: "Journal des ventes, grand livre, balance, compte de résultat." },
-    { s: pirate5, t: "Prouve que tu maîtrises ces bases." }
-  ];
-
-/* =====================================================
-   🎬 VIDÉO INTRO — VERSION PROPRE
-===================================================== */
-
-const videoContainer = document.getElementById("videoContainer");
-const introVideo     = document.getElementById("questVideo");
-const toggleSound    = document.getElementById("toggleSound");
-const closeVideoBtn  = document.getElementById("closeVideo");
-const fadeScreen     = document.getElementById("fadeScreen");
-
-let videoClosed = false;
-
-if (introVideo) {
-
-  introVideo.muted = true;
-  introVideo.playsInline = true;
-  introVideo.autoplay = true;
-  introVideo.play().catch(() => {});
-
-  if (toggleSound) {
-    toggleSound.addEventListener("click", e => {
-      e.stopPropagation();
-      introVideo.muted = !introVideo.muted;
-      toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-    });
-  }
-
-  if (closeVideoBtn) {
-    closeVideoBtn.addEventListener("click", e => {
-      e.stopPropagation();
-      closeIntro();
-    });
-  }
-
-  introVideo.addEventListener("ended", closeIntro);
-}
 
 /* =====================================================
    🌑 LOADER
@@ -86,27 +41,6 @@ function showLoader(duration = 900, cb) {
     fadeScreen.classList.add("hidden");
     if (cb) cb();
   }, duration);
-}
-
-/* =====================================================
-   FERMETURE INTRO
-===================================================== */
-
-function closeIntro() {
-
-  if (videoClosed) return;
-  videoClosed = true;
-
-  if (introVideo) introVideo.pause();
-  if (videoContainer) videoContainer.style.display = "none";
-
-  background?.classList.remove("hidden");
-  pirate5?.classList.remove("hidden");
-  pirate2?.classList.remove("hidden");
-
-  showLoader(900, () => {
-    startDialogues(dialoguesIntro, startMiniGame1);
-  });
 }
 
   /* =====================================================
@@ -179,6 +113,16 @@ function showDialogue() {
     dialogueActive = false;
     afterDialogues && afterDialogues();
   };
+
+    /* =====================================================
+     💬 DIALOGUES — INTRO (DÉCLARÉ AVANT USAGE)
+  ===================================================== */
+
+  const dialoguesIntro = [
+    { s: pirate5, t: "Avant de gérer l’or, il faut comprendre les registres." },
+    { s: pirate2, t: "Journal des ventes, grand livre, balance, compte de résultat." },
+    { s: pirate5, t: "Prouve que tu maîtrises ces bases." }
+  ];
   
   /* =====================================================
      🎮 MINI-JEU 1 — QCM
