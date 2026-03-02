@@ -22,8 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let dialogueActive = false;
 
 /* =====================================================
-   🎬 VIDÉO INTRO — VERSION STABLE
+   🎬 VIDÉO INTRO — VERSION ULTRA STABLE
 ===================================================== */
+
 const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
@@ -31,44 +32,59 @@ const closeVideo = document.getElementById("closeVideo");
 
 let videoClosed = false;
 
-// Sécurité
-video.muted = true;
-video.playsInline = true;
-video.style.pointerEvents = "none";
+/* Sécurité */
+if(video){
 
-video.play().catch(()=>{});
+  video.muted = true;
+  video.playsInline = true;
 
-// 🔊 Son
-toggleSound.onclick = e => {
-  e.stopPropagation();
-  video.muted = !video.muted;
-  toggleSound.textContent = video.muted ? "🔇" : "🔊";
-};
+  // Tentative autoplay sécurisée
+  const playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      console.warn("Autoplay bloqué par le navigateur");
+    });
+  }
 
-// ⏭️ Skip
-closeVideo.onclick = e => {
-  e.stopPropagation();
-  closeIntro();
-};
+  // 🔊 Son
+  toggleSound?.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    video.muted = !video.muted;
+    toggleSound.textContent = video.muted ? "🔇" : "🔊";
+  });
 
-video.onended = closeIntro;
+  // ⏭️ Skip
+  closeVideo?.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    closeIntro();
+  });
 
+  // Fin vidéo
+  video.addEventListener("ended", closeIntro);
+
+}
+
+/* =====================================================
+   FERMETURE INTRO
+===================================================== */
 function closeIntro(){
+
   if(videoClosed) return;
   videoClosed = true;
 
-  video.pause();
-  videoContainer.classList.add("hidden");
+  if(video){
+    video.pause();
+    video.currentTime = 0;
+  }
 
-  showLoader(1200, () => {
+  videoContainer?.classList.add("hidden");
 
-    background.classList.remove("hidden");
-    pirate5.classList.remove("hidden");
-    pirate2.classList.remove("hidden");
+  background?.classList.remove("hidden");
+  pirate5?.classList.remove("hidden");
+  pirate2?.classList.remove("hidden");
 
-    pirateClickable = true;
+  pirateClickable = true;
 
-  });
 }
   
   /* =====================================================
