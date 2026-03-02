@@ -89,12 +89,13 @@ setTimeout(() => {
       });
     }
 
-    if (closeVideo) {
-      closeVideo.addEventListener("click", (e) => {
-        e.stopPropagation();
-        closeIntro();
-      });
-    }
+if (closeVideo) {
+  closeVideo.addEventListener("click", (e) => {
+    console.log("CLICK CLOSE VIDEO");
+    e.stopPropagation();
+    closeIntro();
+  });
+}
 
     video.addEventListener("ended", closeIntro);
   }
