@@ -22,6 +22,29 @@ document.addEventListener("DOMContentLoaded", () => {
   let pirateClickable = false;
   let dialogueActive = false;
 
+    
+  /* =====================================================
+   🌑 LOADER GLOBAL
+===================================================== */
+
+const fadeScreen = document.getElementById("fadeScreen");
+
+function showLoader(duration = 900, callback = null){
+
+  fadeScreen.classList.remove("hidden");
+
+  setTimeout(() => {
+
+    fadeScreen.classList.add("hidden");
+
+    setTimeout(() => {
+      if(callback) callback();
+    }, 400); // laisse le fade finir
+
+  }, duration);
+
+}
+
 /* =====================================================
    🎬 VIDÉO INTRO — VERSION ULTRA STABLE
 ===================================================== */
@@ -73,41 +96,22 @@ function closeIntro(){
   if(videoClosed) return;
   videoClosed = true;
 
-  if(video){
-    video.pause();
-  }
+  if(video) video.pause();
 
-  videoContainer.style.display = "none";   // 🔥 force suppression
+  videoContainer.style.display = "none";
   background.classList.remove("hidden");
-
   pirate5.classList.remove("hidden");
   pirate2.classList.remove("hidden");
 
-  pirateClickable = true;
-}
-  
-  /* =====================================================
-   🌑 LOADER GLOBAL
-===================================================== */
+  pirateClickable = false; // on bloque le clic libre
 
-const fadeScreen = document.getElementById("fadeScreen");
-
-function showLoader(duration = 900, callback = null){
-
-  fadeScreen.classList.remove("hidden");
-
-  setTimeout(() => {
-
-    fadeScreen.classList.add("hidden");
-
-    setTimeout(() => {
-      if(callback) callback();
-    }, 400); // laisse le fade finir
-
-  }, duration);
+  // 🔥 VIDEO → LOADER → DIALOGUE 1
+  showLoader(900, () => {
+    startDialogues(dialoguesIntro, startMiniGame1);
+  });
 
 }
-  
+
   /* =====================================================
      ✨ PIRATE 5 — SURVOL & CLIC
   ===================================================== */
@@ -275,10 +279,15 @@ btn.classList.add("correct-locked");
     });
   }
 
-  function endMiniGame1() {
-    miniGame1.classList.add("hidden");
+function endMiniGame1() {
+
+  miniGame1.classList.add("hidden");
+
+  showLoader(900, () => {
     startDialogues(dialoguesBeforeMini2, startMiniGame2);
-  }
+  });
+
+}
 
   /* =====================================================
      💬 DIALOGUES — ANALYSE
@@ -419,17 +428,19 @@ window.checkAmortBase = ok => {
    ✅ FIN MINI-JEU 2
 ===================================================== */
 window.checkMonthlyAmort = ok => {
+
   if (!ok) {
     screenShake();
     return;
   }
 
-  document.getElementById("part4").classList.add("hidden");
+  part4.classList.add("hidden");
   financeGame.classList.add("hidden");
 
-  setTimeout(() => {
+  showLoader(900, () => {
     startDialogues(dialoguesEBE, startMiniGame3);
-  }, 300);
+  });
+
 };
   
   /* =====================================================
