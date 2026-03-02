@@ -22,6 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let pirateClickable = false;
   let dialogueActive = false;
 
+   /* =====================================================
+     💬 DIALOGUES — INTRO
+  ===================================================== */
+  const dialoguesIntro = [
+    { s: pirate5, t: "Avant de gérer l’or, il faut comprendre les registres." },
+    { s: pirate2, t: "Journal des ventes, grand livre, balance, compte de résultat." },
+    { s: pirate5, t: "Prouve que tu maîtrises ces bases." }
+  ];
     
   /* =====================================================
    🌑 LOADER GLOBAL
@@ -188,15 +196,6 @@ skipBtn.onclick = () => {
   dialogueActive = false;
   afterDialogues && afterDialogues();
 };
-
-  /* =====================================================
-     💬 DIALOGUES — INTRO
-  ===================================================== */
-  const dialoguesIntro = [
-    { s: pirate5, t: "Avant de gérer l’or, il faut comprendre les registres." },
-    { s: pirate2, t: "Journal des ventes, grand livre, balance, compte de résultat." },
-    { s: pirate5, t: "Prouve que tu maîtrises ces bases." }
-  ];
 
   /* =====================================================
      🎮 MINI-JEU 1 — QCM
