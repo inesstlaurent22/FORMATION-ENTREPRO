@@ -20,11 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const bill = document.getElementById("bill");
 
-  const fadeScreen     = document.getElementById("fadeScreen");
-  const videoContainer = document.getElementById("videoContainer");
-  const video          = document.getElementById("questVideo");
-  const toggleSound    = document.getElementById("toggleSound");
-  const closeVideo = document.getElementById("closeVideo");
 console.log("closeVideo =", closeVideo);
 
   let dialogueActive = false;
@@ -40,60 +35,56 @@ console.log("closeVideo =", closeVideo);
     { s: pirate5, t: "Prouve que tu maîtrises ces bases." }
   ];
 
-  /* =====================================================
-     🌑 LOADER GLOBAL
-  ===================================================== */
-function showLoader(duration = 900, callback = null) {
+/* =====================================================
+   🎬 VIDÉO INTRO
+===================================================== */
+const videoContainer = document.getElementById("videoContainer");
+const introVideo     = document.getElementById("questVideo");
+const toggleSound    = document.getElementById("toggleSound");
+const closeVideo     = document.getElementById("closeVideo");
+const scene          = document.getElementById("scene");
+const fadeScreen     = document.getElementById("fadeScreen");
 
-  if (!fadeScreen) {
-    if (callback) callback();
-    return;
-  }
+let videoClosed = false;
 
+introVideo.muted = true;
+introVideo.playsInline = true;
+introVideo.autoplay = true;
+introVideo.style.pointerEvents = "none";
+introVideo.play().catch(()=>{});
+
+toggleSound.onclick = e => {
+  e.stopPropagation();
+  introVideo.muted = !introVideo.muted;
+  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+};
+
+closeVideo.onclick = e => {
+  e.stopPropagation();
+  closeIntro();
+};
+
+introVideo.onended = closeIntro;
+
+function closeIntro(){
+  if(videoClosed) return;
+  videoClosed = true;
+  introVideo.pause();
+  videoContainer.style.display = "none";
+  showLoader(1200, () => scene.classList.remove("hidden"));
+}
+
+/* =====================================================
+   🌑 LOADER
+===================================================== */
+function showLoader(duration = 1200, cb){
+  if(!fadeScreen){ cb && cb(); return; }
   fadeScreen.classList.remove("hidden");
-  fadeScreen.classList.add("active");
-
   setTimeout(() => {
-
-    fadeScreen.classList.remove("active");
     fadeScreen.classList.add("hidden");
-
-    if (callback) callback();
-
+    cb && cb();
   }, duration);
 }
-
-  /* =====================================================
-     🎬 VIDÉO INTRO
-  ===================================================== */
-
-  if (video) {
-
-    video.muted = true;
-    video.playsInline = true;
-
-    video.play().catch(() => {
-      console.warn("Autoplay bloqué");
-    });
-
-    if (toggleSound) {
-      toggleSound.addEventListener("click", (e) => {
-        e.stopPropagation();
-        video.muted = !video.muted;
-        toggleSound.textContent = video.muted ? "🔇" : "🔊";
-      });
-    }
-
-if (closeVideo) {
-  closeVideo.addEventListener("click", (e) => {
-    console.log("CLICK CLOSE VIDEO");
-    e.stopPropagation();
-    closeIntro();
-  });
-}
-
-    video.addEventListener("ended", closeIntro);
-  }
 
   /* =====================================================
      FERMETURE INTRO
