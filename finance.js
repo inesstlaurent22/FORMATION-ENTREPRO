@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  console.log("JS CHARGÉ");
   /* =====================================================
      🎬 RÉFÉRENCES
   ===================================================== */
@@ -23,7 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const videoContainer = document.getElementById("videoContainer");
   const video          = document.getElementById("questVideo");
   const toggleSound    = document.getElementById("toggleSound");
-  const closeVideo     = document.getElementById("closeVideo");
+  const closeVideo = document.getElementById("closeVideo");
+console.log("closeVideo =", closeVideo);
 
   let dialogueActive = false;
   let videoClosed    = false;
