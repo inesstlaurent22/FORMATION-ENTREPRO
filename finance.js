@@ -1,48 +1,82 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   console.log("JS CHARGÉ");
+
   /* =====================================================
      🎬 RÉFÉRENCES
   ===================================================== */
 
-  const background   = document.getElementById("background");
+  const scene        = document.getElementById("scene");
   const pirate5      = document.getElementById("pirate5bis");
   const pirate2      = document.getElementById("pirate2bis");
   const fadeScreen   = document.getElementById("fadeScreen");
 
   const miniGame1    = document.getElementById("miniGame0");
-  const financeGame  = document.getElementById("financeGame");
-  const miniGame3    = document.getElementById("miniGame3");
 
-  const part1 = document.getElementById("part1");
-  const part2 = document.getElementById("part2");
-  const part3 = document.getElementById("part3");
-  const part4 = document.getElementById("part4");
+  /* ================= VIDEO ================= */
 
-  const bill = document.getElementById("bill");
+  const videoContainer = document.getElementById("videoContainer");
+  const introVideo     = document.getElementById("questVideo");
+  const toggleSound    = document.getElementById("toggleSound");
+  const closeVideo     = document.getElementById("closeVideo");
 
-  let dialogueActive = false;
+  let videoClosed = false;
 
+  /* =====================================================
+     🌑 LOADER
+  ===================================================== */
 
+  function showLoader(duration = 1000, cb){
+    if(!fadeScreen){
+      cb && cb();
+      return;
+    }
 
-/* =====================================================
-   🌑 LOADER
-===================================================== */
+    fadeScreen.classList.remove("hidden");
 
-function showLoader(duration = 900, cb) {
-
-  if (!fadeScreen) {
-    if (cb) cb();
-    return;
+    setTimeout(() => {
+      fadeScreen.classList.add("hidden");
+      cb && cb();
+    }, duration);
   }
 
-  fadeScreen.classList.remove("hidden");
+  /* =====================================================
+     🎬 VIDEO INTRO
+  ===================================================== */
 
-  setTimeout(() => {
-    fadeScreen.classList.add("hidden");
-    if (cb) cb();
-  }, duration);
-}
+  if(introVideo){
+
+    introVideo.muted = true;
+    introVideo.playsInline = true;
+    introVideo.autoplay = true;
+    introVideo.play().catch(()=>{});
+
+    toggleSound && (toggleSound.onclick = e => {
+      e.stopPropagation();
+      introVideo.muted = !introVideo.muted;
+      toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+    });
+
+    closeVideo && (closeVideo.onclick = e => {
+      e.stopPropagation();
+      closeIntro();
+    });
+
+    introVideo.onended = closeIntro;
+  }
+
+  function closeIntro(){
+    if(videoClosed) return;
+    videoClosed = true;
+
+    introVideo && introVideo.pause();
+    videoContainer && (videoContainer.style.display = "none");
+
+    showLoader(1000, () => {
+      if(scene) scene.classList.remove("hidden");
+      startDialogues(dialoguesIntro, startMiniGame1);
+    });
+  }
 
   /* =====================================================
      💬 MOTEUR DE DIALOGUES
@@ -51,7 +85,7 @@ function showLoader(duration = 900, cb) {
   const bubble = document.createElement("div");
   bubble.id = "dialogueBox";
   bubble.classList.add("hidden");
-  background?.appendChild(bubble);
+  scene && scene.appendChild(bubble);
 
   const skipBtn = document.createElement("button");
   skipBtn.id = "skipDialoguesBtn";
@@ -63,12 +97,11 @@ function showLoader(duration = 900, cb) {
   let dIndex = 0;
   let afterDialogues = null;
 
-  function startDialogues(arr, cb) {
+  function startDialogues(arr, cb){
 
     dialogues = arr;
     dIndex = 0;
     afterDialogues = cb;
-    dialogueActive = true;
 
     bubble.classList.remove("hidden");
     skipBtn.classList.remove("hidden");
@@ -76,47 +109,45 @@ function showLoader(duration = 900, cb) {
     showDialogue();
   }
 
-function showDialogue() {
+  function showDialogue(){
 
-  const d = dialogues[dIndex];
-  if (!d || !d.s) return;
+    const d = dialogues[dIndex];
+    if(!d || !d.s) return;
 
-  bubble.textContent = d.t;
+    bubble.textContent = d.t;
 
-  const r = d.s.getBoundingClientRect();
+    const r = d.s.getBoundingClientRect();
 
-  if (r.width === 0) {
-    bubble.style.left = "50%";
-    bubble.style.top = "30%";
-  } else {
-    bubble.style.left = r.left + r.width / 2 + "px";
-    bubble.style.top = r.top - 90 + "px";
-  }
-
-  bubble.style.transform = "translateX(-50%)";
-
-  bubble.onclick = () => {
-    dIndex++;
-    if (dIndex < dialogues.length) {
-      showDialogue();
+    if(r.width === 0){
+      bubble.style.left = "50%";
+      bubble.style.top = "30%";
     } else {
-      bubble.classList.add("hidden");
-      skipBtn.classList.add("hidden");
-      dialogueActive = false;
-      afterDialogues && afterDialogues();
+      bubble.style.left = r.left + r.width/2 + "px";
+      bubble.style.top = r.top - 90 + "px";
     }
-  };
-}
+
+    bubble.style.transform = "translateX(-50%)";
+
+    bubble.onclick = () => {
+      dIndex++;
+      if(dIndex < dialogues.length){
+        showDialogue();
+      } else {
+        bubble.classList.add("hidden");
+        skipBtn.classList.add("hidden");
+        afterDialogues && afterDialogues();
+      }
+    };
+  }
 
   skipBtn.onclick = () => {
     bubble.classList.add("hidden");
     skipBtn.classList.add("hidden");
-    dialogueActive = false;
     afterDialogues && afterDialogues();
   };
 
-    /* =====================================================
-     💬 DIALOGUES — INTRO (DÉCLARÉ AVANT USAGE)
+  /* =====================================================
+     💬 DIALOGUES INTRO
   ===================================================== */
 
   const dialoguesIntro = [
@@ -124,10 +155,11 @@ function showDialogue() {
     { s: pirate2, t: "Journal des ventes, grand livre, balance, compte de résultat." },
     { s: pirate5, t: "Prouve que tu maîtrises ces bases." }
   ];
-  
+
   /* =====================================================
-     🎮 MINI-JEU 1 — QCM
+     🎮 MINI-JEU 1
   ===================================================== */
+
   const questions = [
     {
       q: "À quoi sert le journal des ventes ?",
@@ -154,68 +186,71 @@ function showDialogue() {
   let qIndex = 0;
   let goodCount = 0;
 
-function startMiniGame1() {
+  function startMiniGame1(){
 
-  showLoader(900, () => {
+    if(!miniGame1) return;
 
-    miniGame1.innerHTML = `
-      <h3 class="mg1-title">📘 Épreuve des registres</h3>
-      <div class="gameQuestion">
-        <p id="qText"></p>
-      </div>
-      <div id="qChoices" class="mg1-answers"></div>
-    `;
+    showLoader(900, () => {
 
-    miniGame1.classList.remove("hidden");
-    qIndex = 0;
-    showQuestion();
+      miniGame1.innerHTML = `
+        <h3 class="mg1-title">📘 Épreuve des registres</h3>
+        <div class="gameQuestion">
+          <p id="qText"></p>
+        </div>
+        <div id="qChoices" class="mg1-answers"></div>
+      `;
 
-  });
-}
+      miniGame1.classList.remove("hidden");
+      qIndex = 0;
+      showQuestion();
+    });
+  }
 
-  function showQuestion() {
+  function showQuestion(){
+
     goodCount = 0;
-    document.getElementById("qText").textContent = questions[qIndex].q;
+
+    const qText = document.getElementById("qText");
     const qChoices = document.getElementById("qChoices");
+    if(!qText || !qChoices) return;
+
+    qText.textContent = questions[qIndex].q;
     qChoices.innerHTML = "";
 
     const answers = [
-      ...questions[qIndex].good.map(t => ({ t, ok: true })),
-      ...questions[qIndex].bad.map(t => ({ t, ok: false }))
+      ...questions[qIndex].good.map(t => ({ t, ok:true })),
+      ...questions[qIndex].bad.map(t => ({ t, ok:false }))
     ].sort(() => Math.random() - 0.5);
 
     answers.forEach(a => {
+
       const btn = document.createElement("button");
       btn.textContent = a.t;
+
       btn.onclick = () => {
-        if (a.ok) {
-btn.classList.add("correct-locked");
+
+        if(a.ok){
+
+          btn.classList.add("correct-locked");
           btn.disabled = true;
           goodCount++;
-          if (goodCount === questions[qIndex].good.length) {
+
+          if(goodCount === questions[qIndex].good.length){
             qIndex++;
             qIndex < questions.length
               ? showQuestion()
-              : endMiniGame1();
+              : miniGame1.classList.add("hidden");
           }
+
         } else {
           screenShake();
         }
       };
+
       qChoices.appendChild(btn);
     });
   }
-
-function endMiniGame1() {
-
-  miniGame1.classList.add("hidden");
-
-  showLoader(900, () => {
-    startDialogues(dialoguesBeforeMini2, startMiniGame2);
-  });
-
-}
-
+  
   /* =====================================================
      💬 DIALOGUES — ANALYSE
   ===================================================== */
