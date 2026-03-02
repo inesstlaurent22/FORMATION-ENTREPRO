@@ -3,13 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================================================
      🎬 RÉFÉRENCES
   ===================================================== */
-  const background = document.getElementById("background");
-  const pirate5 = document.getElementById("pirate5bis");
-  const pirate2 = document.getElementById("pirate2bis");
 
-  const miniGame1 = document.getElementById("miniGame0");
-  const financeGame = document.getElementById("financeGame");
-  const miniGame3 = document.getElementById("miniGame3");
+  const background   = document.getElementById("background");
+  const pirate5      = document.getElementById("pirate5bis");
+  const pirate2      = document.getElementById("pirate2bis");
+
+  const miniGame1    = document.getElementById("miniGame0");
+  const financeGame  = document.getElementById("financeGame");
+  const miniGame3    = document.getElementById("miniGame3");
 
   const part1 = document.getElementById("part1");
   const part2 = document.getElementById("part2");
@@ -17,150 +18,138 @@ document.addEventListener("DOMContentLoaded", () => {
   const part4 = document.getElementById("part4");
 
   const bill = document.getElementById("bill");
-  const amortMonth = document.getElementById("amortMonth");
 
-  let pirateClickable = false;
+  const fadeScreen     = document.getElementById("fadeScreen");
+  const videoContainer = document.getElementById("videoContainer");
+  const video          = document.getElementById("questVideo");
+  const toggleSound    = document.getElementById("toggleSound");
+  const closeVideo     = document.getElementById("closeVideo");
+
   let dialogueActive = false;
+  let videoClosed    = false;
 
-   /* =====================================================
-     💬 DIALOGUES — INTRO
+  /* =====================================================
+     💬 DIALOGUES — INTRO (DÉCLARÉ AVANT USAGE)
   ===================================================== */
+
   const dialoguesIntro = [
     { s: pirate5, t: "Avant de gérer l’or, il faut comprendre les registres." },
     { s: pirate2, t: "Journal des ventes, grand livre, balance, compte de résultat." },
     { s: pirate5, t: "Prouve que tu maîtrises ces bases." }
   ];
-    
+
   /* =====================================================
-   🌑 LOADER GLOBAL
-===================================================== */
+     🌑 LOADER GLOBAL
+  ===================================================== */
 
-const fadeScreen = document.getElementById("fadeScreen");
+  function showLoader(duration = 900, callback = null) {
 
-function showLoader(duration = 900, callback = null){
+    if (!fadeScreen) {
+      callback && callback();
+      return;
+    }
 
-  fadeScreen.classList.remove("hidden");
-
-  setTimeout(() => {
-
-    fadeScreen.classList.add("hidden");
+    fadeScreen.classList.remove("hidden");
 
     setTimeout(() => {
-      if(callback) callback();
-    }, 400); // laisse le fade finir
+      fadeScreen.classList.add("hidden");
 
-  }, duration);
+      setTimeout(() => {
+        callback && callback();
+      }, 400);
 
-}
-
-/* =====================================================
-   🎬 VIDÉO INTRO — VERSION ULTRA STABLE
-===================================================== */
-
-const videoContainer = document.getElementById("videoContainer");
-const video = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
-
-let videoClosed = false;
-
-/* Sécurité */
-if(video){
-
-  video.muted = true;
-  video.playsInline = true;
-
-  // Tentative autoplay sécurisée
-  const playPromise = video.play();
-  if (playPromise !== undefined) {
-    playPromise.catch(() => {
-      console.warn("Autoplay bloqué par le navigateur");
-    });
+    }, duration);
   }
 
-  // 🔊 Son
-  toggleSound?.addEventListener("click", (e)=>{
-    e.stopPropagation();
-    video.muted = !video.muted;
-    toggleSound.textContent = video.muted ? "🔇" : "🔊";
-  });
+  /* =====================================================
+     🎬 VIDÉO INTRO
+  ===================================================== */
 
-  // ⏭️ Skip
-  closeVideo?.addEventListener("click", (e)=>{
-    e.stopPropagation();
-    closeIntro();
-  });
+  if (video) {
 
-  // Fin vidéo
-  video.addEventListener("ended", closeIntro);
+    video.muted = true;
+    video.playsInline = true;
 
-}
+    video.play().catch(() => {
+      console.warn("Autoplay bloqué");
+    });
 
-/* =====================================================
-   FERMETURE INTRO
-===================================================== */
-function closeIntro(){
+    if (toggleSound) {
+      toggleSound.addEventListener("click", (e) => {
+        e.stopPropagation();
+        video.muted = !video.muted;
+        toggleSound.textContent = video.muted ? "🔇" : "🔊";
+      });
+    }
 
-  if(videoClosed) return;
-  videoClosed = true;
+    if (closeVideo) {
+      closeVideo.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeIntro();
+      });
+    }
 
-  if(video) video.pause();
-
-  videoContainer.style.display = "none";
-  background.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
-  pirate2.classList.remove("hidden");
-
-  pirateClickable = false; // on bloque le clic libre
-
-  // 🔥 VIDEO → LOADER → DIALOGUE 1
-  showLoader(900, () => {
-    startDialogues(dialoguesIntro, startMiniGame1);
-  });
-
-}
+    video.addEventListener("ended", closeIntro);
+  }
 
   /* =====================================================
-     ✨ PIRATE 5 — SURVOL & CLIC
+     FERMETURE INTRO
   ===================================================== */
-  pirate5.onmouseenter = () => {
-    if (pirateClickable && !dialogueActive) {
-      pirate5.style.filter = "drop-shadow(0 0 35px gold)";
-    }
-  };
-  pirate5.onmouseleave = () => pirate5.style.filter = "";
 
-  pirate5.onclick = () => {
-    if (!pirateClickable || dialogueActive) return;
-    pirateClickable = false;
-    pirate5.style.filter = "";
-    startDialogues(dialoguesIntro, startMiniGame1);
-  };
+  function closeIntro() {
+
+    if (videoClosed) return;
+    videoClosed = true;
+
+    if (video) video.pause();
+    if (videoContainer) videoContainer.style.display = "none";
+
+    background?.classList.remove("hidden");
+    pirate5?.classList.remove("hidden");
+    pirate2?.classList.remove("hidden");
+
+    showLoader(900, () => {
+      startDialogues(dialoguesIntro, startMiniGame1);
+    });
+  }
 
   /* =====================================================
      💬 MOTEUR DE DIALOGUES
   ===================================================== */
+
   const bubble = document.createElement("div");
   bubble.id = "dialogueBox";
   bubble.classList.add("hidden");
-  background.appendChild(bubble);
+  background?.appendChild(bubble);
+
+  const skipBtn = document.createElement("button");
+  skipBtn.id = "skipDialoguesBtn";
+  skipBtn.textContent = "Passer les dialogues";
+  skipBtn.classList.add("hidden");
+  document.body.appendChild(skipBtn);
 
   let dialogues = [];
   let dIndex = 0;
   let afterDialogues = null;
 
-function startDialogues(arr, cb) {
-  dialogues = arr;
-  dIndex = 0;
-  afterDialogues = cb;
-  dialogueActive = true;
-  bubble.classList.remove("hidden");
-  skipBtn.classList.remove("hidden");
-  showDialogue();
-}
+  function startDialogues(arr, cb) {
+
+    dialogues = arr;
+    dIndex = 0;
+    afterDialogues = cb;
+    dialogueActive = true;
+
+    bubble.classList.remove("hidden");
+    skipBtn.classList.remove("hidden");
+
+    showDialogue();
+  }
 
   function showDialogue() {
+
     const d = dialogues[dIndex];
+    if (!d) return;
+
     bubble.textContent = d.t;
 
     const r = d.s.getBoundingClientRect();
@@ -168,35 +157,26 @@ function startDialogues(arr, cb) {
     bubble.style.top = r.top - 90 + "px";
     bubble.style.transform = "translateX(-50%)";
 
-bubble.onclick = () => {
-  dIndex++;
-  if (dIndex < dialogues.length) {
-    showDialogue();
-  } else {
+    bubble.onclick = () => {
+      dIndex++;
+      if (dIndex < dialogues.length) {
+        showDialogue();
+      } else {
+        bubble.classList.add("hidden");
+        skipBtn.classList.add("hidden");
+        dialogueActive = false;
+        afterDialogues && afterDialogues();
+      }
+    };
+  }
+
+  skipBtn.onclick = () => {
     bubble.classList.add("hidden");
     skipBtn.classList.add("hidden");
     dialogueActive = false;
     afterDialogues && afterDialogues();
-  }
-};
-  }
-
-  /* =====================================================
-   ⏭️ SKIP DIALOGUES
-===================================================== */
-const skipBtn = document.createElement("button");
-skipBtn.id = "skipDialoguesBtn";
-skipBtn.textContent = "Passer les dialogues";
-skipBtn.classList.add("hidden");
-document.body.appendChild(skipBtn);
-
-skipBtn.onclick = () => {
-  bubble.classList.add("hidden");
-  skipBtn.classList.add("hidden");
-  dialogueActive = false;
-  afterDialogues && afterDialogues();
-};
-
+  };
+  
   /* =====================================================
      🎮 MINI-JEU 1 — QCM
   ===================================================== */
