@@ -43,32 +43,25 @@ console.log("closeVideo =", closeVideo);
   /* =====================================================
      🌑 LOADER GLOBAL
   ===================================================== */
+function showLoader(duration = 900, callback = null) {
 
-  function showLoader(duration = 900, callback = null) {
+  if (!fadeScreen) {
+    if (callback) callback();
+    return;
+  }
 
-    if (!fadeScreen) {
-      callback && callback();
-      return;
-    }
-
-fadeScreen.classList.add("active");
-
-setTimeout(() => {
-
-  fadeScreen.classList.remove("active");
+  fadeScreen.classList.remove("hidden");
+  fadeScreen.classList.add("active");
 
   setTimeout(() => {
-    callback && callback();
-  }, 100);
 
-}, duration);
+    fadeScreen.classList.remove("active");
+    fadeScreen.classList.add("hidden");
 
-      setTimeout(() => {
-        callback && callback();
-      }, 400);
+    if (callback) callback();
 
-    }, duration);
-  }
+  }, duration);
+}
 
   /* =====================================================
      🎬 VIDÉO INTRO
