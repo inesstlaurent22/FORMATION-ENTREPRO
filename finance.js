@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const part1 = document.getElementById("part1");
   const part2 = document.getElementById("part2");
   const part3 = document.getElementById("part3");
+  const part4 = document.getElementById("part4");
 
   const bill = document.getElementById("bill");
   const amortMonth = document.getElementById("amortMonth");
@@ -411,7 +412,7 @@ window.checkAmortBase = ok => {
   }
 
   part3.classList.add("hidden");
- document.getElementById("part4").classList.remove("hidden");
+  part4?.classList.add("hidden");
 };
 
 /* =====================================================
@@ -452,7 +453,7 @@ function bindStep(stepElement, onSuccess) {
 
       if (isCorrect) {
 
-        this.classList.add("correctAnswer");
+        this.classList.add("correct-locked");
 
         buttons.forEach(b => b.disabled = true);
 
@@ -707,9 +708,11 @@ function launchGemsExplosion(container){
   /* =====================================================
      🧯 SHAKE
   ===================================================== */
-  function screenShake() {
-    document.body.classList.add("shake");
-    setTimeout(() => document.body.classList.remove("shake"), 400);
-  }
+function screenShake() {
+  document.body.classList.add("shake");
+  setTimeout(() => {
+    document.body.classList.remove("shake");
+  }, 400);
+}
 
 });
