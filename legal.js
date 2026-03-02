@@ -335,7 +335,7 @@ window.statutQ2 = (btn,statut)=>{
 function showStatutQ3(){
   q3.clear();
   game2Content.innerHTML = `
-    <p>Quand quitter l’auto-entreprise ?</p>
+    <div class="gameQuestion">Quand quitter l"auto-entreprenariat pour un statut de société : </div>
     <div id="qChoices">
       <button onclick="statutQ3(this,1)">CA élevé</button>
       <button onclick="statutQ3(this,2)">Embauche</button>
