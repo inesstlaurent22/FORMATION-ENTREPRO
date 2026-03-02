@@ -49,10 +49,17 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    fadeScreen.classList.remove("hidden");
+fadeScreen.classList.add("active");
 
-    setTimeout(() => {
-      fadeScreen.classList.add("hidden");
+setTimeout(() => {
+
+  fadeScreen.classList.remove("active");
+
+  setTimeout(() => {
+    callback && callback();
+  }, 100);
+
+}, duration);
 
       setTimeout(() => {
         callback && callback();
