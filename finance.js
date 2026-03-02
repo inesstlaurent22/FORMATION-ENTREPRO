@@ -74,17 +74,15 @@ function closeIntro(){
 
   if(video){
     video.pause();
-    video.currentTime = 0;
   }
 
-  videoContainer?.classList.add("hidden");
+  videoContainer.style.display = "none";   // 🔥 force suppression
+  background.classList.remove("hidden");
 
-  background?.classList.remove("hidden");
-  pirate5?.classList.remove("hidden");
-  pirate2?.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
+  pirate2.classList.remove("hidden");
 
   pirateClickable = true;
-
 }
   
   /* =====================================================
