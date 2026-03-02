@@ -202,6 +202,16 @@ html, body {
   font-size:14px;
 }
 
+/* =====================================================
+   🎯 TITRES MINI-JEU 1
+===================================================== */
+.mg1-title{
+  font-family:"Pirata One", serif;
+  font-size:26px;
+  color:#ffd77a;
+  margin-bottom:16px;
+  text-shadow:2px 2px 0 #2b1605;
+}
 
 /* =====================================================
    🎯 BOUTON SÉLECTION (optionnel si utilisé)
