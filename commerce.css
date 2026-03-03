@@ -618,12 +618,16 @@ html,body{
 #merchantGame .hint-btn::before{
   content:"";
   position:absolute;
-  inset:-8px; /* taille du halo autour */
+  inset:-8px;
   border-radius:50px;
-  border:3px solid rgba(255,215,0,.9);
+
+  border:3px solid rgba(255,245,180,.95); /* jaune blanc */
+
   box-shadow:
-    0 0 12px gold,
-    0 0 25px rgba(255,215,0,.8);
+    0 0 12px rgba(255,255,220,.9),
+    0 0 25px rgba(255,240,160,.9),
+    0 0 40px rgba(255,230,120,.6);
+
   z-index:-1;
 }
 
