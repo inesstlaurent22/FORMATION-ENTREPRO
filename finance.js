@@ -102,23 +102,34 @@ if (introVideo) {
    🔒 FERMETURE INTRO
 ===================================================== */
 
-function closeIntro() {
+function closeIntro(){
 
-  if (videoClosed) return;
+  if(videoClosed) return;
   videoClosed = true;
 
-  if (introVideo) {
+  if(introVideo){
     introVideo.pause();
     introVideo.currentTime = 0;
   }
 
-  if (videoContainer) {
+  if(videoContainer){
     videoContainer.remove();
   }
 
-  showLoader(800, () => {
+  showLoader(600, () => {
+
     background.classList.remove("hidden");
-    startDialogues(dialoguesIntro, startMiniGame1);
+
+    // On rend les pirates visibles et cliquables
+    pirate5.classList.remove("hidden");
+    pirate2.classList.remove("hidden");
+
+    pirate5.style.opacity = "1";
+    pirate2.style.opacity = "1";
+
+    pirate5.style.pointerEvents = "auto";
+    pirate2.style.pointerEvents = "auto";
+
   });
 }
 
@@ -199,6 +210,22 @@ function closeIntro() {
     { s: pirate2, t: "Journal des ventes, grand livre, balance, compte de résultat." },
     { s: pirate5, t: "Prouve que tu maîtrises ces bases." }
   ];
+
+  /* =====================================================
+   🏴‍☠️ CLIC PIRATES → LANCEMENT DIALOGUES
+===================================================== */
+
+if(pirate5){
+  pirate5.addEventListener("click", () => {
+    startDialogues(dialoguesIntro, startMiniGame1);
+  });
+}
+
+if(pirate2){
+  pirate2.addEventListener("click", () => {
+    startDialogues(dialoguesIntro, startMiniGame1);
+  });
+}
 
   /* =====================================================
      🎮 MINI-JEU 1
@@ -739,13 +766,3 @@ function screenShake() {
     document.body.classList.remove("shake");
   }, 400);
 }
-
-/* =====================================================
-   🚀 LANCEMENT INITIAL CORRIGÉ
-===================================================== */
-
-if(!introVideo){
-  background.classList.remove("hidden");
-  startDialogues(dialoguesIntro, startMiniGame1);
-}
-  
