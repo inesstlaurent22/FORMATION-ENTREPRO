@@ -193,8 +193,15 @@ html,body{
 }
 
 /* =====================================================
-   🔘 BOUTONS GLOBAUX STYLE PIRATE
+   POSITION BOUTON PASSER DIALOGUES
 ===================================================== */
+#skipDialoguesBtn{
+  position:fixed;
+  top:24px;
+  right:24px;
+  z-index:10002;
+}
+
 #skipDialoguesBtn,
 #continueQuestBtn{
   background:linear-gradient(145deg,#7b4a12,#caa14a);
@@ -254,18 +261,18 @@ html,body{
 }
 
 /* =====================================================
-   📘 TITRE LIVRE FIXE CENTRÉ
+   📘 TITRE LIVRE CENTRÉ FIXE
 ===================================================== */
 .bp-title{
   position:absolute;
-  top:30px;
+  top:8%;
   left:50%;
   transform:translateX(-50%);
   width:100%;
   text-align:center;
 
   font-family:"Pirata One", serif;
-  font-size:28px;
+  font-size:32px;
   color:#ffd77a;
   text-shadow:2px 2px 0 #2b1605;
 
@@ -424,6 +431,7 @@ html,body{
   gap:20px;
   padding:30px;
   perspective:1600px;
+  margin-top:120px
 }
 
 /* Halo doux global */
@@ -578,7 +586,11 @@ html,body{
 /* =====================================================
    🔎 BOUTON INDICE STYLE ARTEFACT
 ===================================================== */
+/* =====================================================
+   🔎 BOUTON INDICE — HALO LUMINEUX
+===================================================== */
 .hint-btn{
+  position:relative;
   margin:22px 0 26px 0;
 
   background:radial-gradient(circle at center,
@@ -594,22 +606,38 @@ html,body{
   border-radius:40px;
   cursor:pointer;
 
+  overflow:hidden;
+  z-index:1;
+
   box-shadow:
-    0 0 12px rgba(255,215,0,.7),
     inset 0 0 10px rgba(255,215,0,.4);
 
-  transition:all .2s ease;
+  transition:transform .2s ease;
+}
+
+/* Halo lumineux tournant */
+.hint-btn::before{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:40px;
+  background:conic-gradient(
+    from 0deg,
+    transparent,
+    gold,
+    transparent 30%
+  );
+  animation:rotateHalo 2s linear infinite;
+  z-index:-1;
+}
+
+@keyframes rotateHalo{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
 }
 
 .hint-btn:hover{
-  box-shadow:
-    0 0 22px gold,
-    inset 0 0 16px rgba(255,215,0,.8);
   transform:scale(1.05);
-}
-
-.hint-btn:active{
-  transform:scale(.95);
 }
 
 /* =====================================================
