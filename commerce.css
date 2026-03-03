@@ -264,7 +264,12 @@ html,body{
    📘 TITRE LIVRE — CENTRÉ ÉCRAN AU-DESSUS DU LIVRE
 ===================================================== */
 .bp-title{
-  margin-bottom:40px;
+  position:absolute;
+  left:50%;
+  top:-70px; /* hauteur au-dessus du livre */
+  transform:translateX(-50%);
+
+  width:max-content;
   text-align:center;
 
   font-family:"Pirata One", serif;
@@ -398,11 +403,9 @@ html,body{
 }
 
 .identity-center{
-  position:relative;
-  width:100%;
-  height:100%;
+  position:fixed;
+  inset:0;
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
 }
