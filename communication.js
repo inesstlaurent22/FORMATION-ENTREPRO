@@ -419,7 +419,14 @@ function startMiniGame3(){
 
   const box=document.createElement("div");
   box.className="mg3-box";
-  box.innerHTML=`<div>Associe chaque canal à son objectif</div>`;
+  box.innerHTML=`
+  <div class="mg1-title">
+    Associe les canaux à leurs objectifs
+  </div>
+  <div class="gameQuestion">
+    Relie chaque réseau à son objectif stratégique.
+  </div>
+`;
 
   const c=document.createElement("div");
   c.className="mg3-container";
