@@ -301,10 +301,10 @@ function showPasswordOverlay() {
         <div class="legal-scroll">
           <h3>Mentions légales</h3>
           <p>
-            Éditeur : Ton Nom<br>
+            Éditeur : ISL FREELANCE <br>
             Statut : Micro-entrepreneur<br>
-            SIRET : XXXXXXXX<br>
-            Email : contact@email.com
+            SIRET : 92022529900022 <br>
+            Email : puffrap@outlook.com
           </p>
 
           <p><strong>Propriété intellectuelle :</strong>
