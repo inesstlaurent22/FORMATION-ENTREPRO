@@ -6,14 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
      🎬 RÉFÉRENCES
   ===================================================== */
 
-  const scene        = document.getElementById("scene");
+  const background = document.getElementById("background");
   const pirate5      = document.getElementById("pirate5bis");
   const pirate2      = document.getElementById("pirate2bis");
   const fadeScreen   = document.getElementById("fadeScreen");
 
   const miniGame1    = document.getElementById("miniGame0");
 
-  /* ================= VIDEO ================= */
+  const financeGame = document.getElementById("financeGame");
+  const part1 = document.getElementById("part1");
+  const part2 = document.getElementById("part2");
+  const part3 = document.getElementById("part3");
+  const part4 = document.getElementById("part4");
+  const bill = document.getElementById("bill");
+  const miniGame3 = document.getElementById("miniGame3");
 
   const videoContainer = document.getElementById("videoContainer");
   const introVideo     = document.getElementById("questVideo");
@@ -102,7 +108,7 @@ function closeIntro(){
   const bubble = document.createElement("div");
   bubble.id = "dialogueBox";
   bubble.classList.add("hidden");
-  scene && scene.appendChild(bubble);
+  background && background.appendChild(bubble);
 
   const skipBtn = document.createElement("button");
   skipBtn.id = "skipDialoguesBtn";
