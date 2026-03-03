@@ -51,11 +51,22 @@ document.addEventListener("DOMContentLoaded", () => {
     introVideo.autoplay = true;
     introVideo.play().catch(()=>{});
 
-    toggleSound && (toggleSound.onclick = e => {
-      e.stopPropagation();
-      introVideo.muted = !introVideo.muted;
-      toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-    });
+if(toggleSound && introVideo){
+  toggleSound.addEventListener("click", function(e){
+    e.stopPropagation();
+
+    if(introVideo.muted){
+      introVideo.muted = false;
+      introVideo.volume = 1;
+      this.textContent = "🔊";
+    } else {
+      introVideo.muted = true;
+      this.textContent = "🔇";
+    }
+
+    introVideo.play().catch(()=>{});
+  });
+}
 
     closeVideo && (closeVideo.onclick = e => {
       e.stopPropagation();
@@ -65,18 +76,24 @@ document.addEventListener("DOMContentLoaded", () => {
     introVideo.onended = closeIntro;
   }
 
-  function closeIntro(){
-    if(videoClosed) return;
-    videoClosed = true;
+function closeIntro(){
+  if(videoClosed) return;
+  videoClosed = true;
 
-    introVideo && introVideo.pause();
-    videoContainer && (videoContainer.style.display = "none");
-
-    showLoader(1000, () => {
-      if(scene) scene.classList.remove("hidden");
-      startDialogues(dialoguesIntro, startMiniGame1);
-    });
+  if(introVideo){
+    introVideo.pause();
+    introVideo.currentTime = 0;
   }
+
+  if(videoContainer){
+    videoContainer.remove(); // plus fiable que display:none
+  }
+
+  showLoader(800, () => {
+    background.classList.remove("hidden");
+    startDialogues(dialoguesIntro, startMiniGame1);
+  });
+}
 
   /* =====================================================
      💬 MOTEUR DE DIALOGUES
@@ -697,7 +714,7 @@ function screenShake() {
 }
 
 /* =====================================================
-   🚀 LANCEMENT INITIAL
+   🚀 LANCEMENT INITIAL CORRIGÉ
 ===================================================== */
 
 if(!introVideo){
