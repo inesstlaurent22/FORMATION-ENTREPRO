@@ -261,18 +261,18 @@ html,body{
 }
 
 /* =====================================================
-   📘 TITRE LIVRE CENTRÉ FIXE
+   📘 TITRE LIVRE — CENTRÉ ÉCRAN AU-DESSUS DU LIVRE
 ===================================================== */
 .bp-title{
   position:absolute;
-  top:8%;
+  top:50%;
   left:50%;
-  transform:translateX(-50%);
+  transform:translate(-50%, -180%);
   width:100%;
   text-align:center;
 
   font-family:"Pirata One", serif;
-  font-size:32px;
+  font-size:34px;
   color:#ffd77a;
   text-shadow:2px 2px 0 #2b1605;
 
@@ -431,7 +431,7 @@ html,body{
   gap:20px;
   padding:30px;
   perspective:1600px;
-  margin-top:120px
+  margin-top:160px
 }
 
 /* Halo doux global */
