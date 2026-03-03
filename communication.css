@@ -159,29 +159,35 @@ html,body{
 }
 
 /* =====================================================
-   🏴‍☠️ PIRATES
+   🏴‍☠️ PIRATES — CORRECTION AFFICHAGE
 ===================================================== */
-.pirate {
-  position: absolute;
-  z-index: 2;
-  cursor: pointer;
-  transition: filter .25s ease, transform .25s ease;
+
+.pirate{
+  position:absolute;
+  z-index:5; /* au-dessus du fond */
+  cursor:pointer;
+
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain; /* IMPORTANT */
 }
 
+/* Pirate 3 */
 #pirate3{
   left:560px;
   top:260px;
   width:310px;
   height:510px;
-  background-image:url("images/Pirate3.png");
+  background-image:url("./images/Pirate3.png");
 }
 
+/* Pirate 2 */
 #pirate2{
   left:800px;
   top:520px;
   width:470px;
   height:450px;
-  background-image:url("images/Pirate2.png");
+  background-image:url("./images/Pirate2.png");
 }
 
 #pirate3.glow{
