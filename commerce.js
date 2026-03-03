@@ -687,7 +687,12 @@ function startMiniGame3(){
           return;
         }
 
-        b.classList.add("correct-locked");
+        b.classList.add("flash-success");
+
+setTimeout(()=>{
+  b.classList.remove("flash-success");
+  b.classList.add("correct-locked");
+},400);
         b.disabled = true;
 
         // ===== DERNIÈRE ÉTAPE =====
