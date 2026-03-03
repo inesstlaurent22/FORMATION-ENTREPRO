@@ -106,11 +106,8 @@ function endVideo() {
     videoContainer.classList.add("hidden");
   }
 
-  if (fadeScreen) {
-    fadeScreen.classList.add("hidden");
-  }
-
-  requestAnimationFrame(() => {
+  // 🔥 Affiche le loader pirate AVANT la scène
+  showLoader(1200, () => {
     showScene();
   });
 }
