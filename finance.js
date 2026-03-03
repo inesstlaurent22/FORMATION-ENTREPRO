@@ -47,19 +47,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 /* =====================================================
-   🎬 VIDEO INTRO — VERSION STABLE
+   🎬 VIDEO INTRO — VERSION CORRIGÉE
 ===================================================== */
 
 if (introVideo) {
 
   introVideo.muted = true;
   introVideo.playsInline = true;
-  introVideo.autoplay = true;
 
-  // Tentative de lecture
   introVideo.play().catch(() => {
-    // Si la vidéo ne peut pas se lancer → fallback immédiat
-    closeIntro();
+    setTimeout(closeIntro, 800);
   });
 
   /* ===== BOUTON SON ===== */
@@ -69,18 +66,17 @@ if (introVideo) {
 
       introVideo.muted = !introVideo.muted;
 
+      this.textContent = introVideo.muted ? "🔇" : "🔊";
+
       if (!introVideo.muted) {
         introVideo.volume = 1;
-        this.textContent = "🔊";
-      } else {
-        this.textContent = "🔇";
       }
 
-      introVideo.play().catch(() => {});
+      introVideo.play().catch(()=>{});
     });
   }
 
-  /* ===== BOUTON FERMETURE ===== */
+  /* ===== BOUTON PASSER ===== */
   if (closeVideo) {
     closeVideo.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -88,17 +84,10 @@ if (introVideo) {
     });
   }
 
-  /* ===== FIN VIDÉO ===== */
   introVideo.addEventListener("ended", closeIntro);
-
-} else {
-  // Si aucune vidéo → lancement direct
-  background.classList.remove("hidden");
-  startDialogues(dialoguesIntro, startMiniGame1);
 }
-
-
-/* =====================================================
+  
+  /* =====================================================
    🔒 FERMETURE INTRO
 ===================================================== */
 
@@ -133,73 +122,103 @@ function closeIntro(){
   });
 }
 
-  /* =====================================================
-     💬 MOTEUR DE DIALOGUES
-  ===================================================== */
+/* =====================================================
+   💬 MOTEUR DE DIALOGUES — VERSION STABLE
+===================================================== */
 
-  const bubble = document.createElement("div");
-  bubble.id = "dialogueBox";
-  bubble.classList.add("hidden");
-  background && background.appendChild(bubble);
+const bubble = document.createElement("div");
+bubble.id = "dialogueBox";
+bubble.classList.add("hidden");
 
-  const skipBtn = document.createElement("button");
-  skipBtn.id = "skipDialoguesBtn";
-  skipBtn.textContent = "Passer les dialogues";
-  skipBtn.classList.add("hidden");
-  document.body.appendChild(skipBtn);
+if (background) {
+  background.appendChild(bubble);
+}
 
-  let dialogues = [];
-  let dIndex = 0;
-  let afterDialogues = null;
+const skipBtn = document.createElement("button");
+skipBtn.id = "skipDialoguesBtn";
+skipBtn.textContent = "Passer les dialogues";
+skipBtn.classList.add("hidden");
+document.body.appendChild(skipBtn);
 
-  function startDialogues(arr, cb){
+let dialogues = [];
+let dIndex = 0;
+let afterDialogues = null;
 
-    dialogues = arr;
-    dIndex = 0;
-    afterDialogues = cb;
+/* ================================
+   ▶ LANCEMENT
+================================ */
+function startDialogues(arr, cb){
 
-    bubble.classList.remove("hidden");
-    skipBtn.classList.remove("hidden");
-
-    showDialogue();
+  if (!Array.isArray(arr) || arr.length === 0) {
+    cb && cb();
+    return;
   }
 
-  function showDialogue(){
+  dialogues = arr;
+  dIndex = 0;
+  afterDialogues = cb;
 
-    const d = dialogues[dIndex];
-    if(!d || !d.s) return;
+  bubble.classList.remove("hidden");
+  skipBtn.classList.remove("hidden");
 
-    bubble.textContent = d.t;
+  showDialogue();
+}
 
-    const r = d.s.getBoundingClientRect();
+/* ================================
+   💬 AFFICHAGE
+================================ */
+function showDialogue(){
 
-    if(r.width === 0){
-      bubble.style.left = "50%";
-      bubble.style.top = "30%";
+  const d = dialogues[dIndex];
+
+  if (!d) {
+    endDialogues();
+    return;
+  }
+
+  bubble.textContent = d.t || "";
+
+  let r = null;
+
+  if (d.s && typeof d.s.getBoundingClientRect === "function") {
+    r = d.s.getBoundingClientRect();
+  }
+
+  if (!r || r.width === 0) {
+    bubble.style.left = "50%";
+    bubble.style.top = "30%";
+  } else {
+    bubble.style.left = (r.left + r.width / 2) + "px";
+    bubble.style.top = (r.top - 90) + "px";
+  }
+
+  bubble.style.transform = "translateX(-50%)";
+
+  bubble.onclick = () => {
+    dIndex++;
+    if (dIndex < dialogues.length) {
+      showDialogue();
     } else {
-      bubble.style.left = r.left + r.width/2 + "px";
-      bubble.style.top = r.top - 90 + "px";
+      endDialogues();
     }
-
-    bubble.style.transform = "translateX(-50%)";
-
-    bubble.onclick = () => {
-      dIndex++;
-      if(dIndex < dialogues.length){
-        showDialogue();
-      } else {
-        bubble.classList.add("hidden");
-        skipBtn.classList.add("hidden");
-        afterDialogues && afterDialogues();
-      }
-    };
-  }
-
-  skipBtn.onclick = () => {
-    bubble.classList.add("hidden");
-    skipBtn.classList.add("hidden");
-    afterDialogues && afterDialogues();
   };
+}
+
+/* ================================
+   🛑 FIN PROPRE
+================================ */
+function endDialogues(){
+  bubble.classList.add("hidden");
+  skipBtn.classList.add("hidden");
+  afterDialogues && afterDialogues();
+}
+
+/* ================================
+   ⏭ SKIP
+================================ */
+skipBtn.onclick = () => {
+  endDialogues();
+};
 
   /* =====================================================
      💬 DIALOGUES INTRO
