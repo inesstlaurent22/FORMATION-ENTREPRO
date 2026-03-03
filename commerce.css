@@ -276,7 +276,7 @@ html,body{
 .bp-title{
   position:absolute;
   top:-80px;
-  left:35%; /* 50% - 15% = 35% */
+  left:15%; 
   transform:translateX(-50%);
   text-align:center;
 
