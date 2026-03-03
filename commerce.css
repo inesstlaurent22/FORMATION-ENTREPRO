@@ -235,7 +235,7 @@ html,body{
   letter-spacing: 2px;
 
   color: #f5e6c8;
-  margin-bottom: 25px;
+  margin-bottom:28px;
 
   text-shadow:
     0 0 5px rgba(255, 215, 0, 0.6),
@@ -255,6 +255,7 @@ html,body{
   text-align:center;
   width:100%;
   pointer-events:none;
+ margin-bottom:28px;
 }
 
 /* =====================================================
