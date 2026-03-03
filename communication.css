@@ -318,20 +318,29 @@ html,body{
     0 1px 0 #3b2208;
 }
 
-/* Bouton validé définitivement */
+/* =====================================================
+   ✅ BONNE RÉPONSE — APPUYÉ + TEXTE LUMINEUX
+===================================================== */
+
 #miniGameContainer button.correct-locked{
+  /* même style bouton */
   background:linear-gradient(145deg,#7b4a12,#caa14a)!important;
-  color:#fff8c6!important;
+  border:3px solid #3b2208!important;
 
-  text-shadow:
-    0 0 6px #ffd700,
-    0 0 12px #ffd700;
-
+  /* effet bouton enfoncé */
   transform:translateY(4px)!important;
 
   box-shadow:
     inset 0 0 14px rgba(255,215,0,.9),
     0 1px 0 #3b2208!important;
+
+  /* TEXTE UNIQUEMENT LUMINEUX */
+  color:#ffffff!important;
+
+  text-shadow:
+    0 0 6px #ffd700,
+    0 0 12px #ffd700,
+    0 0 18px #ffea00;
 
   pointer-events:none;
 }
@@ -633,33 +642,34 @@ html,body{
 }
 
 /* =====================================================
-   ➡️ BOUTONS OBJECTIFS
+   ➡️ MG3 — BOUTONS OBJECTIFS (STYLE CLAIR PREMIUM)
 ===================================================== */
 
 .mg3-btn-right{
-  background:linear-gradient(145deg,#f3e1a4,#d6b36a);
-  border:3px solid #a8742a;
+  background:linear-gradient(145deg,#fff3c4,#e3b75f);
+  border:3px solid #b8842d;
   color:#2b1605;
   font-weight:bold;
 
   box-shadow:
-    inset 0 0 8px rgba(255,255,255,.6),
-    0 4px 0 #a8742a;
+    inset 0 0 10px rgba(255,255,255,.7),
+    0 4px 0 #b8842d;
 
   min-width:220px;
   text-align:center;
+
   transition:transform .08s ease, box-shadow .08s ease;
 }
 
 .mg3-btn-right:hover{
-  filter:brightness(1.1);
+  filter:brightness(1.15);
 }
 
 .mg3-btn-right:active{
   transform:translateY(4px);
   box-shadow:
-    inset 0 0 14px rgba(0,0,0,.4),
-    0 1px 0 #a8742a;
+    inset 0 0 16px rgba(0,0,0,.3),
+    0 1px 0 #b8842d;
 }
 
 /* =====================================================
