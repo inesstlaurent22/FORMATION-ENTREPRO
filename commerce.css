@@ -263,13 +263,21 @@ html,body{
 /* =====================================================
    📘 TITRE LIVRE — CENTRÉ ÉCRAN AU-DESSUS DU LIVRE
 ===================================================== */
+/* Conteneur livre centré */
+.book-wrapper{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Titre positionné par rapport au livre */
 .bp-title{
   position:absolute;
+  top:-80px;
   left:50%;
-  top:-70px; /* hauteur au-dessus du livre */
   transform:translateX(-50%);
-
-  width:max-content;
   text-align:center;
 
   font-family:"Pirata One", serif;
@@ -584,9 +592,7 @@ html,body{
 /* =====================================================
    🔎 BOUTON INDICE — HALO FIXE
 ===================================================== */
-.hint-btn{
-  position:relative;
-
+#merchantGame .hint-btn{
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
@@ -599,18 +605,18 @@ html,body{
   box-shadow:
     inset 0 0 6px rgba(255,215,0,.6),
     0 4px 0 #3b2208,
-    0 0 18px rgba(255,215,0,.9); /* HALO FIXE */
+    0 0 20px rgba(255,215,0,.9); /* halo lumineux */
 
   transition:transform .08s ease, box-shadow .08s ease;
 }
 
-/* Effet bouton enfoncé */
-.hint-btn:active{
+/* Effet appui */
+#merchantGame .hint-btn:active{
   transform:translateY(4px);
   box-shadow:
     inset 0 0 10px rgba(0,0,0,.6),
     0 1px 0 #3b2208,
-    0 0 18px rgba(255,215,0,.9);
+    0 0 20px rgba(255,215,0,.9);
 }
 
 /* =====================================================
