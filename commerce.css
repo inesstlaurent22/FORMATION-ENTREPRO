@@ -192,16 +192,33 @@ html,body{
   cursor:pointer;
 }
 
-#skipDialoguesBtn{
-  position:fixed;
-  top:24px;
-  right:24px;
-  pointer-events:auto;
-  z-index:10001;
+/* =====================================================
+   🔘 BOUTONS GLOBAUX STYLE PIRATE
+===================================================== */
+#skipDialoguesBtn,
+#continueQuestBtn{
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  border:3px solid #3b2208;
+  color:#1a0f05;
+  font-weight:bold;
+  font-size:14px;
+  padding:12px 20px;
+  border-radius:14px;
+  cursor:pointer;
+
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
+
+  transition:transform .08s ease, box-shadow .08s ease;
 }
 
-#skipDialoguesBtn:active{
+#skipDialoguesBtn:active,
+#continueQuestBtn:active{
   transform:translateY(4px);
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.6),
+    0 1px 0 #3b2208;
 }
 
 /* =====================================================
@@ -236,19 +253,23 @@ html,body{
   text-shadow:2px 2px 0 #2b1605;
 }
 
+/* =====================================================
+   📘 TITRE LIVRE FIXE CENTRÉ
+===================================================== */
 .bp-title{
   position:absolute;
-  top:40px;
+  top:30px;
   left:50%;
   transform:translateX(-50%);
+  width:100%;
+  text-align:center;
+
   font-family:"Pirata One", serif;
   font-size:28px;
   color:#ffd77a;
   text-shadow:2px 2px 0 #2b1605;
-  text-align:center;
-  width:100%;
+
   pointer-events:none;
- margin-bottom:28px;
 }
 
 /* =====================================================
@@ -554,25 +575,28 @@ html,body{
     0 1px 0 #3b2208;
 }
 
-/* ===============================
-   🔎 BOUTON INDICE — STYLE OFFICIEL
-=============================== */
-
+/* =====================================================
+   🔎 BOUTON INDICE STYLE ARTEFACT
+===================================================== */
 .hint-btn{
   margin:22px 0 26px 0;
-  background:linear-gradient(145deg,#2b1605,#5c3a0c);
-  border:3px solid #ffd77a;
+
+  background:radial-gradient(circle at center,
+    #3b2208,
+    #1a0f05);
+
+  border:2px solid #ffd77a;
   color:#ffd77a;
+
   font-weight:bold;
   font-size:14px;
-  padding:12px 20px;
+  padding:12px 22px;
   border-radius:40px;
   cursor:pointer;
-  letter-spacing:1px;
 
   box-shadow:
-    0 0 12px rgba(255,215,0,.6),
-    inset 0 0 12px rgba(255,215,0,.4);
+    0 0 12px rgba(255,215,0,.7),
+    inset 0 0 10px rgba(255,215,0,.4);
 
   transition:all .2s ease;
 }
@@ -586,6 +610,30 @@ html,body{
 
 .hint-btn:active{
   transform:scale(.95);
+}
+
+/* =====================================================
+   ✨ EFFET LUMINEUX MINI-JEU 3
+===================================================== */
+#merchantGame button.flash-success{
+  animation:flashGold .5s ease;
+}
+
+@keyframes flashGold{
+  0%{
+    box-shadow:
+      0 0 5px gold;
+  }
+  50%{
+    box-shadow:
+      0 0 25px gold,
+      0 0 40px rgba(255,215,0,.8);
+  }
+  100%{
+    box-shadow:
+      inset 0 0 6px rgba(255,215,0,.6),
+      0 4px 0 #3b2208;
+  }
 }
 
 
