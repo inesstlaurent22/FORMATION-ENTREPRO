@@ -229,12 +229,25 @@ html,body{
 ===================================================== */
 .mg1-title,
 .quizTitle,
-.bp-title{
   font-family:"Pirata One", serif;
   font-size:26px;
   color:#ffd77a;
   margin-bottom:16px;
   text-shadow:2px 2px 0 #2b1605;
+}
+
+.bp-title{
+  position:absolute;
+  top:40px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"Pirata One", serif;
+  font-size:28px;
+  color:#ffd77a;
+  text-shadow:2px 2px 0 #2b1605;
+  text-align:center;
+  width:100%;
+  pointer-events:none;
 }
 
 /* =====================================================
@@ -349,6 +362,16 @@ button.correct-locked{
   background:rgba(0,0,0,.92);
   z-index:10000;
   display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.identity-center{
+  position:relative;
+  width:100%;
+  max-width:1100px;
+  display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
 }
@@ -527,27 +550,35 @@ button.correct-locked{
 /* ===============================
    🔎 BOUTON INDICE — STYLE OFFICIEL
 =============================== */
+
 .hint-btn{
-  margin:18px 0 24px 0;
-  background:linear-gradient(145deg,#7b4a12,#caa14a);
-  border:3px solid #3b2208;
-  color:#1a0f05;
+  margin:22px 0 26px 0;
+  background:linear-gradient(145deg,#2b1605,#5c3a0c);
+  border:3px solid #ffd77a;
+  color:#ffd77a;
   font-weight:bold;
   font-size:14px;
-  padding:10px 18px;
-  border-radius:14px;
+  padding:12px 20px;
+  border-radius:40px;
   cursor:pointer;
+  letter-spacing:1px;
+
   box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
-  transition:transform .08s ease, box-shadow .08s ease;
+    0 0 12px rgba(255,215,0,.6),
+    inset 0 0 12px rgba(255,215,0,.4);
+
+  transition:all .2s ease;
+}
+
+.hint-btn:hover{
+  box-shadow:
+    0 0 22px gold,
+    inset 0 0 16px rgba(255,215,0,.8);
+  transform:scale(1.05);
 }
 
 .hint-btn:active{
-  transform:translateY(4px);
-  box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
+  transform:scale(.95);
 }
 
 
