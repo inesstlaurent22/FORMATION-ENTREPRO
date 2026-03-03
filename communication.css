@@ -79,26 +79,37 @@ html,body{
 }
 
 /* =====================================================
-   🌑 SKIP DIALOGUES 
+   🔘 BOUTONS GLOBAUX STYLE PIRATE
 ===================================================== */
 
-#skipDialoguesBtn{
-  position:fixed;   /* ⬅️ CHANGEMENT IMPORTANT */
-  top:24px;
-  right:24px;
-  pointer-events:auto;
+#skipDialoguesBtn,
+#continueQuestBtn,
+.zoom-close,
+#zoomIdentityBtn{
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
   font-weight:bold;
-  font-size:15px;
-  padding:12px 18px;
+  font-size:14px;
+  padding:12px 20px;
   border-radius:14px;
   cursor:pointer;
+
   box-shadow:
     inset 0 0 6px rgba(255,215,0,.6),
     0 4px 0 #3b2208;
-  z-index:10001; /* ⬅️ au-dessus du dialogBox */
+
+  transition:transform .08s ease, box-shadow .08s ease;
+}
+
+#skipDialoguesBtn:active,
+#continueQuestBtn:active,
+.zoom-close:active,
+#zoomIdentityBtn:active{
+  transform:translateY(4px);
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.6),
+    0 1px 0 #3b2208;
 }
 
 /* =====================================================
@@ -429,11 +440,6 @@ html,body{
   border-radius:14px;
 }
 
-.zoom-close{
-  position:absolute;
-  top:20px;
-  right:20px;
-}
 
 /* =====================================================
    🏆 FIN IDENTITÉ
@@ -535,21 +541,6 @@ html,body{
   box-shadow:0 0 18px rgba(255,215,0,.45);
 }
 
-/* 🔎 Bouton ZOOM */
-#zoomIdentityBtn{
-  font-size:18px;
-  padding:8px 14px;
-  border-radius:12px;
-}
-
-/* ➜ CONTINUER LA QUÊTE */
-#continueQuestBtn{
-  position:fixed;
-  top:18px;
-  right:20px;
-  z-index:10001;
-}
-
 .bp-title{
   font-size:24px;
   color:#ffd77a;
@@ -558,79 +549,111 @@ html,body{
 }
 
 /* =====================================================
-   🔗 MINI-JEU 3 — ALIGNEMENT & COULEURS
+   🔗 MINI-JEU 3 — STRUCTURE & STYLE FINAL
 ===================================================== */
+
+/* Conteneur global */
 .mg3-container{
   display:flex;
   justify-content:space-between;
-  gap:24px;
+  gap:32px;
+  margin-top:18px;
 }
 
+/* Colonnes */
 .mg3-column{
   display:flex;
   flex-direction:column;
-  gap:14px;
+  gap:16px;
   width:48%;
 }
 
-/* ⬅️ MINI-JEU 3 — BOUTONS GAUCHE (CANAUX) */
+/* =====================================================
+   ⬅️ BOUTONS CANAUX (RÉSEAUX SOCIAUX)
+   Style sombre premium différencié
+===================================================== */
+
 .mg3-left{
   align-items:flex-start;
 }
 
 .mg3-btn-left{
-  background:linear-gradient(145deg,#3b2208,#7b4a12);
-  border:3px solid #2b1605;
-  color:#f5e6c8;
+  background:linear-gradient(145deg,#2b1605,#5c3a0c);
+  border:3px solid #1a0f05;
+  color:#ffd77a;
   font-weight:bold;
+
   box-shadow:
-    inset 0 0 6px rgba(255,215,0,.25),
-    0 4px 0 #2b1605;
+    inset 0 0 8px rgba(255,215,0,.4),
+    0 4px 0 #1a0f05;
+
+  min-width:220px;
+  text-align:center;
+
+  transition:transform .08s ease, box-shadow .08s ease;
 }
 
-/* Hover */
 .mg3-btn-left:hover{
-  filter:brightness(1.08);
+  filter:brightness(1.1);
 }
 
-/* Enfoncé */
-.mg3-btn-left:active,
-.mg3-btn-left.pressed{
+.mg3-btn-left:active{
   transform:translateY(4px);
   box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #2b1605;
+    inset 0 0 14px rgba(0,0,0,.8),
+    0 1px 0 #1a0f05;
 }
 
-/* ➡️ MINI-JEU 3 — BOUTONS DROITE (OBJECTIFS) */
+/* =====================================================
+   ➡️ BOUTONS OBJECTIFS
+===================================================== */
+
 .mg3-btn-right{
   background:linear-gradient(145deg,#d6b36a,#f3e1a4);
   border:3px solid #8a5a1f;
   color:#2b1605;
   font-weight:bold;
+
   box-shadow:
     inset 0 0 6px rgba(255,255,255,.45),
     0 4px 0 #8a5a1f;
+
+  min-width:220px;
+  text-align:center;
+
+  transition:transform .08s ease, box-shadow .08s ease;
 }
 
-/* Hover */
 .mg3-btn-right:hover{
   filter:brightness(1.05);
 }
 
-/* Enfoncé */
-.mg3-btn-right:active,
-.mg3-btn-right.pressed{
+.mg3-btn-right:active{
   transform:translateY(4px);
   box-shadow:
     inset 0 0 10px rgba(0,0,0,.4),
     0 1px 0 #8a5a1f;
 }
 
-/* Boutons MG3 communs */
-.mg3-btn{
-  min-width:220px;
-  text-align:center;
+/* =====================================================
+   🎯 TITRE & QUESTION (IDENTIQUES MG1 / MG2)
+===================================================== */
+
+.mg3-box .mg1-title{
+  font-family:"Pirata One", serif;
+  font-size:26px;
+  color:#ffd77a;
+  margin-bottom:14px;
+  text-shadow:2px 2px 0 #2b1605;
+}
+
+.mg3-box .gameQuestion{
+  padding:12px 14px;
+  background:#f6e6b8;
+  color:#2b1605;
+  border-radius:12px;
+  font-weight:bold;
+  margin-bottom:18px;
 }
 
 
