@@ -46,53 +46,74 @@ document.addEventListener("DOMContentLoaded", () => {
     }, duration);
   }
 
-  /* =====================================================
-     🎬 VIDEO INTRO
-  ===================================================== */
+/* =====================================================
+   🎬 VIDEO INTRO — VERSION STABLE
+===================================================== */
 
-  if(introVideo){
+if (introVideo) {
 
-    introVideo.muted = true;
-    introVideo.playsInline = true;
-    introVideo.autoplay = true;
-    introVideo.play().catch(()=>{});
+  introVideo.muted = true;
+  introVideo.playsInline = true;
+  introVideo.autoplay = true;
 
-if(toggleSound && introVideo){
-  toggleSound.addEventListener("click", function(e){
-    e.stopPropagation();
-
-    if(introVideo.muted){
-      introVideo.muted = false;
-      introVideo.volume = 1;
-      this.textContent = "🔊";
-    } else {
-      introVideo.muted = true;
-      this.textContent = "🔇";
-    }
-
-    introVideo.play().catch(()=>{});
+  // Tentative de lecture
+  introVideo.play().catch(() => {
+    // Si la vidéo ne peut pas se lancer → fallback immédiat
+    closeIntro();
   });
-}
 
-    closeVideo && (closeVideo.onclick = e => {
+  /* ===== BOUTON SON ===== */
+  if (toggleSound) {
+    toggleSound.addEventListener("click", function (e) {
+      e.stopPropagation();
+
+      introVideo.muted = !introVideo.muted;
+
+      if (!introVideo.muted) {
+        introVideo.volume = 1;
+        this.textContent = "🔊";
+      } else {
+        this.textContent = "🔇";
+      }
+
+      introVideo.play().catch(() => {});
+    });
+  }
+
+  /* ===== BOUTON FERMETURE ===== */
+  if (closeVideo) {
+    closeVideo.addEventListener("click", function (e) {
       e.stopPropagation();
       closeIntro();
     });
-
-    introVideo.onended = closeIntro;
   }
 
-function closeIntro(){
-  if(videoClosed) return;
+  /* ===== FIN VIDÉO ===== */
+  introVideo.addEventListener("ended", closeIntro);
+
+} else {
+  // Si aucune vidéo → lancement direct
+  background.classList.remove("hidden");
+  startDialogues(dialoguesIntro, startMiniGame1);
+}
+
+
+/* =====================================================
+   🔒 FERMETURE INTRO
+===================================================== */
+
+function closeIntro() {
+
+  if (videoClosed) return;
   videoClosed = true;
 
-  if(introVideo){
+  if (introVideo) {
     introVideo.pause();
     introVideo.currentTime = 0;
   }
 
-  if(videoContainer){
-    videoContainer.remove(); // plus fiable que display:none
+  if (videoContainer) {
+    videoContainer.remove();
   }
 
   showLoader(800, () => {
