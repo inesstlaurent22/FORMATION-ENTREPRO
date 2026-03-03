@@ -225,7 +225,7 @@ html,body{
 }
 
 /* =====================================================
-   🎯 TITRE OFFICIEL MINI-JEUX — STYLE UNIFIÉ
+   🎮 TITRES MINI-JEUX 1 → 3 (STYLE PREMIUM LUMINEUX)
 ===================================================== */
 .mg1-title,
 .quizTitle{
@@ -235,12 +235,29 @@ html,body{
   letter-spacing: 2px;
 
   color: #f5e6c8;
-  margin-bottom:28px;
+  margin-bottom: 25px;
 
   text-shadow:
     0 0 5px rgba(255, 215, 0, 0.6),
     0 0 10px rgba(255, 140, 0, 0.5),
     0 0 20px rgba(255, 100, 0, 0.4);
+
+  animation: glowTitle 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes glowTitle{
+  from{
+    text-shadow:
+      0 0 5px rgba(255, 215, 0, 0.6),
+      0 0 10px rgba(255, 140, 0, 0.5),
+      0 0 20px rgba(255, 100, 0, 0.4);
+  }
+  to{
+    text-shadow:
+      0 0 10px rgba(255, 215, 0, 0.9),
+      0 0 20px rgba(255, 140, 0, 0.7),
+      0 0 35px rgba(255, 80, 0, 0.6);
+  }
 }
 
 .bp-title{
@@ -311,18 +328,27 @@ html,body{
 
 
 /* =====================================================
-   🧭 QUESTION BOX – STYLE PIRATE
+   🧭 QUESTIONS MINI-JEUX — STYLE LUMINEUX PIRATE
 ===================================================== */
 .gameQuestion,
 #commQuestion{
-  background:#f6e6b8;
-  color:#2b1605;
-  padding:14px 18px;
-  border-radius:14px;
-  font-weight:bold;
-  margin-bottom:16px;
-}
+  font-size: 1.4rem;
 
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #c9a227;
+  border-radius: 12px;
+
+  padding: 18px 22px;
+  display: inline-block;
+  max-width: 700px;
+
+  color: #fff3d1;
+
+  box-shadow:
+    0 0 15px rgba(255, 200, 0, 0.4);
+
+  margin-bottom: 28px;
+}
 
 /* =====================================================
    🔘 BOUTONS GÉNÉRAUX – SYSTÈME OFFICIEL
