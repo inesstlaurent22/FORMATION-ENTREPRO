@@ -276,10 +276,11 @@ html,body{
 .bp-title{
   position:absolute;
   top:-80px;
-  left:50%;
+  left:35%; /* 50% - 15% = 35% */
   transform:translateX(-50%);
+  text-align:center;
 
-  white-space:nowrap; /* force une seule ligne */
+  white-space:nowrap;
 
   font-family:"Pirata One", serif;
   font-size:34px;
@@ -595,7 +596,7 @@ html,body{
 ===================================================== */
 #merchantGame .hint-btn{
   position:relative;
-
+  margin-top:25px;
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
