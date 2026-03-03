@@ -278,7 +278,8 @@ html,body{
   top:-80px;
   left:50%;
   transform:translateX(-50%);
-  text-align:center;
+
+  white-space:nowrap; /* force une seule ligne */
 
   font-family:"Pirata One", serif;
   font-size:34px;
