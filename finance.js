@@ -6,20 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
      🎬 RÉFÉRENCES
   ===================================================== */
 
-  const background = document.getElementById("background");
-  const pirate5      = document.getElementById("pirate5bis");
-  const pirate2      = document.getElementById("pirate2bis");
-  const fadeScreen   = document.getElementById("fadeScreen");
+  const background     = document.getElementById("background");
+  const pirate5        = document.getElementById("pirate5bis");
+  const pirate2        = document.getElementById("pirate2bis");
+  const fadeScreen     = document.getElementById("fadeScreen");
 
-  const miniGame1    = document.getElementById("miniGame0");
+  const miniGame1      = document.getElementById("miniGame0");
 
-  const financeGame = document.getElementById("financeGame");
-  const part1 = document.getElementById("part1");
-  const part2 = document.getElementById("part2");
-  const part3 = document.getElementById("part3");
-  const part4 = document.getElementById("part4");
-  const bill = document.getElementById("bill");
-  const miniGame3 = document.getElementById("miniGame3");
+  const financeGame    = document.getElementById("financeGame");
+  const part1          = document.getElementById("part1");
+  const part2          = document.getElementById("part2");
+  const part3          = document.getElementById("part3");
+  const part4          = document.getElementById("part4");
+  const bill           = document.getElementById("bill");
+  const miniGame3      = document.getElementById("miniGame3");
 
   const videoContainer = document.getElementById("videoContainer");
   const introVideo     = document.getElementById("questVideo");
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
      🌑 LOADER
   ===================================================== */
 
-  function showLoader(duration = 1000, cb){
+  function showLoader(duration = 800, cb){
     if(!fadeScreen){
       cb && cb();
       return;
@@ -46,70 +46,103 @@ document.addEventListener("DOMContentLoaded", () => {
     }, duration);
   }
 
-/* =====================================================
-   🎬 VIDEO INTRO — VERSION CORRIGÉE
-===================================================== */
-
-if (introVideo) {
-
-  introVideo.muted = true;
-  introVideo.playsInline = true;
-
-  introVideo.play().catch(() => {
-    setTimeout(closeIntro, 800);
-  });
-
-  /* ===== BOUTON SON ===== */
-  if (toggleSound) {
-    toggleSound.addEventListener("click", function (e) {
-      e.stopPropagation();
-
-      introVideo.muted = !introVideo.muted;
-
-      this.textContent = introVideo.muted ? "🔇" : "🔊";
-
-      if (!introVideo.muted) {
-        introVideo.volume = 1;
-      }
-
-      introVideo.play().catch(()=>{});
-    });
-  }
-
-  /* ===== BOUTON PASSER ===== */
-  if (closeVideo) {
-    closeVideo.addEventListener("click", function (e) {
-      e.stopPropagation();
-      closeIntro();
-    });
-  }
-
-  introVideo.addEventListener("ended", closeIntro);
-}
-  
   /* =====================================================
-   🔒 FERMETURE INTRO
-===================================================== */
+     💬 MOTEUR DE DIALOGUES
+  ===================================================== */
 
-function closeIntro(){
+  const bubble = document.createElement("div");
+  bubble.id = "dialogueBox";
+  bubble.classList.add("hidden");
 
-  if(videoClosed) return;
-  videoClosed = true;
-
-  if(introVideo){
-    introVideo.pause();
-    introVideo.currentTime = 0;
+  if (background) {
+    background.appendChild(bubble);
   }
 
-  if(videoContainer){
-    videoContainer.remove();
+  const skipBtn = document.createElement("button");
+  skipBtn.id = "skipDialoguesBtn";
+  skipBtn.textContent = "Passer les dialogues";
+  skipBtn.classList.add("hidden");
+  document.body.appendChild(skipBtn);
+
+  let dialogues = [];
+  let dIndex = 0;
+  let afterDialogues = null;
+
+  /* =====================================================
+     🎬 VIDEO INTRO
+  ===================================================== */
+
+  if (introVideo) {
+
+    introVideo.muted = true;
+    introVideo.playsInline = true;
+
+    introVideo.play().catch(() => {
+      setTimeout(closeIntro, 800);
+    });
+
+    if (toggleSound) {
+      toggleSound.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        introVideo.muted = !introVideo.muted;
+        toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+
+        if (!introVideo.muted) {
+          introVideo.volume = 1;
+        }
+
+        introVideo.play().catch(()=>{});
+      });
+    }
+
+    if (closeVideo) {
+      closeVideo.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeIntro();
+      });
+    }
+
+    introVideo.addEventListener("ended", closeIntro);
+
+  } else {
+    // Pas de vidéo → accès direct
+    background?.classList.remove("hidden");
+    activatePirates();
   }
 
-  showLoader(600, () => {
+  /* =====================================================
+     🔒 FERMETURE INTRO
+  ===================================================== */
 
-    background.classList.remove("hidden");
+  function closeIntro(){
 
-    // On rend les pirates visibles et cliquables
+    if(videoClosed) return;
+    videoClosed = true;
+
+    if(introVideo){
+      introVideo.pause();
+      introVideo.currentTime = 0;
+    }
+
+    if(videoContainer){
+      videoContainer.remove();
+    }
+
+    showLoader(600, () => {
+      background?.classList.remove("hidden");
+      activatePirates();
+    });
+  }
+
+  /* =====================================================
+     🏴‍☠️ ACTIVATION PIRATES
+  ===================================================== */
+
+  function activatePirates(){
+
+    if(!pirate5 || !pirate2) return;
+
     pirate5.classList.remove("hidden");
     pirate2.classList.remove("hidden");
 
@@ -118,107 +151,73 @@ function closeIntro(){
 
     pirate5.style.pointerEvents = "auto";
     pirate2.style.pointerEvents = "auto";
-
-  });
-}
-
-/* =====================================================
-   💬 MOTEUR DE DIALOGUES — VERSION STABLE
-===================================================== */
-
-const bubble = document.createElement("div");
-bubble.id = "dialogueBox";
-bubble.classList.add("hidden");
-
-if (background) {
-  background.appendChild(bubble);
-}
-
-const skipBtn = document.createElement("button");
-skipBtn.id = "skipDialoguesBtn";
-skipBtn.textContent = "Passer les dialogues";
-skipBtn.classList.add("hidden");
-document.body.appendChild(skipBtn);
-
-let dialogues = [];
-let dIndex = 0;
-let afterDialogues = null;
-
-/* ================================
-   ▶ LANCEMENT
-================================ */
-function startDialogues(arr, cb){
-
-  if (!Array.isArray(arr) || arr.length === 0) {
-    cb && cb();
-    return;
   }
 
-  dialogues = arr;
-  dIndex = 0;
-  afterDialogues = cb;
+  /* =====================================================
+     ▶ LANCEMENT DIALOGUES
+  ===================================================== */
 
-  bubble.classList.remove("hidden");
-  skipBtn.classList.remove("hidden");
+  function startDialogues(arr, cb){
 
-  showDialogue();
-}
-
-/* ================================
-   💬 AFFICHAGE
-================================ */
-function showDialogue(){
-
-  const d = dialogues[dIndex];
-
-  if (!d) {
-    endDialogues();
-    return;
-  }
-
-  bubble.textContent = d.t || "";
-
-  let r = null;
-
-  if (d.s && typeof d.s.getBoundingClientRect === "function") {
-    r = d.s.getBoundingClientRect();
-  }
-
-  if (!r || r.width === 0) {
-    bubble.style.left = "50%";
-    bubble.style.top = "30%";
-  } else {
-    bubble.style.left = (r.left + r.width / 2) + "px";
-    bubble.style.top = (r.top - 90) + "px";
-  }
-
-  bubble.style.transform = "translateX(-50%)";
-
-  bubble.onclick = () => {
-    dIndex++;
-    if (dIndex < dialogues.length) {
-      showDialogue();
-    } else {
-      endDialogues();
+    if (!Array.isArray(arr) || arr.length === 0) {
+      cb && cb();
+      return;
     }
-  };
-}
 
-/* ================================
-   🛑 FIN PROPRE
-================================ */
-function endDialogues(){
-  bubble.classList.add("hidden");
-  skipBtn.classList.add("hidden");
-  afterDialogues && afterDialogues();
-}
+    dialogues = arr;
+    dIndex = 0;
+    afterDialogues = cb;
 
-/* ================================
-   ⏭ SKIP
-================================ */
-skipBtn.onclick = () => {
-  endDialogues();
-};
+    bubble.classList.remove("hidden");
+    skipBtn.classList.remove("hidden");
+
+    showDialogue();
+  }
+
+  function showDialogue(){
+
+    const d = dialogues[dIndex];
+
+    if (!d) {
+      endDialogues();
+      return;
+    }
+
+    bubble.textContent = d.t || "";
+
+    let r = null;
+
+    if (d.s && typeof d.s.getBoundingClientRect === "function") {
+      r = d.s.getBoundingClientRect();
+    }
+
+    if (!r || r.width === 0) {
+      bubble.style.left = "50%";
+      bubble.style.top = "30%";
+    } else {
+      bubble.style.left = (r.left + r.width / 2) + "px";
+      bubble.style.top = (r.top - 90) + "px";
+    }
+
+    bubble.style.transform = "translateX(-50%)";
+
+    bubble.onclick = () => {
+      dIndex++;
+      if (dIndex < dialogues.length) {
+        showDialogue();
+      } else {
+        endDialogues();
+      }
+    };
+  }
+
+  function endDialogues(){
+    bubble.classList.add("hidden");
+    skipBtn.classList.add("hidden");
+    afterDialogues && afterDialogues();
+  }
+
+  skipBtn.onclick = endDialogues;
 
   /* =====================================================
      💬 DIALOGUES INTRO
@@ -231,20 +230,18 @@ skipBtn.onclick = () => {
   ];
 
   /* =====================================================
-   🏴‍☠️ CLIC PIRATES → LANCEMENT DIALOGUES
-===================================================== */
+     🏴‍☠️ CLIC PIRATES
+  ===================================================== */
 
-if(pirate5){
-  pirate5.addEventListener("click", () => {
+  pirate5?.addEventListener("click", () => {
     startDialogues(dialoguesIntro, startMiniGame1);
   });
-}
 
-if(pirate2){
-  pirate2.addEventListener("click", () => {
+  pirate2?.addEventListener("click", () => {
     startDialogues(dialoguesIntro, startMiniGame1);
   });
-}
+
+});
 
   /* =====================================================
      🎮 MINI-JEU 1
