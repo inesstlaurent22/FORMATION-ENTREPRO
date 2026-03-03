@@ -611,18 +611,17 @@ html,body{
 }
 
 /* =====================================================
-   ➡️ MG3 — BOUTONS OBJECTIFS (CLAIR PREMIUM)
+   BOUTON RIGHT
 ===================================================== */
-
 .mg3-btn-right{
-  background:linear-gradient(145deg,#f3e1a4,#d6b36a);
-  border:3px solid #a8742a;
+  background:linear-gradient(145deg,#c89b63,#b88245);
+  border:3px solid #7a4e22;
   color:#2b1605;
   font-weight:bold;
 
   box-shadow:
-    inset 0 0 8px rgba(255,255,255,.6),
-    0 4px 0 #a8742a;
+    inset 0 0 8px rgba(255,255,255,.4),
+    0 4px 0 #7a4e22;
 
   min-width:220px;
   text-align:center;
@@ -634,7 +633,7 @@ html,body{
   transform:translateY(4px);
   box-shadow:
     inset 0 0 14px rgba(0,0,0,.4),
-    0 1px 0 #a8742a;
+    0 1px 0 #7a4e22;
 }
 
 /* =====================================================
