@@ -402,6 +402,7 @@ function showBusinessPlanLoader(){
 
   overlay.innerHTML = `
     <div class="identity-center">
+    <div class="book-wrapper">
 
       <h2 class="bp-title hidden" id="bpTitle">
         Bravo 🎉 Tu as créé ton business plan
@@ -422,6 +423,7 @@ function showBusinessPlanLoader(){
             <button id="zoomPageBtn" class="zoom-btn hidden">🔎</button>
           </div>
 
+        </div>
         </div>
 
       </div>
