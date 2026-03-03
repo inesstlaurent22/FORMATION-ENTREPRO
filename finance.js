@@ -700,7 +700,8 @@ function screenShake() {
    🚀 LANCEMENT INITIAL
 ===================================================== */
 
-background.classList.remove("hidden");
-startDialogues(dialoguesIntro, startMiniGame1);
-
-});
+if(!introVideo){
+  background.classList.remove("hidden");
+  startDialogues(dialoguesIntro, startMiniGame1);
+}
+  
