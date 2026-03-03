@@ -264,11 +264,7 @@ html,body{
    📘 TITRE LIVRE — CENTRÉ ÉCRAN AU-DESSUS DU LIVRE
 ===================================================== */
 .bp-title{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -180%);
-  width:100%;
+  margin-bottom:40px;
   text-align:center;
 
   font-family:"Pirata One", serif;
@@ -404,7 +400,7 @@ html,body{
 .identity-center{
   position:relative;
   width:100%;
-  max-width:1100px;
+  height:100%;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -431,7 +427,6 @@ html,body{
   gap:20px;
   padding:30px;
   perspective:1600px;
-  margin-top:160px
 }
 
 /* Halo doux global */
@@ -584,7 +579,7 @@ html,body{
 }
 
 /* =====================================================
-   🔎 BOUTON INDICE — STYLE STANDARD + HALO
+   🔎 BOUTON INDICE — HALO FIXE
 ===================================================== */
 .hint-btn{
   position:relative;
@@ -600,11 +595,10 @@ html,body{
 
   box-shadow:
     inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
+    0 4px 0 #3b2208,
+    0 0 18px rgba(255,215,0,.9); /* HALO FIXE */
 
   transition:transform .08s ease, box-shadow .08s ease;
-  overflow:visible;
-  z-index:1;
 }
 
 /* Effet bouton enfoncé */
@@ -612,28 +606,8 @@ html,body{
   transform:translateY(4px);
   box-shadow:
     inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
-}
-
-/* Halo lumineux circulaire */
-.hint-btn::after{
-  content:"";
-  position:absolute;
-  inset:-6px;
-  border-radius:18px;
-  background:conic-gradient(
-    from 0deg,
-    transparent,
-    gold,
-    transparent 40%
-  );
-  animation:haloSpin 2s linear infinite;
-  z-index:-1;
-}
-
-@keyframes haloSpin{
-  from{ transform:rotate(0deg); }
-  to{ transform:rotate(360deg); }
+    0 1px 0 #3b2208,
+    0 0 18px rgba(255,215,0,.9);
 }
 
 /* =====================================================
