@@ -591,33 +591,44 @@ html,body{
 }
 
 /* =====================================================
-   🔎 BOUTON INDICE — HALO FIXE
+   🔎 BOUTON INDICE — FAISCEAU CIRCULAIRE
 ===================================================== */
 #merchantGame .hint-btn{
+  position:relative;
+
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
   font-weight:bold;
   font-size:14px;
-  padding:12px 20px;
-  border-radius:14px;
+  padding:12px 22px;
+  border-radius:50px; /* rend le bouton plus arrondi */
   cursor:pointer;
 
   box-shadow:
     inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208,
-    0 0 20px rgba(255,215,0,.9); /* halo lumineux */
+    0 4px 0 #3b2208;
 
-  transition:transform .08s ease, box-shadow .08s ease;
+  transition:transform .08s ease;
+  z-index:1;
 }
 
-/* Effet appui */
+/* Faisceau lumineux circulaire */
+#merchantGame .hint-btn::before{
+  content:"";
+  position:absolute;
+  inset:-8px; /* taille du halo autour */
+  border-radius:50px;
+  border:3px solid rgba(255,215,0,.9);
+  box-shadow:
+    0 0 12px gold,
+    0 0 25px rgba(255,215,0,.8);
+  z-index:-1;
+}
+
+/* Effet bouton enfoncé */
 #merchantGame .hint-btn:active{
   transform:translateY(4px);
-  box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208,
-    0 0 20px rgba(255,215,0,.9);
 }
 
 /* =====================================================
