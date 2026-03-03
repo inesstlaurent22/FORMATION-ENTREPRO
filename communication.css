@@ -323,24 +323,15 @@ html,body{
 ===================================================== */
 
 #miniGameContainer button.correct-locked{
-  /* même style bouton */
-  background:linear-gradient(145deg,#7b4a12,#caa14a)!important;
-  border:3px solid #3b2208!important;
+  background:#5c3a0c!important;
+  color:#ffd77a!important;
 
-  /* effet bouton enfoncé */
   transform:translateY(4px)!important;
 
   box-shadow:
     inset 0 0 14px rgba(255,215,0,.9),
+    inset 0 4px 10px rgba(0,0,0,.7),
     0 1px 0 #3b2208!important;
-
-  /* TEXTE UNIQUEMENT LUMINEUX */
-  color:#ffffff!important;
-
-  text-shadow:
-    0 0 6px #ffd700,
-    0 0 12px #ffd700,
-    0 0 18px #ffea00;
 
   pointer-events:none;
 }
@@ -606,23 +597,18 @@ html,body{
 }
 
 /* =====================================================
-   ⬅️ BOUTONS CANAUX (RÉSEAUX SOCIAUX)
-   Style sombre premium différencié
+   ⬅️ MG3 — BOUTONS CANAUX (PIRATE FONCÉ)
 ===================================================== */
 
-.mg3-left{
-  align-items:flex-start;
-}
-
 .mg3-btn-left{
-  background:linear-gradient(145deg,#2b1605,#5c3a0c);
-  border:3px solid #1a0f05;
+  background:linear-gradient(145deg,#1a0f05,#3b2208);
+  border:3px solid #120803;
   color:#ffd77a;
   font-weight:bold;
 
   box-shadow:
-    inset 0 0 8px rgba(255,215,0,.4),
-    0 4px 0 #1a0f05;
+    inset 0 0 8px rgba(0,0,0,.9),
+    0 4px 0 #120803;
 
   min-width:220px;
   text-align:center;
@@ -631,29 +617,29 @@ html,body{
 }
 
 .mg3-btn-left:hover{
-  filter:brightness(1.1);
+  filter:brightness(1.15);
 }
 
 .mg3-btn-left:active{
   transform:translateY(4px);
   box-shadow:
-    inset 0 0 14px rgba(0,0,0,.8),
-    0 1px 0 #1a0f05;
+    inset 0 0 16px rgba(0,0,0,.95),
+    0 1px 0 #120803;
 }
 
 /* =====================================================
-   ➡️ MG3 — BOUTONS OBJECTIFS (STYLE CLAIR PREMIUM)
+   ➡️ MG3 — BOUTONS OBJECTIFS (CLAIR PREMIUM)
 ===================================================== */
 
 .mg3-btn-right{
-  background:linear-gradient(145deg,#fff3c4,#e3b75f);
-  border:3px solid #b8842d;
+  background:linear-gradient(145deg,#f3e1a4,#d6b36a);
+  border:3px solid #a8742a;
   color:#2b1605;
   font-weight:bold;
 
   box-shadow:
-    inset 0 0 10px rgba(255,255,255,.7),
-    0 4px 0 #b8842d;
+    inset 0 0 8px rgba(255,255,255,.6),
+    0 4px 0 #a8742a;
 
   min-width:220px;
   text-align:center;
@@ -661,15 +647,11 @@ html,body{
   transition:transform .08s ease, box-shadow .08s ease;
 }
 
-.mg3-btn-right:hover{
-  filter:brightness(1.15);
-}
-
 .mg3-btn-right:active{
   transform:translateY(4px);
   box-shadow:
-    inset 0 0 16px rgba(0,0,0,.3),
-    0 1px 0 #b8842d;
+    inset 0 0 14px rgba(0,0,0,.4),
+    0 1px 0 #a8742a;
 }
 
 /* =====================================================
