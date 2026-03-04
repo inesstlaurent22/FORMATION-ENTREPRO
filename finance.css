@@ -146,11 +146,6 @@ html, body {
    🎮 BOUTONS MINI-JEUX UNIFIÉS
 ===================================================== */
 
-#miniGame0 button:active,
-#financeGame button:active{
-  transform:translateY(4px);
-  box-shadow:inset 0 0 12px rgba(0,0,0,.8);
-}
 
 #miniGame0 button,
 #miniGame3 button,
@@ -221,14 +216,14 @@ button.selectedAnswer {
 #miniGame3 button.correct-locked{
   background:#5c3a0c!important;
   color:#ffd77a!important;
+
   transform:translateY(4px)!important;
+
   box-shadow:
     inset 0 0 14px rgba(255,215,0,.9),
     0 1px 0 #3b2208!important;
 
-  text-shadow:
-    0 0 6px rgba(255,215,0,.9),
-    0 0 12px rgba(255,215,0,.7);
+  text-shadow:none!important; /* suppression ombre texte */
 
   pointer-events:none;
 }
@@ -259,8 +254,11 @@ button.selectedAnswer {
 #miniGame3 button:active{
   transform:translateY(4px);
   box-shadow:
-    inset 0 0 10px rgba(255,215,0,.6),
+    inset 0 0 10px rgba(255,215,0,.5),
     0 1px 0 #3b2208;
+
+  color:#1a0f05;   /* texte identique */
+  text-shadow:none; /* suppression effet sombre */
 }
 
 
@@ -413,8 +411,8 @@ button.selectedAnswer {
 #miniGame3 .toolsRow{
   display:flex;
   justify-content:center;
-  align-items:flex-start;
-  gap:16px;
+  align-items:center;
+  gap:20px;
   margin-bottom:24px;
 }
 
@@ -423,6 +421,7 @@ button.selectedAnswer {
   flex-direction:column;
   align-items:center;
   gap:8px;
+  min-width:200px;
 }
 
 #miniGame3 #calcFinal{
