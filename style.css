@@ -359,6 +359,19 @@ html, body {
 }
 
 /* ===================== */
+/* 📱 VERSION MOBILE */
+/* ===================== */
+
+@media (max-width: 768px) {
+
+  .fondindex {
+    content: url("images/mobile/Fondmobiledebut.png");
+    object-fit: cover;
+  }
+
+}
+
+/* ===================== */
 /* ANIMATIONS */
 /* ===================== */
 @keyframes blink {
