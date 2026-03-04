@@ -541,11 +541,13 @@ function startMiniGame3(){
 
   <button class="hintBtn" type="button">💡 Indice</button>
 
-    <div class="hintImage hidden">
-      <div class="imageFrame">
-        <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
-      </div>
-    </div>
+</div>
+
+<div class="hintImage hidden">
+  <div class="imageFrame">
+    <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
+  </div>
+</div>
 
     <div id="step1">
       <p><strong>1️⃣ Calcul de la marge</strong></p>
