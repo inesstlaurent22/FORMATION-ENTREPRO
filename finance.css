@@ -396,12 +396,18 @@ button.selectedAnswer {
     0 6px 0 #3b2208;
 }
 
-#miniGame3 .calcToggle,
+x#miniGame3 .calcToggle,
 #miniGame3 .hintBtn{
+  width:200px;
+  height:48px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   border-radius:16px;
-  padding:12px 22px;
   font-size:16px;
-  min-width:180px;
+  font-weight:bold;
 }
 
 /* =====================================================
@@ -411,17 +417,17 @@ button.selectedAnswer {
 #miniGame3 .toolsRow{
   display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:flex-start;
   gap:20px;
-  margin-bottom:24px;
+  margin-bottom:26px;
 }
 
 #miniGame3 .calcWrapper{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:8px;
-  min-width:200px;
+  gap:10px;
+  width:200px;
 }
 
 #miniGame3 #calcFinal{
