@@ -529,6 +529,16 @@ function startMiniGame3(){
 
 <div class="toolsRow">
 
+  <div class="calcWrapper">
+    <button class="calcToggle" type="button">🧮 Calculatrice</button>
+    <input 
+      id="calcFinal"
+      class="calcInput hidden"
+      placeholder="Ex : 10000 - 4250 - 1000"
+      autocomplete="off"
+    >
+  </div>
+
   <button class="hintBtn" type="button">💡 Indice</button>
 
 </div>
