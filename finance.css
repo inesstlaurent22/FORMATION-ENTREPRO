@@ -154,45 +154,14 @@ html, body {
 }
 
 /* =====================================================
-   📜 ENCART QUESTION BLANC MINI JEU 
-===================================================== */
-.questionBox{
-  padding:12px 14px;
-  background:#f6e6b8;
-  color:#2b1605;   /* ← TEXTE NOIR/BRUN */
-  border-radius:12px;
-  font-weight:bold;
-  margin:18px 0 20px 0;
-  border:2px solid gold;
-}
-
-.questionBox strong{
-  color:#000;
-}
-
-/* =====================================================
    🎮 BOUTONS MINI-JEUX UNIFIÉS
 ===================================================== */
-
-#miniGame0 button,
-#financeGame button{
-  background:linear-gradient(145deg,#7b4a12,#caa14a);
-  border:3px solid #3b2208;
-  color:#1a0f05;
-  font-weight:bold;
-  padding:12px 18px;
-  border-radius:14px;
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
-}
 
 #miniGame0 button:active,
 #financeGame button:active{
   transform:translateY(4px);
   box-shadow:inset 0 0 12px rgba(0,0,0,.8);
 }
-
 
 
 /* =====================================================
@@ -327,13 +296,6 @@ button.selectedAnswer {
 }
 
 /* ===== CLIENTS ===== */
-.clients {
-  display: flex;
-  justify-content: center;
-  gap: 28px;
-  margin-top: 24px;
-}
-
 .clients > div {
   display: flex;
   flex-direction: column;
