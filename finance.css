@@ -51,7 +51,7 @@ html, body {
 #videoControls button:active{
   transform:translateY(4px);
   box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
+    inset 0 0 8px rgba(255,215,0,.6),
     0 1px 0 #3b2208;
 }
 
@@ -253,12 +253,13 @@ button.selectedAnswer {
 #financeGame button:active,
 #miniGame3 button:active{
   transform:translateY(4px);
+
   box-shadow:
-    inset 0 0 10px rgba(255,215,0,.5),
+    inset 0 0 8px rgba(255,215,0,.6),
     0 1px 0 #3b2208;
 
-  color:#1a0f05;   /* texte identique */
-  text-shadow:none; /* suppression effet sombre */
+  color:#1a0f05;
+  text-shadow:none;
 }
 
 
@@ -396,7 +397,7 @@ button.selectedAnswer {
     0 6px 0 #3b2208;
 }
 
-x#miniGame3 .calcToggle,
+#miniGame3 .calcToggle,
 #miniGame3 .hintBtn{
   width:200px;
   height:48px;
@@ -535,7 +536,7 @@ x#miniGame3 .calcToggle,
 .calcToggle.pressed{
   transform:translateY(6px);
   box-shadow:
-    inset 0 0 14px rgba(0,0,0,.8),
+    inset 0 0 10px rgba(255,215,0,.6),
     0 2px 0 #3b2208;
 }
 
