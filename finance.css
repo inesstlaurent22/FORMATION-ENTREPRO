@@ -141,6 +141,19 @@ html, body {
 }
 
 /* =====================================================
+   🎯 TITRES MINI-JEUX 1 → 3
+===================================================== */
+#miniGame0 h3,
+#financeGame h3,
+#miniGame3 h3{
+  font-family:"Pirata One", serif;
+  font-size:26px;
+  color:#ffd77a;
+  margin-bottom:16px;
+  text-shadow:2px 2px 0 #2b1605;
+}
+
+/* =====================================================
    📜 ENCART QUESTION BLANC MINI JEU 
 ===================================================== */
 .questionBox{
@@ -218,6 +231,70 @@ button.selectedAnswer {
   color: #f5e6c8;
   transform: translateY(3px);
   box-shadow: inset 0 0 10px rgba(0,0,0,.7);
+}
+
+/* =====================================================
+   🔥 BOUTONS VERTICAUX MINI-JEUX
+===================================================== */
+
+#qChoices,
+#financeGame .clients,
+#miniGame3{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  margin-top:16px;
+}
+
+#qChoices button,
+#financeGame button,
+#miniGame3 button{
+  width:100%;
+  max-width:420px;
+}
+
+/* =====================================================
+   🔘 BOUTONS MINI-JEUX 1 → 3
+===================================================== */
+
+#miniGame0 button,
+#financeGame button,
+#miniGame3 button{
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  border:3px solid #3b2208;
+  color:#1a0f05;
+  font-weight:bold;
+  font-size:14px;
+  padding:12px 18px;
+  border-radius:14px;
+  cursor:pointer;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
+  transition:transform .08s ease, box-shadow .08s ease;
+}
+
+#miniGame0 button:active,
+#financeGame button:active,
+#miniGame3 button:active{
+  transform:translateY(4px);
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.6),
+    0 1px 0 #3b2208;
+}
+
+#miniGame0 button.correctAnswer,
+#financeGame button.correctAnswer,
+#miniGame3 button.correctAnswer{
+  background:#5c3a0c!important;
+  color:#ffd77a!important;
+  transform:translateY(4px)!important;
+  box-shadow:
+    inset 0 0 14px rgba(255,215,0,.9),
+    inset 0 4px 10px rgba(0,0,0,.7),
+    0 1px 0 #3b2208!important;
+  pointer-events:none;
 }
 
 /* =====================================================
@@ -320,16 +397,17 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   📜 QUESTION BOX (PARCHEMIN CLAIR)
+   🎯 QUESTIONS MINI-JEUX
 ===================================================== */
-
+#miniGame0 .questionBox,
+#financeGame .questionBox,
 #miniGame3 .questionBox{
-  background:#f6e6b8;
-  color:#2b1605; /* texte noir */
   padding:12px 14px;
+  background:#f6e6b8;
+  color:#2b1605;
   border-radius:12px;
   font-weight:bold;
-  margin:18px 0 20px 0;
+  margin-bottom:14px;
   border:2px solid gold;
 }
 
@@ -556,6 +634,25 @@ button:disabled {
 .shake {
   animation: screenShake 0.4s ease;
   will-change: transform;
+}
+
+/* =====================================================
+   🌪️ SHAKE MINI-JEUX
+===================================================== */
+
+#miniGame0.shake,
+#financeGame.shake,
+#miniGame3.shake{
+  animation:shake .35s ease;
+}
+
+@keyframes shake{
+  0%{transform:translate(-50%,-50%) translateX(0);}
+  20%{transform:translate(-50%,-50%) translateX(-8px);}
+  40%{transform:translate(-50%,-50%) translateX(8px);}
+  60%{transform:translate(-50%,-50%) translateX(-6px);}
+  80%{transform:translate(-50%,-50%) translateX(6px);}
+  100%{transform:translate(-50%,-50%) translateX(0);}
 }
 
 /* =====================================================
