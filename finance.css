@@ -214,22 +214,13 @@ button.selectedAnswer {
 #miniGame0 button.correct-locked,
 #miniGame3 button.correct-locked,
 #financeGame button.correctAnswer{
-  background:linear-gradient(145deg,#7b4a12,#caa14a)!important;
+    background:#5c3a0c!important;
   color:#ffd77a!important;
-
   transform:translateY(4px)!important;
-
   box-shadow:
-    0 2px 0 #3b2208,
-    0 0 12px rgba(255,215,0,.7)!important;
-
-  text-shadow:
-    0 0 6px gold,
-    0 0 12px #ffd700,
-    0 0 18px #ffea00;
-
-  animation:goldGlow 0.8s ease;
-
+    inset 0 0 14px rgba(255,215,0,.9),
+    inset 0 4px 10px rgba(0,0,0,.7),
+    0 1px 0 #3b2208!important;
   pointer-events:none;
 }
 
