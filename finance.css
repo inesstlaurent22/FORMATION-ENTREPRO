@@ -277,12 +277,6 @@ button.selectedAnswer {
   box-shadow: 0 0 40px rgba(255,215,0,.45);
 }
 
-#financeGame h3 {
-  color: gold;
-  font-size: 24px;
-  margin-bottom: 16px;
-}
-
 #financeGame p {
   color:#2b1605; /* texte noir */
   font-size: 16px;
@@ -325,6 +319,13 @@ button.selectedAnswer {
   flex-direction:column;
   align-items:center;
   gap:10px;
+}
+
+
+#financeGame #part2 button,
+#financeGame #part3 button{
+  display:block;
+  margin:12px auto;
 }
 
 /* =====================================================
@@ -387,7 +388,7 @@ button.selectedAnswer {
 }
 
 /* =====================================================
-   MINI JEU 3 — BARRE OUTILS
+   MINI-JEU 3 — BARRE OUTILS
 ===================================================== */
 
 #miniGame3 .toolsRow{
