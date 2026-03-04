@@ -541,10 +541,6 @@ function startMiniGame3(){
 
   <button class="hintBtn" type="button">💡 Indice</button>
 
-</div>
-
-    <button class="hintBtn" type="button">💡 Indice</button>
-
     <div class="hintImage hidden">
       <div class="imageFrame">
         <img src="images/EBE.PNG" alt="Indice EBE" class="zoomable">
