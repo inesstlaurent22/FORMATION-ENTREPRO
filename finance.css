@@ -211,9 +211,9 @@ button.selectedAnswer {
   max-width:420px;
 }
 
-
 #miniGame0 button.correct-locked,
-#miniGame3 button.correct-locked{
+#miniGame3 button.correct-locked,
+#financeGame button.correctAnswer{
   background:#5c3a0c!important;
   color:#ffd77a!important;
 
@@ -223,7 +223,12 @@ button.selectedAnswer {
     inset 0 0 14px rgba(255,215,0,.9),
     0 1px 0 #3b2208!important;
 
-  text-shadow:none!important; /* suppression ombre texte */
+  text-shadow:
+    0 0 4px gold,
+    0 0 8px #ffd700,
+    0 0 14px #ffea00;
+
+  animation:goldGlow 0.8s ease;
 
   pointer-events:none;
 }
@@ -258,9 +263,7 @@ button.selectedAnswer {
     inset 0 0 8px rgba(255,215,0,.7),
     0 1px 0 #3b2208;
 
-  color:#ffd77a;
-
-  animation:goldGlow .6s ease;
+  color:#1a0f05;
 }
 
 @keyframes goldGlow{
