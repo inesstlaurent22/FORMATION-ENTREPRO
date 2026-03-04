@@ -374,14 +374,6 @@ button.selectedAnswer {
   box-shadow:0 0 45px rgba(255,215,0,.6);
 }
 
-/* ================= TITRE ================= */
-
-#miniGame3 h3{
-  color:gold;
-  font-size:26px;
-  margin-bottom:22px;
-}
-
 /* ================= TEXTE PRINCIPAL ================= */
 
 #miniGame3 p{
