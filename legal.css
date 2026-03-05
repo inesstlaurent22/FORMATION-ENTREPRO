@@ -491,17 +491,25 @@ button.pressed{
 }
 
 /* =====================================================
-   📜 INFO BOX
+   📜 INFO BOX — STYLE PARCHEMIN PIRATE
 ===================================================== */
+
 .infoBox{
   margin-top:12px;
-  padding:14px;
-  border:2px solid gold;
+  padding:16px;
+
+  background:#f6e6b8;
+  color:#2b1605;
+
+  border:3px solid #caa14a;
   border-radius:14px;
-  background:rgba(0,0,0,.45);
-  color:#fff;
-  line-height:1.55;
-  box-shadow:0 0 15px rgba(255,215,0,.25);
+
+  font-weight:bold;
+  line-height:1.5;
+
+  box-shadow:
+    inset 0 0 8px rgba(0,0,0,.25),
+    0 4px 0 #3b2208;
 }
 
 /* =====================================================
