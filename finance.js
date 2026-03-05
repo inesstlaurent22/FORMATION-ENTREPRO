@@ -240,7 +240,8 @@ btn.classList.add("correct-locked");
               : endMiniGame1();
           }
         } else {
-          screenShake();
+          btn.classList.add("wrongAnswer");
+setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
         }
       };
       qChoices.appendChild(btn);
@@ -371,7 +372,8 @@ function checkAllBillsRead(){
 window.chooseClient = function(btn){
 
   if (!Object.values(billsSeen).every(v => v)) {
-    return screenShake();
+    return btn.classList.add("wrongAnswer");
+setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
   }
 
   const isCorrect = btn.dataset.correct === "true";
@@ -386,7 +388,8 @@ window.chooseClient = function(btn){
     injectCalculator(part2);
 
   } else {
-    screenShake();
+   btn.classList.add("wrongAnswer");
+setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
   }
 };
 
@@ -396,7 +399,8 @@ window.chooseClient = function(btn){
 
 window.checkResult = function(ok){
 
-  if (!ok) return screenShake();
+  if (!ok) return btn.classList.add("wrongAnswer");
+setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
 
   part2.classList.add("hidden");
   part3.classList.remove("hidden");
@@ -410,7 +414,8 @@ window.checkResult = function(ok){
 
 window.checkAmortBase = function(ok){
 
-  if (!ok) return screenShake();
+  if (!ok) return btn.classList.add("wrongAnswer");
+setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
 
   amortMonth?.classList.remove("hidden");
 };
@@ -421,7 +426,8 @@ window.checkAmortBase = function(ok){
 
 window.checkMonthlyAmort = function(ok){
 
-  if (!ok) return screenShake();
+  if (!ok) return btn.classList.add("wrongAnswer");
+setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
 
   part3.classList.add("hidden");
   financeGame.classList.add("hidden");
@@ -472,7 +478,8 @@ function bindStepSafe(stepElement, onSuccess){
         }, 400);
 
       } else {
-        screenShake();
+        btn.classList.add("wrongAnswer");
+setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
       }
 
     });
@@ -743,13 +750,5 @@ function launchGemsExplosion(container){
     container.appendChild(g);
   }
 }
-  
-  /* =====================================================
-     🧯 SHAKE
-  ===================================================== */
-  function screenShake() {
-    document.body.classList.add("shake");
-    setTimeout(() => document.body.classList.remove("shake"), 400);
-  }
 
 });
