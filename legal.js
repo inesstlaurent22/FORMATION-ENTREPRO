@@ -231,7 +231,7 @@ function showAEQuestion(){
         }
 
       } else {
-        shake();
+        shake(b);
       }
     };
 
@@ -346,7 +346,7 @@ function showStatutQ3(){
 }
 
 window.statutQ3 = (btn,val)=>{
-  if(val===0){ shake(); return; }
+  if(val===0){ shake(b); return; }
   if(q3.has(val)) return;
   q3.add(val);
   btn.disabled = true;
@@ -416,7 +416,7 @@ function showTVAQ(){
           tvaI++;
           tvaI < tvaQ.length ? showTVAQ() : endMiniGame3();
         }
-      } else shake();
+      } else shake(b);
     };
     box.appendChild(b);
   });
@@ -464,8 +464,8 @@ function showCoffreTVA(){
     <p>TVA collectée : 200 €</p>
     <div class="gameQuestion">Que fais-tu de cette somme ? </div>
     <div id="qChoices">
-      <button onclick="coffreAnswer(false)">Je la garde</button>
-      <button onclick="coffreAnswer(true)">Je la mets de côté pour l’État</button>
+      <button onclick="coffreAnswer(false,this)">Je la garde</button>
+      <button onclick="coffreAnswer(true,this)">Je la mets de côté pour l’État</button>
     </div>
     `,
 
@@ -515,10 +515,15 @@ window.endMiniGame4 = function(){
 /* =====================================================
    ▶️ AVANCEMENT ÉTAPES
 ===================================================== */
-window.coffreAnswer = function(good){
+window.coffreAnswer = function(good,btn){
 
   if(!good){
-    shake();
+    shake(btn);
+    return;
+  }
+
+  if(!good){
+    shake(b);
     return;
   }
 
@@ -601,27 +606,18 @@ function launchGemsExplosion(container){
 /* =====================================================
    📳 SHAKE
 ===================================================== */
-function shake(){
+function shake(btn){
 
-  const activeGame = document.querySelector(
-    "#miniGame:not([style*='none'])," +
-    "#miniGame2:not([style*='none'])," +
-    "#miniGame3:not([style*='none'])," +
-    "#miniGame4:not([style*='none'])"
-  );
+  if(!btn) return;
 
-  if(activeGame){
+  btn.classList.remove("button-shake");
+  void btn.offsetWidth;
 
-    activeGame.classList.remove("screen-shake");
-    void activeGame.offsetWidth;
+  btn.classList.add("button-shake");
 
-    activeGame.classList.add("screen-shake");
-
-    setTimeout(()=>{
-      activeGame.classList.remove("screen-shake");
-    },350);
-
-  }
+  setTimeout(()=>{
+    btn.classList.remove("button-shake");
+  },350);
 
 }
 
