@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("questVideo");
-const skipBtn = document.getElementById("skipVideo");
-const soundBtn = document.getElementById("soundBtn");
+const skipBtn = document.getElementById("closeVideo");
+const soundBtn = document.getElementById("toggleSound");
 const scene = document.getElementById("scene");
 const pirateLegal = document.getElementById("pirateLegal");
 
