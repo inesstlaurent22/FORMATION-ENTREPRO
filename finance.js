@@ -60,8 +60,14 @@ function shuffleArray(array){
   ===================================================== */
 
   // État initial
+  if(video){
   video.muted = true;
+  video.style.pointerEvents = "none";
+}
+
+if(toggleSoundBtn){
   toggleSoundBtn.textContent = "🔇";
+}
 
   // Sécurité : empêcher la vidéo de capter les clics
   video.style.pointerEvents = "none";
@@ -431,10 +437,13 @@ setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
    📊 RÉSULTAT ANNUEL
 ===================================================== */
 
-window.checkResult = function(ok){
+window.checkResult = function(btn, ok){
 
-  if (!ok) return btn.classList.add("wrongAnswer");
-setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
+  if (!ok){
+    btn.classList.add("wrongAnswer");
+    setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
+    return;
+  }
 
   part2.classList.add("hidden");
   part3.classList.remove("hidden");
@@ -460,23 +469,6 @@ window.checkMonthlyAmort = function(ok){
     hideLoader();
     startDialogues(dialoguesEBE, startMiniGame3);
   },900);
-};
-
-/* =====================================================
-   ✅ FIN MINI-JEU 2
-===================================================== */
-
-window.checkMonthlyAmort = function(ok){
-
-  if (!ok) return btn.classList.add("wrongAnswer");
-setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
-
-  part3.classList.add("hidden");
-  financeGame.classList.add("hidden");
-
-  setTimeout(() => {
-    startDialogues(dialoguesEBE, startMiniGame3);
-  }, 300);
 };
 
 /* =====================================================
