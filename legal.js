@@ -299,14 +299,24 @@ function statutQ1(type){
 
   const info = document.getElementById("mg2Info");
 
-  if(type==="solo"){
-    info.innerHTML += `
-      <div class="infoBox">
-        <strong>Créer seul :</strong><br>
-        EI · EURL · SASU
-      </div>
-    `;
+  const textes = {
+    solo:"EI · EURL · SASU",
+    groupe:"SARL · SAS"
+  };
+
+  info.innerHTML += `
+    <div class="infoBox">
+      ${textes[type]}
+    </div>
+  `;
+
+  document.getElementById(type).disabled = true;
+  document.getElementById(type).classList.add("selectedAnswer");
+
+  if(q1.size === 2){
+    setTimeout(showStatutQ2,900);
   }
+}
 
 if(type==="groupe"){
   info.innerHTML += `
@@ -345,7 +355,6 @@ function showStatutQ2(){
 window.statutQ2 = (btn,statut)=>{
 
   if(q2.has(statut)) return;
-
   q2.add(statut);
 
   btn.disabled = true;
@@ -354,55 +363,64 @@ window.statutQ2 = (btn,statut)=>{
   const info = document.getElementById("mg2Info");
 
   const textes = {
-
-    EI: "Simplifier la gestion avec une structure individuelle.",
-
-    EURL: "Optimiser la rentabilité avec une structure de société.",
-
-    SASU: "Améliorer l'image professionnelle et crédibiliser l'entreprise.",
-
-    SARL: "Mieux protéger le patrimoine face aux risques.",
-
-    SAS: "Faciliter le travail en équipe et l'entrée d'associés."
+    EI:"Simplifier la gestion",
+    EURL:"Améliorer la rentabilité",
+    SASU:"Améliorer l’image de l’entreprise",
+    SARL:"Limiter les risques",
+    SAS:"Travailler en équipe"
   };
 
-info.innerHTML += `
-  <div class="infoBox">
-    <strong>${statut}</strong><br>
-    ${textes[statut]}
-  </div>
-`;
+  info.innerHTML += `
+    <div class="infoBox">
+      ${textes[statut]}
+    </div>
+  `;
 
   if(q2.size === 5){
-    setTimeout(showStatutQ3, 800);
+    setTimeout(showStatutQ3,800);
   }
-
 };
 
 function showStatutQ3(){
   q3.clear();
+
   game2Content.innerHTML = `
-    <div class="gameQuestion">Quand quitter l"auto-entreprenariat pour un statut de société : </div>
-    <div id="qChoices">
-      <button onclick="statutQ3(this,1)">CA élevé</button>
-      <button onclick="statutQ3(this,2)">Embauche</button>
-      <button onclick="statutQ3(this,3)">Peu de charges</button>
-      <button onclick="statutQ3(this,0)">Jamais</button>
+    <div class="gameQuestion">
+      Quand quitter l'auto-entreprise pour un statut de société ?
+    </div>
+
+    <div class="mg2-layout">
+      <div class="mg2-left">
+        <button onclick="statutQ3(this,1)">CA élevé</button>
+        <button onclick="statutQ3(this,2)">Embauche</button>
+        <button onclick="statutQ3(this,3)">Peu de charges</button>
+        <button onclick="statutQ3(this,0)">Jamais</button>
+      </div>
+
+      <div class="mg2-right" id="mg2Info"></div>
     </div>
   `;
 }
 
 window.statutQ3 = (btn,val)=>{
-  if(val===0){ shake(b); return; }
+
+  if(val===0){
+    shake(btn);
+    return;
+  }
+
   if(q3.has(val)) return;
   q3.add(val);
+
   btn.disabled = true;
   btn.classList.add("selectedAnswer");
+
   if(q3.size === 3){
     miniGame2.style.display = "none";
     scene.classList.remove("sceneDim");
     startDialoguesTVA();
   }
+
 };
 
 /* =====================================================
