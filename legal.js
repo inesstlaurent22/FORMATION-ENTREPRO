@@ -308,14 +308,14 @@ function statutQ1(type){
     `;
   }
 
-  if(type==="groupe"){
-    info.innerHTML += `
-      <div class="infoBox">
-        <strong>Créer à plusieurs :</strong><br>
-        SARL · SAS
-      </div>
-    `;
-  }
+if(type==="groupe"){
+  info.innerHTML += `
+    <div class="infoBox">
+      <strong>Créer à plusieurs :</strong><br>
+      SARL · SAS
+    </div>
+  `;
+}
 
   document.getElementById(type).disabled = true;
   document.getElementById(type).classList.add("selectedAnswer");
@@ -366,12 +366,12 @@ window.statutQ2 = (btn,statut)=>{
     SAS: "Faciliter le travail en équipe et l'entrée d'associés."
   };
 
-  info.innerHTML += `
-    <div class="infoBox">
-      <strong>${statut}</strong><br>
-      ${textes[statut]}
-    </div>
-  `;
+info.innerHTML += `
+  <div class="infoBox">
+    <strong>${statut}</strong><br>
+    ${textes[statut]}
+  </div>
+`;
 
   if(q2.size === 5){
     setTimeout(showStatutQ3, 800);
