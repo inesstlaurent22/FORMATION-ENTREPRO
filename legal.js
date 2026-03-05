@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    🎬 VIDÉO
 ===================================================== */
-
 const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("questVideo");
 const skipBtn = document.getElementById("closeVideo");
@@ -11,31 +10,24 @@ const soundBtn = document.getElementById("toggleSound");
 const scene = document.getElementById("scene");
 const pirateLegal = document.getElementById("pirateLegal");
 
-if(video){
+/* Sécurité : vérifier que tout existe */
+if(video && soundBtn && skipBtn){
 
   video.muted = true;
 
-  video.addEventListener("ended", endVideo);
-
-}
-
-if(soundBtn){
-  soundBtn.addEventListener("click",(e)=>{
+  soundBtn.addEventListener("click", (e)=>{
     e.stopPropagation();
-
-    if(!video) return;
-
     video.muted = !video.muted;
     soundBtn.textContent = video.muted ? "🔊" : "🔈";
   });
-}
 
-if(skipBtn){
-  skipBtn.addEventListener("click",(e)=>{
+  skipBtn.addEventListener("click", (e)=>{
     e.preventDefault();
     e.stopPropagation();
     endVideo();
   });
+
+  video.addEventListener("ended", endVideo);
 }
 
 function endVideo(){
@@ -46,7 +38,7 @@ function endVideo(){
   }
 
   if(videoContainer){
-    videoContainer.style.display = "none";
+    videoContainer.classList.add("hidden");
   }
 
   if(scene){
@@ -58,7 +50,7 @@ function endVideo(){
     pirateLegal.onclick = startDialogues1;
   }
 }
-   
+
 /* =====================================================
    ⏭ BOUTON SKIP DIALOGUES
 ===================================================== */
@@ -301,37 +293,17 @@ function showStatutQ1(){
 }
 
 function statutQ1(type){
-
   if(q1.has(type)) return;
   q1.add(type);
 
   const info = document.getElementById("mg2Info");
-
-  const textes = {
-    solo:"EI · EURL · SASU",
-    groupe:"SARL · SAS"
-  };
-
-  info.innerHTML += `
-    <div class="infoBox">
-      ${textes[type]}
-    </div>
-  `;
+  if(type==="solo") info.innerHTML += `<div class="infoBox">EI · EURL · SASU</div>`;
+  if(type==="groupe") info.innerHTML += `<div class="infoBox">SARL · SAS</div>`;
 
   document.getElementById(type).disabled = true;
   document.getElementById(type).classList.add("selectedAnswer");
 
-  if(q1.size === 2){
-    setTimeout(showStatutQ2,900);
-  }
-}
-
-  document.getElementById(type).disabled = true;
-  document.getElementById(type).classList.add("selectedAnswer");
-
-  if(q1.size === 2){
-    setTimeout(showStatutQ2, 900);
-  }
+  if(q1.size === 2) setTimeout(showStatutQ2, 900);
 }
 
 function showStatutQ2(){
@@ -352,74 +324,38 @@ function showStatutQ2(){
 }
 
 window.statutQ2 = (btn,statut)=>{
-
   if(q2.has(statut)) return;
   q2.add(statut);
-
   btn.disabled = true;
   btn.classList.add("selectedAnswer");
-
-  const info = document.getElementById("mg2Info");
-
-  const textes = {
-    EI:"Simplifier la gestion",
-    EURL:"Améliorer la rentabilité",
-    SASU:"Améliorer l’image de l’entreprise",
-    SARL:"Limiter les risques",
-    SAS:"Travailler en équipe"
-  };
-
-  info.innerHTML += `
-    <div class="infoBox">
-      ${textes[statut]}
-    </div>
-  `;
-
-  if(q2.size === 5){
-    setTimeout(showStatutQ3,800);
-  }
+  document.getElementById("mg2Info").innerHTML += `<div class="infoBox">${statut}</div>`;
+  if(q2.size === 5) setTimeout(showStatutQ3, 800);
 };
 
 function showStatutQ3(){
   q3.clear();
-
   game2Content.innerHTML = `
-    <div class="gameQuestion">
-      Quand quitter l'auto-entreprise pour un statut de société ?
-    </div>
-
-    <div class="mg2-layout">
-      <div class="mg2-left">
-        <button onclick="statutQ3(this,1)">CA élevé</button>
-        <button onclick="statutQ3(this,2)">Embauche</button>
-        <button onclick="statutQ3(this,3)">Peu de charges</button>
-        <button onclick="statutQ3(this,0)">Jamais</button>
-      </div>
-
-      <div class="mg2-right" id="mg2Info"></div>
+    <div class="gameQuestion">Quand quitter l"auto-entreprenariat pour un statut de société : </div>
+    <div id="qChoices">
+      <button onclick="statutQ3(this,1)">CA élevé</button>
+      <button onclick="statutQ3(this,2)">Embauche</button>
+      <button onclick="statutQ3(this,3)">Peu de charges</button>
+      <button onclick="statutQ3(this,0)">Jamais</button>
     </div>
   `;
 }
 
 window.statutQ3 = (btn,val)=>{
-
-  if(val===0){
-    shake(btn);
-    return;
-  }
-
+  if(val===0){ shake(b); return; }
   if(q3.has(val)) return;
   q3.add(val);
-
   btn.disabled = true;
   btn.classList.add("selectedAnswer");
-
   if(q3.size === 3){
     miniGame2.style.display = "none";
     scene.classList.remove("sceneDim");
     startDialoguesTVA();
   }
-
 };
 
 /* =====================================================
@@ -539,8 +475,8 @@ function showCoffreTVA(){
     <p>Logiciel : 120 € TTC (TVA 20 €)</p>
     <div class="gameQuestion">La TVA est : </div>
     <div id="qChoices">
-      <button onclick="coffreAnswer(true,this)">Récupérable</button>
-      <button onclick="coffreAnswer(false,this)">Perdue</button>
+      <button onclick="coffreAnswer(true)">Récupérable</button>
+      <button onclick="coffreAnswer(false)">Perdue</button>
     </div>
     `,
 
@@ -586,6 +522,11 @@ window.coffreAnswer = function(good,btn){
     return;
   }
 
+  if(!good){
+    shake(b);
+    return;
+  }
+
   step4++;
 
   if(step4 < 3){
@@ -594,7 +535,6 @@ window.coffreAnswer = function(good,btn){
     step4 = 3;
     showCoffreTVA();
   }
-
 };
 
 
@@ -616,11 +556,11 @@ window.showLegalWin = function(){
 
   document.body.appendChild(overlay);
 
-const gemsContainer = overlay.querySelector(".gems-container");
+  const gemsContainer = overlay.querySelector(".gems-container");
 
-setTimeout(()=>{
-  launchGemsExplosion(gemsContainer);
-},50);
+  requestAnimationFrame(()=>{
+    launchGemsExplosion(gemsContainer);
+  });
 
   /* 🔓 Déblocage pirate4 */
   sessionStorage.setItem("unlock_pirate4","true");
@@ -681,4 +621,4 @@ function shake(btn){
 
 }
 
-});
+}); 
