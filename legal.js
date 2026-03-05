@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    🎬 VIDÉO
 ===================================================== */
+
 const videoContainer = document.getElementById("videoContainer");
 const video = document.getElementById("questVideo");
 const skipBtn = document.getElementById("closeVideo");
@@ -10,24 +11,31 @@ const soundBtn = document.getElementById("toggleSound");
 const scene = document.getElementById("scene");
 const pirateLegal = document.getElementById("pirateLegal");
 
-/* Sécurité : vérifier que tout existe */
-if(video && soundBtn && skipBtn){
+if(video){
 
   video.muted = true;
 
-  soundBtn.addEventListener("click", (e)=>{
+  video.addEventListener("ended", endVideo);
+
+}
+
+if(soundBtn){
+  soundBtn.addEventListener("click",(e)=>{
     e.stopPropagation();
+
+    if(!video) return;
+
     video.muted = !video.muted;
     soundBtn.textContent = video.muted ? "🔊" : "🔈";
   });
+}
 
-  skipBtn.addEventListener("click", (e)=>{
+if(skipBtn){
+  skipBtn.addEventListener("click",(e)=>{
     e.preventDefault();
     e.stopPropagation();
     endVideo();
   });
-
-  video.addEventListener("ended", endVideo);
 }
 
 function endVideo(){
@@ -38,7 +46,7 @@ function endVideo(){
   }
 
   if(videoContainer){
-    videoContainer.classList.add("hidden");
+    videoContainer.style.display = "none";
   }
 
   if(scene){
@@ -50,7 +58,7 @@ function endVideo(){
     pirateLegal.onclick = startDialogues1;
   }
 }
-
+   
 /* =====================================================
    ⏭ BOUTON SKIP DIALOGUES
 ===================================================== */
