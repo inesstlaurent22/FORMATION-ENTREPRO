@@ -357,21 +357,57 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   🎮 QCM
+   🎮 QCM — ALIGNEMENT VERTICAL
 ===================================================== */
+
 #qChoices,
 #tvaChoices{
-  margin-top:18px;
   display:flex;
   flex-direction:column;
-  align-items:center;
+  align-items:stretch;
   gap:14px;
 }
 
 #qChoices button,
 #tvaChoices button{
   width:100%;
-  max-width:420px;
+}
+
+   /* =====================================================
+   🎮 MINI-JEUX 1,2,3 — LAYOUT QUESTIONS / RÉPONSES
+===================================================== */
+
+.mg-layout{
+  display:flex;
+  gap:22px;
+  align-items:flex-start;
+  margin-top:18px;
+}
+
+/* Colonne boutons (gauche) */
+.mg-buttons{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* Colonne réponses (droite) */
+.mg-answer{
+  flex:1;
+  min-height:120px;
+}
+
+/* Boutons pleine largeur dans la colonne */
+.mg-buttons button{
+  width:100%;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .mg-layout{
+    flex-direction:column;
+  }
 }
 
 /* =====================================================
