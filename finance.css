@@ -226,6 +226,44 @@ html, body {
   transition:transform .08s ease, box-shadow .08s ease;
 }
 
+#miniGame0 button.correct-locked,
+#miniGame3 button.correct-locked,
+#financeGame button.correctAnswer{
+
+  color:#ffe680!important;
+
+  text-shadow:
+    0 0 6px gold,
+    0 0 12px #ffd700,
+    0 0 18px #ffea00,
+    0 0 28px gold;
+
+  animation:goldPulse 1.2s ease infinite;
+
+}
+
+@keyframes goldPulse{
+
+  0%{
+    text-shadow:
+      0 0 4px gold,
+      0 0 8px #ffd700;
+  }
+
+  50%{
+    text-shadow:
+      0 0 10px gold,
+      0 0 18px #ffd700,
+      0 0 28px #ffea00;
+  }
+
+  100%{
+    text-shadow:
+      0 0 4px gold,
+      0 0 8px #ffd700;
+  }
+
+}
 
 /* =====================================================
    🎮 MINI-JEU 2 — FINANCE
@@ -641,19 +679,25 @@ button:disabled {
    🌪️ SHAKE MINI-JEUX
 ===================================================== */
 
-#miniGame0.shake,
-#financeGame.shake,
-#miniGame3.shake{
-  animation:shake .35s ease;
+
+button.wrongAnswer{
+  animation:wrongShake .35s ease;
 }
 
-@keyframes shake{
-  0%{transform:translate(-50%,-50%) translateX(0);}
-  20%{transform:translate(-50%,-50%) translateX(-8px);}
-  40%{transform:translate(-50%,-50%) translateX(8px);}
-  60%{transform:translate(-50%,-50%) translateX(-6px);}
-  80%{transform:translate(-50%,-50%) translateX(6px);}
-  100%{transform:translate(-50%,-50%) translateX(0);}
+@keyframes wrongShake{
+
+  0%{ transform:translateX(0); }
+
+  20%{ transform:translateX(-6px); }
+
+  40%{ transform:translateX(6px); }
+
+  60%{ transform:translateX(-4px); }
+
+  80%{ transform:translateX(4px); }
+
+  100%{ transform:translateX(0); }
+
 }
 
 /* =====================================================
