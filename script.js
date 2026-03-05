@@ -136,6 +136,11 @@ window.addEventListener("resize", () => {
 /* ===================== */
 
 tresor.onclick = () => {
+
+  if (tresor.classList.contains("hide")) return;
+
+  tresor.classList.add("hide");
+
   clickSound.play();
 
   const rect = tresor.getBoundingClientRect();
