@@ -424,3 +424,60 @@ html, body {
     font-size: 1rem;
   }
 }
+
+/* ===================== */
+/* 📱 POSITIONNEMENT MOBILE PRECIS */
+/* ===================== */
+
+@media (max-width: 768px) {
+
+  /* coffre */
+  .tresor-button {
+    position: absolute;
+
+    left: 65px;
+    top: 479px;
+
+    width: 328px;
+    height: 269px;
+
+    transform: none;
+  }
+
+  .tresor-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* conteneur vidéo */
+  #videoContainer {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  #videoContainer video {
+    position: absolute;
+
+    left: 15px;
+    top: 328px;
+
+    width: 362px;
+    height: 197px;
+
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  /* bouton fermer vidéo */
+  #closeVideo {
+    top: 280px;
+  }
+
+  /* bouton son */
+  #soundToggle {
+    bottom: 40px;
+    right: 20px;
+  }
+
+}
