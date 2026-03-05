@@ -26,6 +26,24 @@ document.addEventListener("DOMContentLoaded", () => {
   let pirateClickable = false;
   let dialogueActive = false;
 
+  /* =====================================================
+   🌑 LOADER
+===================================================== */
+
+const loader = document.getElementById("fadeScreen");
+
+function showLoader(){
+  if(loader){
+    loader.classList.remove("hidden");
+  }
+}
+
+function hideLoader(){
+  if(loader){
+    loader.classList.add("hidden");
+  }
+}
+  
 /* =====================================================
    🔀 SHUFFLE UTILITAIRE GLOBAL
 ===================================================== */
@@ -69,21 +87,25 @@ function shuffleArray(array){
   // 🎬 Fin automatique de la vidéo
   video.addEventListener("ended", endVideo);
 
-  function endVideo() {
-    // Stop vidéo
-    video.pause();
+function endVideo() {
 
-    // Masquer la vidéo
-    videoContainer.classList.add("hidden");
+  video.pause();
 
-    // Afficher la scène
-    background.classList.remove("hidden");
-    pirate5.classList.remove("hidden");
-    pirate2.classList.remove("hidden");
+  videoContainer.classList.add("hidden");
 
-    // Débloquer interactions
-    pirateClickable = true;
-  }
+  background.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
+  pirate2.classList.remove("hidden");
+
+  pirateClickable = true;
+
+  showLoader();
+
+  setTimeout(()=>{
+    hideLoader();
+  },1200);
+
+}
 
   
   /* =====================================================
@@ -96,12 +118,18 @@ function shuffleArray(array){
   };
   pirate5.onmouseleave = () => pirate5.style.filter = "";
 
-  pirate5.onclick = () => {
-    if (!pirateClickable || dialogueActive) return;
-    pirateClickable = false;
-    pirate5.style.filter = "";
+pirate5.onclick = () => {
+  if (!pirateClickable || dialogueActive) return;
+  pirateClickable = false;
+  pirate5.style.filter = "";
+
+  showLoader();
+
+  setTimeout(()=>{
+    hideLoader();
     startDialogues(dialoguesIntro, startMiniGame1);
-  };
+  },900);
+};
 
   /* =====================================================
      💬 MOTEUR DE DIALOGUES
@@ -248,10 +276,16 @@ setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
     });
   }
 
-  function endMiniGame1() {
-    miniGame1.classList.add("hidden");
+function endMiniGame1() {
+  miniGame1.classList.add("hidden");
+
+  showLoader();
+
+  setTimeout(()=>{
+    hideLoader();
     startDialogues(dialoguesBeforeMini2, startMiniGame2);
-  }
+  },900);
+}
 
   /* =====================================================
      💬 DIALOGUES — ANALYSE
@@ -412,12 +446,20 @@ setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
    🧾 AMORTISSEMENTS
 ===================================================== */
 
-window.checkAmortBase = function(ok){
+window.checkMonthlyAmort = function(ok){
 
   if (!ok) return btn.classList.add("wrongAnswer");
-setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
+  setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
 
-  amortMonth?.classList.remove("hidden");
+  part3.classList.add("hidden");
+  financeGame.classList.add("hidden");
+
+  showLoader();
+
+  setTimeout(()=>{
+    hideLoader();
+    startDialogues(dialoguesEBE, startMiniGame3);
+  },900);
 };
 
 /* =====================================================
