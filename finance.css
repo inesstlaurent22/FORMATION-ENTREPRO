@@ -197,9 +197,7 @@ html, body {
   margin-top:16px;
 }
 
-#qChoices button,
-#financeGame button,
-#miniGame3 button{
+#qChoices button {
   width:100%;
   max-width:420px;
 }
