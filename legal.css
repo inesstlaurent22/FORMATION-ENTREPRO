@@ -469,18 +469,10 @@ button.pressed{
 
 .mg2-right{
   flex:1;
-  min-height:120px;
-
-  padding:16px;
-  border:2px solid gold;
-  border-radius:14px;
-
-  background:rgba(0,0,0,.45);
-  color:#fff;
-
-  line-height:1.6;
-
-  box-shadow:0 0 15px rgba(255,215,0,.25);
+  min-height:140px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
 
 /* Responsive colonnes */
