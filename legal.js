@@ -602,6 +602,7 @@ function launchGemsExplosion(container){
    📳 SHAKE
 ===================================================== */
 function shake(){
+
   const activeGame = document.querySelector(
     "#miniGame:not([style*='none'])," +
     "#miniGame2:not([style*='none'])," +
@@ -610,9 +611,18 @@ function shake(){
   );
 
   if(activeGame){
-    activeGame.classList.add("miniGame-shake");
-    setTimeout(()=>activeGame.classList.remove("miniGame-shake"),350);
+
+    activeGame.classList.remove("screen-shake");
+    void activeGame.offsetWidth;
+
+    activeGame.classList.add("screen-shake");
+
+    setTimeout(()=>{
+      activeGame.classList.remove("screen-shake");
+    },350);
+
   }
+
 }
 
 });
