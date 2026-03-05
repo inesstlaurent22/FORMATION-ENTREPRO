@@ -236,12 +236,6 @@ html, body {
   /* suppression totale des ombres internes */
   box-shadow:0 1px 0 #3b2208!important;
 
-  /* texte lumineux */
-  text-shadow:
-    0 0 3px #ffd700,
-    0 0 6px #ffd700,
-    0 0 12px gold!important;
-
   /* empêche toute opacité sombre */
   opacity:1!important;
   filter:none!important;
