@@ -522,8 +522,8 @@ function showCoffreTVA(){
     <p>Logiciel : 120 € TTC (TVA 20 €)</p>
     <div class="gameQuestion">La TVA est : </div>
     <div id="qChoices">
-      <button onclick="coffreAnswer(true)">Récupérable</button>
-      <button onclick="coffreAnswer(false)">Perdue</button>
+      <button onclick="coffreAnswer(true,this)">Récupérable</button>
+      <button onclick="coffreAnswer(false,this)">Perdue</button>
     </div>
     `,
 
@@ -569,11 +569,6 @@ window.coffreAnswer = function(good,btn){
     return;
   }
 
-  if(!good){
-    shake(b);
-    return;
-  }
-
   step4++;
 
   if(step4 < 3){
@@ -582,6 +577,7 @@ window.coffreAnswer = function(good,btn){
     step4 = 3;
     showCoffreTVA();
   }
+
 };
 
 
@@ -603,11 +599,11 @@ window.showLegalWin = function(){
 
   document.body.appendChild(overlay);
 
-  const gemsContainer = overlay.querySelector(".gems-container");
+const gemsContainer = overlay.querySelector(".gems-container");
 
-  requestAnimationFrame(()=>{
-    launchGemsExplosion(gemsContainer);
-  });
+setTimeout(()=>{
+  launchGemsExplosion(gemsContainer);
+},50);
 
   /* 🔓 Déblocage pirate4 */
   sessionStorage.setItem("unlock_pirate4","true");
