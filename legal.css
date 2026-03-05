@@ -306,7 +306,6 @@ button.pressed{
     0 1px 0 #3b2208;
 }
 
-/* Bonne réponse verrouillée */
 #miniGame button.correct-locked,
 #miniGame2 button.correct-locked,
 #miniGame3 button.correct-locked,
@@ -316,15 +315,11 @@ button.pressed{
 
   transform:translateY(4px)!important;
 
-  /* suppression totale des ombres internes */
   box-shadow:0 1px 0 #3b2208!important;
 
-  /* empêche toute opacité sombre */
   opacity:1!important;
   filter:none!important;
-
-  
-
+}
 
 /* Effet lumineux bonne réponse */
 #miniGame button.flash-success,
