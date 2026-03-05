@@ -293,17 +293,36 @@ function showStatutQ1(){
 }
 
 function statutQ1(type){
+
   if(q1.has(type)) return;
   q1.add(type);
 
   const info = document.getElementById("mg2Info");
-  if(type==="solo") info.innerHTML += `<div class="infoBox">EI · EURL · SASU</div>`;
-  if(type==="groupe") info.innerHTML += `<div class="infoBox">SARL · SAS</div>`;
+
+  if(type==="solo"){
+    info.innerHTML += `
+      <div class="infoBox">
+        <strong>Créer seul :</strong><br>
+        EI · EURL · SASU
+      </div>
+    `;
+  }
+
+  if(type==="groupe"){
+    info.innerHTML += `
+      <div class="infoBox">
+        <strong>Créer à plusieurs :</strong><br>
+        SARL · SAS
+      </div>
+    `;
+  }
 
   document.getElementById(type).disabled = true;
   document.getElementById(type).classList.add("selectedAnswer");
 
-  if(q1.size === 2) setTimeout(showStatutQ2, 900);
+  if(q1.size === 2){
+    setTimeout(showStatutQ2, 900);
+  }
 }
 
 function showStatutQ2(){
@@ -324,12 +343,40 @@ function showStatutQ2(){
 }
 
 window.statutQ2 = (btn,statut)=>{
+
   if(q2.has(statut)) return;
+
   q2.add(statut);
+
   btn.disabled = true;
   btn.classList.add("selectedAnswer");
-  document.getElementById("mg2Info").innerHTML += `<div class="infoBox">${statut}</div>`;
-  if(q2.size === 5) setTimeout(showStatutQ3, 800);
+
+  const info = document.getElementById("mg2Info");
+
+  const textes = {
+
+    EI: "Simplifier la gestion avec une structure individuelle.",
+
+    EURL: "Optimiser la rentabilité avec une structure de société.",
+
+    SASU: "Améliorer l'image professionnelle et crédibiliser l'entreprise.",
+
+    SARL: "Mieux protéger le patrimoine face aux risques.",
+
+    SAS: "Faciliter le travail en équipe et l'entrée d'associés."
+  };
+
+  info.innerHTML += `
+    <div class="infoBox">
+      <strong>${statut}</strong><br>
+      ${textes[statut]}
+    </div>
+  `;
+
+  if(q2.size === 5){
+    setTimeout(showStatutQ3, 800);
+  }
+
 };
 
 function showStatutQ3(){
