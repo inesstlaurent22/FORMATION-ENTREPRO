@@ -436,7 +436,9 @@ button.selectedAnswer{
 .mg2-right{
   flex:1;
   min-height:120px;
-
+  display:flex;
+  flex-direction:column;
+  gap:10px;
   padding:16px;
   border:2px solid gold;
   border-radius:14px;
