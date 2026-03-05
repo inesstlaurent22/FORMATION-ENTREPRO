@@ -55,53 +55,56 @@ function shuffleArray(array){
   return array;
 }
   
-  /* =====================================================
-     🎬 VIDÉO — LOGIQUE CORRIGÉE
-  ===================================================== */
+/* =====================================================
+   🎬 VIDÉO — LOGIQUE CORRIGÉE
+===================================================== */
 
-  // État initial
-  if(video){
+// État initial sécurisé
+if(video){
   video.muted = true;
   video.style.pointerEvents = "none";
-}
 
-if(toggleSoundBtn){
-  toggleSoundBtn.textContent = "🔇";
-}
-
-  // Sécurité : empêcher la vidéo de capter les clics
-  video.style.pointerEvents = "none";
-
-  // Lancement safe (Safari / iOS)
+  // Lecture auto (sécurisée Safari / iOS)
   const tryPlayVideo = () => {
-    if (video.paused) {
-      video.play().catch(() => {});
+    if(video.paused){
+      video.play().catch(()=>{});
     }
   };
 
   tryPlayVideo();
 
-  // 🔊 Activer / couper le son
+  // Fin automatique
+  video.addEventListener("ended", endVideo);
+}
+
+if(toggleSoundBtn){
+  toggleSoundBtn.textContent = "🔇";
+
   toggleSoundBtn.addEventListener("click", () => {
+    if(!video) return;
+
     video.muted = !video.muted;
     toggleSoundBtn.textContent = video.muted ? "🔇" : "🔊";
   });
+}
 
-  // ⏭️ Passer la vidéo
+if(closeVideoBtn){
   closeVideoBtn.addEventListener("click", endVideo);
+}
 
-  // 🎬 Fin automatique de la vidéo
-  video.addEventListener("ended", endVideo);
+/* =====================================================
+   ⏭️ FIN VIDÉO
+===================================================== */
 
-function endVideo() {
+function endVideo(){
 
-  video.pause();
+  if(video) video.pause();
 
-  videoContainer.classList.add("hidden");
+  if(videoContainer) videoContainer.classList.add("hidden");
 
-  background.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
-  pirate2.classList.remove("hidden");
+  background?.classList.remove("hidden");
+  pirate5?.classList.remove("hidden");
+  pirate2?.classList.remove("hidden");
 
   pirateClickable = true;
 
@@ -110,7 +113,6 @@ function endVideo() {
   setTimeout(()=>{
     hideLoader();
   },1200);
-
 }
 
   
@@ -143,7 +145,9 @@ pirate5.onclick = () => {
   const bubble = document.createElement("div");
   bubble.id = "dialogueBox";
   bubble.classList.add("hidden");
+  if(background){
   background.appendChild(bubble);
+}
 
   let dialogues = [];
   let dIndex = 0;
@@ -455,10 +459,13 @@ window.checkResult = function(btn, ok){
    🧾 AMORTISSEMENTS
 ===================================================== */
 
-window.checkMonthlyAmort = function(ok){
+window.checkMonthlyAmort = function(btn, ok){
 
-  if (!ok) return btn.classList.add("wrongAnswer");
-  setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
+  if(!ok){
+    btn.classList.add("wrongAnswer");
+    setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
+    return;
+  }
 
   part3.classList.add("hidden");
   financeGame.classList.add("hidden");
