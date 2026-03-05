@@ -227,19 +227,24 @@ html, body {
 #miniGame0 button.correct-locked,
 #miniGame3 button.correct-locked,
 #financeGame button.correctAnswer{
+
   background:#5c3a0c!important;
   color:#ffd77a!important;
 
   transform:translateY(4px)!important;
 
-  box-shadow:
-    inset 0 0 10px rgba(255,215,0,.6),
-    0 1px 0 #3b2208!important;
+  /* suppression totale des ombres internes */
+  box-shadow:0 1px 0 #3b2208!important;
 
+  /* texte lumineux */
   text-shadow:
-    0 0 4px #ffd700,
-    0 0 8px gold,
-    0 0 14px rgba(255,215,0,.9);
+    0 0 3px #ffd700,
+    0 0 6px #ffd700,
+    0 0 12px gold!important;
+
+  /* empêche toute opacité sombre */
+  opacity:1!important;
+  filter:none!important;
 
   pointer-events:none;
 }
