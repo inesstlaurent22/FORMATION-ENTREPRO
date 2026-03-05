@@ -318,15 +318,6 @@ function statutQ1(type){
   }
 }
 
-if(type==="groupe"){
-  info.innerHTML += `
-    <div class="infoBox">
-      <strong>Créer à plusieurs :</strong><br>
-      SARL · SAS
-    </div>
-  `;
-}
-
   document.getElementById(type).disabled = true;
   document.getElementById(type).classList.add("selectedAnswer");
 
