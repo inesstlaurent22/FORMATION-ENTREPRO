@@ -432,7 +432,6 @@ function showStatutQ3(){
 
 window.statutQ3 = (btn,val)=>{
 
-  /* effet bouton appuyé */
   btn.classList.add("pressed");
   setTimeout(()=>btn.classList.remove("pressed"),120);
 
@@ -504,13 +503,14 @@ function showTVAQ(){
   .forEach(a=>{
     const b = document.createElement("button");
     b.textContent = a.t;
-    b.onclick = ()=>{
+b.onclick = ()=>{
 
   b.classList.add("pressed");
   setTimeout(()=>b.classList.remove("pressed"),120);
-      if(a.ok){
-        b.classList.add("correct-locked");
-        b.disabled = true;
+
+  if(a.ok){
+    b.classList.add("correct-locked");
+    b.disabled = true;
         tvaGood++;
         if(tvaGood === tvaQ[tvaI].good.length){
           tvaI++;
