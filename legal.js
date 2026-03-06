@@ -408,12 +408,13 @@ function showStatutQ3(){
 
 window.statutQ3 = (btn,val)=>{
 
+  /* effet bouton appuyé */
   btn.classList.add("pressed");
   setTimeout(()=>btn.classList.remove("pressed"),120);
 
-  if(val===0){ 
-    shake(btn); 
-    return; 
+  if(val===0){
+    shake(btn);
+    return;
   }
 
   if(q3.has(val)) return;
