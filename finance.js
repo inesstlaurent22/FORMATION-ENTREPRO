@@ -483,6 +483,8 @@ window.checkMonthlyAmort = function(btn, ok){
     return;
   }
 
+  btn.classList.add("correctAnswer");
+
   part3.classList.add("hidden");
   financeGame.classList.add("hidden");
 
@@ -490,7 +492,11 @@ window.checkMonthlyAmort = function(btn, ok){
 
   setTimeout(()=>{
     hideLoader();
-    startDialogues(dialoguesEBE, startMiniGame3);
+
+    if(typeof startDialogues === "function"){
+      startDialogues(dialoguesEBE, startMiniGame3);
+    }
+
   },900);
 };
 
