@@ -299,31 +299,34 @@ function statutQ1(type){
 
   const info = document.getElementById("mg2Info");
 
-  if(type==="solo"){
-    info.innerHTML += `
-      <div class="infoBox">
-        <strong>Créer seul :</strong><br>
-        EI · EURL · SASU
-      </div>
-    `;
-  }
+  const textes = {
 
-  if(type==="groupe"){
-    info.innerHTML += `
-      <div class="infoBox">
-        <strong>Créer à plusieurs :</strong><br>
-        SARL · SAS
-      </div>
-    `;
-  }
+    solo: `
+      <strong>Créer seul :</strong><br>
+      EI · EURL · SASU
+    `,
 
-  document.getElementById(type).disabled = true;
-  document.getElementById(type).classList.add("selectedAnswer");
+    groupe: `
+      <strong>Créer à plusieurs :</strong><br>
+      SARL · SAS
+    `
+  };
+
+  info.innerHTML += `
+    <div class="gameQuestion">
+      ${textes[type]}
+    </div>
+  `;
+
+  const btn = document.getElementById(type);
+  btn.disabled = true;
+  btn.classList.add("selectedAnswer");
 
   if(q1.size === 2){
-    setTimeout(showStatutQ2, 900);
+    setTimeout(showStatutQ2,900);
   }
 }
+ 
 
 function showStatutQ2(){
   q2.clear();
@@ -367,17 +370,15 @@ window.statutQ2 = (btn,statut)=>{
   };
 
   info.innerHTML += `
-    <div class="infoBox">
-      <strong>${statut}</strong><br>
+    <div class="gameQuestion">
       ${textes[statut]}
     </div>
   `;
 
   if(q2.size === 5){
-    setTimeout(showStatutQ3, 800);
+    setTimeout(showStatutQ3,800);
   }
-
-};
+};;
 
 function showStatutQ3(){
   q3.clear();
