@@ -585,9 +585,9 @@ function showCoffreTVA(){
     <h3>🏛️ TVA à reverser</h3>
     <div class="gameQuestion">200 - 20 €</div>
     <div id="qChoices">
-      <button onclick="coffreAnswer(false)">200 €</button>
-      <button onclick="coffreAnswer(true)">180 €</button>
-      <button onclick="coffreAnswer(false)">20 €</button>
+      <button onclick="coffreAnswer(false,this)">200 €</button>
+      <button onclick="coffreAnswer(true,this)">180 €</button>
+      <button onclick="coffreAnswer(false,this)">20 €</button>
     </div>
     `,
 
