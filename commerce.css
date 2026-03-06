@@ -373,7 +373,7 @@ html,body{
   border:3px solid #3b2208;
   border-radius:16px;
 
-  color:#ffd77a;
+  color:#000; /* texte noir */
   font-weight:bold;
   font-size:15px;
 
@@ -388,7 +388,6 @@ html,body{
   cursor:pointer;
   transition:all .12s ease;
 }
-
 
 #communicationGame button:active,
 #visualIdentityGame button:active,
@@ -410,7 +409,7 @@ html,body{
     #4a2a05
   )!important;
 
-  color:#ffd77a!important;
+  color:#000!important; /* texte noir aussi quand verrouillé */
 
   transform:translateY(6px)!important;
 
