@@ -536,6 +536,10 @@ button.selectedAnswer{
   z-index:100000;
 }
 
+/* =====================================================
+   💎 GEMS EXPLOSION
+===================================================== */
+
 .gems-container{
   position:absolute;
   inset:0;
@@ -544,8 +548,6 @@ button.selectedAnswer{
 
 .gem{
   position:absolute;
-  width:12px;
-  height:12px;
   border-radius:50%;
   animation:gemExplode 1.6s ease-out forwards;
 }
@@ -556,10 +558,10 @@ button.selectedAnswer{
     opacity:1;
   }
   100%{
-    transform:translate(
-      calc(-50% + var(--x)),
-      calc(-50% + var(--y))
-    ) scale(0);
+    transform:
+      translate(calc(-50% + var(--x)),
+                calc(-50% + var(--y)))
+      scale(0);
     opacity:0;
   }
 }
