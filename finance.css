@@ -263,35 +263,62 @@ html, body {
 #miniGame0 button,
 #financeGame button,
 #miniGame3 button{
-  background:linear-gradient(145deg,#7b4a12,#caa14a);
+
+  background:linear-gradient(
+    to bottom,
+    #a66a12 0%,
+    #7b4a12 40%,
+    #5a3508 100%
+  );
+
   border:3px solid #3b2208;
-  color:#1a0f05;
+  border-radius:16px;
+
+  color:#ffd77a;
   font-weight:bold;
-  font-size:14px;
-  padding:12px 18px;
-  border-radius:14px;
-  cursor:pointer;
+  font-size:15px;
+
+  padding:12px 20px;
+
   box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
-  transition:transform .08s ease, box-shadow .08s ease;
+    inset 0 3px 8px rgba(255,215,0,.6),
+    inset 0 -6px 10px rgba(0,0,0,.6),
+    0 6px 0 #3b2208,
+    0 0 18px rgba(255,215,0,.3);
+
+  cursor:pointer;
+  transition:all .12s ease;
+}
+
+#miniGame0 button:active,
+#financeGame button:active,
+#miniGame3 button:active{
+
+  transform:translateY(6px);
+
+  box-shadow:
+    inset 0 6px 12px rgba(0,0,0,.9),
+    inset 0 -2px 4px rgba(255,215,0,.4),
+    0 1px 0 #3b2208;
 }
 
 #miniGame0 button.correct-locked,
 #miniGame3 button.correct-locked,
 #financeGame button.correctAnswer{
 
-  background:#5c3a0c!important;
+  background:linear-gradient(
+    to bottom,
+    #7a4a0c,
+    #4a2a05
+  )!important;
+
   color:#ffd77a!important;
 
-  transform:translateY(4px)!important;
+  transform:translateY(6px)!important;
 
-  /* suppression totale des ombres internes */
-  box-shadow:0 1px 0 #3b2208!important;
-
-  /* empêche toute opacité sombre */
-  opacity:1!important;
-  filter:none!important;
+  box-shadow:
+    inset 0 6px 12px rgba(0,0,0,.9),
+    0 1px 0 #3b2208!important;
 
   pointer-events:none;
 }
@@ -668,7 +695,7 @@ button {
 }
 
 button:hover {
-  transform: translateY(2px);
+  transform: translateY(4px);
 }
 
 button:active {
