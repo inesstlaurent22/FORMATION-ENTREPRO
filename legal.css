@@ -468,19 +468,19 @@ button.selectedAnswer{
   }
 }
 
-   /* grille boutons + réponses */
+/* grille boutons + réponses */
 .mg2-grid{
   display:grid;
   grid-template-columns:220px 1fr;
-  gap:12px 20px;
+  gap:14px 20px;
   align-items:start;
   margin-top:20px;
 }
 
-/* emplacement texte réponse */
 .answerSlot{
   min-height:60px;
 }
+
 
 /* =====================================================
    📜 INFO BOX
