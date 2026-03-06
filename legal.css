@@ -234,6 +234,16 @@ button.selectedAnswer{
   text-shadow:2px 2px 0 #2b1605;
 }
 
+.gameQuestion,
+#commQuestion{
+  padding:12px 14px;
+  background:#f6e6b8;
+  color:#2b1605;
+  border-radius:12px;
+  font-weight:bold;
+  margin-bottom:14px;
+}
+
 /* =====================================================
    🔘 BOUTONS MINI-JEUX
 ===================================================== */
