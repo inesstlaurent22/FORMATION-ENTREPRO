@@ -363,39 +363,61 @@ html,body{
 #communicationGame button,
 #visualIdentityGame button,
 #merchantGame button{
-  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  background:linear-gradient(
+    to bottom,
+    #a66a12 0%,
+    #7b4a12 40%,
+    #5a3508 100%
+  );
+
   border:3px solid #3b2208;
-  color:#1a0f05;
+  border-radius:16px;
+
+  color:#ffd77a;
   font-weight:bold;
-  font-size:14px;
-  padding:12px 18px;
-  border-radius:14px;
-  cursor:pointer;
+  font-size:15px;
+
+  padding:12px 20px;
+
   box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
-  transition:transform .08s ease, box-shadow .08s ease;
+    inset 0 3px 8px rgba(255,215,0,.6),
+    inset 0 -6px 10px rgba(0,0,0,.6),
+    0 6px 0 #3b2208,
+    0 0 18px rgba(255,215,0,.3);
+
+  cursor:pointer;
+  transition:all .12s ease;
 }
+
 
 #communicationGame button:active,
 #visualIdentityGame button:active,
 #merchantGame button:active{
-  transform:translateY(4px);
+  transform:translateY(6px);
+
   box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
+    inset 0 6px 12px rgba(0,0,0,.9),
+    inset 0 -2px 4px rgba(255,215,0,.4),
     0 1px 0 #3b2208;
 }
 
 #communicationGame button.correct-locked,
 #visualIdentityGame button.correct-locked,
 #merchantGame button.correct-locked{
-  background:#5c3a0c!important;
+  background:linear-gradient(
+    to bottom,
+    #7a4a0c,
+    #4a2a05
+  )!important;
+
   color:#ffd77a!important;
-  transform:translateY(4px)!important;
+
+  transform:translateY(6px)!important;
+
   box-shadow:
-    inset 0 0 14px rgba(255,215,0,.9),
-    inset 0 4px 10px rgba(0,0,0,.7),
+    inset 0 6px 12px rgba(0,0,0,.9),
     0 1px 0 #3b2208!important;
+
   pointer-events:none;
 }
 
