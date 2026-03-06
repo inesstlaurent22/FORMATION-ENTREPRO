@@ -480,14 +480,16 @@ button.selectedAnswer{
 .mg2-grid{
   display:grid;
   grid-template-columns:220px 1fr;
-  gap:14px 20px;
-  align-items:start;
+  column-gap:20px;
+  row-gap:12px;
+  align-items:center;
   margin-top:20px;
 }
 
-/* =====================================================
-   📜 RÉPONSES STATUT
-===================================================== */
+.mg2-grid button{
+  margin:0;
+  width:100%;
+}
 
 .answerSlot{
   min-height:60px;
@@ -496,8 +498,8 @@ button.selectedAnswer{
 }
 
 .answerSlot .gameQuestion{
-  width:100%;
   margin:0;
+  width:100%;
 }
 
 
