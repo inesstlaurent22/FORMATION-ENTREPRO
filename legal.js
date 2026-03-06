@@ -1,6 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
+   🌑 LOADER GLOBAL
+===================================================== */
+
+const fadeScreen = document.getElementById("fadeScreen");
+
+function showLoader(callback){
+
+  fadeScreen.classList.remove("hidden");
+
+  setTimeout(()=>{
+
+    fadeScreen.classList.add("hidden");
+
+    if(callback) callback();
+
+  },900); // durée du loader
+}
+   
+/* =====================================================
    🎬 VIDÉO
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
@@ -45,10 +64,10 @@ function endVideo(){
     scene.style.display = "block";
   }
 
-  if(pirateLegal){
-    pirateLegal.style.pointerEvents = "auto";
-    pirateLegal.onclick = startDialogues1;
-  }
+ if(pirateLegal){
+  pirateLegal.style.pointerEvents = "auto";
+  pirateLegal.onclick = () => showLoader(startDialogues1);
+}
 }
 
 /* =====================================================
@@ -184,15 +203,20 @@ const aeQuestions = [
 let aeIndex = 0, aeGood = 0;
 
 function startMiniGame1(){
+  showLoader(()=>{
+
   scene.classList.add("sceneDim");
   miniGame1.style.display = "block";
   miniGame1.innerHTML = `
   <h3>📜 Devoirs de l’auto-entrepreneur</h3>
   <div id="qText" class="gameQuestion"></div>
   <div id="qChoices"></div>
-`;
+  `;
+
   aeIndex = 0;
   showAEQuestion();
+
+  });
 }
 
 function showAEQuestion(){
@@ -292,10 +316,16 @@ const game2Content = document.getElementById("game2Content");
 let q1 = new Set(), q2 = new Set(), q3 = new Set();
 
 function startMiniGame2(){
+
+  showLoader(()=>{
+
   scene.classList.add("sceneDim");
   miniGame2.style.display = "block";
   q1.clear();
   showStatutQ1();
+
+  });
+
 }
 
 function showStatutQ1(){
@@ -481,15 +511,22 @@ const tvaQ = [
 let tvaI = 0, tvaGood = 0;
 
 function startMiniGame3(){
+
+  showLoader(()=>{
+
   scene.classList.add("sceneDim");
   miniGame3.style.display = "block";
   miniGame3.innerHTML = `
   <h3>💰 TVA</h3>
   <div id="tvaQ" class="gameQuestion"></div>
   <div id="tvaChoices"></div>
-`;
+  `;
+
   tvaI = 0;
   showTVAQ();
+
+  });
+
 }
 
 function showTVAQ(){
@@ -548,10 +585,16 @@ const miniGame4 = document.getElementById("miniGame4");
 let step4 = 0;
 
 function startMiniGame4(){
+
+  showLoader(()=>{
+
   scene.classList.add("sceneDim");
   miniGame4.style.display = "block";
   step4 = 0;
   showCoffreTVA();
+
+  });
+
 }
 
 function showCoffreTVA(){
