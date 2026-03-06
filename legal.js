@@ -382,11 +382,11 @@ window.statutQ2 = (btn,statut)=>{
     SAS: "Faciliter le travail en équipe et l'entrée d'associés."
   };
 
-  info.innerHTML += `
-    <div class="gameQuestion">
-      ${textes[statut]}
-    </div>
-  `;
+info.innerHTML = `
+  <div class="gameQuestion">
+    ${textes[statut]}
+  </div>
+`;
 
   if(q2.size === 5){
     setTimeout(showStatutQ3,800);
