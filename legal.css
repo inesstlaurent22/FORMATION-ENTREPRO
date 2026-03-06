@@ -72,7 +72,7 @@ body{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.9);
-  z-index:9000;
+  z-index:20000; /* au-dessus de tout */
   display:flex;
   align-items:center;
   justify-content:center;
