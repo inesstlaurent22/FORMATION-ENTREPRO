@@ -454,7 +454,23 @@ window.checkResult = function(btn, ok){
 
   injectCalculator(part3);
 };
+/* =====================================================
+   🧾 BASE AMORTISSEMENT
+===================================================== */
 
+window.checkAmortBase = function(btn, ok){
+
+  if(!ok){
+    btn.classList.add("wrongAnswer");
+    setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
+    return;
+  }
+
+  btn.classList.add("correctAnswer");
+
+  document.getElementById("amortMonth").classList.remove("hidden");
+};
+  
 /* =====================================================
    🧾 AMORTISSEMENTS
 ===================================================== */
