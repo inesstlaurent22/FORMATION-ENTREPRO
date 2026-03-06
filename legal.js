@@ -617,6 +617,11 @@ window.endMiniGame4 = function(){
 ===================================================== */
 window.coffreAnswer = function(good,btn){
 
+  if(btn){
+    btn.classList.add("pressed");
+    setTimeout(()=>btn.classList.remove("pressed"),120);
+  }
+
   if(!good){
     shake(btn);
     return;
