@@ -471,7 +471,7 @@ button.selectedAnswer{
    /* grille boutons + réponses */
 .mg2-grid{
   display:grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns:220px 1fr;
   gap:12px 20px;
   align-items:start;
   margin-top:20px;
@@ -515,25 +515,6 @@ button.selectedAnswer{
     0 0 35px rgba(255,215,0,.8),
     inset 0 0 20px rgba(0,0,0,.8);
 }
-
-/* =====================================================
-   💎 GEMS
-===================================================== */
-.gem{
-  position:fixed;
-  width:12px;
-  height:12px;
-  border-radius:3px;
-  pointer-events:none;
-  z-index:9999;
-  animation:explode 1.6s ease-out forwards;
-}
-
-@keyframes explode{
-  from{transform:translate(0,0) scale(1);opacity:1}
-  to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}
-}
-
 
 /* =====================================================
    🏆 VICTOIRE
