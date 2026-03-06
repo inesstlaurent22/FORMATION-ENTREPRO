@@ -468,7 +468,10 @@ button.selectedAnswer{
   }
 }
 
-/* grille boutons + réponses */
+/* =====================================================
+   🎮 STATUT — BOUTON + RÉPONSE À DROITE
+===================================================== */
+
 .mg2-grid{
   display:grid;
   grid-template-columns:220px 1fr;
