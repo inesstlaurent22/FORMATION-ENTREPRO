@@ -278,13 +278,17 @@ function showStatutQ1(){
   game2Content.innerHTML = `
     <h3>📜 Choisir son statut</h3>
     <p>Crées-tu ta société seul ou en groupe ?</p>
-    <div class="mg2-layout">
-      <div class="mg2-left">
-        <button id="solo">Oui</button>
-        <button id="groupe">Non</button>
-      </div>
-      <div class="mg2-right" id="mg2Info"></div>
+
+    <div class="mg2-grid">
+
+      <button id="solo">Oui</button>
+      <div id="info-solo" class="answerSlot"></div>
+
+      <button id="groupe">Non</button>
+      <div id="info-groupe" class="answerSlot"></div>
+
     </div>
+
     <p style="color:gold;margin-top:12px;">Clique sur les deux options</p>
   `;
 
@@ -297,7 +301,7 @@ function statutQ1(type){
   if(q1.has(type)) return;
   q1.add(type);
 
-  const info = document.getElementById("mg2Info");
+  const info = document.getElementById("info-"+type);
 
   const textes = {
 
@@ -312,11 +316,11 @@ function statutQ1(type){
     `
   };
 
-  info.innerHTML += `
-    <div class="gameQuestion">
-      ${textes[type]}
-    </div>
-  `;
+  info.innerHTML = `
+  <div class="gameQuestion">
+    ${textes[type]}
+  </div>
+`;
 
   const btn = document.getElementById(type);
   btn.disabled = true;
@@ -327,20 +331,29 @@ function statutQ1(type){
   }
 }
  
-
 function showStatutQ2(){
   q2.clear();
+
   game2Content.innerHTML = `
     <p>Pourquoi changer de statut ?</p>
-    <div class="mg2-layout">
-      <div class="mg2-left">
-        <button onclick="statutQ2(this,'EI')">Simplifier</button>
-        <button onclick="statutQ2(this,'EURL')">Rentabilité</button>
-        <button onclick="statutQ2(this,'SASU')">Image</button>
-        <button onclick="statutQ2(this,'SARL')">Risques</button>
-        <button onclick="statutQ2(this,'SAS')">Équipe</button>
-      </div>
-      <div class="mg2-right" id="mg2Info"></div>
+
+    <div class="mg2-grid">
+
+      <button onclick="statutQ2(this,'EI')">Simplifier</button>
+      <div id="info-EI" class="answerSlot"></div>
+
+      <button onclick="statutQ2(this,'EURL')">Rentabilité</button>
+      <div id="info-EURL" class="answerSlot"></div>
+
+      <button onclick="statutQ2(this,'SASU')">Image</button>
+      <div id="info-SASU" class="answerSlot"></div>
+
+      <button onclick="statutQ2(this,'SARL')">Risques</button>
+      <div id="info-SARL" class="answerSlot"></div>
+
+      <button onclick="statutQ2(this,'SAS')">Équipe</button>
+      <div id="info-SAS" class="answerSlot"></div>
+
     </div>
   `;
 }
@@ -354,7 +367,7 @@ window.statutQ2 = (btn,statut)=>{
   btn.disabled = true;
   btn.classList.add("selectedAnswer");
 
-  const info = document.getElementById("mg2Info");
+  const info = document.getElementById("info-"+statut);
 
   const textes = {
 
