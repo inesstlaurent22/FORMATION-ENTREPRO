@@ -536,8 +536,8 @@ function showCoffreTVA(){
     <p>Logiciel : 120 € TTC (TVA 20 €)</p>
     <div class="gameQuestion">La TVA est : </div>
     <div id="qChoices">
-      <button onclick="coffreAnswer(true)">Récupérable</button>
-      <button onclick="coffreAnswer(false)">Perdue</button>
+      <button onclick="coffreAnswer(true,this)">Récupérable</button>
+      <button onclick="coffreAnswer(false,this)">Perdue</button>
     </div>
     `,
 
@@ -583,11 +583,6 @@ window.coffreAnswer = function(good,btn){
     return;
   }
 
-  if(!good){
-    shake(b);
-    return;
-  }
-
   step4++;
 
   if(step4 < 3){
@@ -597,9 +592,7 @@ window.coffreAnswer = function(good,btn){
     showCoffreTVA();
   }
 };
-
-
-
+   
 /* =====================================================
    🏆 VICTOIRE LEGAL
 ===================================================== */
