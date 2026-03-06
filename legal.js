@@ -282,10 +282,10 @@ function showStatutQ1(){
     <div class="mg2-grid">
 
       <button id="solo">Oui</button>
-      <div id="info-solo"></div>
+      <div id="info-solo" class="answerSlot"></div>
 
       <button id="groupe">Non</button>
-      <div id="info-groupe"></div>
+      <div id="info-groupe" class="answerSlot"></div>
 
     </div>
 
@@ -316,7 +316,7 @@ function statutQ1(type){
     `
   };
 
-  info.innerHTML = `
+info.innerHTML = `
   <div class="gameQuestion">
     ${textes[type]}
   </div>
