@@ -407,7 +407,7 @@ function showStatutQ3(){
 }
 
 window.statutQ3 = (btn,val)=>{
-  if(val===0){ shake(b); return; }
+  if(val===0){ shake(btn); return; }
   if(q3.has(val)) return;
   q3.add(val);
   btn.disabled = true;
