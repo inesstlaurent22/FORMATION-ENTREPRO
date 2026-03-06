@@ -8,6 +8,11 @@ const fadeScreen = document.getElementById("fadeScreen");
 
 function showLoader(callback){
 
+  if(!fadeScreen){
+    callback && callback();
+    return;
+  }
+
   fadeScreen.classList.remove("hidden");
 
   setTimeout(()=>{
@@ -16,7 +21,8 @@ function showLoader(callback){
 
     if(callback) callback();
 
-  },900); // durée du loader
+  },900);
+
 }
    
 /* =====================================================
