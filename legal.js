@@ -599,6 +599,7 @@ window.coffreAnswer = function(good,btn){
 };
 
 
+
 /* =====================================================
    🏆 VICTOIRE LEGAL
 ===================================================== */
@@ -623,42 +624,43 @@ window.showLegalWin = function(){
     launchGemsExplosion(gemsContainer);
   });
 
-  /* 🔓 Déblocage pirate4 */
+  /* 🔓 Déblocage pirate suivant */
   sessionStorage.setItem("unlock_pirate4","true");
 
   /* ⏳ Redirection */
   setTimeout(()=>{
-    sessionStorage.setItem("questCompleted", "true");
+    sessionStorage.setItem("questCompleted","true");
     window.location.href = "menu.html";
-  }, 2500);
+  },2500);
 }
-
-
+   
 /* =====================================================
-   💎 EXPLOSION DE GEMS
+   💎 GEMS EXPLOSION
 ===================================================== */
 function launchGemsExplosion(container){
 
-  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
 
-  for(let i = 0; i < 50; i++){
+  for(let i=0;i<50;i++){
 
-    const g = document.createElement("div");
-    g.className = "gem";
+    const g=document.createElement("div");
+    g.className="gem";
 
-    const size = Math.random()*10 + 8;
-    g.style.width = size + "px";
-    g.style.height = size + "px";
-    g.style.background = colors[Math.floor(Math.random()*colors.length)];
+    const size=Math.random()*10+8;
 
-    g.style.left = "50%";
-    g.style.top = "50%";
+    g.style.width=size+"px";
+    g.style.height=size+"px";
 
-    const angle = Math.random() * Math.PI * 2;
-    const dist = Math.random()*260 + 80;
+    g.style.background=colors[Math.floor(Math.random()*colors.length)];
 
-    g.style.setProperty("--x", Math.cos(angle)*dist + "px");
-    g.style.setProperty("--y", Math.sin(angle)*dist + "px");
+    g.style.left="50%";
+    g.style.top="50%";
+
+    const angle=Math.random()*Math.PI*2;
+    const dist=Math.random()*260+80;
+
+    g.style.setProperty("--x",Math.cos(angle)*dist+"px");
+    g.style.setProperty("--y",Math.sin(angle)*dist+"px");
 
     container.appendChild(g);
   }
