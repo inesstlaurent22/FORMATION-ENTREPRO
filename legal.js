@@ -407,11 +407,22 @@ function showStatutQ3(){
 }
 
 window.statutQ3 = (btn,val)=>{
-  if(val===0){ shake(btn); return; }
+
+  btn.classList.add("pressed");
+  setTimeout(()=>btn.classList.remove("pressed"),120);
+
+  if(val===0){ 
+    shake(btn); 
+    return; 
+  }
+
   if(q3.has(val)) return;
+
   q3.add(val);
+
   btn.disabled = true;
   btn.classList.add("selectedAnswer");
+
   if(q3.size === 3){
     miniGame2.style.display = "none";
     scene.classList.remove("sceneDim");
@@ -469,6 +480,9 @@ function showTVAQ(){
     const b = document.createElement("button");
     b.textContent = a.t;
     b.onclick = ()=>{
+
+  b.classList.add("pressed");
+  setTimeout(()=>b.classList.remove("pressed"),120);
       if(a.ok){
         b.classList.add("correct-locked");
         b.disabled = true;
