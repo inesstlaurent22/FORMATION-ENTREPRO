@@ -127,16 +127,14 @@ function endVideo(){
   pirate5.onmouseleave = () => pirate5.style.filter = "";
 
 pirate5.onclick = () => {
+
   if (!pirateClickable || dialogueActive) return;
+
   pirateClickable = false;
   pirate5.style.filter = "";
 
-  showLoader();
+  startDialogues(dialoguesIntro, startMiniGame1);
 
-  setTimeout(()=>{
-    hideLoader();
-    startDialogues(dialoguesIntro, startMiniGame1);
-  },900);
 };
 
   /* =====================================================
