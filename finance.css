@@ -264,77 +264,45 @@ html, body {
 #financeGame button,
 #miniGame3 button{
 
-  background:linear-gradient(
-    to bottom,
-    #a66a12 0%,
-    #7b4a12 40%,
-    #5a3508 100%
-  );
-
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
-  border-radius:16px;
-
-  color:#ffd77a;
+  color:#1a0f05;
   font-weight:bold;
-  font-size:15px;
-
-  padding:12px 20px;
-
-  box-shadow:
-    inset 0 3px 8px rgba(255,215,0,.6),
-    inset 0 -6px 10px rgba(0,0,0,.6),
-    0 6px 0 #3b2208,
-    0 0 18px rgba(255,215,0,.3);
-
+  font-size:14px;
+  padding:12px 18px;
+  border-radius:14px;
   cursor:pointer;
-  transition:all .12s ease;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
+  transition:transform .08s ease, box-shadow .08s ease;
 }
 
 #miniGame0 button:active,
 #financeGame button:active,
 #miniGame3 button:active{
 
-  transform:translateY(6px);
-
+   transform:translateY(4px);
   box-shadow:
-    inset 0 6px 12px rgba(0,0,0,.9),
-    inset 0 -2px 4px rgba(255,215,0,.4),
+    inset 0 0 10px rgba(0,0,0,.6),
     0 1px 0 #3b2208;
 }
+
 
 #miniGame0 button.correct-locked,
 #miniGame3 button.correct-locked,
 #financeGame button.correctAnswer{
 
-  background:linear-gradient(
-    to bottom,
-    #7a4a0c,
-    #4a2a05
-  )!important;
-
+  background:#5c3a0c!important;
   color:#ffd77a!important;
-
-  transform:translateY(6px)!important;
-
+  transform:translateY(4px)!important;
   box-shadow:
-    inset 0 6px 12px rgba(0,0,0,.9),
+    inset 0 0 14px rgba(255,215,0,.9),
+    inset 0 4px 10px rgba(0,0,0,.7),
     0 1px 0 #3b2208!important;
-
   pointer-events:none;
 }
 
-/* =====================================================
-   BOUTON BONNE RÉPONSE — APPUYÉ MAIS TEXTE LUMINEUX
-===================================================== */
-
-#miniGame0 button.correct-locked:active,
-#miniGame3 button.correct-locked:active,
-#financeGame button.correctAnswer:active{
-transform:translateY(4px);
-  box-shadow:
-    inset 0 0 10px rgba(0,0,0,.6),
-    0 1px 0 #3b2208;
-}
 
 /* =====================================================
    🎮 MINI-JEU 2 — FINANCE
