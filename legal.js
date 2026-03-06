@@ -52,6 +52,30 @@ function endVideo(){
 }
 
 /* =====================================================
+   🔘 EFFETS BOUTONS MINI-JEUX
+===================================================== */
+
+document.addEventListener("click", function(e){
+
+  const btn = e.target.closest("button");
+  if(!btn) return;
+
+  /* Exclure les boutons statut Q1 et Q2 */
+  if(
+    btn.id === "solo" ||
+    btn.id === "groupe" ||
+    btn.getAttribute("onclick")?.includes("statutQ2")
+  ){
+    return;
+  }
+
+  /* Effet bouton appuyé */
+  btn.classList.add("pressed");
+  setTimeout(()=>btn.classList.remove("pressed"),120);
+
+});
+
+/* =====================================================
    ⏭ BOUTON SKIP DIALOGUES
 ===================================================== */
 let currentDialogueCallback = null;
@@ -681,6 +705,8 @@ function shake(btn){
 
   if(!btn) return;
 
+  btn.classList.add("pressed");
+
   btn.classList.remove("button-shake");
   void btn.offsetWidth;
 
@@ -688,6 +714,7 @@ function shake(btn){
 
   setTimeout(()=>{
     btn.classList.remove("button-shake");
+    btn.classList.remove("pressed");
   },350);
 
 }
