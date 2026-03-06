@@ -65,6 +65,7 @@ body{
 #toggleSound{ right:180px; }
 #closeVideo{ right:24px; }
 
+
 /* =====================================================
    🌑 LOADER GLOBAL — 🏴‍☠️ STYLE OFFICIEL
 ===================================================== */
@@ -72,7 +73,7 @@ body{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.9);
-  z-index:20000; /* au-dessus de tout */
+  z-index:9000;
   display:flex;
   align-items:center;
   justify-content:center;
