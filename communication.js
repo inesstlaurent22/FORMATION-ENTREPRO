@@ -42,7 +42,7 @@ function closeIntro(){
   scene.classList.remove("hidden");
 
   // Lance la transition
-  showLoader(1200);
+  showLoader(800);
 }
 
 /* =====================================================
