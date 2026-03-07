@@ -618,6 +618,78 @@ body.night-mode #pirate5 {
 #treasureDropdown button:hover .tooltip{
   opacity:1;
 }
+/* ================================================= */
+/* 🔐 BOUTON CONFIDENTIALITÉ */
+/* ================================================= */
+
+#privacyBtn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  border:2px solid gold;
+  background:rgba(0,0,0,.85);
+  color:white;
+  font-size:26px;
+  cursor:pointer;
+  z-index:15000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.25s ease;
+}
+
+#privacyBtn:hover{
+  transform:scale(1.12);
+  box-shadow:0 0 14px gold;
+}
+
+/* ================================================= */
+/* 📜 MODAL CONFIDENTIALITÉ */
+/* ================================================= */
+
+.privacy-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  z-index:100000;
+  align-items:center;
+  justify-content:center;
+}
+
+.privacy-content{
+  background:#f4dfb3;
+  border:4px solid #4a2c12;
+  border-radius:18px;
+  padding:30px;
+  max-width:650px;
+  width:90%;
+  max-height:80vh;
+  overflow:hidden;
+  color:#000;
+  font-family:Georgia, serif;
+  position:relative;
+  box-shadow:0 0 30px rgba(0,0,0,.6);
+}
+
+.privacy-scroll{
+  overflow-y:auto;
+  max-height:60vh;
+  padding-right:10px;
+  line-height:1.5;
+}
+
+.close-privacy{
+  position:absolute;
+  top:10px;
+  right:15px;
+  cursor:pointer;
+  font-size:20px;
+  font-weight:bold;
+}
 
 /* ================================================= */
 /* ✨ ANIMATION */
