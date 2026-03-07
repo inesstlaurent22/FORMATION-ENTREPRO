@@ -288,7 +288,6 @@ html, body {
     0 1px 0 #3b2208;
 }
 
-
 #miniGame0 button.correct-locked,
 #miniGame3 button.correct-locked,
 #financeGame button.correctAnswer{
@@ -302,6 +301,7 @@ html, body {
     0 1px 0 #3b2208!important;
   pointer-events:none;
 }
+
 
 
 /* =====================================================
@@ -548,47 +548,52 @@ html, body {
 /* =====================================================
    🧮 CALCULATRICE — VERSION PIRATE CORRIGÉE
 ===================================================== */
+/* =====================================================
+   ✨ FAISCEAU LUMINEUX — BOUTON CALCULATRICE
+===================================================== */
 
-/* ===== WRAPPER (bouton + input vertical) ===== */
-.calcWrapper{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:12px;
-  margin-bottom:22px;
-}
-
-/* ===== BOUTON ===== */
 .calcToggle{
+  position:relative;
+  overflow:hidden;
+}
+
+/* halo tournant */
+.calcToggle::before{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:18px;
+  background:conic-gradient(
+    transparent 0deg,
+    transparent 120deg,
+    gold 180deg,
+    transparent 240deg,
+    transparent 360deg
+  );
+  animation:calcBeam 3s linear infinite;
+  z-index:0;
+}
+
+/* masque intérieur pour garder le bouton propre */
+.calcToggle::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:14px;
   background:linear-gradient(145deg,#4b2c0f,#8b5a1c);
-  border:3px solid gold;
-  color:#ffd77a;
-  font-weight:bold;
-  font-size:16px;
-  padding:12px 22px;
-  border-radius:16px;
-  cursor:pointer;
-  box-shadow:
-    inset 0 0 12px rgba(255,215,0,.6),
-    0 6px 0 #3b2208,
-    0 0 18px rgba(255,215,0,.5);
-  transition:all .25s ease;
+  z-index:1;
 }
 
-.calcToggle:hover{
-  transform:translateY(-2px);
-  box-shadow:
-    0 0 10px gold,
-    0 0 25px rgba(255,215,0,.7),
-    inset 0 0 6px rgba(255,255,255,.4);
+/* remettre le texte au-dessus */
+.calcToggle span,
+.calcToggle{
+  position:relative;
+  z-index:2;
 }
 
-.calcToggle:active,
-.calcToggle.pressed{
-  transform:translateY(6px);
-  box-shadow:
-    inset 0 0 10px rgba(255,215,0,.6),
-    0 2px 0 #3b2208;
+@keyframes calcBeam{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
 }
 
 /* ===== INPUT ===== */
