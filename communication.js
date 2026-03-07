@@ -371,27 +371,32 @@ function showIdentityWin(){
   overlay.id = "identity-loader";
 
   overlay.innerHTML = `
-    <div class="identity-center">
-      <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
+  <div class="identity-center">
+    <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
 
-      <div class="identity-preview-wrap">
-        <img
-          src="images/Identitevisuelle.JPG"
-          class="identity-preview"
-          alt="Identité visuelle"
-        >
-        <button id="zoomIdentityBtn" type="button">🔎</button>
-      </div>
+    <div class="identity-preview-wrap">
+
+      <img
+        src="images/Identitevisuelle.JPG"
+        class="identity-preview"
+        alt="Identité visuelle"
+      >
+
+      <button id="zoomIdentityBtn" type="button">
+        🔎
+      </button>
+
+      <button
+        id="continueQuestBtn"
+        class="hidden"
+        type="button"
+      >
+        Continuer la quête
+      </button>
+
     </div>
-
-    <button
-      id="continueQuestBtn"
-      class="skip-dialog hidden"
-      type="button"
-    >
-      Continuer la quête
-    </button>
-  `;
+  </div>
+`;
 
   document.body.appendChild(overlay);
 
