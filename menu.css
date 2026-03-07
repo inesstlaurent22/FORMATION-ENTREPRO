@@ -647,6 +647,15 @@ body.night-mode #pirate5 {
   box-shadow:0 0 12px gold;
 }
 
+/* Texte encart confidentialité */
+.privacy-content,
+.privacy-content h2,
+.privacy-content h3,
+.privacy-content p,
+.privacy-content li{
+  color:#000;
+}
+
 /* ================================================= */
 /* 📜 MODAL CONFIDENTIALITÉ */
 /* ================================================= */
