@@ -34,9 +34,15 @@ introVideo.onended = closeIntro;
 function closeIntro(){
   if(videoClosed) return;
   videoClosed = true;
+
   introVideo.pause();
   videoContainer.style.display = "none";
-  showLoader(1200, () => scene.classList.remove("hidden"));
+
+  // Affiche la scène pendant le loader
+  scene.classList.remove("hidden");
+
+  // Lance la transition
+  showLoader(1200);
 }
 
 /* =====================================================
