@@ -276,7 +276,7 @@ html,body{
 .bp-title{
   position:absolute;
   top:-80px;
-  left:10%;  /* 5% plus à gauche */
+  left:20%;  /* 10% plus à gauche */
 
   transform:translateX(-50%);
   text-align:center;
@@ -660,6 +660,13 @@ html,body{
       inset 0 0 6px rgba(255,215,0,.6),
       0 4px 0 #3b2208;
   }
+}
+
+/* =====================================================
+   ESPACE ENTRE INDICE ET PREMIER CHOIX
+===================================================== */
+#strategyChoices{
+  margin-top:10px;
 }
 
 
