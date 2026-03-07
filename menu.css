@@ -669,7 +669,7 @@ body.night-mode #pirate5 {
   width:90%;
   max-height:80vh;
   overflow:hidden;
-  color:#000;
+  color:white;
   font-family:Georgia, serif;
   position:relative;
   box-shadow:0 0 30px rgba(0,0,0,.6);
