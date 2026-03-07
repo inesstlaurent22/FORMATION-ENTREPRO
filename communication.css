@@ -553,10 +553,9 @@ html,body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:10px;
+  gap:12px;
 }
 
-/* Image miniature */
 .identity-preview{
   width:160px;
   max-width:80vw;
@@ -704,7 +703,7 @@ html,body{
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:10000;
+  z-index:40000;
 }
 
 .win-box{
@@ -732,6 +731,18 @@ html,body{
   position:absolute;
   border-radius:50%;
   animation:gemExplode 1.6s ease-out forwards;
+}
+
+.gems-container{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+
+.win-box{
+  position:relative;
+  z-index:2;
 }
 
 @keyframes gemExplode{
