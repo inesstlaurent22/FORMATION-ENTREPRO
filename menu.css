@@ -618,6 +618,7 @@ body.night-mode #pirate5 {
 #treasureDropdown button:hover .tooltip{
   opacity:1;
 }
+
 /* ================================================= */
 /* 🔐 BOUTON CONFIDENTIALITÉ */
 /* ================================================= */
@@ -630,8 +631,8 @@ body.night-mode #pirate5 {
   height:52px;
   border-radius:50%;
   border:2px solid gold;
-  background:rgba(0,0,0,.85);
-  color:white;
+  background:white;     /* fond blanc */
+  color:#000;           /* emoji bien visible */
   font-size:26px;
   cursor:pointer;
   z-index:15000;
@@ -643,7 +644,7 @@ body.night-mode #pirate5 {
 
 #privacyBtn:hover{
   transform:scale(1.12);
-  box-shadow:0 0 14px gold;
+  box-shadow:0 0 12px gold;
 }
 
 /* ================================================= */
