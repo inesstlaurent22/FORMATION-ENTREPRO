@@ -617,26 +617,35 @@ html,body{
    BOUTON RIGHT
 ===================================================== */
 .mg3-btn-right{
-  background:linear-gradient(145deg,#c89b63,#b88245);
-  border:3px solid #7a4e22;
+  background:linear-gradient(145deg,#e3c17a,#b8863b);
+  border:3px solid #5a3a18;
   color:#2b1605;
   font-weight:bold;
 
   box-shadow:
-    inset 0 0 8px rgba(255,255,255,.4),
-    0 4px 0 #7a4e22;
+    inset 0 0 10px rgba(255,230,150,.7),
+    inset 0 -3px 6px rgba(0,0,0,.35),
+    0 4px 0 #5a3a18,
+    0 0 10px rgba(255,200,120,.25);
 
   min-width:220px;
   text-align:center;
 
-  transition:transform .08s ease, box-shadow .08s ease;
+  transition:
+    transform .08s ease,
+    box-shadow .08s ease,
+    filter .15s ease;
+}
+
+.mg3-btn-right:hover{
+  filter:brightness(1.15);
 }
 
 .mg3-btn-right:active{
   transform:translateY(4px);
   box-shadow:
-    inset 0 0 14px rgba(0,0,0,.4),
-    0 1px 0 #7a4e22;
+    inset 0 0 16px rgba(0,0,0,.45),
+    0 1px 0 #5a3a18;
 }
 
 /* =====================================================
