@@ -499,6 +499,30 @@ if (treasureBtn && treasureDropdown) {
 }
 
 /* ==========================================================
+   🔐 POLITIQUE CONFIDENTIALITÉ
+========================================================== */
+
+const privacyBtn = document.getElementById("privacyBtn");
+const privacyModal = document.getElementById("privacyModal");
+const closePrivacy = document.getElementById("closePrivacy");
+
+if (privacyBtn && privacyModal) {
+
+  privacyBtn.addEventListener("click", () => {
+    privacyModal.style.display = "flex";
+  });
+
+}
+
+if (closePrivacy) {
+
+  closePrivacy.addEventListener("click", () => {
+    privacyModal.style.display = "none";
+  });
+
+}
+
+/* ==========================================================
    📌 LABELS + DOWNLOADS
 ========================================================== */
 
