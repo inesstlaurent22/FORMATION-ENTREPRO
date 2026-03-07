@@ -276,7 +276,7 @@ html,body{
 .bp-title{
   position:absolute;
   top:-80px;
-  left:20%;  /* 10% plus à gauche */
+  left:10%;  /* 10% plus à gauche */
 
   transform:translateX(-50%);
   text-align:center;
@@ -596,9 +596,11 @@ html,body{
 /* =====================================================
    🔎 BOUTON INDICE — FAISCEAU CIRCULAIRE
 ===================================================== */
-#merchantGame .hint-btn{
+#merchantGame .hint-btn
   position:relative;
   margin-top:25px;
+  margin-bottom:18px; /* espace avec les réponses */
+
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
