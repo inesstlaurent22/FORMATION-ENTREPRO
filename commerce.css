@@ -276,7 +276,8 @@ html,body{
 .bp-title{
   position:absolute;
   top:-80px;
-  left:15%; 
+  left:10%;  /* 5% plus à gauche */
+
   transform:translateX(-50%);
   text-align:center;
 
@@ -642,12 +643,12 @@ html,body{
   inset:-8px;
   border-radius:50px;
 
-  border:3px solid rgba(255,245,180,.95); /* jaune blanc */
+  border:3px solid #caa14a; /* marron clair */
 
   box-shadow:
-    0 0 12px rgba(255,255,220,.9),
-    0 0 25px rgba(255,240,160,.9),
-    0 0 40px rgba(255,230,120,.6);
+    0 0 12px rgba(202,161,74,.9),
+    0 0 25px rgba(166,106,18,.9),
+    0 0 40px rgba(123,74,18,.6);
 
   z-index:-1;
 }
