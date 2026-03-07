@@ -598,8 +598,8 @@ html,body{
 ===================================================== */
 #merchantGame .hint-btn
   position:relative;
-  margin-top:25px;
-  margin-bottom:18px; /* espace avec les réponses */
+  margin-top:18px;
+  margin-bottom:8px; /* espace avec les réponses */
 
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
@@ -638,6 +638,11 @@ html,body{
 /* Effet bouton enfoncé */
 #merchantGame .hint-btn:active{
   transform:translateY(4px);
+}
+
+#merchantGame #strategyHint{
+  margin-top:6px;   /* très proche du bouton indice */
+  margin-bottom:18px; /* espace avant les réponses */
 }
 
 /* =====================================================
