@@ -594,7 +594,7 @@ html,body{
 /* =====================================================
    ⬅️ MG3 — BOUTONS CANAUX (PIRATE FONCÉ)
 ===================================================== */
-.mg3-btn-left{
+.mg3-btn.mg3-btn-left{
   background:linear-gradient(145deg,#3a2312,#1f1208);
   border:3px solid #0f0703;
   color:#ffd77a;
@@ -626,12 +626,9 @@ html,body{
 }
 
 /* =====================================================
-   BOUTON RIGHT
-===================================================== */
-/* =====================================================
    BOUTON RIGHT — PIRATE MARRON FONCÉ
 ===================================================== */
-.mg3-btn-right{
+.mg3-btn.mg3-btn-right{{
   background:linear-gradient(
     to bottom,
     #8a5508,
