@@ -288,6 +288,7 @@ html, body {
     0 1px 0 #3b2208;
 }
 
+
 #miniGame0 button.correct-locked,
 #miniGame3 button.correct-locked,
 #financeGame button.correctAnswer{
@@ -301,7 +302,6 @@ html, body {
     0 1px 0 #3b2208!important;
   pointer-events:none;
 }
-
 
 
 /* =====================================================
@@ -547,9 +547,6 @@ html, body {
 
 /* =====================================================
    🧮 CALCULATRICE — VERSION PIRATE CORRIGÉE
-===================================================== */
-/* =====================================================
-   ✨ FAISCEAU LUMINEUX — BOUTON CALCULATRICE
 ===================================================== */
 
 .calcToggle{
