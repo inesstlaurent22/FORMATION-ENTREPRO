@@ -616,17 +616,20 @@ html,body{
 /* =====================================================
    BOUTON RIGHT
 ===================================================== */
+/* =====================================================
+   BOUTON RIGHT — PIRATE MARRON FONCÉ
+===================================================== */
 .mg3-btn-right{
-  background:linear-gradient(145deg,#e3c17a,#b8863b);
-  border:3px solid #5a3a18;
-  color:#2b1605;
+  background:linear-gradient(145deg,#4a2c14,#2b1608);
+  border:3px solid #120904;
+  color:#ffd77a;
   font-weight:bold;
 
   box-shadow:
-    inset 0 0 10px rgba(255,230,150,.7),
-    inset 0 -3px 6px rgba(0,0,0,.35),
-    0 4px 0 #5a3a18,
-    0 0 10px rgba(255,200,120,.25);
+    inset 0 0 10px rgba(0,0,0,.85),
+    inset 0 0 4px rgba(255,215,120,.12),
+    0 4px 0 #120904,
+    0 0 10px rgba(0,0,0,.6);
 
   min-width:220px;
   text-align:center;
@@ -637,15 +640,17 @@ html,body{
     filter .15s ease;
 }
 
+/* Survol */
 .mg3-btn-right:hover{
-  filter:brightness(1.15);
+  filter:brightness(1.25);
 }
 
+/* Bouton enfoncé */
 .mg3-btn-right:active{
   transform:translateY(4px);
   box-shadow:
-    inset 0 0 16px rgba(0,0,0,.45),
-    0 1px 0 #5a3a18;
+    inset 0 0 18px rgba(0,0,0,.95),
+    0 1px 0 #120904;
 }
 
 /* =====================================================
