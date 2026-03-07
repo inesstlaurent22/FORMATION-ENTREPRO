@@ -513,6 +513,18 @@ html,body{
   max-width:90%;
 }
 
+#identity-loader h2{
+  position:fixed;
+  top:80px;                 /* hauteur du titre */
+  left:50%;
+  transform:translateX(-50%);
+
+  text-align:center;
+  white-space:nowrap;
+
+  z-index:10001;
+}
+
 /* 🏆 TITRE DE RÉUSSITE */
 .identity-center h2{
   color:#ffd77a;
