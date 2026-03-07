@@ -275,7 +275,7 @@ html,body{
 /* Titre positionné par rapport au livre */
 .bp-title{
   position:fixed;
-  top:90px;
+  top:150px;
   left:30%;
   transform:translateX(-50%);
 
@@ -617,7 +617,7 @@ html,body{
 }
 
 #merchantGame #strategyHint{
-  margin-top:6px;   /* très proche du bouton indice */
+  margin-top:12px;   /* très proche du bouton indice */
   margin-bottom:22px; /* espace avant les réponses */
 }
 
