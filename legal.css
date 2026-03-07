@@ -69,6 +69,9 @@ body{
 /* =====================================================
    🌑 LOADER GLOBAL — 🏴‍☠️ STYLE OFFICIEL
 ===================================================== */
+/* =====================================================
+   🌑 LOADER GLOBAL — 🏴‍☠️ STYLE OFFICIEL
+===================================================== */
 #fadeScreen{
   position:fixed;
   inset:0;
@@ -116,7 +119,6 @@ body{
   from{transform:rotate(0deg);}
   to{transform:rotate(360deg);}
 }
-
 
 /* =====================================================
    🔘 BOUTONS — BASE OFFICIELLE KIT IN
@@ -304,30 +306,18 @@ button.selectedAnswer{
 #miniGame2 button,
 #miniGame3 button,
 #miniGame4 button{
-  background:linear-gradient(
-    to bottom,
-    #a66a12 0%,
-    #7b4a12 40%,
-    #5a3508 100%
-  );
-
+ background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
-  border-radius:16px;
-
-  color:#000; /* texte noir */
+  color:#1a0f05;
   font-weight:bold;
-  font-size:15px;
-
-  padding:12px 20px;
-
-  box-shadow:
-    inset 0 3px 8px rgba(255,215,0,.6),
-    inset 0 -6px 10px rgba(0,0,0,.6),
-    0 6px 0 #3b2208,
-    0 0 18px rgba(255,215,0,.3);
-
+  font-size:14px;
+  padding:12px 18px;
+  border-radius:14px;
   cursor:pointer;
-  transition:all .12s ease;
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
+  transition:transform .08s ease, box-shadow .08s ease;
 }
 
 /* Bouton enfoncé */
@@ -335,11 +325,9 @@ button.selectedAnswer{
 #miniGame2 button:active,
 #miniGame3 button:active,
 #miniGame4 button:active{
-  transform:translateY(6px);
-
+  transform:translateY(4px);
   box-shadow:
-    inset 0 6px 12px rgba(0,0,0,.9),
-    inset 0 -2px 4px rgba(255,215,0,.4),
+    inset 0 0 10px rgba(0,0,0,.6),
     0 1px 0 #3b2208;
 }
 
@@ -348,48 +336,14 @@ button.selectedAnswer{
 #miniGame2 button.correct-locked,
 #miniGame3 button.correct-locked,
 #miniGame4 button.correct-locked{
-  background:linear-gradient(
-    to bottom,
-    #7a4a0c,
-    #4a2a05
-  )!important;
-
-  color:#000!important; /* texte noir aussi quand verrouillé */
-
-  transform:translateY(6px)!important;
-
+  background:#5c3a0c!important;
+  color:#ffd77a!important;
+  transform:translateY(4px)!important;
   box-shadow:
-    inset 0 6px 12px rgba(0,0,0,.9),
+    inset 0 0 14px rgba(255,215,0,.9),
+    inset 0 4px 10px rgba(0,0,0,.7),
     0 1px 0 #3b2208!important;
-
   pointer-events:none;
-}
-  
-
-
-/* Effet lumineux bonne réponse */
-#miniGame button.flash-success,
-#miniGame2 button.flash-success,
-#miniGame3 button.flash-success,
-#miniGame4 button.flash-success{
-  animation:flashGold .5s ease;
-}
-
-/* Animation flash doré */
-@keyframes flashGold{
-  0%{
-    box-shadow:0 0 5px gold;
-  }
-  50%{
-    box-shadow:
-      0 0 25px gold,
-      0 0 40px rgba(255,215,0,.8);
-  }
-  100%{
-    box-shadow:
-      inset 0 0 6px rgba(255,215,0,.6),
-      0 4px 0 #3b2208;
-  }
 }
 
 /* =====================================================
