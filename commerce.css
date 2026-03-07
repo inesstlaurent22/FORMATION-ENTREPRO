@@ -594,45 +594,30 @@ html,body{
 }
 
 /* =====================================================
-   🔎 BOUTON INDICE — FAISCEAU CIRCULAIRE
+   🔎 FAISCEAU LUMINEUX MARRON — BOUTON INDICE
 ===================================================== */
-#merchantGame .hint-btn
+#merchantGame .hint-btn{
   position:relative;
   margin-top:18px;
-  margin-bottom:8px; /* espace avec les réponses */
-
-  background:linear-gradient(145deg,#7b4a12,#caa14a);
-  border:3px solid #3b2208;
-  color:#1a0f05;
-  font-weight:bold;
-  font-size:14px;
-  padding:12px 22px;
-  border-radius:50px; /* rend le bouton plus arrondi */
-  cursor:pointer;
-
-  box-shadow:
-    inset 0 0 6px rgba(255,215,0,.6),
-    0 4px 0 #3b2208;
-
-  transition:transform .08s ease;
   z-index:1;
 }
 
-/* Faisceau lumineux circulaire */
+/* Halo lumineux marron clair */
 #merchantGame .hint-btn::before{
   content:"";
   position:absolute;
-  inset:-8px;
+  inset:-10px;
   border-radius:50px;
 
-  border:3px solid #caa14a; /* marron clair */
+  border:3px solid #caa14a;
 
   box-shadow:
     0 0 12px rgba(202,161,74,.9),
-    0 0 25px rgba(166,106,18,.9),
+    0 0 24px rgba(166,106,18,.8),
     0 0 40px rgba(123,74,18,.6);
 
   z-index:-1;
+  pointer-events:none;
 }
 
 /* Effet bouton enfoncé */
