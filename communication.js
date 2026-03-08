@@ -152,9 +152,17 @@ function clearMiniGame(){
   miniGame.classList.remove("hidden");
 }
 function hideMiniGame(){ miniGame.classList.add("hidden"); }
+   
 function shake(){
-  miniGame.classList.add("screen-shake");
-  setTimeout(()=>miniGame.classList.remove("screen-shake"),400);
+  const box = document.getElementById("miniGameContainer");
+
+  box.classList.remove("screen-shake"); 
+  void box.offsetWidth;                 // force le redémarrage de l'animation
+  box.classList.add("screen-shake");
+
+  setTimeout(()=>{
+    box.classList.remove("screen-shake");
+  },350);
 }
 
 /* =====================================================
