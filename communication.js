@@ -504,12 +504,24 @@ r.className = "mg3-column mg3-right";
   b.className="mg3-btn mg3-btn-right";
   b.textContent=t[0];
   b.onclick=()=>{
-    if(!sel||sel.key!==t[1]){ shake(); return; }
-    sel.btn.remove();
-    b.remove();
+  if(!sel){
+    shake();
+    return;
+  }
+
+  if(sel.key!==t[1]){
+    shake();
     sel=null;
-    ok++;
-    if(ok===3) showCommunicationWin();
+    return;
+  }
+
+  sel.btn.remove();
+  b.remove();
+  sel=null;
+  ok++;
+
+  if(ok===3) showCommunicationWin();
+};
   };
   r.appendChild(b);
 });
