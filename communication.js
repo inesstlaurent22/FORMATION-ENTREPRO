@@ -199,9 +199,9 @@ function stepMG1(){
 
       // ❌ Mauvaise réponse
       if(!quiz[qi].ok.includes(i)){
-        shake(miniGame);
-        return;
-      }
+  shake();
+  return;
+}
 
       // Empêche double validation
       if(found.includes(i)) return;
@@ -346,7 +346,10 @@ function showChoiceStep(title,images,next,correct){
     const img=new Image();
     img.src=src;
     img.onclick=()=>{
-      if(correct && src!==correct){ shake(); return; }
+      if(correct && src!==correct){
+  shake();
+  return;
+}
       next();
     };
 
