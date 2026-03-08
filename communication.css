@@ -274,22 +274,6 @@ html,body{
 }
 
 /* =====================================================
-   🌪️ SHAKE
-===================================================== */
-#miniGameContainer.screen-shake{
-  animation:shake .35s ease;
-}
-
-@keyframes shake{
-  0%{transform:translate(-50%,-50%) translateX(0);}
-  20%{transform:translate(-50%,-50%) translateX(-8px);}
-  40%{transform:translate(-50%,-50%) translateX(8px);}
-  60%{transform:translate(-50%,-50%) translateX(-6px);}
-  80%{transform:translate(-50%,-50%) translateX(6px);}
-  100%{transform:translate(-50%,-50%) translateX(0);}
-}
-
-/* =====================================================
    🔘 BOUTONS GÉNÉRAUX – SYSTÈME OFFICIEL
 ===================================================== */
 #miniGameContainer button{
@@ -780,6 +764,23 @@ html,body{
       scale(0);
     opacity:0;
   }
+}
+
+/* =====================================================
+   🌪️ SHAKE ERREUR
+===================================================== */
+
+#miniGameContainer.screen-shake{
+  animation:shake .35s ease;
+}
+
+@keyframes shake{
+  0%{transform:translate(-50%,-50%) translateX(0);}
+  20%{transform:translate(-50%,-50%) translateX(-8px);}
+  40%{transform:translate(-50%,-50%) translateX(8px);}
+  60%{transform:translate(-50%,-50%) translateX(-6px);}
+  80%{transform:translate(-50%,-50%) translateX(6px);}
+  100%{transform:translate(-50%,-50%) translateX(0);}
 }
 
 /* =====================================================
