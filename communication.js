@@ -353,13 +353,13 @@ function showChoiceStep(title,images,next,correct){
 
     const img=new Image();
     img.src=src;
-    img.onclick=()=>{
-      if(correct && src!==correct){
-  shake();
-  return;
-}
-      next();
-    };
+    img.onclick = ()=>{
+  if(correct && src!==correct){
+    shake();
+    return;
+  }
+  next();
+};
 
     const zoom=document.createElement("button");
     zoom.textContent="🔎";
