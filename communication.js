@@ -402,30 +402,30 @@ function showIdentityWin(){
   /* =====================================================
      🔎 ZOOM IMAGE
   ===================================================== */
+zoomBtn.onclick = () => {
 
-  zoomBtn.onclick = () => {
+  const wrap = overlay.querySelector(".identity-preview-wrap");
 
-    const zoomOverlay = document.createElement("div");
-    zoomOverlay.id = "zoomOverlay";
+  const zoomOverlay = document.createElement("div");
+  zoomOverlay.id = "zoomOverlay";
 
-    const img = document.createElement("img");
-    img.src = "images/Identitevisuelle.JPG";
-    img.className = "zoomed-image";
+  const img = document.createElement("img");
+  img.src = "images/Identitevisuelle.JPG";
+  img.className = "zoomed-image";
 
-    const close = document.createElement("button");
-    close.className = "zoom-close";
-    close.textContent = "✖";
+  const close = document.createElement("button");
+  close.className = "zoom-close";
+  close.textContent = "✖";
 
-    close.onclick = () => {
-      zoomOverlay.remove();
-
-      /* Débloque le bouton Continuer après le zoom */
-      continueBtn.classList.remove("hidden");
-    };
-
-    zoomOverlay.append(img, close);
-    document.body.appendChild(zoomOverlay);
+  close.onclick = () => {
+    zoomOverlay.remove();
+    continueBtn.classList.remove("hidden");
   };
+
+  zoomOverlay.append(img, close);
+
+  wrap.prepend(zoomOverlay);
+};
 
   /* =====================================================
      ➜ SUITE DE LA QUÊTE
