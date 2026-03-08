@@ -500,29 +500,31 @@ r.className = "mg3-column mg3-right";
  ["Vendre en BtoB","btob"],
  ["Vendre en BtoC","btoc"]
 ].forEach(t=>{
+
   const b=document.createElement("button");
   b.className="mg3-btn mg3-btn-right";
   b.textContent=t[0];
+
   b.onclick=()=>{
-  if(!sel){
-    shake();
-    return;
-  }
+    if(!sel){
+      shake();
+      return;
+    }
 
-  if(sel.key!==t[1]){
-    shake();
+    if(sel.key!==t[1]){
+      shake();
+      sel=null;
+      return;
+    }
+
+    sel.btn.remove();
+    b.remove();
     sel=null;
-    return;
-  }
+    ok++;
 
-  sel.btn.remove();
-  b.remove();
-  sel=null;
-  ok++;
-
-  if(ok===3) showCommunicationWin();
-};
+    if(ok===3) showCommunicationWin();
   };
+
   r.appendChild(b);
 });
 
