@@ -371,47 +371,69 @@ function showIdentityWin(){
   overlay.id = "identity-loader";
 
   overlay.innerHTML = `
-  <div class="identity-center">
-    <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
+    <div class="identity-center">
+      <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
 
-    <div class="identity-preview-wrap">
+      <div class="identity-preview-wrap">
+        <img
+          src="images/Identitevisuelle.JPG"
+          class="identity-preview"
+          alt="Identité visuelle"
+        >
 
-      <img
-        src="images/Identitevisuelle.JPG"
-        class="identity-preview"
-        alt="Identité visuelle"
-      >
+        <button id="zoomIdentityBtn" type="button">🔎</button>
 
-      <button id="zoomIdentityBtn" type="button">
-        🔎
-      </button>
-
-      <button
-        id="continueQuestBtn"
-        class="hidden"
-        type="button"
-      >
-        Continuer la quête
-      </button>
-
+        <button
+          id="continueQuestBtn"
+          class="hidden"
+          type="button"
+        >
+          Continuer la quête
+        </button>
+      </div>
     </div>
-  </div>
-`;
+  `;
 
   document.body.appendChild(overlay);
 
   const zoomBtn = overlay.querySelector("#zoomIdentityBtn");
   const continueBtn = overlay.querySelector("#continueQuestBtn");
 
-  /* 🔎 ZOOM IMAGE (AU-DESSUS, NON DESTRUCTIF) */
+  /* =====================================================
+     🔎 ZOOM IMAGE
+  ===================================================== */
+
   zoomBtn.onclick = () => {
-    openZoom("images/Identitevisuelle.JPG");
-    continueBtn.classList.remove("hidden");
+
+    const zoomOverlay = document.createElement("div");
+    zoomOverlay.id = "zoomOverlay";
+
+    const img = document.createElement("img");
+    img.src = "images/Identitevisuelle.JPG";
+    img.className = "zoomed-image";
+
+    const close = document.createElement("button");
+    close.className = "zoom-close";
+    close.textContent = "✖";
+
+    close.onclick = () => {
+      zoomOverlay.remove();
+
+      /* Débloque le bouton Continuer après le zoom */
+      continueBtn.classList.remove("hidden");
+    };
+
+    zoomOverlay.append(img, close);
+    document.body.appendChild(zoomOverlay);
   };
 
-  /* ➜ SUITE DE LA QUÊTE */
+  /* =====================================================
+     ➜ SUITE DE LA QUÊTE
+  ===================================================== */
+
   continueBtn.onclick = () => {
     overlay.remove();
+
     playDialog(
       [
         { speaker:"pirate2", text:"Magnifique identité." },
