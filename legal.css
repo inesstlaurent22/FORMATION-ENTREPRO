@@ -510,11 +510,12 @@ button.selectedAnswer{
 }
 
 /* face arrière */
-
 .status-back{
-  background:#120b05;
-  color:#ffd77a;
-  border:3px solid gold;
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  color:#ffffff;
+  font-weight:bold;
+
+  border:3px solid #3b2208;
 
   transform:rotateY(180deg);
 }
