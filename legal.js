@@ -73,18 +73,18 @@ function endVideo() {
   }
 
   // 🔥 Loader pirate avant la scène
-  showLoader(() => {
+  showLoader(1200, () => {
 
-    if (scene) {
-      scene.style.display = "block";
-    }
+  if (scene) {
+    scene.style.display = "block";
+  }
 
-    if (pirateLegal) {
-      pirateLegal.style.pointerEvents = "auto";
-      pirateLegal.onclick = () => showLoader(startDialogues1);
-    }
+  if (pirateLegal) {
+    pirateLegal.style.pointerEvents = "auto";
+    pirateLegal.onclick = () => showLoader(1200, startDialogues1);
+  }
 
-  });
+});
 }
 
 /* =====================================================
