@@ -452,13 +452,14 @@ button.selectedAnswer{
   justify-content:center;
   gap:20px;
   margin-top:20px;
+  flex-wrap:wrap;
 }
 
 /* carte */
 
 .status-card{
-  width:200px;
-  height:140px;
+  width:150px;   /* W */
+  height:172px;  /* H */
   perspective:1000px;
   cursor:pointer;
 }
@@ -515,7 +516,6 @@ button.selectedAnswer{
   background:#120b05;
   color:#ffd77a;
   border:3px solid gold;
-
   transform:rotateY(180deg);
 }
 
