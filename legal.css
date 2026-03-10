@@ -347,8 +347,8 @@ button.selectedAnswer{
 /* =====================================================
    🌪️ SHAKE STYLE GLOBAL MINI-JEUX
 ===================================================== */
-
 #miniGame.screen-shake,
+#miniGame2.screen-shake,
 #miniGame3.screen-shake,
 #miniGame4.screen-shake{
   animation:shake .35s ease;
