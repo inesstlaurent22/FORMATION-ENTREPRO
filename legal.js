@@ -808,7 +808,8 @@ function shake(el){
 
   if(!el) return;
 
-  const box = el.closest("#miniGame, #miniGame2, #miniGame3, #miniGame4");
+  const box = document.getElementById("miniGame2") 
+           || el.closest("#miniGame, #miniGame3, #miniGame4");
 
   if(!box) return;
 
@@ -819,7 +820,6 @@ function shake(el){
   setTimeout(()=>{
     box.classList.remove("screen-shake");
   },400);
-
 }
 
 }); 
