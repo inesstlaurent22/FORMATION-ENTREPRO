@@ -289,13 +289,13 @@ button:disabled{
 }
 
 /* =====================================================
-   🔘 BOUTONS MINI-JEUX LEGAL (1 → 4)
+   🔘 STYLE BOUTONS RÉPONSES (sauf statut Q1 / Q2)
 ===================================================== */
 
 #miniGame button,
-#miniGame2 button,
 #miniGame3 button,
-#miniGame4 button{
+#miniGame4 button,
+#miniGame2 #qChoices button{
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
@@ -311,9 +311,9 @@ button:disabled{
 }
 
 #miniGame button:active,
-#miniGame2 button:active,
 #miniGame3 button:active,
-#miniGame4 button:active{
+#miniGame4 button:active,
+#miniGame2 #qChoices button:active{
   transform:translateY(4px);
   box-shadow:
     inset 0 0 10px rgba(0,0,0,.6),
@@ -322,9 +322,9 @@ button:disabled{
 
 /* Bonne réponse verrouillée */
 #miniGame button.correct-locked,
-#miniGame2 button.correct-locked,
 #miniGame3 button.correct-locked,
-#miniGame4 button.correct-locked{
+#miniGame4 button.correct-locked,
+#miniGame2 #qChoices button.correct-locked{
   background:#5c3a0c!important;
   color:#ffd77a!important;
   transform:translateY(4px)!important;
@@ -336,10 +336,10 @@ button:disabled{
 }
 
 /* =====================================================
-   🌪️ SHAKE
+   🌪️ SHAKE STYLE GLOBAL MINI-JEUX
 ===================================================== */
+
 #miniGame.screen-shake,
-#miniGame2.screen-shake,
 #miniGame3.screen-shake,
 #miniGame4.screen-shake{
   animation:shake .35s ease;
