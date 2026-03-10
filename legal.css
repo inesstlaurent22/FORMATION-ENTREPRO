@@ -457,8 +457,8 @@ button.selectedAnswer{
 /* carte */
 
 .status-card{
-  width:230px;
-  height:200px;
+  width:200px;
+  height:140px;
   perspective:1000px;
   cursor:pointer;
 }
