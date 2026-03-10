@@ -444,7 +444,7 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   🃏 CARTES STATUT — MINI JEU 2
+   🃏 CARTES STATUT — MINI JEU 2 (FLIP 180°)
 ===================================================== */
 
 .status-cards{
@@ -454,6 +454,8 @@ button.selectedAnswer{
   margin-top:20px;
 }
 
+/* carte */
+
 .status-card{
   width:200px;
   height:140px;
@@ -461,22 +463,28 @@ button.selectedAnswer{
   cursor:pointer;
 }
 
+/* élément qui tourne */
+
 .status-card-inner{
   position:relative;
   width:100%;
   height:100%;
-  transition:transform .6s;
+  transition:transform .7s ease;
   transform-style:preserve-3d;
 }
 
-/* déclenchement du flip */
+/* rotation 180° */
+
 .status-card.flipped .status-card-inner{
   transform:rotateY(180deg);
 }
 
+/* faces */
+
 .status-face{
   position:absolute;
   inset:0;
+
   display:flex;
   align-items:center;
   justify-content:center;
@@ -507,6 +515,7 @@ button.selectedAnswer{
   background:#120b05;
   color:#ffd77a;
   border:3px solid gold;
+
   transform:rotateY(180deg);
 }
 
