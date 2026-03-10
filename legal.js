@@ -388,7 +388,7 @@ function showStatutQ1(){
   `;
 }
 
-function statutQ1(type, card){
+window.statutQ1 = function(type, card){
 
   if(q1.has(type)) return;
 
