@@ -57,34 +57,31 @@ if(video && soundBtn && skipBtn){
   video.addEventListener("ended", endVideo);
 }
 
-function endVideo() {
+function endVideo(){
 
-  if (videoEnded) return;
+  if(videoEnded) return;
   videoEnded = true;
 
-  if (video) {
+  if(video){
     video.pause();
     video.removeAttribute("src");
     video.load();
   }
 
-  if (videoContainer) {
+  if(videoContainer){
     videoContainer.classList.add("hidden");
   }
 
-  // 🔥 Loader pirate avant la scène
+  /* Loader puis affichage scène */
   showLoader(1200, () => {
 
-  if (scene) {
     scene.style.display = "block";
-  }
 
-  if (pirateLegal) {
     pirateLegal.style.pointerEvents = "auto";
     pirateLegal.onclick = () => showLoader(1200, startDialogues1);
-  }
 
-});
+  });
+
 }
 
 /* =====================================================
