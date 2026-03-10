@@ -34,6 +34,8 @@ const skipBtn = document.getElementById("closeVideo");
 const soundBtn = document.getElementById("toggleSound");
 const scene = document.getElementById("scene");
 const pirateLegal = document.getElementById("pirateLegal");
+   
+let videoEnded = false;
 
 /* Sécurité : vérifier que tout existe */
 if(video && soundBtn && skipBtn){
@@ -460,7 +462,7 @@ info.innerHTML = `
   if(q2.size === 5){
     setTimeout(showStatutQ3,800);
   }
-};;
+};
 
 function showStatutQ3(){
   q3.clear();
