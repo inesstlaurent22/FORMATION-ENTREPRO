@@ -296,13 +296,14 @@ button.selectedAnswer{
 }
 
 /* =====================================================
-   🔘 BOUTONS MINI-JEUX
+   🔘 BOUTONS MINI-JEUX LEGAL (1 → 4)
 ===================================================== */
+
 #miniGame button,
 #miniGame2 button,
 #miniGame3 button,
 #miniGame4 button{
- background:linear-gradient(145deg,#7b4a12,#caa14a);
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
   font-weight:bold;
@@ -316,7 +317,6 @@ button.selectedAnswer{
   transition:transform .08s ease, box-shadow .08s ease;
 }
 
-/* Bouton enfoncé */
 #miniGame button:active,
 #miniGame2 button:active,
 #miniGame3 button:active,
