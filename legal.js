@@ -55,25 +55,34 @@ if(video && soundBtn && skipBtn){
   video.addEventListener("ended", endVideo);
 }
 
-function endVideo(){
+function endVideo() {
 
-  if(video){
+  if (videoEnded) return;
+  videoEnded = true;
+
+  if (video) {
     video.pause();
-    video.currentTime = 0;
+    video.removeAttribute("src");
+    video.load();
   }
 
-  if(videoContainer){
+  if (videoContainer) {
     videoContainer.classList.add("hidden");
   }
 
-  if(scene){
-    scene.style.display = "block";
-  }
+  // 🔥 Loader pirate avant la scène
+  showLoader(() => {
 
- if(pirateLegal){
-  pirateLegal.style.pointerEvents = "auto";
-  pirateLegal.onclick = () => showLoader(startDialogues1);
-}
+    if (scene) {
+      scene.style.display = "block";
+    }
+
+    if (pirateLegal) {
+      pirateLegal.style.pointerEvents = "auto";
+      pirateLegal.onclick = () => showLoader(startDialogues1);
+    }
+
+  });
 }
 
 /* =====================================================
