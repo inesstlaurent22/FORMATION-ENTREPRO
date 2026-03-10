@@ -354,41 +354,38 @@ function showStatutQ1(){
 
     <div class="status-cards">
 
-  <div class="status-card" onclick="statutQ1('solo', this)">
-    <div class="status-card-inner">
+      <div class="status-card" onclick="statutQ1('solo', this)">
+        <div class="status-card-inner">
 
-      <div class="status-face status-front">
-        Créer seul
+          <div class="status-face status-front">
+            Créer seul
+          </div>
+
+          <div class="status-face status-back">
+            EI · EURL · SASU
+          </div>
+
+        </div>
       </div>
 
-      <div class="status-face status-back">
-        EI · EURL · SASU
+      <div class="status-card" onclick="statutQ1('groupe', this)">
+        <div class="status-card-inner">
+
+          <div class="status-face status-front">
+            Créer à plusieurs
+          </div>
+
+          <div class="status-face status-back">
+            SARL · SAS
+          </div>
+
+        </div>
       </div>
 
     </div>
-  </div>
-
-  <div class="status-card" onclick="statutQ1('groupe', this)">
-    <div class="status-card-inner">
-
-      <div class="status-face status-front">
-        Créer à plusieurs
-      </div>
-
-      <div class="status-face status-back">
-        SARL · SAS
-      </div>
-
-    </div>
-  </div>
-
-</div>
 
     <p style="color:gold;margin-top:12px;">Clique sur les deux options</p>
   `;
-
-  document.getElementById("solo").onclick = () => statutQ1("solo");
-  document.getElementById("groupe").onclick = () => statutQ1("groupe");
 }
 
 function statutQ1(type, card){
