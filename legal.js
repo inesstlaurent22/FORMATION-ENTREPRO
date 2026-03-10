@@ -352,15 +352,37 @@ function showStatutQ1(){
     <h3>📜 Choisir son statut</h3>
     <p>Crées-tu ta société seul ou en groupe ?</p>
 
-    <div class="mg2-grid">
+    <div class="status-cards">
 
-      <button id="solo">Oui</button>
-      <div id="info-solo" class="answerSlot"></div>
+  <div class="status-card" onclick="statutQ1('solo', this)">
+    <div class="status-card-inner">
 
-      <button id="groupe">Non</button>
-      <div id="info-groupe" class="answerSlot"></div>
+      <div class="status-face status-front">
+        Créer seul
+      </div>
+
+      <div class="status-face status-back">
+        EI · EURL · SASU
+      </div>
 
     </div>
+  </div>
+
+  <div class="status-card" onclick="statutQ1('groupe', this)">
+    <div class="status-card-inner">
+
+      <div class="status-face status-front">
+        Créer à plusieurs
+      </div>
+
+      <div class="status-face status-back">
+        SARL · SAS
+      </div>
+
+    </div>
+  </div>
+
+</div>
 
     <p style="color:gold;margin-top:12px;">Clique sur les deux options</p>
   `;
@@ -369,38 +391,16 @@ function showStatutQ1(){
   document.getElementById("groupe").onclick = () => statutQ1("groupe");
 }
 
-function statutQ1(type){
+function statutQ1(type, card){
 
   if(q1.has(type)) return;
+
   q1.add(type);
 
-  const info = document.getElementById("info-"+type);
-
-  const textes = {
-
-    solo: `
-      <strong>Créer seul :</strong><br>
-      EI · EURL · SASU
-    `,
-
-    groupe: `
-      <strong>Créer à plusieurs :</strong><br>
-      SARL · SAS
-    `
-  };
-
-info.innerHTML = `
-  <div class="gameQuestion">
-    ${textes[type]}
-  </div>
-`;
-
-  const btn = document.getElementById(type);
-  btn.disabled = true;
-  btn.classList.add("selectedAnswer");
+  card.classList.add("flipped");
 
   if(q1.size === 2){
-    setTimeout(showStatutQ2,900);
+    setTimeout(showStatutQ2,1200);
   }
 }
  
