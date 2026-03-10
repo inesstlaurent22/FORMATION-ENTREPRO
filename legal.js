@@ -408,63 +408,96 @@ function showStatutQ2(){
   q2.clear();
 
   game2Content.innerHTML = `
-    <p>Pourquoi changer de statut ?</p>
+    <h3>📜 Pourquoi changer de statut ?</h3>
 
-    <div class="mg2-grid">
+    <div class="status-cards">
 
-      <button onclick="statutQ2(this,'EI')">Simplifier</button>
-      <div id="info-EI" class="answerSlot"></div>
+      <div class="status-card" onclick="statutQ2(this,'EI')">
+        <div class="status-card-inner">
 
-      <button onclick="statutQ2(this,'EURL')">Rentabilité</button>
-      <div id="info-EURL" class="answerSlot"></div>
+          <div class="status-face status-front">
+            Simplifier
+          </div>
 
-      <button onclick="statutQ2(this,'SASU')">Image</button>
-      <div id="info-SASU" class="answerSlot"></div>
+          <div class="status-face status-back">
+            Simplifier la gestion avec une structure individuelle.
+          </div>
 
-      <button onclick="statutQ2(this,'SARL')">Risques</button>
-      <div id="info-SARL" class="answerSlot"></div>
+        </div>
+      </div>
 
-      <button onclick="statutQ2(this,'SAS')">Équipe</button>
-      <div id="info-SAS" class="answerSlot"></div>
+      <div class="status-card" onclick="statutQ2(this,'EURL')">
+        <div class="status-card-inner">
+
+          <div class="status-face status-front">
+            Rentabilité
+          </div>
+
+          <div class="status-face status-back">
+            Optimiser la rentabilité avec une structure de société.
+          </div>
+
+        </div>
+      </div>
+
+      <div class="status-card" onclick="statutQ2(this,'SASU')">
+        <div class="status-card-inner">
+
+          <div class="status-face status-front">
+            Image
+          </div>
+
+          <div class="status-face status-back">
+            Améliorer l'image professionnelle et crédibiliser l'entreprise.
+          </div>
+
+        </div>
+      </div>
+
+      <div class="status-card" onclick="statutQ2(this,'SARL')">
+        <div class="status-card-inner">
+
+          <div class="status-face status-front">
+            Risques
+          </div>
+
+          <div class="status-face status-back">
+            Mieux protéger le patrimoine face aux risques.
+          </div>
+
+        </div>
+      </div>
+
+      <div class="status-card" onclick="statutQ2(this,'SAS')">
+        <div class="status-card-inner">
+
+          <div class="status-face status-front">
+            Équipe
+          </div>
+
+          <div class="status-face status-back">
+            Faciliter le travail en équipe et l'entrée d'associés.
+          </div>
+
+        </div>
+      </div>
 
     </div>
   `;
 }
 
-window.statutQ2 = (btn,statut)=>{
+window.statutQ2 = function(card, statut){
 
   if(q2.has(statut)) return;
 
   q2.add(statut);
 
-  btn.disabled = true;
-  btn.classList.add("selectedAnswer");
-
-  const info = document.getElementById("info-"+statut);
-
-  const textes = {
-
-    EI: "Simplifier la gestion avec une structure individuelle.",
-
-    EURL: "Optimiser la rentabilité avec une structure de société.",
-
-    SASU: "Améliorer l'image professionnelle et crédibiliser l'entreprise.",
-
-    SARL: "Mieux protéger le patrimoine face aux risques.",
-
-    SAS: "Faciliter le travail en équipe et l'entrée d'associés."
-  };
-
-info.innerHTML = `
-  <div class="gameQuestion">
-    ${textes[statut]}
-  </div>
-`;
+  card.classList.add("flipped");
 
   if(q2.size === 5){
-    setTimeout(showStatutQ3,800);
+    setTimeout(showStatutQ3,1200);
   }
-};
+}
 
 function showStatutQ3(){
   q3.clear();
