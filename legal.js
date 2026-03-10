@@ -504,14 +504,17 @@ window.statutQ2 = function(card, statut){
 function showStatutQ3(){
   q3.clear();
   game2Content.innerHTML = `
-    <div class="gameQuestion">Quand quitter l"auto-entreprenariat pour un statut de société : </div>
-    <div id="qChoices">
-      <button onclick="statutQ3(this,1)">CA élevé</button>
-      <button onclick="statutQ3(this,2)">Embauche</button>
-      <button onclick="statutQ3(this,3)">Peu de charges</button>
-      <button onclick="statutQ3(this,0)">Jamais</button>
-    </div>
-  `;
+  <div class="gameQuestion">
+    Quand quitter l'auto-entreprenariat pour un statut de société :
+  </div>
+
+  <div id="qChoices">
+    <button onclick="statutQ3(this,1)">CA élevé</button>
+    <button onclick="statutQ3(this,2)">Embauche</button>
+    <button onclick="statutQ3(this,3)">Peu de charges</button>
+    <button onclick="statutQ3(this,0)">Jamais</button>
+  </div>
+`;
 }
 
 window.statutQ3 = (btn,val)=>{
