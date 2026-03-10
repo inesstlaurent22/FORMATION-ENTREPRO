@@ -444,6 +444,71 @@ button.selectedAnswer{
 }
 
 /* =====================================================
+   🃏 CARTES STATUT — MINI JEU 2
+===================================================== */
+
+.status-cards{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  margin-top:20px;
+}
+
+.status-card{
+  width:180px;
+  height:140px;
+  perspective:1000px;
+  cursor:pointer;
+}
+
+.status-card-inner{
+  position:relative;
+  width:100%;
+  height:100%;
+  transition:transform .6s;
+  transform-style:preserve-3d;
+}
+
+.status-card.flipped .status-card-inner{
+  transform:rotateY(180deg);
+}
+
+.status-face{
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  border-radius:16px;
+  border:3px solid #3b2208;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:12px;
+
+  box-shadow:
+    inset 0 0 6px rgba(255,215,0,.6),
+    0 4px 0 #3b2208;
+}
+
+/* face avant */
+
+.status-front{
+  background:linear-gradient(145deg,#7b4a12,#caa14a);
+  color:#1a0f05;
+  font-weight:bold;
+}
+
+/* face arrière */
+
+.status-back{
+  background:#120b05;
+  color:#ffd77a;
+  border:3px solid gold;
+  transform:rotateY(180deg);
+}
+
+/* =====================================================
    🎮 MINI-JEU 2 — BOUTON + RÉPONSE SUR LA MÊME LIGNE
 ===================================================== */
 
