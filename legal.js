@@ -6,23 +6,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const fadeScreen = document.getElementById("fadeScreen");
 
-function showLoader(callback){
+function showLoader(duration = 1200, cb){
 
   if(!fadeScreen){
-    callback && callback();
+    cb && cb();
     return;
   }
 
   fadeScreen.classList.remove("hidden");
 
-  setTimeout(()=>{
-
+  setTimeout(() => {
     fadeScreen.classList.add("hidden");
 
-    if(callback) callback();
+    if(typeof cb === "function"){
+      cb();
+    }
 
-  },900);
-
+  }, duration);
 }
    
 /* =====================================================
@@ -798,21 +798,21 @@ function launchGemsExplosion(container){
 /* =====================================================
    📳 SHAKE
 ===================================================== */
-function shake(btn){
+function shake(el){
 
-  if(!btn) return;
+  if(!el) return;
 
-  btn.classList.add("pressed");
+  const box = el.closest("#miniGame, #miniGame2, #miniGame3, #miniGame4");
 
-  btn.classList.remove("button-shake");
-  void btn.offsetWidth;
+  if(!box) return;
 
-  btn.classList.add("button-shake");
+  box.classList.remove("screen-shake");
+  void box.offsetWidth;
+  box.classList.add("screen-shake");
 
   setTimeout(()=>{
-    btn.classList.remove("button-shake");
-    btn.classList.remove("pressed");
-  },350);
+    box.classList.remove("screen-shake");
+  },400);
 
 }
 
