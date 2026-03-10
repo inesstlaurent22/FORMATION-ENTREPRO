@@ -96,16 +96,18 @@ document.addEventListener("click", function(e){
   const btn = e.target.closest("button");
   if(!btn) return;
 
-  /* Exclure les boutons statut Q1 et Q2 */
+  /* Exclure boutons vidéo et statut */
   if(
     btn.id === "solo" ||
     btn.id === "groupe" ||
+    btn.id === "toggleSound" ||
+    btn.id === "closeVideo" ||
+    btn.id === "skipDialoguesBtn" ||
     btn.getAttribute("onclick")?.includes("statutQ2")
   ){
     return;
   }
 
-  /* Effet bouton appuyé */
   btn.classList.add("pressed");
   setTimeout(()=>btn.classList.remove("pressed"),120);
 
