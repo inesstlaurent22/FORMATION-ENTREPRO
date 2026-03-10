@@ -62,23 +62,32 @@ function endVideo(){
   if(videoEnded) return;
   videoEnded = true;
 
+  /* Stop vidéo */
   if(video){
     video.pause();
     video.removeAttribute("src");
     video.load();
   }
 
+  /* Cache le conteneur vidéo */
   if(videoContainer){
     videoContainer.classList.add("hidden");
   }
 
-  /* Loader puis affichage scène */
+  /* Loader puis affichage de la scène */
   showLoader(1200, () => {
 
-    scene.style.display = "block";
+    if(scene){
+      scene.style.display = "block";
+    }
 
-    pirateLegal.style.pointerEvents = "auto";
-    pirateLegal.onclick = () => showLoader(1200, startDialogues1);
+    if(pirateLegal){
+      pirateLegal.style.pointerEvents = "auto";
+
+      pirateLegal.onclick = () => {
+        showLoader(1200, startDialogues1);
+      };
+    }
 
   });
 
@@ -219,7 +228,7 @@ const aeQuestions = [
 let aeIndex = 0, aeGood = 0;
 
 function startMiniGame1(){
-  showLoader(()=>{
+  showLoader(1200, ()=>{
 
   scene.classList.add("sceneDim");
   miniGame1.style.display = "block";
@@ -332,8 +341,7 @@ const game2Content = document.getElementById("game2Content");
 let q1 = new Set(), q2 = new Set(), q3 = new Set();
 
 function startMiniGame2(){
-
-  showLoader(()=>{
+  showLoader(1200, ()=>{
 
   scene.classList.add("sceneDim");
   miniGame2.style.display = "block";
@@ -557,8 +565,7 @@ const tvaQ = [
 let tvaI = 0, tvaGood = 0;
 
 function startMiniGame3(){
-
-  showLoader(()=>{
+  showLoader(1200, ()=>{
 
   scene.classList.add("sceneDim");
   miniGame3.style.display = "block";
@@ -631,8 +638,7 @@ const miniGame4 = document.getElementById("miniGame4");
 let step4 = 0;
 
 function startMiniGame4(){
-
-  showLoader(()=>{
+  showLoader(1200, ()=>{
 
   scene.classList.add("sceneDim");
   miniGame4.style.display = "block";
