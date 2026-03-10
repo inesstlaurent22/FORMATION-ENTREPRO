@@ -354,7 +354,7 @@ function showStatutQ1(){
 
     <div class="status-cards">
 
-      <div class="status-card" onclick="statutQ1('solo', this)">
+ <div class="status-card" onclick="statutQ1('solo', this)">
   <div class="status-card-inner">
 
     <div class="status-face status-front">
