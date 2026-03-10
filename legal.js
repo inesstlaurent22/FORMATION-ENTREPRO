@@ -355,18 +355,18 @@ function showStatutQ1(){
     <div class="status-cards">
 
       <div class="status-card" onclick="statutQ1('solo', this)">
-        <div class="status-card-inner">
+  <div class="status-card-inner">
 
-          <div class="status-face status-front">
-            Créer seul
-          </div>
+    <div class="status-face status-front">
+      Créer seul
+    </div>
 
-          <div class="status-face status-back">
-            EI · EURL · SASU
-          </div>
+    <div class="status-face status-back">
+      EI · EURL · SASU
+    </div>
 
-        </div>
-      </div>
+  </div>
+</div>
 
       <div class="status-card" onclick="statutQ1('groupe', this)">
         <div class="status-card-inner">
