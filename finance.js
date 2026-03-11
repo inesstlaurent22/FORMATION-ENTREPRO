@@ -598,7 +598,9 @@ function startMiniGame3(){
 <div class="toolsRow">
 
   <div class="calcWrapper">
-    <button class="calcToggle" type="button">🧮 Calculatrice</button>
+    <button class="calcToggle" type="button">
+  🧮 <span>Calculatrice</span>
+</button>
     <input 
       id="calcFinal"
       class="calcInput hidden"
