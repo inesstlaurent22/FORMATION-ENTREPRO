@@ -808,18 +808,19 @@ function shake(el){
 
   if(!el) return;
 
-  const box = document.getElementById("miniGame2") 
-           || el.closest("#miniGame, #miniGame3, #miniGame4");
+  const box = el.closest("#miniGame, #miniGame2, #miniGame3, #miniGame4");
 
   if(!box) return;
 
   box.classList.remove("screen-shake");
   void box.offsetWidth;
+
   box.classList.add("screen-shake");
 
   setTimeout(()=>{
     box.classList.remove("screen-shake");
-  },400);
+  },350);
+
 }
 
 }); 
