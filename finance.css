@@ -574,8 +574,15 @@ html, body {
 /* =====================================================
    🧮 CALCULATRICE — VERSION PIRATE CORRIGÉE
 ===================================================== */
-
 .calcToggle{
+  position:relative;
+  color:#000;            /* texte noir */
+  font-weight:bold;
+  z-index:2;
+}
+
+/* texte au-dessus des effets */
+.calcToggle span{
   position:relative;
   z-index:2;
   color:#000;
@@ -605,18 +612,6 @@ html, body {
   border-radius:14px;
   background:linear-gradient(145deg,#4b2c0f,#8b5a1c);
   z-index:0;   /* au lieu de 1 */
-}
-
-.calcToggle{
-  position:relative;
-  color:#000; /* texte noir visible */
-}
-
-/* remettre le texte au-dessus */
-.calcToggle span,
-.calcToggle{
-  position:relative;
-  z-index:2;
 }
 
 @keyframes calcBeam{
