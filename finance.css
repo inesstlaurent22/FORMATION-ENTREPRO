@@ -577,8 +577,8 @@ html, body {
 
 .calcToggle{
   position:relative;
-  overflow:visible;
-  color:#000; /* texte noir */
+  z-index:2;
+  color:#000;
 }
 
 /* halo collé au contour du bouton */
@@ -598,14 +598,18 @@ html, body {
   pointer-events:none;
 }
 
-/* masque intérieur pour garder le bouton propre */
 .calcToggle::after{
   content:"";
   position:absolute;
   inset:3px;
   border-radius:14px;
   background:linear-gradient(145deg,#4b2c0f,#8b5a1c);
-  z-index:1;
+  z-index:0;   /* au lieu de 1 */
+}
+
+.calcToggle{
+  position:relative;
+  color:#000; /* texte noir visible */
 }
 
 /* remettre le texte au-dessus */
@@ -639,6 +643,12 @@ html, body {
 .calcInput:focus{
   box-shadow:0 0 20px gold;
   transform:scale(1.03);
+}
+
+.calcToggle span{
+  color:#000;
+  position:relative;
+  z-index:2;
 }
 
 /* ================= LOADER INDICE ================= */
