@@ -329,7 +329,10 @@ function showInfoStep(title,text,next){
   clearMiniGame();
   const box=document.createElement("div");
   box.className="mg2-box";
-  box.innerHTML=`<div class="mg1-title">${title}</div><p class="info-text">${text}</p>`;
+  box.innerHTML=`
+<div class="mg1-title">${title}</div>
+<div class="gameQuestion">${text}</div>
+`;
   const btn=document.createElement("button");
   btn.textContent="Continuer";
   btn.onclick=next;
