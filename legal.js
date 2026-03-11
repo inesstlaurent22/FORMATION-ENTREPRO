@@ -23,8 +23,20 @@ function showLoader(duration = 1200, cb){
 }
 
 function shake(el){
-  el.classList.add("screen-shake");
-  setTimeout(()=>el.classList.remove("screen-shake"),400);
+
+  if(!el) return;
+
+  const box = el.closest("#miniGame, #miniGame2, #miniGame3, #miniGame4");
+
+  if(!box) return;
+
+  box.classList.remove("screen-shake");
+  void box.offsetWidth;
+  box.classList.add("screen-shake");
+
+  setTimeout(()=>{
+    box.classList.remove("screen-shake");
+  },400);
 }
    
 /* =====================================================
