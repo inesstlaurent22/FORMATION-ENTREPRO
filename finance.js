@@ -317,7 +317,7 @@ function injectCalculator(container) {
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "calcToggle";
-  btn.textContent = "🧮 Calculatrice";
+  btn.innerHTML = "🧮 <span>Calculatrice</span>";
 
   const input = document.createElement("input");
   input.className = "calcInput hidden";
