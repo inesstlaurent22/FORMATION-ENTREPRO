@@ -275,7 +275,7 @@ html,body{
 /* Titre positionné par rapport au livre */
 .bp-title{
   position:fixed;
-  top:170px;
+  top:90px;
   left:30%;
   transform:translateX(-50%);
 
@@ -651,7 +651,6 @@ html,body{
 #strategyChoices{
   margin-top:36px;
 }
-
 
 /* =====================================================
    🏆 VICTOIRE — STYLE OFFICIEL
