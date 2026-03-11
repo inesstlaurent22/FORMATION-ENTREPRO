@@ -498,7 +498,7 @@ body.night-mode #pirate5 {
 }
 
 /* =================================
-🌑 OVERLAY CINEMATIQUE
+🌑 OVERLAY CINEMATIQUE (PLUS SOMBRE)
 ================================= */
 
 #chestOverlay{
@@ -506,10 +506,12 @@ body.night-mode #pirate5 {
   position:fixed;
   inset:0;
 
-  background:rgba(0,0,0,.65);
+  background:rgba(0,0,0,.85);
+
+  backdrop-filter:blur(3px);
 
   opacity:0;
-  transition:opacity .6s ease;
+  transition:opacity .5s ease;
 
   z-index:9400;
   pointer-events:none;
@@ -521,37 +523,46 @@ body.night-mode #pirate5 {
 }
 
 /* =================================
-💨 FUMEE APPARITION
+💨 POUSSIÈRE PIRATE
 ================================= */
 
 .chest-smoke{
+
   position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:300px;
-  height:300px;
+  inset:0;
   pointer-events:none;
+
 }
 
 .smoke{
+
   position:absolute;
-  width:120px;
-  height:120px;
-  background:radial-gradient(circle, rgba(255,255,255,.6), transparent);
+
+  width:90px;
+  height:90px;
+
+  background:radial-gradient(
+    circle,
+    rgba(180,150,100,.8),
+    rgba(120,90,60,.5),
+    transparent
+  );
+
   border-radius:50%;
-  animation:smokeRise 2.5s ease-out forwards;
+
+  animation:pirateSmoke 2.2s ease-out forwards;
+
 }
 
-@keyframes smokeRise{
+@keyframes pirateSmoke{
 
   0%{
-    transform:scale(.3) translateY(20px);
-    opacity:.8;
+    transform:scale(.3);
+    opacity:.9;
   }
 
   100%{
-    transform:scale(2) translateY(-120px);
+    transform:scale(2.5) translateY(-80px);
     opacity:0;
   }
 
@@ -607,35 +618,48 @@ body.night-mode #pirate5 {
 
 }
 
-/* =========================
-   💎 GEMS
-========================= */
-
-.gems-container{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  overflow:visible;
-}
+/* =================================
+💎 GEMS EXPLOSION
+================================= */
 
 .gem{
+
   position:absolute;
-  border-radius:50%;
-  animation:gemExplode 1.6s ease-out forwards;
+
+  width:20px;
+  height:20px;
+
+  background:url("images/gem.png") center/contain no-repeat;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  animation:gemExplode 1.2s ease-out forwards;
+
 }
 
 @keyframes gemExplode{
+
   0%{
-    transform:translate(-50%,-50%) scale(1);
+    transform:translate(-50%,-50%) scale(.5);
     opacity:1;
   }
+
   100%{
-    transform:translate(
-      calc(-50% + var(--x)),
-      calc(-50% + var(--y))
-    ) scale(0);
+
+    transform:
+      translate(
+        calc(-50% + var(--x)),
+        calc(-50% + var(--y))
+      )
+      scale(1.2);
+
     opacity:0;
+
   }
+
 }
 
 /* =================================
@@ -689,6 +713,39 @@ body.night-mode #pirate5 {
     opacity:0;
   }
 
+}
+
+/* =================================
+🎁 COFFRE → BOUTON
+================================= */
+
+#cinematicChest.to-button{
+
+  position:fixed;
+
+  top:80px;
+  right:20px;
+
+  width:60px;
+  height:60px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  z-index:10000;
+
+}
+
+#cinematicChest.to-button .chest-wrapper{
+
+  transform:scale(.25);
+  transition:transform .6s ease;
+
+}
+
+#cinematicChest.to-button .chest-title{
+  display:none;
 }
 
 /* ================================================= */
