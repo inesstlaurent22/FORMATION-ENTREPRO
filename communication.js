@@ -331,7 +331,7 @@ function showInfoStep(title,text,next){
   box.className="mg2-box";
   box.innerHTML=`
 <div class="mg1-title">${title}</div>
-<div class="gameQuestion">${text}</div>
+<p class="info-text">${text}</p>
 `;
   const btn=document.createElement("button");
   btn.textContent="Continuer";
