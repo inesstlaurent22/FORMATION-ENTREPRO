@@ -68,7 +68,6 @@ body{
 /* =====================================================
    🌑 LOADER GLOBAL — 🏴‍☠️
 ===================================================== */
-
 #fadeScreen{
   position:fixed;
   inset:0;
@@ -79,7 +78,7 @@ body{
   justify-content:center;
 }
 
-.loaderSpinner{
+.loaderBox{
   position:relative;
   width:120px;
   height:120px;
@@ -99,7 +98,7 @@ body{
   to{transform:rotate(360deg);}
 }
 
-.loaderSpinner::before{
+.loaderBox::before{
   content:"";
   position:absolute;
   width:120px;
@@ -116,6 +115,7 @@ body{
   from{transform:rotate(0deg);}
   to{transform:rotate(360deg);}
 }
+
 
 /* =====================================================
    🌊 SCÈNE
