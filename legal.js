@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
 const fadeScreen = document.getElementById("fadeScreen");
 
 function showLoader(duration = 1200, cb){
-
   if(!fadeScreen){
     cb && cb();
     return;
@@ -17,12 +16,15 @@ function showLoader(duration = 1200, cb){
 
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
-
     if(typeof cb === "function"){
       cb();
     }
-
   }, duration);
+}
+
+function shake(el){
+  el.classList.add("screen-shake");
+  setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
    
 /* =====================================================
@@ -797,28 +799,6 @@ function launchGemsExplosion(container){
 
     container.appendChild(g);
   }
-}
-
-/* =====================================================
-   📳 SHAKE
-===================================================== */
-function shake(el){
-
-  if(!el) return;
-
-  const box = el.closest("#miniGame, #miniGame2, #miniGame3, #miniGame4");
-
-  if(!box) return;
-
-  box.classList.remove("screen-shake");
-  void box.offsetWidth;
-
-  box.classList.add("screen-shake");
-
-  setTimeout(()=>{
-    box.classList.remove("screen-shake");
-  },350);
-
 }
 
 }); 
