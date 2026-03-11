@@ -391,6 +391,7 @@ const chestBase = document.getElementById("chestBase");
 const treasureSelector = document.getElementById("treasureSelector");
 const treasureBtn = document.getElementById("treasureBtn");
 const treasureDropdown = document.getElementById("treasureDropdown");
+const overlay = document.getElementById("chestOverlay");
 
 if (sessionStorage.getItem("questCompleted") === "true") {
 
@@ -400,12 +401,18 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 
     cinematic.classList.remove("hidden");
 
-    /* 🔹 Apparition petit → grossit */
+    /* 🌑 assombrir le fond */
+    if(overlay){
+      overlay.classList.add("show");
+    }
+
+    /* 🔹 apparition coffre */
     setTimeout(() => {
       cinematic.classList.add("show");
+      spawnSmoke();
     }, 100);
 
-    /* 🔒 Bloque clic pendant animation */
+    /* 🔒 bloque clic pendant animation */
     chestContainer.style.pointerEvents = "none";
     setTimeout(() => {
       chestContainer.style.pointerEvents = "auto";
@@ -419,63 +426,106 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 
       chestContainer.removeEventListener("click", openChest);
 
-      /* 🎁 Image ouverte */
+      /* 🎁 image ouverte */
       chestBase.src = "images/Tresorouvert.png";
 
-      /* 💎 Explosion */
+      /* 💎 explosion gems */
       const gemsContainer = document.createElement("div");
       gemsContainer.className = "gems-container";
       chestContainer.appendChild(gemsContainer);
+
       launchGemsExplosion(gemsContainer);
 
-      /* 🚀 Déplacement sous météo */
+      /* 🚀 déplacement vers bouton météo */
       setTimeout(() => {
+
         cinematic.classList.add("final-position");
-      }, 700);
 
-      /* 🔄 TRANSFORMATION EN BOUTON */
-setTimeout(() => {
+      }, 600);
 
-  cinematic.remove(); // ⬅️ Supprime totalement le coffre
+      /* ✨ clignotement 20 secondes */
+      setTimeout(() => {
 
-  if (treasureSelector) {
-    treasureSelector.classList.remove("hidden");
-  }
+        cinematic.classList.add("blink");
 
-}, 1500);
+        setTimeout(()=>{
+          cinematic.classList.remove("blink");
+        },20000);
+
+      },2000);
+
+      /* 🔄 transformation bouton */
+      setTimeout(() => {
+
+        cinematic.remove();
+
+        if(overlay){
+          overlay.classList.remove("show");
+        }
+
+        if (treasureSelector) {
+          treasureSelector.classList.remove("hidden");
+        }
+
+      }, 23000);
 
     });
   }
 }
 
-/* =====================================================
-   💎 GEMS
-===================================================== */
+/* ==========================================================
+   💨 FUMÉE APPARITION
+========================================================== */
+
+function spawnSmoke(){
+
+  const smokeWrap = document.createElement("div");
+  smokeWrap.className = "chest-smoke";
+
+  for(let i=0;i<10;i++){
+
+    const smoke = document.createElement("div");
+    smoke.className = "smoke";
+
+    smoke.style.left = (Math.random()*160 - 80) + "px";
+    smoke.style.top = (Math.random()*160 - 80) + "px";
+
+    smokeWrap.appendChild(smoke);
+  }
+
+  chestContainer.appendChild(smokeWrap);
+
+  setTimeout(()=>{
+    smokeWrap.remove();
+  },2500);
+
+}
+
+/* ==========================================================
+   💎 EXPLOSION GEMS
+========================================================== */
 
 function launchGemsExplosion(container){
-  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
 
-  for(let i=0;i<50;i++){
-    const g=document.createElement("div");
-    g.className="gem";
+  for(let i=0;i<20;i++){
 
-    const size=Math.random()*10+8;
-    g.style.width=size+"px";
-    g.style.height=size+"px";
-    g.style.background=colors[Math.floor(Math.random()*colors.length)];
-    g.style.left="50%";
-    g.style.top="50%";
+    const gem = document.createElement("div");
+    gem.className = "gem";
 
-    const angle=Math.random()*Math.PI*2;
-    const dist=Math.random()*260+80;
+    const x = (Math.random()*280 - 140) + "px";
+    const y = (Math.random()*280 - 140) + "px";
 
-    g.style.setProperty("--x",Math.cos(angle)*dist+"px");
-    g.style.setProperty("--y",Math.sin(angle)*dist+"px");
+    gem.style.setProperty("--x",x);
+    gem.style.setProperty("--y",y);
 
-    container.appendChild(g);
+    container.appendChild(gem);
 
-    setTimeout(()=>g.remove(),1600);
+    setTimeout(()=>{
+      gem.remove();
+    },1400);
+
   }
+
 }
 
 /* ==========================================================
