@@ -434,14 +434,26 @@ if (sessionStorage.getItem("questCompleted") === "true") {
       gemsContainer.className = "gems-container";
       chestContainer.appendChild(gemsContainer);
 
-      launchGemsExplosion(gemsContainer);
+      function launchGemsExplosion(container){
 
-      /* 🚀 déplacement vers bouton météo */
-      setTimeout(() => {
+  for(let i=0;i<24;i++){
 
-        cinematic.classList.add("final-position");
+    const gem = document.createElement("div");
+    gem.className="gem";
 
-      }, 600);
+    const x = (Math.random()*320-160)+"px";
+    const y = (Math.random()*320-160)+"px";
+
+    gem.style.setProperty("--x",x);
+    gem.style.setProperty("--y",y);
+
+    container.appendChild(gem);
+
+    setTimeout(()=>gem.remove(),1200);
+
+  }
+
+}
 
       /* ✨ clignotement 20 secondes */
       setTimeout(() => {
@@ -457,7 +469,7 @@ if (sessionStorage.getItem("questCompleted") === "true") {
       /* 🔄 transformation bouton */
       setTimeout(() => {
 
-        cinematic.remove();
+        cinematic.classList.add("to-button");
 
         if(overlay){
           overlay.classList.remove("show");
@@ -476,28 +488,26 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 /* ==========================================================
    💨 FUMÉE APPARITION
 ========================================================== */
-
 function spawnSmoke(){
 
-  const smokeWrap = document.createElement("div");
-  smokeWrap.className = "chest-smoke";
+  const smokeWrap=document.createElement("div");
+  smokeWrap.className="chest-smoke";
 
-  for(let i=0;i<10;i++){
+  for(let i=0;i<12;i++){
 
-    const smoke = document.createElement("div");
-    smoke.className = "smoke";
+    const smoke=document.createElement("div");
+    smoke.className="smoke";
 
-    smoke.style.left = (Math.random()*160 - 80) + "px";
-    smoke.style.top = (Math.random()*160 - 80) + "px";
+    smoke.style.left=(Math.random()*300)+"px";
+    smoke.style.top=(Math.random()*200)+"px";
 
     smokeWrap.appendChild(smoke);
+
   }
 
   chestContainer.appendChild(smokeWrap);
 
-  setTimeout(()=>{
-    smokeWrap.remove();
-  },2500);
+  setTimeout(()=>smokeWrap.remove(),2200);
 
 }
 
