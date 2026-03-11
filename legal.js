@@ -82,12 +82,10 @@ function endVideo(){
     }
 
     if(pirateLegal){
-      pirateLegal.style.pointerEvents = "auto";
+  pirateLegal.style.pointerEvents = "auto";
 
-      pirateLegal.onclick = () => {
-        showLoader(1200, startDialogues1);
-      };
-    }
+  pirateLegal.onclick = startDialogues1;
+}
 
   });
 
