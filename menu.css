@@ -431,35 +431,58 @@ body.night-mode #pirate5 {
   pointer-events:auto;
 }
 
-/* Coffre caché = ne bloque rien */
+/* Coffre caché */
 #cinematicChest.hidden{
   display:none;
   pointer-events:none;
 }
 
+/* Apparition centre */
 .chest-wrapper{
   position:relative;
   text-align:center;
-  transform:scale(0.1);
+  transform:scale(.2);
   opacity:0;
   transition:
-    transform 1.2s cubic-bezier(.4,2,.6,1),
-    opacity .8s ease;
+    transform 1.3s cubic-bezier(.3,1.5,.5,1),
+    opacity 1s ease;
 }
 
-/* Apparition */
+/* apparition zoom */
 #cinematicChest.show .chest-wrapper{
   transform:scale(1);
   opacity:1;
 }
 
+/* =================================
+✨ TEXTE ILLUMINE
+================================= */
+
 .chest-title{
   font-family:Georgia, serif;
   font-size:26px;
   font-weight:bold;
-  color:white;              /* texte noir */
+  color:#ffd77a;
   margin-bottom:20px;
-  text-shadow:none;        /* 🔥 supprime le halo doré */
+
+  animation:chestGlow 2s infinite alternate;
+}
+
+@keyframes chestGlow{
+
+  from{
+    text-shadow:
+      0 0 5px #ffd77a,
+      0 0 10px #ffae00;
+  }
+
+  to{
+    text-shadow:
+      0 0 12px #fff3a0,
+      0 0 25px gold,
+      0 0 35px orange;
+  }
+
 }
 
 .chest-container{
@@ -474,21 +497,91 @@ body.night-mode #pirate5 {
   transition:transform .4s ease;
 }
 
-/* =========================
-   🚀 POSITION FINALE SOUS ⛅️
-========================= */
+/* =================================
+💨 FUMEE APPARITION
+================================= */
+
+.chest-smoke{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:300px;
+  height:300px;
+  pointer-events:none;
+}
+
+.smoke{
+  position:absolute;
+  width:120px;
+  height:120px;
+  background:radial-gradient(circle, rgba(255,255,255,.6), transparent);
+  border-radius:50%;
+  animation:smokeRise 2.5s ease-out forwards;
+}
+
+@keyframes smokeRise{
+
+  0%{
+    transform:scale(.3) translateY(20px);
+    opacity:.8;
+  }
+
+  100%{
+    transform:scale(2) translateY(-120px);
+    opacity:0;
+  }
+
+}
+
+/* =================================
+✨ CLIGNOTEMENT COFFRE
+================================= */
+
+#cinematicChest.blink{
+  animation:chestBlink 1s infinite;
+}
+
+@keyframes chestBlink{
+
+  0%{
+    opacity:1;
+  }
+
+  50%{
+    opacity:.25;
+  }
+
+  100%{
+    opacity:1;
+  }
+
+}
+
+/* =================================
+🚀 TRAJECTOIRE COFFRE
+================================= */
 
 #cinematicChest.final-position{
+
   align-items:flex-start;
   justify-content:flex-end;
+
   padding-top:80px;
   padding-right:20px;
-  pointer-events:none; /* IMPORTANT : ne bloque plus */
+
+  pointer-events:none;
 }
 
 #cinematicChest.final-position .chest-wrapper{
-  transform:scale(.4);
-  transition:transform .9s ease;
+
+  transform:
+    translate(-300px,-150px)
+    scale(.4);
+
+  transition:
+    transform 1.6s cubic-bezier(.25,.8,.25,1);
+
 }
 
 /* =========================
