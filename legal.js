@@ -37,6 +37,7 @@ function shake(el){
   setTimeout(()=>{
     box.classList.remove("screen-shake");
   },400);
+
 }
    
 /* =====================================================
@@ -529,27 +530,38 @@ function showStatutQ3(){
 `;
 }
 
-window.statutQ3 = (btn,val)=>{
+window.statutQ3 = function(btn,val){
 
+  if(!btn) return;
+
+  /* effet bouton appuyé */
   btn.classList.add("pressed");
   setTimeout(()=>btn.classList.remove("pressed"),120);
 
-  if(val===0){
+  /* mauvaise réponse */
+  if(val === 0){
     shake(btn);
     return;
   }
 
+  /* éviter double clic */
   if(q3.has(val)) return;
 
   q3.add(val);
 
+  /* verrouille le bouton */
   btn.disabled = true;
-  btn.classList.add("selectedAnswer");
+  btn.classList.add("correct-locked");
 
+  /* fin du mini jeu */
   if(q3.size === 3){
-    miniGame2.style.display = "none";
-    scene.classList.remove("sceneDim");
-    startDialoguesTVA();
+
+    setTimeout(()=>{
+      miniGame2.style.display = "none";
+      scene.classList.remove("sceneDim");
+      startDialoguesTVA();
+    },400);
+
   }
 };
 
