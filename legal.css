@@ -294,7 +294,8 @@ body{
 #miniGame2 #qChoices button,
 #miniGame3 button,
 #miniGame4 button,
-#tvaChoices button{
+#tvaChoices button,
+#gameQuestion button{
   background:linear-gradient(145deg,#7b4a12,#caa14a);
   border:3px solid #3b2208;
   color:#1a0f05;
@@ -315,7 +316,8 @@ body{
 #miniGame2 #qChoices button:active,
 #miniGame3 button:active,
 #miniGame4 button:active,
-#tvaChoices button:active{
+#tvaChoices button:active,
+#gameQuestion button:active{
   transform:translateY(4px);
 
   box-shadow:
@@ -328,7 +330,8 @@ body{
 #miniGame2 #qChoices button.correct-locked,
 #miniGame3 button.correct-locked,
 #miniGame4 button.correct-locked,
-#tvaChoices button.correct-locked{
+#tvaChoices button.correct-locked,
+#gameQuestion button.correct-locked{
   background:#5c3a0c!important;
   color:#ffd77a!important;
 
@@ -364,7 +367,8 @@ button.pressed{
 #miniGame.screen-shake,
 #miniGame2.screen-shake,
 #miniGame3.screen-shake,
-#miniGame4.screen-shake{
+#miniGame4.screen-shake,
+#gameQuestion button.screen-shake{
   animation:shake .35s ease;
 }
 
