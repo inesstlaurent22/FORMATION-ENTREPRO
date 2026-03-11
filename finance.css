@@ -513,13 +513,18 @@ html, body {
 #miniGame0 .questionBox,
 #financeGame .questionBox,
 #miniGame3 .questionBox{
+
+  display:inline-block;   /* largeur adaptée au texte */
+  max-width:100%;         /* évite dépassement */
+
   padding:12px 14px;
   background:#f6e6b8;
   color:#2b1605;
   border-radius:12px;
   font-weight:bold;
+
   margin-bottom:14px;
-  border:2px solid gold;
+  text-align:center;
 }
 
 /* =====================================================
