@@ -607,7 +607,6 @@ body.night-mode #pirate5 {
 /* =========================
 🚀 DÉPLACEMENT LIGNE DROITE
 ========================= */
-
 #cinematicChest.move-to-weather{
 
   position:fixed;
@@ -615,23 +614,25 @@ body.night-mode #pirate5 {
   top:80px;
   right:20px;
 
-  transform:none;
-
   transition:
-    top 1.2s ease,
-    right 1.2s ease;
+  top 1.2s ease,
+  right 1.2s ease,
+  transform 1.2s ease;
+
+  transform:scale(.35);
 
 }
 
-/* =========================
-🎁 COFFRE → BOUTON MÉTÉO
-========================= */
+/* =================================
+🎁 COFFRE → BOUTON SOUS MÉTÉO
+================================= */
+
 #cinematicChest.treasure-button{
 
   position:fixed;
 
-  top:80px;       /* sous météo */
-  right:20px;
+  top:80px;       /* sous le bouton météo */
+  right:20px;     /* même alignement horizontal */
 
   width:48px;
   height:48px;
@@ -645,15 +646,17 @@ body.night-mode #pirate5 {
   justify-content:center;
 
   cursor:pointer;
-  z-index:15000;
+  z-index:16000;
+
 }
-/* cacher texte */
+
+/* cacher le titre */
 
 #cinematicChest.treasure-button .chest-title{
   display:none;
 }
 
-/* icone coffre */
+/* icône coffre */
 
 #cinematicChest.treasure-button img{
   width:28px;
