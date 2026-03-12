@@ -697,20 +697,20 @@ body.night-mode #pirate5 {
 
   position:absolute;
 
-  right:75px;     /* affichage à gauche */
+  right:90px;     /* plus d'espace à gauche */
 
   top:50%;
 
-  transform:translateY(-50%) scale(4);
+  transform:translateY(-50%) scale(6);
 
   background:#ffffff;
 
-  padding:12px;
+  padding:16px;
 
-  border-radius:12px;
+  border-radius:14px;
   border:2px solid gold;
 
-  box-shadow:0 8px 20px rgba(0,0,0,.4);
+  box-shadow:0 10px 25px rgba(0,0,0,.45);
 
   z-index:20000;
 }
