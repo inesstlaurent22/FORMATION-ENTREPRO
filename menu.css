@@ -611,52 +611,67 @@ body.night-mode #pirate5 {
 
   position:fixed;
 
-  top:80px;
+  top:75px;
   right:20px;
+
+  inset:auto;
+
+  transform:scale(.35);
 
   transition:
   top 1.2s ease,
   right 1.2s ease,
   transform 1.2s ease;
 
-  transform:scale(.35);
-
 }
 
 /* =================================
 🎁 COFFRE → BOUTON SOUS MÉTÉO
 ================================= */
-
 #cinematicChest.treasure-button{
 
   position:fixed;
 
-  top:80px;       /* sous le bouton météo */
-  right:20px;     /* même alignement horizontal */
+  top:75px;     /* sous le bouton météo */
+  right:20px;
 
   width:48px;
   height:48px;
+
+  display:block;        /* IMPORTANT */
+  inset:auto;           /* enlève le centrage */
 
   background:rgba(0,0,0,.8);
   border:2px solid gold;
   border-radius:12px;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
   cursor:pointer;
+
   z-index:16000;
 
 }
 
-/* cacher le titre */
+/* centrer l'image dans le bouton */
+
+#cinematicChest.treasure-button .chest-wrapper{
+
+  transform:none;
+  width:100%;
+  height:100%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+}
+
+/* cacher texte */
 
 #cinematicChest.treasure-button .chest-title{
   display:none;
 }
 
-/* icône coffre */
+/* taille icône */
 
 #cinematicChest.treasure-button img{
   width:28px;
