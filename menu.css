@@ -697,8 +697,7 @@ body.night-mode #pirate5 {
 
   position:absolute;
 
-  right:90px;     /* plus d'espace à gauche */
-
+  right:120%;        /* place l’aperçu à gauche du bouton */
   top:50%;
 
   transform:translateY(-50%) scale(6);
