@@ -636,9 +636,8 @@ body.night-mode #pirate5 {
 
   position:fixed;
 
-  top:75px;
+  top:70px;     /* juste sous météo */
   right:20px;
-  left:auto;
 
   background:rgba(0,0,0,.8);
   border:2px solid gold;
@@ -656,12 +655,14 @@ body.night-mode #pirate5 {
 
 }
 
-/* taille image coffre */
+/* icône coffre */
 
 #cinematicChest.treasure-button img{
-  width:26px;
+  width:24px;
   height:auto;
 }
+
+/* cacher le texte */
 
 #cinematicChest.treasure-button .chest-title{
   display:none;
@@ -695,7 +696,6 @@ body.night-mode #pirate5 {
   height:28px;
 }
 
-
 /* =========================
 📂 DROPDOWN CANVA
 ========================= */
@@ -704,7 +704,7 @@ body.night-mode #pirate5 {
 
   position:fixed;
 
-  top:140px;
+  top:125px;
   right:20px;
 
   display:none;
@@ -714,7 +714,7 @@ body.night-mode #pirate5 {
   border:2px solid gold;
   border-radius:12px;
 
-  overflow:hidden;
+  padding:6px;
 
   z-index:16000;
 
@@ -722,16 +722,16 @@ body.night-mode #pirate5 {
 
 #treasureDropdown.show{
   display:flex;
-}"
+}
 
 /* =========================
-📂 BOUTONS CANVA
+🖼 BOUTONS CANVA
 ========================= */
 
 #treasureDropdown button{
 
-  width:50px;
-  height:50px;
+  width:48px;
+  height:48px;
 
   display:flex;
   align-items:center;
@@ -746,13 +746,15 @@ body.night-mode #pirate5 {
 
 }
 
-/* image seule */
+/* images */
 
 #treasureDropdown button img{
+
   width:34px;
   height:auto;
+
   display:block;
-  background:none;
+
 }
 
 /* hover léger */
@@ -763,7 +765,7 @@ body.night-mode #pirate5 {
 
 
 /* =========================
-💬 NOTIFICATION CANVA
+💬 TOOLTIP FORMATIONS
 ========================= */
 
 .tooltip{
@@ -776,7 +778,7 @@ body.night-mode #pirate5 {
   transform:translateY(-50%);
 
   background:rgba(0,0,0,.85);
-  color:#fff;
+  color:white;
 
   padding:6px 12px;
 
