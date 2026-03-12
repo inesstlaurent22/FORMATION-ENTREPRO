@@ -1,60 +1,67 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Menu La quête des pirates</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <link rel="icon" type="image/png" href="images/Favicons1.PNG?v=2">
-  <link rel="stylesheet" href="menu.css">
+<meta charset="UTF-8">
+<title>Menu La quête des pirates</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="icon" type="image/png" href="images/Favicons1.PNG?v=2">
+<link rel="stylesheet" href="menu.css">
+
 </head>
 
 <body>
 
-  <!-- 🌤 Sélecteur jour / nuit -->
-  <div id="timeSelector">
-    <button id="timeToggle">⛅️</button>
-    <div id="timeDropdown">
-      <button data-mode="day">🌅</button>
-      <button data-mode="night">🌃</button>
-    </div>
-  </div>
+<!-- 🌤 Sélecteur jour / nuit -->
+<div id="timeSelector">
 
-  <!-- 🔐 Bouton confidentialité -->
+<button id="timeToggle">⛅️</button>
+
+<div id="timeDropdown">
+<button data-mode="day">🌅</button>
+<button data-mode="night">🌃</button>
+</div>
+
+</div>
+
+<!-- 🔐 Bouton confidentialité -->
 <button id="privacyBtn">🫆</button>
 
-<!-- 📜 Fenêtre politique confidentialité -->
+<!-- 📜 Fenêtre confidentialité -->
 <div id="privacyModal" class="privacy-modal">
-  <div class="privacy-content">
 
-    <span id="closePrivacy" class="close-privacy">✖</span>
+<div class="privacy-content">
 
-    <h2>Politique de confidentialité</h2>
+<span id="closePrivacy" class="close-privacy">✖</span>
 
-    <div class="privacy-scroll">
+<h2>Politique de confidentialité</h2>
+
+<div class="privacy-scroll">
 
 <p>
-La présente politique de confidentialité a pour objectif d’informer les utilisateurs du site sur la manière dont leurs données personnelles peuvent être collectées et traitées.
+La présente politique de confidentialité a pour objectif d’informer les utilisateurs
+du site sur la manière dont leurs données personnelles peuvent être collectées
+et traitées.
 </p>
 
 <p>
-Les informations susceptibles d’être collectées sur ce site peuvent inclure : nom, prénom, adresse email, ou toute information transmise volontairement via un formulaire de contact.
+Les informations susceptibles d’être collectées sur ce site peuvent inclure :
+nom, prénom, adresse email ou toute information transmise volontairement.
 </p>
 
 <p>
-Ces données sont utilisées uniquement dans le cadre des services proposés sur le site, notamment pour répondre aux demandes de contact ou améliorer l’expérience utilisateur.
+Ces données sont utilisées uniquement pour améliorer l’expérience utilisateur
+et répondre aux demandes de contact.
 </p>
 
 <p>
-Conformément à la réglementation en vigueur relative à la protection des données personnelles, les utilisateurs disposent d’un droit d’accès, de rectification, de suppression et d’opposition concernant leurs données personnelles.
+Conformément au RGPD, les utilisateurs disposent d’un droit d’accès,
+de rectification et de suppression de leurs données.
 </p>
 
 <p>
-Toute demande peut être adressée à :<br>
-<strong>[Adresse email de contact]</strong>
-</p>
-
-<p>
-Les données personnelles sont conservées uniquement pendant la durée nécessaire à la gestion des demandes et ne sont pas vendues ou cédées à des tiers.
+Contact : <strong>[Adresse email de contact]</strong>
 </p>
 
 <hr>
@@ -62,117 +69,118 @@ Les données personnelles sont conservées uniquement pendant la durée nécessa
 <h3>Politique de cookies</h3>
 
 <p>
-Le site peut utiliser des cookies afin d’améliorer l’expérience de navigation et de mesurer l’audience du site.
+Le site peut utiliser des cookies afin d’améliorer l’expérience de navigation.
 </p>
 
 <p>
-Un cookie est un petit fichier stocké sur l’appareil de l’utilisateur lors de la consultation d’un site internet. Les cookies permettent notamment de mémoriser certaines informations de navigation.
+Un cookie est un petit fichier stocké sur l’appareil de l’utilisateur lors de la
+consultation d’un site internet.
 </p>
 
 <p>
-Lors de la première visite sur le site, une bannière informe l’utilisateur de l’utilisation de cookies et lui permet d’accepter, de refuser ou de personnaliser leur utilisation.
-</p>
-
-<p>
-L’utilisateur peut à tout moment modifier ses préférences ou supprimer les cookies via les paramètres de son navigateur.
+L’utilisateur peut supprimer ou modifier ses préférences dans les paramètres
+de son navigateur.
 </p>
 
 <hr>
 
-<h3>Protection des données personnelles (RGPD)</h3>
+<h3>Protection des données personnelles</h3>
 
 <p>
-Le site s’engage à respecter la confidentialité des données personnelles collectées et à les traiter dans le respect du Règlement Général sur la Protection des Données (RGPD).
+Les données collectées sont utilisées uniquement dans le cadre des services
+proposés sur le site et ne sont jamais revendues.
 </p>
-
-<p>
-Les données collectées sont utilisées uniquement dans le cadre des services proposés par le site et ne sont accessibles qu’aux personnes autorisées.
-</p>
-
-<p>
-Des mesures de sécurité techniques et organisationnelles sont mises en place afin de protéger les données contre tout accès non autorisé, modification ou divulgation.
-</p>
-
-<p>Les utilisateurs disposent des droits suivants concernant leurs données :</p>
 
 <ul>
 <li>droit d’accès</li>
 <li>droit de rectification</li>
 <li>droit à l’effacement</li>
-<li>droit d’opposition au traitement</li>
-<li>droit à la portabilité des données</li>
+<li>droit d’opposition</li>
+<li>droit à la portabilité</li>
 </ul>
 
-<p>
-Pour exercer ces droits, l’utilisateur peut contacter :<br>
-<strong>[Adresse email de contact]</strong>
-</p>
-
-    </div>
-  </div>
+</div>
+</div>
 </div>
 
-  <!-- 🔔 Notification -->
-  <div id="notification"></div>
+<!-- 🔔 Notification -->
+<div id="notification"></div>
 
-  <!-- 💬 Bulle d’information -->
-  <div id="bubble">
-    <span id="bubbleText">
-      ☠ ☠ ☠<br>
-      Bravo Moussaillon, tu as débloqué ton premier pirate 🏴‍☠️<br>
-      Clique dessus, effectue l’ensemble de la quête et tu pourras débloquer les suivants.<br>
-      Bonne aventure ! ☠
-    </span>
+<!-- 💬 Bulle -->
+<div id="bubble">
+
+<span id="bubbleText">
+
+☠ ☠ ☠<br>
+Bravo Moussaillon, tu as débloqué ton premier pirate 🏴‍☠️<br>
+Clique dessus pour commencer ta première quête.<br>
+Bonne aventure !
+
+</span>
+
 <button id="bubbleButton" class="pirate-btn-main">
-  ⚓ Ok, j’ai compris
+⚓ Ok, j’ai compris
 </button>
-  </div>
 
-  <!-- 🌌 Fond décoratif -->
-  <div id="background"></div>
+</div>
 
-  <!-- 🏴‍☠️ Pirates -->
-  <img id="pirate1" class="pirate locked" src="images/Pirate1.png" alt="Pirate 1 – Commerce">
-  <img id="pirate2" class="pirate unlocked" src="images/Pirate2.png" alt="Pirate 2 – Introduction">
-  <img id="pirate3" class="pirate locked" src="images/Pirate3.png" alt="Pirate 3 – Communication">
-  <img id="pirate4" class="pirate locked" src="images/Pirate4.png" alt="Pirate 4 – Légal">
-  <img id="pirate5" class="pirate locked" src="images/Pirate5.png" alt="Pirate 5 – Finance">
+<!-- 🌌 Background -->
+<div id="background"></div>
 
-  <!-- 🔄 Bouton reset -->
-  <button id="resetButton">Réinitialiser la progression</button>
+<!-- 🏴‍☠️ Pirates -->
 
-  <div id="chestOverlay"></div>
+<img id="pirate1" class="pirate locked" src="images/Pirate1.png" alt="Pirate Commerce">
+<img id="pirate2" class="pirate unlocked" src="images/Pirate2.png" alt="Pirate Intro">
+<img id="pirate3" class="pirate locked" src="images/Pirate3.png" alt="Pirate Communication">
+<img id="pirate4" class="pirate locked" src="images/Pirate4.png" alt="Pirate Legal">
+<img id="pirate5" class="pirate locked" src="images/Pirate5.png" alt="Pirate Finance">
 
-  <!-- 🎬 COFFRE CINÉMATIQUE -->
+<!-- 🔄 Reset progression -->
+<button id="resetButton">Réinitialiser la progression</button>
+
+<!-- 🌑 Overlay cinématique -->
+<div id="chestOverlay"></div>
+
+<!-- 🎬 Coffre cinématique -->
 <div id="cinematicChest" class="hidden">
-  <div class="chest-wrapper">
 
-    <div class="chest-title">
-      Ouvre vite ton cadeau
-    </div>
+<div class="chest-wrapper">
 
-    <div class="chest-container">
-      <img src="images/Tresorfermer.png" id="chestBase">
-    </div>
-
-  </div>
+<div class="chest-title">
+Ouvre vite ton cadeau
 </div>
 
-  <!-- 📦 Images affichées au clic sur 🎁 -->
-<div id="treasureSelector" class="hidden">
-  <button id="treasureBtn">
-  <img src="images/Tresorouvert.png" alt="Trésor">
+<div class="chest-container">
+<img id="chestBase" src="images/Tresorferme.png">
+</div>
+
+</div>
+
+</div>
+
+<!-- 📂 Dropdown Canva -->
+<div id="treasureDropdown" class="treasure-dropdown">
+
+<button>
+<img src="images/Canva1.png">
 </button>
-  <div id="treasureDropdown">
-    <button><img src="images/Canva1.png"></button>
-    <button><img src="images/Canva2.png"></button>
-    <button><img src="images/Canva3.png"></button>
-    <button><img src="images/Canva4.png"></button>
-  </div>
+
+<button>
+<img src="images/Canva2.png">
+</button>
+
+<button>
+<img src="images/Canva3.png">
+</button>
+
+<button>
+<img src="images/Canva4.png">
+</button>
+
 </div>
 
-  <!-- 📜 Script -->
-  <script src="menu.js"></script>
+<!-- Script -->
+<script src="menu.js"></script>
 
 </body>
 </html>
