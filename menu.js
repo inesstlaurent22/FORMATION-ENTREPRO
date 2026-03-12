@@ -388,31 +388,43 @@ const cinematic = document.getElementById("cinematicChest");
 const chestContainer = document.querySelector(".chest-container");
 const chestBase = document.getElementById("chestBase");
 const treasureDropdown = document.getElementById("treasureDropdown");
-const overlay = document.getElementById("chestOverlay");
+const chestOverlay = document.getElementById("chestOverlay");
 
-if (sessionStorage.getItem("questCompleted") === "true") {
+if (
+  sessionStorage.getItem("questCompleted") === "true" &&
+  cinematic &&
+  chestContainer &&
+  chestBase
+) {
 
   sessionStorage.removeItem("questCompleted");
 
   cinematic.classList.remove("hidden");
 
-  if (overlay) overlay.classList.add("show");
+  if (chestOverlay) {
+    chestOverlay.classList.add("show");
+  }
+
+  /* apparition coffre */
 
   setTimeout(() => {
     cinematic.classList.add("show");
     spawnSmoke();
   }, 100);
 
-  /* clic coffre */
+  /* ===============================
+     🖱️ OUVERTURE COFFRE
+  =============================== */
 
   chestContainer.addEventListener("click", function openChest(){
 
     chestContainer.removeEventListener("click", openChest);
 
     /* coffre ouvert */
+
     chestBase.src = "images/Tresorouvert.png";
 
-    /* explosion gems */
+    /* 💎 explosion gems */
 
     const gemsContainer = document.createElement("div");
     gemsContainer.className = "gems-container";
@@ -420,92 +432,39 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 
     launchGemsExplosion(gemsContainer);
 
-    /* déplacement vers météo */
+    /* 🚀 déplacement vers météo */
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
       cinematic.classList.add("move-to-weather");
 
-    },800);
+    }, 800);
 
-    /* transformation bouton */
+    /* 🎁 transformation bouton */
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
       cinematic.classList.add("treasure-button");
 
-      if (overlay) overlay.classList.remove("show");
+      if (chestOverlay) {
+        chestOverlay.classList.remove("show");
+      }
 
-      cinematic.addEventListener("click",(e)=>{
+      /* bouton coffre ouvre dropdown */
+
+      cinematic.addEventListener("click", (e) => {
 
         e.stopPropagation();
 
-        treasureDropdown.classList.toggle("show");
+        if (treasureDropdown) {
+          treasureDropdown.classList.toggle("show");
+        }
 
       });
 
-    },2200);
+    }, 2000);
 
   });
-
-}
-
-    /* ===============================
-       🖱️ OUVERTURE COFFRE
-    =============================== */
-
-    chestContainer.addEventListener("click", function openChest() {
-
-      chestContainer.removeEventListener("click", openChest);
-
-      /* coffre ouvert */
-      chestBase.src = "images/Tresorouvert.png";
-
-      /* 💎 explosion gems */
-      const gemsContainer = document.createElement("div");
-      gemsContainer.className = "gems-container";
-      chestContainer.appendChild(gemsContainer);
-
-      launchGemsExplosion(gemsContainer);
-
-      /* 🚀 déplacement ligne droite */
-      setTimeout(() => {
-
-        cinematic.classList.add("final-position");
-
-      }, 600);
-
-      /* ✨ clignotement */
-      setTimeout(() => {
-
-        cinematic.classList.add("blink");
-
-      }, 2000);
-
-      /* 🎁 transformation bouton */
-      setTimeout(() => {
-
-        cinematic.classList.remove("blink");
-        cinematic.classList.add("to-button");
-
-        if (overlay) overlay.classList.remove("show");
-
-        /* activer bouton coffre */
-        cinematic.addEventListener("click", (e) => {
-
-          e.stopPropagation();
-
-          if (treasureDropdown) {
-            treasureDropdown.classList.toggle("show");
-          }
-
-        });
-
-      }, 4000);
-
-    });
-
-  }
 
 }
 
@@ -530,7 +489,9 @@ function spawnSmoke(){
 
   }
 
-  chestContainer.appendChild(smokeWrap);
+  if (chestContainer) {
+    chestContainer.appendChild(smokeWrap);
+  }
 
   setTimeout(()=>{
     smokeWrap.remove();
@@ -543,6 +504,8 @@ function spawnSmoke(){
 ========================================================== */
 
 function launchGemsExplosion(container){
+
+  if (!container) return;
 
   for(let i=0;i<24;i++){
 
@@ -564,6 +527,7 @@ function launchGemsExplosion(container){
   }
 
 }
+
 
 /* ==========================================================
    🎁 DROPDOWN CANVA
@@ -662,4 +626,5 @@ canvaButtons.forEach((btn, index) => {
 
   }
 
+});
 });
