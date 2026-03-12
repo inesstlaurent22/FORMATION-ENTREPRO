@@ -454,13 +454,13 @@ if (
 
       cinematic.addEventListener("click", (e) => {
 
-        e.stopPropagation();
+  e.stopPropagation();
 
-        if (treasureDropdown) {
-          treasureDropdown.classList.toggle("show");
-        }
+  if (!treasureDropdown) return;
 
-      });
+  treasureDropdown.classList.toggle("show");
+
+});
 
     }, 2000);
 
@@ -528,18 +528,21 @@ function launchGemsExplosion(container){
 
 }
 
-
 /* ==========================================================
    🎁 DROPDOWN CANVA
 ========================================================== */
 
 if (treasureDropdown) {
 
-  treasureDropdown.addEventListener("click", (e) => {
+  /* empêcher fermeture quand on clique dedans */
+
+  treasureDropdown.addEventListener("click", (e)=>{
     e.stopPropagation();
   });
 
-  document.addEventListener("click", () => {
+  /* fermer si clic ailleurs */
+
+  document.addEventListener("click", ()=>{
     treasureDropdown.classList.remove("show");
   });
 
