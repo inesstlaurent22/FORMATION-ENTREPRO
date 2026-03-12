@@ -381,15 +381,12 @@ function showPasswordOverlay() {
 }
 
 /* ==========================================================
-   🎬 COFFRE FINAL (RETOUR LEGAL → TRANSFORMATION BOUTON)
+   🎬 COFFRE FINAL
 ========================================================== */
 
 const cinematic = document.getElementById("cinematicChest");
-const chestWrapper = document.querySelector(".chest-wrapper");
 const chestContainer = document.querySelector(".chest-container");
 const chestBase = document.getElementById("chestBase");
-const treasureSelector = document.getElementById("treasureSelector");
-const treasureBtn = document.getElementById("treasureBtn");
 const treasureDropdown = document.getElementById("treasureDropdown");
 const overlay = document.getElementById("chestOverlay");
 
@@ -397,24 +394,61 @@ if (sessionStorage.getItem("questCompleted") === "true") {
 
   sessionStorage.removeItem("questCompleted");
 
-  if (cinematic && chestContainer && chestBase) {
+  cinematic.classList.remove("hidden");
 
-    cinematic.classList.remove("hidden");
+  if (overlay) overlay.classList.add("show");
 
-    /* 🌑 assombrir fond */
-    if (overlay) overlay.classList.add("show");
+  setTimeout(() => {
+    cinematic.classList.add("show");
+    spawnSmoke();
+  }, 100);
 
-    /* apparition coffre */
-    setTimeout(() => {
-      cinematic.classList.add("show");
-      spawnSmoke();
-    }, 100);
+  /* clic coffre */
 
-    /* bloquer clic pendant apparition */
-    chestContainer.style.pointerEvents = "none";
-    setTimeout(() => {
-      chestContainer.style.pointerEvents = "auto";
-    }, 1200);
+  chestContainer.addEventListener("click", function openChest(){
+
+    chestContainer.removeEventListener("click", openChest);
+
+    /* coffre ouvert */
+    chestBase.src = "images/Tresorouvert.png";
+
+    /* explosion gems */
+
+    const gemsContainer = document.createElement("div");
+    gemsContainer.className = "gems-container";
+    chestContainer.appendChild(gemsContainer);
+
+    launchGemsExplosion(gemsContainer);
+
+    /* déplacement vers météo */
+
+    setTimeout(()=>{
+
+      cinematic.classList.add("move-to-weather");
+
+    },800);
+
+    /* transformation bouton */
+
+    setTimeout(()=>{
+
+      cinematic.classList.add("treasure-button");
+
+      if (overlay) overlay.classList.remove("show");
+
+      cinematic.addEventListener("click",(e)=>{
+
+        e.stopPropagation();
+
+        treasureDropdown.classList.toggle("show");
+
+      });
+
+    },2200);
+
+  });
+
+}
 
     /* ===============================
        🖱️ OUVERTURE COFFRE
