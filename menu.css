@@ -428,35 +428,36 @@ body.night-mode #pirate5 {
   align-items:center;
   justify-content:center;
   z-index:9500;
-  pointer-events:auto;
 }
 
-/* Coffre caché */
+/* caché */
+
 #cinematicChest.hidden{
   display:none;
-  pointer-events:none;
 }
 
-/* Apparition centre */
+/* apparition */
+
 .chest-wrapper{
   position:relative;
   text-align:center;
-  transform:scale(.2);
+
+  transform:scale(.25);
   opacity:0;
+
   transition:
-    transform 1.3s cubic-bezier(.3,1.5,.5,1),
-    opacity 1s ease;
+    transform 1.2s cubic-bezier(.3,1.4,.5,1),
+    opacity .8s ease;
 }
 
-/* apparition zoom */
 #cinematicChest.show .chest-wrapper{
   transform:scale(1);
   opacity:1;
 }
 
-/* =================================
-✨ TEXTE ILLUMINE
-================================= */
+/* =========================
+✨ TEXTE
+========================= */
 
 .chest-title{
   font-family:Georgia, serif;
@@ -485,6 +486,10 @@ body.night-mode #pirate5 {
 
 }
 
+/* =========================
+📦 COFFRE
+========================= */
+
 .chest-container{
   position:relative;
   width:420px;
@@ -494,64 +499,55 @@ body.night-mode #pirate5 {
 
 #chestBase{
   width:100%;
-  transition:transform .4s ease;
 }
 
-/* =================================
-🌑 OVERLAY CINEMATIQUE (PLUS SOMBRE)
-================================= */
+/* =========================
+🌑 OVERLAY SOMBRE
+========================= */
 
 #chestOverlay{
-
   position:fixed;
   inset:0;
-
   background:rgba(0,0,0,.85);
-
   backdrop-filter:blur(3px);
 
   opacity:0;
-  transition:opacity .5s ease;
+  transition:opacity .4s ease;
 
   z-index:9400;
   pointer-events:none;
-
 }
 
 #chestOverlay.show{
   opacity:1;
 }
 
-/* =================================
-💨 POUSSIÈRE PIRATE
-================================= */
+/* =========================
+💨 FUMÉE PIRATE
+========================= */
 
 .chest-smoke{
-
   position:absolute;
   inset:0;
   pointer-events:none;
-
 }
 
 .smoke{
-
   position:absolute;
 
-  width:90px;
-  height:90px;
+  width:100px;
+  height:100px;
 
   background:radial-gradient(
     circle,
-    rgba(180,150,100,.8),
-    rgba(120,90,60,.5),
+    rgba(160,130,90,.8),
+    rgba(90,70,40,.5),
     transparent
   );
 
   border-radius:50%;
 
-  animation:pirateSmoke 2.2s ease-out forwards;
-
+  animation:pirateSmoke 2s ease-out forwards;
 }
 
 @keyframes pirateSmoke{
@@ -562,68 +558,17 @@ body.night-mode #pirate5 {
   }
 
   100%{
-    transform:scale(2.5) translateY(-80px);
+    transform:scale(2.3) translateY(-80px);
     opacity:0;
   }
 
 }
 
-/* =================================
-✨ CLIGNOTEMENT COFFRE
-================================= */
-
-#cinematicChest.blink{
-  animation:chestBlink 1s infinite;
-}
-
-@keyframes chestBlink{
-
-  0%{
-    opacity:1;
-  }
-
-  50%{
-    opacity:.25;
-  }
-
-  100%{
-    opacity:1;
-  }
-
-}
-
-/* =================================
-🚀 TRAJECTOIRE COFFRE
-================================= */
-
-#cinematicChest.final-position{
-
-  align-items:flex-start;
-  justify-content:flex-end;
-
-  padding-top:80px;
-  padding-right:20px;
-
-  pointer-events:none;
-}
-
-#cinematicChest.final-position .chest-wrapper{
-
-  transform:
-    translate(520px,-260px)
-    scale(.4);
-
-  transition:
-    transform 1.6s cubic-bezier(.25,.8,.25,1);
-
-}
-
-/* =================================
-💎 GEMS EXPLOSION
-================================= */
+/* =========================
+💎 GEMS
+========================= */
 
 .gem{
-
   position:absolute;
 
   width:20px;
@@ -637,7 +582,6 @@ body.night-mode #pirate5 {
   transform:translate(-50%,-50%);
 
   animation:gemExplode 1.2s ease-out forwards;
-
 }
 
 @keyframes gemExplode{
@@ -648,7 +592,6 @@ body.night-mode #pirate5 {
   }
 
   100%{
-
     transform:
       translate(
         calc(-50% + var(--x)),
@@ -657,95 +600,64 @@ body.night-mode #pirate5 {
       scale(1.2);
 
     opacity:0;
-
   }
 
 }
 
-/* =================================
-💨 FUMEE
-================================= */
+/* =========================
+🚀 DÉPLACEMENT LIGNE DROITE
+========================= */
 
-.chest-smoke{
-
-  position:absolute;
-  top:50%;
-  left:50%;
-
-  transform:translate(-50%,-50%);
-
-  width:300px;
-  height:300px;
-
-  pointer-events:none;
-
-}
-
-.smoke{
-
-  position:absolute;
-
-  width:120px;
-  height:120px;
-
-  background:radial-gradient(
-    circle,
-    rgba(255,255,255,.6),
-    rgba(255,255,255,.2),
-    transparent
-  );
-
-  border-radius:50%;
-
-  animation:smokeRise 2.5s ease-out forwards;
-
-}
-
-@keyframes smokeRise{
-
-  0%{
-    transform:scale(.2);
-    opacity:.9;
-  }
-
-  100%{
-    transform:scale(2.2) translateY(-120px);
-    opacity:0;
-  }
-
-}
-
-/* =================================
-🎁 COFFRE → BOUTON
-================================= */
-
-#cinematicChest.to-button{
+#cinematicChest.move-to-weather{
 
   position:fixed;
 
   top:80px;
   right:20px;
 
-  width:60px;
-  height:60px;
+  transform:none;
+
+  transition:
+    top 1.2s ease,
+    right 1.2s ease;
+
+}
+
+/* =========================
+🎁 COFFRE → BOUTON MÉTÉO
+========================= */
+
+#cinematicChest.treasure-button{
+
+  width:48px;
+  height:48px;
+
+  background:rgba(0,0,0,.8);
+
+  border:2px solid gold;
+
+  border-radius:12px;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  z-index:10000;
+  cursor:pointer;
 
+  z-index:15000;
 }
 
-#cinematicChest.to-button .chest-wrapper{
+/* cacher texte */
 
-  transform:scale(.25);
-  transition:transform .6s ease;
-
-}
-
-#cinematicChest.to-button .chest-title{
+#cinematicChest.treasure-button .chest-title{
   display:none;
+}
+
+/* icone coffre */
+
+#cinematicChest.treasure-button img{
+  width:28px;
+  height:28px;
 }
 
 /* ================================================= */
