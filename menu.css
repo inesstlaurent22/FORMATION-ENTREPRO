@@ -592,7 +592,7 @@ body.night-mode #pirate5 {
 #cinematicChest.treasure-button{
 
   position: fixed;
-  top: 80px;          /* sous le bouton météo */
+  top: 80px;
   right: 20px;
 
   z-index: 15000;
@@ -601,9 +601,16 @@ body.night-mode #pirate5 {
   background: rgba(0,0,0,.8);
   border: 2px solid gold;
   border-radius: 12px;
+
   padding: 10px 14px;
 
-  cursor: pointer;
+  font-size: 22px;     /* même taille emoji */
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
 }
 
 /* centre l'image */
@@ -618,10 +625,9 @@ body.night-mode #pirate5 {
   display:flex;
   align-items:center;
   justify-content:center;
-
 }
 
-/* icône coffre */
+/* taille icône coffre */
 
 #cinematicChest.treasure-button img{
   width:22px;
@@ -632,12 +638,6 @@ body.night-mode #pirate5 {
 
 #cinematicChest.treasure-button .chest-title{
   display:none;
-}
-
-/* même effet hover que les boutons du menu */
-
-#cinematicChest.treasure-button:hover{
-  transform: scale(1.05);
 }
 
 /* =========================
@@ -667,21 +667,26 @@ body.night-mode #pirate5 {
 ========================= */
 
 #treasureDropdown button{
-padding: 10px;
-  font-size: 20px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: white;
+
+  width:48px;
+  height:48px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:none;
+  border:none;
+
+  cursor:pointer;
+
+  position:relative;
 }
 
 #treasureDropdown button img{
-
   width:28px;
   height:28px;
-
   object-fit:contain;
-
 }
 
 /* hover */
@@ -693,12 +698,15 @@ padding: 10px;
 /* =========================
 💬 TOOLTIP FORMATIONS
 ========================= */
+/* =========================
+💬 NOTIFICATION CANVA
+========================= */
 
 .tooltip{
 
   position:absolute;
 
-  right:120%;
+  right:110%;
   top:50%;
 
   transform:translateY(-50%);
@@ -719,7 +727,6 @@ padding: 10px;
   pointer-events:none;
 
   transition:opacity .2s ease;
-
 }
 
 #treasureDropdown button:hover .tooltip{
