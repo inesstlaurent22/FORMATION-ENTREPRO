@@ -722,6 +722,44 @@ body.night-mode #pirate5 {
   opacity:1;
 }
 
+/* =========================
+   🔍 ZOOM CANVA
+========================= */
+
+#treasureDropdown button{
+  position:relative;
+}
+
+/* image normale */
+
+#treasureDropdown button img{
+  width:28px;
+  height:28px;
+  object-fit:contain;
+  transition:transform .25s ease;
+}
+
+/* image agrandie au survol */
+
+#treasureDropdown button:hover img{
+
+  position:absolute;
+
+  bottom:60px;   /* au dessus du bouton */
+  left:50%;
+
+  transform:translateX(-50%) scale(2.6);
+
+  background:rgba(0,0,0,.9);
+
+  padding:6px;
+
+  border:2px solid gold;
+  border-radius:10px;
+
+  z-index:20000;
+}
+
 /* ================================================= */
 /* 🔐 BOUTON CONFIDENTIALITÉ */
 /* ================================================= */
