@@ -380,8 +380,9 @@ function showPasswordOverlay() {
   };
 }
 
+
 /* ==========================================================
-   🎬 COFFRE FINAL
+🎬 COFFRE FINAL
 ========================================================== */
 
 const cinematic = document.getElementById("cinematicChest");
@@ -390,108 +391,92 @@ const chestBase = document.getElementById("chestBase");
 const treasureDropdown = document.getElementById("treasureDropdown");
 const chestOverlay = document.getElementById("chestOverlay");
 
+let chestReady = false;
+
 if (
   sessionStorage.getItem("questCompleted") === "true" &&
   cinematic &&
   chestContainer &&
   chestBase
-) {
+){
 
   sessionStorage.removeItem("questCompleted");
 
   cinematic.classList.remove("hidden");
 
-  if (chestOverlay) {
+  if(chestOverlay){
     chestOverlay.classList.add("show");
   }
 
-  /* apparition coffre */
-
-  setTimeout(() => {
+  setTimeout(()=>{
     cinematic.classList.add("show");
     spawnSmoke();
-  }, 100);
+  },100);
 
-  /* ===============================
-     🖱️ OUVERTURE COFFRE
-  =============================== */
+  chestContainer.addEventListener("click",handleChestClick);
 
-  chestContainer.addEventListener("click", function openChest(){
+}
 
-    chestContainer.removeEventListener("click", openChest);
+function handleChestClick(e){
 
-    /* coffre ouvert */
+  e.stopPropagation();
 
-    chestBase.src = "images/Tresorouvert.png";
+  if(!chestReady){
 
-    /* 💎 explosion gems */
+    chestBase.src="images/Tresorouvert.png";
 
-    const gemsContainer = document.createElement("div");
-    gemsContainer.className = "gems-container";
+    const gemsContainer=document.createElement("div");
+    gemsContainer.className="gems-container";
     chestContainer.appendChild(gemsContainer);
 
     launchGemsExplosion(gemsContainer);
 
-    /* 🚀 déplacement vers météo */
-
-    setTimeout(() => {
-
+    setTimeout(()=>{
       cinematic.classList.add("move-to-weather");
+    },700);
 
-    }, 800);
-
-    /* 🎁 transformation bouton */
-
-    setTimeout(() => {
+    setTimeout(()=>{
 
       cinematic.classList.add("treasure-button");
 
-      if (chestOverlay) {
+      if(chestOverlay){
         chestOverlay.classList.remove("show");
       }
 
-      /* bouton coffre ouvre dropdown */
+      chestReady=true;
 
-      cinematic.addEventListener("click", (e) => {
+    },1500);
 
-  e.stopPropagation();
+  }else{
 
-  if (!treasureDropdown) return;
+    treasureDropdown.classList.toggle("show");
 
-  treasureDropdown.classList.toggle("show");
-
-});
-
-    }, 2000);
-
-  });
+  }
 
 }
 
-/* ==========================================================
-   💨 FUMÉE APPARITION
-========================================================== */
+/* =================================
+💨 FUMÉE
+================================= */
 
 function spawnSmoke(){
 
-  const smokeWrap = document.createElement("div");
-  smokeWrap.className = "chest-smoke";
+  const smokeWrap=document.createElement("div");
+  smokeWrap.className="chest-smoke";
 
   for(let i=0;i<12;i++){
 
-    const smoke = document.createElement("div");
-    smoke.className = "smoke";
+    const smoke=document.createElement("div");
+    smoke.className="smoke";
 
-    smoke.style.left = (Math.random()*280) + "px";
-    smoke.style.top = (Math.random()*180) + "px";
+    smoke.style.left=(Math.random()*280)+"px";
+    smoke.style.top=(Math.random()*180)+"px";
 
     smokeWrap.appendChild(smoke);
 
   }
 
-  if (chestContainer) {
-    chestContainer.appendChild(smokeWrap);
-  }
+  chestContainer.appendChild(smokeWrap);
 
   setTimeout(()=>{
     smokeWrap.remove();
@@ -499,54 +484,38 @@ function spawnSmoke(){
 
 }
 
-/* ==========================================================
-   💎 EXPLOSION GEMS
-========================================================== */
+/* =================================
+💎 EXPLOSION GEMS
+================================= */
 
 function launchGemsExplosion(container){
 
-  if (!container) return;
-
   for(let i=0;i<24;i++){
 
-    const gem = document.createElement("div");
-    gem.className = "gem";
+    const gem=document.createElement("div");
+    gem.className="gem";
 
-    const x = (Math.random()*320 - 160) + "px";
-    const y = (Math.random()*320 - 160) + "px";
+    const x=(Math.random()*320-160)+"px";
+    const y=(Math.random()*320-160)+"px";
 
-    gem.style.setProperty("--x", x);
-    gem.style.setProperty("--y", y);
+    gem.style.setProperty("--x",x);
+    gem.style.setProperty("--y",y);
 
     container.appendChild(gem);
 
-    setTimeout(()=>{
-      gem.remove();
-    },1400);
+    setTimeout(()=>gem.remove(),1400);
 
   }
 
 }
 
-/* ==========================================================
-   🎁 DROPDOWN CANVA
-========================================================== */
+/* fermer dropdown */
 
-if (treasureDropdown) {
-
-  /* empêcher fermeture quand on clique dedans */
-
-  treasureDropdown.addEventListener("click", (e)=>{
-    e.stopPropagation();
-  });
-
-  /* fermer si clic ailleurs */
-
-  document.addEventListener("click", ()=>{
+document.addEventListener("click",()=>{
+  if(treasureDropdown){
     treasureDropdown.classList.remove("show");
-  });
-
-}
+  }
+});
   
 /* ==========================================================
    🔐 POLITIQUE CONFIDENTIALITÉ
