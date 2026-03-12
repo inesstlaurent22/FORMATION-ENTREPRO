@@ -668,24 +668,16 @@ body.night-mode #pirate5 {
 
 #treasureDropdown button{
 
-  width:48px;
-  height:48px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:none;
-  border:none;
-
-  cursor:pointer;
-
-  position:relative;
+   background: rgba(0,0,0,.8);
+  border: 2px solid gold;
+  border-radius: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
 }
 
 #treasureDropdown button img{
-  width:28px;
-  height:28px;
+  width:100px;
+  height:auto;
   object-fit:contain;
 }
 
@@ -697,9 +689,6 @@ body.night-mode #pirate5 {
 
 /* =========================
 💬 TOOLTIP FORMATIONS
-========================= */
-/* =========================
-💬 NOTIFICATION CANVA
 ========================= */
 
 .tooltip{
