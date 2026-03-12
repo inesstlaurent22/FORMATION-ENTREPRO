@@ -723,39 +723,59 @@ body.night-mode #pirate5 {
 }
 
 /* =========================
-   🔍 ZOOM CANVA
+   ZONE BOUTONS CANVA
 ========================= */
 
 #treasureDropdown button{
+
+  width:60px;
+  height:60px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:transparent;
+  border:none;
+
+  cursor:pointer;
+
   position:relative;
 }
 
-/* image normale */
+/* icône Canva */
 
 #treasureDropdown button img{
-  width:28px;
-  height:28px;
+
+  width:30px;
+  height:30px;
   object-fit:contain;
-  transition:transform .25s ease;
+
+  transition:transform .2s ease;
+
 }
 
-/* image agrandie au survol */
+/* =========================
+   APERÇU AGRANDI
+========================= */
 
 #treasureDropdown button:hover img{
 
   position:absolute;
 
-  bottom:60px;   /* au dessus du bouton */
-  left:50%;
+  left:70px;       /* à droite du bouton */
+  top:50%;
 
-  transform:translateX(-50%) scale(2.6);
+  transform:translateY(-50%) scale(4);
 
-  background:rgba(0,0,0,.9);
+  background:#ffffff;
 
-  padding:6px;
+  padding:10px;
 
+  border-radius:12px;
   border:2px solid gold;
-  border-radius:10px;
+
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
 
   z-index:20000;
 }
