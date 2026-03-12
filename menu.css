@@ -626,16 +626,18 @@ body.night-mode #pirate5 {
 /* =========================
 🎁 COFFRE → BOUTON MÉTÉO
 ========================= */
-
 #cinematicChest.treasure-button{
+
+  position:fixed;
+
+  top:80px;       /* sous météo */
+  right:20px;
 
   width:48px;
   height:48px;
 
   background:rgba(0,0,0,.8);
-
   border:2px solid gold;
-
   border-radius:12px;
 
   display:flex;
@@ -643,10 +645,8 @@ body.night-mode #pirate5 {
   justify-content:center;
 
   cursor:pointer;
-
   z-index:15000;
 }
-
 /* cacher texte */
 
 #cinematicChest.treasure-button .chest-title{
@@ -696,16 +696,16 @@ body.night-mode #pirate5 {
 }
 
 #treasureDropdown{
-  display:none;
+
   position:absolute;
-  top:58px;
+  top:58px;   /* sous le bouton coffre */
   right:0;
-  background:rgba(0,0,0,.9);
-  border:2px solid gold;
-  border-radius:12px;
-  padding:6px 0;
-  width:60px;
-  z-index:11000;
+
+  display:none;
+}
+
+#treasureDropdown.show{
+  display:block;
 }
 
 #treasureDropdown.show {
