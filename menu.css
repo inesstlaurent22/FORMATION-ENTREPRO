@@ -424,11 +424,9 @@ body.night-mode #pirate5 {
 #cinematicChest{
   position:fixed;
   inset:0;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   z-index:9500;
 }
 
@@ -441,7 +439,6 @@ body.night-mode #pirate5 {
 /* apparition */
 
 .chest-wrapper{
-
   position:relative;
   text-align:center;
 
@@ -451,7 +448,6 @@ body.night-mode #pirate5 {
   transition:
   transform 1.2s cubic-bezier(.3,1.4,.5,1),
   opacity .8s ease;
-
 }
 
 #cinematicChest.show .chest-wrapper{
@@ -459,22 +455,18 @@ body.night-mode #pirate5 {
   opacity:1;
 }
 
-
 /* =========================
 ✨ TEXTE
 ========================= */
 
 .chest-title{
-
   font-family:Georgia, serif;
   font-size:26px;
   font-weight:bold;
   color:#ffd77a;
-
   margin-bottom:20px;
 
   animation:chestGlow 2s infinite alternate;
-
 }
 
 @keyframes chestGlow{
@@ -494,37 +486,30 @@ body.night-mode #pirate5 {
 
 }
 
-
 /* =========================
 📦 COFFRE
 ========================= */
 
 .chest-container{
-
   position:relative;
   width:420px;
   max-width:80vw;
-
   cursor:pointer;
-
 }
 
 #chestBase{
   width:100%;
 }
 
-
 /* =========================
-🌑 OVERLAY SOMBRE + FLOU
+🌑 OVERLAY
 ========================= */
 
 #chestOverlay{
-
   position:fixed;
   inset:0;
 
   background:rgba(0,0,0,.75);
-
   backdrop-filter:blur(6px);
 
   opacity:0;
@@ -532,16 +517,14 @@ body.night-mode #pirate5 {
 
   z-index:9400;
   pointer-events:none;
-
 }
 
 #chestOverlay.show{
   opacity:1;
 }
 
-
 /* =========================
-💨 FUMÉE PIRATE
+💨 FUMÉE
 ========================= */
 
 .chest-smoke{
@@ -551,7 +534,6 @@ body.night-mode #pirate5 {
 }
 
 .smoke{
-
   position:absolute;
 
   width:110px;
@@ -567,7 +549,6 @@ body.night-mode #pirate5 {
   border-radius:50%;
 
   animation:pirateSmoke 2.2s ease-out forwards;
-
 }
 
 @keyframes pirateSmoke{
@@ -584,7 +565,6 @@ body.night-mode #pirate5 {
 
 }
 
-
 /* =========================
 💎 EXPLOSION GEMS
 ========================= */
@@ -596,10 +576,12 @@ body.night-mode #pirate5 {
 }
 
 @keyframes gemExplode{
+
   0%{
     transform:translate(-50%,-50%) scale(1);
     opacity:1;
   }
+
   100%{
     transform:
       translate(calc(-50% + var(--x)),
@@ -607,11 +589,13 @@ body.night-mode #pirate5 {
       scale(0);
     opacity:0;
   }
+
 }
 
 /* =========================
 🚀 DEPLACEMENT VERS METEO
 ========================= */
+
 #cinematicChest.move-to-weather{
 
   position:fixed;
@@ -619,7 +603,7 @@ body.night-mode #pirate5 {
   top:80px;
   right:20px;
 
-  transform:translate(0,0) scale(.35);
+  transform:scale(.35);
 
   transition:
   top 1s ease,
@@ -636,14 +620,15 @@ body.night-mode #pirate5 {
 
   position:fixed;
 
-  top:70px;     /* juste sous météo */
+  top:80px;
   right:20px;
+
+  width:48px;
+  height:48px;
 
   background:rgba(0,0,0,.8);
   border:2px solid gold;
   border-radius:12px;
-
-  padding:10px 14px;
 
   display:flex;
   align-items:center;
@@ -655,23 +640,9 @@ body.night-mode #pirate5 {
 
 }
 
-/* icône coffre */
-
-#cinematicChest.treasure-button img{
-  width:24px;
-  height:auto;
-}
-
-/* cacher le texte */
-
-#cinematicChest.treasure-button .chest-title{
-  display:none;
-}
-
 /* centre l'image */
 
 #cinematicChest.treasure-button .chest-wrapper{
-
   transform:none;
 
   width:100%;
@@ -680,20 +651,19 @@ body.night-mode #pirate5 {
   display:flex;
   align-items:center;
   justify-content:center;
-
 }
 
-/* cache texte */
-
-#cinematicChest.treasure-button .chest-title{
-  display:none;
-}
-
-/* taille icone */
+/* icône coffre */
 
 #cinematicChest.treasure-button img{
   width:28px;
   height:28px;
+}
+
+/* cacher texte */
+
+#cinematicChest.treasure-button .chest-title{
+  display:none;
 }
 
 /* =========================
@@ -704,7 +674,7 @@ body.night-mode #pirate5 {
 
   position:fixed;
 
-  top:125px;
+  top:135px;
   right:20px;
 
   display:none;
@@ -737,32 +707,30 @@ body.night-mode #pirate5 {
   align-items:center;
   justify-content:center;
 
-  background:none;
+  background:transparent;
   border:none;
 
   cursor:pointer;
 
   position:relative;
-
 }
 
-/* images */
+/* images Canva */
 
 #treasureDropdown button img{
 
-  width:34px;
-  height:auto;
+  width:28px;
+  height:28px;
 
-  display:block;
+  object-fit:contain;
 
 }
 
-/* hover léger */
+/* hover */
 
 #treasureDropdown button:hover{
-  transform:scale(1.08);
+  background:rgba(255,215,0,.2);
 }
-
 
 /* =========================
 💬 TOOLTIP FORMATIONS
@@ -778,7 +746,7 @@ body.night-mode #pirate5 {
   transform:translateY(-50%);
 
   background:rgba(0,0,0,.85);
-  color:white;
+  color:#fff;
 
   padding:6px 12px;
 
