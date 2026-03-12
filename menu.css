@@ -636,19 +636,20 @@ body.night-mode #pirate5 {
 
   position:fixed;
 
-  top:80px;
-  right:20px;
+  top:75px;
+  right:20px;     /* force la position à droite */
+  left:auto;      /* empêche le placement à gauche */
 
   width:52px;
   height:52px;
 
-  background:rgba(0,0,0,.8);
-  border:2px solid gold;
-  border-radius:12px;
-
   display:flex;
   align-items:center;
   justify-content:center;
+
+  background:rgba(0,0,0,.8);
+  border:2px solid gold;
+  border-radius:12px;
 
   cursor:pointer;
 
@@ -731,18 +732,19 @@ body.night-mode #pirate5 {
   align-items:center;
   justify-content:center;
 
-  background:transparent;
+  background:transparent;   /* supprime fond blanc */
   border:none;
 
   cursor:pointer;
-
   position:relative;
 
 }
 
 #treasureDropdown button img{
-  width:28px;
-  height:28px;
+  width:32px;
+  height:32px;
+
+  background:transparent;   /* sécurité */
 }
 
 #treasureDropdown button:hover{
@@ -764,7 +766,7 @@ body.night-mode #pirate5 {
   transform:translateY(-50%);
 
   background:rgba(0,0,0,.85);
-  color:#fff;
+  color:white;
 
   padding:6px 12px;
 
