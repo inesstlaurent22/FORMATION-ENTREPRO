@@ -541,4 +541,60 @@ if (closePrivacy) {
 
 }
 
+
+/* ==========================================================
+💎 BOUTON TRÉSOR + DROPDOWN
+========================================================== */
+
+const treasureSelector = document.getElementById("treasureSelector");
+const treasureBtn = document.getElementById("treasureBtn");
+const treasureDropdown = document.getElementById("treasureDropdown");
+
+if(treasureBtn){
+
+  treasureBtn.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    treasureDropdown.classList.toggle("show");
+  });
+
+}
+
+document.addEventListener("click",()=>{
+  if(treasureDropdown){
+    treasureDropdown.classList.remove("show");
+  }
+});
+
+/* ==========================================================
+✨ PREVIEW CANVA HOVER
+========================================================== */
+
+const canvaBtns = document.querySelectorAll(".canvaBtn");
+
+let preview = document.createElement("img");
+preview.className="canvaPreview";
+document.body.appendChild(preview);
+
+canvaBtns.forEach(btn=>{
+
+  const img = btn.querySelector("img").src;
+
+  btn.addEventListener("mouseenter",(e)=>{
+
+    preview.src = img;
+    preview.classList.add("show");
+
+    const rect = btn.getBoundingClientRect();
+
+    preview.style.top = rect.top+"px";
+    preview.style.left = (rect.left - rect.width*2)+"px";
+
+  });
+
+  btn.addEventListener("mouseleave",()=>{
+    preview.classList.remove("show");
+  });
+
+});
+
 });
