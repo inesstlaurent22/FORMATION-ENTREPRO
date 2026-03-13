@@ -388,7 +388,6 @@ function showPasswordOverlay() {
 const cinematic = document.getElementById("cinematicChest");
 const chestContainer = document.querySelector(".chest-container");
 const chestBase = document.getElementById("chestBase");
-const treasureDropdown = document.getElementById("treasureDropdown");
 const chestOverlay = document.getElementById("chestOverlay");
 
 let chestReady = false;
