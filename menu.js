@@ -542,4 +542,3 @@ if (closePrivacy) {
 }
 
 });
-});
