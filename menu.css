@@ -45,8 +45,7 @@ html, body {
   z-index: 15000;
 }
 
-#timeToggle,
-#cinematicChest.treasure-button{
+#timeToggle{
   background: rgba(0,0,0,.8);
   border: 2px solid gold;
   border-radius: 12px;
@@ -588,30 +587,57 @@ body.night-mode #pirate5 {
 }
 
 /* =========================
-POSITION BOUTON COFFRE
+🎁 BOUTON TRESOR
 ========================= */
 
 #cinematicChest.treasure-button{
 
-  position: fixed;
+  position:fixed;
 
-  top:70px;        /* sous le bouton météo */
+  top:70px;      /* sous le bouton météo */
   right:20px;
 
+  inset:auto;    /* IMPORTANT : supprime inset:0 */
+
   z-index:15000;
+
+  display:block;
+
 }
 
+/* style du bouton (même que météo) */
+
+#cinematicChest.treasure-button .chest-wrapper{
+
+  background: rgba(0,0,0,.8);
+  border: 2px solid gold;
+  border-radius: 12px;
+
+  padding: 10px 14px;
+
+  font-size: 22px;
+  color:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+}
 
 /* icône coffre */
 
 #cinematicChest.treasure-button img{
+
   width:22px;
   height:22px;
+
   object-fit:contain;
+
 }
 
-
-/* cacher le texte */
+/* cacher texte */
 
 #cinematicChest.treasure-button .chest-title{
   display:none;
@@ -681,7 +707,7 @@ APERÇU AGRANDI ANIMÉ
 
   position:absolute;
 
-  right:calc(100% + 10px);  /* 10px à gauche de la liste */
+  right:calc(100% + 30px);  /* à gauche de la liste */
   top:50%;
 
   transform:translateY(-50%) scale(4.5);
