@@ -45,7 +45,8 @@ html, body {
   z-index: 15000;
 }
 
-#timeToggle{
+#timeToggle,
+#cinematicChest.treasure-button{
   background: rgba(0,0,0,.8);
   border: 2px solid gold;
   border-radius: 12px;
@@ -587,41 +588,19 @@ body.night-mode #pirate5 {
 }
 
 /* =========================
-🎁 BOUTON TRESOR
+POSITION BOUTON COFFRE
 ========================= */
 
 #cinematicChest.treasure-button{
 
-  position:fixed;
+  position: fixed;
 
-  top:70px;      /* placé sous le bouton météo */
+  top:70px;        /* sous le bouton météo */
   right:20px;
 
   z-index:15000;
-
-  background:rgba(0,0,0,.8);
-  border:2px solid gold;
-  border-radius:12px;
-
-  padding:10px 14px;
-
-  font-size:22px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
 }
 
-/* wrapper centré */
-
-#cinematicChest.treasure-button .chest-wrapper{
-  transform:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
 
 /* icône coffre */
 
@@ -631,7 +610,8 @@ body.night-mode #pirate5 {
   object-fit:contain;
 }
 
-/* cacher texte */
+
+/* cacher le texte */
 
 #cinematicChest.treasure-button .chest-title{
   display:none;
@@ -639,7 +619,7 @@ body.night-mode #pirate5 {
 
 
 /* =========================
-📂 DROPDOWN CANVA
+DROPDOWN CANVA
 ========================= */
 
 #treasureDropdown{
@@ -657,7 +637,7 @@ body.night-mode #pirate5 {
 
   z-index:14000;
 
-  overflow:visible; /* permet à l'aperçu de dépasser */
+  overflow:visible;
 }
 
 #treasureDropdown.show{
@@ -666,7 +646,7 @@ body.night-mode #pirate5 {
 
 
 /* =========================
-🖼 BOUTONS CANVA
+BOUTONS CANVA
 ========================= */
 
 #treasureDropdown button{
@@ -687,23 +667,21 @@ body.night-mode #pirate5 {
 }
 
 #treasureDropdown button img{
-
   width:30px;
   height:30px;
-
   object-fit:contain;
 }
 
 
 /* =========================
-🔍 APERÇU AGRANDI
+APERÇU AGRANDI
 ========================= */
 
 #treasureDropdown button:hover img{
 
   position:absolute;
 
-  left:80px;   /* image à droite du bouton */
+  right:calc(100% + 10px);   /* à gauche avec 10px d'espace */
 
   top:50%;
 
