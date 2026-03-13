@@ -567,6 +567,97 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
+/* 💎 BOUTON TRÉSOR */
+/* ================================================= */
+
+#treasureSelector{
+  position:fixed;
+  top:15px;
+  right:90px; /* à gauche du bouton météo */
+  z-index:15000;
+  display:none;
+}
+
+/* style bouton identique météo */
+
+#treasureBtn{
+  background:rgba(0,0,0,.8);
+  border:2px solid gold;
+  border-radius:12px;
+  padding:6px;
+  cursor:pointer;
+}
+
+#treasureBtn img{
+  width:30px;
+  height:30px;
+}
+
+/* ================================================= */
+/* 📂 DROPDOWN CANVA */
+/* ================================================= */
+
+#treasureDropdown{
+
+  display:none;
+  flex-direction:column;
+
+  position:absolute;
+  top:60px;
+  right:0;
+
+  background:rgba(0,0,0,.9);
+  border:2px solid gold;
+  border-radius:12px;
+
+  padding:10px;
+  gap:10px;
+
+}
+
+#treasureDropdown.show{
+  display:flex;
+}
+
+.canvaBtn{
+  background:transparent;
+  border:none;
+  cursor:pointer;
+}
+
+.canvaBtn img{
+  width:90px;
+  transition:.25s;
+}
+
+/* ================================================= */
+/* ✨ PREVIEW HOVER */
+/* ================================================= */
+
+.canvaPreview{
+
+  position:absolute;
+
+  left:-105%;
+  top:0;
+
+  width:220px;
+
+  pointer-events:none;
+
+  opacity:0;
+  transform:scale(.9);
+
+  transition:.25s;
+
+}
+
+.canvaPreview.show{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* ================================================= */
 /* 🔐 BOUTON CONFIDENTIALITÉ */
 /* ================================================= */
 
