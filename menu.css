@@ -420,44 +420,39 @@ body.night-mode #pirate5 {
 /* =========================
 🎬 COFFRE CINEMATIQUE
 ========================= */
-/* =========================
-🎁 BOUTON TRESOR
-========================= */
-#cinematicChest.treasure-button{
 
-  position: fixed;
-  top: 80px;          /* sous le bouton météo */
-  right: 20px;
-
-  z-index: 15000;
-
-  background: rgba(0,0,0,.8);
-  border: 2px solid gold;
-  border-radius: 12px;
-
-  padding: 10px 14px;
-
-  font-size: 22px;    /* même taille que l’emoji météo */
-
-  cursor: pointer;
+#cinematicChest{
+  position:fixed;
+  inset:0;
 
   display:flex;
   align-items:center;
   justify-content:center;
+
+  z-index:10000; /* au-dessus du flou */
 }
 
-/* icône coffre */
-
-#cinematicChest.treasure-button img{
-  width:22px;
-  height:22px;
-  object-fit:contain;
-}
-
-/* cacher texte */
-
-#cinematicChest.treasure-button .chest-title{
+#cinematicChest.hidden{
   display:none;
+}
+
+/* apparition */
+
+.chest-wrapper{
+  position:relative;
+  text-align:center;
+
+  transform:scale(.25);
+  opacity:0;
+
+  transition:
+  transform 1.2s cubic-bezier(.3,1.4,.5,1),
+  opacity .8s ease;
+}
+
+#cinematicChest.show .chest-wrapper{
+  transform:scale(1);
+  opacity:1;
 }
 
 /* =========================
@@ -469,6 +464,7 @@ body.night-mode #pirate5 {
   font-size:26px;
   font-weight:bold;
   color:#ffd77a;
+
   margin-bottom:20px;
 
   animation:chestGlow 2s infinite alternate;
@@ -507,7 +503,7 @@ body.night-mode #pirate5 {
 }
 
 /* =========================
-🌑 OVERLAY
+🌑 OVERLAY FLOU
 ========================= */
 
 #chestOverlay{
@@ -520,7 +516,7 @@ body.night-mode #pirate5 {
   opacity:0;
   transition:opacity .4s ease;
 
-  z-index:9400;
+  z-index:9000; /* sous le coffre */
   pointer-events:none;
 }
 
@@ -577,6 +573,7 @@ body.night-mode #pirate5 {
 #cinematicChest.move-to-weather{
 
   position:fixed;
+
   top:80px;
   right:20px;
 
@@ -590,12 +587,13 @@ body.night-mode #pirate5 {
 }
 
 /* =========================
-🎁 BOUTON COFFRE
+🎁 BOUTON TRESOR
 ========================= */
 
 #cinematicChest.treasure-button{
 
   position:fixed;
+
   top:80px;
   right:20px;
 
@@ -607,6 +605,8 @@ body.night-mode #pirate5 {
 
   padding:10px 14px;
 
+  font-size:22px;
+
   display:flex;
   align-items:center;
   justify-content:center;
@@ -617,22 +617,21 @@ body.night-mode #pirate5 {
 /* wrapper centré */
 
 #cinematicChest.treasure-button .chest-wrapper{
-
   transform:none;
-
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
-/* image coffre */
+/* icône coffre */
 
 #cinematicChest.treasure-button img{
-
   width:22px;
   height:22px;
   object-fit:contain;
 }
+
+/* cacher texte */
 
 #cinematicChest.treasure-button .chest-title{
   display:none;
@@ -641,18 +640,23 @@ body.night-mode #pirate5 {
 /* =========================
 📂 DROPDOWN CANVA
 ========================= */
+
 #treasureDropdown{
+
   display:none;
+
   flex-direction:column;
+
   position:fixed;
   top:135px;
   right:20px;
 
   background:rgba(0,0,0,.9);
+
   border:2px solid gold;
   border-radius:12px;
 
-  z-index:15000;
+  z-index:14000;
 }
 
 #treasureDropdown.show{
@@ -662,6 +666,7 @@ body.night-mode #pirate5 {
 /* =========================
 🖼 BOUTONS CANVA
 ========================= */
+
 #treasureDropdown button{
 
   width:60px;
@@ -692,7 +697,8 @@ body.night-mode #pirate5 {
 
   position:absolute;
 
-  right:120%;        /* place l’aperçu à gauche du bouton */
+  right:120%;   /* image à gauche */
+
   top:50%;
 
   transform:translateY(-50%) scale(6);
@@ -712,19 +718,20 @@ body.night-mode #pirate5 {
 /* =========================
 💬 TOOLTIP CANVA
 ========================= */
+
 .tooltip{
 
   position:absolute;
 
-  left:110%;          /* à droite du bouton */
+  left:110%;
   top:50%;
 
   transform:translateY(-50%);
 
   background:rgba(0,0,0,.85);
-  color:#fff;
+  color:white;
 
-  padding:4px 8px;    /* plus petit */
+  padding:4px 8px;
 
   border-radius:6px;
 
@@ -738,8 +745,6 @@ body.night-mode #pirate5 {
 
   transition:opacity .2s ease;
 }
-
-/* apparition */
 
 #treasureDropdown button:hover .tooltip{
   opacity:1;
