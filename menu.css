@@ -811,6 +811,49 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
+/* 📱 POSITIONS PIRATES VERSION MOBILE */
+/* ================================================= */
+
+@media (max-width: 900px){
+
+  #pirate1{
+    left:17px;
+    top:508px;
+    width:115px;
+    height:110px;
+  }
+
+  #pirate2{
+    left:86px;
+    top:88px;
+    width:84px;
+    height:154px;
+  }
+
+  #pirate3{
+    left:196px;
+    top:475px;
+    width:85px;
+    height:139px;
+  }
+
+  #pirate4{
+    left:211px;
+    top:630px;
+    width:112px;
+    height:162px;
+  }
+
+  #pirate5{
+    left:163px;
+    top:269px;
+    width:110px;
+    height:144px;
+  }
+
+}
+
+/* ================================================= */
 /* ✨ ANIMATION */
 /* ================================================= */
 
