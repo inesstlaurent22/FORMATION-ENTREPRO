@@ -13,6 +13,10 @@ const cinematicFade = document.getElementById("cinematicFade");
 const clickSound = document.getElementById("clickSound");
 const errorSound = document.getElementById("errorSound");
 
+document.addEventListener("DOMContentLoaded", () => {
+  videoContainer.style.display = "none";
+});
+
 /* ===================== */
 /* INTRO MODAL */
 /* ===================== */
@@ -146,7 +150,11 @@ tresor.onclick = () => {
   clickSound.play();
 
   const rect = tresor.getBoundingClientRect();
-  explodeTreasure(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+const centerX = rect.left + rect.width / 2 + window.scrollX;
+const centerY = rect.top + rect.height / 2 + window.scrollY;
+
+explodeTreasure(centerX, centerY);
 
   setTimeout(() => {
     loader.style.display = "flex";
@@ -281,9 +289,18 @@ function checkResult() {
 /* ===================== */
 
 function launchVideo() {
+
+  mapGame.style.display = "none";
+  victory.style.display = "none";
+
   videoContainer.style.display = "flex";
+
   video.currentTime = 0;
-  video.play().catch(() => {});
+
+  setTimeout(() => {
+    video.play().catch(()=>{});
+  }, 150);
+
 }
 
 soundToggle.onclick = () => {
