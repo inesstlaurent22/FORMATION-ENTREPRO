@@ -420,39 +420,69 @@ body.night-mode #pirate5 {
 /* =========================
 🎬 COFFRE CINEMATIQUE
 ========================= */
+/* ================================================= */
+/* 💎 COFFRE → BOUTON */
+/* ================================================= */
 
-#cinematicChest{
+#cinematicChest.treasure-button{
+
   position:fixed;
-  inset:0;
+
+  top:85px;        /* sous le bouton météo */
+  right:20px;
+
+  width:auto;
+  height:auto;
+
+  inset:auto;
+
+  z-index:15000;
+
+  display:block;
+
+}
+
+/* wrapper réduit */
+
+#cinematicChest.treasure-button .chest-wrapper{
+
+  transform:scale(.18);
+  opacity:1;
+
+  transition:
+  transform .7s ease,
+  top .7s ease,
+  right .7s ease;
+
+}
+
+/* style bouton météo */
+
+#cinematicChest.treasure-button .chest-container{
+
+  background:rgba(0,0,0,.8);
+  border:2px solid gold;
+  border-radius:12px;
+  padding:6px;
+
+  width:50px;
+  height:50px;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  z-index:10000; /* au-dessus du flou */
+  cursor:pointer;
+
 }
 
-#cinematicChest.hidden{
-  display:none;
-}
+/* image coffre */
 
-/* apparition */
+#cinematicChest.treasure-button img{
 
-.chest-wrapper{
-  position:relative;
-  text-align:center;
+  width:34px;
+  height:auto;
 
-  transform:scale(.25);
-  opacity:0;
-
-  transition:
-  transform 1.2s cubic-bezier(.3,1.4,.5,1),
-  opacity .8s ease;
-}
-
-#cinematicChest.show .chest-wrapper{
-  transform:scale(1);
-  opacity:1;
 }
 
 /* =========================
