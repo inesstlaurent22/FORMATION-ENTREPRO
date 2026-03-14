@@ -431,8 +431,10 @@ function handleChestClick(e){
     launchGemsExplosion(gemsContainer);
 
     setTimeout(()=>{
-      cinematic.classList.add("move-to-weather");
-    },700);
+
+  cinematic.classList.add("treasure-button");
+
+},700);
 
     setTimeout(()=>{
 
