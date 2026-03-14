@@ -586,6 +586,8 @@ body.night-mode #pirate5 {
   border-radius:12px;
   padding:6px;
   cursor:pointer;
+  animation:treasurePulse 2.8s ease-in-out infinite;
+}
 }
 
 #treasureBtn img{
