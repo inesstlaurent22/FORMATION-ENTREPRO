@@ -445,13 +445,16 @@ html, body {
     object-fit: contain;
   }
 
-  /* vidéo centrée */
+  /* conteneur vidéo */
   #videoContainer {
+    position: fixed;
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
+  /* vidéo */
   #videoContainer video {
     position: relative;
     width: 92vw;
@@ -461,15 +464,21 @@ html, body {
     object-fit: contain;
   }
 
-  /* bouton fermer vidéo */
+  /* bouton fermer vidéo (au-dessus de la vidéo) */
   #closeVideo {
-    top: 280px;
+    position: absolute;
+    top: calc(50% - 150px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
   }
 
   /* bouton son */
   #soundToggle {
+    position: absolute;
     bottom: 40px;
     right: 20px;
   }
 
+}
 }
