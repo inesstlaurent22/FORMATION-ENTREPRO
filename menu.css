@@ -567,6 +567,58 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
+/* 🎁 BOUTON TRESOR */
+/* ================================================= */
+
+#treasureSelector{
+  position: fixed;
+  top: 75px;          /* sous le bouton météo */
+  right: 20px;
+  z-index: 15000;
+}
+
+#treasureBtn{
+  background: rgba(0,0,0,.8);
+  border: 2px solid gold;
+  border-radius: 12px;
+  padding: 6px;
+  cursor: pointer;
+}
+
+#treasureBtn img{
+  width: 34px;
+  height: 34px;
+  display:block;
+}
+
+#treasureDropdown{
+  display:none;
+  flex-direction:column;
+  position:absolute;
+  top:60px;
+  right:0;
+  background:rgba(0,0,0,.9);
+  border:2px solid gold;
+  border-radius:12px;
+  z-index:16000;
+}
+
+#treasureDropdown.show{
+  display:flex;
+}
+
+#treasureDropdown button{
+  padding:8px;
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+
+#treasureDropdown img{
+  width:140px;
+}
+
+/* ================================================= */
 /* 🔐 BOUTON CONFIDENTIALITÉ */
 /* ================================================= */
 
