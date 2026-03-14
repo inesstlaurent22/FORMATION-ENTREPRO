@@ -536,6 +536,34 @@ if(treasureBtn && treasureDropdown){
   });
 
 }
+
+  /* ==========================================================
+📥 TELECHARGEMENT CANVA
+========================================================== */
+
+const canvaButtons = document.querySelectorAll(".canvaBtn");
+
+canvaButtons.forEach(btn => {
+
+  btn.addEventListener("click", (e) => {
+
+    e.stopPropagation();
+
+    const file = btn.dataset.file;
+
+    if(!file) return;
+
+    const link = document.createElement("a");
+    link.href = file;
+    link.download = file.split("/").pop();
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+  });
+
+});
   
 /* ==========================================================
    🔐 POLITIQUE CONFIDENTIALITÉ
