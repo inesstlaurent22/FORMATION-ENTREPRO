@@ -42,7 +42,7 @@ html, body {
   position: fixed;
   top: 15px;
   right: 20px;
-  z-index: 15000;
+  z-index: 20000;
 }
 
 #timeToggle{
@@ -581,8 +581,10 @@ body.night-mode #pirate5 {
   background: rgba(0,0,0,.8);
   border: 2px solid gold;
   border-radius: 12px;
-  padding: 6px;
+  padding: 10px 14px;
+  font-size: 22px;
   cursor: pointer;
+  color: white;
 }
 
 #treasureBtn img{
