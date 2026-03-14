@@ -768,6 +768,49 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
+/* 📱 MODE MOBILE ROTATION OBLIGATOIRE */
+/* ================================================= */
+
+#rotateScreen{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:200000;
+  color:white;
+  font-family:Georgia, serif;
+}
+
+.rotateBox{
+  max-width:280px;
+}
+
+.rotateIcon{
+  font-size:60px;
+  margin-bottom:20px;
+}
+
+/* MOBILE */
+@media (max-width: 900px){
+
+  /* background mobile */
+  #background{
+    background-image:url("Mobile/Fondmobilemenujour.png") !important;
+  }
+
+  /* si téléphone en vertical */
+  @media (orientation: portrait){
+    #rotateScreen{
+      display:flex;
+    }
+  }
+
+}
+
+/* ================================================= */
 /* ✨ ANIMATION */
 /* ================================================= */
 
