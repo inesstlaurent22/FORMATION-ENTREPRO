@@ -134,7 +134,9 @@ const bubbleButton = document.getElementById("bubbleButton");
 
 if (bubbleButton) {
   bubbleButton.addEventListener("click", () => {
-    bubble.style.display = "none";
+    if(bubble){
+  bubble.style.display = "none";
+}
   });
 }
 
@@ -546,9 +548,13 @@ const treasureDropdown = document.getElementById("treasureDropdown");
 if(treasureBtn){
 
   treasureBtn.addEventListener("click",(e)=>{
-    e.stopPropagation();
+  e.stopPropagation();
+
+  if(treasureDropdown){
     treasureDropdown.classList.toggle("show");
-  });
+  }
+
+});
 
 }
 
