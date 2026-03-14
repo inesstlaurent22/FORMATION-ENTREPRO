@@ -134,9 +134,7 @@ const bubbleButton = document.getElementById("bubbleButton");
 
 if (bubbleButton) {
   bubbleButton.addEventListener("click", () => {
-    if(bubble){
-  bubble.style.display = "none";
-}
+    bubble.style.display = "none";
   });
 }
 
@@ -390,6 +388,7 @@ function showPasswordOverlay() {
 const cinematic = document.getElementById("cinematicChest");
 const chestContainer = document.querySelector(".chest-container");
 const chestBase = document.getElementById("chestBase");
+const treasureDropdown = document.getElementById("treasureDropdown");
 const chestOverlay = document.getElementById("chestOverlay");
 
 let chestReady = false;
@@ -433,27 +432,24 @@ function handleChestClick(e){
     launchGemsExplosion(gemsContainer);
 
     setTimeout(()=>{
+      cinematic.classList.add("move-to-weather");
+    },700);
 
-  cinematic.classList.add("treasure-button");
+    setTimeout(()=>{
 
-  if(chestOverlay){
-  chestOverlay.classList.remove("show");
-  chestOverlay.style.pointerEvents="none";
-}
+      cinematic.classList.add("treasure-button");
 
-  chestReady=true;
+      if(chestOverlay){
+        chestOverlay.classList.remove("show");
+      }
 
-  if(treasureSelector){
-    treasureSelector.style.display="block";
-  }
+      chestReady=true;
 
-},1000);
+    },1500);
 
   }else{
 
-    if(treasureDropdown){
-  treasureDropdown.classList.toggle("show");
-}
+    treasureDropdown.classList.toggle("show");
 
   }
 
@@ -512,6 +508,14 @@ function launchGemsExplosion(container){
   }
 
 }
+
+/* fermer dropdown */
+
+document.addEventListener("click",()=>{
+  if(treasureDropdown){
+    treasureDropdown.classList.remove("show");
+  }
+});
   
 /* ==========================================================
    🔐 POLITIQUE CONFIDENTIALITÉ
@@ -537,67 +541,4 @@ if (closePrivacy) {
 
 }
 
-
-/* ==========================================================
-💎 BOUTON TRÉSOR + DROPDOWN
-========================================================== */
-
-const treasureSelector = document.getElementById("treasureSelector");
-const treasureBtn = document.getElementById("treasureBtn");
-const treasureDropdown = document.getElementById("treasureDropdown");
-
-if(treasureBtn){
-
-  treasureBtn.addEventListener("click",(e)=>{
-  e.stopPropagation();
-
-  if(treasureDropdown){
-    treasureDropdown.classList.toggle("show");
-  }
-
-});
-
-}
-
-document.addEventListener("click",()=>{
-  if(treasureDropdown){
-    treasureDropdown.classList.remove("show");
-  }
-});
-
-/* ==========================================================
-✨ PREVIEW CANVA HOVER
-========================================================== */
-
-const canvaBtns = document.querySelectorAll(".canvaBtn");
-
-let preview = document.createElement("img");
-preview.className="canvaPreview";
-document.body.appendChild(preview);
-
-canvaBtns.forEach(btn=>{
-
-  const imgEl = btn.querySelector("img");
-if(!imgEl) return;
-
-const img = imgEl.src;
-
-  btn.addEventListener("mouseenter",(e)=>{
-
-    preview.src = img;
-    preview.classList.add("show");
-
-    const rect = btn.getBoundingClientRect();
-
-    preview.style.top = rect.top+"px";
-    preview.style.left = (rect.left - 220) + "px";
-
-  });
-
-  btn.addEventListener("mouseleave",()=>{
-    preview.classList.remove("show");
-  });
-
-});
-
-});
+}); 
