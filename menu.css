@@ -650,6 +650,42 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
+/* 🎨 BOUTONS CANVA */
+/* ================================================= */
+
+.canvaBtn{
+  padding:12px;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.canvaBtn:hover{
+  background:rgba(255,215,0,.25);
+}
+
+.canvaBtn img{
+  width:32px;
+  height:32px;
+  display:block;
+  transition:all .25s ease;
+}
+
+.canvaBtn:hover img{
+  transform:scale(8) translateX(-25px);
+
+  filter:
+    drop-shadow(0 0 8px gold)
+    drop-shadow(0 0 16px orange);
+
+  z-index:20000;
+}
+
+/* ================================================= */
 /* 🔐 BOUTON CONFIDENTIALITÉ */
 /* ================================================= */
 
