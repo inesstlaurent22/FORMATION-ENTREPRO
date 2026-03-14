@@ -597,16 +597,12 @@ body.night-mode #pirate5 {
   display:none;
   flex-direction:column;
   position:absolute;
-  top:55px;
+  top:60px;          /* vers le bas */
   right:0;
-
   background:rgba(0,0,0,.9);
   border:2px solid gold;
-  border-radius:10px;
-
-  padding:6px;
-  gap:6px;
-
+  border-radius:12px;
+  overflow:visible;
   z-index:16000;
 }
 
@@ -615,10 +611,12 @@ body.night-mode #pirate5 {
 }
 
 #treasureDropdown button{
-  padding:4px;
-  background:none;
-  border:none;
-  cursor:pointer;
+  padding: 10px;
+  font-size: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
 }
 
 #treasureDropdown img{
