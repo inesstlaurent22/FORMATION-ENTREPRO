@@ -793,22 +793,12 @@ body.night-mode #pirate5 {
   margin-bottom:20px;
 }
 
-/* MOBILE */
-@media (max-width: 900px){
-
-  /* background mobile */
-  #background{
-    background-image:url("Mobile/Fondmobilemenujour.png") !important;
-  }
-
   /* si téléphone en vertical */
   @media (orientation: portrait){
     #rotateScreen{
       display:flex;
     }
   }
-
-}
 
 /* ================================================= */
 /* 📱 BACKGROUND MOBILE */
