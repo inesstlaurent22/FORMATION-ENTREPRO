@@ -437,15 +437,20 @@ function handleChestClick(e){
 
     setTimeout(()=>{
 
-      cinematic.classList.add("treasure-button");
+  cinematic.classList.add("hidden");
 
-      if(chestOverlay){
-        chestOverlay.classList.remove("show");
-      }
+  if(chestOverlay){
+    chestOverlay.classList.remove("show");
+  }
 
-      chestReady=true;
+  const treasureSelector = document.getElementById("treasureSelector");
+  if(treasureSelector){
+    treasureSelector.classList.remove("hidden");
+  }
 
-    },1500);
+  chestReady=true;
+
+},1500);
 
   }else{
 
@@ -516,6 +521,21 @@ document.addEventListener("click",()=>{
     treasureDropdown.classList.remove("show");
   }
 });
+
+/* ==========================================================
+🎁 TREASURE DROPDOWN
+========================================================== */
+
+const treasureBtn = document.getElementById("treasureBtn");
+
+if(treasureBtn && treasureDropdown){
+
+  treasureBtn.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    treasureDropdown.classList.toggle("show");
+  });
+
+}
   
 /* ==========================================================
    🔐 POLITIQUE CONFIDENTIALITÉ
