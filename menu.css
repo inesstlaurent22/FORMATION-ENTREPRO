@@ -417,29 +417,9 @@ body.night-mode #pirate5 {
   filter:drop-shadow(0 0 12px gold);
 }
 
-/* ================================================= */
-/* 🌑 OVERLAY FLOU */
-/* ================================================= */
-
-#chestOverlay{
-  position:fixed;
-  inset:0;
-
-  background:rgba(0,0,0,.75);
-  backdrop-filter:blur(6px);
-
-  z-index:9000; /* sous le coffre */
-  opacity:0;
-  transition:opacity .4s ease;
-}
-
-#chestOverlay.show{
-  opacity:1;
-}
-
-/* ================================================= */
-/* 💎 COFFRE CINÉMATIQUE */
-/* ================================================= */
+/* =========================
+🎬 COFFRE CINEMATIQUE
+========================= */
 
 #cinematicChest{
   position:fixed;
@@ -449,70 +429,35 @@ body.night-mode #pirate5 {
   align-items:center;
   justify-content:center;
 
-  z-index:10000; /* au dessus du flou */
+  z-index:10000; /* au-dessus du flou */
 }
 
-/* ================================================= */
-/* 💎 COFFRE → BOUTON */
-/* ================================================= */
-
-#cinematicChest.treasure-button{
-
-  position:fixed;
-
-  top:15px;
-  right:20px;
-
-  inset:auto;
-
-  width:auto;
-  height:auto;
-
-  z-index:15000;
-
-  display:block;
+#cinematicChest.hidden{
+  display:none;
 }
 
-/* réduction du coffre */
+/* apparition */
 
-#cinematicChest.treasure-button .chest-wrapper{
+.chest-wrapper{
+  position:relative;
+  text-align:center;
 
-  transform:scale(.18);
+  transform:scale(.25);
+  opacity:0;
+
+  transition:
+  transform 1.2s cubic-bezier(.3,1.4,.5,1),
+  opacity .8s ease;
+}
+
+#cinematicChest.show .chest-wrapper{
+  transform:scale(1);
   opacity:1;
-
-  transition:transform .7s ease;
 }
 
-/* style bouton météo */
-
-#cinematicChest.treasure-button .chest-container{
-
-  background:rgba(0,0,0,.8);
-  border:2px solid gold;
-  border-radius:12px;
-
-  padding:6px;
-
-  width:50px;
-  height:50px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-}
-
-/* image coffre */
-
-#cinematicChest.treasure-button img{
-  width:34px;
-  height:auto;
-}
-
-/* ================================================= */
-/* ✨ TEXTE COFFRE */
-/* ================================================= */
+/* =========================
+✨ TEXTE
+========================= */
 
 .chest-title{
   font-family:Georgia, serif;
@@ -542,9 +487,9 @@ body.night-mode #pirate5 {
 
 }
 
-/* ================================================= */
-/* 📦 COFFRE */
-/* ================================================= */
+/* =========================
+📦 COFFRE
+========================= */
 
 .chest-container{
   position:relative;
@@ -557,9 +502,31 @@ body.night-mode #pirate5 {
   width:100%;
 }
 
-/* ================================================= */
-/* 💨 FUMÉE */
-/* ================================================= */
+/* =========================
+🌑 OVERLAY FLOU
+========================= */
+
+#chestOverlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(6px);
+
+  opacity:0;
+  transition:opacity .4s ease;
+
+  z-index:9000; /* sous le coffre */
+  pointer-events:none;
+}
+
+#chestOverlay.show{
+  opacity:1;
+}
+
+/* =========================
+💨 FUMÉE
+========================= */
 
 .chest-smoke{
   position:absolute;
@@ -597,105 +564,6 @@ body.night-mode #pirate5 {
     opacity:0;
   }
 
-}
-
-/* ================================================= */
-/* 💎 BOUTON TRÉSOR */
-/* ================================================= */
-
-#treasureSelector{
-  position:fixed;
-  top:15px;
-  right:90px; /* à gauche du bouton météo */
-  z-index:15000;
-  display:none;
-}
-
-/* style bouton identique météo */
-
-#treasureBtn{
-  background:rgba(0,0,0,.8);
-  border:2px solid gold;
-  border-radius:12px;
-  padding:6px;
-  cursor:pointer;
-
-  animation:treasurePulse 2.8s ease-in-out infinite;
-}
-
-#treasureBtn img{
-  width:30px;
-  height:30px;
-}
-
-/* animation objet rare */
-
-@keyframes treasurePulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.08);}
-  100%{transform:scale(1);}
-}
-
-/* ================================================= */
-/* 📂 DROPDOWN CANVA */
-/* ================================================= */
-
-#treasureDropdown{
-
-  display:none;
-  flex-direction:column;
-
-  position:absolute;
-  top:60px;
-  right:0;
-
-  background:rgba(0,0,0,.9);
-  border:2px solid gold;
-  border-radius:12px;
-
-  padding:10px;
-  gap:10px;
-
-}
-
-#treasureDropdown.show{
-  display:flex;
-}
-
-.canvaBtn{
-  background:transparent;
-  border:none;
-  cursor:pointer;
-}
-
-.canvaBtn img{
-  width:90px;
-  transition:.25s;
-}
-
-/* ================================================= */
-/* ✨ PREVIEW CANVA */
-/* ================================================= */
-
-.canvaPreview{
-
-  position:absolute;
-  left:-105%;
-  top:0;
-
-  width:220px;
-
-  pointer-events:none;
-
-  opacity:0;
-  transform:scale(.9);
-
-  transition:.25s;
-}
-
-.canvaPreview.show{
-  opacity:1;
-  transform:scale(1);
 }
 
 /* ================================================= */
@@ -787,10 +655,4 @@ body.night-mode #pirate5 {
 @keyframes fadeInOverlay {
   from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes treasurePulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.08);}
-  100%{transform:scale(1);}
-}
+} 
