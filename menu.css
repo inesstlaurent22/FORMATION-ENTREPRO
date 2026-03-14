@@ -362,7 +362,7 @@ body.night-mode #pirate5 {
   padding:15px;
   border:1px solid white;
   border-radius:10px;
-  color:#000;;
+  color:#000;
 }
 
 .legal-modal{
@@ -608,7 +608,7 @@ body.night-mode #pirate5 {
   gap:6px;
 
   overflow:visible; /* IMPORTANT */
-  z-index:16000;
+  z-index:21000;
 }
 
 #treasureDropdown.show{
@@ -623,7 +623,7 @@ body.night-mode #pirate5 {
   display:flex;
   align-items:center;
   justify-content:center;
-
+  z-index:21000;
   position:relative;
 }
 
@@ -635,7 +635,7 @@ body.night-mode #pirate5 {
   width:32px;
   height:32px;
   display:block;
-  transition:all .25s ease;
+  transition:transform .25s ease, filter .25s ease;
 }
 
 #treasureDropdown button:hover img{
