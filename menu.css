@@ -417,9 +417,41 @@ body.night-mode #pirate5 {
   filter:drop-shadow(0 0 12px gold);
 }
 
-/* =========================
-🎬 COFFRE CINEMATIQUE
-========================= */
+/* ================================================= */
+/* 🌑 OVERLAY FLOU */
+/* ================================================= */
+
+#chestOverlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(6px);
+
+  z-index:9000; /* sous le coffre */
+  opacity:0;
+  transition:opacity .4s ease;
+}
+
+#chestOverlay.show{
+  opacity:1;
+}
+
+/* ================================================= */
+/* 💎 COFFRE CINÉMATIQUE */
+/* ================================================= */
+
+#cinematicChest{
+  position:fixed;
+  inset:0;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  z-index:10000; /* au dessus du flou */
+}
+
 /* ================================================= */
 /* 💎 COFFRE → BOUTON */
 /* ================================================= */
@@ -428,32 +460,27 @@ body.night-mode #pirate5 {
 
   position:fixed;
 
-  top:85px;        /* sous le bouton météo */
+  top:15px;
   right:20px;
+
+  inset:auto;
 
   width:auto;
   height:auto;
 
-  inset:auto;
-
   z-index:15000;
 
   display:block;
-
 }
 
-/* wrapper réduit */
+/* réduction du coffre */
 
 #cinematicChest.treasure-button .chest-wrapper{
 
   transform:scale(.18);
   opacity:1;
 
-  transition:
-  transform .7s ease,
-  top .7s ease,
-  right .7s ease;
-
+  transition:transform .7s ease;
 }
 
 /* style bouton météo */
@@ -463,6 +490,7 @@ body.night-mode #pirate5 {
   background:rgba(0,0,0,.8);
   border:2px solid gold;
   border-radius:12px;
+
   padding:6px;
 
   width:50px;
@@ -473,21 +501,18 @@ body.night-mode #pirate5 {
   justify-content:center;
 
   cursor:pointer;
-
 }
 
 /* image coffre */
 
 #cinematicChest.treasure-button img{
-
   width:34px;
   height:auto;
-
 }
 
-/* =========================
-✨ TEXTE
-========================= */
+/* ================================================= */
+/* ✨ TEXTE COFFRE */
+/* ================================================= */
 
 .chest-title{
   font-family:Georgia, serif;
@@ -517,9 +542,9 @@ body.night-mode #pirate5 {
 
 }
 
-/* =========================
-📦 COFFRE
-========================= */
+/* ================================================= */
+/* 📦 COFFRE */
+/* ================================================= */
 
 .chest-container{
   position:relative;
@@ -532,31 +557,9 @@ body.night-mode #pirate5 {
   width:100%;
 }
 
-/* =========================
-🌑 OVERLAY FLOU
-========================= */
-
-#chestOverlay{
-  position:fixed;
-  inset:0;
-
-  background:rgba(0,0,0,.75);
-  backdrop-filter:blur(6px);
-
-  opacity:0;
-  transition:opacity .4s ease;
-
-  z-index:9000; /* sous le coffre */
-  pointer-events:none;
-}
-
-#chestOverlay.show{
-  opacity:1;
-}
-
-/* =========================
-💨 FUMÉE
-========================= */
+/* ================================================= */
+/* 💨 FUMÉE */
+/* ================================================= */
 
 .chest-smoke{
   position:absolute;
@@ -616,13 +619,21 @@ body.night-mode #pirate5 {
   border-radius:12px;
   padding:6px;
   cursor:pointer;
+
   animation:treasurePulse 2.8s ease-in-out infinite;
-}
 }
 
 #treasureBtn img{
   width:30px;
   height:30px;
+}
+
+/* animation objet rare */
+
+@keyframes treasurePulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.08);}
+  100%{transform:scale(1);}
 }
 
 /* ================================================= */
@@ -663,13 +674,12 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
-/* ✨ PREVIEW HOVER */
+/* ✨ PREVIEW CANVA */
 /* ================================================= */
 
 .canvaPreview{
 
   position:absolute;
-
   left:-105%;
   top:0;
 
@@ -681,7 +691,6 @@ body.night-mode #pirate5 {
   transform:scale(.9);
 
   transition:.25s;
-
 }
 
 .canvaPreview.show{
