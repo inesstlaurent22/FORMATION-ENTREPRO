@@ -6,12 +6,13 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100vw;
-  height: 100svh;   /* viewport stable iOS */
+  height: 100%;   /* viewport stable iOS */
   overflow: hidden;
   font-family: Arial, sans-serif;
   background-color: #000;
   position: relative;
   z-index: 0;
+  touch-action: manipulation;
 }
 
 .hidden {
@@ -22,17 +23,18 @@ html, body {
 /* 🌌 BACKGROUND FIX FULLSCREEN */
 /* ================================================= */
 
-#background {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: -1;
-  pointer-events: none;
-  background-attachment: fixed;
+#background{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  z-index:-1;
+  pointer-events:none;
+  transform:translateZ(0); /* fixe le rendu mobile */
 }
 
 /* ================================================= */
