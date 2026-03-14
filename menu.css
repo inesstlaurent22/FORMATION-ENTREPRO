@@ -640,14 +640,15 @@ body.night-mode #pirate5 {
 
 #treasureDropdown button:hover img{
 
-  transform:scale(4.2) translateX(-55px);
+  transform:scale(3) translateX(-70px);
 
   filter:
-    drop-shadow(0 0 6px gold)
-    drop-shadow(0 0 12px orange);
+    drop-shadow(0 0 8px gold)
+    drop-shadow(0 0 16px orange);
 
   z-index:20000;
 }
+
 /* ================================================= */
 /* 🔐 BOUTON CONFIDENTIALITÉ */
 /* ================================================= */
