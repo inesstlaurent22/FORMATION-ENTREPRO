@@ -434,23 +434,23 @@ function handleChestClick(e){
 
   cinematic.classList.add("treasure-button");
 
-},700);
+  if(chestOverlay){
+    chestOverlay.classList.remove("show");
+  }
 
-    setTimeout(()=>{
+  chestReady=true;
 
-      cinematic.classList.add("treasure-button");
+  if(treasureSelector){
+    treasureSelector.style.display="block";
+  }
 
-      if(chestOverlay){
-        chestOverlay.classList.remove("show");
-      }
-
-      chestReady=true;
-
-    },1500);
+},1000);
 
   }else{
 
-    treasureDropdown.classList.toggle("show");
+    if(treasureDropdown){
+  treasureDropdown.classList.toggle("show");
+}
 
   }
 
@@ -509,14 +509,6 @@ function launchGemsExplosion(container){
   }
 
 }
-
-/* fermer dropdown */
-
-document.addEventListener("click",()=>{
-  if(treasureDropdown){
-    treasureDropdown.classList.remove("show");
-  }
-});
   
 /* ==========================================================
    🔐 POLITIQUE CONFIDENTIALITÉ
