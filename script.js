@@ -319,6 +319,22 @@ function goToMenu() {
 }
 
 /* ===================== */
+/* 📱 PLEIN ÉCRAN VIDÉO */
+/* ===================== */
+
+video.addEventListener("click", () => {
+
+  if (video.requestFullscreen) {
+    video.requestFullscreen();
+  } else if (video.webkitRequestFullscreen) {
+    video.webkitRequestFullscreen();
+  } else if (video.msRequestFullscreen) {
+    video.msRequestFullscreen();
+  }
+
+});
+
+/* ===================== */
 /* UTILS */
 /* ===================== */
 function shuffle(arr) {
