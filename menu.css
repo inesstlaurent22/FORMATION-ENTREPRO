@@ -811,6 +811,24 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
+/* 📱 BACKGROUND MOBILE */
+/* ================================================= */
+
+@media (max-width: 900px){
+
+  /* Jour */
+  body:not(.night-mode) #background{
+    background-image:url("Mobile/Fondmobilemenujour.png") !important;
+  }
+
+  /* Nuit */
+  body.night-mode #background{
+    background-image:url("Mobile/Fondmobilemenusoir.png") !important;
+  }
+
+}
+
+/* ================================================= */
 /* 📱 POSITIONS PIRATES VERSION MOBILE */
 /* ================================================= */
 
