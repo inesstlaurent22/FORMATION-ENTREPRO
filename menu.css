@@ -676,7 +676,7 @@ body.night-mode #pirate5 {
 }
 
 .canvaBtn:hover img{
-  transform:scale(8) translateX(-25px);
+  transform:scale(8) translateX(-15px);
 
   filter:
     drop-shadow(0 0 8px gold)
