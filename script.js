@@ -324,11 +324,20 @@ function goToMenu() {
 
 video.addEventListener("click", () => {
 
+  // iPhone / Safari
+  if (video.webkitEnterFullscreen) {
+    video.webkitEnterFullscreen();
+    return;
+  }
+
+  // navigateurs modernes
   if (video.requestFullscreen) {
     video.requestFullscreen();
-  } else if (video.webkitRequestFullscreen) {
+  } 
+  else if (video.webkitRequestFullscreen) {
     video.webkitRequestFullscreen();
-  } else if (video.msRequestFullscreen) {
+  } 
+  else if (video.msRequestFullscreen) {
     video.msRequestFullscreen();
   }
 
