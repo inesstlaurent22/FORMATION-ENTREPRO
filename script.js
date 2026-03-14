@@ -35,15 +35,19 @@ startFormation.addEventListener("click", function(e) {
 const canvas = document.getElementById("gemCanvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
 canvas.style.background = "transparent";
 
 let particles = [];
 
 function explodeTreasure(x, y) {
-  for (let i = 0; i < 30; i++) particles.push(createGem(x, y));
-  for (let i = 0; i < 20; i++) particles.push(createCoin(x, y));
+  for (let i = 0; i < 45; i++) particles.push(createGem(x, y));
+  for (let i = 0; i < 35; i++) particles.push(createCoin(x, y));
 }
 
 function createGem(x, y) {
@@ -126,10 +130,8 @@ function animateParticles() {
 }
 animateParticles();
 
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
+window.addEventListener("resize", resizeCanvas);
+window.addEventListener("orientationchange", resizeCanvas);
 
 /* ===================== */
 /* 🧰 COFFRE */
