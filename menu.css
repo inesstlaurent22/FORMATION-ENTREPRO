@@ -811,14 +811,12 @@ body.night-mode #pirate5 {
 
 @media (max-width: 900px){
 
-  /* Jour */
   body:not(.night-mode) #background{
-    background-image:url("Mobile/Fondmobilemenujour.png") !important;
+    background-image:url("Mobile/Fondmobilemenujour.png");
   }
 
-  /* Nuit */
   body.night-mode #background{
-    background-image:url("Mobile/Fondmobilemenusoir.png") !important;
+    background-image:url("Mobile/Fondmobilemenusoir.png");
   }
 
 }
