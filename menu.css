@@ -611,12 +611,13 @@ body.night-mode #pirate5 {
 }
 
 #treasureDropdown button{
-  padding:10px;
-  font-size:20px;
+  padding:12px;
   background:transparent;
   border:none;
   cursor:pointer;
-  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 #treasureDropdown button:hover{
