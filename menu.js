@@ -36,8 +36,13 @@ function setBackground(mode, save = true) {
 
   console.log("mode appliqué :", mode);
 
-  background.style.backgroundImage =
-    `url("${mode === "night" ? NIGHT_BG : DAY_BG}")`;
+  const isMobile = window.innerWidth <= 900;
+
+background.style.backgroundImage = `url("${
+  mode === "night"
+    ? (isMobile ? "Mobile/Fondmobilemenusoir.png" : NIGHT_BG)
+    : (isMobile ? "Mobile/Fondmobilemenujour.png" : DAY_BG)
+}")`;
 
   document.body.classList.toggle("night-mode", mode === "night");
 
