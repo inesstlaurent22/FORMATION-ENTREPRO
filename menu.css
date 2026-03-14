@@ -32,6 +32,7 @@ html, body {
   background-repeat: no-repeat;
   z-index: -1;
   pointer-events: none;
+  background-attachment: fixed;
 }
 
 /* ================================================= */
@@ -794,11 +795,13 @@ body.night-mode #pirate5 {
 }
 
   /* si téléphone en vertical */
-  @media (orientation: portrait){
-    #rotateScreen{
-      display:flex;
-    }
+@media (max-width: 900px) and (orientation: portrait){
+
+  #rotateScreen{
+    display:flex;
   }
+
+}
 
 /* ================================================= */
 /* 📱 BACKGROUND MOBILE */
