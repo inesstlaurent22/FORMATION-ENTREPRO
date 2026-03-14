@@ -437,8 +437,9 @@ function handleChestClick(e){
   cinematic.classList.add("treasure-button");
 
   if(chestOverlay){
-    chestOverlay.classList.remove("show");
-  }
+  chestOverlay.classList.remove("show");
+  chestOverlay.style.pointerEvents="none";
+}
 
   chestReady=true;
 
@@ -576,7 +577,10 @@ document.body.appendChild(preview);
 
 canvaBtns.forEach(btn=>{
 
-  const img = btn.querySelector("img").src;
+  const imgEl = btn.querySelector("img");
+if(!imgEl) return;
+
+const img = imgEl.src;
 
   btn.addEventListener("mouseenter",(e)=>{
 
@@ -586,7 +590,7 @@ canvaBtns.forEach(btn=>{
     const rect = btn.getBoundingClientRect();
 
     preview.style.top = rect.top+"px";
-    preview.style.left = (rect.left - rect.width*2)+"px";
+    preview.style.left = (rect.left - 220) + "px";
 
   });
 
