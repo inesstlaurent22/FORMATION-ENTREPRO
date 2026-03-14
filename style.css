@@ -405,15 +405,20 @@ html, body {
   50% { opacity: 1; transform: scale(1.1); filter: brightness(2); }
   100% { transform: scale(1); filter: brightness(1); }
 }
-/* 📱 VERSION MOBILE — pièces mini-jeu plus petites */
+
+/* ===================== */
+/* 📱 VERSION MOBILE */
+/* ===================== */
+
 @media (max-width: 768px) {
 
+  /* pièces mini-jeu plus petites */
   #mapPieces {
     gap: 12px;
   }
 
   .map-piece {
-    width: 80px; /* moitié de 160px */
+    width: 80px;
   }
 
   #gameInstruction {
@@ -423,24 +428,14 @@ html, body {
   #attemptCounter {
     font-size: 1rem;
   }
-}
-
-/* ===================== */
-/* 📱 POSITIONNEMENT MOBILE PRECIS */
-/* ===================== */
-
-@media (max-width: 768px) {
 
   /* coffre */
   .tresor-button {
     position: absolute;
-
     left: 65px;
     top: 479px;
-
     width: 328px;
     height: 269px;
-
     transform: none;
   }
 
@@ -450,23 +445,20 @@ html, body {
     object-fit: contain;
   }
 
-  /* conteneur vidéo */
+  /* vidéo centrée */
   #videoContainer {
-    align-items: flex-start;
-    justify-content: flex-start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   #videoContainer video {
-    position: absolute;
-
-    left: 15px;
-    top: 328px;
-
-    width: 362px;
-    height: 197px;
-
-    object-fit: cover;
+    position: relative;
+    width: 92vw;
+    max-width: 420px;
+    height: auto;
     border-radius: 12px;
+    object-fit: contain;
   }
 
   /* bouton fermer vidéo */
