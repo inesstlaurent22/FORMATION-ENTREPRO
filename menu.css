@@ -640,7 +640,7 @@ body.night-mode #pirate5 {
 
 #treasureDropdown button:hover img{
 
-  transform:scale(5) translateX(-50px);
+  transform:scale(8) translateX(-25px);
 
   filter:
     drop-shadow(0 0 8px gold)
