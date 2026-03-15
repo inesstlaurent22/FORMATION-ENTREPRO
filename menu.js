@@ -562,24 +562,26 @@ canvaButtons.forEach(btn => {
 });
 
 /* ==========================================================
-   🚫 BLOCAGE MOBILE
+   🚫 BLOCAGE PETIT ÉCRAN
 ========================================================== */
 
-function isMobile(){
+function checkScreenSize(){
 
-  return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+  const block = document.getElementById("screenBlock");
 
-}
+  if(window.innerWidth < 900){
 
-if(isMobile()){
+    if(block){
+      block.style.display = "flex";
+    }
 
-  const block = document.getElementById("mobileBlock");
-
-  if(block){
-    block.style.display = "flex";
   }
 
 }
+
+checkScreenSize();
+
+window.addEventListener("resize", checkScreenSize);
   
 /* ==========================================================
    🔐 POLITIQUE CONFIDENTIALITÉ
