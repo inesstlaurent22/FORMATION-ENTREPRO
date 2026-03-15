@@ -827,10 +827,10 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
-/* 📱 BACKGROUND MOBILE ADAPTATIF */
+/* 📱 BACKGROUND MOBILE */
 /* ================================================= */
 
-@media (max-width: 900px){
+@media (max-width:900px){
 
   #background{
     position:fixed;
@@ -838,16 +838,16 @@ body.night-mode #pirate5 {
     left:0;
 
     width:100vw;
-    height:100svh; /* viewport stable mobile */
+    height:100svh;
 
-    background-size:cover;      /* remplit tout l'écran */
-    background-position:center; /* centre l'image */
+    background-size:contain;      /* montre toute l'image */
+    background-position:center;
     background-repeat:no-repeat;
 
-    background-attachment:fixed;
-
-    transform:translateZ(0);
+    background-color:#000;        /* évite bandes blanches */
   }
+
+}
 
   body:not(.night-mode) #background{
     background-image:url("Mobile/Fondmobile1.png");
