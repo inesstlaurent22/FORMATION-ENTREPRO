@@ -788,6 +788,36 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
+/* 🚫 BLOCAGE MOBILE */
+/* ================================================= */
+
+#mobileBlock{
+
+  position:fixed;
+  inset:0;
+
+  background:#000;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  z-index:200000;
+
+}
+
+.mobileBox{
+
+  text-align:center;
+  color:white;
+  font-family:Georgia, serif;
+
+  max-width:420px;
+  padding:30px;
+
+}
+
+/* ================================================= */
 /* ✨ ANIMATION */
 /* ================================================= */
 
