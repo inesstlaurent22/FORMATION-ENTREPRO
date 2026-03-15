@@ -99,9 +99,10 @@ html, body {
   z-index: 100;
   object-fit: contain;
   transition:
-    transform .3s ease,
-    filter .3s ease,
-    opacity .3s ease;
+  transform .3s ease,
+  filter .3s ease,
+  opacity .3s ease;
+  filter: drop-shadow(0 0 6px rgba(0,0,0,.8));
 }
 
 /* Pirate verrouillé */
@@ -109,6 +110,12 @@ html, body {
   filter: grayscale(100%) brightness(0.6);
   opacity: 0.6;
   pointer-events: none;
+  filter:
+  grayscale(100%)
+  brightness(.9)
+  drop-shadow(0 0 6px rgba(0,0,0,.8));
+
+  opacity:.85;
 }
 
 /* Pirate actif */
@@ -843,44 +850,44 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
-/* 📱 POSITIONS PIRATES VERSION MOBILE */
+/* 📱 POSITIONS PIRATES VERSION MOBILE AMÉLIORÉE */
 /* ================================================= */
 
 @media (max-width: 900px){
 
   #pirate1{
-    left:17px;
-    top:508px;
-    width:115px;
-    height:110px;
+    left:6vw;
+    top:68vh;
+    width:22vw;
+    height:auto;
   }
 
   #pirate2{
-    left:86px;
-    top:88px;
-    width:84px;
-    height:154px;
+    left:26vw;
+    top:12vh;
+    width:18vw;
+    height:auto;
   }
 
   #pirate3{
-    left:196px;
-    top:475px;
-    width:85px;
-    height:139px;
+    left:56vw;
+    top:66vh;
+    width:18vw;
+    height:auto;
   }
 
   #pirate4{
-    left:211px;
-    top:630px;
-    width:112px;
-    height:162px;
+    left:72vw;
+    top:85vh;
+    width:24vw;
+    height:auto;
   }
 
   #pirate5{
-    left:163px;
-    top:269px;
-    width:110px;
-    height:144px;
+    left:48vw;
+    top:38vh;
+    width:22vw;
+    height:auto;
   }
 
 }
