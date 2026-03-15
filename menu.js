@@ -564,14 +564,15 @@ canvaButtons.forEach(btn => {
 /* ==========================================================
 📱 ROTATION MOBILE
 ========================================================== */
-
 function checkOrientation(){
 
   const rotateScreen = document.getElementById("rotateScreen");
 
   if(!rotateScreen) return;
 
-  if(window.innerHeight > window.innerWidth){
+  const portrait = window.matchMedia("(orientation: portrait)").matches;
+
+  if(portrait){
     rotateScreen.style.display = "flex";
   }else{
     rotateScreen.style.display = "none";
@@ -581,6 +582,8 @@ function checkOrientation(){
 
 window.addEventListener("resize", checkOrientation);
 checkOrientation();
+
+window.addEventListener("orientationchange", checkOrientation);
   
 /* ==========================================================
    🔐 POLITIQUE CONFIDENTIALITÉ
