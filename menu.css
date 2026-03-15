@@ -788,10 +788,10 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
-/* 🚫 BLOCAGE MOBILE */
+/* 🚫 BLOCAGE ÉCRAN TROP PETIT */
 /* ================================================= */
 
-#mobileBlock{
+#screenBlock{
 
   position:fixed;
   inset:0;
@@ -806,15 +806,20 @@ body.night-mode #pirate5 {
 
 }
 
-.mobileBox{
+.screenBox{
 
   text-align:center;
   color:white;
   font-family:Georgia, serif;
 
   max-width:420px;
-  padding:30px;
+  padding:40px;
 
+}
+
+.screenBox h2{
+  font-size:28px;
+  margin-bottom:15px;
 }
 
 /* ================================================= */
