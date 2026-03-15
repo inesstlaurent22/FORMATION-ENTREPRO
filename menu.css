@@ -850,7 +850,7 @@ body.night-mode #pirate5 {
   }
 
   body:not(.night-mode) #background{
-    background-image:url("Mobile/Fondmobilemenujour.png");
+    background-image:url("Mobile/Fondmobile1.png");
   }
 
   body.night-mode #background{
