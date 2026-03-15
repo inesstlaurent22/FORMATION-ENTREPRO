@@ -27,14 +27,18 @@ html, body {
   position:fixed;
   top:0;
   left:0;
+
   width:100vw;
   height:100svh;
-  background-size:cover;
+
+  background-size:contain;     /* montre toute l'image */
   background-position:center;
   background-repeat:no-repeat;
+
   z-index:-1;
   pointer-events:none;
-  transform:translateZ(0); /* fixe le rendu mobile */
+
+  transform:translateZ(0);
 }
 
 /* ================================================= */
