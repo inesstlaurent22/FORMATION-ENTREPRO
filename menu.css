@@ -810,20 +810,24 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
-/* 📱 BACKGROUND MOBILE */
+/* 📱 BACKGROUND MOBILE ADAPTATIF */
 /* ================================================= */
+
 @media (max-width: 900px){
 
   #background{
     position:fixed;
     top:0;
     left:0;
-    width:100vw;
-    height:100vh;
 
-    background-size:cover;
-    background-position:center;
+    width:100vw;
+    height:100svh; /* viewport stable mobile */
+
+    background-size:cover;      /* remplit tout l'écran */
+    background-position:center; /* centre l'image */
     background-repeat:no-repeat;
+
+    background-attachment:fixed;
 
     transform:translateZ(0);
   }
