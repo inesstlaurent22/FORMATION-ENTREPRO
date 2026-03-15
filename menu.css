@@ -840,11 +840,13 @@ body.night-mode #pirate5 {
     width:100vw;
     height:100svh;
 
-    background-size:contain;      /* montre toute l'image */
+    background-image:url("Mobile/Fondmobile1.png"); /* ton image */
+
+    background-size:contain;   /* affiche toute l'image */
     background-position:center;
     background-repeat:no-repeat;
 
-    background-color:#000;        /* évite bandes blanches */
+    background-color:#1b8f5a; /* couleur proche du décor */
   }
 
 }
