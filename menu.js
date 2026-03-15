@@ -562,28 +562,24 @@ canvaButtons.forEach(btn => {
 });
 
 /* ==========================================================
-📱 ROTATION MOBILE
+   🚫 BLOCAGE MOBILE
 ========================================================== */
-function checkOrientation(){
 
-  const rotateScreen = document.getElementById("rotateScreen");
+function isMobile(){
 
-  if(!rotateScreen) return;
-
-  const portrait = window.matchMedia("(orientation: portrait)").matches;
-
-  if(portrait){
-    rotateScreen.style.display = "flex";
-  }else{
-    rotateScreen.style.display = "none";
-  }
+  return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
 
 }
 
-window.addEventListener("resize", checkOrientation);
-checkOrientation();
+if(isMobile()){
 
-window.addEventListener("orientationchange", checkOrientation);
+  const block = document.getElementById("mobileBlock");
+
+  if(block){
+    block.style.display = "flex";
+  }
+
+}
   
 /* ==========================================================
    🔐 POLITIQUE CONFIDENTIALITÉ
