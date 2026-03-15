@@ -829,24 +829,23 @@ body.night-mode #pirate5 {
 /* ================================================= */
 /* 📱 BACKGROUND MOBILE */
 /* ================================================= */
-
 @media (max-width:900px){
 
   #background{
     position:fixed;
-    top:0;
-    left:0;
+    top:50%;
+    left:50%;
 
     width:100vw;
-    height:100svh;
+    height:100vh;
 
-    background-image:url("Mobile/Fondmobile1.png"); /* ton image */
+    transform:translate(-50%,-50%);
 
-    background-size:contain;   /* affiche toute l'image */
+    background-image:url("Mobile/Fondmobile1.png");
+    background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
 
-    background-color:#1b8f5a; /* couleur proche du décor */
   }
 
 }
