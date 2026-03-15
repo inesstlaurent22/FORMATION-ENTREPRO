@@ -379,12 +379,7 @@ function showPasswordOverlay() {
     overlay.querySelector("#legalModal").style.display = "none";
   };
 
-  // 🔹 Paiement
-  overlay.querySelector("#payBtn").onclick = () => {
-    window.location.href = "https://www.paypal.com/paypalme/TONLIEN";
-  };
 }
-
 
 /* ==========================================================
 🎬 COFFRE FINAL
