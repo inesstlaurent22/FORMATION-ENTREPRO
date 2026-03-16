@@ -505,7 +505,9 @@ r.className = "mg3-column mg3-right";
 ].forEach(t=>{
 
   const b=document.createElement("button");
-  b.className="mg3-btn-right1";
+
+  b.className="mg3-btn mg3-btn-right1";
+
   b.textContent=t[0];
 
   b.onclick=()=>{
