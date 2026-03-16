@@ -28,8 +28,6 @@ const timeDropdown = document.getElementById("timeDropdown");
 const DAY_BG = "images/Fondmenu.PNG";
 const NIGHT_BG = "images/Fondmenusoir.PNG";
 
-const isMobile = window.matchMedia("(max-width: 900px)").matches;
-
 function setBackground(mode, save = true) {
   if (!background) {
     console.log("background introuvable");
@@ -560,28 +558,6 @@ canvaButtons.forEach(btn => {
   });
 
 });
-
-/* ==========================================================
-   🚫 BLOCAGE PETIT ÉCRAN
-========================================================== */
-
-function checkScreenSize(){
-
-  const block = document.getElementById("screenBlock");
-
-  if(window.innerWidth < 900){
-
-    if(block){
-      block.style.display = "flex";
-    }
-
-  }
-
-}
-
-checkScreenSize();
-
-window.addEventListener("resize", checkScreenSize);
   
 /* ==========================================================
    🔐 POLITIQUE CONFIDENTIALITÉ
