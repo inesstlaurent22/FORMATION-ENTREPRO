@@ -788,41 +788,6 @@ body.night-mode #pirate5 {
 }
 
 /* ================================================= */
-/* 🚫 BLOCAGE ÉCRAN TROP PETIT */
-/* ================================================= */
-
-#screenBlock{
-
-  position:fixed;
-  inset:0;
-
-  background:#000;
-
-  display:none;
-  align-items:center;
-  justify-content:center;
-
-  z-index:200000;
-
-}
-
-.screenBox{
-
-  text-align:center;
-  color:white;
-  font-family:Georgia, serif;
-
-  max-width:420px;
-  padding:40px;
-
-}
-
-.screenBox h2{
-  font-size:28px;
-  margin-bottom:15px;
-}
-
-/* ================================================= */
 /* ✨ ANIMATION */
 /* ================================================= */
 
