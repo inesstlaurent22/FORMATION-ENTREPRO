@@ -482,7 +482,7 @@ const l = document.createElement("div");
 l.className = "mg3-column mg3-left";
 
 const r = document.createElement("div");
-r.className = "mg3-column mg3-right";
+r.className = "mg3-column mg3-btn-right";
 
   let sel=null, ok=0;
 
