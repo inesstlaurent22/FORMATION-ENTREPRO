@@ -178,8 +178,8 @@ body.night-mode #pirate1 {
 }
 
 body.night-mode #pirate2 {
-  left: 830px;
-  top: 620px;
+  left: 825px;
+  top: 610px;
 }
 
 body.night-mode #pirate3 {
@@ -191,13 +191,13 @@ body.night-mode #pirate3 {
 
 body.night-mode #pirate4 {
   left: 1030px;
-  top: 0px;
+  top: -5px;
   width: 154px;
   height: 223px;
 }
 
 body.night-mode #pirate5 {
-  left: 240px;
+  left: 235px;
   top: 130px;
   width: 160px;
 }
