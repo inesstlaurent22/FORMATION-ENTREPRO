@@ -638,8 +638,11 @@ html,body{
 /* =====================================================
    ➡️ MG3 — BOUTONS OBJECTIFS (STYLE TRÉSOR)
 ===================================================== */
+/* =====================================================
+   ➡️ MG3 — BOUTONS OBJECTIFS (STYLE TRÉSOR)
+===================================================== */
 
-.mg3-btn-right1{
+.mg3-btn.mg3-btn-right1{
 
   background:linear-gradient(
     145deg,
@@ -647,7 +650,7 @@ html,body{
     #d4a63f
   );
 
-  border:none; /* supprime l'encadré */
+  border:none;
 
   color:#2b1605;
   font-weight:bold;
@@ -663,7 +666,7 @@ html,body{
 
 /* Survol */
 
-.mg3-btn-right1:hover{
+.mg3-btn.mg3-btn-right1:hover{
 
   background:linear-gradient(
     145deg,
@@ -675,7 +678,7 @@ html,body{
 
 /* Clic */
 
-.mg3-btn-right1:active{
+.mg3-btn.mg3-btn-right1:active{
 
   transform:translateY(3px);
 
