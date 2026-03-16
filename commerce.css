@@ -275,7 +275,7 @@ html,body{
 /* Titre positionné par rapport au livre */
 .bp-title{
   position:fixed;
-  top:180px;
+  top:240px;
   left:30%;
   transform:translateX(-50%);
 
