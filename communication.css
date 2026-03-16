@@ -663,7 +663,7 @@ html,body{
 
 /* Survol */
 
-.mg3-btn-right:hover{
+.mg3-btn-right1:hover{
 
   background:linear-gradient(
     145deg,
@@ -675,7 +675,7 @@ html,body{
 
 /* Clic */
 
-.mg3-btn-right:active{
+.mg3-btn-right1:active{
 
   transform:translateY(3px);
 
