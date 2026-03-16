@@ -645,7 +645,8 @@ html,body{
     #d4a63f
   );
 
-  border:3px solid #7a4b00;
+  border:none; /* supprime l'encadré */
+
   color:#2b1605;
   font-weight:bold;
   font-size:18px;
@@ -670,14 +671,7 @@ html,body{
 /* Survol */
 
 .mg3-btn-right:hover{
-
   filter:brightness(1.12);
-
-  box-shadow:
-    inset 0 3px 10px rgba(255,255,255,.8),
-    inset 0 -6px 12px rgba(120,70,0,.45),
-    0 6px 0 #5a3200;
-
 }
 
 /* Clic */
