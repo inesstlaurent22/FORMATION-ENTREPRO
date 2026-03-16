@@ -647,39 +647,45 @@ html,body{
     #d4a63f
   );
 
-  border:3px solid #7a4b00;
+  border:none; /* supprime l'encadré */
 
   color:#2b1605;
   font-weight:bold;
-
-  box-shadow:
-    inset 0 3px 8px rgba(255,255,255,.6),
-    inset 0 -6px 12px rgba(120,70,0,.35),
-    0 4px 0 #5a3200,
-    0 0 10px rgba(255,215,0,.35);
 
   min-width:220px;
   text-align:center;
 
   transition:
     transform .08s ease,
-    box-shadow .08s ease,
+    background .15s ease,
     filter .15s ease;
 }
 
-/* Léger éclaircissement au survol */
+/* Survol */
+
 .mg3-btn-right:hover{
-  filter:brightness(1.2);
+
+  background:linear-gradient(
+    145deg,
+    #fff1c2,
+    #e1b957
+  );
+
 }
 
-/* Effet bouton enfoncé */
+/* Clic */
+
 .mg3-btn-right:active{
-  transform:translateY(4px);
-  box-shadow:
-    inset 0 0 18px rgba(0,0,0,.95),
-    0 1px 0 #0f0703;
-}
 
+  transform:translateY(3px);
+
+  background:linear-gradient(
+    145deg,
+    #d4a63f,
+    #b88a2e
+  );
+
+}
 
 /* =====================================================
    🎯 TITRE & QUESTION (IDENTIQUES MG1 / MG2)
