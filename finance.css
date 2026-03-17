@@ -225,19 +225,19 @@ html, body {
   box-shadow: 0 0 40px rgba(255,215,0,.45);
 }
 
-.qChoices{
-  display:inline-block;   /* adapte la largeur au texte */
-  max-width:100%;         /* évite de dépasser le conteneur */
-
-  padding:12px 14px;
-  background:#f6e6b8;
-  color:#2b1605;
-  border-radius:12px;
-  font-weight:bold;
-
-  margin-bottom:14px;
-  text-align:center;
+#qChoices{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  margin-top:16px;
 }
+
+#qChoices button{
+  width:100%;
+  max-width:420px;
+}
+
 
 /* =====================================================
    🔘 BOUTONS MINI-JEUX 1 → 3
