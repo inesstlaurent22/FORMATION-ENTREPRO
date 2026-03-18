@@ -809,13 +809,17 @@ body.night-mode #pirate5 {
   background:#f4dfb3;
   border:4px solid #4a2c12;
   border-radius:18px;
-  padding:30px;
-  max-width:650px;
+  padding:40px;
+
+  max-width:420px;      /* 🔥 comme mobile-box */
   width:90%;
   max-height:80vh;
+
   overflow:hidden;
-  color:white;
+
+  color:#2b1a0b;        /* 🔥 correction importante */
   font-family:Georgia, serif;
+
   position:relative;
   box-shadow:0 0 30px rgba(0,0,0,.6);
 }
