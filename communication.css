@@ -638,25 +638,24 @@ html,body{
 /* =====================================================
    ➡️ MG3 — BOUTONS OBJECTIFS (STYLE TRÉSOR)
 ===================================================== */
-
-.mg3-btn-right1{
-  all: unset; /* 💥 reset total */
+#miniGameContainer .mg3-btn-right1{
+  all: unset;
 
   display:inline-block;
   padding:12px 18px;
   border-radius:10px;
   cursor:pointer;
 
-  background:linear-gradient(145deg,#ffe7a3,#d4a63f);
+  background:linear-gradient(145deg,#ffe7a3,#d4a63f) !important;
 
-  color:#2b1605;
+  color:#2b1605 !important;
   font-weight:bold;
   text-align:center;
   min-width:220px;
 
   box-shadow:
     0 4px 0 #a67c2d,
-    0 0 12px rgba(255,215,120,.6);
+    0 0 12px rgba(255,215,120,.6) !important;
 
   transition:
     transform .08s ease,
@@ -664,21 +663,12 @@ html,body{
     filter .15s ease;
 }
 
-/* Hover */
-.mg3-btn-right1:hover{
+#miniGameContainer .mg3-btn-right1:hover{
   filter:brightness(1.1);
-  box-shadow:
-    0 6px 0 #a67c2d,
-    0 0 18px rgba(255,215,120,.8);
 }
 
-/* Click */
-.mg3-btn-right1:active{
+#miniGameContainer .mg3-btn-right1:active{
   transform:translateY(4px);
-
-  box-shadow:
-    0 2px 0 #a67c2d,
-    0 0 10px rgba(255,215,120,.5);
 }
 
 /* =====================================================
