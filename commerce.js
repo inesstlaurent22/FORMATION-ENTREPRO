@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+« document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
    DOM
@@ -595,18 +595,16 @@ cont.onclick = ()=>{
   overlay.remove();
 
   playDialogues([
-    { text:"Ton plan est solide.", anchor:pirate5 },
-    { 
-      text:"Il est temps d'affronter le marché.", 
-      anchor:pirate5,
-      onShow: ()=>{
-  console.log("pirate3 déclenché");
-  pirate3.classList.remove("hidden");
-}
-        pirate3.classList.remove("hidden"); // 👈 apparition clients
-      }
+  { text:"Ton plan est solide.", anchor:pirate5 },
+  { 
+    text:"Il est temps d'affronter le marché.", 
+    anchor:pirate5,
+    onShow: ()=>{
+      console.log("pirate3 déclenché");
+      pirate3.classList.remove("hidden");
     }
-  ], startMiniGame3);
+  }
+], startMiniGame3);
 
 };
 
