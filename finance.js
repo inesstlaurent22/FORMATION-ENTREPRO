@@ -317,7 +317,7 @@ function injectCalculator(container) {
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "calcToggle";
-  btn.innerHTML = "🧮 <span>Calculatrice</span>";
+  btn.innerHTML = "🧮 <span>🧮 Calculatrice</span>";
 
   const input = document.createElement("input");
   input.className = "calcInput hidden";
@@ -599,7 +599,7 @@ function startMiniGame3(){
 
   <div class="calcWrapper">
     <button class="calcToggle" type="button">
-  🧮 <span>Calculatrice</span>
+  🧮 <span> 🧮 Calculatrice</span>
 </button>
     <input 
       id="calcFinal"
