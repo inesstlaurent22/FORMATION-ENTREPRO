@@ -163,6 +163,11 @@ function renderDialogue(){
   }
 
   const d = dialogues[index];
+
+   if(d.onShow && typeof d.onShow === "function"){
+  d.onShow();
+}
+   
   if(!d || !d.text){
     index++;
     renderDialogue();
