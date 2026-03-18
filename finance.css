@@ -275,8 +275,7 @@ html, body {
 #miniGame0 button.correct-locked,
 #miniGame3 button.correct-locked,
 #financeGame button.correctAnswer{
-
-  background:#5c3a0c!important;
+background:#5c3a0c!important;
   color:#ffd77a!important;
   transform:translateY(4px)!important;
   box-shadow:
