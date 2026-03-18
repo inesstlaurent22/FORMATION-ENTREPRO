@@ -20,6 +20,55 @@ html, body {
 }
 
 /* ================================================= */
+/* 🚫 BLOQUAGE MOBILE */
+/* ================================================= */
+
+#mobileBlock{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at center, #140a00 0%, #000 80%);
+  z-index:999999;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
+
+.mobile-box{
+  background:#f4dfb3;
+  border:4px solid #4a2c12;
+  border-radius:18px;
+  padding:40px;
+  max-width:420px;
+  color:#2b1a0b;
+  font-family:Georgia, serif;
+  box-shadow:0 0 30px rgba(0,0,0,.6);
+}
+
+.mobile-box h2{
+  margin-bottom:15px;
+}
+
+.mobile-sub{
+  margin-top:10px;
+  font-size:14px;
+  opacity:.7;
+}
+
+/* Activation automatique sur mobile */
+@media (max-width: 900px){
+  #mobileBlock{
+    display:flex;
+  }
+
+  body{
+    overflow:hidden;
+  }
+}
+
+/* ================================================= */
 /* 🌌 BACKGROUND FIX FULLSCREEN */
 /* ================================================= */
 
