@@ -638,9 +638,9 @@ html,body{
 /* =====================================================
    ➡️ MG3 — BOUTONS OBJECTIFS (STYLE TRÉSOR)
 ===================================================== */
-/* RESET du style commun pour les boutons RIGHT */
-.mg3-btn.mg3-btn-right1{
-  all: unset; /* 💥 enlève TOUT héritage */
+
+.mg3-btn-right1{
+  all: unset; /* 💥 reset total */
 
   display:inline-block;
   padding:12px 18px;
@@ -664,14 +664,16 @@ html,body{
     filter .15s ease;
 }
 
-.mg3-btn.mg3-btn-right1:hover{
+/* Hover */
+.mg3-btn-right1:hover{
   filter:brightness(1.1);
   box-shadow:
     0 6px 0 #a67c2d,
     0 0 18px rgba(255,215,120,.8);
 }
 
-.mg3-btn.mg3-btn-right1:active{
+/* Click */
+.mg3-btn-right1:active{
   transform:translateY(4px);
 
   box-shadow:
