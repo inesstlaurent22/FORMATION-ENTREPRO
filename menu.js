@@ -17,6 +17,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* ==========================================================
+   🚫 BLOQUAGE MOBILE JS
+========================================================== */
+
+function checkMobileBlock() {
+  const block = document.getElementById("mobileBlock");
+
+  if (!block) return;
+
+  if (window.innerWidth < 900) {
+    block.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  } else {
+    block.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+}
+
+checkMobileBlock();
+window.addEventListener("resize", checkMobileBlock);
+
 /* ==========================================================
    🌌 MÉTÉO
 ========================================================== */
