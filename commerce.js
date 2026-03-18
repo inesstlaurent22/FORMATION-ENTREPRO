@@ -591,7 +591,13 @@ cont.onclick = ()=>{
 
   playDialogues([
     { text:"Ton plan est solide.", anchor:pirate5 },
-    { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
+    { 
+      text:"Il est temps d'affronter le marché.", 
+      anchor:pirate5,
+      onShow: ()=>{
+        pirate3.classList.remove("hidden"); // 👈 apparition clients
+      }
+    }
   ], startMiniGame3);
 
 };
