@@ -266,7 +266,7 @@ const answers = shuffleArray([
       btn.textContent = a.t;
       btn.onclick = () => {
         if (a.ok) {
-btn.classList.add("correct-locked");
+          btn.classList.add("correctAnswer");
           btn.disabled = true;
           goodCount++;
           if (goodCount === questions[qIndex].good.length) {
