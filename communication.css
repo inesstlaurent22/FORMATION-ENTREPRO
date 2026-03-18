@@ -638,22 +638,25 @@ html,body{
 /* =====================================================
    ➡️ MG3 — BOUTONS OBJECTIFS (STYLE TRÉSOR)
 ===================================================== */
-
+/* RESET du style commun pour les boutons RIGHT */
 .mg3-btn.mg3-btn-right1{
+  all: unset; /* 💥 enlève TOUT héritage */
 
-  background:linear-gradient(
-    145deg,
-    #ffe7a3,
-    #d4a63f
-  );
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:10px;
+  cursor:pointer;
 
-  border:none;
+  background:linear-gradient(145deg,#ffe7a3,#d4a63f);
 
   color:#2b1605;
   font-weight:bold;
-
-  min-width:220px;
   text-align:center;
+  min-width:220px;
+
+  box-shadow:
+    0 4px 0 #a67c2d,
+    0 0 12px rgba(255,215,120,.6);
 
   transition:
     transform .08s ease,
@@ -661,30 +664,19 @@ html,body{
     filter .15s ease;
 }
 
-/* Survol */
-
 .mg3-btn.mg3-btn-right1:hover{
-
-  background:linear-gradient(
-    145deg,
-    #fff1c2,
-    #e1b957
-  );
-
+  filter:brightness(1.1);
+  box-shadow:
+    0 6px 0 #a67c2d,
+    0 0 18px rgba(255,215,120,.8);
 }
 
-/* Clic */
-
 .mg3-btn.mg3-btn-right1:active{
+  transform:translateY(4px);
 
-  transform:translateY(3px);
-
-  background:linear-gradient(
-    145deg,
-    #d4a63f,
-    #b88a2e
-  );
-
+  box-shadow:
+    0 2px 0 #a67c2d,
+    0 0 10px rgba(255,215,120,.5);
 }
 
 /* =====================================================
