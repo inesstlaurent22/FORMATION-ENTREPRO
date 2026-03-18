@@ -261,7 +261,7 @@ const answers = shuffleArray([
   ...questions[qIndex].bad.map(t => ({ t, ok: false }))
 ]);
 
-    minigame0.forEach(a => {
+      answers.forEach(a => {
       const btn = document.createElement("button");
       btn.textContent = a.t;
       btn.onclick = () => {
