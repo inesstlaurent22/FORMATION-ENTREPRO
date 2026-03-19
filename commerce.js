@@ -714,14 +714,14 @@ cont.onclick = ()=>{
   }
 ], startMiniGame3);
 
-}
+};
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
 ===================================================== */
 function startMiniGame3(){
 
-  game3.classList.remove("hidden");
+  if(game3) game3.classList.remove("hidden");
 
   const text = document.getElementById("strategyText");
   const choices = document.getElementById("strategyChoices");
@@ -838,7 +838,11 @@ setTimeout(()=>{
     });
   }
 
+  if(hintBtn){
   hintBtn.onclick = ()=>{
+    hintBox.classList.remove("hidden");
+  };
+}
     hintBox.classList.remove("hidden");
   };
 
