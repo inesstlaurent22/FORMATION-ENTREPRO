@@ -837,12 +837,7 @@ setTimeout(()=>{
       choices.appendChild(b);
     });
   }
-
-  if(hintBtn){
-  hintBtn.onclick = ()=>{
-    hintBox.classList.remove("hidden");
-  };
-}
+   
     hintBox.classList.remove("hidden");
   };
 
