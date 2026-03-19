@@ -714,29 +714,7 @@ cont.onclick = ()=>{
   }
 ], startMiniGame3);
 
-};
-
-/* ===============================
-   ILLUMINATION PIRATE
-=============================== */
-function illuminatePirate5(){
-
-  pirate5.classList.add("glowStart");
-  pirate5.style.pointerEvents = "auto";
-
-  pirate5.onclick = null;
-
-  pirate5.onclick = ()=>{
-    pirate5.classList.remove("glowStart");
-    pirate5.style.pointerEvents = "none";
-
-    playDialogues([
-      { text:"Ton plan est solide.", anchor:pirate5 },
-      { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
-    ], startMiniGame3);
-  };
 }
-} 
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
@@ -753,52 +731,52 @@ function startMiniGame3(){
   let step = 0;
 
   const steps = [
-    {
-      text:`Quelle est la première étape de la prospection ?.`,
-      hint:"💡 Avant de contacter tu dois chercher leurs informations.",
-      answers:[
-        { label:"Contacter directement les clients", correct:false },
-        { label:"Créer une base de données clients", correct:true },
-        { label:"Lancer une publicité", correct:false },
-        { label:"Fixer les prix", correct:false }
-      ]
-    },
-   
-    {
-      text:`Comment peut-on contacter des clients ?`,
-      hint:"💡 BtoB : Business to Business (entreprise à entreprise) // BtoC : Business to Consummer (entreprise à client)",
-      answers:[
-        { label:"Par mailing (email)", correct:true },
-        { label:"Par phoning (téléphone)", correct:true },
-        { label:"Par les réseaux sociaux", correct:true },
-        { label:"Par LinkedIn (réseau professionnel BtoB)", correct:true }
-      ]
-    }
+  {
+    text:`Quelle est la première étape de la prospection ?.`,
+    hint:"💡 Avant de contacter tu dois chercher leurs informations.",
+    answers:[
+      { label:"Contacter directement les clients", correct:false },
+      { label:"Créer une base de données clients", correct:true },
+      { label:"Lancer une publicité", correct:false },
+      { label:"Fixer les prix", correct:false }
+    ]
+  },
 
-    {
-      text:`Que faire si un client refuse à cause du prix ?`,
-      hint:"💡 Les clients aiment faire des économies",
-      answers:[
-        { label:"Ignorer le client", correct:false },
-        { label:"Augmenter le prix", correct:false },
-        { label:"Proposer des promotions ou réductions", correct:true },
-        { label:"Arrêter la vente", correct:false }
-      ]
+  {
+    text:`Comment peut-on contacter des clients ?`,
+    hint:"💡 BtoB : Business to Business (entreprise à entreprise) // BtoC : Business to Consummer (entreprise à client)",
+    answers:[
+      { label:"Par mailing (email)", correct:true },
+      { label:"Par phoning (téléphone)", correct:true },
+      { label:"Par les réseaux sociaux", correct:true },
+      { label:"Par LinkedIn (réseau professionnel BtoB)", correct:true }
+    ]
+  },
+
+  {
+    text:`Que faire si un client refuse à cause du prix ?`,
+    hint:"💡 Les clients aiment faire des économies",
+    answers:[
+      { label:"Ignorer le client", correct:false },
+      { label:"Augmenter le prix", correct:false },
+      { label:"Proposer des promotions ou réductions", correct:true },
+      { label:"Arrêter la vente", correct:false }
+    ]
+  },
+
+  {
+    text:`Que faire si un client ne voit pas l’utilité du produit ?`,
+    hint:"💡 Baisser les prix n'est pas toujours la bonne réponse",
+    answers:[
+      { label:"Insister sans explication", correct:false },
+      { label:"Montrer que le produit répond à un besoin", correct:true },
+      { label:"Baisser immédiatement le prix", correct:false },
+      { label:"Changer de client", correct:true }
+    ],
+    finalText:`<strong> 🎉 Bravo.</strong><br>
+    Tu as tout bon et maintenant tu connais tout de la partie commerce. Passons à la suite`
   }
-     
-    {
-      text:`Que faire si un client ne voit pas l’utilité du produit ?`,
-      hint:"💡 Baisser les prix n'est pas toujours la bonne réponse",
-      answers:[
-        { label:"Insister sans explication", correct:false },
-        { label:"Montrer que le produit répond à un besoin", correct:true },
-        { label:"Baisser immédiatement le prix", correct:false },
-        { label:"Changer de client", correct:true }
-      ],
-      finalText:`<strong> 🎉 Bravo.</strong><br>
-      Tu as tout bon et maintenant tu connais tout de la partie commerce. Passons à la suite`
-    }
-  ];
+];
 
 
   function render(){
