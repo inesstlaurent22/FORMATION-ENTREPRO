@@ -250,9 +250,10 @@ function startDialogues1(){
     { text:"Elle sert à analyser : les besoins des clients, la concurrence, les tendances, et les opportunités.", anchor:pirate5 },
     { text:"Mais comment avoir les informations pour les analyser ? ", anchor:pirate2 },
     { text:"à travers : des questionnaires, des interviews,ou l’analyse de données existantes trouvées sur internet.", anchor:pirate5 },
-   { text:"Tout cela va te permettre de savoir si ton produit peut intérésser les clients. Un bon produit est un produit qui répond à un problème que les clients ont.", anchor:pirate5 },
-   { text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ces pierres, c'est un bon début ? ", anchor:pirate2 },
-   { text:"Oui, on va vérifier si tu as tout compris.", anchor:pirate5 }
+    { text:"Tout cela va te permettre de savoir si ton produit peut intérésser les clients.", anchor:pirate5 },
+    { text:"Un bon produit est un produit qui répond à un problème que les clients ont.", anchor:pirate5 },
+    { text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ces pierres, c'est un bon début ? ", anchor:pirate2 },
+    { text:"Oui, on va vérifier si tu as tout compris.", anchor:pirate5 }
   ], startMiniGame1);
 }
 
@@ -366,7 +367,16 @@ function startMiniGame1(){
 function startDialogues2(){
   playDialogues([
     { text:"Parfait. Maintenant, il faut structurer tout ça.", anchor:pirate5 },
-    { text:"Un bon business plan évite bien des naufrages.", anchor:pirate5 }
+    { text:"A partir des tes etudes, tu vas pouvoir créer tes stratégies commerciales", anchor:pirate5 },
+    { text:"Peux tu me dire à quoi sert les stratégies commerciales s'il te plaît.", anchor:pirate2 },
+    { text:"Une stratégie commerciale correspond à la manière dont une entreprise va vendre son offre.", anchor:pirate5 },
+    { text:"Comment je dois faire s'il te plaît ? ", anchor:pirate2 },
+    { text:"Les stratégies reposent sur le prix (haut de gamme ou accessible)", anchor:pirate5 },
+    { text:"le positionnement (luxe, écologique, rapide, etc.)", anchor:pirate5 },
+    { text:"les canaux de vente (magasin, site internet, application)", anchor:pirate5 },
+    { text:"et la communication (publicité, promotions, influenceurs)", anchor:pirate5 },
+    { text:"Cela fait beaucoup, comment ne rien oublier ? ", anchor:pirate2 },
+    { text:"Tu vas tout noter sur ton business plan, la présentation de ton business", anchor:pirate5 }
   ], startMiniGame2);
 }
 
