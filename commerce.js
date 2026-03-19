@@ -783,12 +783,12 @@ function startMiniGame3(){
   }
 ];
 
+
   function render(){
 
     const s = steps[step];
 
     text.innerHTML = s.text;
-
     choices.innerHTML = "";
     hintBox.classList.add("hidden");
     hintBox.innerHTML = s.hint;
@@ -805,14 +805,8 @@ function startMiniGame3(){
           return;
         }
 
-        b.classList.add("flash-success");
-
-        setTimeout(()=>{
-          b.classList.remove("flash-success");
-          b.classList.add("correct-locked");
-        },400);
-
         b.disabled = true;
+        b.classList.add("correct-locked");
 
         if(s.finalText){
 
@@ -823,12 +817,8 @@ function startMiniGame3(){
 
           setTimeout(()=>{
             game3.classList.add("hidden");
-
-            showLoader(1200, ()=>{
-              showCommerceWin();
-            });
-
-          }, 3200);
+            showCommerceWin();
+          },2000);
 
         }else{
           step++;
