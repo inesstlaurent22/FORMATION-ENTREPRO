@@ -240,6 +240,15 @@ function startDialogues1(){
   playDialogues([
     { text:"Avant de vendre quoi que ce soit, il faut comprendre ton marché.", anchor:pirate5 },
     { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au hasard.", anchor:pirate5 }
+    { text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 }
+    { text:"Je vais t'expliquer. Prend un carnet de note car après tu auras un quizz.", anchor:pirate5 }
+    { text:"Première information importante : Les études de marché.", anchor:pirate5 }
+    { text:"Elle sert à analyser : les besoins des clients, la concurrence, les tendances, et les opportunités.", anchor:pirate5 }
+    { text:"Mais comment avoir les informations pour les analyser ? ", anchor:pirate2 }
+    { text:"à travers : des questionnaires, des interviews,ou l’analyse de données existantes trouvées sur internet.", anchor:pirate5 }
+   { text:"Tout cela va te permettre de savoir si ton produit peut intérésser les clients. Un bon produit est un produit qui répond à un problème que les clients ont.", anchor:pirate5 }
+   { text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ces pierres, c'est un bon début ? ", anchor:pirate2 }
+   { text:"Oui, on va vérifier si tu as tout compris.", anchor:pirate5 }
   ], startMiniGame1);
 }
 
@@ -258,6 +267,31 @@ function startMiniGame1(){
       {t:"Décorer la boutique",ok:false},
       {t:"Comprendre les clients",ok:true},
       {t:"Copier les concurrents",ok:false}
+
+    q2.textContent="Les etudes de marché sont-elles obligatoire ?";
+    a2.innerHTML="";
+
+    [
+      {t:"Oui",ok:true},
+      {t:"Non",ok:false}
+
+   q3.textContent="Après avoir fait mes études, qu'est ce que je dois faire ?";
+   a3.innerHTML="";
+
+    [
+      {t:"Manger un burger pirate",ok:false},
+      {t:"Vendre mon produit",ok:false},
+      {t:"Préparer mes stratégies de vente",ok:true}
+
+   q4.textContent="De quoi sont constituer les études de marché ?";
+   a4.innerHTML="";
+
+    [
+      {t:"Analyse des clients",ok:true},
+      {t:"Analyse de la concurrence",ok:true},
+      {t:"Analyse du marché (l'environnement)",ok:true}
+
+       
     ].forEach(q=>{
 
       const b=document.createElement("button");
