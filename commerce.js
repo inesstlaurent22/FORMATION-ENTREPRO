@@ -728,6 +728,11 @@ function startMiniGame3(){
   const hintBox = document.getElementById("strategyHint");
   const hintBtn = document.getElementById("strategyHintBtn");
 
+  if(!text || !choices || !hintBox){
+    console.error("Mini-jeu 3 cassé : éléments manquants");
+    return;
+  }
+
   let step = 0;
 
   const steps = [
@@ -778,7 +783,6 @@ function startMiniGame3(){
   }
 ];
 
-
   function render(){
 
     const s = steps[step];
@@ -803,21 +807,21 @@ function startMiniGame3(){
 
         b.classList.add("flash-success");
 
-setTimeout(()=>{
-  b.classList.remove("flash-success");
-  b.classList.add("correct-locked");
-},400);
+        setTimeout(()=>{
+          b.classList.remove("flash-success");
+          b.classList.add("correct-locked");
+        },400);
+
         b.disabled = true;
 
-        // ===== DERNIÈRE ÉTAPE =====
         if(s.finalText){
 
           text.innerHTML = s.finalText;
           choices.innerHTML = "";
-          hintBtn.classList.add("hidden");
+
+          if(hintBtn) hintBtn.classList.add("hidden");
 
           setTimeout(()=>{
-
             game3.classList.add("hidden");
 
             showLoader(1200, ()=>{
@@ -827,19 +831,20 @@ setTimeout(()=>{
           }, 3200);
 
         }else{
-
           step++;
           render();
-
         }
       };
 
       choices.appendChild(b);
     });
   }
-   
-    hintBox.classList.remove("hidden");
-  };
+
+  if(hintBtn){
+    hintBtn.onclick = ()=>{
+      hintBox.classList.remove("hidden");
+    };
+  }
 
   render();
 }
