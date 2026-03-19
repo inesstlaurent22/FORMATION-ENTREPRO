@@ -685,8 +685,7 @@ function showBusinessPlanLoader(){
   /* ===============================
      CONTINUER
   =============================== */
-
-   cont.onclick = ()=>{
+cont.onclick = ()=>{
 
   overlay.remove();
 
@@ -715,14 +714,15 @@ function showBusinessPlanLoader(){
     }
   ], ()=>{
 
-    // 🔥 SÉCURITÉ : garantit le lancement du mini-jeu
     setTimeout(()=>{
       startMiniGame3();
     }, 300);
 
   });
 
-};
+}; // ferme onclick
+
+} // ✅ ICI tu fermes showBusinessPlanLoader
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
