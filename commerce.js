@@ -736,53 +736,48 @@ function startMiniGame3(){
   let step = 0;
 
   const steps = [
-  {
-    text:`Quelle est la première étape de la prospection ?.`,
-    hint:"💡 Avant de contacter tu dois chercher leurs informations.",
-    answers:[
-      { label:"Contacter directement les clients", correct:false },
-      { label:"Créer une base de données clients", correct:true },
-      { label:"Lancer une publicité", correct:false },
-      { label:"Fixer les prix", correct:false }
-    ]
-  },
-
-  {
-    text:`Comment peut-on contacter des clients ?`,
-    hint:"💡 BtoB : Business to Business (entreprise à entreprise) // BtoC : Business to Consummer (entreprise à client)",
-    answers:[
-      { label:"Par mailing (email)", correct:true },
-      { label:"Par phoning (téléphone)", correct:true },
-      { label:"Par les réseaux sociaux", correct:true },
-      { label:"Par LinkedIn (réseau professionnel BtoB)", correct:true }
-    ]
-  },
-
-  {
-    text:`Que faire si un client refuse à cause du prix ?`,
-    hint:"💡 Les clients aiment faire des économies",
-    answers:[
-      { label:"Ignorer le client", correct:false },
-      { label:"Augmenter le prix", correct:false },
-      { label:"Proposer des promotions ou réductions", correct:true },
-      { label:"Arrêter la vente", correct:false }
-    ]
-  },
-
-  {
-    text:`Que faire si un client ne voit pas l’utilité du produit ?`,
-    hint:"💡 Baisser les prix n'est pas toujours la bonne réponse",
-    answers:[
-      { label:"Insister sans explication", correct:false },
-      { label:"Montrer que le produit répond à un besoin", correct:true },
-      { label:"Baisser immédiatement le prix", correct:false },
-      { label:"Changer de client", correct:true }
-    ],
-    finalText:`<strong> 🎉 Bravo.</strong><br>
-    Tu as tout bon et maintenant tu connais tout de la partie commerce. Passons à la suite`
-  }
-];
-
+    {
+      text:`Quelle est la première étape de la prospection ?`,
+      hint:"💡 Avant de contacter tu dois chercher leurs informations.",
+      answers:[
+        { label:"Contacter directement les clients", correct:false },
+        { label:"Créer une base de données clients", correct:true },
+        { label:"Lancer une publicité", correct:false },
+        { label:"Fixer les prix", correct:false }
+      ]
+    },
+    {
+      text:`Comment peut-on contacter des clients ?`,
+      hint:"💡 BtoB : Entreprise à entreprise / BtoC : Entreprise à particulier",
+      answers:[
+        { label:"Par mailing (email)", correct:true },
+        { label:"Par phoning (téléphone)", correct:true },
+        { label:"Par les réseaux sociaux", correct:true },
+        { label:"Par LinkedIn", correct:true }
+      ]
+    },
+    {
+      text:`Que faire si un client refuse à cause du prix ?`,
+      hint:"💡 Les clients aiment faire des économies",
+      answers:[
+        { label:"Ignorer le client", correct:false },
+        { label:"Augmenter le prix", correct:false },
+        { label:"Proposer des promotions ou réductions", correct:true },
+        { label:"Arrêter la vente", correct:false }
+      ]
+    },
+    {
+      text:`Que faire si un client ne voit pas l’utilité du produit ?`,
+      hint:"💡 Montrer la valeur",
+      answers:[
+        { label:"Insister sans explication", correct:false },
+        { label:"Montrer que le produit répond à un besoin", correct:true },
+        { label:"Baisser immédiatement le prix", correct:false },
+        { label:"Changer de client", correct:true }
+      ],
+      finalText:`<strong>🎉 Bravo.</strong><br>Tu as terminé la partie commerce`
+    }
+  ];
 
   function render(){
 
@@ -792,6 +787,9 @@ function startMiniGame3(){
     choices.innerHTML = "";
     hintBox.classList.add("hidden");
     hintBox.innerHTML = s.hint;
+
+    let success = 0;
+    const totalCorrect = s.answers.filter(a => a.correct).length;
 
     s.answers.forEach(a=>{
 
@@ -805,24 +803,35 @@ function startMiniGame3(){
           return;
         }
 
+        if(b.classList.contains("correct-locked")) return;
+
         b.disabled = true;
         b.classList.add("correct-locked");
+        success++;
 
-        if(s.finalText){
+        // 👉 attendre toutes les bonnes réponses
+        if(success === totalCorrect){
 
-          text.innerHTML = s.finalText;
-          choices.innerHTML = "";
+          if(s.finalText){
 
-          if(hintBtn) hintBtn.classList.add("hidden");
+            text.innerHTML = s.finalText;
+            choices.innerHTML = "";
 
-          setTimeout(()=>{
-            game3.classList.add("hidden");
-            showCommerceWin();
-          },2000);
+            if(hintBtn) hintBtn.classList.add("hidden");
 
-        }else{
-          step++;
-          render();
+            setTimeout(()=>{
+              game3.classList.add("hidden");
+              showCommerceWin();
+            },2000);
+
+          }else{
+
+            setTimeout(()=>{
+              step++;
+              render();
+            },500);
+
+          }
         }
       };
 
