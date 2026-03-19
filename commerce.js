@@ -405,8 +405,8 @@ function startMiniGame2(){
       question: "Quel élément est indispensable dans un business plan ?",
       answers: [
         { t: "Les couleurs du logo", ok: false },
-        { t: "Les prévisions financières", ok: true },
         { t: "Le nombre d’employés déjà recrutés", ok: false },
+        { t: "Les prévisions financières", ok: true },
         { t: "Le nom des clients", ok: false }
       ]
     },
@@ -414,8 +414,8 @@ function startMiniGame2(){
     {
       question: "Qu’est-ce qu’une stratégie commerciale ?",
       answers: [
-        { t: "Une manière d’organiser les bureaux", ok: false },
         { t: "Une méthode pour vendre un produit ou service", ok: true },
+        { t: "Une manière d’organiser les bureaux", ok: false },
         { t: "Un type de contrat", ok: false },
         { t: "Une règle juridique", ok: false }
       ]
@@ -776,12 +776,12 @@ function startMiniGame3(){
     },
     {
       text:`Que faire si un client ne voit pas l’utilité du produit ?`,
-      hint:"💡 Montrer la valeur",
+      hint:"💡 A toi de jouer 😉",
       answers:[
         { label:"Insister sans explication", correct:false },
         { label:"Montrer que le produit répond à un besoin", correct:true },
         { label:"Baisser immédiatement le prix", correct:false },
-        { label:"Changer de client", correct:true }
+        { label:"Changer de client", correct:false }
       ],
       finalText:`<strong>🎉 Bravo.</strong><br>
 Tu sais maintenant comment prospecter efficacement :
@@ -841,7 +841,7 @@ Tu es prêt à attirer un maximum de clients vers ton activité.`
             setTimeout(()=>{
               step++;
               render();
-            },500);
+            },1100);
 
           }
         }
