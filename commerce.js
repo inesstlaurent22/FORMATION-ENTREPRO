@@ -116,16 +116,20 @@ function endVideo() {
    SCÈNE INITIALE
 ===================================================== */
 function showScene(){
-  background.classList.remove("hidden");
-  pirate2.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
 
-  pirate5.classList.add("glowStart");
-  pirate5.onclick = ()=>{
-    pirate5.classList.remove("glowStart");
-    pirate5.style.pointerEvents = "none";
-    startDialogues1();
-  };
+  if(background) background.classList.remove("hidden");
+  if(pirate2) pirate2.classList.remove("hidden");
+  if(pirate5) pirate5.classList.remove("hidden");
+
+  if(pirate5){
+    pirate5.classList.add("glowStart");
+
+    pirate5.onclick = ()=>{
+      pirate5.classList.remove("glowStart");
+      pirate5.style.pointerEvents = "none";
+      startDialogues1();
+    };
+  }
 }
 
 /* =====================================================
@@ -668,9 +672,14 @@ cont.onclick = ()=>{
     text:"Il est temps d'affronter le marché.", 
     anchor:pirate5,
     onShow: ()=>{
-      console.log("pirate3 déclenché");
-      pirate3.classList.remove("hidden");
-    }
+  console.log("pirate3 déclenché");
+
+  if(pirate3){
+    pirate3.classList.remove("hidden");
+  } else {
+    console.warn("pirate3 introuvable");
+  }
+}
   }
 ], startMiniGame3);
 
