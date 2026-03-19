@@ -690,10 +690,18 @@ cont.onclick = ()=>{
   overlay.remove();
 
   playDialogues([
-  { text:"Ton plan est solide.", anchor:pirate5 },
-  { 
-    text:"Il est temps d'affronter le marché.", 
-    anchor:pirate5,
+  { text:"Ton Business plan  est solide, maintenant passons à la réalité du terrain.", anchor:pirate5 },
+  { text:"Quelle est cette réalité ? ", anchor:pirate2 },
+  { text:"Les clients ne veulent pas payer plus cher que ce qu'il souhaite.", anchor:pirate5 },
+  { text:"Il faudra donc que tu les convainques de la nécéssité de ton produit.", anchor:pirate5 },
+  { text:"Et pour ce faire, il faut que tu les fasses venir jusqu'à ta boutique", anchor:pirate5 },
+  { text:"Comment faire ?", anchor:pirate2 },
+  { text:"La prospection consiste à chercher de nouveaux clients.", anchor:pirate5 },
+  { text:"Tu vas devoir rechercher des clients qui pourront être intéréssé par ton produit", anchor:pirate5 },
+  { text:"Tu notes leurs informations (contact, adresse, entreprise) dans une base de donnée.", anchor:pirate5 },
+  { text:"et tu vas les appeler, leur envoyer des mails ou des messages via les réseaux sociaux", anchor:pirate5 },
+  { text:"afin d'attiser leur curiosité et de les faire venir jusqu'à toi", anchor:pirate5 },    
+  { text:"Il est temps d'affronter le marché.", anchor:pirate5,
     onShow: ()=>{
   console.log("pirate3 déclenché");
 
@@ -746,38 +754,52 @@ function startMiniGame3(){
 
   const steps = [
     {
-      text:`Les autres vendeurs vendent à <strong>300 PO</strong>, sans pierres rouges.
-      Vous en avez. Quel prix afficher ?`,
-      hint:"💡 Avantage concurrentiel = marge possible.",
+      text:`Quelle est la première étape de la prospection ?.`,
+      hint:"💡 Avant de contacter tu dois chercher leurs informations.",
       answers:[
-        { label:"350 PO", correct:true },
-        { label:"300 PO", correct:false },
-        { label:"250 PO", correct:false }
+        { label:"Contacter directement les clients", correct:false },
+        { label:"Créer une base de données clients", correct:true },
+        { label:"Lancer une publicité", correct:false },
+        { label:"Fixer les prix", correct:false }
       ]
     },
+   
     {
-      text:`Vous ajoutez des boîtes en bois (20 PO).
-      Comment ajuster le prix ?`,
-      hint:"💡 Le coût est déjà intégré.",
+      text:`Comment peut-on contacter des clients ?`,
+      hint:"💡 BtoB : Business to Business (entreprise à entreprise) // BtoC : Business to Consummer (entreprise à client)",
       answers:[
-        { label:"370 PO", correct:false },
-        { label:"350 PO", correct:true },
-        { label:"330 PO", correct:false }
+        { label:"Par mailing (email)", correct:true },
+        { label:"Par phoning (téléphone)", correct:true },
+        { label:"Par les réseaux sociaux", correct:true },
+        { label:"Par LinkedIn (réseau professionnel BtoB)", correct:true }
       ]
-    },
+    }
+
     {
-      text:`Objectif : acheter un bateau rapidement.`,
-      hint:"💡 Vendre vite plutôt que luxe.",
+      text:`Que faire si un client refuse à cause du prix ?`,
+      hint:"💡 Les clients aiment faire des économies",
       answers:[
-        { label:"400 PO", correct:false },
-        { label:"350 PO", correct:false },
-        { label:"300 PO", correct:true }
+        { label:"Ignorer le client", correct:false },
+        { label:"Augmenter le prix", correct:false },
+        { label:"Proposer des promotions ou réductions", correct:true },
+        { label:"Arrêter la vente", correct:false }
+      ]
+  }
+     
+    {
+      text:`Que faire si un client ne voit pas l’utilité du produit ?`,
+      hint:"💡 Baisser les prix n'est pas toujours la bonne réponse",
+      answers:[
+        { label:"Insister sans explication", correct:false },
+        { label:"Montrer que le produit répond à un besoin", correct:true },
+        { label:"Baisser immédiatement le prix", correct:false },
+        { label:"Changer de client", correct:true }
       ],
-      finalText:`<strong>Bonne stratégie.</strong><br>
-      Les pirates vendent plus vite à 300 PO
-      pour acheter leur bateau sans attendre.`
+      finalText:`<strong> 🎉 Bravo.</strong><br>
+      Tu as tout bon et maintenant tu connais tout de la partie commerce. Passons à la suite`
     }
   ];
+
 
   function render(){
 
