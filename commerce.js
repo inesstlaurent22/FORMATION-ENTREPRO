@@ -367,7 +367,7 @@ function startMiniGame1(){
 function startDialogues2(){
   playDialogues([
     { text:"Parfait. Maintenant, il faut structurer tout ça.", anchor:pirate5 },
-    { text:"A partir des tes etudes, tu vas pouvoir créer tes stratégies commerciales", anchor:pirate5 },
+    { text:"À partir des tes etudes, tu vas pouvoir créer tes stratégies commerciales", anchor:pirate5 },
     { text:"Peux tu me dire à quoi sert les stratégies commerciales s'il te plaît.", anchor:pirate2 },
     { text:"Une stratégie commerciale correspond à la manière dont une entreprise va vendre son offre.", anchor:pirate5 },
     { text:"Comment je dois faire s'il te plaît ? ", anchor:pirate2 },
@@ -392,29 +392,42 @@ function startMiniGame2(){
     const questions = [
 
     {
-      question: "Étude du produit, qu’est-ce que je dois analyser en premier ?",
+      question: "À quoi sert un business plan ?",
       answers: [
-        { t: "Les besoins du client", ok: true },
-        { t: "La couleur du logo", ok: false },
-        { t: "La valeur apportée par le produit", ok: true },
-        { t: "Le nombre de likes Instagram", ok: false }
+        { t: "Décorer une entreprise", ok: false },
+        { t: "Présenter un projet et convaincre des partenaires", ok: true },
+        { t: "Fixer uniquement les prix", ok: false },
+        { t: "Recruter des employés", ok: false }
+      ]
+    },
+       
+    {
+      question: "Quel élément est indispensable dans un business plan ?",
+      answers: [
+        { t: "Les couleurs du logo", ok: false },
+        { t: "Les prévisions financières", ok: true },
+        { t: "Le nombre d’employés déjà recrutés", ok: false },
+        { t: "Le nom des clients", ok: false }
+      ]
+    },
+    
+    {
+      question: "Qu’est-ce qu’une stratégie commerciale ?",
+      answers: [
+        { t: "Une manière d’organiser les bureaux", ok: false },
+        { t: "Une méthode pour vendre un produit ou service", ok: true },
+        { t: "Un type de contrat", ok: false },
+        { t: "Une règle juridique", ok: false }
       ]
     },
 
-    {
-      question: "Étude du marché, est-ce que je dois analyser seulement les concurrents ?",
+        {
+      question: "Quelle est une stratégie commerciale ??",
       answers: [
-        { t: "Oui", ok: false },
-        { t: "Non, il faut aussi analyser les clients et les tendances", ok: true }
-      ]
-    },
-
-    {
-      question: "Construction du business plan",
-      answers: [
-        { t: "Définir la cible", ok: true },
-        { t: "Choisir la couleur du bateau", ok: false },
-        { t: "Identifier le problème client", ok: true }
+        { t: "Baisser les prix pour attirer plus de clients", ok: true },
+        { t: "Faire de la publicité sur les réseaux sociaux", ok: true },
+        { t: "Proposer des promotions ou réductions", ok: true },
+        { t: "Fidéliser les clients avec un programme de récompenses", ok: true }
       ]
     }
 
