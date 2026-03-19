@@ -685,34 +685,42 @@ function showBusinessPlanLoader(){
   /* ===============================
      CONTINUER
   =============================== */
-cont.onclick = ()=>{
+
+   cont.onclick = ()=>{
 
   overlay.remove();
 
   playDialogues([
-  { text:"Ton Business plan  est solide, maintenant passons à la réalité du terrain.", anchor:pirate5 },
-  { text:"Quelle est cette réalité ? ", anchor:pirate2 },
-  { text:"Les clients ne veulent pas payer plus cher que ce qu'il souhaite.", anchor:pirate5 },
-  { text:"Il faudra donc que tu les convainques de la nécéssité de ton produit.", anchor:pirate5 },
-  { text:"Et pour ce faire, il faut que tu les fasses venir jusqu'à ta boutique", anchor:pirate5 },
-  { text:"Comment faire ?", anchor:pirate2 },
-  { text:"La prospection consiste à chercher de nouveaux clients.", anchor:pirate5 },
-  { text:"Tu vas devoir rechercher des clients qui pourront être intéréssé par ton produit", anchor:pirate5 },
-  { text:"Tu notes leurs informations (contact, adresse, entreprise) dans une base de donnée.", anchor:pirate5 },
-  { text:"et tu vas les appeler, leur envoyer des mails ou des messages via les réseaux sociaux", anchor:pirate5 },
-  { text:"afin d'attiser leur curiosité et de les faire venir jusqu'à toi", anchor:pirate5 },    
-  { text:"Il est temps d'affronter le marché.", anchor:pirate5,
-    onShow: ()=>{
-  console.log("pirate3 déclenché");
+    { text:"Ton Business plan est solide, maintenant passons à la réalité du terrain.", anchor:pirate5 },
+    { text:"Quelle est cette réalité ?", anchor:pirate2 },
+    { text:"Les clients ne veulent pas payer plus cher que ce qu'ils souhaitent.", anchor:pirate5 },
+    { text:"Il faudra donc que tu les convainques de la nécessité de ton produit.", anchor:pirate5 },
+    { text:"Et pour ce faire, il faut que tu les fasses venir jusqu'à ta boutique", anchor:pirate5 },
+    { text:"Comment faire ?", anchor:pirate2 },
+    { text:"La prospection consiste à chercher de nouveaux clients.", anchor:pirate5 },
+    { text:"Tu vas devoir rechercher des clients qui pourraient être intéressés par ton produit", anchor:pirate5 },
+    { text:"Tu notes leurs informations (contact, adresse, entreprise) dans une base de données.", anchor:pirate5 },
+    { text:"Puis tu vas les appeler, leur envoyer des mails ou des messages via les réseaux sociaux", anchor:pirate5 },
+    { text:"afin d'attiser leur curiosité et de les faire venir jusqu'à toi", anchor:pirate5 },
+    { 
+      text:"Il est temps d'affronter le marché.", 
+      anchor:pirate5,
+      onShow: ()=>{
+        console.log("pirate3 déclenché");
 
-  if(pirate3){
-    pirate3.classList.remove("hidden");
-  } else {
-    console.warn("pirate3 introuvable");
-  }
-}
-  }
-], startMiniGame3);
+        if(pirate3){
+          pirate3.classList.remove("hidden");
+        }
+      }
+    }
+  ], ()=>{
+
+    // 🔥 SÉCURITÉ : garantit le lancement du mini-jeu
+    setTimeout(()=>{
+      startMiniGame3();
+    }, 300);
+
+  });
 
 };
    
@@ -720,8 +728,6 @@ cont.onclick = ()=>{
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
 ===================================================== */
 function startMiniGame3(){
-
-  console.log("MINI JEU 3 LANCÉ");
 
   if(game3) game3.classList.remove("hidden");
 
