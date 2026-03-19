@@ -721,6 +721,8 @@ cont.onclick = ()=>{
 ===================================================== */
 function startMiniGame3(){
 
+  console.log("MINI JEU 3 LANCÉ");
+
   if(game3) game3.classList.remove("hidden");
 
   const text = document.getElementById("strategyText");
