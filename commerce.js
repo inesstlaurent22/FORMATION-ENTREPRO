@@ -783,8 +783,11 @@ function startMiniGame3(){
         { label:"Baisser immédiatement le prix", correct:false },
         { label:"Changer de client", correct:true }
       ],
-      finalText:`<strong>🎉 Bravo.</strong><br> Maintenant tu sais comment faire des études de marché afin de collecter des données et les analyser pour faire de ton produit le MUST have de tes clients.
-      Ensuite, tu as réussi à créer ta première base de données pour attirer les clients. Maintenant nous allons t'expliquer comment faire venir un GRAND nombre de clients via tes réseaux sociaux.`
+      finalText:`<strong>🎉 Bravo.</strong><br>
+Tu sais maintenant comment prospecter efficacement :
+trouver des clients, les contacter et répondre à leurs objections.
+
+Tu es prêt à attirer un maximum de clients vers ton activité.`
     }
   ];
 
