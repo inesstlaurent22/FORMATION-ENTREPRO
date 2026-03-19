@@ -239,15 +239,15 @@ if(skipBtn){
 function startDialogues1(){
   playDialogues([
     { text:"Avant de vendre quoi que ce soit, il faut comprendre ton marché.", anchor:pirate5 },
-    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au hasard.", anchor:pirate5 }
-    { text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 }
-    { text:"Je vais t'expliquer. Prend un carnet de note car après tu auras un quizz.", anchor:pirate5 }
-    { text:"Première information importante : Les études de marché.", anchor:pirate5 }
-    { text:"Elle sert à analyser : les besoins des clients, la concurrence, les tendances, et les opportunités.", anchor:pirate5 }
-    { text:"Mais comment avoir les informations pour les analyser ? ", anchor:pirate2 }
-    { text:"à travers : des questionnaires, des interviews,ou l’analyse de données existantes trouvées sur internet.", anchor:pirate5 }
-   { text:"Tout cela va te permettre de savoir si ton produit peut intérésser les clients. Un bon produit est un produit qui répond à un problème que les clients ont.", anchor:pirate5 }
-   { text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ces pierres, c'est un bon début ? ", anchor:pirate2 }
+    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au hasard.", anchor:pirate5 },
+    { text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 },
+    { text:"Je vais t'expliquer. Prend un carnet de note car après tu auras un quizz.", anchor:pirate5 },
+    { text:"Première information importante : Les études de marché.", anchor:pirate5 },
+    { text:"Elle sert à analyser : les besoins des clients, la concurrence, les tendances, et les opportunités.", anchor:pirate5 },
+    { text:"Mais comment avoir les informations pour les analyser ? ", anchor:pirate2 },
+    { text:"à travers : des questionnaires, des interviews,ou l’analyse de données existantes trouvées sur internet.", anchor:pirate5 },
+   { text:"Tout cela va te permettre de savoir si ton produit peut intérésser les clients. Un bon produit est un produit qui répond à un problème que les clients ont.", anchor:pirate5 },
+   { text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ces pierres, c'est un bon début ? ", anchor:pirate2 },
    { text:"Oui, on va vérifier si tu as tout compris.", anchor:pirate5 }
   ], startMiniGame1);
 }
@@ -260,64 +260,98 @@ function startMiniGame1(){
   showLoader(900, ()=>{
 
     game1.classList.remove("hidden");
-    q1.textContent="Pourquoi réaliser une étude de marché ?";
-    a1.innerHTML="";
 
-    [
-      {t:"Décorer la boutique",ok:false},
-      {t:"Comprendre les clients",ok:true},
-      {t:"Copier les concurrents",ok:false}
+    const questions = [
 
-    q2.textContent="Les etudes de marché sont-elles obligatoire ?";
-    a2.innerHTML="";
+      {
+        question: "Pourquoi réaliser une étude de marché ?",
+        answers: [
+          { t:"Décorer la boutique", ok:false },
+          { t:"Comprendre les clients", ok:true },
+          { t:"Copier les concurrents", ok:false }
+        ]
+      },
 
-    [
-      {t:"Oui",ok:true},
-      {t:"Non",ok:false}
+      {
+        question: "Les études de marché sont-elles obligatoires ?",
+        answers: [
+          { t:"Oui", ok:true },
+          { t:"Non", ok:false }
+        ]
+      },
 
-   q3.textContent="Après avoir fait mes études, qu'est ce que je dois faire ?";
-   a3.innerHTML="";
+      {
+        question: "Après une étude de marché, que faire ?",
+        answers: [
+          { t:"Manger un burger pirate", ok:false },
+          { t:"Vendre directement", ok:false },
+          { t:"Préparer une stratégie de vente", ok:true }
+        ]
+      },
 
-    [
-      {t:"Manger un burger pirate",ok:false},
-      {t:"Vendre mon produit",ok:false},
-      {t:"Préparer mes stratégies de vente",ok:true}
+      {
+        question: "De quoi sont constituées les études de marché ?",
+        answers: [
+          { t:"Analyse des clients", ok:true },
+          { t:"Analyse de la concurrence", ok:true },
+          { t:"Analyse de l’environnement", ok:true }
+        ]
+      }
 
-   q4.textContent="De quoi sont constituer les études de marché ?";
-   a4.innerHTML="";
+    ];
 
-    [
-      {t:"Analyse des clients",ok:true},
-      {t:"Analyse de la concurrence",ok:true},
-      {t:"Analyse du marché (l'environnement)",ok:true}
+    let current = 0;
 
-       
-    ].forEach(q=>{
+    function renderQuestion(){
 
-      const b=document.createElement("button");
-      b.textContent=q.t;
+      q1.textContent = questions[current].question;
+      a1.innerHTML = "";
 
-      b.onclick=()=>{
+      let success = 0;
+      const correctCount = questions[current].answers.filter(a => a.ok).length;
 
-        if(!q.ok){
-          shake(game1);
-          return;
-        }
+      questions[current].answers.forEach(q => {
 
-        b.classList.add("correct-locked");
-        b.disabled = true;
+        const b = document.createElement("button");
+        b.textContent = q.t;
 
-        setTimeout(()=>{
+        b.onclick = ()=>{
 
-          game1.classList.add("hidden");
+          if(!q.ok){
+            shake(game1);
+            return;
+          }
 
-          startDialogues2();
+          // éviter double clic
+          if(b.classList.contains("correct-locked")) return;
 
-        },600);
-      };
+          b.classList.add("correct-locked");
+          b.disabled = true;
+          success++;
 
-      a1.appendChild(b);
-    });
+          // si toutes les bonnes réponses trouvées
+          if(success === correctCount){
+
+            setTimeout(()=>{
+
+              current++;
+
+              if(current < questions.length){
+                renderQuestion();
+              }else{
+                game1.classList.add("hidden");
+                startDialogues2();
+              }
+
+            },800);
+          }
+        };
+
+        a1.appendChild(b);
+      });
+    }
+
+    renderQuestion();
 
   });
 }
