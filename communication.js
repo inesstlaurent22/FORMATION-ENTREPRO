@@ -197,8 +197,8 @@ function shake(){
 const quiz=[
  {q:"Quels sont des canaux de communication ?:",ok:[0,1,2,3],a:["Les réseaux sociaux","Le site internet","L’affichage publicitaire","Les emails"]},
  {q:"Qu’est-ce que la communication ?",ok:[1],a:["Parler uniquement avec ses clients"," Transmettre un message pour promouvoir un produit ou une marque","Vendre directement un produit","Créer un logo"]},
- {q:"Qu’est-ce que l’identité visuelle d’une entreprise ?",ok:[1],a:[" Le prix des produits","L’ensemble des éléments graphiques (logo, couleurs, typographie"," Le nombre d’employés"," Les moyens de livraison"]},
- {q:"À quoi servent les canaux de communication ?",ok:[0],a:["À transmettre un message aux clients"," À décorer l’entrepris","À gérer les stocks","À recruter uniquement"]}
+ {q:"Qu’est-ce que l’identité visuelle d’une entreprise ?",ok:[1],a:[" Le prix des produits","L’ensemble des éléments graphiques (logo, couleurs, typographie)"," Le nombre d’employés"," Les moyens de livraison"]},
+ {q:"À quoi servent les canaux de communication ?",ok:[0],a:["À transmettre un message aux clients"," À décorer l’entreprise","À gérer les stocks","À recruter uniquement"]}
 ];
 
 let qi=0, found=[];
@@ -521,7 +521,7 @@ zoomBtn.onclick = () => {
         { speaker:"pirate3", text:" Et utiliser plusieurs canaux (réseaux + site + email) pour maximiser la visibilité." },
         { speaker:"pirate3", text:" Tu dois aussi adapter le message à chaque canal" },
         { speaker:"pirate3", text:" Exemple, pour les réseaux sociaux → un contenu visuel et rapide " },
-        { speaker:"pirate3", text:" Pour les emails → des message plus détaillé " },"
+        { speaker:"pirate3", text:" Pour les emails → des message plus détaillé " },
         { speaker:"pirate3", text:" Pour ton site internet → privilégie une informations complètes et rassurantes" },
         { speaker:"pirate3", text:" Et pour finir, il faut être régulier :  " },
         { speaker:"pirate3", text:" Publier souvent pour rester visible et créer une relation avec l’audience  " },
