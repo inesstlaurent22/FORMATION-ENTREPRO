@@ -63,28 +63,35 @@ function showLoader(duration = 1200, cb){
 const pirate3 = document.getElementById("pirate3");
 const pirate2 = document.getElementById("pirate2");
 
-pirate3.classList.add("glow");
+// Sécurité si élément absent
+if (pirate3) {
 
-pirate3.onclick = () => {
-  pirate3.classList.remove("glow");
-  playDialog([
-    { speaker:"pirate3", text:"Maintenant que vous savez tout du commerce, faisons en sorte que votre boutique soit la plus connue !" },
-    { speaker:"pirate2", text:"Comment faire s'il te plaît ? " },
-    { speaker:"pirate3", text:"Sans communication, personne ne viendra" },
-    { speaker:"pirate3", text:"La communication est un élément essentiel pour toute entreprise. " },
-    { speaker:"pirate3", text:"Elle correspond à l’ensemble des actions mises en place pour transmettre un message à une cible ." },
-    { speaker:"pirate3", text:" clients, prospects, partenaires. " },
-    { speaker:"pirate3", text:" Ses enjeux sont importants . " },
-    { speaker:"pirate2", text:" Peux tu nous en dire plus ? " },
-    { speaker:"pirate3", text:" Il faut se faire connaître, " },
-    { speaker:"pirate3", text:" attirer et convaincre des clients, " },
-    { speaker:"pirate3", text:" créer une image de marque forte " },
-    { speaker:"pirate3", text:" et fidéliser la clientèle. ." },
-    { speaker:"pirate2", text:" Mais comment créer une image de marque forte pour que tout le monde vienne nous voir s'il te plaît ? " },
-    { speaker:"pirate3", text:" Je vais vérifier si tu as tout compris et je t'expliquerai ensuite ." }
+  pirate3.classList.add("glow");
 
-  ], startMiniGame1);
-};
+  pirate3.onclick = () => {
+
+    pirate3.classList.remove("glow");
+
+    playDialog([
+      { speaker:"pirate2", text:"Parfait." },
+      { speaker:"pirate3", text:"Passons à ton identité visuelle." },
+      { speaker:"pirate3", text:"C'est l’image de l’entreprise." },
+      { speaker:"pirate3", text:"Elle regroupe tous les éléments graphiques qui permettent de reconnaître une marque." },
+      { speaker:"pirate3", text:"Elle comprend :" },
+      { speaker:"pirate3", text:"Le logo," },
+      { speaker:"pirate3", text:"les couleurs," },
+      { speaker:"pirate3", text:"la typographie," },
+      { speaker:"pirate3", text:"et parfois des visuels ou un univers graphique." },
+      { speaker:"pirate2", text:"Ça a l'air facile." },
+      { speaker:"pirate3", text:"Non, pas si simple. Une identité visuelle doit être cohérente," },
+      { speaker:"pirate3", text:"reconnaissable et professionnelle," },
+      { speaker:"pirate3", text:"car elle influence la perception des clients et renforce la crédibilité de l’entreprise." },
+      { speaker:"pirate2", text:"Ça a l'air moins facile d'un coup." },
+      { speaker:"pirate3", text:"Ne t'inquiète pas, je vais tout t'expliquer !" }
+    ], startMiniGame1);
+
+  };
+}
 
 /* =====================================================
    💬 DIALOGUES
