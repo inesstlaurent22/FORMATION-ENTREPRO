@@ -181,10 +181,10 @@ function shake(){
    🎯 MINI-JEU 1
 ===================================================== */
 const quiz=[
- {q:"Qu’est-ce que la communication ?",ok:[2],a:["Parler uniquement avec ses clients"," Transmettre un message pour promouvoir un produit ou une marque","Vendre directement un produit","Créer un logo"]},
- {q:"La communication permet de :",ok:[0,1],a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"]},
- {q:"Une bonne communication sert à :",ok:[0,1,2],a:["Transmettre un message clair","Se différencier","Construire une image"]},
- {q:"La communication est essentielle pour :",ok:[0,1],a:["Guider le public","Créer du lien","Remplacer un produit"]}
+ {q:"Quels sont des canaux de communication ?:",ok:[0,1,2,3],a:["Les réseaux sociaux","Le site internet","L’affichage publicitaire","Les emails"]},
+ {q:"Qu’est-ce que la communication ?",ok:[1],a:["Parler uniquement avec ses clients"," Transmettre un message pour promouvoir un produit ou une marque","Vendre directement un produit","Créer un logo"]},
+ {q:"Qu’est-ce que l’identité visuelle d’une entreprise ?",ok:[1],a:[" Le prix des produits","L’ensemble des éléments graphiques (logo, couleurs, typographie"," Le nombre d’employés"," Les moyens de livraison"]},
+ {q:"À quoi servent les canaux de communication ?",ok:[0],a:["À transmettre un message aux clients"," À décorer l’entrepris","À gérer les stocks","À recruter uniquement"]}
 ];
 
 let qi=0, found=[];
