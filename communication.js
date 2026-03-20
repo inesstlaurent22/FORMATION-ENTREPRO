@@ -510,7 +510,23 @@ zoomBtn.onclick = () => {
     playDialog(
       [
         { speaker:"pirate2", text:"Magnifique identité." },
-        { speaker:"pirate3", text:"Passons à la diffusion." }
+        { speaker:"pirate3", text:"Passons à la diffusion." },
+        { speaker:"pirate3", text:" Un <strong> Canal de diffusion </strong> est un moyen utilisé pour transmettre un message à une cible (clients, prospects)." },
+        { speaker:"pirate2", text:"Les réseaux sociaux ou les mails en sont-ils ? " },
+        { speaker:"pirate3", text:"Oui ainsi que ton site internet " },
+        { speaker:"pirate2", text:"Mais avec tous ces canaux, comment avoir une communication 10/10 s'il te plaît ? " },
+        { speaker:"pirate3", text:"Il faut Choisir les bons canaux selon la cible" }, 
+        { speaker:"pirate3", text:"Par exemple, pour une communication BtoC → Instagram, TikTok " },
+        { speaker:"pirate3", text:" L'objectif est d'être là où sont tes clients " },
+        { speaker:"pirate3", text:" Et utiliser plusieurs canaux (réseaux + site + email) pour maximiser la visibilité." },
+        { speaker:"pirate3", text:" Tu dois aussi adapter le message à chaque canal" },
+        { speaker:"pirate3", text:" Exemple, pour les réseaux sociaux → un contenu visuel et rapide " },
+        { speaker:"pirate3", text:" Pour les emails → des message plus détaillé " },"
+        { speaker:"pirate3", text:" Pour ton site internet → privilégie une informations complètes et rassurantes" },
+        { speaker:"pirate3", text:" Et pour finir, il faut être régulier :  " },
+        { speaker:"pirate3", text:" Publier souvent pour rester visible et créer une relation avec l’audience  " },
+        { speaker:"pirate2", text:" Ca fait beaucoup à comprendre ! " },
+        { speaker:"pirate3", text:" Ne t'inquiète pas, le quizz est la pour t'aider. " }
       ],
       startMiniGame3
     );
