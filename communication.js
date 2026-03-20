@@ -12,7 +12,14 @@ const fadeScreen     = document.getElementById("fadeScreen");
 
 let videoClosed = false;
 
-introVideo.muted = true;
+if(introVideo){
+  introVideo.muted = true;
+  introVideo.playsInline = true;
+  introVideo.autoplay = true;
+  introVideo.style.pointerEvents = "none";
+  introVideo.play().catch(()=>{});
+}
+   
 introVideo.playsInline = true;
 introVideo.autoplay = true;
 introVideo.style.pointerEvents = "none";
@@ -87,7 +94,7 @@ if (pirate3) {
       { speaker:"pirate3", text:"reconnaissable et professionnelle," },
       { speaker:"pirate3", text:"car elle influence la perception des clients et renforce la crédibilité de l’entreprise." },
       { speaker:"pirate2", text:"Ça a l'air moins facile d'un coup." },
-      { speaker:"pirate3", text:"Ne t'inquiète pas, je vais tout t'expliquer !" },
+      { speaker:"pirate3", text:"Ne t'inquiète pas, je vais tout t'expliquer !" }
     ], startMiniGame1);
 
   };
@@ -125,7 +132,10 @@ function showDialog(){
   requestAnimationFrame(() => {
 
     const p = d.speaker === "pirate2" ? pirate2 : pirate3;
-    const r = p.getBoundingClientRect();
+
+if(!p) return;
+
+const r = p.getBoundingClientRect();
 
     const boxWidth  = dialogBox.offsetWidth;
     const boxHeight = dialogBox.offsetHeight;
