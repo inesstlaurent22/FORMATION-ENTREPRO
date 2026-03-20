@@ -14,10 +14,6 @@ let videoClosed = false;
 
 if(introVideo){
   introVideo.muted = true;
-  introVideo.playsInline = true;
-  introVideo.autoplay = true;
-  introVideo.style.pointerEvents = "none";
-  introVideo.play().catch(()=>{});
 }
    
 introVideo.playsInline = true;
