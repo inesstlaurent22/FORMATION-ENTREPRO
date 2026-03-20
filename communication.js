@@ -94,7 +94,7 @@ if (pirate3) {
       { speaker:"pirate3", text:"reconnaissable et professionnelle," },
       { speaker:"pirate3", text:"car elle influence la perception des clients et renforce la crédibilité de l’entreprise." },
       { speaker:"pirate2", text:"Ça a l'air moins facile d'un coup." },
-      { speaker:"pirate3", text:"Ne t'inquiète pas, je vais tout t'expliquer !" }
+      { speaker:"pirate3", text:"Ne t'inquiète pas, je vais tout t'expliquer !" },
     ], startMiniGame1);
 
   };
