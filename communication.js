@@ -259,6 +259,19 @@ function afterMG1(){
     [
       {speaker:"pirate2",text:"Parfait."},
       {speaker:"pirate3",text:"Passons à ton identité visuelle."}
+      {speaker:"pirate3",text:"C'est l’image de l’entreprise."}
+      {speaker:"pirate3",text:"Elle regroupe tous les éléments graphiques qui permettent de reconnaître une marque."}
+      {speaker:"pirate3",text:"Elle comprend :"}
+      {speaker:"pirate3",text:"Le logo,"}
+      {speaker:"pirate3",text:"Les couleurs,"}
+      {speaker:"pirate3",text:"La typographie,"}
+      {speaker:"pirate3",text:"et parfois des visuels ou un univers graphique."}
+      {speaker:"pirate2",text:"Ca à l'air facile."},
+      {speaker:"pirate3",text:"Non pas si simple, Une identité visuelle doit être cohérente,"}
+      {speaker:"pirate3",text:"reconnaissable et professionnelle,"}
+      {speaker:"pirate3",text:"car elle influence la perception des clients et renforce la crédibilité de l’entreprise.."}
+      {speaker:"pirate2",text:"Ca à l'air moins facile d'un coup."},
+      {speaker:"pirate3",text:" Ne t'inquiète pas, je vais tout t'expliquer !"}
     ],
     startMiniGame2
   ));
@@ -312,15 +325,15 @@ function startMiniGame2(){
 /* ================= LOGO → COULEURS → TYPO ================= */
 
 function showLogoInfo(){
-  showInfoStep("L’importance du logo","Le logo est central.",()=>showChoiceStep(
-    "Choix du logo - Choix libre",
+  showInfoStep("L’importance du logo"," C'est symbole graphique qui représente une marque et permet de l’identifier rapidement..",()=>showChoiceStep(
+    "Choix du logo - <strong> Choix libre </strong>",
     ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
     showColorInfo
   ));
 }
 
 function showColorInfo(){
-  showInfoStep("Les couleurs","Les couleurs transmettent des émotions.",()=>showChoiceStep(
+  showInfoStep("Les couleurs","C'est la palette utilisée par la marque pour transmettre une émotion et être reconnaissable.",()=>showChoiceStep(
     "Choix des couleurs",
     ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
     showTypoInfo,
@@ -329,7 +342,7 @@ function showColorInfo(){
 }
 
 function showTypoInfo(){
-  showInfoStep("La typographie","La typographie donne le ton.",()=>showChoiceStep(
+  showInfoStep("La typographie","C'est le style d’écriture utilisé (police) qui reflète l’image et la personnalité de la marque.",()=>showChoiceStep(
     "Choix de la typographie",
     ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
     showIdentityWin,
