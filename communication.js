@@ -340,11 +340,11 @@ function startMiniGame2(){
 
 function showLogoInfo(){
   showInfoStep(
-    "<strong>TIPS1 : La Cohérence </strong> Utiliser toujours les mêmes couleurs, logo et typographie sur tous les supports (site, réseaux, documents).",
-    "C'est un symbole graphique qui représente une marque et permet de l’identifier rapidement.",
-    ()=>showChoiceStep(
+    "<strong>Le Logo</strong>",
+    "C'est un symbole graphique qui représente une marque et permet de l’identifier rapidement.<br><br><strong>TIPS 1 : La cohérence</strong><br>Utiliser toujours les mêmes couleurs, logo et typographie sur tous les supports (site, réseaux, documents).",
+    () => showChoiceStep(
       "Choix du logo - <strong>Choix libre</strong>",
-      ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+      ["images/Logo1.PNG", "images/Logo2.PNG", "images/Logo3.PNG"],
       showColorInfo
     )
   );
@@ -352,11 +352,11 @@ function showLogoInfo(){
 
 function showColorInfo(){
   showInfoStep(
-    "<strong>TIPS2 : La Simplicité </strong> Un design clair, lisible et mémorable. Trop d’éléments = confusion.",
-    "C'est la palette utilisée par la marque pour transmettre une émotion et être reconnaissable.",
-    ()=>showChoiceStep(
+    "<strong>Les Couleurs</strong>",
+    "C'est la palette utilisée par la marque pour transmettre une émotion et être reconnaissable.<br><br><strong>TIPS 2 : La simplicité</strong><br>Un design clair, lisible et mémorable. Trop d’éléments = confusion.",
+    () => showChoiceStep(
       "Choix des couleurs",
-      ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+      ["images/Couleur1.PNG", "images/Couleur2.PNG", "images/Couleur3.PNG"],
       showTypoInfo,
       "images/Couleur1.PNG"
     )
@@ -365,11 +365,11 @@ function showColorInfo(){
 
 function showTypoInfo(){
   showInfoStep(
-    "<strong>TIPS3 : Différenciation </strong> Se démarquer des concurrents avec un style unique (couleurs, univers, ton).",
-    "C'est le style d’écriture utilisé (police) qui reflète l’image et la personnalité de la marque.",
-    ()=>showChoiceStep(
+    "<strong>La Typographie</strong>",
+    "C'est le style d’écriture utilisé (police) qui reflète l’image et la personnalité de la marque.<br><br><strong>TIPS 3 : La différenciation</strong><br>Se démarquer des concurrents avec un style unique (couleurs, univers, ton).",
+    () => showChoiceStep(
       "Choix de la typographie",
-      ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
+      ["images/Typo1.PNG", "images/Typo2.png", "images/Typo3.PNG"],
       showTips4, 
       "images/Typo1.PNG"
     )
@@ -378,8 +378,8 @@ function showTypoInfo(){
 
 function showTips4(){
   showInfoStep(
-    "<strong>TIPS 4 : Adaptabilité </strong>",
-    "Une identité qui fonctionne partout : téléphone, ordinateur, print, réseaux sociaux.",
+    "<strong>Adaptabilité</strong>",
+    "Une identité qui fonctionne partout : téléphone, ordinateur, print, réseaux sociaux.<br><br><strong>TIPS 4 : L’adaptabilité</strong><br>Une identité visuelle doit rester efficace et lisible sur tous les supports.",
     showIdentityWin
   );
 }
