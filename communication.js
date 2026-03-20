@@ -120,7 +120,7 @@ function playDialog(list, cb){
 function showDialog(){
 
   const d = dialogs[dIndex];
-  dialogText.textContent = d.text;
+  dialogText.innerHTML = d.text;
 
   // Force le navigateur à recalculer la taille
   dialogBox.style.visibility = "hidden";
