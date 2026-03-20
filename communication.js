@@ -332,29 +332,49 @@ function startMiniGame2(){
 /* ================= LOGO → COULEURS → TYPO ================= */
 
 function showLogoInfo(){
-  showInfoStep("<strong>TIPS1 : La Cohérence </strong> Utiliser toujours les mêmes couleurs, logo et typographie sur tous les supports (site, réseaux, documents)."," C'est symbole graphique qui représente une marque et permet de l’identifier rapidement..",()=>showChoiceStep(
-    "Choix du logo - <strong> Choix libre </strong>",
-    ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
-    showColorInfo
-  ));
+  showInfoStep(
+    "<strong>TIPS1 : La Cohérence </strong> Utiliser toujours les mêmes couleurs, logo et typographie sur tous les supports (site, réseaux, documents).",
+    "C'est un symbole graphique qui représente une marque et permet de l’identifier rapidement.",
+    ()=>showChoiceStep(
+      "Choix du logo - <strong>Choix libre</strong>",
+      ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
+      showColorInfo
+    )
+  );
 }
 
 function showColorInfo(){
-  showInfoStep("<strong> TIPS2 : La Simplicité </strong> Un design clair, lisible et mémorable. Trop d’éléments = confusion.","C'est la palette utilisée par la marque pour transmettre une émotion et être reconnaissable.",()=>showChoiceStep(
-    "Choix des couleurs",
-    ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
-    showTypoInfo,
-    "images/Couleur1.PNG"
-  ));
+  showInfoStep(
+    "<strong>TIPS2 : La Simplicité </strong> Un design clair, lisible et mémorable. Trop d’éléments = confusion.",
+    "C'est la palette utilisée par la marque pour transmettre une émotion et être reconnaissable.",
+    ()=>showChoiceStep(
+      "Choix des couleurs",
+      ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
+      showTypoInfo,
+      "images/Couleur1.PNG"
+    )
+  );
 }
 
 function showTypoInfo(){
-  showInfoStep("<strong> TIPS3 : Différenciation </strong> : Se démarquer des concurrents avec un style unique (couleurs, univers, ton). ","C'est le style d’écriture utilisé (police) qui reflète l’image et la personnalité de la marque.",()=>showChoiceStep(
-    "Choix de la typographie",
-    ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
-    showIdentityWin,
-    "images/Typo1.PNG"
-  ));
+  showInfoStep(
+    "<strong>TIPS3 : Différenciation </strong> Se démarquer des concurrents avec un style unique (couleurs, univers, ton).",
+    "C'est le style d’écriture utilisé (police) qui reflète l’image et la personnalité de la marque.",
+    ()=>showChoiceStep(
+      "Choix de la typographie",
+      ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
+      showTips4, 
+      "images/Typo1.PNG"
+    )
+  );
+}
+
+function showTips4(){
+  showInfoStep(
+    "<strong>TIPS 4 : Adaptabilité </strong>",
+    "Une identité qui fonctionne partout : téléphone, ordinateur, print, réseaux sociaux.",
+    showIdentityWin
+  );
 }
 
 function showInfoStep(title,text,next){
