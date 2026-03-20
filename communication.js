@@ -200,7 +200,7 @@ function stepMG1(){
   box.className = "mg1-box";
 
   box.innerHTML = `
-    <div class="mg1-title">À quoi sert la communication ?</div>
+    <div class="mg1-title"> 📱 À quoi sert la communication ?</div>
     <div class="comm-info-text">
       Réponds à ces questions. Certaines ont plusieurs bonnes réponses.
     </div>
@@ -308,7 +308,7 @@ function startMiniGame2(){
   const box=document.createElement("div");
   box.className="mg2-box identity-box";
   box.innerHTML=`
-    <div class="mg1-title">Crée ton identité visuelle</div>
+    <div class="mg1-title"> 🎨 Crée ton identité visuelle</div>
     <p class="identity-text">
       L’identité visuelle rend ta marque reconnaissable et mémorable.
     </p>
