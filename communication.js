@@ -76,9 +76,9 @@ pirate3.onclick = () => {
     { speaker:"pirat3", text:" clients, prospects, partenaires. " },
     { speaker:"pirat3", text:" Ses enjeux sont importants . " },
     { speaker:"pirat2", text:" Peux tu nous en dire plus ? " },
-    { speaker:"pirat3", text:" se faire connaître " },
-    { speaker:"pirat3", text:" attirer et convaincre des clients " },
-    { speaker:"pirat3", text:" créer une image de marque forte, " },
+    { speaker:"pirat3", text:" Il faut se faire connaître, " },
+    { speaker:"pirat3", text:" attirer et convaincre des clients, " },
+    { speaker:"pirat3", text:" créer une image de marque forte " },
     { speaker:"pirat3", text:" et fidéliser la clientèle. ." },
     { speaker:"pirat2", text:" Mais comment créer une image de marque forte pour que tout le monde vienne nous voir s'il te plaît ? " },
     { speaker:"pirat3", text:" Je vais vérifier si tu as tout compris et je t'expliquerai ensuite ." }
