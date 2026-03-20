@@ -68,9 +68,21 @@ pirate3.classList.add("glow");
 pirate3.onclick = () => {
   pirate3.classList.remove("glow");
   playDialog([
-    { speaker:"pirate3", text:"Capitaine, ton trésor est prêt." },
-    { speaker:"pirate2", text:"Mais sans communication, personne ne viendra." },
-    { speaker:"pirate3", text:"Voyons comment attirer le marché." }
+    { speaker:"pirate3", text:"Maintenant que vous savez tout du commerce, faisons en sorte que votre boutique soit la plus connue !" },
+    { speaker:"pirate2", text:"Comment faire s'il te plaît ? ." },
+    { speaker:"pirate3", text:"Sans communication, personne ne viendra" },
+    { speaker:"pirate3", text:"La communication est un élément essentiel pour toute entreprise. " },
+    { speaker:"pirate3", text:"correspond à l’ensemble des actions mises en place pour transmettre un message à une cible ." },
+    { speaker:"pirat3", text:" clients, prospects, partenaires. " },
+    { speaker:"pirat3", text:" Ses enjeux sont importants . " },
+    { speaker:"pirat2", text:" Peux tu nous en dire plus ? " },
+    { speaker:"pirat3", text:" se faire connaître " },
+    { speaker:"pirat3", text:" attirer et convaincre des clients " },
+    { speaker:"pirat3", text:" créer une image de marque forte, " },
+    { speaker:"pirat3", text:" et fidéliser la clientèle. ." },
+    { speaker:"pirat2", text:" Mais comment créer une image de marque forte pour que tout le monde vienne nous voir s'il te plaît ? " },
+    { speaker:"pirat3", text:" Je vais vérifier si tu as tout compris et je t'expliquerai ensuite ." }
+
   ], startMiniGame1);
 };
 
@@ -169,7 +181,7 @@ function shake(){
    🎯 MINI-JEU 1
 ===================================================== */
 const quiz=[
- {q:"À quoi sert principalement la communication ?",ok:[0,1],a:["Être comprise","Créer une relation","Parler uniquement de soi"]},
+ {q:"Qu’est-ce que la communication ?",ok:[2],a:["Parler uniquement avec ses clients"," Transmettre un message pour promouvoir un produit ou une marque","Vendre directement un produit","Créer un logo"]},
  {q:"La communication permet de :",ok:[0,1],a:["Attirer l’attention","Créer de l’émotion","Garantir des ventes"]},
  {q:"Une bonne communication sert à :",ok:[0,1,2],a:["Transmettre un message clair","Se différencier","Construire une image"]},
  {q:"La communication est essentielle pour :",ok:[0,1],a:["Guider le public","Créer du lien","Remplacer un produit"]}
