@@ -69,10 +69,10 @@ pirate3.onclick = () => {
   pirate3.classList.remove("glow");
   playDialog([
     { speaker:"pirate3", text:"Maintenant que vous savez tout du commerce, faisons en sorte que votre boutique soit la plus connue !" },
-    { speaker:"pirate2", text:"Comment faire s'il te plaît ? ." },
+    { speaker:"pirate2", text:"Comment faire s'il te plaît ? " },
     { speaker:"pirate3", text:"Sans communication, personne ne viendra" },
     { speaker:"pirate3", text:"La communication est un élément essentiel pour toute entreprise. " },
-    { speaker:"pirate3", text:"correspond à l’ensemble des actions mises en place pour transmettre un message à une cible ." },
+    { speaker:"pirate3", text:"Elle correspond à l’ensemble des actions mises en place pour transmettre un message à une cible ." },
     { speaker:"pirat3", text:" clients, prospects, partenaires. " },
     { speaker:"pirat3", text:" Ses enjeux sont importants . " },
     { speaker:"pirat2", text:" Peux tu nous en dire plus ? " },
