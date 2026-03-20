@@ -73,15 +73,15 @@ pirate3.onclick = () => {
     { speaker:"pirate3", text:"Sans communication, personne ne viendra" },
     { speaker:"pirate3", text:"La communication est un élément essentiel pour toute entreprise. " },
     { speaker:"pirate3", text:"Elle correspond à l’ensemble des actions mises en place pour transmettre un message à une cible ." },
-    { speaker:"pirat3", text:" clients, prospects, partenaires. " },
-    { speaker:"pirat3", text:" Ses enjeux sont importants . " },
-    { speaker:"pirat2", text:" Peux tu nous en dire plus ? " },
-    { speaker:"pirat3", text:" Il faut se faire connaître, " },
-    { speaker:"pirat3", text:" attirer et convaincre des clients, " },
-    { speaker:"pirat3", text:" créer une image de marque forte " },
-    { speaker:"pirat3", text:" et fidéliser la clientèle. ." },
-    { speaker:"pirat2", text:" Mais comment créer une image de marque forte pour que tout le monde vienne nous voir s'il te plaît ? " },
-    { speaker:"pirat3", text:" Je vais vérifier si tu as tout compris et je t'expliquerai ensuite ." }
+    { speaker:"pirate3", text:" clients, prospects, partenaires. " },
+    { speaker:"pirate3", text:" Ses enjeux sont importants . " },
+    { speaker:"pirate2", text:" Peux tu nous en dire plus ? " },
+    { speaker:"pirate3", text:" Il faut se faire connaître, " },
+    { speaker:"pirate3", text:" attirer et convaincre des clients, " },
+    { speaker:"pirate3", text:" créer une image de marque forte " },
+    { speaker:"pirate3", text:" et fidéliser la clientèle. ." },
+    { speaker:"pirate2", text:" Mais comment créer une image de marque forte pour que tout le monde vienne nous voir s'il te plaît ? " },
+    { speaker:"pirate3", text:" Je vais vérifier si tu as tout compris et je t'expliquerai ensuite ." }
 
   ], startMiniGame1);
 };
