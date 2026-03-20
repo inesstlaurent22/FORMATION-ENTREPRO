@@ -83,7 +83,7 @@ if (pirate3) {
       {speaker:"pirate3",text:"Je vais maintenant te parler de la communication, aspect très important pour ta visibilité"},
       {speaker:"pirate2",text:"Super ! Nous t'écoutons ! "},
       {speaker:"pirate3",text:"La communication permet de faire connaître une marque, attirer des clients et se différencier de la concurrence."},
-      {speaker:"pirate3",text:"C'est à dire ? "},
+      {speaker:"pirate2",text:"C'est à dire ? "},
       {speaker:"pirate3",text:"En d'autres mots, c'est l’ensemble des actions mises en place pour transmettre un message à une cible"},
       {speaker:"pirate3",text:"Ses enjeux sont les suivants : "},
       {speaker:"pirate3",text:"1 : Se faire connaître,"},
