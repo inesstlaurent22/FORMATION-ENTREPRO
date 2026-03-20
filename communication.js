@@ -14,23 +14,26 @@ let videoClosed = false;
 
 if(introVideo){
   introVideo.muted = true;
+  introVideo.playsInline = true;
+  introVideo.autoplay = true;
+  introVideo.style.pointerEvents = "none";
+  introVideo.play().catch(()=>{});
 }
-   
-introVideo.playsInline = true;
-introVideo.autoplay = true;
-introVideo.style.pointerEvents = "none";
-introVideo.play().catch(()=>{});
 
-toggleSound.onclick = e => {
-  e.stopPropagation();
-  introVideo.muted = !introVideo.muted;
-  toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-};
+if(toggleSound){
+  toggleSound.onclick = e => {
+    e.stopPropagation();
+    introVideo.muted = !introVideo.muted;
+    toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+  };
+}
 
-closeVideo.onclick = e => {
-  e.stopPropagation();
-  closeIntro();
-};
+if(closeVideo){
+  closeVideo.onclick = e => {
+    e.stopPropagation();
+    closeIntro();
+  };
+}
 
 introVideo.onended = closeIntro;
 
