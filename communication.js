@@ -277,7 +277,7 @@ function afterMG1(){
       { speaker:"pirate2", text:"Parfait." },
       { speaker:"pirate3", text:"Passons à ton <strong> identité visuelle. </strong>" },
       { speaker:"pirate3", text:"C'est <strong> l’image de l’entreprise. </strong>" },
-      { speaker:"pirate3", text:"Elle regroupe tous les éléments graphiques qui permettent de reconnaître une marque." },
+      { speaker:"pirate3", text:"Elle regroupe <strong>tous les éléments graphiques qui permettent de reconnaître une marque.</strong>" },
       { speaker:"pirate3", text:"Elle comprend :" },
       { speaker:"pirate3", text:"<strong> Le logo </strong> " },
       { speaker:"pirate3", text:"<strong> les couleurs </strong>" },
