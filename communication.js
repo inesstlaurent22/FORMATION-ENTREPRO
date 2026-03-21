@@ -82,7 +82,7 @@ if (pirate3) {
       {speaker:"pirate2",text:"On a déjà notre premier client, mais <strong>ce n'est pas assez</strong>"},
       {speaker:"pirate3",text:"Je vais maintenant te parler de la communication, <strong>aspect très important</strong> pour ta visibilité "},
       {speaker:"pirate2",text:"Super ! Nous t'écoutons ! "},
-      {speaker:"pirate3",text:"La communication permet de faire connaître une marque, attirer des clients et <strong>se différencier de la concurrence.</strong>"},
+      {speaker:"pirate3",text:"La communication permet de faire <strong>connaître une marque</strong>, attirer des clients et <strong>se différencier de la concurrence.</strong>"},
       {speaker:"pirate2",text:"C'est à dire ? "},
       {speaker:"pirate3",text:"En d'autres mots, c'est <strong>l’ensemble des actions mises en place pour transmettre un message à une cible</strong>"},
       {speaker:"pirate3",text:"Ses enjeux sont les suivants : "},
