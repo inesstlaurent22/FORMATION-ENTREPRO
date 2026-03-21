@@ -460,6 +460,11 @@ html,body{
   margin-bottom:12px;
 }
 
+.info-text strong,
+.mg1-title strong{
+  color: #e6c068; /* doré doux (moins agressif que jaune pur) */
+  font-weight: bold;
+}
 /* =====================================================
    🔍 ZOOM
 ===================================================== */
