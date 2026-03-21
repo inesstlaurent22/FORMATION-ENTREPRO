@@ -199,7 +199,7 @@ function shake(){
 ===================================================== */
 const quiz=[
  {q:"Quels sont des canaux de communication ?:",ok:[0,1,2,3],a:["Les réseaux sociaux","Le site internet","L’affichage publicitaire","Les emails"]},
- {q:"Qu’est-ce que la communication ?",ok:[1],a:["Parler uniquement avec ses clients"," Transmettre un message pour promouvoir un produit ou une marque","Vendre directement un produit","Créer un logo"]},
+ {q:"Qu’est-ce que la communication ?",ok:[3],a:["Vendre directement un produit"," Parler uniquement avec ses clients","Transmettre un message pour promouvoir un produit ou une marque","Créer un logo"]},
  {q:"Qu’est-ce que l’identité visuelle d’une entreprise ?",ok:[1],a:[" Le prix des produits","L’ensemble des éléments graphiques (logo, couleurs, typographie)"," Le nombre d’employés"," Les moyens de livraison"]},
  {q:"À quoi servent les canaux de communication ?",ok:[0],a:["À transmettre un message aux clients"," À décorer l’entreprise","À gérer les stocks","À recruter uniquement"]}
 ];
