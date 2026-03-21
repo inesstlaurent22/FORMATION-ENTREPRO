@@ -460,14 +460,20 @@ html,body{
   margin-bottom:12px;
 }
 
-/* 🎯 Titres principaux (ex : Le Logo, Les Couleurs…) */
+/* 🎯 TITRES PRINCIPAUX */
 .mg1-title{
-  color: #c8a97a; /* doré doux (titre important) */
+  color: #e6c068 !important; /* doré */
+  font-weight: bold;
 }
 
-/* 🎯 Texte secondaire + tips */
+/* 🎯 TEXTE NORMAL */
+.info-text{
+  color: #f5e6c8;
+}
+
+/* 🎯 MOTS EN VALEUR (TIPS / Définition) */
 .info-text strong{
-  color: #b8956a; /* brun clair (moins fort visuellement) */
+  color: #c8a97a; /* brun clair */
 }
 
 /* =====================================================
