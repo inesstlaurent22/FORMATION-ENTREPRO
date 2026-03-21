@@ -519,7 +519,7 @@ zoomBtn.onclick = () => {
         { speaker:"pirate3", text:"Oui ainsi que ton <strong>site internet </strong> " },
         { speaker:"pirate2", text:"Mais avec tous ces canaux, comment avoir une communication <strong>10/10</strong> ? " },
         { speaker:"pirate3", text:"Il faut <strong> choisir </strong> les bons canaux selon la <strong>cible </strong>" }, 
-        { speaker:"pirate3", text:"Par exemple, pour une communication <br><strong> BtoC → Instagram, TikTok </strong>" },
+        { speaker:"pirate3", text:"Par exemple, pour une communication <br><strong>BtoC</strong> → Instagram, TikTok " },
         { speaker:"pirate3", text:" L'objectif est <strong> d'être là où sont tes clients </strong> " },
         { speaker:"pirate3", text:" Et utiliser <strong>plusieurs canaux</strong> (réseaux + site + email) pour <strong> maximiser la visibilité.</strong>" },
         { speaker:"pirate3", text:" Tu dois aussi <strong> adapter le message à chaque canal </strong>" },
