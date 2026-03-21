@@ -80,19 +80,19 @@ if (pirate3) {
 
     playDialog([
       {speaker:"pirate2",text:"On a déjà notre premier client, mais <strong>ce n'est pas assez</strong>"},
-      {speaker:"pirate3",text:"Je vais maintenant te parler de la communication, <strong>aspect très important pour ta visibilité</strong> "},
+      {speaker:"pirate3",text:"Je vais maintenant te parler de la communication, <strong>aspect très important</strong> pour ta visibilité "},
       {speaker:"pirate2",text:"Super ! Nous t'écoutons ! "},
       {speaker:"pirate3",text:"La communication permet de faire connaître une marque, attirer des clients et <strong>se différencier de la concurrence.</strong>"},
       {speaker:"pirate2",text:"C'est à dire ? "},
       {speaker:"pirate3",text:"En d'autres mots, c'est <strong>l’ensemble des actions mises en place pour transmettre un message à une cible</strong>"},
       {speaker:"pirate3",text:"Ses enjeux sont les suivants : "},
-      {speaker:"pirate3",text:"<strong> 1 : Se faire connaître,</strong>"},
-      {speaker:"pirate3",text:"<strong> 2 : Attirer et convaincre des clients,</strong>"},
-      {speaker:"pirate3",text:"<strong> 3 : Créer une image de marque forte,</strong>"},
-      {speaker:"pirate3",text:"<strong> 4 : Et fidéliser la clientèle.</strong>"},
+      {speaker:"pirate3",text:"<strong>1 : Se faire connaître,</strong>"},
+      {speaker:"pirate3",text:"<strong>2 : Attirer et convaincre des clients,</strong>"},
+      {speaker:"pirate3",text:"<strong>3 : Créer une image de marque forte,</strong>"},
+      {speaker:"pirate3",text:"<strong>4 : Et fidéliser la clientèle.</strong>"},
       {speaker:"pirate2",text:" On comprend mieux, merci"},
-      {speaker:"pirate2",text:" Et grâce à cela, on <strong>augmente notre visibilité</strong>, les clients <strong> nous reconnaissent</strong> "},
-      {speaker:"pirate3",text:" Et viennent vous voir pour <strong> votre réputation</strong>!"},
+      {speaker:"pirate2",text:" Et grâce à cela, on <strong>augmente notre visibilité</strong>, les clients <strong>nous reconnaissent</strong> "},
+      {speaker:"pirate3",text:" Et viennent vous voir pour <strong>votre réputation</strong>!"},
       {speaker:"pirate2",text:" Mais comment faire s'il te plaît ? "},
       {speaker:"pirate3",text:" Je vais t'expliquer mais d'abord répondez à ce quizz !"}
     ], startMiniGame1);
