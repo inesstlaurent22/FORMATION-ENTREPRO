@@ -91,7 +91,7 @@ if (pirate3) {
       {speaker:"pirate3",text:"<strong> 3 : Créer une image de marque forte,</strong>"},
       {speaker:"pirate3",text:"<strong> 4 : Et fidéliser la clientèle.</strong>"},
       {speaker:"pirate2",text:" On comprend mieux, merci"},
-      {speaker:"pirate2",text:" Et grâce à cela, on augmente notre visibilité, les clients nous reconnaissent"},
+      {speaker:"pirate2",text:" Et grâce à cela, on augmente notre visibilité, les clients <strong> nous reconnaissent </strong> "},
       {speaker:"pirate3",text:" Et viennent vous voir pour <strong> votre réputation </strong>!"},
       {speaker:"pirate2",text:" Mais comment faire s'il te plaît ? "},
       {speaker:"pirate3",text:" Je vais t'expliquer mais d'abord répondez à ce quizz !"}
@@ -275,7 +275,7 @@ function afterMG1(){
   showLoader(1200,()=>playDialog(
     [
       { speaker:"pirate2", text:"Parfait." },
-      { speaker:"pirate3", text:"Passons à ton identité visuelle." },
+      { speaker:"pirate3", text:"Passons à ton <strong> identité visuelle. </strong>" },
       { speaker:"pirate3", text:"C'est <strong> l’image de l’entreprise. </strong>" },
       { speaker:"pirate3", text:"Elle regroupe tous les éléments graphiques qui permettent de reconnaître une marque." },
       { speaker:"pirate3", text:"Elle comprend :" },
@@ -344,7 +344,7 @@ function startMiniGame2(){
 function showLogoInfo(){
   showInfoStep(
     "<strong>Le Logo</strong>",
-    "C'est un symbole graphique qui représente une marque et permet de l’identifier rapidement.<br><br><strong>TIPS 1 : La cohérence</strong><br>Utiliser toujours les mêmes couleurs, logo et typographie sur tous les supports (site, réseaux, documents).",
+    "C'est un symbole graphique qui représente une marque et permet de l’identifier rapidement.<br><br><strong>TIPS 1 : La cohérence</strong><br> <strong>Utiliser toujours les mêmes couleurs, logo et typographie sur tous les supports (site, réseaux, documents).</strong>",
     () => showChoiceStep(
       "Choix du logo - <strong>Choix libre</strong>",
       ["images/Logo1.PNG", "images/Logo2.PNG", "images/Logo3.PNG"],
@@ -356,7 +356,7 @@ function showLogoInfo(){
 function showColorInfo(){
   showInfoStep(
     "<strong>Les Couleurs</strong>",
-    "C'est la palette utilisée par la marque pour transmettre une émotion et être reconnaissable.<br><br><strong>TIPS 2 : La simplicité</strong><br>Un design clair, lisible et mémorable. Trop d’éléments = confusion.",
+    "C'est la palette utilisée par la marque pour transmettre une émotion et être reconnaissable.<br><br><strong>TIPS 2 : La simplicité <br>Un design clair, lisible et mémorable. Trop d’éléments = confusion.</strong>",
     () => showChoiceStep(
       "Choix des couleurs",
       ["images/Couleur1.PNG", "images/Couleur2.PNG", "images/Couleur3.PNG"],
@@ -369,7 +369,7 @@ function showColorInfo(){
 function showTypoInfo(){
   showInfoStep(
     "<strong>La Typographie</strong>",
-    "C'est le style d’écriture utilisé (police) qui reflète l’image et la personnalité de la marque.<br><br><strong>TIPS 3 : La différenciation</strong><br>Se démarquer des concurrents avec un style unique (couleurs, univers, ton).",
+    "C'est le style d’écriture utilisé (police) qui reflète l’image et la personnalité de la marque.<br><br><strong>TIPS 3 : La différenciation<br>Se démarquer des concurrents avec un style unique (couleurs, univers, ton).</strong>",
     () => showChoiceStep(
       "Choix de la typographie",
       ["images/Typo1.PNG", "images/Typo2.png", "images/Typo3.PNG"],
@@ -382,7 +382,7 @@ function showTypoInfo(){
 function showTips4(){
   showInfoStep(
     "<strong>Adaptabilité</strong>",
-    "Une identité qui fonctionne partout : téléphone, ordinateur, print, réseaux sociaux.<br><br><strong>TIPS 4 : L’adaptabilité</strong><br>Une identité visuelle doit rester efficace et lisible sur tous les supports.",
+    "Une identité qui fonctionne partout : téléphone, ordinateur, print, réseaux sociaux.<br><br><strong>TIPS 4 : L’adaptabilité<br>Une identité visuelle doit rester efficace et lisible sur tous les supports.</strong>",
     showIdentityWin
   );
 }
@@ -515,19 +515,19 @@ zoomBtn.onclick = () => {
         { speaker:"pirate2", text:"Magnifique identité." },
         { speaker:"pirate3", text:"Passons à la diffusion." },
         { speaker:"pirate3", text:" Un <strong> canal de diffusion </strong> est un moyen utilisé pour <strong> transmettre un message à une cible (clients, prospects).</strong>" },
-        { speaker:"pirate2", text:"Les réseaux sociaux ou les mails en sont-ils ? " },
-        { speaker:"pirate3", text:"Oui ainsi que ton site internet " },
-        { speaker:"pirate2", text:"Mais avec tous ces canaux, comment avoir une communication 10/10 ? " },
-        { speaker:"pirate3", text:"Il faut <strong> choisir </strong> les bons canaux selon la cible" }, 
+        { speaker:"pirate2", text:"Les <strong>réseaux sociaux </strong> ou les <strong>mails</strong> en sont-ils ? " },
+        { speaker:"pirate3", text:"Oui ainsi que ton <strong>site internet </strong> " },
+        { speaker:"pirate2", text:"Mais avec tous ces canaux, comment avoir une communication <strong>10/10</strong> ? " },
+        { speaker:"pirate3", text:"Il faut <strong> choisir </strong> les bons canaux selon la <strong>cible </strong>" }, 
         { speaker:"pirate3", text:"Par exemple, pour une communication <br><strong> BtoC → Instagram, TikTok </strong>" },
         { speaker:"pirate3", text:" L'objectif est <strong> d'être là où sont tes clients </strong> " },
-        { speaker:"pirate3", text:" Et utiliser plusieurs canaux (réseaux + site + email) pour <strong> maximiser la visibilité.</strong>" },
+        { speaker:"pirate3", text:" Et utiliser <strong>plusieurs canaux</strong> (réseaux + site + email) pour <strong> maximiser la visibilité.</strong>" },
         { speaker:"pirate3", text:" Tu dois aussi <strong> adapter le message à chaque canal </strong>" },
-        { speaker:"pirate3", text:" Exemple, <br><strong> pour les réseaux sociaux → un contenu visuel et rapide </strong> " },
-        { speaker:"pirate3", text:" <strong> Pour les emails → des message plus détaillé </strong> " },
-        { speaker:"pirate3", text:" Pour ton <br><strong> site internet → privilégie une informations complètes et rassurantes </strong>" },
-        { speaker:"pirate3", text:" Et pour finir, il faut être régulier :  " },
-        { speaker:"pirate3", text:" Publier souvent pour rester visible et <strong> créer une relation </strong> avec l’audience  " },
+        { speaker:"pirate3", text:" Exemple, pour <br> les réseaux sociaux <strong> → un contenu visuel et rapide </strong> " },
+        { speaker:"pirate3", text:" Pour les emails <strong>→ des message plus détaillé </strong> " },
+        { speaker:"pirate3", text:" Pour ton <br> site internet → <strong> privilégie une informations complètes et rassurantes </strong>" },
+        { speaker:"pirate3", text:" Et pour finir, il faut être <strong> régulier: </strong>  " },
+        { speaker:"pirate3", text:" Publier souvent pour rester <strong>visible</strong> et <strong> créer une relation </strong> avec l’audience  " },
         { speaker:"pirate2", text:" Ca fait beaucoup à comprendre ! " },
         { speaker:"pirate3", text:" Ne t'inquiète pas, le quizz est la pour t'aider. " }
       ],
