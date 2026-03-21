@@ -462,9 +462,10 @@ html,body{
 
 .info-text strong,
 .mg1-title strong{
-  color: #e6c068; /* doré doux (moins agressif que jaune pur) */
+  color: #c8a97a;
   font-weight: bold;
 }
+
 /* =====================================================
    🔍 ZOOM
 ===================================================== */
