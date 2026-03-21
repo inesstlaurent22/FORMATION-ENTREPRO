@@ -253,6 +253,10 @@ html,body{
   line-height:1.4;
 }
 
+#dialogText strong{
+  font-weight: bold;
+  color: #ffd700;
+}
 
 /* =====================================================
    MINI JEU 1
