@@ -514,7 +514,7 @@ zoomBtn.onclick = () => {
       [
         { speaker:"pirate2", text:"Magnifique identité." },
         { speaker:"pirate3", text:"Passons à la diffusion." },
-        { speaker:"pirate3", text:" Un <strong> canal de diffusion </strong> est un moyen utilisé pour <strong> transmettre un message à une cible (clients, prospects).</strong>" },
+        { speaker:"pirate3", text:" Un <strong> canal de diffusion </strong> est un moyen utilisé pour <strong> transmettre un message à une cible</strong> (clients, prospects)." },
         { speaker:"pirate2", text:"Les <strong>réseaux sociaux </strong> ou les <strong>mails</strong> en sont-ils ? " },
         { speaker:"pirate3", text:"Oui ainsi que ton <strong>site internet </strong> " },
         { speaker:"pirate2", text:"Mais avec tous ces canaux, comment avoir une communication <strong>10/10</strong> ? " },
