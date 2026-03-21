@@ -93,8 +93,8 @@ if (pirate3) {
       {speaker:"pirate2",text:" On comprend mieux, merci"},
       {speaker:"pirate2",text:" Et grâce à cela, on augmente notre visibilité, les clients nous reconnaissent"},
       {speaker:"pirate3",text:" Et viennent vous voir pour votre réputation !"},
-      {speaker:"pirate3",text:" Mais comment faire s'il te plaît ? "},
-      {speaker:"pirate2",text:" Je vais t'expliquer mais d'abord répondez à ce quizz !"}
+      {speaker:"pirate2",text:" Mais comment faire s'il te plaît ? "},
+      {speaker:"pirate3",text:" Je vais t'expliquer mais d'abord répondez à ce quizz !"}
     ], startMiniGame1);
 
   };
