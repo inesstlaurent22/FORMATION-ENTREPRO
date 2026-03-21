@@ -80,7 +80,7 @@ if (pirate3) {
 
     playDialog([
       {speaker:"pirate2",text:"On a déjà notre premier client, mais ce n'est pas assez"},
-      {speaker:"pirate3",text:"Je vais maintenant te parler de la communication, aspect très important pour ta visibilité"},
+      {speaker:"pirate3",text:"Je vais maintenant te parler de la communication, <strong> aspect très important pour ta visibilité </strong> "},
       {speaker:"pirate2",text:"Super ! Nous t'écoutons ! "},
       {speaker:"pirate3",text:"La communication permet de faire connaître une marque, attirer des clients et se différencier de la concurrence."},
       {speaker:"pirate2",text:"C'est à dire ? "},
