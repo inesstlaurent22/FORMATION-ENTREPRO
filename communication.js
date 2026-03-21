@@ -346,7 +346,7 @@ function showLogoInfo(){
     "Le Logo",
     "<strong>Définition :</strong> C'est un symbole graphique qui représente une marque et permet de l’identifier rapidement.<br><br><strong>TIPS 1 : La cohérence</strong><br>Utiliser toujours les mêmes couleurs, logo et typographie sur tous les supports (site, réseaux, documents).",
     () => showChoiceStep(
-      "Choix du logo - <strong>Choix libre</strong>",
+      "Choix du logo - Choix libre",
       ["images/Logo1.PNG", "images/Logo2.PNG", "images/Logo3.PNG"],
       showColorInfo
     )
