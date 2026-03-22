@@ -246,7 +246,7 @@ function startDialogues1(){
     { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard.</strong>", anchor:pirate5 },
     { text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 },
     { text:"Je vais t'expliquer.<br><br>Prend un carnet de note car après tu auras un quizz.", anchor:pirate5 },
-    { text:"Première information importante :<br><br><strong>Les études de marché.</strong>", anchor:pirate5 },
+    { text:"Première information importante : <br><strong>Les études de marché.</strong>", anchor:pirate5 },
     { text:"Elle sert à <strong>analyser</strong> : les <strong>besoins des clients, la concurrence, les tendances, et les opportunités.</strong>", anchor:pirate5 },
     { text:"Mais <strong>comment avoir</strong> les informations pour les analyser ? ", anchor:pirate2 },
     { text:"à travers : <strong>des questionnaires, des interviews,ou l’analyse de données existantes trouvées sur internet.</strong>", anchor:pirate5 },
@@ -366,8 +366,8 @@ function startMiniGame1(){
 ===================================================== */
 function startDialogues2(){
   playDialogues([
-    { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
-    { text:"À partir des tes etudes, tu vas pouvoir <strong>créer tes stratégies commerciales</strong>", anchor:pirate5 },
+    { text:"Parfait. <br>Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
+    { text:"À partir des tes études, tu vas pouvoir <strong>créer tes stratégies commerciales</strong>", anchor:pirate5 },
     { text:"Peux tu me dire <strong>à quoi sert</strong> les stratégies commerciales s'il te plaît.", anchor:pirate2 },
     { text:"Une stratégie commerciale correspond <strong>à la manière dont une entreprise va vendre son offre.</strong>", anchor:pirate5 },
     { text:"Comment je dois faire s'il te plaît ? ", anchor:pirate2 },
@@ -699,7 +699,7 @@ cont.onclick = ()=>{
     { text:"<strong>La prospection</strong> consiste à <strong>chercher de nouveaux clients.</strong>", anchor:pirate5 },
     { text:"Tu vas devoir <strong>rechercher des clients qui pourraient être intéressés</strong> par ton produit", anchor:pirate5 },
     { text:"Tu notes <strong>leurs informations (contact, adresse, entreprise)</strong> dans une <strong>base de données.</strong>", anchor:pirate5 },
-    { text:"Puis tu vas les <strong>appeler</strong>, leur envoyer des <strong>mails</strong> ou des <strong>messages via les réseaux sociaux</strong>", anchor:pirate5 },
+    { text:"Puis tu vas les <strong>appeler</strong>, <br>leur envoyer des <strong>mails</strong> <br>ou des <strong>messages via les réseaux sociaux</strong>", anchor:pirate5 },
     { text:"afin <strong>d'attiser leur curiosité</strong> et de les faire venir jusqu'à toi", anchor:pirate5 },
     { 
       text:"Il est temps d'affronter le marché.", 
