@@ -192,9 +192,9 @@ html,body{
   cursor:pointer;
 }
 
-#dialogText strong{
+.dialogue-bubble strong{
   font-weight: bold;
-  color: #f5e6c8;
+  color: #c8a97a; /* brun clair pirate */
 }
 
 /* =====================================================
