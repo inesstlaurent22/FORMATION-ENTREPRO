@@ -194,7 +194,7 @@ html,body{
 
 .dialogue-bubble strong{
   font-weight: bold;
-  color: #ffd700; 
+  color: #ffd700 !important;
 }
 
 /* =====================================================
