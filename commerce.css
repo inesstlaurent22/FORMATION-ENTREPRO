@@ -192,6 +192,11 @@ html,body{
   cursor:pointer;
 }
 
+#dialogText strong{
+  font-weight: bold;
+  color: #ffd700;
+}
+
 /* =====================================================
    POSITION BOUTON PASSER DIALOGUES
 ===================================================== */
