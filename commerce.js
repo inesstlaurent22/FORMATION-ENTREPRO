@@ -246,7 +246,7 @@ function startDialogues1(){
     { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard.</strong>", anchor:pirate5 },
     { text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 },
     { text:"Je vais t'expliquer.<br><br>Prend un carnet de note car après tu auras un quizz.", anchor:pirate5 },
-    { text:"Première information importante : <br><strong>Les études de marché.</strong>", anchor:pirate5 },
+    { text:"Première information importante :<br><br><strong>Les études de marché.</strong>", anchor:pirate5 },
     { text:"Elle sert à <strong>analyser</strong> : les <strong>besoins des clients, la concurrence, les tendances, et les opportunités.</strong>", anchor:pirate5 },
     { text:"Mais <strong>comment avoir</strong> les informations pour les analyser ? ", anchor:pirate2 },
     { text:"à travers : <strong>des questionnaires, des interviews,ou l’analyse de données existantes trouvées sur internet.</strong>", anchor:pirate5 },
