@@ -242,16 +242,16 @@ if(skipBtn){
 ===================================================== */
 function startDialogues1(){
   playDialogues([
-    { text:"Avant de vendre quoi que ce soit, il faut comprendre ton marché.", anchor:pirate5 },
-    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au hasard.", anchor:pirate5 },
+    { text:"Avant de vendre quoi que ce soit, <strong>il faut comprendre</srong> ton marché.", anchor:pirate5 },
+    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard.</strong>", anchor:pirate5 },
     { text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 },
     { text:"Je vais t'expliquer. Prend un carnet de note car après tu auras un quizz.", anchor:pirate5 },
-    { text:"Première information importante : Les études de marché.", anchor:pirate5 },
-    { text:"Elle sert à analyser : les besoins des clients, la concurrence, les tendances, et les opportunités.", anchor:pirate5 },
-    { text:"Mais comment avoir les informations pour les analyser ? ", anchor:pirate2 },
-    { text:"à travers : des questionnaires, des interviews,ou l’analyse de données existantes trouvées sur internet.", anchor:pirate5 },
-    { text:"Tout cela va te permettre de savoir si ton produit peut intérésser les clients.", anchor:pirate5 },
-    { text:"Un bon produit est un produit qui répond à un problème que les clients ont.", anchor:pirate5 },
+    { text:"Première information importante : <strong>Les études de marché.</strong>", anchor:pirate5 },
+    { text:"Elle sert à <strong>analyser</strong> : les <strong>besoins des clients, la concurrence, les tendances, et les opportunités.</strong>", anchor:pirate5 },
+    { text:"Mais <strong>comment avoir</strong> les informations pour les analyser ? ", anchor:pirate2 },
+    { text:"à travers : <strong>des questionnaires, des interviews,ou l’analyse de données existantes trouvées sur internet.</strong>", anchor:pirate5 },
+    { text:"Tout cela va te permettre de savoir si ton produit <strong>peut intérésser</strong> les clients.", anchor:pirate5 },
+    { text:"Un bon produit est un produit <strong>qui répond à un problème</strong> que les clients ont.", anchor:pirate5 },
     { text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ces pierres, c'est un bon début ? ", anchor:pirate2 },
     { text:"Oui, on va vérifier si tu as tout compris.", anchor:pirate5 }
   ], startMiniGame1);
@@ -366,17 +366,17 @@ function startMiniGame1(){
 ===================================================== */
 function startDialogues2(){
   playDialogues([
-    { text:"Parfait. Maintenant, il faut structurer tout ça.", anchor:pirate5 },
-    { text:"À partir des tes etudes, tu vas pouvoir créer tes stratégies commerciales", anchor:pirate5 },
-    { text:"Peux tu me dire à quoi sert les stratégies commerciales s'il te plaît.", anchor:pirate2 },
-    { text:"Une stratégie commerciale correspond à la manière dont une entreprise va vendre son offre.", anchor:pirate5 },
+    { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
+    { text:"À partir des tes etudes, tu vas pouvoir <strong>créer tes stratégies commerciales</strong>", anchor:pirate5 },
+    { text:"Peux tu me dire <strong>à quoi sert</strong> les stratégies commerciales s'il te plaît.", anchor:pirate2 },
+    { text:"Une stratégie commerciale correspond <strong>à la manière dont une entreprise va vendre son offre.</strong>", anchor:pirate5 },
     { text:"Comment je dois faire s'il te plaît ? ", anchor:pirate2 },
-    { text:"Les stratégies reposent sur le prix (haut de gamme ou accessible)", anchor:pirate5 },
-    { text:"le positionnement (luxe, écologique, rapide, etc.)", anchor:pirate5 },
-    { text:"les canaux de vente (magasin, site internet, application)", anchor:pirate5 },
-    { text:"et la communication (publicité, promotions, influenceurs)", anchor:pirate5 },
+    { text:"Les stratégies reposent sur <strong>le prix (haut de gamme ou accessible)</strong>", anchor:pirate5 },
+    { text:"<strong>le positionnement (luxe, écologique, rapide, etc.)</strong>", anchor:pirate5 },
+    { text:"<strong>les canaux de vente (magasin, site internet, application)</strong>", anchor:pirate5 },
+    { text:"et <strong>la communication (publicité, promotions, influenceurs)</strong>", anchor:pirate5 },
     { text:"Cela fait beaucoup, comment ne rien oublier ? ", anchor:pirate2 },
-    { text:"Tu vas tout noter sur ton business plan, la présentation de ton business", anchor:pirate5 }
+    { text:"Tu vas tout <strong>noter sur ton business plan, la présentation de ton business</strong>", anchor:pirate5 }
   ], startMiniGame2);
 }
 
@@ -690,17 +690,17 @@ cont.onclick = ()=>{
   overlay.remove();
 
   playDialogues([
-    { text:"Ton Business plan est solide, maintenant passons à la réalité du terrain.", anchor:pirate5 },
+    { text:"Ton Business plan est solide, maintenant passons à la <strong>réalité du terrain.</strong>", anchor:pirate5 },
     { text:"Quelle est cette réalité ?", anchor:pirate2 },
-    { text:"Les clients ne veulent pas payer plus cher que ce qu'ils souhaitent.", anchor:pirate5 },
-    { text:"Il faudra donc que tu les convainques de la nécessité de ton produit.", anchor:pirate5 },
-    { text:"Et pour ce faire, il faut que tu les fasses venir jusqu'à ta boutique", anchor:pirate5 },
+    { text:"Les clients ne <strong>veulent pas payer plus cher que ce qu'ils souhaitent.</strong>", anchor:pirate5 },
+    { text:"Il faudra donc que tu les convainques de la <strong>nécessité de ton produit.</strong>", anchor:pirate5 },
+    { text:"Et pour ce faire, il faut que tu les fasses <strong>venir jusqu'à ta boutique</strong>", anchor:pirate5 },
     { text:"Comment faire ?", anchor:pirate2 },
-    { text:"La prospection consiste à chercher de nouveaux clients.", anchor:pirate5 },
-    { text:"Tu vas devoir rechercher des clients qui pourraient être intéressés par ton produit", anchor:pirate5 },
-    { text:"Tu notes leurs informations (contact, adresse, entreprise) dans une base de données.", anchor:pirate5 },
-    { text:"Puis tu vas les appeler, leur envoyer des mails ou des messages via les réseaux sociaux", anchor:pirate5 },
-    { text:"afin d'attiser leur curiosité et de les faire venir jusqu'à toi", anchor:pirate5 },
+    { text:"<strong>La prospection</strong> consiste à <strong>chercher de nouveaux clients.</strong>", anchor:pirate5 },
+    { text:"Tu vas devoir <strong>rechercher des clients qui pourraient être intéressés</strong> par ton produit", anchor:pirate5 },
+    { text:"Tu notes <strong>leurs informations (contact, adresse, entreprise)</strong> dans une <strong>base de données.</strong>", anchor:pirate5 },
+    { text:"Puis tu vas les <strong>appeler</strong>, leur envoyer des <strong>mails</strong> ou des <strong>messages via les réseaux sociaux</strong>", anchor:pirate5 },
+    { text:"afin <strong>d'attiser leur curiosité</strong> et de les faire venir jusqu'à toi", anchor:pirate5 },
     { 
       text:"Il est temps d'affronter le marché.", 
       anchor:pirate5,
