@@ -242,7 +242,7 @@ if(skipBtn){
 ===================================================== */
 function startDialogues1(){
   playDialogues([
-    { text:"Avant de vendre quoi que ce soit, <strong>il faut comprendre</srong> ton marché.", anchor:pirate5 },
+    { text:"Avant de vendre quoi que ce soit, <strong>il faut comprendre</strong> ton marché.", anchor:pirate5 },
     { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard.</strong>", anchor:pirate5 },
     { text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 },
     { text:"Je vais t'expliquer. Prend un carnet de note car après tu auras un quizz.", anchor:pirate5 },
