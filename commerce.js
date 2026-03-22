@@ -699,7 +699,7 @@ cont.onclick = ()=>{
     { text:"<strong>La prospection</strong> consiste à <strong>chercher de nouveaux clients.</strong>", anchor:pirate5 },
     { text:"Tu vas devoir <strong>rechercher des clients qui pourraient être intéressés</strong> par ton produit", anchor:pirate5 },
     { text:"Tu notes <strong>leurs informations (contact, adresse, entreprise)</strong> dans une <strong>base de données.</strong>", anchor:pirate5 },
-    { text:"Puis tu vas les <strong>appeler</strong>, <br>leur envoyer des <strong>mails</strong><br> <br>ou des <strong>messages via les réseaux sociaux</strong><br>", anchor:pirate5 },
+    { text:"Puis tu vas les <strong>appeler</strong>, <br>leur envoyer des <strong>mails</strong><br>ou des <strong>messages via les réseaux sociaux</strong>", anchor:pirate5 },
     { text:"afin <strong>d'attiser leur curiosité</strong> et de les faire venir jusqu'à toi", anchor:pirate5 },
     { 
       text:"Il est temps d'affronter le marché.", 
