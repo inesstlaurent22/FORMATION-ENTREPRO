@@ -197,6 +197,11 @@ html,body{
   color: #ffd700 !important;
 }
 
+.dialogue-bubble{
+  white-space: normal;
+  line-height: 1.5;
+}
+
 /* =====================================================
    POSITION BOUTON PASSER DIALOGUES
 ===================================================== */
