@@ -79,22 +79,37 @@ if (pirate3) {
     pirate3.classList.remove("glow");
 
     playDialog([
-      {speaker:"pirate2",text:"On a déjà notre premier client, mais <strong>ce n'est pas assez</strong>"},
-      {speaker:"pirate3",text:"Je vais maintenant te parler de la communication, <strong>aspect très important</strong> pour ta visibilité "},
-      {speaker:"pirate2",text:"Super ! Nous t'écoutons ! "},
-      {speaker:"pirate3",text:"La communication permet de faire <strong>connaître une marque</strong>, attirer des clients et <strong>se différencier de la concurrence.</strong>"},
-      {speaker:"pirate2",text:"C'est à dire ? "},
-      {speaker:"pirate3",text:"En d'autres mots, c'est <strong>l’ensemble des actions mises en place pour transmettre un message à une cible</strong>"},
-      {speaker:"pirate3",text:"Ses enjeux sont les suivants : "},
-      {speaker:"pirate3",text:"<strong>1 : Se faire connaître,</strong>"},
-      {speaker:"pirate3",text:"<strong>2 : Attirer et convaincre des clients,</strong>"},
-      {speaker:"pirate3",text:"<strong>3 : Créer une image de marque forte,</strong>"},
-      {speaker:"pirate3",text:"<strong>4 : Et fidéliser la clientèle.</strong>"},
-      {speaker:"pirate2",text:" On comprend mieux, merci"},
-      {speaker:"pirate2",text:" Et grâce à cela, on <strong>augmente notre visibilité</strong>, les clients <strong>nous reconnaissent</strong> "},
-      {speaker:"pirate3",text:" Et viennent vous voir pour <strong>votre réputation</strong>!"},
-      {speaker:"pirate2",text:" Mais comment faire s'il te plaît ? "},
-      {speaker:"pirate3",text:" Je vais t'expliquer mais d'abord répondez à ce quizz !"}
+{speaker:"pirate2",text:"On a déjà notre premier client, mais <strong>ce n’est pas suffisant.</strong>"},
+
+{speaker:"pirate3",text:"Je vais maintenant te parler de la communication,<br><strong>un élément très important</strong> pour ta visibilité."},
+
+{speaker:"pirate2",text:"Super ! On t’écoute !"},
+
+{speaker:"pirate3",text:"La communication permet de <strong>faire connaître ta marque</strong>, d’attirer des clients<br>et de <strong>te différencier de la concurrence.</strong>"},
+
+{speaker:"pirate2",text:"Ça veut dire quoi exactement ?"},
+
+{speaker:"pirate3",text:"C’est <strong>l’ensemble des actions</strong> que tu mets en place<br>pour transmettre un message à tes clients."},
+
+{speaker:"pirate3",text:"Ses objectifs sont les suivants :"},
+
+{speaker:"pirate3",text:"<strong>1 : Se faire connaître,</strong>"},
+
+{speaker:"pirate3",text:"<strong>2 : Attirer et convaincre des clients,</strong>"},
+
+{speaker:"pirate3",text:"<strong>3 : Créer une image de marque forte,</strong>"},
+
+{speaker:"pirate3",text:"<strong>4 : Fidéliser les clients.</strong>"},
+
+{speaker:"pirate2",text:"On comprend mieux, merci !"},
+
+{speaker:"pirate2",text:"Donc grâce à ça, on <strong>augmente notre visibilité</strong><br>et les clients <strong>nous reconnaissent</strong>."},
+
+{speaker:"pirate3",text:"Exactement ! Et ils viennent te voir pour <strong>ta réputation.</strong>"},
+
+{speaker:"pirate2",text:"Mais comment faire ?"},
+
+{speaker:"pirate3",text:"Je vais t’expliquer… mais d’abord, réponds à ce quiz !"}
     ], startMiniGame1);
 
   };
@@ -274,21 +289,35 @@ function afterMG1(){
   hideMiniGame();
   showLoader(1200,()=>playDialog(
     [
-      { speaker:"pirate2", text:"Parfait." },
-      { speaker:"pirate3", text:"Passons à ton <strong> identité visuelle.</strong>" },
-      { speaker:"pirate3", text:"C'est <strong> l’image de l’entreprise.</strong>" },
-      { speaker:"pirate3", text:"Elle regroupe <strong>tous les éléments graphiques qui permettent de reconnaître une marque.</strong>" },
-      { speaker:"pirate3", text:"Elle comprend :" },
-      { speaker:"pirate3", text:"<strong> Le logo</strong> " },
-      { speaker:"pirate3", text:"<strong> les couleurs</strong>" },
-      { speaker:"pirate3", text:"<strong> la typographie</strong>" },
-      { speaker:"pirate3", text:"et parfois <strong> des visuels ou un univers graphique.</strong>" },
-      { speaker:"pirate2", text:"Ça a l'air facile." },
-      { speaker:"pirate3", text:"Non, pas si simple. Une identité visuelle doit être <strong>cohérente,</strong>" },
-      { speaker:"pirate3", text:"<strong>reconnaissable et professionnelle,</strong>" },
-      { speaker:"pirate3", text:"car elle <strong>influence la perception</strong> des clients et <strong>renforce la crédibilité</strong> de l’entreprise." },
-      { speaker:"pirate2", text:"Ça a l'air moins facile d'un coup." },
-      { speaker:"pirate3", text:"Ne t'inquiète pas, je vais tout t'expliquer !" },
+{ speaker:"pirate2", text:"Parfait." },
+
+{ speaker:"pirate3", text:"Passons à ton <strong>identité visuelle.</strong>" },
+
+{ speaker:"pirate3", text:"C’est <strong>l’image de ton entreprise.</strong>" },
+
+{ speaker:"pirate3", text:"Elle regroupe <strong>tous les éléments graphiques</strong><br>qui permettent de reconnaître ta marque." },
+
+{ speaker:"pirate3", text:"Elle comprend :" },
+
+{ speaker:"pirate3", text:"<strong>Le logo,</strong>" },
+
+{ speaker:"pirate3", text:"<strong>les couleurs,</strong>" },
+
+{ speaker:"pirate3", text:"<strong>la typographie,</strong>" },
+
+{ speaker:"pirate3", text:"et parfois <strong>des visuels ou un univers graphique.</strong>" },
+
+{ speaker:"pirate2", text:"Ça a l’air facile." },
+
+{ speaker:"pirate3", text:"Pas vraiment.<br>Une identité visuelle doit être <strong>cohérente,</strong>" },
+
+{ speaker:"pirate3", text:"<strong>reconnaissable</strong> et <strong>professionnelle,</strong>" },
+
+{ speaker:"pirate3", text:"car elle <strong>influence l’image</strong> que les clients ont de toi<br>et <strong>renforce ta crédibilité.</strong>" },
+
+{ speaker:"pirate2", text:"Ah… ça a l’air moins facile d’un coup." },
+
+{ speaker:"pirate3", text:"Ne t’inquiète pas, je vais tout t’expliquer !" }
     ],
     startMiniGame2
   ));
@@ -512,24 +541,41 @@ zoomBtn.onclick = () => {
 
     playDialog(
       [
-        { speaker:"pirate2", text:"Magnifique identité." },
-        { speaker:"pirate3", text:"Passons à la diffusion." },
-        { speaker:"pirate3", text:" Un <strong> canal de diffusion </strong> est un moyen utilisé pour <strong> transmettre un message à une cible</strong> (clients, prospects)." },
-        { speaker:"pirate2", text:"Les <strong>réseaux sociaux </strong> ou les <strong>mails</strong> en sont-ils ? " },
-        { speaker:"pirate3", text:"Oui ainsi que ton <strong>site internet </strong> " },
-        { speaker:"pirate2", text:"Mais avec tous ces canaux, comment avoir une communication <strong>10/10</strong> ? " },
-        { speaker:"pirate3", text:"Il faut <strong> choisir </strong> les bons canaux selon la <strong>cible </strong>" }, 
-        { speaker:"pirate3", text:"Par exemple, pour une communication <br><strong>BtoC</strong> → Instagram, TikTok " },
-        { speaker:"pirate3", text:" L'objectif est <strong> d'être là où sont tes clients </strong> " },
-        { speaker:"pirate3", text:" Et utiliser <strong>plusieurs canaux</strong> (réseaux + site + email) pour <strong> maximiser la visibilité.</strong>" },
-        { speaker:"pirate3", text:" Tu dois aussi <strong> adapter le message à chaque canal </strong>" },
-        { speaker:"pirate3", text:" Exemple, pour <br> les réseaux sociaux <strong> → un contenu visuel et rapide </strong> " },
-        { speaker:"pirate3", text:" Pour les emails <strong>→ des message plus détaillé </strong> " },
-        { speaker:"pirate3", text:" Pour ton <br> site internet → <strong> privilégie une informations complètes et rassurantes </strong>" },
-        { speaker:"pirate3", text:" Et pour finir, il faut être <strong> régulier: </strong>  " },
-        { speaker:"pirate3", text:" Publier souvent pour rester <strong>visible</strong> et <strong> créer une relation </strong> avec l’audience  " },
-        { speaker:"pirate2", text:" Ca fait beaucoup à comprendre ! " },
-        { speaker:"pirate3", text:" Ne t'inquiète pas, le quizz est la pour t'aider. " }
+{ speaker:"pirate2", text:"Magnifique identité." },
+
+{ speaker:"pirate3", text:"Passons à la diffusion." },
+
+{ speaker:"pirate3", text:"Un <strong>canal de diffusion</strong>, c’est un moyen<br>de <strong>transmettre un message à des clients ou des prospects.</strong>" },
+
+{ speaker:"pirate2", text:"Les <strong>réseaux sociaux</strong> ou les <strong>emails</strong>, ça en fait partie ?" },
+
+{ speaker:"pirate3", text:"Oui, ainsi que ton <strong>site internet.</strong>" },
+
+{ speaker:"pirate2", text:"Mais avec tous ces canaux, comment avoir une communication efficace ?" },
+
+{ speaker:"pirate3", text:"Il faut <strong>choisir les bons canaux</strong><br>en fonction de ta <strong>cible.</strong>" },
+
+{ speaker:"pirate3", text:"Par exemple, pour parler à des clients (BtoC),<br><strong>Instagram ou TikTok</strong> sont très utilisés." },
+
+{ speaker:"pirate3", text:"L’objectif est d’être <strong>là où se trouvent tes clients.</strong>" },
+
+{ speaker:"pirate3", text:"Tu peux aussi utiliser <strong>plusieurs canaux</strong><br>pour <strong>augmenter ta visibilité.</strong>" },
+
+{ speaker:"pirate3", text:"Mais attention, tu dois <strong>adapter ton message</strong> à chaque canal." },
+
+{ speaker:"pirate3", text:"Sur les réseaux sociaux :<br><strong>un contenu visuel et rapide.</strong>" },
+
+{ speaker:"pirate3", text:"Dans les emails :<br><strong>un message plus détaillé.</strong>" },
+
+{ speaker:"pirate3", text:"Sur ton site internet :<br><strong>des informations complètes et rassurantes.</strong>" },
+
+{ speaker:"pirate3", text:"Et surtout, il faut être <strong>régulier.</strong>" },
+
+{ speaker:"pirate3", text:"Publier souvent permet de rester <strong>visible</strong><br>et de <strong>créer une relation</strong> avec ton audience." },
+
+{ speaker:"pirate2", text:"Ça fait beaucoup à comprendre !" },
+
+{ speaker:"pirate3", text:"Ne t’inquiète pas, le quiz est là pour t’aider." }
       ],
       startMiniGame3
     );
