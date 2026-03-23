@@ -256,17 +256,21 @@ skipBtn.onclick = () => {
   let goodCount = 0;
 
   function startMiniGame1() {
-miniGame1.innerHTML = `
-  <h3>📘 Épreuve des registres comptables</h3>
-  <div class="questionBox">
-    <p id="qText"></p>
-  </div>
-  <div id="qChoices"></div>
-`;
-    miniGame1.classList.remove("hidden");
-    qIndex = 0;
-    showQuestion();
-  }
+
+  if(background) background.classList.add("hidden"); // 🔥 AJOUT
+
+  miniGame1.innerHTML = `
+    <h3>📘 Épreuve des registres comptables</h3>
+    <div class="questionBox">
+      <p id="qText"></p>
+    </div>
+    <div id="qChoices"></div>
+  `;
+
+  miniGame1.classList.remove("hidden");
+  qIndex = 0;
+  showQuestion();
+}
 
   function showQuestion() {
     goodCount = 0;
