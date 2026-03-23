@@ -203,27 +203,27 @@ skipBtn.onclick = () => {
      💬 DIALOGUES — INTRO
   ===================================================== */
   const dialoguesIntro = [
-    { s: pirate5, t: "Avant de gérer l’or, il faut comprendre les registres." },
+{ s: pirate5, t: "Avant de gérer l’or, il faut comprendre les registres." },
 
-{ s: pirate2, t: "<strong>Journal des ventes, grand livre, balance, bilan, compte de résultat… </strong> <br>ça fait beaucoup de tableaux !<br>" },
+{ s: pirate2, t: "<strong>Journal des ventes,<br>grand livre, balance, bilan, compte de résultat…</strong><br>Ça fait beaucoup de tableaux !" },
 
-{ s: pirate2, t: "C'est quoi tout ça ?" },
+{ s: pirate2, t: "C’est quoi tout ça ?" },
 
-{ s: pirate5, t: "Ce sont <strong> des outils </strong> pour suivre ton argent : <br><strong> ce que tu gagnes et ce que tu dépenses.</strong><br>" },
+{ s: pirate5, t: "Ce sont <strong>des outils</strong> pour suivre ton argent :<br><strong>ce que tu gagnes et ce que tu dépenses.</strong>" },
 
-{ s: pirate5, t: "<strong>Le journal des ventes</strong>, <br>c’est là où <strong>tu notes tout ce que tu vends</strong>, jour après jour.<br>" },
+{ s: pirate5, t: "<strong>Le journal des ventes</strong>, c’est là où<br><strong>tu notes tout ce que tu vends</strong>, jour après jour." },
 
-{ s: pirate5, t: "<strong>Le grand livre</strong> <br> range toutes ces <strong>informations par catégorie : clients, ventes, banque…</strong><br>" },
+{ s: pirate5, t: "<strong>Le grand livre</strong> range toutes ces informations<br><strong>par catégorie : clients, ventes, banque…</strong>" },
 
-{ s: pirate5, t: "<strong>La balance</strong> <br>sert à vérifier que <strong>tout est bien équilibré et qu’il n’y a pas d’erreur.</strong><br>" },
+{ s: pirate5, t: "<strong>La balance</strong> sert à vérifier que tout est bien équilibré<br><strong>et qu’il n’y a pas d’erreur.</strong>" },
 
-{ s: pirate5, t: "<strong>Le compte de résultat</strong><br>montre si tu as gagné ou perdu de l’argent <strong>sur une période</strong> (souvent mensuelle).<br>" },
+{ s: pirate5, t: "<strong>Le compte de résultat</strong> montre si tu as gagné ou perdu de l’argent<br><strong>sur une période</strong> (souvent mensuelle)." },
 
-{ s: pirate5, t: "Et <strong>le bilan</strong> <br>c’est une photo de ce que <strong>tu possèdes et de ce que tu dois à un moment précis</strong><br>(le 31/12, le plus souvent)." },
+{ s: pirate5, t: "Et <strong>le bilan</strong>, c’est une photo de ce que<br><strong>tu possèdes et de ce que tu dois à un moment précis</strong><br>(le 31/12, le plus souvent)." },
 
 { s: pirate2, t: "Ah… donc ce n’est pas juste compter les pièces dans le coffre ?" },
 
-{ s: pirate5, t: "Exactement !<br>Être un bon pirate, c’est aussi savoir gérer son trésor intelligemment !<br>" }
+{ s: pirate5, t: "Exactement !<br>Être un bon pirate, c’est aussi savoir gérer son trésor intelligemment !" }
   ];
 
   /* =====================================================
@@ -317,49 +317,49 @@ function endMiniGame1() {
      💬 DIALOGUES — ANALYSE
   ===================================================== */
   const dialoguesBeforeMini2 = [
-    { s: pirate5, t: "Avec ces registres, on va apprendre à noter tout ce qui arrive à ton trésor." },
+  { s: pirate5, t: "Avec ces registres, on va apprendre à noter tout ce qui arrive à ton trésor." },
 
 { s: pirate2, t: "Tout noter ? Même les petites dépenses ?" },
 
 { s: pirate5, t: "Oui. Ça s’appelle <strong>l’enregistrement comptable.</strong>" },
 
-{ s: pirate5, t: "Chaque fois que tu gagnes ou que tu dépenses de l’argent, <strong>tu dois l’écrire.</strong>" },
+{ s: pirate5, t: "Chaque fois que tu gagnes ou que tu dépenses de l’argent,<br><strong>tu dois l’écrire.</strong>" },
 
 { s: pirate2, t: "Et on écrit ça où ?" },
 
-{ s: pirate5, t: "Dans <strong>un journal des ventes</strong>. C’est comme un carnet de bord où tu notes tout, dans l’ordre." },
+{ s: pirate5, t: "Dans <strong>un journal des ventes</strong>.<br>C’est comme un carnet de bord où tu notes tout, dans l’ordre." },
 
 { s: pirate2, t: "Donc je note chaque jour ?" },
 
-{ s: pirate5, t: "Exactement. C’est pour ça qu’on parle de journal périodique : <strong>tu écris régulièrement, jour après jour.</strong>" },
+{ s: pirate5, t: "Exactement.<br>On parle de journal périodique :<br><strong>tu écris régulièrement, jour après jour.</strong>" },
 
 { s: pirate2, t: "Et je note quoi exactement ?" },
 
-{ s: pirate5, t: "Les produits, <strong>c’est l’argent que tu gagnes</strong>, par exemple quand tu vends des pierres." },
+{ s: pirate5, t: "Les produits, <strong>c’est l’argent que tu gagnes</strong>,<br>par exemple quand tu vends des pierres." },
 
-{ s: pirate5, t: "Les charges, <strong>c’est l’argent que tu dépenses</strong>, comme acheter du matériel ou payer ton équipage." },
+{ s: pirate5, t: "Les charges, <strong>c’est l’argent que tu dépenses</strong>,<br>comme acheter du matériel ou payer ton équipage." },
 
 { s: pirate2, t: "Et <strong>l’amortissement</strong>… c’est encore une dépense ?" },
 
-{ s: pirate5, t: "Pas vraiment. C’est pour montrer que ton matériel <strong>perd de la valeur avec le temps.</strong>" },
+{ s: pirate5, t: "Pas vraiment.<br>C’est pour montrer que ton matériel <strong>perd de la valeur avec le temps.</strong>" },
 
 { s: pirate2, t: "Comme un bateau qui s’use ?" },
 
-{ s: pirate5, t: "Exactement ! Même sans payer, on note <strong>cette perte</strong> dans le journal." },
+{ s: pirate5, t: "Exactement !<br>Même sans payer, on note <strong>cette perte</strong> dans le journal." },
 
 { s: pirate2, t: "Et une <strong>provision</strong>, c’est quoi ?" },
 
-{ s: pirate5, t: "Une provision, c’est quand tu mets de côté un peu d’argent <strong>pour une dépense future ou un problème possible.</strong>" },
+{ s: pirate5, t: "Une provision, c’est quand tu mets de côté un peu d’argent<br><strong>pour une dépense future ou un problème possible.</strong>" },
 
-{ s: pirate5, t: "Par exemple, si tu penses devoir réparer ton bateau bientôt, tu le prévois à l’avance." },
+{ s: pirate5, t: "Par exemple, si tu penses devoir réparer ton bateau bientôt,<br>tu le prévois à l’avance." },
 
 { s: pirate2, t: "Donc on anticipe avant que ça arrive ?" },
 
-{ s: pirate5, t: "Exactement ! Comme ça, tu n’es jamais surpris." },
+{ s: pirate5, t: "Exactement !<br>Comme ça, tu n’es jamais surpris." },
 
 { s: pirate2, t: "Ah… donc le journal sert à tout suivre sans rien oublier." },
 
-{ s: pirate5, t: "Oui. Grâce à lui, tu sais toujours si <strong>ton trésor augmente… ou diminue.</strong>" }
+{ s: pirate5, t: "Oui.<br>Grâce à lui, tu sais toujours si <strong>ton trésor augmente… ou diminue.</strong>" }
   ];
 
 /* =====================================================
@@ -561,27 +561,27 @@ window.checkMonthlyAmort = function(btn, ok){
 ===================================================== */
 
 const dialoguesEBE = [
-  { s: pirate5, t: "<strong>L’EBE</strong>, c’est ce qui montre <strong>combien ton activité te fait vraiment gagner.</strong>" },
+{ s: pirate5, t: "<strong>L’EBE</strong>, c’est ce qui montre<br><strong>combien ton activité te fait vraiment gagner.</strong>" },
 
 { s: pirate2, t: "Encore un mot compliqué…" },
 
-{ s: pirate5, t: "En fait, c’est simple : <strong>on prend ce que tu gagnes et on enlève ce que tu dépenses</strong> pour faire tourner ton activité." },
+{ s: pirate5, t: "En fait, c’est simple :<br><strong>on prend ce que tu gagnes et on enlève ce que tu dépenses</strong><br>pour faire tourner ton activité." },
 
 { s: pirate2, t: "Donc <strong>les ventes moins les dépenses ?</strong>" },
 
-{ s: pirate5, t: "Oui, mais seulement <strong>les dépenses du quotidien </strong>: salaires, achats, fonctionnement." },
+{ s: pirate5, t: "Oui, mais seulement <strong>les dépenses du quotidien</strong> :<br>salaires, achats, fonctionnement." },
 
 { s: pirate2, t: "Et le reste ?" },
 
-{ s: pirate5, t: "On ne compte pas encore les impôts, les intérêts ou l’usure du matériel (les dotations aux amortissement)." },
+{ s: pirate5, t: "On ne compte pas encore les impôts, les intérêts<br>ni l’usure du matériel (les amortissements)." },
 
-{ s: pirate2, t: "Ah… donc c’est ce que je gagne avec mon activité, avant tout le reste ?" },
+{ s: pirate2, t: "Ah… donc c’est ce que je gagne avec mon activité,<br>avant tout le reste ?" },
 
-{ s: pirate5, t: "Exactement ! C’est la richesse que ton activité <strong>crée toute seule.</strong>" },
+{ s: pirate5, t: "Exactement !<br>C’est la richesse que ton activité <strong>crée toute seule.</strong>" },
 
 { s: pirate2, t: "Si mon EBE est élevé, c’est que je suis un bon pirate ?" },
 
-{ s: pirate5, t: "Oui ! Ça veut dire que ton trésor grandit grâce à ton travail." },
+{ s: pirate5, t: "Oui !<br>Ça veut dire que ton trésor grandit grâce à ton travail." },
 
 { s: pirate5, t: "Allez, il est temps de passer à l’épreuve finale !" }
 ];
