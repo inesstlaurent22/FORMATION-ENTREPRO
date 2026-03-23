@@ -207,15 +207,15 @@ skipBtn.onclick = () => {
 
 { s: pirate2, t: "<strong>Journal des ventes, grand livre, balance, bilan, compte de résultat… </strong> ça fait beaucoup de tableaux !" },
 
-{ s: pirate5, t: "C'est quoi tout ça ?" },
+{ s: pirate2, t: "C'est quoi tout ça ?" },
 
 { s: pirate5, t: "Ce sont <strong> des outils </strong> pour suivre ton argent : <strong> ce que tu gagnes et ce que tu dépenses.</strong>" },
 
-{ s: pirate2, t: "<strong>Le journal des ventes</strong>, c’est là où <strong>tu notes tout ce que tu vends</strong>, jour après jour." },
+{ s: pirate5, t: "<strong>Le journal des ventes</strong>, c’est là où <strong>tu notes tout ce que tu vends</strong>, jour après jour." },
 
 { s: pirate5, t: "<strong>Le grand livre</strong>, lui, range toutes ces <strong>informations par catégorie : clients, ventes, banque…</strong>" },
 
-{ s: pirate2, t: "<strong>La balance</strong>, elle, sert à vérifier que <strong>tout est bien équilibré et qu’il n’y a pas d’erreur.</strong>" },
+{ s: pirate5, t: "<strong>La balance</strong>, elle, sert à vérifier que <strong>tout est bien équilibré et qu’il n’y a pas d’erreur.</strong>" },
 
 { s: pirate5, t: "<strong>Le compte de résultat</strong> montre si tu as gagné ou perdu de l’argent <strong>sur une période</strong> (souvent mensuelle)." },
 
