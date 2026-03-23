@@ -163,7 +163,7 @@ function startDialogues(arr, cb) {
 
   function showDialogue() {
     const d = dialogues[dIndex];
-    bubble.textContent = d.t;
+    bubble.innerHTML = d.t;
 
     const r = d.s.getBoundingClientRect();
     bubble.style.left = r.left + r.width / 2 + "px";
