@@ -225,18 +225,17 @@ html, body {
    🎮 MINI-JEU 1 — QCM
 ===================================================== */
 #miniGame0 {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(90%, 720px);
-  background: #120b05;
-  border: 4px solid gold;
-  border-radius: 22px;
-  padding: 30px;
-  z-index: 10;
-  text-align: center;
-  box-shadow: 0 0 40px rgba(255,215,0,.45);
+  padding:12px 14px;
+  background:#f6e6b8;
+  color:#2b1605;
+  border-radius:12px;
+  font-weight:bold;
+  margin-bottom:14px;
+}
+
+.questionHighlight {
+  text-decoration: underline;
+  text-decoration-color: black;
 }
 
 #qChoices{
