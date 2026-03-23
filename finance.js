@@ -561,9 +561,29 @@ window.checkMonthlyAmort = function(btn, ok){
 ===================================================== */
 
 const dialoguesEBE = [
-  { s: pirate5, t: "L’EBE mesure la richesse créée par l’exploitation." },
-  { s: pirate2, t: "Avant amortissements, impôts et finance." },
-  { s: pirate5, t: "Voici l’épreuve finale." }
+  { s: pirate5, t: "<strong>L’EBE</strong>, c’est ce qui montre <strong>combien ton activité te fait vraiment gagner.</strong>" },
+
+{ s: pirate2, t: "Encore un mot compliqué…" },
+
+{ s: pirate5, t: "En fait, c’est simple : <strong>on prend ce que tu gagnes et on enlève ce que tu dépenses</strong> pour faire tourner ton activité." },
+
+{ s: pirate2, t: "Donc <strong>les ventes moins les dépenses ?</strong>" },
+
+{ s: pirate5, t: "Oui, mais seulement <strong>les dépenses du quotidien </strong>: salaires, achats, fonctionnement." },
+
+{ s: pirate2, t: "Et le reste ?" },
+
+{ s: pirate5, t: "On ne compte pas encore les impôts, les intérêts ou l’usure du matériel (les dotations aux amortissement)." },
+
+{ s: pirate2, t: "Ah… donc c’est ce que je gagne avec mon activité, avant tout le reste ?" },
+
+{ s: pirate5, t: "Exactement ! C’est la richesse que ton activité <strong>crée toute seule.</strong>" },
+
+{ s: pirate2, t: "Si mon EBE est élevé, c’est que je suis un bon pirate ?" },
+
+{ s: pirate5, t: "Oui ! Ça veut dire que ton trésor grandit grâce à ton travail." },
+
+{ s: pirate5, t: "Allez, il est temps de passer à l’épreuve finale !" }
 ];
 
 /* =====================================================
