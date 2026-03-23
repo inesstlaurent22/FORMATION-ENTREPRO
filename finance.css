@@ -169,6 +169,16 @@ html, body {
   cursor: pointer;
 }
 
+.dialogueBox strong{
+  font-weight: bold;
+  color: #ffd700 !important;
+}
+
+.dialogueBox{
+  white-space: normal;
+  line-height: 1.5;
+}
+
 #skipDialoguesBtn{
   position:fixed;
   top:24px;
