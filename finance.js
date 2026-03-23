@@ -317,9 +317,39 @@ function endMiniGame1() {
      💬 DIALOGUES — ANALYSE
   ===================================================== */
   const dialoguesBeforeMini2 = [
-    { s: pirate5, t: "Avec ces registres, on peut analyser l’activité." },
-    { s: pirate2, t: "Clients, charges, produits, amortissements…" },
-    { s: pirate5, t: "Passons à la gestion réelle." }
+    { s: pirate5, t: "Avec ces registres, on va apprendre à noter tout ce qui arrive à ton trésor." },
+
+{ s: pirate2, t: "Tout noter ? Même les petites dépenses ?" },
+
+{ s: pirate5, t: "Oui. Ça s’appelle l’enregistrement comptable." },
+
+{ s: pirate5, t: "Chaque fois que tu gagnes ou que tu dépenses de l’argent, tu dois l’écrire." },
+
+{ s: pirate2, t: "Et on écrit ça où ?" },
+
+{ s: pirate5, t: "Dans un journal des ventes. C’est comme un carnet de bord où tu notes tout, dans l’ordre." },
+
+{ s: pirate2, t: "Donc je note chaque jour ?" },
+
+{ s: pirate5, t: "Exactement. C’est pour ça qu’on parle de journal périodique : tu écris régulièrement, jour après jour." },
+
+{ s: pirate2, t: "Et je note quoi exactement ?" },
+
+{ s: pirate5, t: "Les produits, c’est l’argent que tu gagnes, par exemple quand tu vends des pierres." },
+
+{ s: pirate5, t: "Les charges, c’est l’argent que tu dépenses, comme acheter du matériel ou payer ton équipage." },
+
+{ s: pirate2, t: "Et l’amortissement… c’est encore une dépense ?" },
+
+{ s: pirate5, t: "Pas vraiment. C’est pour montrer que ton matériel perd de la valeur avec le temps." },
+
+{ s: pirate2, t: "Comme un bateau qui s’use ?" },
+
+{ s: pirate5, t: "Exactement ! Même sans payer, on note cette perte dans le journal." },
+
+{ s: pirate2, t: "Ah… donc le journal sert à tout suivre sans rien oublier." },
+
+{ s: pirate5, t: "Oui. Grâce à lui, tu sais toujours si ton trésor augmente… ou diminue." }
   ];
 
 /* =====================================================
