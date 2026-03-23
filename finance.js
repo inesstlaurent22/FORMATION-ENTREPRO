@@ -257,7 +257,7 @@ skipBtn.onclick = () => {
 
   function startMiniGame1() {
 miniGame1.innerHTML = `
-  <h3>📘 Épreuve des registres</h3>
+  <h3>📘 Épreuve des registres comptables</h3>
   <div class="questionBox">
     <p id="qText"></p>
   </div>
