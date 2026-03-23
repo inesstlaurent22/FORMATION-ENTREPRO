@@ -242,18 +242,29 @@ if(skipBtn){
 ===================================================== */
 function startDialogues1(){
   playDialogues([
-    { text:"Avant de vendre quoi que ce soit, <strong>il faut comprendre</strong> ton marché.", anchor:pirate5 },
-    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard.</strong>", anchor:pirate5 },
-    { text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 },
-    { text:"Je vais t'expliquer.<br>Prend un carnet de note car après tu auras un quizz.<br>", anchor:pirate5 },
-    { text:"Première information importante : <br><strong>Les études de marché.</strong><br>", anchor:pirate5 },
-    { text:"Elle sert à <strong>analyser</strong> : les <strong>besoins des clients</strong>, <strong>la concurrence</strong>, <strong>les tendances</strong>, et les <strong>opportunités.</strong>", anchor:pirate5 },
-    { text:"Mais <strong>comment avoir</strong> les informations pour les analyser ? ", anchor:pirate2 },
-    { text:"à travers : <strong>des questionnaires</strong>, <strong>des interviews</strong>,ou <strong>l’analyse de données existantes trouvées sur internet.</strong>", anchor:pirate5 },
-    { text:"Tout cela va te permettre de savoir si ton produit <strong>peut intérésser</strong> les clients.", anchor:pirate5 },
-    { text:"Un bon produit est un produit <strong>qui répond à un problème</strong> que les clients ont.", anchor:pirate5 },
-    { text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ces pierres, c'est un bon début ? ", anchor:pirate2 },
-    { text:"Oui, on va vérifier si tu as tout compris.", anchor:pirate5 }
+{ text:"Avant de vendre quoi que ce soit, <strong>il faut comprendre</strong> ton marché.", anchor:pirate5 },
+
+{ text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard.</strong>", anchor:pirate5 },
+
+{ text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 },
+
+{ text:"Je vais t'expliquer.<br>Prends un carnet de notes, car après tu auras un quiz.", anchor:pirate5 },
+
+{ text:"Première information importante :<br><strong>l’étude de marché.</strong>", anchor:pirate5 },
+
+{ text:"Elle sert à <strong>analyser</strong> : les <strong>besoins des clients</strong>, la <strong>concurrence</strong>, les <strong>tendances</strong> et les <strong>opportunités.</strong>", anchor:pirate5 },
+
+{ text:"Mais <strong>comment obtenir</strong> ces informations ?", anchor:pirate2 },
+
+{ text:"Grâce à <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>l’analyse de données</strong> déjà disponibles (sur Internet, par exemple).", anchor:pirate5 },
+
+{ text:"Tout cela va te permettre de savoir si ton produit <strong>peut intéresser</strong> les clients.", anchor:pirate5 },
+
+{ text:"Un bon produit, c’est un produit <strong>qui répond à un besoin</strong> ou résout un problème.", anchor:pirate5 },
+
+{ text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ça… c’est un bon début ?", anchor:pirate2 },
+
+{ text:"C’est un bon début, mais il faut le vérifier avec une étude de marché.", anchor:pirate5 }
   ], startMiniGame1);
 }
 
@@ -366,17 +377,29 @@ function startMiniGame1(){
 ===================================================== */
 function startDialogues2(){
   playDialogues([
-    { text:"Parfait. <br>Maintenant, il faut <strong>structurer</strong> tout ça.<br>", anchor:pirate5 },
-    { text:"À partir des tes études, tu vas pouvoir <strong>créer tes stratégies commerciales</strong>", anchor:pirate5 },
-    { text:"Peux tu me dire <strong>à quoi sert</strong> les stratégies commerciales s'il te plaît.", anchor:pirate2 },
-    { text:"Une stratégie commerciale correspond <strong>à la manière dont une entreprise va vendre son offre.</strong>", anchor:pirate5 },
-    { text:"Comment je dois faire s'il te plaît ? ", anchor:pirate2 },
-    { text:"Les stratégies reposent sur <strong>le prix (haut de gamme ou accessible)</strong>", anchor:pirate5 },
-    { text:"<strong>le positionnement (luxe, écologique, rapide, etc.)</strong>", anchor:pirate5 },
-    { text:"<strong>les canaux de vente (magasin, site internet, application)</strong>", anchor:pirate5 },
-    { text:"et <strong>la communication (publicité, promotions, influenceurs)</strong>", anchor:pirate5 },
-    { text:"Cela fait beaucoup, comment ne rien oublier ? ", anchor:pirate2 },
-    { text:"Tu vas tout <strong>noter sur ton business plan, la présentation de ton business</strong>", anchor:pirate5 }
+{ text:"Avant de vendre quoi que ce soit, <strong>il faut comprendre</strong> ton marché.", anchor:pirate5 },
+
+{ text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard.</strong>", anchor:pirate5 },
+
+{ text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 },
+
+{ text:"Je vais t'expliquer.<br>Prends un carnet de notes, car après tu auras un quiz.", anchor:pirate5 },
+
+{ text:"Première information importante :<br><strong>l’étude de marché.</strong>", anchor:pirate5 },
+
+{ text:"Elle sert à <strong>analyser</strong> : les <strong>besoins des clients</strong>, la <strong>concurrence</strong>, les <strong>tendances</strong> et les <strong>opportunités.</strong>", anchor:pirate5 },
+
+{ text:"Mais <strong>comment obtenir</strong> ces informations ?", anchor:pirate2 },
+
+{ text:"Grâce à <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>l’analyse de données</strong> déjà disponibles (sur Internet, par exemple).", anchor:pirate5 },
+
+{ text:"Tout cela va te permettre de savoir si ton produit <strong>peut intéresser</strong> les clients.", anchor:pirate5 },
+
+{ text:"Un bon produit, c’est un produit <strong>qui répond à un besoin</strong> ou résout un problème.", anchor:pirate5 },
+
+{ text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ça… c’est un bon début ?", anchor:pirate2 },
+
+{ text:"C’est un bon début, mais il faut le vérifier avec une étude de marché.", anchor:pirate5 }
   ], startMiniGame2);
 }
 
@@ -690,20 +713,29 @@ cont.onclick = ()=>{
   overlay.remove();
 
   playDialogues([
-    { text:"Ton Business plan est solide, <br>maintenant passons à la <strong>réalité du terrain.</strong><br>", anchor:pirate5 },
-    { text:"Quelle est cette réalité ?", anchor:pirate2 },
-    { text:"Les clients ne <strong>veulent pas payer plus cher que ce qu'ils souhaitent.</strong>", anchor:pirate5 },
-    { text:"Il faudra donc que tu les convainques de la <strong>nécessité de ton produit.</strong>", anchor:pirate5 },
-    { text:"Et pour ce faire,<br>il faut que tu les fasses <strong>venir jusqu'à ta boutique</strong><br>", anchor:pirate5 },
-    { text:"Comment faire ?", anchor:pirate2 },
-    { text:"<strong>La prospection</strong> consiste à <strong>chercher de nouveaux clients.</strong>", anchor:pirate5 },
-    { text:"Tu vas devoir <strong>rechercher des clients qui pourraient être intéressés</strong> par ton produit", anchor:pirate5 },
-    { text:"Tu notes <strong>leurs informations (contact, adresse, entreprise)</strong> dans une <strong>base de données.</strong>", anchor:pirate5 },
-    { text:"Puis tu vas les <strong>appeler</strong>, <br>leur envoyer des <strong>mails</strong><br>ou des <strong>messages via les réseaux sociaux</strong>", anchor:pirate5 },
-    { text:"afin <strong>d'attiser leur curiosité</strong> et de les faire venir jusqu'à toi", anchor:pirate5 },
-    { 
-      text:"Il est temps d'affronter le marché.", 
-      anchor:pirate5,
+{ text:"Ton business plan est solide.<br>Maintenant, passons à la <strong>réalité du terrain.</strong>", anchor:pirate5 },
+
+{ text:"Quelle est cette réalité ?", anchor:pirate2 },
+
+{ text:"Les clients ne veulent pas payer plus cher que ce qu’ils pensent être juste.", anchor:pirate5 },
+
+{ text:"Il faudra donc les convaincre de <strong>l’intérêt de ton produit.</strong>", anchor:pirate5 },
+
+{ text:"Et pour ça, il faut déjà <strong>les faire venir jusqu’à toi.</strong>", anchor:pirate5 },
+
+{ text:"Comment faire ?", anchor:pirate2 },
+
+{ text:"<strong>La prospection</strong>, c’est le fait de <strong>chercher de nouveaux clients.</strong>", anchor:pirate5 },
+
+{ text:"Tu dois <strong>trouver des personnes qui pourraient être intéressées</strong> par ton produit.", anchor:pirate5 },
+
+{ text:"Tu notes <strong>leurs informations</strong> (contact, entreprise…) dans une <strong>base de données.</strong>", anchor:pirate5 },
+
+{ text:"Puis tu peux les <strong>appeler</strong>, leur envoyer des <strong>emails</strong><br>ou des messages sur les <strong>réseaux sociaux.</strong>", anchor:pirate5 },
+
+{ text:"Le but est de <strong>leur donner envie</strong> et de les faire venir jusqu’à toi.", anchor:pirate5 },
+
+{ text:"Il est temps d’affronter le marché.", anchor:pirate5 }
       onShow: ()=>{
         console.log("pirate3 déclenché");
 
