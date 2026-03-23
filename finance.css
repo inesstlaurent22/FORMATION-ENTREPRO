@@ -169,9 +169,9 @@ html, body {
   cursor: pointer;
 }
 
-.dialogueBox strong{
+#dialogueBox strong{
   font-weight: bold;
-  color: #ffd700 !important;
+  color: #ffd700;
 }
 
 .dialogueBox{
