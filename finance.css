@@ -179,7 +179,7 @@ html, body {
 }
 
 #dialogueBox {
-  white-space: normal;
+  white-space: pre-line;
   line-height: 1.5;
 }
 
