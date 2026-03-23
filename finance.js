@@ -219,7 +219,7 @@ skipBtn.onclick = () => {
 
 { s: pirate5, t: "<strong>Le compte de résultat</strong> montre si tu as gagné ou perdu de l’argent <strong>sur une période</strong> (souvent mensuelle)." },
 
-{ s: pirate5, t: "Et <strong>le bilan<.strong>, c’est une photo de ce que <strong>tu possèdes et de ce que tu dois à un moment précis</strong> (le 31/12, le plus souvent)." },
+{ s: pirate5, t: "Et <strong>le bilan</strong>, c’est une photo de ce que <strong>tu possèdes et de ce que tu dois à un moment précis</strong> (le 31/12, le plus souvent)." },
 
 { s: pirate2, t: "Ah… donc ce n’est pas juste compter les pièces dans le coffre ?" },
 
