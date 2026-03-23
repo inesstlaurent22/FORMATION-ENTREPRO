@@ -434,9 +434,9 @@ window.showBill = function(client){
   if (!billsSeen) return;
 
   const prices = {
-    A: "🧾 Barbe-Cuivre : 950 PO",
+    A: "🧾 Barbe-Cuivre : 870 PO",
     B: "🧾 Vent-Noir : 850 PO",
-    C: "🧾 Crâne-Rouge : 530 PO"
+    C: "🧾 Crâne-Rouge : 930 PO"
   };
 
   if (bill) bill.textContent = prices[client] || "";
