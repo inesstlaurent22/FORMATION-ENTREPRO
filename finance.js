@@ -257,8 +257,6 @@ skipBtn.onclick = () => {
 
   function startMiniGame1() {
 
-  if(background) background.classList.add("hidden"); // 🔥 AJOUT
-
   miniGame1.innerHTML = `
     <h3>📘 Épreuve des registres comptables</h3>
     <div class="questionBox">
