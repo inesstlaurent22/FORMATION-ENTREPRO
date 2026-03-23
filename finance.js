@@ -347,6 +347,16 @@ function endMiniGame1() {
 
 { s: pirate5, t: "Exactement ! Même sans payer, on note <strong>cette perte</strong> dans le journal." },
 
+{ s: pirate2, t: "Et une <strong>provision</strong>, c’est quoi ?" },
+
+{ s: pirate5, t: "Une provision, c’est quand tu mets de côté un peu d’argent <strong>pour une dépense future ou un problème possible.</strong>" },
+
+{ s: pirate5, t: "Par exemple, si tu penses devoir réparer ton bateau bientôt, tu le prévois à l’avance." },
+
+{ s: pirate2, t: "Donc on anticipe avant que ça arrive ?" },
+
+{ s: pirate5, t: "Exactement ! Comme ça, tu n’es jamais surpris." },
+
 { s: pirate2, t: "Ah… donc le journal sert à tout suivre sans rien oublier." },
 
 { s: pirate5, t: "Oui. Grâce à lui, tu sais toujours si <strong>ton trésor augmente… ou diminue.</strong>" }
