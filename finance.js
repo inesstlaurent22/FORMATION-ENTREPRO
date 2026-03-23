@@ -204,8 +204,26 @@ skipBtn.onclick = () => {
   ===================================================== */
   const dialoguesIntro = [
     { s: pirate5, t: "Avant de gérer l’or, il faut comprendre les registres." },
-    { s: pirate2, t: "Journal des ventes, grand livre, balance, compte de résultat." },
-    { s: pirate5, t: "Prouve que tu maîtrises ces bases." }
+
+{ s: pirate2, t: "<strong>Journal des ventes, grand livre, balance, bilan, compte de résultat… </strong> ça fait beaucoup de tableaux !" },
+
+{ s: pirate5, t: "C'est quoi tout ça ?" },
+
+{ s: pirate5, t: "Ce sont <strong> des outils </strong> pour suivre ton argent : <strong> ce que tu gagnes et ce que tu dépenses.</strong>" },
+
+{ s: pirate2, t: "<strong>Le journal des ventes</strong>, c’est là où <strong>tu notes tout ce que tu vends</strong>, jour après jour." },
+
+{ s: pirate5, t: "<strong>Le grand livre</strong>, lui, range toutes ces <strong>informations par catégorie : clients, ventes, banque…</strong>" },
+
+{ s: pirate2, t: "<strong>La balance</strong>, elle, sert à vérifier que <strong>tout est bien équilibré et qu’il n’y a pas d’erreur.</strong>" },
+
+{ s: pirate5, t: "<strong>Le compte de résultat</strong> montre si tu as gagné ou perdu de l’argent <strong>sur une période</strong> (souvent mensuelle)." },
+
+{ s: pirate5, t: "Et <strong>le bilan<.strong>, c’est une photo de ce que <strong>tu possèdes et de ce que tu dois à un moment précis</strong> (le 31/12, le plus souvent)." },
+
+{ s: pirate2, t: "Ah… donc ce n’est pas juste compter les pièces dans le coffre ?" },
+
+{ s: pirate5, t: "Exactement ! Être un bon pirate, c’est aussi savoir gérer son trésor intelligemment !" }
   ];
 
   /* =====================================================
@@ -213,25 +231,25 @@ skipBtn.onclick = () => {
   ===================================================== */
   const questions = [
     {
-      q: "À quoi sert le journal des ventes ?",
-      good: ["À noter toutes les ventes de la journée"],
-      bad: ["À payer les impôts", "À gérer l’équipage"]
-    },
-    {
-      q: "Pourquoi tenir un grand livre ?",
-      good: ["Pour regrouper les opérations par compte"],
-      bad: ["Pour décorer la boutique", "Pour stocker l’or"]
-    },
-    {
-      q: "À quoi sert la balance comptable ?",
-      good: ["À vérifier l’équilibre des comptes"],
-      bad: ["À peser les marchandises"]
-    },
-    {
-      q: "Quels documents composent les comptes annuels ?",
-      good: ["Le bilan comptable", "Le compte de résultat"],
-      bad: ["Le journal des ventes"]
-    }
+  q: "À quoi sert le journal des ventes ?",
+  good: ["À noter toutes les ventes jour après jour"],
+  bad: ["À payer les impôts", "À gérer l’équipage"]
+},
+{
+  q: "À quoi sert le grand livre ?",
+  good: ["À classer les opérations par catégorie (clients, ventes, banque…)"],
+  bad: ["À décorer la boutique", "À cacher l’or"]
+},
+{
+  q: "À quoi sert la balance comptable ?",
+  good: ["À vérifier que tout est bien équilibré"],
+  bad: ["À peser les marchandises"]
+},
+{
+  q: "Quels documents montrent si une entreprise va bien ?",
+  good: ["Le bilan", "Le compte de résultat"],
+  bad: ["Le journal des ventes"]
+}
   ];
 
   let qIndex = 0;
