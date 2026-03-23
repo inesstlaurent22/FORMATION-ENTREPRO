@@ -205,25 +205,25 @@ skipBtn.onclick = () => {
   const dialoguesIntro = [
     { s: pirate5, t: "Avant de gérer l’or, il faut comprendre les registres." },
 
-{ s: pirate2, t: "<strong>Journal des ventes, grand livre, balance, bilan, compte de résultat… </strong> ça fait beaucoup de tableaux !" },
+{ s: pirate2, t: "<strong>Journal des ventes, grand livre, balance, bilan, compte de résultat… </strong> <br>ça fait beaucoup de tableaux !<br>" },
 
 { s: pirate2, t: "C'est quoi tout ça ?" },
 
-{ s: pirate5, t: "Ce sont <strong> des outils </strong> pour suivre ton argent : <strong> ce que tu gagnes et ce que tu dépenses.</strong>" },
+{ s: pirate5, t: "Ce sont <strong> des outils </strong> pour suivre ton argent : <br><strong> ce que tu gagnes et ce que tu dépenses.</strong><br>" },
 
-{ s: pirate5, t: "<strong>Le journal des ventes</strong>, c’est là où <strong>tu notes tout ce que tu vends</strong>, jour après jour." },
+{ s: pirate5, t: "<strong>Le journal des ventes</strong>, <br>c’est là où <strong>tu notes tout ce que tu vends</strong>, jour après jour.<br>" },
 
-{ s: pirate5, t: "<strong>Le grand livre</strong>, lui, range toutes ces <strong>informations par catégorie : clients, ventes, banque…</strong>" },
+{ s: pirate5, t: "<strong>Le grand livre</strong> <br> range toutes ces <strong>informations par catégorie : clients, ventes, banque…</strong><br>" },
 
-{ s: pirate5, t: "<strong>La balance</strong>, elle, sert à vérifier que <strong>tout est bien équilibré et qu’il n’y a pas d’erreur.</strong>" },
+{ s: pirate5, t: "<strong>La balance</strong> <br>sert à vérifier que <strong>tout est bien équilibré et qu’il n’y a pas d’erreur.</strong><br>" },
 
-{ s: pirate5, t: "<strong>Le compte de résultat</strong> montre si tu as gagné ou perdu de l’argent <strong>sur une période</strong> (souvent mensuelle)." },
+{ s: pirate5, t: "<strong>Le compte de résultat</strong><br>montre si tu as gagné ou perdu de l’argent <strong>sur une période</strong> (souvent mensuelle).<br>" },
 
-{ s: pirate5, t: "Et <strong>le bilan</strong>, c’est une photo de ce que <strong>tu possèdes et de ce que tu dois à un moment précis</strong> (le 31/12, le plus souvent)." },
+{ s: pirate5, t: "Et <strong>le bilan</strong> <br>c’est une photo de ce que <strong>tu possèdes et de ce que tu dois à un moment précis</strong><br>(le 31/12, le plus souvent)." },
 
 { s: pirate2, t: "Ah… donc ce n’est pas juste compter les pièces dans le coffre ?" },
 
-{ s: pirate5, t: "Exactement ! Être un bon pirate, c’est aussi savoir gérer son trésor intelligemment !" }
+{ s: pirate5, t: "Exactement !<br>Être un bon pirate, c’est aussi savoir gérer son trésor intelligemment !<br>" }
   ];
 
   /* =====================================================
