@@ -727,18 +727,6 @@ window.statutQ1 = function(type, card){
   `;
 } // ✅ ICI tu fermes la fonction
 
-window.statutQ2 = function(card, statut){
-
-  if(q2.has(statut)) return;
-
-  q2.add(statut);
-
-  card.classList.add("flipped");
-
-  if(q2.size === 5){
-    setTimeout(showStatutQ3,1200);
-  }
-}
 
 window.statutQ2 = function(card, statut){
 
