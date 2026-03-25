@@ -126,7 +126,7 @@ body{
 
 #progressBar{
   position: fixed;
-  right: 15px;
+  right: 30px;
   top: 35px;
   transform: translateY(-50%);
   display: flex;
