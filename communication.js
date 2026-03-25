@@ -64,56 +64,122 @@ function showLoader(duration = 1200, cb){
 }
 
 /* =====================================================
+   💾 PROGRESSION (ANTI-RETOUR)
+===================================================== */
+
+const PROGRESS_KEY = "communication_progress_v1";
+
+const stepsOrder = [
+  "dialogue1",
+  "game1",
+  "dialogue2",
+  "game2",
+  "dialogue3",
+  "game3"
+];
+
+function getProgress(){
+  return JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
+}
+
+function setStepDone(step){
+  const progress = getProgress();
+  progress[step] = true;
+  sessionStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  updateProgressBar();
+}
+
+function isStepDone(step){
+  return !!getProgress()[step];
+}
+
+function getNextStep(){
+  const progress = getProgress();
+  return stepsOrder.find(step => !progress[step]);
+}
+
+function startProgressFlow(){
+
+  const next = getNextStep();
+
+  switch(next){
+
+    case "dialogue1":
+      playDialog(dialoguesIntro, ()=>{
+        setStepDone("dialogue1");
+        startMiniGame1();
+      });
+    break;
+
+    case "game1": startMiniGame1(); break;
+
+    case "dialogue2":
+      playDialog(dialoguesAfterMG1, ()=>{
+        setStepDone("dialogue2");
+        startMiniGame2();
+      });
+    break;
+
+    case "game2": startMiniGame2(); break;
+
+    case "dialogue3":
+      playDialog(dialoguesAfterIdentity, ()=>{
+        setStepDone("dialogue3");
+        startMiniGame3();
+      });
+    break;
+
+    case "game3": startMiniGame3(); break;
+
+    default:
+      showCommunicationWin();
+  }
+}
+
+/* =====================================================
+   🏴‍☠️ PIRATES
+===================================================== */
+/* =====================================================
+   🏴‍☠️ PIRATES
+===================================================== */
+/* =====================================================
    🏴‍☠️ PIRATES
 ===================================================== */
 const pirate3 = document.getElementById("pirate3");
 const pirate2 = document.getElementById("pirate2");
 
-// Sécurité si élément absent
 if (pirate3) {
 
   pirate3.classList.add("glow");
 
   pirate3.onclick = () => {
-
     pirate3.classList.remove("glow");
-
-    playDialog([
-{speaker:"pirate2",text:"On a déjà notre premier client, mais <strong>ce n’est pas suffisant.</strong>"},
-
-{speaker:"pirate3",text:"Je vais maintenant te parler de la communication,<br><strong>un élément très important</strong> pour ta visibilité."},
-
-{speaker:"pirate2",text:"Super ! On t’écoute !"},
-
-{speaker:"pirate3",text:"La communication permet de <strong>faire connaître ta marque</strong>, d’attirer des clients<br>et de <strong>te différencier de la concurrence.</strong>"},
-
-{speaker:"pirate2",text:"Ça veut dire quoi exactement ?"},
-
-{speaker:"pirate3",text:"C’est <strong>l’ensemble des actions</strong> que tu mets en place<br>pour transmettre un message à tes clients."},
-
-{speaker:"pirate3",text:"Ses objectifs sont les suivants :"},
-
-{speaker:"pirate3",text:"<strong>1 : Se faire connaître,</strong>"},
-
-{speaker:"pirate3",text:"<strong>2 : Attirer et convaincre des clients,</strong>"},
-
-{speaker:"pirate3",text:"<strong>3 : Créer une image de marque forte,</strong>"},
-
-{speaker:"pirate3",text:"<strong>4 : Fidéliser les clients.</strong>"},
-
-{speaker:"pirate2",text:"On comprend mieux, merci !"},
-
-{speaker:"pirate2",text:"Donc grâce à ça, on <strong>augmente notre visibilité</strong><br>et les clients <strong>nous reconnaissent</strong>."},
-
-{speaker:"pirate3",text:"Exactement ! Et ils viennent te voir pour <strong>ta réputation.</strong>"},
-
-{speaker:"pirate2",text:"Mais comment faire ?"},
-
-{speaker:"pirate3",text:"Je vais t’expliquer… mais d’abord, réponds à ce quiz !"}
-    ], startMiniGame1);
-
+    startProgressFlow();
   };
+
 }
+
+/* =====================================================
+   💬 DIALOGUES INTRO
+===================================================== */
+const dialoguesIntro = [
+  {speaker:"pirate2",text:"On a déjà notre premier client, mais <strong>ce n’est pas suffisant.</strong>"},
+  {speaker:"pirate3",text:"Je vais maintenant te parler de la communication,<br><strong>un élément très important</strong> pour ta visibilité."},
+  {speaker:"pirate2",text:"Super ! On t’écoute !"},
+  {speaker:"pirate3",text:"La communication permet de <strong>faire connaître ta marque</strong>..."},
+  {speaker:"pirate2",text:"Ça veut dire quoi exactement ?"},
+  {speaker:"pirate3",text:"C’est <strong>l’ensemble des actions</strong>..."},
+  {speaker:"pirate3",text:"Ses objectifs sont les suivants :"},
+  {speaker:"pirate3",text:"<strong>1 : Se faire connaître,</strong>"},
+  {speaker:"pirate3",text:"<strong>2 : Attirer et convaincre des clients,</strong>"},
+  {speaker:"pirate3",text:"<strong>3 : Créer une image de marque forte,</strong>"},
+  {speaker:"pirate3",text:"<strong>4 : Fidéliser les clients.</strong>"},
+  {speaker:"pirate2",text:"On comprend mieux, merci !"},
+  {speaker:"pirate2",text:"Donc grâce à ça, on <strong>augmente notre visibilité</strong>..."},
+  {speaker:"pirate3",text:"Exactement ! Et ils viennent te voir pour <strong>ta réputation.</strong>"},
+  {speaker:"pirate2",text:"Mais comment faire ?"},
+  {speaker:"pirate3",text:"Je vais t’expliquer… mais d’abord, réponds à ce quiz !"}
+];
 
 /* =====================================================
    💬 DIALOGUES
@@ -286,42 +352,34 @@ function stepMG1(){
 }
 
 function afterMG1(){
+
+  setStepDone("game1"); // ✅ ICI
+
   hideMiniGame();
+
   showLoader(1200,()=>playDialog(
-    [
-{ speaker:"pirate2", text:"Parfait." },
-
-{ speaker:"pirate3", text:"Passons à ton <strong>identité visuelle.</strong>" },
-
-{ speaker:"pirate3", text:"C’est <strong>l’image de ton entreprise.</strong>" },
-
-{ speaker:"pirate3", text:"Elle regroupe <strong>tous les éléments graphiques</strong><br>qui permettent de reconnaître ta marque." },
-
-{ speaker:"pirate3", text:"Elle comprend :" },
-
-{ speaker:"pirate3", text:"<strong>Le logo,</strong>" },
-
-{ speaker:"pirate3", text:"<strong>les couleurs,</strong>" },
-
-{ speaker:"pirate3", text:"<strong>la typographie,</strong>" },
-
-{ speaker:"pirate3", text:"et parfois <strong>des visuels ou un univers graphique.</strong>" },
-
-{ speaker:"pirate2", text:"Ça a l’air facile." },
-
-{ speaker:"pirate3", text:"Pas vraiment.<br>Une identité visuelle doit être <strong>cohérente,</strong>" },
-
-{ speaker:"pirate3", text:"<strong>reconnaissable</strong> et <strong>professionnelle,</strong>" },
-
-{ speaker:"pirate3", text:"car elle <strong>influence l’image</strong> que les clients ont de toi<br>et <strong>renforce ta crédibilité.</strong>" },
-
-{ speaker:"pirate2", text:"Ah… ça a l’air moins facile d’un coup." },
-
-{ speaker:"pirate3", text:"Ne t’inquiète pas, je vais tout t’expliquer !" }
-    ],
+    dialoguesAfterMG1,
     startMiniGame2
   ));
 }
+
+   const dialoguesAfterMG1 = [
+  { speaker:"pirate2", text:"Parfait." },
+  { speaker:"pirate3", text:"Passons à ton <strong>identité visuelle.</strong>" },
+  { speaker:"pirate3", text:"C’est <strong>l’image de ton entreprise.</strong>" },
+  { speaker:"pirate3", text:"Elle regroupe <strong>tous les éléments graphiques</strong><br>qui permettent de reconnaître ta marque." },
+  { speaker:"pirate3", text:"Elle comprend :" },
+  { speaker:"pirate3", text:"<strong>Le logo,</strong>" },
+  { speaker:"pirate3", text:"<strong>les couleurs,</strong>" },
+  { speaker:"pirate3", text:"<strong>la typographie,</strong>" },
+  { speaker:"pirate3", text:"et parfois <strong>des visuels ou un univers graphique.</strong>" },
+  { speaker:"pirate2", text:"Ça a l’air facile." },
+  { speaker:"pirate3", text:"Pas vraiment.<br>Une identité visuelle doit être <strong>cohérente,</strong>" },
+  { speaker:"pirate3", text:"<strong>reconnaissable</strong> et <strong>professionnelle,</strong>" },
+  { speaker:"pirate3", text:"car elle <strong>influence l’image</strong> que les clients ont de toi<br>et <strong>renforce ta crédibilité.</strong>" },
+  { speaker:"pirate2", text:"Ah… ça a l’air moins facile d’un coup." },
+  { speaker:"pirate3", text:"Ne t’inquiète pas, je vais tout t’expliquer !" }
+];
 
 /* =====================================================
    🔎 ZOOM
@@ -535,52 +593,58 @@ zoomBtn.onclick = () => {
   /* =====================================================
      ➜ SUITE DE LA QUÊTE
   ===================================================== */
+continueBtn.onclick = () => {
 
-  continueBtn.onclick = () => {
-    overlay.remove();
+  setStepDone("game2"); // ✅ ici
 
-    playDialog(
-      [
-{ speaker:"pirate2", text:"Magnifique identité." },
+  overlay.remove();
 
-{ speaker:"pirate3", text:"Passons à la diffusion." },
+  playDialog(dialoguesAfterIdentity, () => {
+    setStepDone("dialogue3"); // recommandé
+    startMiniGame3();
+  });
 
-{ speaker:"pirate3", text:"Un <strong>canal de diffusion</strong>, c’est un moyen<br>de <strong>transmettre un message à des clients ou des prospects.</strong>" },
+};
 
-{ speaker:"pirate2", text:"Les <strong>réseaux sociaux</strong> ou les <strong>emails</strong>, ça en fait partie ?" },
+};
 
-{ speaker:"pirate3", text:"Oui, ainsi que ton <strong>site internet.</strong>" },
+   const dialoguesAfterIdentity = [
+  { speaker:"pirate2", text:"Magnifique identité." },
 
-{ speaker:"pirate2", text:"Mais avec tous ces canaux, comment avoir une communication efficace ?" },
+  { speaker:"pirate3", text:"Passons à la diffusion." },
 
-{ speaker:"pirate3", text:"Il faut <strong>choisir les bons canaux</strong><br>en fonction de ta <strong>cible.</strong>" },
+  { speaker:"pirate3", text:"Un <strong>canal de diffusion</strong>, c’est un moyen<br>de <strong>transmettre un message à des clients ou des prospects.</strong>" },
 
-{ speaker:"pirate3", text:"Par exemple, pour parler à des clients (BtoC),<br><strong>Instagram ou TikTok</strong> sont très utilisés." },
+  { speaker:"pirate2", text:"Les <strong>réseaux sociaux</strong> ou les <strong>emails</strong>, ça en fait partie ?" },
 
-{ speaker:"pirate3", text:"L’objectif est d’être <strong>là où se trouvent tes clients.</strong>" },
+  { speaker:"pirate3", text:"Oui, ainsi que ton <strong>site internet.</strong>" },
 
-{ speaker:"pirate3", text:"Tu peux aussi utiliser <strong>plusieurs canaux</strong><br>pour <strong>augmenter ta visibilité.</strong>" },
+  { speaker:"pirate2", text:"Mais avec tous ces canaux, comment avoir une communication efficace ?" },
 
-{ speaker:"pirate3", text:"Mais attention, tu dois <strong>adapter ton message</strong> à chaque canal." },
+  { speaker:"pirate3", text:"Il faut <strong>choisir les bons canaux</strong><br>en fonction de ta <strong>cible.</strong>" },
 
-{ speaker:"pirate3", text:"Sur les réseaux sociaux :<br><strong>un contenu visuel et rapide.</strong>" },
+  { speaker:"pirate3", text:"Par exemple, pour parler à des clients (BtoC),<br><strong>Instagram ou TikTok</strong> sont très utilisés." },
 
-{ speaker:"pirate3", text:"Dans les emails :<br><strong>un message plus détaillé.</strong>" },
+  { speaker:"pirate3", text:"L’objectif est d’être <strong>là où se trouvent tes clients.</strong>" },
 
-{ speaker:"pirate3", text:"Sur ton site internet :<br><strong>des informations complètes et rassurantes.</strong>" },
+  { speaker:"pirate3", text:"Tu peux aussi utiliser <strong>plusieurs canaux</strong><br>pour <strong>augmenter ta visibilité.</strong>" },
 
-{ speaker:"pirate3", text:"Et surtout, il faut être <strong>régulier.</strong>" },
+  { speaker:"pirate3", text:"Mais attention, tu dois <strong>adapter ton message</strong> à chaque canal." },
 
-{ speaker:"pirate3", text:"Publier souvent permet de rester <strong>visible</strong><br>et de <strong>créer une relation</strong> avec ton audience." },
+  { speaker:"pirate3", text:"Sur les réseaux sociaux :<br><strong>un contenu visuel et rapide.</strong>" },
 
-{ speaker:"pirate2", text:"Ça fait beaucoup à comprendre !" },
+  { speaker:"pirate3", text:"Dans les emails :<br><strong>un message plus détaillé.</strong>" },
 
-{ speaker:"pirate3", text:"Ne t’inquiète pas, le quiz est là pour t’aider." }
-      ],
-      startMiniGame3
-    );
-  };
-}
+  { speaker:"pirate3", text:"Sur ton site internet :<br><strong>des informations complètes et rassurantes.</strong>" },
+
+  { speaker:"pirate3", text:"Et surtout, il faut être <strong>régulier.</strong>" },
+
+  { speaker:"pirate3", text:"Publier souvent permet de rester <strong>visible</strong><br>et de <strong>créer une relation</strong> avec ton audience." },
+
+  { speaker:"pirate2", text:"Ça fait beaucoup à comprendre !" },
+
+  { speaker:"pirate3", text:"Ne t’inquiète pas, le quiz est là pour t’aider." }
+];
 
 /* =====================================================
    🔗 MINI-JEU 3
@@ -666,6 +730,9 @@ r.className = "mg3-column mg3-right";
    🏆 VICTOIRE + EXPLOSION
 ===================================================== */
 function showCommunicationWin(){
+
+  setStepDone("game3"); // ✅ ICI
+
   showLoader(1000, ()=>{
     const overlay = document.createElement("div");
     overlay.id = "communication-win";
@@ -717,4 +784,42 @@ function launchGemsExplosion(container){
     container.appendChild(gem);
   }
 }
+
+/* =====================================================
+   📊 PROGRESS BAR
+===================================================== */
+
+function createProgressBar(){
+
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
+
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+    item.dataset.step = step;
+    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
+    bar.appendChild(item);
+  });
+
+  document.body.appendChild(bar);
+
+  updateProgressBar();
+}
+
+function updateProgressBar(){
+
+  const progress = getProgress();
+
+  document.querySelectorAll(".progress-step").forEach(el=>{
+    const step = el.dataset.step;
+
+    progress[step]
+      ? el.classList.add("done")
+      : el.classList.remove("done");
+  });
+}
+
+   createProgressBar();
+   
 });
