@@ -43,6 +43,72 @@ function hideLoader(){
     loader.classList.add("hidden");
   }
 }
+
+/* =====================================================
+   💾 PROGRESSION (ANTI-RETOUR)
+===================================================== */
+
+const PROGRESS_KEY = "finance_progress_v1";
+
+const stepsOrder = [
+  "dialogue1",
+  "game1",
+  "dialogue2",
+  "game2",
+  "dialogue3",
+  "game3"
+];
+
+function getProgress(){
+  return JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
+}
+
+function setStepDone(step){
+  const progress = getProgress();
+  progress[step] = true;
+  sessionStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  updateProgressBar();
+}
+
+function isStepDone(step){
+  return !!getProgress()[step];
+}
+
+function getNextStep(){
+  const progress = getProgress();
+  return stepsOrder.find(step => !progress[step]);
+}
+
+function startProgressFlow(){
+
+  const next = getNextStep();
+
+  switch(next){
+    case "dialogue1": startDialogues(dialoguesIntro, ()=>{ 
+      setStepDone("dialogue1"); 
+      startMiniGame1();
+    }); break;
+
+    case "game1": startMiniGame1(); break;
+
+    case "dialogue2": startDialogues(dialoguesBeforeMini2, ()=>{ 
+      setStepDone("dialogue2"); 
+      startMiniGame2();
+    }); break;
+
+    case "game2": startMiniGame2(); break;
+
+    case "dialogue3": startDialogues(dialoguesEBE, ()=>{ 
+      setStepDone("dialogue3"); 
+      startMiniGame3();
+    }); break;
+
+    case "game3": startMiniGame3(); break;
+
+    default:
+      showCommerceWin();
+  }
+}
   
 /* =====================================================
    🔀 SHUFFLE UTILITAIRE GLOBAL
@@ -133,8 +199,7 @@ pirate5.onclick = () => {
   pirateClickable = false;
   pirate5.style.filter = "";
 
-  startDialogues(dialoguesIntro, startMiniGame1);
-
+  startProgressFlow();
 };
 
   /* =====================================================
@@ -305,6 +370,9 @@ setTimeout(()=>btn.classList.remove("wrongAnswer"),350);
   }
 
 function endMiniGame1() {
+
+  setStepDone("game1"); // ✅ ICI
+
   miniGame1.classList.add("hidden");
 
   showLoader();
@@ -534,6 +602,8 @@ window.checkAmortBase = function(btn, ok){
 ===================================================== */
 
 window.checkMonthlyAmort = function(btn, ok){
+
+  setStepDone("game2");
 
   if(!ok){
     btn.classList.add("wrongAnswer");
@@ -831,6 +901,8 @@ function startMiniGame3(){
 
 function finishMiniGame3(){
 
+  setStepDone("game3");
+
   if (!miniGame3) return;
 
   miniGame3.classList.add("hidden");
@@ -893,5 +965,47 @@ function launchGemsExplosion(container){
     container.appendChild(g);
   }
 }
+
+/* =====================================================
+   📊 PROGRESS BAR
+===================================================== */
+
+function createProgressBar(){
+
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
+
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+
+    item.dataset.step = step;
+
+    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
+
+    bar.appendChild(item);
+  });
+
+  document.body.appendChild(bar);
+
+  updateProgressBar();
+}
+
+function updateProgressBar(){
+
+  const progress = getProgress();
+
+  document.querySelectorAll(".progress-step").forEach(el=>{
+    const step = el.dataset.step;
+
+    if(progress[step]){
+      el.classList.add("done");
+    } else {
+      el.classList.remove("done");
+    }
+  });
+}
+
+  createProgressBar();
 
 });
