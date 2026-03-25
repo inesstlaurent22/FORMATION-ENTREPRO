@@ -1159,12 +1159,11 @@ window.coffreAnswer = function(good,btn){
 
   step4++;
 
-  if(step4 < 3){
-    showCoffreTVA();
-  } else {
-    step4 = 3;
-    showCoffreTVA();
-  }
+  if(step4 < 4){
+  showCoffreTVA();
+} else {
+  showCoffreTVA();
+}
 };
    
 /* =====================================================
