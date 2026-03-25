@@ -39,7 +39,103 @@ function shake(el){
   },400);
 
 }
-   
+
+/* =====================================================
+   💾 PROGRESSION (ANTI-RETOUR)
+===================================================== */
+
+const PROGRESS_KEY = "legal_progress_v1";
+
+const stepsOrder = [
+  "dialogue1",
+  "game1",
+  "dialogue2",
+  "game2",
+  "dialogue3",
+  "game3",
+  "dialogueFinal",
+  "game4"
+];
+
+function getProgress(){
+  return JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
+}
+
+function setStepDone(step){
+  const progress = getProgress();
+  progress[step] = true;
+  sessionStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  updateProgressBar();
+}
+
+function isStepDone(step){
+  return !!getProgress()[step];
+}
+
+/* Trouve la prochaine étape à jouer */
+function getNextStep(){
+  const progress = getProgress();
+  return stepsOrder.find(step => !progress[step]);
+}
+
+function startProgressFlow(){
+
+  const next = getNextStep();
+
+  switch(next){
+    case "dialogue1": startDialogues1(); break;
+    case "game1": startMiniGame1(); break;
+    case "dialogue2": startDialogues2(); break;
+    case "game2": startMiniGame2(); break;
+    case "dialogue3": startDialoguesTVA(); break;
+    case "game3": startMiniGame3(); break;
+    case "dialogueFinal": startDialoguesFinal(); break;
+    case "game4": startMiniGame4(); break;
+    default:
+      showLegalWin();
+  }
+}
+
+/* =====================================================
+   📊 PROGRESS BAR UI
+===================================================== */
+
+function createProgressBar(){
+
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
+
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+
+    item.dataset.step = step;
+
+    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
+
+    bar.appendChild(item);
+  });
+
+  document.body.appendChild(bar);
+
+  updateProgressBar();
+}
+
+function updateProgressBar(){
+
+  const progress = getProgress();
+
+  document.querySelectorAll(".progress-step").forEach(el=>{
+    const step = el.dataset.step;
+
+    if(progress[step]){
+      el.classList.add("done");
+    } else {
+      el.classList.remove("done");
+    }
+  });
+}
+
 /* =====================================================
    🎬 VIDÉO
 ===================================================== */
@@ -99,7 +195,7 @@ function endVideo(){
     if(pirateLegal){
   pirateLegal.style.pointerEvents = "auto";
 
-  pirateLegal.onclick = startDialogues1;
+  pirateLegal.onclick = startProgressFlow;
 }
 
   });
@@ -239,12 +335,18 @@ const dialoguesStatutIntro = [
   { el:dLegal, text:"Voyons si tu es prêt à faire le bon choix." }
 ];
 
-   function startDialogues1(){
+function startDialogues1(){
+  if(isStepDone("dialogue1")) return startMiniGame1();
+
   dIndex = 0;
   pirateLegal.classList.add("noGlow");
-  runDialogues(dialoguesStatutIntro, startMiniGame1);
-}
 
+  runDialogues(dialoguesStatutIntro, ()=>{
+    setStepDone("dialogue1");
+    startMiniGame1();
+  });
+}
+   
 /* =====================================================
    🎮 MINI-JEU 1 — AUTO-ENTREPRENEUR
 ===================================================== */
@@ -408,6 +510,8 @@ function showAEQuestion(){
 }
 
 function endMiniGame1(){
+  setStepDone("game1");
+
   miniGame1.style.display = "none";
   scene.classList.remove("sceneDim");
   startDialogues2();
@@ -453,8 +557,14 @@ const dialogues2 = [
 ];
 
 function startDialogues2(){
+  if(isStepDone("dialogue2")) return startMiniGame2();
+
   dIndex = 0;
-  runDialogues(dialogues2, startMiniGame2);
+
+  runDialogues(dialogues2, ()=>{
+    setStepDone("dialogue2");
+    startMiniGame2();
+  });
 }
 
 /* =====================================================
@@ -667,13 +777,15 @@ window.statutQ3 = function(btn,val){
   /* fin du mini jeu */
   if(q3.size === 3){
 
-    setTimeout(()=>{
-      miniGame2.style.display = "none";
-      scene.classList.remove("sceneDim");
-      startDialoguesTVA();
-    },400);
+  setTimeout(()=>{
+    setStepDone("game2");
 
-  }
+    miniGame2.style.display = "none";
+    scene.classList.remove("sceneDim");
+    startDialoguesTVA();
+  },400);
+
+}
 };
 
 /* =====================================================
@@ -720,8 +832,14 @@ const dialoguesTVA = [
 ];
 
 function startDialoguesTVA(){
+  if(isStepDone("dialogue3")) return startMiniGame3();
+
   dIndex = 0;
-  runDialogues(dialoguesTVA, startMiniGame3);
+
+  runDialogues(dialoguesTVA, ()=>{
+    setStepDone("dialogue3");
+    startMiniGame3();
+  });
 }
 
 /* =====================================================
@@ -871,6 +989,8 @@ b.onclick = ()=>{
 }
 
 function endMiniGame3(){
+  setStepDone("game3");
+
   miniGame3.style.display = "none";
   scene.classList.remove("sceneDim");
   startDialoguesFinal();
@@ -900,8 +1020,14 @@ const dialoguesFinal = [
 ];
 
 function startDialoguesFinal(){
+  if(isStepDone("dialogueFinal")) return startMiniGame4();
+
   dIndex = 0;
-  runDialogues(dialoguesFinal, startMiniGame4);
+
+  runDialogues(dialoguesFinal, ()=>{
+    setStepDone("dialogueFinal");
+    startMiniGame4();
+  });
 }
 
 /* =====================================================
@@ -1001,6 +1127,9 @@ function showCoffreTVA(){
 }
 
 window.endMiniGame4 = function(){
+
+  setStepDone("game4");
+
   miniGame4.style.display = "none";
   scene.classList.remove("sceneDim");
   showLegalWin();
@@ -1071,31 +1200,36 @@ window.showLegalWin = function(){
 ===================================================== */
 function launchGemsExplosion(container){
 
-  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
 
-  for(let i=0;i<50;i++){
+  for(let i = 0; i < 50; i++){
 
-    const g=document.createElement("div");
-    g.className="gem";
+    const g = document.createElement("div");
+    g.className = "gem";
 
-    const size=Math.random()*10+8;
+    const size = Math.random() * 10 + 8;
 
-    g.style.width=size+"px";
-    g.style.height=size+"px";
+    g.style.width = size + "px";
+    g.style.height = size + "px";
 
-    g.style.background=colors[Math.floor(Math.random()*colors.length)];
+    g.style.background = colors[Math.floor(Math.random() * colors.length)];
 
-    g.style.left="50%";
-    g.style.top="50%";
+    g.style.left = "50%";
+    g.style.top = "50%";
 
-    const angle=Math.random()*Math.PI*2;
-    const dist=Math.random()*260+80;
+    const angle = Math.random() * Math.PI * 2;
+    const dist = Math.random() * 260 + 80;
 
-    g.style.setProperty("--x",Math.cos(angle)*dist+"px");
-    g.style.setProperty("--y",Math.sin(angle)*dist+"px");
+    g.style.setProperty("--x", Math.cos(angle) * dist + "px");
+    g.style.setProperty("--y", Math.sin(angle) * dist + "px");
 
     container.appendChild(g);
   }
 }
 
-}); 
+/* =====================================================
+   🚀 INIT GLOBAL (À NE PAS OUBLIER)
+===================================================== */
+createProgressBar();
+
+});
