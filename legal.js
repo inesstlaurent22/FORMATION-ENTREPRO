@@ -145,10 +145,24 @@ const skipBtn = document.getElementById("closeVideo");
 const soundBtn = document.getElementById("toggleSound");
 const scene = document.getElementById("scene");
 const pirateLegal = document.getElementById("pirateLegal");
-   
+
 let videoEnded = false;
 
-/* Sécurité : vérifier que tout existe */
+/* =====================================================
+   🔧 ACTIVER LE PIRATE (FIX PRINCIPAL)
+===================================================== */
+function activatePirate(){
+
+  if(!pirateLegal) return;
+
+  pirateLegal.style.pointerEvents = "auto";
+
+  pirateLegal.addEventListener("click", startProgressFlow, { once:true });
+}
+
+/* =====================================================
+   🎬 SETUP VIDÉO
+===================================================== */
 if(video && soundBtn && skipBtn){
 
   video.muted = true;
@@ -168,6 +182,9 @@ if(video && soundBtn && skipBtn){
   video.addEventListener("ended", endVideo);
 }
 
+/* =====================================================
+   🎬 FIN VIDÉO
+===================================================== */
 function endVideo(){
 
   if(videoEnded) return;
@@ -180,27 +197,37 @@ function endVideo(){
     video.load();
   }
 
-  /* Cache le conteneur vidéo */
+  /* Cache vidéo */
   if(videoContainer){
     videoContainer.classList.add("hidden");
   }
 
-  /* Loader puis affichage de la scène */
+  /* Loader → scène */
   showLoader(1200, () => {
 
     if(scene){
       scene.style.display = "block";
     }
 
-    if(pirateLegal){
-  pirateLegal.style.pointerEvents = "auto";
-
-  pirateLegal.onclick = startProgressFlow;
-}
+    activatePirate(); // 🔥 FIX IMPORTANT
 
   });
-
 }
+
+/* =====================================================
+   🛟 FALLBACK (TRÈS IMPORTANT)
+===================================================== */
+
+/* Si la vidéo ne se lance pas (iOS / bug autoplay) */
+setTimeout(() => {
+  if(!videoEnded){
+    console.log("Fallback vidéo déclenché");
+    endVideo();
+  }
+}, 4000);
+
+/* Sécurité : active le pirate même sans vidéo */
+activatePirate();
 
 /* =====================================================
    🔘 EFFETS BOUTONS MINI-JEUX
