@@ -242,12 +242,17 @@ function createSkipDialoguesBtn(callback){
   skipBtnDialogues = document.createElement("button");
   skipBtnDialogues.id = "skipDialoguesBtn";
   skipBtnDialogues.textContent = "Passer les dialogues";
+   
   skipBtnDialogues.onclick = () => {
-    dLegal.style.display = "none";
-    dPirate.style.display = "none";
-    removeSkipDialoguesBtn();
-    callback && callback();
-  };
+  dLegal.style.display = "none";
+  dPirate.style.display = "none";
+  removeSkipDialoguesBtn();
+
+  // 🔥 marque comme terminé
+  if(currentDialogueCallback){
+    currentDialogueCallback();
+  }
+};
 
   document.body.appendChild(skipBtnDialogues);
 }
@@ -640,14 +645,13 @@ window.statutQ1 = function(type, card){
     setTimeout(showStatutQ2,1200);
   }
 }
- 
-function showStatutQ2(){
+
+   function showStatutQ2(){
   q2.clear();
 
-game2Content.innerHTML = `
-  <h3>📜 Les avantages des statuts</h3>
-
-  <div class="status-cards">
+  game2Content.innerHTML = `
+    <h3>📜 Les avantages des statuts</h3>
+    <div class="status-cards">
 
     <div class="status-card" onclick="statutQ2(this,'EURL')">
       <div class="status-card-inner">
@@ -720,7 +724,21 @@ game2Content.innerHTML = `
     </div>
 
   </div>
-`;
+  `;
+} // ✅ ICI tu fermes la fonction
+
+window.statutQ2 = function(card, statut){
+
+  if(q2.has(statut)) return;
+
+  q2.add(statut);
+
+  card.classList.add("flipped");
+
+  if(q2.size === 5){
+    setTimeout(showStatutQ3,1200);
+  }
+}
 
 window.statutQ2 = function(card, statut){
 
