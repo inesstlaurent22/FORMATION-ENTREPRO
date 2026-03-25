@@ -417,9 +417,39 @@ function endMiniGame1(){
    💬 DIALOGUES 2 — STATUT
 ===================================================== */
 const dialogues2 = [
-  { el:dLegal, text:"L’auto-entrepreneuriat est un bon départ…" },
-  { el:dPirate, text:"…mais quand le trésor grandit, il faut évoluer." },
-  { el:dLegal, text:"Choisissons le bon statut juridique." }
+  { el:dLegal, text:"Tu veux passer en <strong>société</strong> ? Alors choisis le bon navire." },
+
+  { el:dPirate, text:"<strong>SASU</strong>, <strong>EURL</strong>, <strong>SAS</strong>, <strong>SARL</strong>… chacun a ses règles." },
+
+  { el:dLegal, text:"👉 <strong>Tu es seul</strong> ? Tu peux choisir entre <strong>SASU</strong> et <strong>EURL</strong>." },
+
+  { el:dLegal, text:"La <strong>SASU</strong> offre <strong>flexibilité</strong> et <strong>protection sociale élevée</strong>." },
+
+  { el:dLegal, text:"L’<strong>EURL</strong> permet de <strong>payer moins de charges</strong>, mais avec une <strong>protection plus faible</strong>." },
+
+  { el:dPirate, text:"👉 <strong>Vous êtes plusieurs</strong> ? Direction <strong>SAS</strong> ou <strong>SARL</strong>." },
+
+  { el:dLegal, text:"La <strong>SAS</strong> est idéale pour <strong>accueillir des investisseurs</strong> et évoluer facilement." },
+
+  { el:dLegal, text:"La <strong>SARL</strong> est plus <strong>encadrée</strong>, souvent choisie pour des projets <strong>familiaux</strong>." },
+
+  { el:dPirate, text:"Et les limites dans tout ça ?" },
+
+  { el:dLegal, text:"Contrairement à l’auto-entrepreneur, une <strong>société n’a pas de plafond de chiffre d’affaires</strong>." },
+
+  { el:dLegal, text:"Mais attention : plus tu gagnes, plus la <strong>gestion</strong> et les <strong>obligations comptables</strong> augmentent." },
+
+  { el:dPirate, text:"Alors… quand passer en société ?" },
+
+  { el:dLegal, text:"👉 Quand ton <strong>chiffre d’affaires dépasse les seuils de l’auto-entrepreneur</strong>." },
+
+  { el:dLegal, text:"👉 Quand tu veux <strong>embaucher</strong>, <strong>t’associer</strong> ou <strong>développer ton activité</strong>." },
+
+  { el:dPirate, text:"👉 Ou quand tu veux protéger ton <strong>patrimoine</strong> comme un vrai capitaine." },
+
+  { el:dLegal, text:"Chaque statut a ses avantages… tout dépend de ton <strong>projet</strong> et de ton <strong>ambition</strong>." },
+
+  { el:dLegal, text:"Voyons maintenant si tu sais choisir le bon statut." }
 ];
 
 function startDialogues2(){
@@ -504,84 +534,83 @@ window.statutQ1 = function(type, card){
 function showStatutQ2(){
   q2.clear();
 
-  game2Content.innerHTML = `
-    <h3>📜 Pourquoi changer de statut ?</h3>
+game2Content.innerHTML = `
+  <h3>📜 Les avantages des statuts</h3>
 
-    <div class="status-cards">
+  <div class="status-cards">
 
-      <div class="status-card" onclick="statutQ2(this,'EI')">
-        <div class="status-card-inner">
+    <div class="status-card" onclick="statutQ2(this,'EURL')">
+      <div class="status-card-inner">
 
-          <div class="status-face status-front">
-            Simplifier
-          </div>
-
-          <div class="status-face status-back">
-            Simplifier la gestion avec une structure individuelle.
-          </div>
-
+        <div class="status-face status-front">
+          💰 Charges réduites
         </div>
-      </div>
 
-      <div class="status-card" onclick="statutQ2(this,'EURL')">
-        <div class="status-card-inner">
-
-          <div class="status-face status-front">
-            Rentabilité
-          </div>
-
-          <div class="status-face status-back">
-            Optimiser la rentabilité avec une structure de société.
-          </div>
-
+        <div class="status-face status-back">
+          L’<strong>EURL</strong> permet de payer <strong>moins de cotisations sociales</strong> qu’une SASU.
         </div>
+
       </div>
-
-      <div class="status-card" onclick="statutQ2(this,'SASU')">
-        <div class="status-card-inner">
-
-          <div class="status-face status-front">
-            Image
-          </div>
-
-          <div class="status-face status-back">
-            Améliorer l'image professionnelle et crédibiliser l'entreprise.
-          </div>
-
-        </div>
-      </div>
-
-      <div class="status-card" onclick="statutQ2(this,'SARL')">
-        <div class="status-card-inner">
-
-          <div class="status-face status-front">
-            Risques
-          </div>
-
-          <div class="status-face status-back">
-            Mieux protéger le patrimoine face aux risques.
-          </div>
-
-        </div>
-      </div>
-
-      <div class="status-card" onclick="statutQ2(this,'SAS')">
-        <div class="status-card-inner">
-
-          <div class="status-face status-front">
-            Équipe
-          </div>
-
-          <div class="status-face status-back">
-            Faciliter le travail en équipe et l'entrée d'associés.
-          </div>
-
-        </div>
-      </div>
-
     </div>
-  `;
-}
+
+    <div class="status-card" onclick="statutQ2(this,'SASU')">
+      <div class="status-card-inner">
+
+        <div class="status-face status-front">
+          🛡️ Protection sociale
+        </div>
+
+        <div class="status-face status-back">
+          La <strong>SASU</strong> offre une <strong>meilleure protection sociale</strong> (assimilé salarié).
+        </div>
+
+      </div>
+    </div>
+
+    <div class="status-card" onclick="statutQ2(this,'SAS')">
+      <div class="status-card-inner">
+
+        <div class="status-face status-front">
+          🚀 Évolution rapide
+        </div>
+
+        <div class="status-face status-back">
+          La <strong>SAS</strong> est idéale pour <strong>faire entrer des investisseurs</strong> et évoluer.
+        </div>
+
+      </div>
+    </div>
+
+    <div class="status-card" onclick="statutQ2(this,'SARL')">
+      <div class="status-card-inner">
+
+        <div class="status-face status-front">
+          👨‍👩‍👧‍👦 Cadre sécurisé
+        </div>
+
+        <div class="status-face status-back">
+          La <strong>SARL</strong> est plus <strong>encadrée juridiquement</strong>, souvent utilisée en famille.
+        </div>
+
+      </div>
+    </div>
+
+    <div class="status-card" onclick="statutQ2(this,'GLOBAL')">
+      <div class="status-card-inner">
+
+        <div class="status-face status-front">
+          📈 Sans limite
+        </div>
+
+        <div class="status-face status-back">
+          En <strong>société</strong>, il n’y a <strong>aucun plafond de chiffre d’affaires</strong>.
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+`;
 
 window.statutQ2 = function(card, statut){
 
@@ -651,8 +680,43 @@ window.statutQ3 = function(btn,val){
    💬 DIALOGUES 3 — TVA
 ===================================================== */
 const dialoguesTVA = [
-  { el:dLegal, text:"Même en auto-entreprise, tu peux être assujetti à la TVA." },
-  { el:dLegal, text:"Voyons si tu sais vraiment la gérer." }
+  { el:dLegal, text:"Parlons maintenant de la <strong>TVA</strong>… un passage obligé pour tout entrepreneur." },
+
+  { el:dPirate, text:"Que tu sois en <strong>auto-entrepreneur</strong> ou en <strong>société</strong>… tu peux être concerné." },
+
+  { el:dLegal, text:"En <strong>société</strong>, la règle est simple : tu es <strong>presque toujours soumis à la TVA</strong>." },
+
+  { el:dLegal, text:"Tu <strong>collectes la TVA</strong> sur tes ventes… puis tu la <strong>reverses à l’État</strong>." },
+
+  { el:dPirate, text:"Mais bonne nouvelle… tu peux aussi récupérer de l’or." },
+
+  { el:dLegal, text:"👉 Tu peux <strong>déduire la TVA</strong> sur tes <strong>dépenses professionnelles</strong>." },
+
+  { el:dLegal, text:"C’est ce qu’on appelle la <strong>TVA déductible</strong>." },
+
+  { el:dLegal, text:"👉 Tu fais : <strong>TVA collectée - TVA déductible = TVA à payer</strong>." },
+
+  { el:dPirate, text:"Et pour l’auto-entrepreneur ?" },
+
+  { el:dLegal, text:"Il existe <strong>deux situations</strong>." },
+
+  { el:dLegal, text:"👉 Le régime <strong>micro (franchise en base)</strong> : tu ne factures <strong>pas de TVA</strong>." },
+
+  { el:dLegal, text:"Mais tu ne peux pas non plus <strong>récupérer la TVA</strong> sur tes dépenses." },
+
+  { el:dLegal, text:"👉 Si tu dépasses certains <strong>seuils de chiffre d’affaires</strong>, tu deviens <strong>assujetti à la TVA</strong>." },
+
+  { el:dPirate, text:"Et là… tu joues dans la cour des grands." },
+
+  { el:dLegal, text:"Tu dois <strong>facturer la TVA</strong>, la <strong>déclarer</strong>… et tu peux enfin <strong>déduire tes charges</strong>." },
+
+  { el:dLegal, text:"👉 Exemple : tu achètes un outil avec TVA… tu peux <strong>récupérer cette TVA</strong>." },
+
+  { el:dPirate, text:"Moins tu payes de TVA… plus tu gardes de trésor." },
+
+  { el:dLegal, text:"Maîtriser la <strong>TVA</strong>, c’est <strong>protéger ta rentabilité</strong>." },
+
+  { el:dLegal, text:"Voyons maintenant si tu sais la calculer correctement." }
 ];
 
 function startDialoguesTVA(){
@@ -666,9 +730,94 @@ function startDialoguesTVA(){
 const miniGame3 = document.getElementById("miniGame3");
 
 const tvaQ = [
-  { q:"90 000 € en prestations ?", good:["Oui"], bad:["Non"] },
-  { q:"Récupérer la TVA consiste à :", good:["Collecter puis reverser"], bad:["La garder","Augmenter ses prix"] },
-  { q:"Puis-je récupérer la TVA sur mes dépenses ?", good:["Oui"], bad:["Non"] }
+  {
+    q:"En société, suis-je soumis à la TVA ?",
+    good:[
+      "Oui, dans la majorité des cas"
+    ],
+    bad:[
+      "Non, jamais",
+      "Seulement la première année",
+      "Uniquement si je dépasse un seuil"
+    ]
+  },
+  {
+    q:"La TVA collectée correspond à :",
+    good:[
+      "La TVA que je facture à mes clients"
+    ],
+    bad:[
+      "La TVA que je garde",
+      "Une taxe optionnelle",
+      "La TVA sur mes achats"
+    ]
+  },
+  {
+    q:"La TVA déductible correspond à :",
+    good:[
+      "La TVA sur mes dépenses professionnelles"
+    ],
+    bad:[
+      "La TVA que je donne à l’État",
+      "Une taxe fixe",
+      "Une pénalité"
+    ]
+  },
+  {
+    q:"Comment calcule-t-on la TVA à payer ?",
+    good:[
+      "TVA collectée - TVA déductible"
+    ],
+    bad:[
+      "TVA collectée + TVA déductible",
+      "Chiffre d’affaires - TVA",
+      "TVA × 2"
+    ]
+  },
+  {
+    q:"Auto-entrepreneur en franchise de TVA :",
+    good:[
+      "Je ne facture pas de TVA",
+      "Je ne récupère pas la TVA"
+    ],
+    bad:[
+      "Je récupère la TVA",
+      "Je dois reverser la TVA"
+    ]
+  },
+  {
+    q:"Tu encaisses 200€ de TVA et tu as 50€ de TVA sur tes dépenses. Combien dois-tu reverser ?",
+    good:[
+      "150 €"
+    ],
+    bad:[
+      "200 €",
+      "50 €",
+      "250 €"
+    ]
+  },
+  {
+    q:"Tu factures 120€ TTC avec 20€ de TVA. Le prix HT est :",
+    good:[
+      "100 €"
+    ],
+    bad:[
+      "120 €",
+      "140 €",
+      "80 €"
+    ]
+  },
+  {
+    q:"Pourquoi récupérer la TVA est important ?",
+    good:[
+      "Réduire ses coûts",
+      "Améliorer sa rentabilité"
+    ],
+    bad:[
+      "Augmenter ses taxes",
+      "Payer plus à l’État"
+    ]
+  }
 ];
 
 let tvaI = 0, tvaGood = 0;
@@ -731,8 +880,23 @@ function endMiniGame3(){
    💬 DIALOGUES FINALS
 ===================================================== */
 const dialoguesFinal = [
-  { el:dLegal, text:"Très bon travail." },
-  { el:dLegal, text:"Vous êtes désormais en parfaite légalité." }
+  { el:dLegal, text:"Très bon travail… tu maîtrises désormais les bases de la <strong>TVA</strong>." },
+
+  { el:dPirate, text:"Collecter, déduire, calculer… rien ne t’échappe." },
+
+  { el:dLegal, text:"Tu sais maintenant faire : <strong>TVA collectée - TVA déductible</strong>." },
+
+  { el:dLegal, text:"Et surtout… tu comprends <strong>quand tu dois la payer</strong> et <strong>comment l’optimiser</strong>." },
+
+  { el:dPirate, text:"Même les coffres fiscaux ne te résistent plus." },
+
+  { el:dLegal, text:"Tes compétences sont désormais <strong>validées</strong>." },
+
+  { el:dLegal, text:"Tu es prêt à gérer ton activité en toute <strong>légalité</strong>." },
+
+  { el:dPirate, text:"Un vrai capitaine… prêt à naviguer sans risque." },
+
+  { el:dLegal, text:"Félicitations. La quête <strong>Legal</strong> est terminée." }
 ];
 
 function startDialoguesFinal(){
@@ -762,49 +926,76 @@ function showCoffreTVA(){
 
   const steps = [
 
-    /* Étape 1 */
-    `
-    <h3>💰 Coffre de la TVA</h3>
-    <p>TVA collectée : 200 €</p>
-    <div class="gameQuestion">Que fais-tu de cette somme ? </div>
-    <div id="qChoices">
-      <button onclick="coffreAnswer(false,this)">Je la garde</button>
-      <button onclick="coffreAnswer(true,this)">Je la mets de côté pour l’État</button>
-    </div>
-    `,
+  /* Étape 1 */
+  `
+  <h3>💰 Coffre de la TVA</h3>
+  <p>Tu encaisses <strong>200 € de TVA</strong> auprès de tes clients.</p>
 
-    /* Étape 2 */
-    `
-    <h3>🧾 Dépense pro</h3>
-    <p>Logiciel : 120 € TTC (TVA 20 €)</p>
-    <div class="gameQuestion">La TVA est : </div>
-    <div id="qChoices">
-      <button onclick="coffreAnswer(true,this)">Récupérable</button>
-      <button onclick="coffreAnswer(false,this)">Perdue</button>
-    </div>
-    `,
+  <div class="gameQuestion">Que représente cette somme ?</div>
 
-    /* Étape 3 */
-    `
-    <h3>🏛️ TVA à reverser</h3>
-    <div class="gameQuestion">200 - 20 €</div>
-    <div id="qChoices">
-      <button onclick="coffreAnswer(false,this)">200 €</button>
-      <button onclick="coffreAnswer(true,this)">180 €</button>
-      <button onclick="coffreAnswer(false,this)">20 €</button>
-    </div>
-    `,
+  <div id="qChoices">
+    <button onclick="coffreAnswer(false,this)">Mon bénéfice</button>
+    <button onclick="coffreAnswer(true,this)">De l'argent pour l’État</button>
+    <button onclick="coffreAnswer(false,this)">Un bonus</button>
+  </div>
+  `,
 
-    /* Étape 4 — Résumé */
-    `
-    <h3>📜 Résumé</h3>
-    <p>Tu récupères 20 €</p>
-    <p>Tu reverses 180 €</p>
-    <div id="qChoices">
-      <button onclick="endMiniGame4()">Valider</button>
-    </div>
-    `
-  ];
+  /* Étape 2 */
+  `
+  <h3>🧾 Dépense professionnelle</h3>
+  <p>Tu achètes un logiciel : <strong>120 € TTC</strong> dont <strong>20 € de TVA</strong>.</p>
+
+  <div class="gameQuestion">Que peux-tu faire de cette TVA ?</div>
+
+  <div id="qChoices">
+    <button onclick="coffreAnswer(true,this)">La récupérer</button>
+    <button onclick="coffreAnswer(false,this)">La perdre définitivement</button>
+    <button onclick="coffreAnswer(false,this)">La donner à un client</button>
+  </div>
+  `,
+
+  /* Étape 3 */
+  `
+  <h3>⚖️ Calcul de la TVA</h3>
+  <p><strong>TVA collectée : 200 €</strong></p>
+  <p><strong>TVA déductible : 20 €</strong></p>
+
+  <div class="gameQuestion">Combien dois-tu reverser à l’État ?</div>
+
+  <div id="qChoices">
+    <button onclick="coffreAnswer(false,this)">200 €</button>
+    <button onclick="coffreAnswer(true,this)">180 €</button>
+    <button onclick="coffreAnswer(false,this)">20 €</button>
+  </div>
+  `,
+
+  /* Étape 4 */
+  `
+  <h3>🧠 Logique TVA</h3>
+
+  <div class="gameQuestion">La bonne formule est :</div>
+
+  <div id="qChoices">
+    <button onclick="coffreAnswer(true,this)">TVA collectée - TVA déductible</button>
+    <button onclick="coffreAnswer(false,this)">TVA collectée + TVA déductible</button>
+    <button onclick="coffreAnswer(false,this)">Chiffre d’affaires - TVA</button>
+  </div>
+  `,
+
+  /* Étape 5 — Résumé */
+  `
+  <h3>📜 Résumé</h3>
+  <p>Tu as compris le mécanisme :</p>
+
+  <p>💰 <strong>200 € collectés</strong></p>
+  <p>🧾 <strong>20 € récupérés</strong></p>
+  <p>🏛️ <strong>180 € reversés</strong></p>
+
+  <div id="qChoices">
+    <button onclick="endMiniGame4()">Valider</button>
+  </div>
+  `
+];
 
   miniGame4.innerHTML = steps[step4];
 }
