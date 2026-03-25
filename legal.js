@@ -199,10 +199,38 @@ function runDialogues(list, callback){
 /* =====================================================
    💬 DIALOGUES 1 — URSSAF
 ===================================================== */
-const dialogues1 = [
-  { el:dLegal, text:"Pour vendre légalement, vous devez être inscrits comme auto-entrepreneurs à l’URSSAF." },
-  { el:dPirate, text:"Sans ça, même un trésor honnête devient illégal." },
-  { el:dLegal, text:"Voyons maintenant vos obligations." }
+const dialoguesStatutIntro = [
+  { el:dLegal, text:"Avant de créer ton empire… il faut choisir ton <strong>statut juridique</strong>." },
+
+  { el:dPirate, text:"<strong>Auto-entrepreneur</strong> ou <strong>société</strong>… ce choix peut changer tout ton trésor." },
+
+  { el:dLegal, text:"L’<strong>auto-entrepreneur</strong> est <strong>simple</strong>, <strong>rapide</strong> et avec <strong>peu de gestion</strong>." },
+
+  { el:dLegal, text:"Parfait pour <strong>démarrer</strong>, <strong>tester une idée</strong> ou générer ses <strong>premiers revenus</strong>." },
+
+  { el:dPirate, text:"Mais attention… ton <strong>chiffre d’affaires est plafonné</strong> et tu es <strong>limité pour grandir</strong>." },
+
+  { el:dLegal, text:"La <strong>société</strong>, elle, permet d’aller plus loin : <strong>plus de crédibilité</strong> et <strong>plus de possibilités</strong>." },
+
+  { el:dLegal, text:"Tu peux <strong>embaucher</strong>, <strong>t’associer</strong> et <strong>protéger ton patrimoine</strong>." },
+
+  { el:dPirate, text:"Mais elle demande <strong>plus de gestion</strong> et <strong>plus d’organisation</strong>." },
+
+  { el:dLegal, text:"Alors comment choisir ?" },
+
+  { el:dLegal, text:"👉 Tu <strong>débutes</strong> ? Tu veux <strong>tester</strong> ? Choisis l’<strong>auto-entreprise</strong>." },
+
+  { el:dLegal, text:"👉 Tu veux <strong>développer</strong>, <strong>structurer</strong> ou <strong>t’associer</strong> ? Passe en <strong>société</strong>." },
+
+  { el:dPirate, text:"<strong>SASU</strong>, <strong>EURL</strong>, <strong>SAS</strong>, <strong>SARL</strong>… chaque navire a ses propres règles." },
+
+  { el:dLegal, text:"<strong>Seul</strong> ? <strong>SASU</strong> ou <strong>EURL</strong>." },
+
+  { el:dLegal, text:"<strong>À plusieurs</strong> ? <strong>SAS</strong> ou <strong>SARL</strong>." },
+
+  { el:dPirate, text:"Ton choix dépend de ton <strong>ambition</strong>… et de la <strong>taille de ton futur trésor</strong>." },
+
+  { el:dLegal, text:"Voyons si tu es prêt à faire le bon choix." }
 ];
 
 function startDialogues1(){
@@ -218,23 +246,71 @@ const miniGame1 = document.getElementById("miniGame");
 
 const aeQuestions = [
   {
-    q:"Où dois-je m’inscrire pour être auto-entrepreneur ?",
-    good:["Sur le site de l’URSSAF"],
-    bad:["À la mairie","À la banque"]
-  },
-  {
-    q:"Qu’est-ce que l’ACRE ?",
+    q:"Quel est le principal avantage de l’auto-entrepreneur ?",
     good:[
-      "L’aide à la création ou reprise d’entreprise",
-      "Une réduction de cotisations sociales",
-      "À demander à la création ou sous 45 jours"
+      "Une création simple et rapide",
+      "Peu de gestion administrative"
     ],
-    bad:["Une taxe obligatoire"]
+    bad:[
+      "Aucun plafond de chiffre d’affaires",
+      "Une structure idéale pour s’associer"
+    ]
   },
   {
-    q:"Quand dois-je déclarer mes gains ?",
-    good:["Tous les mois","Même à 0 €"],
-    bad:["Uniquement si je gagne"]
+    q:"Pourquoi choisir l’auto-entrepreneur ?",
+    good:[
+      "Pour tester une idée",
+      "Pour démarrer une activité",
+      "Pour générer ses premiers revenus"
+    ],
+    bad:[
+      "Pour embaucher une équipe rapidement"
+    ]
+  },
+  {
+    q:"Quelles sont les limites de l’auto-entrepreneur ?",
+    good:[
+      "Un chiffre d’affaires plafonné",
+      "Des limites pour développer son activité"
+    ],
+    bad:[
+      "Une gestion trop complexe",
+      "Des obligations comptables lourdes"
+    ]
+  },
+  {
+    q:"Quels sont les avantages d’une société ?",
+    good:[
+      "Plus de crédibilité",
+      "Possibilité d’embaucher",
+      "Possibilité de s’associer"
+    ],
+    bad:[
+      "Aucune formalité",
+      "Aucune gestion"
+    ]
+  },
+  {
+    q:"Pourquoi choisir une société ?",
+    good:[
+      "Pour développer son activité",
+      "Pour structurer son business",
+      "Pour s’associer"
+    ],
+    bad:[
+      "Pour éviter toute gestion"
+    ]
+  },
+  {
+    q:"Comment choisir entre auto-entrepreneur et société ?",
+    good:[
+      "Auto-entrepreneur pour démarrer ou tester",
+      "Société pour développer et grandir"
+    ],
+    bad:[
+      "Choisir au hasard",
+      "Toujours choisir la société"
+    ]
   }
 ];
 
