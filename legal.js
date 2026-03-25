@@ -233,10 +233,10 @@ const dialoguesStatutIntro = [
   { el:dLegal, text:"Voyons si tu es prêt à faire le bon choix." }
 ];
 
-function startDialogues1(){
+   function startDialogues1(){
   dIndex = 0;
   pirateLegal.classList.add("noGlow");
-  runDialogues(dialogues1, startMiniGame1);
+  runDialogues(dialoguesStatutIntro, startMiniGame1);
 }
 
 /* =====================================================
