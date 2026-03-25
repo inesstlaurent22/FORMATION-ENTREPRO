@@ -242,30 +242,34 @@ if(skipBtn){
 ===================================================== */
 function startDialogues1(){
   playDialogues([
-{ text:"Avant de vendre quoi que ce soit, <strong>il faut comprendre</strong> ton marché.", anchor:pirate5 },
+  { text:"Avant de vendre quoi que ce soit, il faut <strong>comprendre ton marché</strong>.", anchor:pirate5 },
 
-{ text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard.</strong>", anchor:pirate5 },
+  { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard</strong>.", anchor:pirate5 },
 
-{ text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 },
+  { text:"On vient d’arriver… et on ne connaît rien du tout.", anchor:pirate2 },
 
-{ text:"Je vais t'expliquer.<br>Prends un carnet de notes, car après tu auras un quiz.", anchor:pirate5 },
+  { text:"Parfait. On va commencer par la base : <strong>l’étude de marché</strong>.", anchor:pirate5 },
 
-{ text:"Première information importante :<br><strong>l’étude de marché.</strong>", anchor:pirate5 },
+  { text:"Elle permet d’<strong>analyser</strong> les <strong>clients</strong>, la <strong>concurrence</strong> et les <strong>opportunités</strong>.", anchor:pirate5 },
 
-{ text:"Elle sert à <strong>analyser</strong> : les <strong>besoins des clients</strong>, la <strong>concurrence</strong>, les <strong>tendances</strong> et les <strong>opportunités.</strong>", anchor:pirate5 },
+  { text:"Donc… il faut espionner les autres pirates ?", anchor:pirate2 },
 
-{ text:"Mais <strong>comment obtenir</strong> ces informations ?", anchor:pirate2 },
+  { text:"Pas espionner… mais <strong>observer et comprendre</strong>.", anchor:pirate5 },
 
-{ text:"Grâce à <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>l’analyse de données</strong> déjà disponibles (sur Internet, par exemple).", anchor:pirate5 },
+  { text:"Tu peux utiliser <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>des données en ligne</strong>.", anchor:pirate5 },
 
-{ text:"Tout cela va te permettre de savoir si ton produit <strong>peut intéresser</strong> les clients.", anchor:pirate5 },
+  { text:"Tout ça pour vérifier si ton produit <strong>intéresse vraiment</strong> les clients.", anchor:pirate5 },
 
-{ text:"Un bon produit, c’est un produit <strong>qui répond à un besoin</strong> ou résout un problème.", anchor:pirate5 },
+  { text:"Un bon produit, c’est un produit qui <strong>répond à un besoin</strong> ou <strong>résout un problème</strong>.", anchor:pirate5 },
 
-{ text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ça… c’est un bon début ?", anchor:pirate2 },
+  { text:"Nos pierres sont magnifiques… donc ça va marcher, non ?", anchor:pirate2 },
 
-{ text:"C’est un bon début, mais il faut le vérifier avec une étude de marché.", anchor:pirate5 }
-  ], startMiniGame1);
+  { text:"Peut-être… mais sans données, ce n’est qu’une <strong>supposition</strong>.", anchor:pirate5 },
+
+  { text:"Un entrepreneur ne devine pas… il <strong>valide avec des faits</strong>.", anchor:pirate5 },
+
+  { text:"Alors… à toi de prouver que ton idée peut vraiment fonctionner.", anchor:pirate5 }
+], startMiniGame1);
 }
 
 /* =====================================================
@@ -279,42 +283,67 @@ function startMiniGame1(){
 
     const questions = [
 
-      {
-        question: "Pourquoi réaliser une étude de marché ?",
-        answers: [
-          { t:"Décorer la boutique", ok:false },
-          { t:"Comprendre les clients", ok:true },
-          { t:"Copier les concurrents", ok:false }
-        ]
-      },
+  {
+    question: "Pourquoi réaliser une étude de marché ?",
+    answers: [
+      { t:"Comprendre les clients", ok:true },
+      { t:"Analyser la concurrence", ok:true },
+      { t:"Décorer sa boutique", ok:false },
+      { t:"Valider une idée de produit", ok:true }
+    ]
+  },
 
-      {
-        question: "Les études de marché sont-elles obligatoires ?",
-        answers: [
-          { t:"Oui", ok:true },
-          { t:"Non", ok:false }
-        ]
-      },
+  {
+    question: "Que permet d’analyser une étude de marché ?",
+    answers: [
+      { t:"Les besoins des clients", ok:true },
+      { t:"Les tendances du marché", ok:true },
+      { t:"Les opportunités", ok:true },
+      { t:"La météo du jour", ok:false }
+    ]
+  },
 
-      {
-        question: "Après une étude de marché, que faire ?",
-        answers: [
-          { t:"Manger un burger pirate", ok:false },
-          { t:"Vendre directement", ok:false },
-          { t:"Préparer une stratégie de vente", ok:true }
-        ]
-      },
+  {
+    question: "Comment obtenir des informations sur son marché ?",
+    answers: [
+      { t:"Des questionnaires", ok:true },
+      { t:"Des interviews", ok:true },
+      { t:"Des recherches en ligne", ok:true },
+      { t:"Au hasard", ok:false }
+    ]
+  },
 
-      {
-        question: "De quoi sont constituées les études de marché ?",
-        answers: [
-          { t:"Analyse des clients", ok:true },
-          { t:"Analyse de la concurrence", ok:true },
-          { t:"Analyse de l’environnement", ok:true }
-        ]
-      }
+  {
+    question: "Un bon produit est un produit qui :",
+    answers: [
+      { t:"Répond à un besoin", ok:true },
+      { t:"Résout un problème", ok:true },
+      { t:"Est juste joli", ok:false },
+      { t:"Est choisi au hasard", ok:false }
+    ]
+  },
 
-    ];
+  {
+    question: "Que risque un entrepreneur sans étude de marché ?",
+    answers: [
+      { t:"Créer un produit inutile", ok:true },
+      { t:"Ne pas trouver de clients", ok:true },
+      { t:"Réussir à coup sûr", ok:false },
+      { t:"Perdre du temps et de l’argent", ok:true }
+    ]
+  },
+
+  {
+    question: "Après une étude de marché, que faut-il faire ?",
+    answers: [
+      { t:"Adapter son offre", ok:true },
+      { t:"Construire une stratégie", ok:true },
+      { t:"Lancer son produit intelligemment", ok:true },
+      { t:"Ignorer les résultats", ok:false }
+    ]
+  }
+
+];
 
     let current = 0;
 
@@ -376,31 +405,37 @@ function startMiniGame1(){
    DIALOGUES 2
 ===================================================== */
 function startDialogues2(){
-  playDialogues([
-{ text:"Avant de vendre quoi que ce soit, <strong>il faut comprendre</strong> ton marché.", anchor:pirate5 },
+  playDialogues(const dialoguesMarket = [
+  { text:"Avant de vendre quoi que ce soit, tu dois <strong>comprendre ton marché</strong>.", anchor:pirate5 },
 
-{ text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard.</strong>", anchor:pirate5 },
+  { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard</strong>.", anchor:pirate5 },
 
-{ text:"On vient d'arriver sur le marché, on ne connaît rien.", anchor:pirate2 },
+  { text:"On vient d’arriver… et on ne connaît absolument rien.", anchor:pirate2 },
 
-{ text:"Je vais t'expliquer.<br>Prends un carnet de notes, car après tu auras un quiz.", anchor:pirate5 },
+  { text:"Parfait. C’est là que commence le travail d’un vrai entrepreneur.", anchor:pirate5 },
 
-{ text:"Première information importante :<br><strong>l’étude de marché.</strong>", anchor:pirate5 },
+  { text:"Première étape : <strong>l’étude de marché</strong>.", anchor:pirate5 },
 
-{ text:"Elle sert à <strong>analyser</strong> : les <strong>besoins des clients</strong>, la <strong>concurrence</strong>, les <strong>tendances</strong> et les <strong>opportunités.</strong>", anchor:pirate5 },
+  { text:"Elle permet d’<strong>analyser</strong> les <strong>clients</strong>, la <strong>concurrence</strong>, les <strong>tendances</strong> et les <strong>opportunités</strong>.", anchor:pirate5 },
 
-{ text:"Mais <strong>comment obtenir</strong> ces informations ?", anchor:pirate2 },
+  { text:"Donc… il faut deviner ce que veulent les clients ?", anchor:pirate2 },
 
-{ text:"Grâce à <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>l’analyse de données</strong> déjà disponibles (sur Internet, par exemple).", anchor:pirate5 },
+  { text:"Non. Tu dois <strong>collecter des informations réelles</strong>.", anchor:pirate5 },
 
-{ text:"Tout cela va te permettre de savoir si ton produit <strong>peut intéresser</strong> les clients.", anchor:pirate5 },
+  { text:"Avec <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>des données déjà existantes</strong>.", anchor:pirate5 },
 
-{ text:"Un bon produit, c’est un produit <strong>qui répond à un besoin</strong> ou résout un problème.", anchor:pirate5 },
+  { text:"Tout cela permet de savoir si ton produit <strong>intéresse vraiment</strong> le marché.", anchor:pirate5 },
 
-{ text:"Nos pierres sont les plus belles du marché, les clients n'aiment que ça… c’est un bon début ?", anchor:pirate2 },
+  { text:"Un bon produit, c’est un produit qui <strong>répond à un besoin</strong> ou <strong>résout un problème</strong>.", anchor:pirate5 },
 
-{ text:"C’est un bon début, mais il faut le vérifier avec une étude de marché.", anchor:pirate5 }
-  ], startMiniGame2);
+  { text:"Nos pierres sont magnifiques… les clients vont forcément adorer, non ?", anchor:pirate2 },
+
+  { text:"Peut-être. Mais sans données, ce n’est qu’une <strong>supposition</strong>.", anchor:pirate5 },
+
+  { text:"Un entrepreneur ne suppose pas… il <strong>valide avec des faits</strong>.", anchor:pirate5 },
+
+  { text:"Prends des notes. Tu vas devoir prouver que ton idée peut fonctionner.", anchor:pirate5 }
+];, startMiniGame2);
 }
 
 /* =====================================================
@@ -414,47 +449,67 @@ function startMiniGame2(){
 
     const questions = [
 
-    {
-      question: "À quoi sert un business plan ?",
-      answers: [
-        { t: "Décorer une entreprise", ok: false },
-        { t: "Présenter un projet et convaincre des partenaires", ok: true },
-        { t: "Fixer uniquement les prix", ok: false },
-        { t: "Recruter des employés", ok: false }
-      ]
-    },
-       
-    {
-      question: "Quel élément est indispensable dans un business plan ?",
-      answers: [
-        { t: "Les couleurs du logo", ok: false },
-        { t: "Le nombre d’employés déjà recrutés", ok: false },
-        { t: "Les prévisions financières", ok: true },
-        { t: "Le nom des clients", ok: false }
-      ]
-    },
-    
-    {
-      question: "Qu’est-ce qu’une stratégie commerciale ?",
-      answers: [
-        { t: "Une méthode pour vendre un produit ou service", ok: true },
-        { t: "Une manière d’organiser les bureaux", ok: false },
-        { t: "Un type de contrat", ok: false },
-        { t: "Une règle juridique", ok: false }
-      ]
-    },
+  {
+    question: "À quoi sert un business plan ?",
+    answers: [
+      { t:"Présenter un projet", ok:true },
+      { t:"Convaincre des investisseurs ou partenaires", ok:true },
+      { t:"Décorer une entreprise", ok:false },
+      { t:"Fixer uniquement les prix", ok:false }
+    ]
+  },
 
-        {
-      question: "Quelle est une stratégie commerciale ??",
-      answers: [
-        { t: "Baisser les prix pour attirer plus de clients", ok: true },
-        { t: "Faire de la publicité sur les réseaux sociaux", ok: true },
-        { t: "Proposer des promotions ou réductions", ok: true },
-        { t: "Fidéliser les clients avec un programme de récompenses", ok: true }
-      ]
-    }
+  {
+    question: "Que contient un business plan ?",
+    answers: [
+      { t:"Des prévisions financières", ok:true },
+      { t:"Une étude de marché", ok:true },
+      { t:"Une stratégie commerciale", ok:true },
+      { t:"La couleur du logo", ok:false }
+    ]
+  },
 
-  ];
+  {
+    question: "Pourquoi les prévisions financières sont importantes ?",
+    answers: [
+      { t:"Évaluer la rentabilité du projet", ok:true },
+      { t:"Anticiper les dépenses", ok:true },
+      { t:"Convaincre les investisseurs", ok:true },
+      { t:"Choisir un logo", ok:false }
+    ]
+  },
+
+  {
+    question: "Qu’est-ce qu’une stratégie commerciale ?",
+    answers: [
+      { t:"Une méthode pour vendre un produit ou service", ok:true },
+      { t:"Un plan pour attirer des clients", ok:true },
+      { t:"Une organisation des bureaux", ok:false },
+      { t:"Une règle juridique", ok:false }
+    ]
+  },
+
+  {
+    question: "Quelles actions font partie d’une stratégie commerciale ?",
+    answers: [
+      { t:"Faire de la publicité", ok:true },
+      { t:"Proposer des promotions", ok:true },
+      { t:"Fidéliser les clients", ok:true },
+      { t:"Ignorer la concurrence", ok:false }
+    ]
+  },
+
+  {
+    question: "À quoi sert une stratégie commerciale ?",
+    answers: [
+      { t:"Attirer des clients", ok:true },
+      { t:"Augmenter les ventes", ok:true },
+      { t:"Développer son activité", ok:true },
+      { t:"Remplacer le business plan", ok:false }
+    ]
+  }
+
+];
 
   let current = 0;
 
@@ -713,29 +768,33 @@ cont.onclick = ()=>{
   overlay.remove();
 
   playDialogues([
-{ text:"Ton business plan est solide.<br>Maintenant, passons à la <strong>réalité du terrain.</strong>", anchor:pirate5 },
+{ text:"Ton <strong>business plan</strong> est solide… maintenant, place à la <strong>réalité du terrain</strong>.", anchor:pirate5 },
 
-{ text:"Quelle est cette réalité ?", anchor:pirate2 },
+  { text:"La réalité du terrain ?", anchor:pirate2 },
 
-{ text:"Les clients ne veulent pas payer plus cher que ce qu’ils pensent être juste.", anchor:pirate5 },
+  { text:"Les clients ne paient que s’ils perçoivent une <strong>vraie valeur</strong>.", anchor:pirate5 },
 
-{ text:"Il faudra donc les convaincre de <strong>l’intérêt de ton produit.</strong>", anchor:pirate5 },
+  { text:"Tu dois donc les convaincre de <strong>l’intérêt de ton produit</strong>.", anchor:pirate5 },
 
-{ text:"Et pour ça, il faut déjà <strong>les faire venir jusqu’à toi.</strong>", anchor:pirate5 },
+  { text:"Mais avant ça… encore faut-il <strong>les faire venir jusqu’à toi</strong>.", anchor:pirate5 },
 
-{ text:"Comment faire ?", anchor:pirate2 },
+  { text:"Comment attirer des clients ?", anchor:pirate2 },
 
-{ text:"<strong>La prospection</strong>, c’est le fait de <strong>chercher de nouveaux clients.</strong>", anchor:pirate5 },
+  { text:"Grâce à la <strong>prospection</strong>.", anchor:pirate5 },
 
-{ text:"Tu dois <strong>trouver des personnes qui pourraient être intéressées</strong> par ton produit.", anchor:pirate5 },
+  { text:"La prospection, c’est <strong>chercher activement de nouveaux clients</strong>.", anchor:pirate5 },
 
-{ text:"Tu notes <strong>leurs informations</strong> (contact, entreprise…) dans une <strong>base de données.</strong>", anchor:pirate5 },
+  { text:"Tu identifies des personnes <strong>potentiellement intéressées</strong> par ton offre.", anchor:pirate5 },
 
-{ text:"Puis tu peux les <strong>appeler</strong>, leur envoyer des <strong>emails</strong><br>ou des messages sur les <strong>réseaux sociaux.</strong>", anchor:pirate5 },
+  { text:"Puis tu notes leurs <strong>informations</strong> dans une <strong>base de données</strong>.", anchor:pirate5 },
 
-{ text:"Le but est de <strong>leur donner envie</strong> et de les faire venir jusqu’à toi.", anchor:pirate5 },
+  { text:"Ensuite, tu les contactes : <strong>appels</strong>, <strong>emails</strong>, ou <strong>réseaux sociaux</strong>.", anchor:pirate5 },
 
-{ text:"Il est temps d’affronter le marché.", anchor:pirate5 }
+  { text:"Le but est simple : <strong>attirer leur attention</strong> et <strong>donner envie</strong>.", anchor:pirate5 },
+
+  { text:"Un bon entrepreneur ne attend pas… il va <strong>chercher ses clients</strong>.", anchor:pirate5 },
+
+  { text:"Prépare-toi. Le marché t’attend.", anchor:pirate5 }
       onShow: ()=>{
         console.log("pirate3 déclenché");
 
@@ -776,45 +835,67 @@ function startMiniGame3(){
   let step = 0;
 
   const steps = [
-    {
-      text:`Quelle est la première étape de la prospection ?`,
-      hint:"💡 Avant de contacter tu dois chercher leurs informations.",
-      answers:[
-        { label:"Contacter directement les clients", correct:false },
-        { label:"Créer une base de données clients", correct:true },
-        { label:"Lancer une publicité", correct:false },
-        { label:"Fixer les prix", correct:false }
-      ]
-    },
-    {
-      text:`Comment peut-on contacter des clients ?`,
-      hint:"💡 BtoB : Entreprise à entreprise / BtoC : Entreprise à particulier",
-      answers:[
-        { label:"Par mailing (email)", correct:true },
-        { label:"Par phoning (téléphone)", correct:true },
-        { label:"Par les réseaux sociaux", correct:true },
-        { label:"Par LinkedIn", correct:true }
-      ]
-    },
-    {
-      text:`Que faire si un client refuse à cause du prix ?`,
-      hint:"💡 Les clients aiment faire des économies",
-      answers:[
-        { label:"Ignorer le client", correct:false },
-        { label:"Augmenter le prix", correct:false },
-        { label:"Proposer des promotions ou réductions", correct:true },
-        { label:"Arrêter la vente", correct:false }
-      ]
-    },
-    {
-      text:`Que faire si un client ne voit pas l’utilité du produit ?`,
-      hint:"💡 A toi de jouer 😉",
-      answers:[
-        { label:"Insister sans explication", correct:false },
-        { label:"Montrer que le produit répond à un besoin", correct:true },
-        { label:"Baisser immédiatement le prix", correct:false },
-        { label:"Changer de client", correct:false }
-      ],
+  {
+    text:`Quelle est la première étape de la prospection ?`,
+    hint:"💡 Avant de contacter, tu dois identifier tes futurs clients.",
+    answers:[
+      { label:"Identifier des prospects potentiels", correct:true },
+      { label:"Créer une base de données clients", correct:true },
+      { label:"Contacter directement sans préparation", correct:false },
+      { label:"Fixer ses prix", correct:false }
+    ]
+  },
+  {
+    text:`Comment constituer une base de données de prospects ?`,
+    hint:"💡 Tu dois collecter des informations utiles.",
+    answers:[
+      { label:"Rechercher des entreprises en ligne", correct:true },
+      { label:"Récupérer des contacts (email, téléphone)", correct:true },
+      { label:"Utiliser LinkedIn ou des annuaires", correct:true },
+      { label:"Attendre que les clients viennent seuls", correct:false }
+    ]
+  },
+  {
+    text:`Quels sont les moyens de contacter des prospects ?`,
+    hint:"💡 Pense aux différents canaux de communication.",
+    answers:[
+      { label:"Email (mailing)", correct:true },
+      { label:"Téléphone (phoning)", correct:true },
+      { label:"Réseaux sociaux", correct:true },
+      { label:"Ne pas les contacter", correct:false }
+    ]
+  },
+  {
+    text:`Que faire si un client refuse à cause du prix ?`,
+    hint:"💡 Il faut adapter ton offre intelligemment.",
+    answers:[
+      { label:"Proposer une promotion", correct:true },
+      { label:"Expliquer la valeur du produit", correct:true },
+      { label:"Augmenter le prix", correct:false },
+      { label:"Ignorer le client", correct:false }
+    ]
+  },
+  {
+    text:`Que faire si un client ne voit pas l’utilité du produit ?`,
+    hint:"💡 Mets en avant les bénéfices.",
+    answers:[
+      { label:"Montrer que le produit répond à un besoin", correct:true },
+      { label:"Expliquer les avantages concrets", correct:true },
+      { label:"Insister sans argument", correct:false },
+      { label:"Changer immédiatement de client", correct:false }
+    ]
+  },
+  {
+    text:`Quel est l’objectif principal de la prospection ?`,
+    hint:"💡 Ce n’est pas juste parler… c’est convertir.",
+    answers:[
+      { label:"Trouver de nouveaux clients", correct:true },
+      { label:"Générer des ventes", correct:true },
+      { label:"Créer une relation avec les prospects", correct:true },
+      { label:"Éviter les clients", correct:false }
+    ]
+  }
+];,
       finalText:`<strong>🎉 Bravo.</strong><br>
 Tu sais maintenant comment prospecter efficacement :
 trouver des clients, les contacter et répondre à leurs objections.
