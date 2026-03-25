@@ -267,12 +267,11 @@ function removeSkipDialoguesBtn(){
 /* =====================================================
    🏴‍☠️ PIRATES & DIALOGUES
 ===================================================== */
-const dLegal = document.getElementById("dialogueLegal");
-const dPirate = document.getElementById("dialoguePirate");
+if(dLegal) dLegal.style.display = "none";
+if(dPirate) dPirate.style.display = "none";
 
 if(!dLegal || !dPirate){
   console.error("Dialogues introuvables");
-  return;
 }
    
 let dIndex = 0;
