@@ -23,11 +23,6 @@ body{
   display:none !important;
 }
 
-strong{
-  color: #ffd700;
-  font-weight: bold;
-  text-shadow: 0 0 6px rgba(255,215,0,0.6);
-}
 /* =====================================================
    🎬 VIDÉO INTRO
 ===================================================== */
@@ -212,6 +207,11 @@ strong{
 #dialoguePirate{
   left:1000px;
   top:500px;
+}
+
+.dialogue strong{
+  color: #ffd700;
+  text-shadow: 0 0 6px rgba(255,215,0,0.6);
 }
 
 /* =====================================================
