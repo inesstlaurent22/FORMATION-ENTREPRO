@@ -60,7 +60,7 @@ if(video && soundBtn && skipBtn){
   soundBtn.addEventListener("click", (e)=>{
     e.stopPropagation();
     video.muted = !video.muted;
-    soundBtn.textContent = video.muted ? "🔊" : "🔈";
+    soundBtn.textContent = video.muted ? "🔇" : "🔊";
   });
 
   skipBtn.addEventListener("click", (e)=>{
@@ -168,6 +168,12 @@ function removeSkipDialoguesBtn(){
 ===================================================== */
 const dLegal = document.getElementById("dialogueLegal");
 const dPirate = document.getElementById("dialoguePirate");
+
+if(!dLegal || !dPirate){
+  console.error("Dialogues introuvables");
+  return;
+}
+   
 let dIndex = 0;
 
 function runDialogues(list, callback){
