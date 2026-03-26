@@ -70,7 +70,7 @@ async function sendToAI(text) {
   botWrapper.className = "message-bot-wrapper";
 
   const avatar = document.createElement("img");
-  avatar.src = "images/IMG_2204.png";
+  avatar.src = "images/Professeur1.PNG";
   avatar.className = "chatbot-avatar";
 
   const loading = document.createElement("div");
