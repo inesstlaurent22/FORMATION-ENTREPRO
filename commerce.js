@@ -202,7 +202,7 @@ setTimeout(() => {
     console.warn("Fallback vidéo activé");
     endVideo();
   }
-}, 3000);
+}, 6000);
 
 /* =====================================================
    SCENE
@@ -213,7 +213,10 @@ function showScene(){
   DOM.pirate2?.classList.remove("hidden");
   DOM.pirate5?.classList.remove("hidden");
 
-  if(!DOM.pirate5) return;
+  if(!DOM.pirate5){
+  console.error("pirate5bis introuvable");
+  return;
+}
 
   // 🔒 bloque double init
   if(DOM.pirate5.dataset.init === "true") return;
@@ -1241,7 +1244,8 @@ function createProgressBar(){
     zIndex:"999999"
   });
 
-  updateProgressBar();
+  if (typeof updateProgressBar === "function") {
+  updateProgressBar()
 }
 
 function updateProgressBar(){
@@ -1265,14 +1269,10 @@ function updateProgressBar(){
     }
   });
 }
-
-/* =====================================================
-   INIT
-===================================================== */
-if(document.readyState === "loading"){
-  document.addEventListener("DOMContentLoaded", createProgressBar);
-}else{
-  createProgressBar();
-}
+createProgressBar();
    
+}); // ← fin de ton gros DOMContentLoaded
+
+window.addEventListener("load", () => {
+  console.log("Page commerce chargée");
 });
