@@ -51,62 +51,62 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ================= IA ================= */
+async function sendToAI(text) {
 
-  async function sendToAI(text) {
+  // ===== USER =====
+  const userDiv = document.createElement("div");
+  userDiv.className = "message-user-grey";
+  userDiv.textContent = text;
 
-    const userDiv = document.createElement("div");
-userDiv.className = "message-user-grey";
-userDiv.textContent = text;
+  const userWrapper = document.createElement("div");
+  userWrapper.style.display = "flex";
+  userWrapper.style.justifyContent = "flex-end";
 
-// 🔥 IMPORTANT : wrapper pour alignement à droite
-const wrapper = document.createElement("div");
-wrapper.style.display = "flex";
-wrapper.style.justifyContent = "flex-end";
+  userWrapper.appendChild(userDiv);
+  chatbotMessages.appendChild(userWrapper);
 
-wrapper.appendChild(userDiv);
-chatbotMessages.appendChild(wrapper);
+  // ===== BOT =====
+  const botWrapper = document.createElement("div");
+  botWrapper.className = "message-bot-wrapper";
 
-    const wrapper = document.createElement("div");
-wrapper.className = "message-bot-wrapper";
+  const avatar = document.createElement("img");
+  avatar.src = "images/IMG_2204.png";
+  avatar.className = "chatbot-avatar";
 
-const avatar = document.createElement("img");
-avatar.src = "images/IMG_2204.png";
-avatar.className = "chatbot-avatar";
+  const loading = document.createElement("div");
+  loading.className = "message-answer";
+  loading.textContent = "...";
 
-const loading = document.createElement("div");
-loading.className = "message-answer";
-loading.textContent = "...";
+  botWrapper.appendChild(avatar);
+  botWrapper.appendChild(loading);
+  chatbotMessages.appendChild(botWrapper);
 
-wrapper.appendChild(avatar);
-wrapper.appendChild(loading);
-chatbotMessages.appendChild(wrapper);
-    
-    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 
-    try {
+  try {
 
-      const res = await fetch("https://eop1ak3sxerl3b3.m.pipedream.net", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message: text })
-      });
+    const res = await fetch("https://eop1ak3sxerl3b3.m.pipedream.net", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: text })
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      const reply =
-        data?.reply ||
-        data?.body?.reply ||
-        data?.data?.reply;
+    const reply =
+      data?.reply ||
+      data?.body?.reply ||
+      data?.data?.reply;
 
-      loading.textContent = reply || "Réponse vide";
+    loading.textContent = reply || "Réponse vide";
 
-    } catch (err) {
-      loading.textContent = "Erreur connexion serveur";
-    }
+  } catch (err) {
+    loading.textContent = "Erreur connexion serveur";
   }
+}
 
   /* ================= INPUT ================= */
 
