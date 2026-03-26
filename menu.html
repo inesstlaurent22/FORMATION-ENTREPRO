@@ -122,6 +122,52 @@ proposés sur le site et ne sont jamais revendues.
 </div>
 </div>
 
+  <!-- CHATBOX IA  -->
+  <div id="chatbot-container">
+
+  <!-- Bouton -->
+  <button 
+    id="chatbot-toggle" 
+    type="button"
+    aria-label="Ouvrir le chatbot"
+    aria-expanded="false">
+    💬
+  </button>
+
+  <!-- Fenêtre -->
+  <div 
+    id="chatbot-box"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="chatbot-header">
+
+    <!-- Header -->
+    <div id="chatbot-header">Assistant IA</div>
+
+    <!-- Messages -->
+    <div id="chatbot-messages"></div>
+
+    <!-- Input -->
+    <div id="chatbot-input-area">
+      <input 
+        type="text" 
+        id="chatbot-input" 
+        placeholder="Pose ta question..."
+        autocomplete="off"
+      />
+
+      <button 
+        id="chatbot-send" 
+        type="button"
+        aria-label="Envoyer le message">
+        ➤
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
 <!-- 🔔 Notification -->
 <div id="notification"></div>
 
