@@ -66,11 +66,21 @@ wrapper.style.justifyContent = "flex-end";
 wrapper.appendChild(userDiv);
 chatbotMessages.appendChild(wrapper);
 
-    const loading = document.createElement("div");
-    loading.className = "message-answer";
-    loading.textContent = "...";
-    chatbotMessages.appendChild(loading);
+    const wrapper = document.createElement("div");
+wrapper.className = "message-bot-wrapper";
 
+const avatar = document.createElement("img");
+avatar.src = "assets/prof.png";
+avatar.className = "chatbot-avatar";
+
+const loading = document.createElement("div");
+loading.className = "message-answer";
+loading.textContent = "...";
+
+wrapper.appendChild(avatar);
+wrapper.appendChild(loading);
+chatbotMessages.appendChild(wrapper);
+    
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 
     try {
@@ -119,15 +129,29 @@ chatbotMessages.appendChild(wrapper);
   /* ================= HELPERS ================= */
 
   function addMessage(text, type) {
-    const div = document.createElement("div");
-    div.className =
-      type === "intro" ? "message-intro" :
-      type === "section" ? "message-section" :
-      "message-bot";
 
-    div.textContent = text;
-    chatbotMessages.appendChild(div);
-  }
+  const wrapper = document.createElement("div");
+  wrapper.className = "message-bot-wrapper";
+
+  // Avatar professeur
+  const avatar = document.createElement("img");
+  avatar.src = "assets/prof.png"; // chemin de ton image
+  avatar.className = "chatbot-avatar";
+
+  // Message
+  const div = document.createElement("div");
+  div.className =
+    type === "intro" ? "message-intro" :
+    type === "section" ? "message-section" :
+    "message-bot";
+
+  div.textContent = text;
+
+  wrapper.appendChild(avatar);
+  wrapper.appendChild(div);
+
+  chatbotMessages.appendChild(wrapper);
+}
 
   function createClickable(text, action) {
     const div = document.createElement("div");
