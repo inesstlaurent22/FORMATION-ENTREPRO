@@ -102,8 +102,7 @@ function startProgressFlow(){
     break;
 
     case "dialogue3":
-      // ✅ CORRECTION : on relance les dialogues après le livre
-      showBusinessPlanLoader();
+      showBusinessPlanLoader(); // 👉 ICI
     break;
 
     case "game3":
@@ -1136,14 +1135,6 @@ function createProgressBar(){
   updateProgressBar();
 }
 
-// 🔥 REPRISE AUTO SI PAGE RECHARGÉE
-if(getNextStep() !== "dialogue1"){
-  showScene();
-  setTimeout(()=>{
-    startProgressFlow();
-  },300);
-}
-
 function updateProgressBar(){
 
   const progress = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
@@ -1160,5 +1151,13 @@ function updateProgressBar(){
 }
 
    createProgressBar();
+
+// ✅ REPRISE AUTO (BON ENDROIT)
+if(getNextStep() !== "dialogue1"){
+  showScene();
+  setTimeout(()=>{
+    startProgressFlow();
+  },300);
+}
 
 });
