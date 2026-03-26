@@ -405,6 +405,31 @@ html, body {
   max-width: 75%;
 }
 
+.message-bot-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.chatbot-avatar {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  border-radius: 6px;
+}
+
+.message-bot,
+.message-intro,
+.message-section,
+.message-answer {
+  background: #1e1e2f;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 75%;
+}
+
 /* ================================================= */
 /* 🏴‍☠️ PIRATES */
 /* ================================================= */
