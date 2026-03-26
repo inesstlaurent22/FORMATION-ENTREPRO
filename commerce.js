@@ -70,46 +70,13 @@ function setStepDone(step){
   const p = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
   p[step] = true;
   sessionStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+
+  updateProgressBar(); // 🔥 IMPORTANT
 }
 
 function getNextStep(){
   const p = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
   return stepsOrder.find(s => !p[s]);
-}
-
-/* =====================================================
-   📊 PROGRESS BAR
-===================================================== */
-
-function createProgressBar(){
-
-  const bar = document.createElement("div");
-  bar.id = "progressBar";
-
-  stepsOrder.forEach(step=>{
-    const item = document.createElement("div");
-    item.className = "progress-step";
-    item.dataset.step = step;
-    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
-    bar.appendChild(item);
-  });
-
-  document.body.appendChild(bar);
-
-  updateProgressBar();
-}
-
-function updateProgressBar(){
-
-  const progress = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
-
-  document.querySelectorAll(".progress-step").forEach(el=>{
-    const step = el.dataset.step;
-
-    progress[step]
-      ? el.classList.add("done")
-      : el.classList.remove("done");
-  });
 }
 
 /* =====================================================
@@ -1084,5 +1051,44 @@ function launchGemsExplosion(container){
     container.appendChild(g);
   }
 }
+
+/* =====================================================
+   📊 PROGRESS BAR
+===================================================== */
+
+function createProgressBar(){
+
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
+
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+    item.dataset.step = step;
+    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
+    bar.appendChild(item);
+  });
+
+  document.body.appendChild(bar);
+
+  updateProgressBar();
+}
+
+function updateProgressBar(){
+
+  const progress = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
+
+  document.querySelectorAll(".progress-step").forEach(el=>{
+    const step = el.dataset.step;
+
+    if(progress[step]){
+      el.classList.add("done");
+    }else{
+      el.classList.remove("done");
+    }
+  });
+}
+
+   createProgressBar();
 
 });
