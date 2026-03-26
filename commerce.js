@@ -123,12 +123,11 @@ function getNextStep(){
 /* =====================================================
    FLOW GLOBAL
 ===================================================== */
-
 let flowStarted = false;
 
 function startProgressFlow(){
 
-  if(flowStarted) return; // 🔥 bloque double lancement
+  if(flowStarted) return;
   flowStarted = true;
 
   const next = getNextStep();
@@ -152,7 +151,7 @@ function startProgressFlow(){
     break;
 
     case "dialogue3":
-      showBusinessPlanLoader(); // ✅ OK ici
+      showBusinessPlanLoader();
     break;
 
     case "game3":
@@ -162,6 +161,11 @@ function startProgressFlow(){
     default:
       showCommerceWin();
   }
+
+  // 🔥 IMPORTANT : réautorise le flow après exécution
+  setTimeout(() => {
+    flowStarted = false;
+  }, 300);
 }
 
 /* =====================================================
@@ -949,11 +953,8 @@ function showBusinessPlanLoader(){
         }, 300);
 
       });
-    };
   }
 }
-
-};
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
