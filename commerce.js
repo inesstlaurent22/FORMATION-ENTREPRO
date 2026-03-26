@@ -863,97 +863,86 @@ function showBusinessPlanLoader(){
   /* ===============================
      EVENTS
   =============================== */
-  if(right){
-    right.style.cursor = "pointer";
-    right.addEventListener("click", ()=> turnPage("right"));
-  }
+ if(right){
+  right.style.cursor = "pointer";
+  right.addEventListener("click", () => turnPage("right"));
+}
 
-  if(left){
-    left.style.cursor = "pointer";
-    left.addEventListener("click", ()=> turnPage("left"));
-  }
+if(left){
+  left.style.cursor = "pointer";
+  left.addEventListener("click", () => turnPage("left"));
+}
 
-  if(zoomBtn){
-    zoomBtn.onclick = ()=>{
+if(zoomBtn){
+  zoomBtn.onclick = () => {
 
-      const currentSrc = pages[step][1];
-      if(!currentSrc) return;
+    const currentSrc = pages[step][1];
+    if(!currentSrc) return;
 
-      const zoom = document.createElement("div");
-      zoom.className = "page-zoom";
+    const zoom = document.createElement("div");
+    zoom.className = "page-zoom";
 
-      const loaderZoom = document.createElement("div");
-      loaderZoom.className = "book-loading";
-      loaderZoom.textContent = "⏳";
+    const loaderZoom = document.createElement("div");
+    loaderZoom.className = "book-loading";
+    loaderZoom.textContent = "⏳";
 
-      const img = document.createElement("img");
-      img.style.display = "none";
+    const img = document.createElement("img");
+    img.style.display = "none";
 
-      zoom.appendChild(loaderZoom);
-      zoom.appendChild(img);
-      document.body.appendChild(zoom);
+    zoom.appendChild(loaderZoom);
+    zoom.appendChild(img);
+    document.body.appendChild(zoom);
 
-      img.onload = ()=>{
-        loaderZoom.remove();
-        img.style.display = "block";
-      };
-
-      img.onerror = ()=>{
-        loaderZoom.textContent = "Erreur de chargement";
-      };
-
-      img.src = currentSrc;
-
-      zoom.onclick = (e)=>{
-        if(e.target === zoom){
-          zoom.remove();
-        }
-      };
+    img.onload = () => {
+      loaderZoom.remove();
+      img.style.display = "block";
     };
-  }
 
-  if(cont){
-    cont.onclick = () => {
+    img.onerror = () => {
+      loaderZoom.textContent = "Erreur de chargement";
+    };
 
-      overlay.remove();
+    img.src = currentSrc;
 
-      playDialogues([
-    { text:"Ton <strong>business plan</strong> est solide… maintenant, place à la <strong>réalité du terrain</strong>.", anchor:pirate5 },
+    zoom.onclick = (e) => {
+      if(e.target === zoom){
+        zoom.remove();
+      }
+    };
+  };
+}
 
-    { text:"La réalité du terrain ?", anchor:pirate2 },
+if(cont){
+  cont.onclick = () => {
 
-    { text:"Les clients ne paient que s’ils perçoivent une <strong>vraie valeur</strong>.", anchor:pirate5 },
+    overlay.remove();
 
-    { text:"Tu dois donc les convaincre de <strong>l’intérêt de ton produit</strong>.", anchor:pirate5 },
+    playDialogues([
+      { text:"Ton <strong>business plan</strong> est solide… maintenant, place à la <strong>réalité du terrain</strong>.", anchor:pirate5 },
+      { text:"La réalité du terrain ?", anchor:pirate2 },
+      { text:"Les clients ne paient que s’ils perçoivent une <strong>vraie valeur</strong>.", anchor:pirate5 },
+      { text:"Tu dois donc les convaincre de <strong>l’intérêt de ton produit</strong>.", anchor:pirate5 },
+      { text:"Mais avant ça… encore faut-il <strong>les faire venir jusqu’à toi</strong>.", anchor:pirate5 },
+      { text:"Comment attirer des clients ?", anchor:pirate2 },
+      { text:"Grâce à la <strong>prospection</strong>.", anchor:pirate5 },
+      { text:"La prospection, c’est <strong>chercher activement de nouveaux clients</strong>.", anchor:pirate5 },
+      { text:"Tu identifies des personnes <strong>potentiellement intéressées</strong> par ton offre.", anchor:pirate5 },
+      { text:"Puis tu notes leurs <strong>informations</strong> dans une <strong>base de données</strong>.", anchor:pirate5 },
+      { text:"Ensuite, tu les contactes : <strong>appels</strong>, <strong>emails</strong>, ou <strong>réseaux sociaux</strong>.", anchor:pirate5 },
+      { text:"Le but est simple : <strong>attirer leur attention</strong> et <strong>donner envie</strong>.", anchor:pirate5 },
+      { text:"Un bon entrepreneur n'attend pas… il va <strong>chercher ses clients</strong>.", anchor:pirate5 },
+      { text:"Prépare-toi. Le marché t’attend.", anchor:pirate5 }
+    ], () => {
 
-    { text:"Mais avant ça… encore faut-il <strong>les faire venir jusqu’à toi</strong>.", anchor:pirate5 },
+      setStepDone("dialogue3");
 
-    { text:"Comment attirer des clients ?", anchor:pirate2 },
+      setTimeout(() => {
+        startMiniGame3();
+      }, 300);
 
-    { text:"Grâce à la <strong>prospection</strong>.", anchor:pirate5 },
+    });
 
-    { text:"La prospection, c’est <strong>chercher activement de nouveaux clients</strong>.", anchor:pirate5 },
-
-    { text:"Tu identifies des personnes <strong>potentiellement intéressées</strong> par ton offre.", anchor:pirate5 },
-
-    { text:"Puis tu notes leurs <strong>informations</strong> dans une <strong>base de données</strong>.", anchor:pirate5 },
-
-    { text:"Ensuite, tu les contactes : <strong>appels</strong>, <strong>emails</strong>, ou <strong>réseaux sociaux</strong>.", anchor:pirate5 },
-
-    { text:"Le but est simple : <strong>attirer leur attention</strong> et <strong>donner envie</strong>.", anchor:pirate5 },
-
-    { text:"Un bon entrepreneur n'attend pas… il va <strong>chercher ses clients</strong>.", anchor:pirate5 },
-        { text:"Prépare-toi. Le marché t’attend.", anchor:pirate5 }
-      ], () => {
-
-        setStepDone("dialogue3");
-
-        setTimeout(() => {
-          startMiniGame3();
-        }, 300);
-
-      });
-  }
+  }; // ✅ IMPORTANT : fermeture du onclick
 }
    
 /* =====================================================
