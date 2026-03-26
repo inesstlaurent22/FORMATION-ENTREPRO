@@ -160,9 +160,6 @@ function startFlow(){
 }
 
 /* =====================================================
-   VIDEO
-===================================================== */
-/* =====================================================
    VIDEO — VERSION CORRIGÉE ULTRA STABLE
 ===================================================== */
 let videoDone = false;
@@ -344,19 +341,23 @@ function renderDialogue(){
   /* ===============================
      CLICK NEXT
   =============================== */
-  bubble.onclick = () => {
+  const next = () => {
 
-    if(lock) return;
+  if(lock) return;
 
-    lock = true;
-    i++;
+  lock = true;
+  i++;
 
-    requestAnimationFrame(() => {
-      lock = false;
-      renderDialogue();
-    });
-  };
+  setTimeout(() => {
+    lock = false;
+    renderDialogue();
+  }, 50);
+};
 
+// 🔥 multi support (mobile + desktop)
+bubble.addEventListener("click", next);
+bubble.addEventListener("touchstart", next);
+   
   DOM.bubble.appendChild(bubble);
 }
 
