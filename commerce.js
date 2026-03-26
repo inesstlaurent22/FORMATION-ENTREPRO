@@ -1234,22 +1234,15 @@ function createProgressBar(){
   const existing = document.getElementById("progressBar");
   if(existing) existing.remove();
 
-  if(!document.body){
-    console.warn("body non disponible");
-    return;
-  }
-
   const bar = document.createElement("div");
   bar.id = "progressBar";
 
   STEPS.forEach(step=>{
-
     if(!step) return;
 
     const el = document.createElement("div");
     el.className = "progress-step";
     el.dataset.step = step;
-
     el.textContent = step.includes("dialogue") ? "💬" : "🎮";
 
     bar.appendChild(el);
@@ -1267,8 +1260,7 @@ function createProgressBar(){
     zIndex:"999999"
   });
 
-  // ✅ appel correct
-  updateProgressBar();
+  updateProgressBar(); // ✅ OK ici
 }
 
 /* =====================================================
