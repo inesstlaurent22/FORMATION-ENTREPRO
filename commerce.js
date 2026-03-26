@@ -113,7 +113,8 @@ function setDone(step){
   p[step] = true;
   sessionStorage.setItem(KEY, JSON.stringify(p));
 
-  updateProgressBar?.(); // 🔥 sécurisé
+  if (typeof updateProgressBar === "function") {
+  updateProgressBar();
 }
 
 function nextStep(){
@@ -1269,7 +1270,7 @@ function createProgressBar(){
 
 createProgressBar();
 
-}); // ← fin du DOMContentLoaded
+}); // fin DOMContentLoaded
 
 window.addEventListener("load", () => {
   console.log("Page commerce chargée");
