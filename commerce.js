@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
    HELPERS
 ===================================================== */
 const $ = id => document.getElementById(id);
-const safe = fn => (...args) => { try { fn(...args); } catch(e){ console.error(e); } };
 
 /* =====================================================
    DOM
@@ -34,7 +33,10 @@ const DOM = {
   closeVideo: $("closeVideo")
 };
 
-DOM.fade?.classList.add("hidden");
+/* sécurité init */
+if(DOM.fade){
+  DOM.fade.classList.add("hidden");
+}
 
 /* =====================================================
    LOADER
@@ -42,10 +44,14 @@ DOM.fade?.classList.add("hidden");
 let loaderTimer = null;
 
 function showLoader(duration = 1200, cb){
-  clearTimeout(loaderTimer);
+
+  if(loaderTimer){
+    clearTimeout(loaderTimer);
+    loaderTimer = null;
+  }
 
   if(!DOM.fade){
-    cb?.();
+    if(typeof cb === "function") cb();
     return;
   }
 
@@ -53,7 +59,13 @@ function showLoader(duration = 1200, cb){
 
   loaderTimer = setTimeout(()=>{
     DOM.fade.classList.add("hidden");
-    cb?.();
+
+    if(typeof cb === "function"){
+      cb();
+    }
+
+    loaderTimer = null;
+
   }, duration);
 }
 
@@ -64,10 +76,12 @@ function shake(el){
   if(!el) return;
 
   el.classList.remove("screen-shake");
-  void el.offsetWidth;
+  void el.offsetWidth; // force reflow
   el.classList.add("screen-shake");
 
-  setTimeout(()=> el.classList.remove("screen-shake"), 400);
+  setTimeout(()=>{
+    el.classList.remove("screen-shake");
+  }, 400);
 }
 
 /* =====================================================
@@ -82,16 +96,19 @@ const STEPS = [
 function getProgress(){
   try{
     return JSON.parse(sessionStorage.getItem(KEY)) || {};
-  }catch{
+  }catch(e){
     return {};
   }
 }
 
 function setDone(step){
   const p = getProgress();
+
   if(p[step]) return;
+
   p[step] = true;
   sessionStorage.setItem(KEY, JSON.stringify(p));
+
   updateProgressBar();
 }
 
@@ -106,22 +123,25 @@ function nextStep(){
 let lockedFlow = false;
 
 function startFlow(){
+
   if(lockedFlow) return;
   lockedFlow = true;
 
-  const map = {
-    dialogue1: startDialogues1,
-    game1: startMiniGame1,
-    dialogue2: startDialogues2,
-    game2: startMiniGame2,
-    dialogue3: showBusinessPlanLoader,
-    game3: startMiniGame3,
-    done: showCommerceWin
-  };
+  const step = nextStep();
 
-  map[nextStep()]?.();
+  switch(step){
+    case "dialogue1": startDialogues1(); break;
+    case "game1": startMiniGame1(); break;
+    case "dialogue2": startDialogues2(); break;
+    case "game2": startMiniGame2(); break;
+    case "dialogue3": showBusinessPlanLoader(); break;
+    case "game3": startMiniGame3(); break;
+    default: showCommerceWin();
+  }
 
-  setTimeout(()=> lockedFlow = false, 300);
+  setTimeout(()=>{
+    lockedFlow = false;
+  }, 300);
 }
 
 /* =====================================================
@@ -134,31 +154,44 @@ if(DOM.video){
   DOM.video.muted = true;
 
   DOM.video.addEventListener("canplay", ()=>{
-    DOM.fade?.classList.add("hidden");
-    DOM.video.play().catch(()=>{});
+    if(DOM.fade){
+      DOM.fade.classList.add("hidden");
+    }
+
+    const playPromise = DOM.video.play();
+    if(playPromise !== undefined){
+      playPromise.catch(()=>{});
+    }
   });
 
   DOM.video.addEventListener("ended", endVideo);
 }
 
-DOM.sound?.addEventListener("click", ()=>{
-  DOM.video.muted = !DOM.video.muted;
-  DOM.sound.textContent = DOM.video.muted ? "🔇" : "🔊";
-});
+if(DOM.sound && DOM.video){
+  DOM.sound.addEventListener("click", ()=>{
+    DOM.video.muted = !DOM.video.muted;
+    DOM.sound.textContent = DOM.video.muted ? "🔇" : "🔊";
+  });
+}
 
-DOM.closeVideo?.addEventListener("click", endVideo);
+if(DOM.closeVideo){
+  DOM.closeVideo.addEventListener("click", endVideo);
+}
 
 function endVideo(){
+
   if(videoDone) return;
   videoDone = true;
 
   if(DOM.video){
     DOM.video.pause();
-    DOM.video.src = "";
+    DOM.video.removeAttribute("src");
     DOM.video.load();
   }
 
-  DOM.videoContainer?.classList.add("hidden");
+  if(DOM.videoContainer){
+    DOM.videoContainer.classList.add("hidden");
+  }
 
   showLoader(1200, showScene);
 }
@@ -172,9 +205,11 @@ function showScene(){
   DOM.pirate2?.classList.remove("hidden");
   DOM.pirate5?.classList.remove("hidden");
 
-  if(!DOM.pirate5 || DOM.pirate5.dataset.init) return;
+  if(!DOM.pirate5) return;
 
+  if(DOM.pirate5.dataset.init) return;
   DOM.pirate5.dataset.init = "true";
+
   DOM.pirate5.classList.add("glowStart");
 
   DOM.pirate5.onclick = ()=>{
@@ -194,20 +229,23 @@ let lock = false;
 
 function playDialogues(list, callback){
 
-  if(!DOM.bubble || !Array.isArray(list) || !list.length){
-    callback?.();
+  if(!DOM.bubble || !Array.isArray(list) || list.length === 0){
+    if(typeof callback === "function") callback();
     return;
   }
 
   dialogues = list;
   i = 0;
-  cb = callback;
+  cb = typeof callback === "function" ? callback : null;
 
   DOM.skip?.classList.remove("hidden");
+
   renderDialogue();
 }
 
 function renderDialogue(){
+
+  if(!DOM.bubble) return;
 
   DOM.bubble.innerHTML = "";
 
@@ -217,9 +255,12 @@ function renderDialogue(){
   }
 
   const d = dialogues[i];
-  d?.onShow?.();
 
-  if(!d?.text){
+  if(d?.onShow && typeof d.onShow === "function"){
+    d.onShow();
+  }
+
+  if(!d || !d.text){
     i++;
     renderDialogue();
     return;
@@ -229,21 +270,28 @@ function renderDialogue(){
   bubble.className = "dialogue-bubble";
   bubble.innerHTML = d.text;
 
-  if(d.anchor){
+  if(d.anchor && d.anchor.getBoundingClientRect){
+
     const r = d.anchor.getBoundingClientRect();
-    bubble.style.left = r.left + r.width/2 + "px";
+
+    bubble.style.left = r.left + r.width / 2 + "px";
     bubble.style.top = r.top - 120 + "px";
     bubble.style.transform = "translateX(-50%)";
+
   }else{
+
     bubble.style.left = "50%";
     bubble.style.top = "30%";
     bubble.style.transform = "translate(-50%,-50%)";
   }
 
   bubble.onclick = ()=>{
+
     if(lock) return;
+
     lock = true;
     i++;
+
     requestAnimationFrame(()=>{
       lock = false;
       renderDialogue();
@@ -254,7 +302,11 @@ function renderDialogue(){
 }
 
 function endDialogues(){
-  DOM.bubble.innerHTML = "";
+
+  if(DOM.bubble){
+    DOM.bubble.innerHTML = "";
+  }
+
   DOM.skip?.classList.add("hidden");
 
   const fn = cb;
@@ -1074,20 +1126,36 @@ function launchGemsExplosion(container){
 ===================================================== */
 function createProgressBar(){
 
-  document.getElementById("progressBar")?.remove();
+  if(!Array.isArray(STEPS)){
+    console.error("STEPS non défini");
+    return;
+  }
+
+  const existing = document.getElementById("progressBar");
+  if(existing) existing.remove();
 
   const bar = document.createElement("div");
   bar.id = "progressBar";
 
   STEPS.forEach(step=>{
+
+    if(!step) return;
+
     const el = document.createElement("div");
     el.className = "progress-step";
     el.dataset.step = step;
+
     el.textContent = step.includes("dialogue") ? "💬" : "🎮";
+
     bar.appendChild(el);
   });
 
-  document.body.appendChild(bar);
+  if(document.body){
+    document.body.appendChild(bar);
+  }else{
+    console.warn("body non disponible");
+    return;
+  }
 
   Object.assign(bar.style,{
     position:"fixed",
@@ -1103,15 +1171,36 @@ function createProgressBar(){
 }
 
 function updateProgressBar(){
-  const p = getProgress();
+
+  if(typeof getProgress !== "function"){
+    console.error("getProgress manquant");
+    return;
+  }
+
+  const p = getProgress() || {};
+
   document.querySelectorAll(".progress-step").forEach(el=>{
-    el.classList.toggle("done", !!p[el.dataset.step]);
+
+    const step = el.dataset.step;
+
+    if(!step) return;
+
+    if(p[step]){
+      el.classList.add("done");
+    }else{
+      el.classList.remove("done");
+    }
+
   });
 }
 
 /* =====================================================
    INIT
 ===================================================== */
-createProgressBar();
-
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", createProgressBar);
+}else{
+  createProgressBar();
+}
+   
 });
