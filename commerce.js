@@ -79,6 +79,41 @@ function getNextStep(){
   return stepsOrder.find(s => !p[s]);
 }
 
+function startProgressFlow(){
+
+  const next = getNextStep();
+
+  switch(next){
+
+    case "dialogue1":
+      startDialogues1();
+    break;
+
+    case "game1":
+      startMiniGame1();
+    break;
+
+    case "dialogue2":
+      startDialogues2();
+    break;
+
+    case "game2":
+      startMiniGame2();
+    break;
+
+    case "dialogue3":
+      showBusinessPlanLoader(); // ou dialogue correspondant
+    break;
+
+    case "game3":
+      startMiniGame3();
+    break;
+
+    default:
+      showCommerceWin();
+  }
+}
+
 /* =====================================================
    VIDÉO INTRO
 ===================================================== */
@@ -148,11 +183,12 @@ function showScene(){
   if(pirate5){
     pirate5.classList.add("glowStart");
 
-    pirate5.onclick = ()=>{
-      pirate5.classList.remove("glowStart");
-      pirate5.style.pointerEvents = "none";
-      startDialogues1();
-    };
+   pirate5.onclick = ()=>{
+  pirate5.classList.remove("glowStart");
+  pirate5.style.pointerEvents = "none";
+
+  startProgressFlow(); // 🔥 au lieu de startDialogues1()
+};
   }
 }
 
@@ -265,35 +301,45 @@ if(skipBtn){
    DIALOGUES 1
 ===================================================== */
 function startDialogues1(){
+
   playDialogues([
-  { text:"Avant de vendre quoi que ce soit, il faut <strong>comprendre ton marché</strong>.", anchor:pirate5 },
+    { text:"Avant de vendre quoi que ce soit, il faut <strong>comprendre ton marché</strong>.", anchor:pirate5 },
 
-  { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard</strong>.", anchor:pirate5 },
+    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard</strong>.", anchor:pirate5 },
 
-  { text:"On vient d’arriver… et on ne connaît rien du tout.", anchor:pirate2 },
+    { text:"On vient d’arriver… et on ne connaît rien du tout.", anchor:pirate2 },
 
-  { text:"Parfait. On va commencer par la base : <strong>l’étude de marché</strong>.", anchor:pirate5 },
+    { text:"Parfait. On va commencer par la base : <strong>l’étude de marché</strong>.", anchor:pirate5 },
 
-  { text:"Elle permet d’<strong>analyser</strong> les <strong>clients</strong>, la <strong>concurrence</strong> et les <strong>opportunités</strong>.", anchor:pirate5 },
+    { text:"Elle permet d’<strong>analyser</strong> les <strong>clients</strong>, la <strong>concurrence</strong> et les <strong>opportunités</strong>.", anchor:pirate5 },
 
-  { text:"Donc… il faut espionner les autres pirates ?", anchor:pirate2 },
+    { text:"Donc… il faut espionner les autres pirates ?", anchor:pirate2 },
 
-  { text:"Pas espionner… mais <strong>observer et comprendre</strong>.", anchor:pirate5 },
+    { text:"Pas espionner… mais <strong>observer et comprendre</strong>.", anchor:pirate5 },
 
-  { text:"Tu peux utiliser <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>des données en ligne</strong>.", anchor:pirate5 },
+    { text:"Tu peux utiliser <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>des données en ligne</strong>.", anchor:pirate5 },
 
-  { text:"Tout ça pour vérifier si ton produit <strong>intéresse vraiment</strong> les clients.", anchor:pirate5 },
+    { text:"Tout ça pour vérifier si ton produit <strong>intéresse vraiment</strong> les clients.", anchor:pirate5 },
 
-  { text:"Un bon produit, c’est un produit qui <strong>répond à un besoin</strong> ou <strong>résout un problème</strong>.", anchor:pirate5 },
+    { text:"Un bon produit, c’est un produit qui <strong>répond à un besoin</strong> ou <strong>résout un problème</strong>.", anchor:pirate5 },
 
-  { text:"Nos pierres sont magnifiques… donc ça va marcher, non ?", anchor:pirate2 },
+    { text:"Nos pierres sont magnifiques… donc ça va marcher, non ?", anchor:pirate2 },
 
-  { text:"Peut-être… mais sans données, ce n’est qu’une <strong>supposition</strong>.", anchor:pirate5 },
+    { text:"Peut-être… mais sans données, ce n’est qu’une <strong>supposition</strong>.", anchor:pirate5 },
 
-  { text:"Un entrepreneur ne devine pas… il <strong>valide avec des faits</strong>.", anchor:pirate5 },
+    { text:"Un entrepreneur ne devine pas… il <strong>valide avec des faits</strong>.", anchor:pirate5 },
 
-  { text:"Alors… à toi de prouver que ton idée peut vraiment fonctionner.", anchor:pirate5 }
-], startMiniGame1);
+    { text:"Alors… à toi de prouver que ton idée peut vraiment fonctionner.", anchor:pirate5 }
+  ], () => {
+
+    // ✅ Marque le dialogue comme terminé (ANTI-RETOUR + JAUGE)
+    setStepDone("dialogue1");
+
+    // ➜ Lance le jeu suivant
+    startMiniGame1();
+
+  });
+
 }
 
 /* =====================================================
@@ -449,7 +495,15 @@ function startDialogues2(){
     { text:"Prends des notes. Tu vas devoir prouver que ton idée peut fonctionner.", anchor:pirate5 }
   ];
 
-  playDialogues(dialoguesMarket, startMiniGame2);
+  playDialogues(dialoguesMarket, () => {
+
+    // ✅ MAJ progression
+    setStepDone("dialogue2");
+
+    // ➜ Suite logique
+    startMiniGame2();
+
+  });
 }
 
 /* =====================================================
@@ -778,11 +832,11 @@ function showBusinessPlanLoader(){
   /* ===============================
      CONTINUER
   =============================== */
-cont.onclick = ()=>{
+cont.onclick = () => {
 
   overlay.remove();
 
-  playDialogues([
+  const dialogues = [
     { text:"Ton <strong>business plan</strong> est solide… maintenant, place à la <strong>réalité du terrain</strong>.", anchor:pirate5 },
 
     { text:"La réalité du terrain ?", anchor:pirate2 },
@@ -812,25 +866,26 @@ cont.onclick = ()=>{
     {
       text:"Prépare-toi. Le marché t’attend.",
       anchor:pirate5,
-      onShow: ()=>{
-        console.log("pirate3 déclenché");
-
+      onShow: () => {
         if(pirate3){
           pirate3.classList.remove("hidden");
         }
       }
     }
-  ], ()=>{
+  ];
 
-    setTimeout(()=>{
+  playDialogues(dialogues, () => {
+
+    // ✅ MAJ progression (TRÈS IMPORTANT pour la jauge)
+    setStepDone("dialogue3");
+
+    setTimeout(() => {
       startMiniGame3();
     }, 300);
 
   });
 
-}; // ferme onclick
-
-} // ferme showBusinessPlanLoader
+};
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
@@ -1058,6 +1113,9 @@ function launchGemsExplosion(container){
 
 function createProgressBar(){
 
+  let existing = document.getElementById("progressBar");
+  if(existing) existing.remove(); // évite doublon
+
   const bar = document.createElement("div");
   bar.id = "progressBar";
 
@@ -1069,7 +1127,10 @@ function createProgressBar(){
     bar.appendChild(item);
   });
 
+  // 🔥 IMPORTANT : append DIRECT sur body + forcer z-index inline
   document.body.appendChild(bar);
+
+  bar.style.zIndex = "999999"; // 🚨 FORCE AU MAX
 
   updateProgressBar();
 }
