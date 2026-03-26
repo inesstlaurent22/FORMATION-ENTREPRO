@@ -114,7 +114,8 @@ function setDone(step){
   sessionStorage.setItem(KEY, JSON.stringify(p));
 
   if (typeof updateProgressBar === "function") {
-  updateProgressBar();
+    updateProgressBar();
+  }
 }
 
 function nextStep(){
