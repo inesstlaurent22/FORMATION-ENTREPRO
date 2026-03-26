@@ -216,12 +216,20 @@ html, body {
   padding: 14px;
   text-align: center;
   font-weight: 700;
+  letter-spacing: 1px;
 
-  background: linear-gradient(90deg, #7a4b1f, #3b2a1a);
   color: #ffd700;
 
+  /* 🔥 superposition couleur + image */
+  background:
+    linear-gradient(rgba(59,42,26,0.85), rgba(30,20,13,0.9)),
+    url("images/Professeur1.PNG");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   border-bottom: 2px solid #c9a44c;
-  letter-spacing: 1px;
 }
 
 /* ================= MESSAGES ================= */
