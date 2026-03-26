@@ -55,6 +55,28 @@ function shake(el){
   setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
 
+const PROGRESS_KEY = "commerce_progress_v1";
+
+const stepsOrder = [
+  "dialogue1",
+  "game1",
+  "dialogue2",
+  "game2",
+  "dialogue3",
+  "game3"
+];
+
+function setStepDone(step){
+  const p = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
+  p[step] = true;
+  sessionStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+}
+
+function getNextStep(){
+  const p = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
+  return stepsOrder.find(s => !p[s]);
+}
+
 /* =====================================================
    VIDÉO INTRO
 ===================================================== */
@@ -385,6 +407,7 @@ function startMiniGame1(){
                 renderQuestion();
               }else{
                 game1.classList.add("hidden");
+                 setStepDone("game1");
                 startDialogues2();
               }
 
@@ -405,37 +428,26 @@ function startMiniGame1(){
    DIALOGUES 2
 ===================================================== */
 function startDialogues2(){
-  playDialogues(const dialoguesMarket = [
-  { text:"Avant de vendre quoi que ce soit, tu dois <strong>comprendre ton marché</strong>.", anchor:pirate5 },
 
-  { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard</strong>.", anchor:pirate5 },
+  const dialoguesMarket = [
+    { text:"Avant de vendre quoi que ce soit, tu dois <strong>comprendre ton marché</strong>.", anchor:pirate5 },
+    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard</strong>.", anchor:pirate5 },
+    { text:"On vient d’arriver… et on ne connaît absolument rien.", anchor:pirate2 },
+    { text:"Parfait. C’est là que commence le travail d’un vrai entrepreneur.", anchor:pirate5 },
+    { text:"Première étape : <strong>l’étude de marché</strong>.", anchor:pirate5 },
+    { text:"Elle permet d’<strong>analyser</strong> les <strong>clients</strong>, la <strong>concurrence</strong>, les <strong>tendances</strong> et les <strong>opportunités</strong>.", anchor:pirate5 },
+    { text:"Donc… il faut deviner ce que veulent les clients ?", anchor:pirate2 },
+    { text:"Non. Tu dois <strong>collecter des informations réelles</strong>.", anchor:pirate5 },
+    { text:"Avec <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>des données déjà existantes</strong>.", anchor:pirate5 },
+    { text:"Tout cela permet de savoir si ton produit <strong>intéresse vraiment</strong> le marché.", anchor:pirate5 },
+    { text:"Un bon produit, c’est un produit qui <strong>répond à un besoin</strong> ou <strong>résout un problème</strong>.", anchor:pirate5 },
+    { text:"Nos pierres sont magnifiques… les clients vont forcément adorer, non ?", anchor:pirate2 },
+    { text:"Peut-être. Mais sans données, ce n’est qu’une <strong>supposition</strong>.", anchor:pirate5 },
+    { text:"Un entrepreneur ne suppose pas… il <strong>valide avec des faits</strong>.", anchor:pirate5 },
+    { text:"Prends des notes. Tu vas devoir prouver que ton idée peut fonctionner.", anchor:pirate5 }
+  ];
 
-  { text:"On vient d’arriver… et on ne connaît absolument rien.", anchor:pirate2 },
-
-  { text:"Parfait. C’est là que commence le travail d’un vrai entrepreneur.", anchor:pirate5 },
-
-  { text:"Première étape : <strong>l’étude de marché</strong>.", anchor:pirate5 },
-
-  { text:"Elle permet d’<strong>analyser</strong> les <strong>clients</strong>, la <strong>concurrence</strong>, les <strong>tendances</strong> et les <strong>opportunités</strong>.", anchor:pirate5 },
-
-  { text:"Donc… il faut deviner ce que veulent les clients ?", anchor:pirate2 },
-
-  { text:"Non. Tu dois <strong>collecter des informations réelles</strong>.", anchor:pirate5 },
-
-  { text:"Avec <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>des données déjà existantes</strong>.", anchor:pirate5 },
-
-  { text:"Tout cela permet de savoir si ton produit <strong>intéresse vraiment</strong> le marché.", anchor:pirate5 },
-
-  { text:"Un bon produit, c’est un produit qui <strong>répond à un besoin</strong> ou <strong>résout un problème</strong>.", anchor:pirate5 },
-
-  { text:"Nos pierres sont magnifiques… les clients vont forcément adorer, non ?", anchor:pirate2 },
-
-  { text:"Peut-être. Mais sans données, ce n’est qu’une <strong>supposition</strong>.", anchor:pirate5 },
-
-  { text:"Un entrepreneur ne suppose pas… il <strong>valide avec des faits</strong>.", anchor:pirate5 },
-
-  { text:"Prends des notes. Tu vas devoir prouver que ton idée peut fonctionner.", anchor:pirate5 }
-];, startMiniGame2);
+  playDialogues(dialoguesMarket, startMiniGame2);
 }
 
 /* =====================================================
@@ -555,6 +567,7 @@ function startMiniGame2(){
 game2.classList.add("hidden");
 
 setTimeout(()=>{
+   setStepDone("game2");
   showBusinessPlanLoader();
 },600);
             }
@@ -768,33 +781,35 @@ cont.onclick = ()=>{
   overlay.remove();
 
   playDialogues([
-{ text:"Ton <strong>business plan</strong> est solide… maintenant, place à la <strong>réalité du terrain</strong>.", anchor:pirate5 },
+    { text:"Ton <strong>business plan</strong> est solide… maintenant, place à la <strong>réalité du terrain</strong>.", anchor:pirate5 },
 
-  { text:"La réalité du terrain ?", anchor:pirate2 },
+    { text:"La réalité du terrain ?", anchor:pirate2 },
 
-  { text:"Les clients ne paient que s’ils perçoivent une <strong>vraie valeur</strong>.", anchor:pirate5 },
+    { text:"Les clients ne paient que s’ils perçoivent une <strong>vraie valeur</strong>.", anchor:pirate5 },
 
-  { text:"Tu dois donc les convaincre de <strong>l’intérêt de ton produit</strong>.", anchor:pirate5 },
+    { text:"Tu dois donc les convaincre de <strong>l’intérêt de ton produit</strong>.", anchor:pirate5 },
 
-  { text:"Mais avant ça… encore faut-il <strong>les faire venir jusqu’à toi</strong>.", anchor:pirate5 },
+    { text:"Mais avant ça… encore faut-il <strong>les faire venir jusqu’à toi</strong>.", anchor:pirate5 },
 
-  { text:"Comment attirer des clients ?", anchor:pirate2 },
+    { text:"Comment attirer des clients ?", anchor:pirate2 },
 
-  { text:"Grâce à la <strong>prospection</strong>.", anchor:pirate5 },
+    { text:"Grâce à la <strong>prospection</strong>.", anchor:pirate5 },
 
-  { text:"La prospection, c’est <strong>chercher activement de nouveaux clients</strong>.", anchor:pirate5 },
+    { text:"La prospection, c’est <strong>chercher activement de nouveaux clients</strong>.", anchor:pirate5 },
 
-  { text:"Tu identifies des personnes <strong>potentiellement intéressées</strong> par ton offre.", anchor:pirate5 },
+    { text:"Tu identifies des personnes <strong>potentiellement intéressées</strong> par ton offre.", anchor:pirate5 },
 
-  { text:"Puis tu notes leurs <strong>informations</strong> dans une <strong>base de données</strong>.", anchor:pirate5 },
+    { text:"Puis tu notes leurs <strong>informations</strong> dans une <strong>base de données</strong>.", anchor:pirate5 },
 
-  { text:"Ensuite, tu les contactes : <strong>appels</strong>, <strong>emails</strong>, ou <strong>réseaux sociaux</strong>.", anchor:pirate5 },
+    { text:"Ensuite, tu les contactes : <strong>appels</strong>, <strong>emails</strong>, ou <strong>réseaux sociaux</strong>.", anchor:pirate5 },
 
-  { text:"Le but est simple : <strong>attirer leur attention</strong> et <strong>donner envie</strong>.", anchor:pirate5 },
+    { text:"Le but est simple : <strong>attirer leur attention</strong> et <strong>donner envie</strong>.", anchor:pirate5 },
 
-  { text:"Un bon entrepreneur ne attend pas… il va <strong>chercher ses clients</strong>.", anchor:pirate5 },
+    { text:"Un bon entrepreneur n'attend pas… il va <strong>chercher ses clients</strong>.", anchor:pirate5 },
 
-  { text:"Prépare-toi. Le marché t’attend.", anchor:pirate5 }
+    {
+      text:"Prépare-toi. Le marché t’attend.",
+      anchor:pirate5,
       onShow: ()=>{
         console.log("pirate3 déclenché");
 
@@ -813,7 +828,7 @@ cont.onclick = ()=>{
 
 }; // ferme onclick
 
-} // ✅ ICI tu fermes showBusinessPlanLoader
+} // ferme showBusinessPlanLoader
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
@@ -834,7 +849,7 @@ function startMiniGame3(){
 
   let step = 0;
 
-  const steps = [
+const steps = [
   {
     text:`Quelle est la première étape de la prospection ?`,
     hint:"💡 Avant de contacter, tu dois identifier tes futurs clients.",
@@ -893,16 +908,14 @@ function startMiniGame3(){
       { label:"Générer des ventes", correct:true },
       { label:"Créer une relation avec les prospects", correct:true },
       { label:"Éviter les clients", correct:false }
-    ]
-  }
-];,
-      finalText:`<strong>🎉 Bravo.</strong><br>
+    ],
+    finalText:`<strong>🎉 Bravo.</strong><br>
 Tu sais maintenant comment prospecter efficacement :
 trouver des clients, les contacter et répondre à leurs objections.
 
 Tu es prêt à attirer un maximum de clients vers ton activité.`
-    }
-  ];
+  }
+];
 
   function render(){
 
@@ -977,6 +990,8 @@ Tu es prêt à attirer un maximum de clients vers ton activité.`
    🏆 VICTOIRE COMMUNICATION
 ===================================================== */
 function showCommerceWin(){
+
+   setStepDone("game3");
 
   // 🔥 Supprime loader pirate s'il est visible
   if(fadeScreen){
