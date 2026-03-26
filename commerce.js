@@ -78,6 +78,41 @@ function getNextStep(){
 }
 
 /* =====================================================
+   📊 PROGRESS BAR
+===================================================== */
+
+function createProgressBar(){
+
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
+
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+    item.dataset.step = step;
+    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
+    bar.appendChild(item);
+  });
+
+  document.body.appendChild(bar);
+
+  updateProgressBar();
+}
+
+function updateProgressBar(){
+
+  const progress = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
+
+  document.querySelectorAll(".progress-step").forEach(el=>{
+    const step = el.dataset.step;
+
+    progress[step]
+      ? el.classList.add("done")
+      : el.classList.remove("done");
+  });
+}
+
+/* =====================================================
    VIDÉO INTRO
 ===================================================== */
 
