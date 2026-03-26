@@ -1201,6 +1201,29 @@ function launchGemsExplosion(container){
 /* =====================================================
    📊 PROGRESS BAR
 ===================================================== */
+
+function updateProgressBar(){
+
+  if(typeof getProgress !== "function"){
+    console.error("getProgress manquant");
+    return;
+  }
+
+  const progress = getProgress() || {};
+
+  document.querySelectorAll(".progress-step").forEach(el=>{
+
+    const step = el.dataset.step;
+    if(!step) return;
+
+    if(progress[step]){
+      el.classList.add("done");
+    }else{
+      el.classList.remove("done");
+    }
+  });
+}
+
 function createProgressBar(){
 
   if(!Array.isArray(STEPS)){
@@ -1244,34 +1267,17 @@ function createProgressBar(){
     zIndex:"999999"
   });
 
-  if (typeof updateProgressBar === "function") {
-  updateProgressBar()
+  // ✅ appel correct
+  updateProgressBar();
 }
 
-function updateProgressBar(){
+/* =====================================================
+   INIT FINAL
+===================================================== */
 
-  if(typeof getProgress !== "function"){
-    console.error("getProgress manquant");
-    return;
-  }
-
-  const progress = getProgress() || {};
-
-  document.querySelectorAll(".progress-step").forEach(el=>{
-
-    const step = el.dataset.step;
-    if(!step) return;
-
-    if(progress[step]){
-      el.classList.add("done");
-    }else{
-      el.classList.remove("done");
-    }
-  });
-}
 createProgressBar();
-   
-}); // ← fin de ton gros DOMContentLoaded
+
+}); // ← fin du DOMContentLoaded
 
 window.addEventListener("load", () => {
   console.log("Page commerce chargée");
