@@ -135,7 +135,7 @@ async function sendToAI(text) {
 
   // Avatar professeur
   const avatar = document.createElement("img");
-  avatar.src = "assets/prof.png"; // chemin de ton image
+  avatar.src = "images/Professeur1.PNG"; // chemin de ton image
   avatar.className = "chatbot-avatar";
 
   // Message
