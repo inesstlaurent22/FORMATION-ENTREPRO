@@ -327,8 +327,12 @@ function renderDialogue(){
 
     const r = d.anchor.getBoundingClientRect();
 
-    bubble.style.left = (r.left + r.width / 2) + "px";
-    bubble.style.top = (r.top - 120) + "px";
+let top = r.top - 120;
+if(top < 20) top = 80; // 🔥 évite hors écran
+
+bubble.style.left = (r.left + r.width / 2) + "px";
+bubble.style.top = top + "px";
+     
     bubble.style.transform = "translateX(-50%)";
 
   }else{
