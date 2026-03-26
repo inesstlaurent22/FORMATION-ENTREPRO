@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+   sessionStorage.removeItem("commerce_progress_v1");
+
 /* =====================================================
    HELPERS
 ===================================================== */
@@ -135,6 +137,14 @@ function startFlow(){
 
   const step = nextStep();
 
+  console.log("STEP:", step); // debug
+
+  if(step === "done"){
+    showCommerceWin();
+    lockedFlow = false;
+    return;
+  }
+
   switch(step){
     case "dialogue1": startDialogues1(); break;
     case "game1": startMiniGame1(); break;
@@ -142,7 +152,6 @@ function startFlow(){
     case "game2": startMiniGame2(); break;
     case "dialogue3": showBusinessPlanLoader(); break;
     case "game3": startMiniGame3(); break;
-    default: showCommerceWin();
   }
 
   setTimeout(() => {
@@ -221,18 +230,19 @@ function showScene(){
 }
 
   // 🔒 bloque double init
-  if(DOM.pirate5.dataset.init === "true") return;
-  DOM.pirate5.dataset.init = "true";
+if(!DOM.pirate5.dataset.init){
 
+  DOM.pirate5.dataset.init = "true";
   DOM.pirate5.classList.add("glowStart");
 
-  DOM.pirate5.onclick = () => {
+  DOM.pirate5.addEventListener("click", () => {
 
     DOM.pirate5.classList.remove("glowStart");
     DOM.pirate5.style.pointerEvents = "none";
 
     startFlow();
-  };
+
+  }, { once:true });
 }
 
 /* =====================================================
@@ -247,9 +257,9 @@ function playDialogues(list, callback){
 
   // 🔒 sécurité
   if(!DOM.bubble){
-    if(typeof callback === "function") callback();
-    return;
-  }
+  console.error("bubbleContainer manquant");
+  return;
+}
 
   if(!Array.isArray(list) || list.length === 0){
     endDialogues();
@@ -1206,10 +1216,9 @@ function launchGemsExplosion(container){
 
 function updateProgressBar(){
 
-  if(typeof getProgress !== "function"){
-    console.error("getProgress manquant");
-    return;
-  }
+  try{
+  updateProgressBar();
+}catch(e){}
 
   const progress = getProgress() || {};
 
