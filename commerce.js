@@ -76,7 +76,7 @@ function setStepDone(step){
 
 function getNextStep(){
   const p = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
-  return stepsOrder.find(s => !p[s]);
+  return stepsOrder.find(s => !p[s]) || "done";
 }
 
 function startProgressFlow(){
@@ -102,7 +102,8 @@ function startProgressFlow(){
     break;
 
     case "dialogue3":
-      showBusinessPlanLoader(); // ou dialogue correspondant
+      // ✅ CORRECTION : on relance les dialogues après le livre
+      showBusinessPlanLoader();
     break;
 
     case "game3":
@@ -1133,6 +1134,14 @@ function createProgressBar(){
   bar.style.zIndex = "999999"; // 🚨 FORCE AU MAX
 
   updateProgressBar();
+}
+
+// 🔥 REPRISE AUTO SI PAGE RECHARGÉE
+if(getNextStep() !== "dialogue1"){
+  showScene();
+  setTimeout(()=>{
+    startProgressFlow();
+  },300);
 }
 
 function updateProgressBar(){
