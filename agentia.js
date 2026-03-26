@@ -70,7 +70,7 @@ chatbotMessages.appendChild(wrapper);
 wrapper.className = "message-bot-wrapper";
 
 const avatar = document.createElement("img");
-avatar.src = "assets/prof.png";
+avatar.src = "images/IMG_2204.png";
 avatar.className = "chatbot-avatar";
 
 const loading = document.createElement("div");
