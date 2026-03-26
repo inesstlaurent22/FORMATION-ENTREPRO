@@ -34,26 +34,55 @@ const closeVideo = document.getElementById("closeVideo");
 /* =====================================================
    OUTILS
 ===================================================== */
+/* =====================================================
+   OUTILS
+===================================================== */
+
+let loaderTimeout = null;
+
 function showLoader(duration = 1200, cb){
+
+  // 🔥 clear ancien loader (évite bugs)
+  if(loaderTimeout){
+    clearTimeout(loaderTimeout);
+    loaderTimeout = null;
+  }
+
   if(!fadeScreen){
-    cb && cb();
+    if(typeof cb === "function") cb();
     return;
   }
 
   fadeScreen.classList.remove("hidden");
 
-  setTimeout(() => {
+  loaderTimeout = setTimeout(() => {
+
     fadeScreen.classList.add("hidden");
+
     if(typeof cb === "function"){
       cb();
     }
+
+    loaderTimeout = null;
+
   }, duration);
 }
 
 function shake(el){
+  if(!el) return;
+
+  el.classList.remove("screen-shake"); // reset propre
+  void el.offsetWidth; // 🔥 force reflow (important)
   el.classList.add("screen-shake");
-  setTimeout(()=>el.classList.remove("screen-shake"),400);
+
+  setTimeout(()=>{
+    el.classList.remove("screen-shake");
+  },400);
 }
+
+/* =====================================================
+   PROGRESSION
+===================================================== */
 
 const PROGRESS_KEY = "commerce_progress_v1";
 
@@ -66,20 +95,43 @@ const stepsOrder = [
   "game3"
 ];
 
+function getProgress(){
+  try{
+    return JSON.parse(sessionStorage.getItem(PROGRESS_KEY)) || {};
+  }catch(e){
+    return {};
+  }
+}
+
 function setStepDone(step){
-  const p = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
+
+  const p = getProgress();
+
+  // 🔥 empêche overwrite inutile
+  if(p[step]) return;
+
   p[step] = true;
+
   sessionStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
 
-  updateProgressBar(); // 🔥 IMPORTANT
+  updateProgressBar();
 }
 
 function getNextStep(){
-  const p = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
+  const p = getProgress();
   return stepsOrder.find(s => !p[s]) || "done";
 }
 
+/* =====================================================
+   FLOW GLOBAL
+===================================================== */
+
+let flowStarted = false;
+
 function startProgressFlow(){
+
+  if(flowStarted) return; // 🔥 bloque double lancement
+  flowStarted = true;
 
   const next = getNextStep();
 
@@ -102,7 +154,7 @@ function startProgressFlow(){
     break;
 
     case "dialogue3":
-      showBusinessPlanLoader(); // 👉 ICI
+      showBusinessPlanLoader(); // ✅ OK ici
     break;
 
     case "game3":
@@ -180,16 +232,19 @@ function showScene(){
   if(pirate2) pirate2.classList.remove("hidden");
   if(pirate5) pirate5.classList.remove("hidden");
 
-  if(pirate5){
-    pirate5.classList.add("glowStart");
+  // 🔥 BLOQUE DOUBLE INIT
+  if(pirate5 && pirate5.dataset.init) return;
 
-   pirate5.onclick = ()=>{
-  pirate5.classList.remove("glowStart");
-  pirate5.style.pointerEvents = "none";
+  pirate5.dataset.init = "true";
 
-  startProgressFlow(); // 🔥 au lieu de startDialogues1()
-};
-  }
+  pirate5.classList.add("glowStart");
+
+  pirate5.onclick = ()=>{
+    pirate5.classList.remove("glowStart");
+    pirate5.style.pointerEvents = "none";
+
+    startProgressFlow();
+  };
 }
 
 /* =====================================================
@@ -644,41 +699,45 @@ setTimeout(()=>{
 ===================================================== */
 function showBusinessPlanLoader(){
 
+  // 🔥 évite doublon overlay
+  const existing = document.getElementById("identity-loader");
+  if(existing) existing.remove();
+
   const overlay = document.createElement("div");
   overlay.id = "identity-loader";
 
   overlay.innerHTML = `
     <div class="identity-center">
-    <div class="book-wrapper">
+      <div class="book-wrapper">
 
-      <h2 class="bp-title hidden" id="bpTitle">
-        Bravo 🎉 Tu as créé ton business plan
-      </h2>
+        <h2 class="bp-title hidden" id="bpTitle">
+          Bravo 🎉 Tu as créé ton business plan
+        </h2>
 
-      <div class="book-container">
+        <div class="book-container">
 
-        <div class="book-loading" id="bookLoading">⏳</div>
+          <div class="book-loading" id="bookLoading">⏳</div>
 
-        <div class="book-pages hidden" id="bookPages">
+          <div class="book-pages hidden" id="bookPages">
 
-          <div class="left-wrapper">
-            <img id="leftPage" class="hidden">
-          </div>
+            <div class="left-wrapper">
+              <img id="leftPage" class="hidden">
+            </div>
 
-          <div class="right-wrapper">
-            <img id="rightPage">
-            <button id="zoomPageBtn" class="zoom-btn hidden">🔎</button>
+            <div class="right-wrapper">
+              <img id="rightPage">
+              <button id="zoomPageBtn" class="zoom-btn hidden">🔎</button>
+            </div>
+
           </div>
 
         </div>
-        </div>
+
+        <button id="continueQuestBtn" class="hidden">
+          Continuer la quête
+        </button>
 
       </div>
-
-      <button id="continueQuestBtn" class="hidden">
-        Continuer la quête
-      </button>
-
     </div>
   `;
 
@@ -699,10 +758,8 @@ function showBusinessPlanLoader(){
     ["images/Businessplan4.jpg","images/Businessplan3.jpg"]
   ];
 
-  const allImages = pages.flat().filter(Boolean);
-  let loaded = 0;
   let step = 0;
-
+   
   /* ===============================
      PRELOAD IMAGES
   =============================== */
@@ -1110,11 +1167,11 @@ function launchGemsExplosion(container){
 /* =====================================================
    📊 PROGRESS BAR
 ===================================================== */
-
 function createProgressBar(){
 
+  // 🔥 éviter doublon
   let existing = document.getElementById("progressBar");
-  if(existing) existing.remove(); // évite doublon
+  if(existing) existing.remove();
 
   const bar = document.createElement("div");
   bar.id = "progressBar";
@@ -1127,10 +1184,16 @@ function createProgressBar(){
     bar.appendChild(item);
   });
 
-  // 🔥 IMPORTANT : append DIRECT sur body + forcer z-index inline
   document.body.appendChild(bar);
 
-  bar.style.zIndex = "999999"; // 🚨 FORCE AU MAX
+  // 🔥 styles critiques
+  bar.style.position = "fixed";
+  bar.style.bottom = "20px";
+  bar.style.left = "50%";
+  bar.style.transform = "translateX(-50%)";
+  bar.style.display = "flex";
+  bar.style.gap = "10px";
+  bar.style.zIndex = "999999";
 
   updateProgressBar();
 }
@@ -1139,7 +1202,10 @@ function updateProgressBar(){
 
   const progress = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
 
-  document.querySelectorAll(".progress-step").forEach(el=>{
+  const bar = document.getElementById("progressBar");
+  if(!bar) return;
+
+  bar.querySelectorAll(".progress-step").forEach(el=>{
     const step = el.dataset.step;
 
     if(progress[step]){
@@ -1149,15 +1215,4 @@ function updateProgressBar(){
     }
   });
 }
-
-   createProgressBar();
-
-// ✅ REPRISE AUTO (BON ENDROIT)
-if(getNextStep() !== "dialogue1"){
-  showScene();
-  setTimeout(()=>{
-    startProgressFlow();
-  },300);
-}
-
 });
