@@ -796,7 +796,9 @@ if(allImages.length === 0){
   function finishLoading(){
     loader.classList.add("hidden");
     pagesWrap.classList.remove("hidden");
-    zoomBtn.classList.remove("hidden");
+    if(zoomBtn){
+  zoomBtn.classList.remove("hidden");
+}
     title.classList.remove("hidden");
     title.classList.add("title-appear");
     update();
