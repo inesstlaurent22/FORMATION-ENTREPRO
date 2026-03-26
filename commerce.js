@@ -196,6 +196,14 @@ function endVideo(){
   showLoader(1200, showScene);
 }
 
+// 🔥 FALLBACK SI LA VIDÉO NE SE LANCE PAS
+setTimeout(() => {
+  if(!videoDone){
+    console.warn("Fallback vidéo activé");
+    endVideo();
+  }
+}, 3000);
+
 /* =====================================================
    SCENE
 ===================================================== */
