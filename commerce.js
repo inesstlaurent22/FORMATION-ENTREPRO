@@ -31,9 +31,7 @@ const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
-/* =====================================================
-   OUTILS
-===================================================== */
+
 /* =====================================================
    OUTILS
 ===================================================== */
@@ -233,7 +231,8 @@ function showScene(){
   if(pirate5) pirate5.classList.remove("hidden");
 
   // 🔥 BLOQUE DOUBLE INIT
-  if(pirate5 && pirate5.dataset.init) return;
+  if(!pirate5) return;
+if(pirate5.dataset.init) return;
 
   pirate5.dataset.init = "true";
 
@@ -259,7 +258,13 @@ function playDialogues(list, cb){
 
   if(!bubbleContainer) return;
 
-  dialogues = Array.isArray(list) ? list : [];
+  // 🔒 Sécurité anti crash
+  if(!Array.isArray(list) || list.length === 0){
+    endDialogues();
+    return;
+  }
+
+  dialogues = list;
   index = 0;
   callback = typeof cb === "function" ? cb : null;
 
@@ -760,30 +765,33 @@ function showBusinessPlanLoader(){
 
   let step = 0;
    
-  /* ===============================
-     PRELOAD IMAGES
-  =============================== */
-  if(allImages.length === 0){
-    finishLoading();
-  }else{
-    let finished = false;
+/* ===============================
+   PRELOAD IMAGES
+=============================== */
+const allImages = pages.flat().filter(Boolean);
+let loaded = 0;
 
-    allImages.forEach(src=>{
-      const img = new Image();
+if(allImages.length === 0){
+  finishLoading();
+}else{
+  let finished = false;
 
-      img.onload = img.onerror = ()=>{
-        if(finished) return;
-        loaded++;
+  allImages.forEach(src=>{
+    const img = new Image();
 
-        if(loaded >= allImages.length){
-          finished = true;
-          finishLoading();
-        }
-      };
+    img.onload = img.onerror = ()=>{
+      if(finished) return;
+      loaded++;
 
-      img.src = src;
-    });
-  }
+      if(loaded >= allImages.length){
+        finished = true;
+        finishLoading();
+      }
+    };
+
+    img.src = src;
+  });
+}
 
   function finishLoading(){
     loader.classList.add("hidden");
@@ -1215,4 +1223,7 @@ function updateProgressBar(){
     }
   });
 }
+
+   createProgressBar();
+   
 });
