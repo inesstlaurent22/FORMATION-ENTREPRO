@@ -1218,10 +1218,6 @@ function launchGemsExplosion(container){
 
 function updateProgressBar(){
 
-  try{
-  updateProgressBar();
-}catch(e){}
-
   const progress = getProgress() || {};
 
   document.querySelectorAll(".progress-step").forEach(el=>{
