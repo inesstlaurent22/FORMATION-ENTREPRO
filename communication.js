@@ -139,12 +139,6 @@ function startProgressFlow(){
 /* =====================================================
    🏴‍☠️ PIRATES
 ===================================================== */
-/* =====================================================
-   🏴‍☠️ PIRATES
-===================================================== */
-/* =====================================================
-   🏴‍☠️ PIRATES
-===================================================== */
 const pirate3 = document.getElementById("pirate3");
 const pirate2 = document.getElementById("pirate2");
 
@@ -357,10 +351,12 @@ function afterMG1(){
 
   hideMiniGame();
 
-  showLoader(1200,()=>playDialog(
-    dialoguesAfterMG1,
-    startMiniGame2
-  ));
+  showLoader(1200, () => {
+  playDialog(dialoguesAfterMG1, () => {
+    setStepDone("dialogue2"); // ✅ manquant
+    startMiniGame2();
+  });
+});
 }
 
    const dialoguesAfterMG1 = [
@@ -811,7 +807,10 @@ function updateProgressBar(){
 
   const progress = getProgress();
 
-  document.querySelectorAll(".progress-step").forEach(el=>{
+  const steps = document.querySelectorAll(".progress-step");
+  if(!steps.length) return; // ✅ sécurité
+
+  steps.forEach(el=>{
     const step = el.dataset.step;
 
     progress[step]
