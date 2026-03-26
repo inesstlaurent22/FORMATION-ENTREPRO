@@ -1,252 +1,186 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   DOM
+   HELPERS
 ===================================================== */
-const background = document.getElementById("background");
-const pirate2 = document.getElementById("pirate2bis");
-const pirate5 = document.getElementById("pirate5bis");
-const pirate3 = document.getElementById("pirate3bis");
-
-const bubbleContainer = document.getElementById("bubbleContainer");
-const skipBtn = document.getElementById("skipDialoguesBtn");
-const fadeScreen = document.getElementById("fadeScreen");
-
-if(fadeScreen){
-  fadeScreen.classList.add("hidden");
-}
-
-const game1 = document.getElementById("communicationGame");
-const q1 = document.getElementById("commQuestion");
-const a1 = document.getElementById("commAnswers");
-
-const game2 = document.getElementById("visualIdentityGame");
-const visualChoices = document.getElementById("visualChoices");
-
-const game3 = document.getElementById("merchantGame");
-
-/* Vidéo */
-const videoContainer = document.getElementById("videoContainer");
-const questVideo = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
-
+const $ = id => document.getElementById(id);
+const safe = fn => (...args) => { try { fn(...args); } catch(e){ console.error(e); } };
 
 /* =====================================================
-   OUTILS
+   DOM
 ===================================================== */
+const DOM = {
+  background: $("background"),
+  pirate2: $("pirate2bis"),
+  pirate5: $("pirate5bis"),
+  pirate3: $("pirate3bis"),
 
-let loaderTimeout = null;
+  bubble: $("bubbleContainer"),
+  skip: $("skipDialoguesBtn"),
+  fade: $("fadeScreen"),
+
+  game1: $("communicationGame"),
+  q1: $("commQuestion"),
+  a1: $("commAnswers"),
+
+  game2: $("visualIdentityGame"),
+  visualChoices: $("visualChoices"),
+
+  game3: $("merchantGame"),
+
+  videoContainer: $("videoContainer"),
+  video: $("questVideo"),
+  sound: $("toggleSound"),
+  closeVideo: $("closeVideo")
+};
+
+DOM.fade?.classList.add("hidden");
+
+/* =====================================================
+   LOADER
+===================================================== */
+let loaderTimer = null;
 
 function showLoader(duration = 1200, cb){
+  clearTimeout(loaderTimer);
 
-  // 🔥 clear ancien loader (évite bugs)
-  if(loaderTimeout){
-    clearTimeout(loaderTimeout);
-    loaderTimeout = null;
-  }
-
-  if(!fadeScreen){
-    if(typeof cb === "function") cb();
+  if(!DOM.fade){
+    cb?.();
     return;
   }
 
-  fadeScreen.classList.remove("hidden");
+  DOM.fade.classList.remove("hidden");
 
-  loaderTimeout = setTimeout(() => {
-
-    fadeScreen.classList.add("hidden");
-
-    if(typeof cb === "function"){
-      cb();
-    }
-
-    loaderTimeout = null;
-
+  loaderTimer = setTimeout(()=>{
+    DOM.fade.classList.add("hidden");
+    cb?.();
   }, duration);
 }
 
+/* =====================================================
+   SHAKE
+===================================================== */
 function shake(el){
   if(!el) return;
 
-  el.classList.remove("screen-shake"); // reset propre
-  void el.offsetWidth; // 🔥 force reflow (important)
+  el.classList.remove("screen-shake");
+  void el.offsetWidth;
   el.classList.add("screen-shake");
 
-  setTimeout(()=>{
-    el.classList.remove("screen-shake");
-  },400);
+  setTimeout(()=> el.classList.remove("screen-shake"), 400);
 }
 
 /* =====================================================
    PROGRESSION
 ===================================================== */
+const KEY = "commerce_progress_v1";
 
-const PROGRESS_KEY = "commerce_progress_v1";
-
-const stepsOrder = [
-  "dialogue1",
-  "game1",
-  "dialogue2",
-  "game2",
-  "dialogue3",
-  "game3"
+const STEPS = [
+  "dialogue1","game1","dialogue2","game2","dialogue3","game3"
 ];
 
 function getProgress(){
   try{
-    return JSON.parse(sessionStorage.getItem(PROGRESS_KEY)) || {};
-  }catch(e){
+    return JSON.parse(sessionStorage.getItem(KEY)) || {};
+  }catch{
     return {};
   }
 }
 
-function setStepDone(step){
-
+function setDone(step){
   const p = getProgress();
-
-  // 🔥 empêche overwrite inutile
   if(p[step]) return;
-
   p[step] = true;
-
-  sessionStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
-
+  sessionStorage.setItem(KEY, JSON.stringify(p));
   updateProgressBar();
 }
 
-function getNextStep(){
+function nextStep(){
   const p = getProgress();
-  return stepsOrder.find(s => !p[s]) || "done";
+  return STEPS.find(s => !p[s]) || "done";
 }
 
 /* =====================================================
-   FLOW GLOBAL
+   FLOW
 ===================================================== */
-let flowStarted = false;
+let lockedFlow = false;
 
-function startProgressFlow(){
+function startFlow(){
+  if(lockedFlow) return;
+  lockedFlow = true;
 
-  if(flowStarted) return;
-  flowStarted = true;
+  const map = {
+    dialogue1: startDialogues1,
+    game1: startMiniGame1,
+    dialogue2: startDialogues2,
+    game2: startMiniGame2,
+    dialogue3: showBusinessPlanLoader,
+    game3: startMiniGame3,
+    done: showCommerceWin
+  };
 
-  const next = getNextStep();
+  map[nextStep()]?.();
 
-  switch(next){
-
-    case "dialogue1":
-      startDialogues1();
-    break;
-
-    case "game1":
-      startMiniGame1();
-    break;
-
-    case "dialogue2":
-      startDialogues2();
-    break;
-
-    case "game2":
-      startMiniGame2();
-    break;
-
-    case "dialogue3":
-      showBusinessPlanLoader();
-    break;
-
-    case "game3":
-      startMiniGame3();
-    break;
-
-    default:
-      showCommerceWin();
-  }
-
-  // 🔥 IMPORTANT : réautorise le flow après exécution
-  setTimeout(() => {
-    flowStarted = false;
-  }, 300);
+  setTimeout(()=> lockedFlow = false, 300);
 }
 
 /* =====================================================
-   VIDÉO INTRO
+   VIDEO
 ===================================================== */
+let videoDone = false;
 
-let videoEnded = false;
+if(DOM.video){
 
-if (questVideo) {
+  DOM.video.muted = true;
 
-  questVideo.muted = true;
-
-  questVideo.addEventListener("canplay", () => {
-    if (fadeScreen) {
-      fadeScreen.classList.add("hidden");
-    }
-
-    // Sécurise autoplay (iOS safe)
-    const playPromise = questVideo.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {});
-    }
+  DOM.video.addEventListener("canplay", ()=>{
+    DOM.fade?.classList.add("hidden");
+    DOM.video.play().catch(()=>{});
   });
 
-  questVideo.addEventListener("ended", endVideo);
+  DOM.video.addEventListener("ended", endVideo);
 }
 
-if (toggleSound && questVideo) {
-  toggleSound.addEventListener("click", () => {
-    questVideo.muted = !questVideo.muted;
-    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  });
-}
+DOM.sound?.addEventListener("click", ()=>{
+  DOM.video.muted = !DOM.video.muted;
+  DOM.sound.textContent = DOM.video.muted ? "🔇" : "🔊";
+});
 
-if (closeVideo) {
-  closeVideo.addEventListener("click", endVideo);
-}
+DOM.closeVideo?.addEventListener("click", endVideo);
 
-function endVideo() {
+function endVideo(){
+  if(videoDone) return;
+  videoDone = true;
 
-  if (videoEnded) return;
-  videoEnded = true;
-
-  if (questVideo) {
-    questVideo.pause();
-    questVideo.removeAttribute("src");
-    questVideo.load();
+  if(DOM.video){
+    DOM.video.pause();
+    DOM.video.src = "";
+    DOM.video.load();
   }
 
-  if (videoContainer) {
-    videoContainer.classList.add("hidden");
-  }
+  DOM.videoContainer?.classList.add("hidden");
 
-  // 🔥 Affiche le loader pirate AVANT la scène
-  showLoader(1200, () => {
-    showScene();
-  });
+  showLoader(1200, showScene);
 }
 
 /* =====================================================
-   SCÈNE INITIALE
+   SCENE
 ===================================================== */
 function showScene(){
 
-  if(background) background.classList.remove("hidden");
-  if(pirate2) pirate2.classList.remove("hidden");
-  if(pirate5) pirate5.classList.remove("hidden");
+  DOM.background?.classList.remove("hidden");
+  DOM.pirate2?.classList.remove("hidden");
+  DOM.pirate5?.classList.remove("hidden");
 
-  // 🔥 BLOQUE DOUBLE INIT
-  if(!pirate5) return;
-if(pirate5.dataset.init) return;
+  if(!DOM.pirate5 || DOM.pirate5.dataset.init) return;
 
-  pirate5.dataset.init = "true";
+  DOM.pirate5.dataset.init = "true";
+  DOM.pirate5.classList.add("glowStart");
 
-  pirate5.classList.add("glowStart");
-
-  pirate5.onclick = ()=>{
-    pirate5.classList.remove("glowStart");
-    pirate5.style.pointerEvents = "none";
-
-    startProgressFlow();
+  DOM.pirate5.onclick = ()=>{
+    DOM.pirate5.classList.remove("glowStart");
+    DOM.pirate5.style.pointerEvents = "none";
+    startFlow();
   };
 }
 
@@ -254,50 +188,39 @@ if(pirate5.dataset.init) return;
    DIALOGUES ENGINE
 ===================================================== */
 let dialogues = [];
-let index = 0;
-let callback = null;
-let dialogueLocked = false;
+let i = 0;
+let cb = null;
+let lock = false;
 
-function playDialogues(list, cb){
+function playDialogues(list, callback){
 
-  if(!bubbleContainer) return;
-
-  // 🔒 Sécurité anti crash
-  if(!Array.isArray(list) || list.length === 0){
-    endDialogues();
+  if(!DOM.bubble || !Array.isArray(list) || !list.length){
+    callback?.();
     return;
   }
 
   dialogues = list;
-  index = 0;
-  callback = typeof cb === "function" ? cb : null;
+  i = 0;
+  cb = callback;
 
-  if(skipBtn){
-    skipBtn.classList.remove("hidden");
-  }
-
+  DOM.skip?.classList.remove("hidden");
   renderDialogue();
 }
 
 function renderDialogue(){
 
-  if(!bubbleContainer) return;
+  DOM.bubble.innerHTML = "";
 
-  bubbleContainer.innerHTML = "";
-
-  if(index >= dialogues.length){
+  if(i >= dialogues.length){
     endDialogues();
     return;
   }
 
-  const d = dialogues[index];
+  const d = dialogues[i];
+  d?.onShow?.();
 
-   if(d.onShow && typeof d.onShow === "function"){
-  d.onShow();
-}
-   
-  if(!d || !d.text){
-    index++;
+  if(!d?.text){
+    i++;
     renderDialogue();
     return;
   }
@@ -306,60 +229,41 @@ function renderDialogue(){
   bubble.className = "dialogue-bubble";
   bubble.innerHTML = d.text;
 
-  // Positionnement sécurisé
-  if(d.anchor && d.anchor.getBoundingClientRect){
-
-    const rect = d.anchor.getBoundingClientRect();
-
-    bubble.style.left = rect.left + rect.width / 2 + "px";
-    bubble.style.top = rect.top - 120 + "px";
+  if(d.anchor){
+    const r = d.anchor.getBoundingClientRect();
+    bubble.style.left = r.left + r.width/2 + "px";
+    bubble.style.top = r.top - 120 + "px";
     bubble.style.transform = "translateX(-50%)";
-
   }else{
-    // fallback centre écran
     bubble.style.left = "50%";
     bubble.style.top = "30%";
-    bubble.style.transform = "translate(-50%, -50%)";
+    bubble.style.transform = "translate(-50%,-50%)";
   }
 
-  bubble.addEventListener("click", () => {
-
-    if(dialogueLocked) return;
-    dialogueLocked = true;
-
-    index++;
-
-    requestAnimationFrame(() => {
-      dialogueLocked = false;
+  bubble.onclick = ()=>{
+    if(lock) return;
+    lock = true;
+    i++;
+    requestAnimationFrame(()=>{
+      lock = false;
       renderDialogue();
     });
+  };
 
-  });
-
-  bubbleContainer.appendChild(bubble);
+  DOM.bubble.appendChild(bubble);
 }
 
 function endDialogues(){
+  DOM.bubble.innerHTML = "";
+  DOM.skip?.classList.add("hidden");
 
-  if(bubbleContainer){
-    bubbleContainer.innerHTML = "";
-  }
+  const fn = cb;
+  cb = null;
 
-  if(skipBtn){
-    skipBtn.classList.add("hidden");
-  }
-
-  const cb = callback;
-  callback = null;
-
-if(cb){
-  showLoader(1000, cb);
-}
+  showLoader(1000, fn);
 }
 
-if(skipBtn){
-  skipBtn.addEventListener("click", endDialogues);
-}
+DOM.skip?.addEventListener("click", endDialogues);
 
 /* =====================================================
    DIALOGUES 1
@@ -1166,57 +1070,48 @@ function launchGemsExplosion(container){
 }
 
 /* =====================================================
-   📊 PROGRESS BAR
+   PROGRESS BAR
 ===================================================== */
 function createProgressBar(){
 
-  // 🔥 éviter doublon
-  let existing = document.getElementById("progressBar");
-  if(existing) existing.remove();
+  document.getElementById("progressBar")?.remove();
 
   const bar = document.createElement("div");
   bar.id = "progressBar";
 
-  stepsOrder.forEach(step=>{
-    const item = document.createElement("div");
-    item.className = "progress-step";
-    item.dataset.step = step;
-    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
-    bar.appendChild(item);
+  STEPS.forEach(step=>{
+    const el = document.createElement("div");
+    el.className = "progress-step";
+    el.dataset.step = step;
+    el.textContent = step.includes("dialogue") ? "💬" : "🎮";
+    bar.appendChild(el);
   });
 
   document.body.appendChild(bar);
 
-  // 🔥 styles critiques
-  bar.style.position = "fixed";
-  bar.style.bottom = "20px";
-  bar.style.left = "50%";
-  bar.style.transform = "translateX(-50%)";
-  bar.style.display = "flex";
-  bar.style.gap = "10px";
-  bar.style.zIndex = "999999";
+  Object.assign(bar.style,{
+    position:"fixed",
+    bottom:"20px",
+    left:"50%",
+    transform:"translateX(-50%)",
+    display:"flex",
+    gap:"10px",
+    zIndex:"999999"
+  });
 
   updateProgressBar();
 }
 
 function updateProgressBar(){
-
-  const progress = JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
-
-  const bar = document.getElementById("progressBar");
-  if(!bar) return;
-
-  bar.querySelectorAll(".progress-step").forEach(el=>{
-    const step = el.dataset.step;
-
-    if(progress[step]){
-      el.classList.add("done");
-    }else{
-      el.classList.remove("done");
-    }
+  const p = getProgress();
+  document.querySelectorAll(".progress-step").forEach(el=>{
+    el.classList.toggle("done", !!p[el.dataset.step]);
   });
 }
 
-   createProgressBar();
-   
+/* =====================================================
+   INIT
+===================================================== */
+createProgressBar();
+
 });
