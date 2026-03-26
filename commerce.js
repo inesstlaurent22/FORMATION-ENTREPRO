@@ -162,58 +162,76 @@ function startFlow(){
 /* =====================================================
    VIDEO
 ===================================================== */
+/* =====================================================
+   VIDEO — VERSION CORRIGÉE ULTRA STABLE
+===================================================== */
 let videoDone = false;
+let videoTimeout = null;
 
-if(DOM.video){
+if (DOM.video) {
 
+  // 🔇 autoplay iOS sécurisé
   DOM.video.muted = true;
+  DOM.video.playsInline = true;
 
-  DOM.video.addEventListener("canplay", () => {
-    DOM.fade?.classList.add("hidden");
-
-    const playPromise = DOM.video.play();
-    if(playPromise !== undefined){
-      playPromise.catch(()=>{});
+  // 🔥 démarre dès que possible
+  const tryPlay = () => {
+    const p = DOM.video.play();
+    if (p !== undefined) {
+      p.catch(() => {});
     }
+  };
+
+  DOM.video.addEventListener("loadeddata", tryPlay);
+  DOM.video.addEventListener("canplay", tryPlay);
+
+  // 🔥 FIN NORMALE
+  DOM.video.addEventListener("ended", () => {
+    console.log("VIDEO ENDED");
+    endVideo();
   });
 
-  DOM.video.addEventListener("ended", endVideo);
+  // 🔥 SÉCURITÉ : si vidéo bloquée
+  videoTimeout = setTimeout(() => {
+    console.warn("⛑️ Fallback vidéo forcé");
+    endVideo();
+  }, 5000);
 }
 
-if(DOM.sound && DOM.video){
+/* 🔊 SON */
+if (DOM.sound && DOM.video) {
   DOM.sound.addEventListener("click", () => {
     DOM.video.muted = !DOM.video.muted;
     DOM.sound.textContent = DOM.video.muted ? "🔇" : "🔊";
   });
 }
 
-if(DOM.closeVideo){
+/* ⏭️ SKIP */
+if (DOM.closeVideo) {
   DOM.closeVideo.addEventListener("click", endVideo);
 }
 
-function endVideo(){
+/* 🎬 FIN VIDÉO */
+function endVideo() {
 
-  if(videoDone) return;
+  if (videoDone) return;
   videoDone = true;
 
-  if(DOM.video){
+  console.log("END VIDEO TRIGGERED");
+
+  clearTimeout(videoTimeout);
+
+  if (DOM.video) {
     DOM.video.pause();
-    DOM.video.removeAttribute("src");
-    DOM.video.load();
+    DOM.video.currentTime = 0;
   }
 
-  DOM.videoContainer?.classList.add("hidden");
+  if (DOM.videoContainer) {
+    DOM.videoContainer.style.display = "none"; // 🔥 plus fiable que hidden
+  }
 
-  showLoader(1200, showScene);
+  showLoader(800, showScene);
 }
-
-// 🔥 FALLBACK SI LA VIDÉO NE SE LANCE PAS
-setTimeout(() => {
-  if(!videoDone){
-    console.warn("Fallback vidéo activé");
-    endVideo();
-  }
-}, 6000);
 
 /* =====================================================
    SCENE
