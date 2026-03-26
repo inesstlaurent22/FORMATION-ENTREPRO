@@ -704,7 +704,6 @@ setTimeout(()=>{
 ===================================================== */
 function showBusinessPlanLoader(){
 
-  // 🔥 évite doublon overlay
   const existing = document.getElementById("identity-loader");
   if(existing) existing.remove();
 
@@ -764,67 +763,75 @@ function showBusinessPlanLoader(){
   ];
 
   let step = 0;
-   
-/* ===============================
-   PRELOAD IMAGES
-=============================== */
-const allImages = pages.flat().filter(Boolean);
-let loaded = 0;
 
-if(allImages.length === 0){
-  finishLoading();
-}else{
-  let finished = false;
+  /* ===============================
+     PRELOAD
+  =============================== */
+  const allImages = pages.flat().filter(Boolean);
+  let loaded = 0;
 
-  allImages.forEach(src=>{
-    const img = new Image();
+  if(allImages.length === 0){
+    finishLoading();
+  }else{
+    let finished = false;
 
-    img.onload = img.onerror = ()=>{
-      if(finished) return;
-      loaded++;
+    allImages.forEach(src=>{
+      const img = new Image();
 
-      if(loaded >= allImages.length){
-        finished = true;
-        finishLoading();
-      }
-    };
+      img.onload = img.onerror = ()=>{
+        if(finished) return;
+        loaded++;
 
-    img.src = src;
-  });
-}
+        if(loaded >= allImages.length){
+          finished = true;
+          finishLoading();
+        }
+      };
+
+      img.src = src;
+    });
+  }
 
   function finishLoading(){
-    loader.classList.add("hidden");
-    pagesWrap.classList.remove("hidden");
-    if(zoomBtn){
-  zoomBtn.classList.remove("hidden");
-}
-    title.classList.remove("hidden");
-    title.classList.add("title-appear");
+    if(loader) loader.classList.add("hidden");
+    if(pagesWrap) pagesWrap.classList.remove("hidden");
+    if(zoomBtn) zoomBtn.classList.remove("hidden");
+    if(title){
+      title.classList.remove("hidden");
+      title.classList.add("title-appear");
+    }
     update();
   }
 
   /* ===============================
-     UPDATE PAGES
+     UPDATE
   =============================== */
   function update(){
 
+    if(!pages[step]) return; // 🔥 FIX CRASH
+
     const [l, r] = pages[step];
 
-    if(l){
-      left.src = l;
-      left.classList.remove("hidden");
-    }else{
-      left.classList.add("hidden");
+    if(left){
+      if(l){
+        left.src = l;
+        left.classList.remove("hidden");
+      }else{
+        left.classList.add("hidden");
+      }
     }
 
-    right.src = r;
+    if(right && r){
+      right.src = r;
+    }
 
-    cont.classList.toggle("hidden", step !== pages.length - 1);
+    if(cont){
+      cont.classList.toggle("hidden", step !== pages.length - 1);
+    }
   }
 
   /* ===============================
-     PAGE TURN
+     TURN PAGE
   =============================== */
   function turnPage(direction){
 
@@ -832,6 +839,8 @@ if(allImages.length === 0){
     if(direction === "left" && step <= 0) return;
 
     const pageToAnimate = direction === "right" ? right : left;
+    if(!pageToAnimate) return;
+
     const animClass = direction === "right" ? "turn-right" : "turn-left";
 
     pageToAnimate.classList.remove("turn-right","turn-left");
@@ -848,62 +857,63 @@ if(allImages.length === 0){
   }
 
   /* ===============================
-     CLIC DIRECT SUR LES PAGES
+     EVENTS
   =============================== */
-  right.style.cursor = "pointer";
-  left.style.cursor = "pointer";
+  if(right){
+    right.style.cursor = "pointer";
+    right.addEventListener("click", ()=> turnPage("right"));
+  }
 
-  right.addEventListener("click", ()=> turnPage("right"));
-  left.addEventListener("click", ()=> turnPage("left"));
+  if(left){
+    left.style.cursor = "pointer";
+    left.addEventListener("click", ()=> turnPage("left"));
+  }
 
-  /* ===============================
-     ZOOM PAGE DROITE
-  =============================== */
-  zoomBtn.onclick = ()=>{
+  if(zoomBtn){
+    zoomBtn.onclick = ()=>{
 
-    const currentSrc = pages[step][1];
-    if(!currentSrc) return;
+      const currentSrc = pages[step][1];
+      if(!currentSrc) return;
 
-    const zoom = document.createElement("div");
-    zoom.className = "page-zoom";
+      const zoom = document.createElement("div");
+      zoom.className = "page-zoom";
 
-    const loaderZoom = document.createElement("div");
-    loaderZoom.className = "book-loading";
-    loaderZoom.textContent = "⏳";
+      const loaderZoom = document.createElement("div");
+      loaderZoom.className = "book-loading";
+      loaderZoom.textContent = "⏳";
 
-    const img = document.createElement("img");
-    img.style.display = "none";
+      const img = document.createElement("img");
+      img.style.display = "none";
 
-    zoom.appendChild(loaderZoom);
-    zoom.appendChild(img);
-    document.body.appendChild(zoom);
+      zoom.appendChild(loaderZoom);
+      zoom.appendChild(img);
+      document.body.appendChild(zoom);
 
-    img.onload = ()=>{
-      loaderZoom.remove();
-      img.style.display = "block";
+      img.onload = ()=>{
+        loaderZoom.remove();
+        img.style.display = "block";
+      };
+
+      img.onerror = ()=>{
+        loaderZoom.textContent = "Erreur de chargement";
+      };
+
+      img.src = currentSrc;
+
+      zoom.onclick = (e)=>{
+        if(e.target === zoom){
+          zoom.remove();
+        }
+      };
     };
+  }
 
-    img.onerror = ()=>{
-      loaderZoom.textContent = "Erreur de chargement";
-    };
+  if(cont){
+    cont.onclick = () => {
 
-    img.src = currentSrc;
+      overlay.remove();
 
-    zoom.onclick = (e)=>{
-      if(e.target === zoom){
-        zoom.remove();
-      }
-    };
-  };
-
-  /* ===============================
-     CONTINUER
-  =============================== */
-cont.onclick = () => {
-
-  overlay.remove();
-
-  const dialogues = [
+      playDialogues([
     { text:"Ton <strong>business plan</strong> est solide… maintenant, place à la <strong>réalité du terrain</strong>.", anchor:pirate5 },
 
     { text:"La réalité du terrain ?", anchor:pirate2 },
@@ -929,17 +939,19 @@ cont.onclick = () => {
     { text:"Le but est simple : <strong>attirer leur attention</strong> et <strong>donner envie</strong>.", anchor:pirate5 },
 
     { text:"Un bon entrepreneur n'attend pas… il va <strong>chercher ses clients</strong>.", anchor:pirate5 },
+        { text:"Prépare-toi. Le marché t’attend.", anchor:pirate5 }
+      ], () => {
 
-    {
-      text:"Prépare-toi. Le marché t’attend.",
-      anchor:pirate5,
-      onShow: () => {
-        if(pirate3){
-          pirate3.classList.remove("hidden");
-        }
-      }
-    }
-  ];
+        setStepDone("dialogue3");
+
+        setTimeout(() => {
+          startMiniGame3();
+        }, 300);
+
+      });
+    };
+  }
+}
 
   playDialogues(dialogues, () => {
 
