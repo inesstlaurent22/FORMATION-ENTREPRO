@@ -43,13 +43,10 @@ function closeIntro(){
   if(videoClosed) return;
   videoClosed = true;
 
-  introVideo.pause();
-  videoContainer.style.display = "none";
+  if(introVideo) introVideo.pause();
+  if(videoContainer) videoContainer.style.display = "none";
+  if(scene) scene.classList.remove("hidden");
 
-  // Affiche la scène pendant le loader
-  scene.classList.remove("hidden");
-
-  // Lance la transition
   showLoader(800);
 }
 
