@@ -236,7 +236,6 @@ html,body{
   /* 🔥 superposition couleur + image */
   background:
     linear-gradient(rgba(59,42,26,0.85), rgba(30,20,13,0.9)),
-    url("images/Professeur1.PNG");
 
   background-size: cover;
   background-position: center;
@@ -257,6 +256,37 @@ html,body{
 
   font-size: 14px;
   color: #f5e6c8;
+
+  position: relative;
+}
+
+/* couche image */
+#chatbot-messages::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: url("images/Professeur1.PNG") center/cover no-repeat;
+  opacity: 0.25;
+
+  filter: blur(2px);
+  z-index: 0;
+}
+
+/* couche sombre */
+#chatbot-messages::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: rgba(30,20,13,0.85);
+  z-index: 1;
+}
+
+/* contenu au-dessus */
+#chatbot-messages > * {
+  position: relative;
+  z-index: 2;
 }
 
 /* ================= BULLES ================= */
