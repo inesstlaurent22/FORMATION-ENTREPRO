@@ -127,34 +127,32 @@ html,body{
 }
 
 #progressBar{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:10px;
-  z-index:50000;
+  position: fixed;
+  right: 15px;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 9999;
 }
 
 .progress-step{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:#2b1605;
-  border:2px solid gold;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-  opacity:.4;
-  transition:.3s;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  opacity: 0.4;
+  transition: 0.3s;
 }
 
 .progress-step.done{
-  background:gold;
-  color:#000;
-  opacity:1;
-  transform:scale(1.1);
+  background: gold;
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 /* =====================================================
