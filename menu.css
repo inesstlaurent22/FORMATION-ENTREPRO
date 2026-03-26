@@ -143,7 +143,7 @@ html, body {
 }
 
 /* ================================================= */
-/* CHATBOX IA */
+/* CHATBOX IA - VERSION PIRATE */
 /* ================================================= */
 
 #chatbot-container {
@@ -153,57 +153,58 @@ html, body {
   z-index: 9999;
 }
 
-/* bouton */
+/* ================= BOUTON (COFFRE / PIRATE) ================= */
 #chatbot-toggle {
-  position: relative; /* 🔥 important pour clic */
+  position: relative;
   z-index: 10000;
 
-  width: 62px;
-  height: 62px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  border: none;
+  border: 2px solid #d4af37;
 
-  background: linear-gradient(135deg, #3A6EFF, #6F8BFF);
-  color: white;
+  background: radial-gradient(circle at 30% 30%, #6b3e1d, #2b1a0f);
+  color: #ffd700;
   font-size: 26px;
   cursor: pointer;
 
-  box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+  box-shadow: 0 0 15px rgba(212,175,55,0.5),
+              0 10px 30px rgba(0,0,0,0.6);
+
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 #chatbot-toggle:hover {
-  transform: scale(1.08);
-  box-shadow: 0 18px 45px rgba(0,0,0,0.3);
+  transform: scale(1.1) rotate(-3deg);
+  box-shadow: 0 0 25px rgba(255,215,0,0.7),
+              0 18px 45px rgba(0,0,0,0.7);
 }
 
 /* ================= BOX ================= */
 #chatbot-box {
   position: absolute;
-  bottom: 80px;
+  bottom: 85px;
   right: 0;
 
-  width: 340px;
-  height: 480px;
+  width: 350px;
+  height: 500px;
 
   display: none;
   flex-direction: column;
 
-  border-radius: 22px;
+  border-radius: 18px;
   overflow: hidden;
 
-  background: rgba(255,255,255,0.96);
-  backdrop-filter: blur(16px);
+  background: linear-gradient(180deg, #3b2a1a, #1e140d);
+  border: 2px solid #c9a44c;
 
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
 
   opacity: 0;
-  transform: translateY(15px) scale(0.98);
+  transform: translateY(20px) scale(0.95);
   transition: all 0.3s ease;
 }
 
-/* état ouvert */
 #chatbot-box.active {
   display: flex;
   opacity: 1;
@@ -216,9 +217,11 @@ html, body {
   text-align: center;
   font-weight: 700;
 
-  background: #f5f5f5;
-  color: #111;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  background: linear-gradient(90deg, #7a4b1f, #3b2a1a);
+  color: #ffd700;
+
+  border-bottom: 2px solid #c9a44c;
+  letter-spacing: 1px;
 }
 
 /* ================= MESSAGES ================= */
@@ -232,40 +235,51 @@ html, body {
   gap: 10px;
 
   font-size: 14px;
-  color: #111;
+  color: #f5e6c8;
 }
 
 /* ================= BULLES ================= */
 
-/* intro */
+/* intro (parchemin) */
 .message-intro {
   align-self: center;
-  background: #eaf0ff;
-  color: #1a2a6c;
+  background: #f4e2b8;
+  color: #3b2a1a;
   padding: 12px 16px;
-  border-radius: 16px;
+  border-radius: 12px;
   font-weight: 600;
+  border: 1px solid #c9a44c;
 }
 
 /* section */
 .message-section {
   align-self: center;
-  background: #fff3e6;
-  color: #7a4b00;
+  background: #e8cfa3;
+  color: #4a2d14;
   padding: 10px 14px;
-  border-radius: 14px;
+  border-radius: 10px;
   font-size: 13px;
 }
 
-/* réponse → à droite en bleu */
+/* IA (bulle pirate sombre) */
 .message-answer {
-  align-self: flex-end;
-  background: #3A6EFF;
-  color: white;
+  align-self: flex-start;
+  background: linear-gradient(135deg, #2c1b10, #1a120b);
+  color: #ffd700;
   padding: 10px 14px;
-  border-radius: 14px;
-  border-bottom-right-radius: 6px;
+  border-radius: 12px;
+  border-bottom-left-radius: 4px;
   max-width: 80%;
+  border: 1px solid #c9a44c;
+}
+
+/* USER */
+.message-user-grey {
+  background: #d6d1c4;
+  color: #2b1a0f;
+  padding: 10px 14px;
+  border-radius: 12px;
+  max-width: 75%;
 }
 
 /* ================= BOUTON RETOUR ================= */
@@ -274,15 +288,15 @@ html, body {
   top: 10px;
   right: 10px;
 
-  background: #3A6EFF;
-  color: white;
+  background: #8b5a2b;
+  color: #ffd700;
 
   padding: 6px 10px;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 12px;
 
   cursor: pointer;
-  z-index: 10;
+  border: 1px solid #c9a44c;
 }
 
 /* ================= INPUT ================= */
@@ -291,19 +305,21 @@ html, body {
   padding: 10px;
   gap: 6px;
 
-  background: #fafafa;
-  border-top: 1px solid rgba(0,0,0,0.06);
+  background: #2b1a0f;
+  border-top: 2px solid #c9a44c;
 }
 
 #chatbot-input {
   flex: 1;
   padding: 10px;
 
-  border-radius: 10px;
-  border: 1px solid #ddd;
+  border-radius: 8px;
+  border: 1px solid #c9a44c;
   outline: none;
 
   font-size: 14px;
+  background: #1a120b;
+  color: #ffd700;
 }
 
 /* bouton send */
@@ -312,10 +328,10 @@ html, body {
   height: 42px;
 
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
 
-  background: #3A6EFF;
-  color: white;
+  background: linear-gradient(135deg, #d4af37, #8b6b1f);
+  color: #1a120b;
   cursor: pointer;
 
   display: flex;
@@ -326,85 +342,34 @@ html, body {
 }
 
 #chatbot-send:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(-5deg);
 }
 
 /* ================= SCROLLBAR ================= */
 #chatbot-messages::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 
 #chatbot-messages::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.2);
+  background: #c9a44c;
   border-radius: 10px;
 }
 
-/* ================= BULLES SPÉCIALES ================= */
-.message-intro {
-  align-self: center;
-  background: #eaf0ff;
-  color: #1a2a6c;
-  padding: 12px 16px;
-  border-radius: 16px;
-  font-weight: 600;
-}
-
-.message-section {
-  align-self: center;
-  background: #fff3e6;
-  color: #7a4b00;
-  padding: 10px 14px;
-  border-radius: 14px;
-  font-size: 13px;
-}
-
-/* bouton retour */
-.chatbot-back {
-  margin-top: 10px;
-  align-self: center;
-  background: #3A6EFF;
-  color: white;
-  padding: 10px 14px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 13px;
-  text-align: center;
-}
-
-/* CONTENEUR MESSAGE */
+/* ================= STRUCTURE ================= */
 .chat-row {
   display: flex;
   margin: 6px 0;
 }
 
-/* IA (gauche) */
 .chat-row.bot {
   justify-content: flex-start;
 }
 
-/* USER (droite) */
 .chat-row.user {
   justify-content: flex-end;
 }
 
-/* BULLE IA */
-.message-answer {
-  background: #3A6EFF;
-  color: white;
-  padding: 10px 14px;
-  border-radius: 14px;
-  max-width: 75%;
-}
-
-/* BULLE USER */
-.message-user-grey {
-  background: #e5e5ea;
-  color: #111;
-  padding: 10px 14px;
-  border-radius: 14px;
-  max-width: 75%;
-}
-
+/* ================= AVATAR ================= */
 .message-bot-wrapper {
   display: flex;
   align-items: flex-start;
@@ -413,21 +378,24 @@ html, body {
 }
 
 .chatbot-avatar {
-  width: 32px;
-  height: 32px;
-  image-rendering: pixelated;
+  width: 34px;
+  height: 34px;
   border-radius: 6px;
+  border: 2px solid #c9a44c;
 }
 
-.message-bot,
-.message-intro,
-.message-section,
-.message-answer {
-  background: #1e1e2f;
-  color: white;
-  padding: 8px 12px;
+/* ================= BOUTON RETOUR ================= */
+.chatbot-back {
+  margin-top: 10px;
+  align-self: center;
+  background: #8b5a2b;
+  color: #ffd700;
+  padding: 10px 14px;
   border-radius: 10px;
-  max-width: 75%;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: center;
+  border: 1px solid #c9a44c;
 }
 
 /* ================================================= */
