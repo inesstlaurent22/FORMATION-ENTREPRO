@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =====================================================
    HELPERS
 ===================================================== */
-const $ = id => document.getElementById(id);
+const $ = (id) => document.getElementById(id);
 
 /* =====================================================
    DOM
@@ -33,8 +33,10 @@ const DOM = {
   closeVideo: $("closeVideo")
 };
 
-/* sécurité init */
-if(DOM.fade){
+/* =====================================================
+   INIT SÉCURISÉ
+===================================================== */
+if (DOM.fade) {
   DOM.fade.classList.add("hidden");
 }
 
@@ -57,7 +59,8 @@ function showLoader(duration = 1200, cb){
 
   DOM.fade.classList.remove("hidden");
 
-  loaderTimer = setTimeout(()=>{
+  loaderTimer = setTimeout(() => {
+
     DOM.fade.classList.add("hidden");
 
     if(typeof cb === "function"){
@@ -79,7 +82,7 @@ function shake(el){
   void el.offsetWidth; // force reflow
   el.classList.add("screen-shake");
 
-  setTimeout(()=>{
+  setTimeout(() => {
     el.classList.remove("screen-shake");
   }, 400);
 }
@@ -97,6 +100,7 @@ function getProgress(){
   try{
     return JSON.parse(sessionStorage.getItem(KEY)) || {};
   }catch(e){
+    console.warn("Progression corrompue", e);
     return {};
   }
 }
@@ -109,7 +113,7 @@ function setDone(step){
   p[step] = true;
   sessionStorage.setItem(KEY, JSON.stringify(p));
 
-  updateProgressBar();
+  updateProgressBar?.(); // 🔥 sécurisé
 }
 
 function nextStep(){
@@ -139,7 +143,7 @@ function startFlow(){
     default: showCommerceWin();
   }
 
-  setTimeout(()=>{
+  setTimeout(() => {
     lockedFlow = false;
   }, 300);
 }
@@ -153,10 +157,8 @@ if(DOM.video){
 
   DOM.video.muted = true;
 
-  DOM.video.addEventListener("canplay", ()=>{
-    if(DOM.fade){
-      DOM.fade.classList.add("hidden");
-    }
+  DOM.video.addEventListener("canplay", () => {
+    DOM.fade?.classList.add("hidden");
 
     const playPromise = DOM.video.play();
     if(playPromise !== undefined){
@@ -168,7 +170,7 @@ if(DOM.video){
 }
 
 if(DOM.sound && DOM.video){
-  DOM.sound.addEventListener("click", ()=>{
+  DOM.sound.addEventListener("click", () => {
     DOM.video.muted = !DOM.video.muted;
     DOM.sound.textContent = DOM.video.muted ? "🔇" : "🔊";
   });
@@ -189,9 +191,7 @@ function endVideo(){
     DOM.video.load();
   }
 
-  if(DOM.videoContainer){
-    DOM.videoContainer.classList.add("hidden");
-  }
+  DOM.videoContainer?.classList.add("hidden");
 
   showLoader(1200, showScene);
 }
@@ -207,14 +207,17 @@ function showScene(){
 
   if(!DOM.pirate5) return;
 
-  if(DOM.pirate5.dataset.init) return;
+  // 🔒 bloque double init
+  if(DOM.pirate5.dataset.init === "true") return;
   DOM.pirate5.dataset.init = "true";
 
   DOM.pirate5.classList.add("glowStart");
 
-  DOM.pirate5.onclick = ()=>{
+  DOM.pirate5.onclick = () => {
+
     DOM.pirate5.classList.remove("glowStart");
     DOM.pirate5.style.pointerEvents = "none";
+
     startFlow();
   };
 }
@@ -229,8 +232,14 @@ let lock = false;
 
 function playDialogues(list, callback){
 
-  if(!DOM.bubble || !Array.isArray(list) || list.length === 0){
+  // 🔒 sécurité
+  if(!DOM.bubble){
     if(typeof callback === "function") callback();
+    return;
+  }
+
+  if(!Array.isArray(list) || list.length === 0){
+    endDialogues();
     return;
   }
 
@@ -256,6 +265,7 @@ function renderDialogue(){
 
   const d = dialogues[i];
 
+  // 🔥 hook optionnel
   if(d?.onShow && typeof d.onShow === "function"){
     d.onShow();
   }
@@ -270,29 +280,35 @@ function renderDialogue(){
   bubble.className = "dialogue-bubble";
   bubble.innerHTML = d.text;
 
-  if(d.anchor && d.anchor.getBoundingClientRect){
+  /* ===============================
+     POSITION
+  =============================== */
+  if(d.anchor && typeof d.anchor.getBoundingClientRect === "function"){
 
     const r = d.anchor.getBoundingClientRect();
 
-    bubble.style.left = r.left + r.width / 2 + "px";
-    bubble.style.top = r.top - 120 + "px";
+    bubble.style.left = (r.left + r.width / 2) + "px";
+    bubble.style.top = (r.top - 120) + "px";
     bubble.style.transform = "translateX(-50%)";
 
   }else{
 
     bubble.style.left = "50%";
     bubble.style.top = "30%";
-    bubble.style.transform = "translate(-50%,-50%)";
+    bubble.style.transform = "translate(-50%, -50%)";
   }
 
-  bubble.onclick = ()=>{
+  /* ===============================
+     CLICK NEXT
+  =============================== */
+  bubble.onclick = () => {
 
     if(lock) return;
 
     lock = true;
     i++;
 
-    requestAnimationFrame(()=>{
+    requestAnimationFrame(() => {
       lock = false;
       renderDialogue();
     });
@@ -312,10 +328,21 @@ function endDialogues(){
   const fn = cb;
   cb = null;
 
-  showLoader(1000, fn);
+  if(typeof fn === "function"){
+    showLoader(1000, fn);
+  }else{
+    showLoader(1000);
+  }
 }
 
-DOM.skip?.addEventListener("click", endDialogues);
+/* =====================================================
+   SKIP BUTTON
+===================================================== */
+if(DOM.skip){
+  DOM.skip.onclick = () => {
+    endDialogues();
+  };
+}
 
 /* =====================================================
    DIALOGUES 1
@@ -323,43 +350,41 @@ DOM.skip?.addEventListener("click", endDialogues);
 function startDialogues1(){
 
   playDialogues([
-    { text:"Avant de vendre quoi que ce soit, il faut <strong>comprendre ton marché</strong>.", anchor:pirate5 },
+    { text:"Avant de vendre quoi que ce soit, il faut <strong>comprendre ton marché</strong>.", anchor: DOM.pirate5 },
 
-    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard</strong>.", anchor:pirate5 },
+    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard</strong>.", anchor: DOM.pirate5 },
 
-    { text:"On vient d’arriver… et on ne connaît rien du tout.", anchor:pirate2 },
+    { text:"On vient d’arriver… et on ne connaît rien du tout.", anchor: DOM.pirate2 },
 
-    { text:"Parfait. On va commencer par la base : <strong>l’étude de marché</strong>.", anchor:pirate5 },
+    { text:"Parfait. On va commencer par la base : <strong>l’étude de marché</strong>.", anchor: DOM.pirate5 },
 
-    { text:"Elle permet d’<strong>analyser</strong> les <strong>clients</strong>, la <strong>concurrence</strong> et les <strong>opportunités</strong>.", anchor:pirate5 },
+    { text:"Elle permet d’<strong>analyser</strong> les <strong>clients</strong>, la <strong>concurrence</strong> et les <strong>opportunités</strong>.", anchor: DOM.pirate5 },
 
-    { text:"Donc… il faut espionner les autres pirates ?", anchor:pirate2 },
+    { text:"Donc… il faut espionner les autres pirates ?", anchor: DOM.pirate2 },
 
-    { text:"Pas espionner… mais <strong>observer et comprendre</strong>.", anchor:pirate5 },
+    { text:"Pas espionner… mais <strong>observer et comprendre</strong>.", anchor: DOM.pirate5 },
 
-    { text:"Tu peux utiliser <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>des données en ligne</strong>.", anchor:pirate5 },
+    { text:"Tu peux utiliser <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>des données en ligne</strong>.", anchor: DOM.pirate5 },
 
-    { text:"Tout ça pour vérifier si ton produit <strong>intéresse vraiment</strong> les clients.", anchor:pirate5 },
+    { text:"Tout ça pour vérifier si ton produit <strong>intéresse vraiment</strong> les clients.", anchor: DOM.pirate5 },
 
-    { text:"Un bon produit, c’est un produit qui <strong>répond à un besoin</strong> ou <strong>résout un problème</strong>.", anchor:pirate5 },
+    { text:"Un bon produit, c’est un produit qui <strong>répond à un besoin</strong> ou <strong>résout un problème</strong>.", anchor: DOM.pirate5 },
 
-    { text:"Nos pierres sont magnifiques… donc ça va marcher, non ?", anchor:pirate2 },
+    { text:"Nos pierres sont magnifiques… donc ça va marcher, non ?", anchor: DOM.pirate2 },
 
-    { text:"Peut-être… mais sans données, ce n’est qu’une <strong>supposition</strong>.", anchor:pirate5 },
+    { text:"Peut-être… mais sans données, ce n’est qu’une <strong>supposition</strong>.", anchor: DOM.pirate5 },
 
-    { text:"Un entrepreneur ne devine pas… il <strong>valide avec des faits</strong>.", anchor:pirate5 },
+    { text:"Un entrepreneur ne devine pas… il <strong>valide avec des faits</strong>.", anchor: DOM.pirate5 },
 
-    { text:"Alors… à toi de prouver que ton idée peut vraiment fonctionner.", anchor:pirate5 }
+    { text:"Alors… à toi de prouver que ton idée peut vraiment fonctionner.", anchor: DOM.pirate5 }
+
   ], () => {
 
-    // ✅ Marque le dialogue comme terminé (ANTI-RETOUR + JAUGE)
-    setStepDone("dialogue1");
+    setDone("dialogue1"); // 🔥 correction nom fonction
 
-    // ➜ Lance le jeu suivant
     startMiniGame1();
 
   });
-
 }
 
 /* =====================================================
@@ -367,104 +392,103 @@ function startDialogues1(){
 ===================================================== */
 function startMiniGame1(){
 
-  showLoader(900, ()=>{
-
-    game1.classList.remove("hidden");
-
-    const questions = [
-
-  {
-    question: "Pourquoi réaliser une étude de marché ?",
-    answers: [
-      { t:"Comprendre les clients", ok:true },
-      { t:"Analyser la concurrence", ok:true },
-      { t:"Décorer sa boutique", ok:false },
-      { t:"Valider une idée de produit", ok:true }
-    ]
-  },
-
-  {
-    question: "Que permet d’analyser une étude de marché ?",
-    answers: [
-      { t:"Les besoins des clients", ok:true },
-      { t:"Les tendances du marché", ok:true },
-      { t:"Les opportunités", ok:true },
-      { t:"La météo du jour", ok:false }
-    ]
-  },
-
-  {
-    question: "Comment obtenir des informations sur son marché ?",
-    answers: [
-      { t:"Des questionnaires", ok:true },
-      { t:"Des interviews", ok:true },
-      { t:"Des recherches en ligne", ok:true },
-      { t:"Au hasard", ok:false }
-    ]
-  },
-
-  {
-    question: "Un bon produit est un produit qui :",
-    answers: [
-      { t:"Répond à un besoin", ok:true },
-      { t:"Résout un problème", ok:true },
-      { t:"Est juste joli", ok:false },
-      { t:"Est choisi au hasard", ok:false }
-    ]
-  },
-
-  {
-    question: "Que risque un entrepreneur sans étude de marché ?",
-    answers: [
-      { t:"Créer un produit inutile", ok:true },
-      { t:"Ne pas trouver de clients", ok:true },
-      { t:"Réussir à coup sûr", ok:false },
-      { t:"Perdre du temps et de l’argent", ok:true }
-    ]
-  },
-
-  {
-    question: "Après une étude de marché, que faut-il faire ?",
-    answers: [
-      { t:"Adapter son offre", ok:true },
-      { t:"Construire une stratégie", ok:true },
-      { t:"Lancer son produit intelligemment", ok:true },
-      { t:"Ignorer les résultats", ok:false }
-    ]
+  if(!DOM.game1 || !DOM.q1 || !DOM.a1){
+    console.error("Mini-jeu 1 cassé : éléments manquants");
+    return;
   }
 
-];
+  showLoader(900, ()=>{
+
+    DOM.game1.classList.remove("hidden");
+
+    const questions = [
+      {
+        question: "Pourquoi réaliser une étude de marché ?",
+        answers: [
+          { t:"Comprendre les clients", ok:true },
+          { t:"Analyser la concurrence", ok:true },
+          { t:"Décorer sa boutique", ok:false },
+          { t:"Valider une idée de produit", ok:true }
+        ]
+      },
+      {
+        question: "Que permet d’analyser une étude de marché ?",
+        answers: [
+          { t:"Les besoins des clients", ok:true },
+          { t:"Les tendances du marché", ok:true },
+          { t:"Les opportunités", ok:true },
+          { t:"La météo du jour", ok:false }
+        ]
+      },
+      {
+        question: "Comment obtenir des informations sur son marché ?",
+        answers: [
+          { t:"Des questionnaires", ok:true },
+          { t:"Des interviews", ok:true },
+          { t:"Des recherches en ligne", ok:true },
+          { t:"Au hasard", ok:false }
+        ]
+      },
+      {
+        question: "Un bon produit est un produit qui :",
+        answers: [
+          { t:"Répond à un besoin", ok:true },
+          { t:"Résout un problème", ok:true },
+          { t:"Est juste joli", ok:false },
+          { t:"Est choisi au hasard", ok:false }
+        ]
+      },
+      {
+        question: "Que risque un entrepreneur sans étude de marché ?",
+        answers: [
+          { t:"Créer un produit inutile", ok:true },
+          { t:"Ne pas trouver de clients", ok:true },
+          { t:"Réussir à coup sûr", ok:false },
+          { t:"Perdre du temps et de l’argent", ok:true }
+        ]
+      },
+      {
+        question: "Après une étude de marché, que faut-il faire ?",
+        answers: [
+          { t:"Adapter son offre", ok:true },
+          { t:"Construire une stratégie", ok:true },
+          { t:"Lancer son produit intelligemment", ok:true },
+          { t:"Ignorer les résultats", ok:false }
+        ]
+      }
+    ];
 
     let current = 0;
 
     function renderQuestion(){
 
-      q1.textContent = questions[current].question;
-      a1.innerHTML = "";
+      if(!questions[current]) return;
+
+      DOM.q1.textContent = questions[current].question;
+      DOM.a1.innerHTML = "";
 
       let success = 0;
       const correctCount = questions[current].answers.filter(a => a.ok).length;
 
       questions[current].answers.forEach(q => {
 
-        const b = document.createElement("button");
-        b.textContent = q.t;
+        const btn = document.createElement("button");
+        btn.textContent = q.t;
 
-        b.onclick = ()=>{
+        btn.onclick = () => {
 
           if(!q.ok){
-            shake(game1);
+            shake(DOM.game1);
             return;
           }
 
-          // éviter double clic
-          if(b.classList.contains("correct-locked")) return;
+          if(btn.classList.contains("correct-locked")) return;
 
-          b.classList.add("correct-locked");
-          b.disabled = true;
+          btn.classList.add("correct-locked");
+          btn.disabled = true;
+
           success++;
 
-          // si toutes les bonnes réponses trouvées
           if(success === correctCount){
 
             setTimeout(()=>{
@@ -472,18 +496,23 @@ function startMiniGame1(){
               current++;
 
               if(current < questions.length){
+
                 renderQuestion();
+
               }else{
-                game1.classList.add("hidden");
-                 setStepDone("game1");
+
+                DOM.game1.classList.add("hidden");
+
+                setDone("game1");
+
                 startDialogues2();
               }
 
-            },800);
+            }, 800);
           }
         };
 
-        a1.appendChild(b);
+        DOM.a1.appendChild(btn);
       });
     }
 
@@ -491,36 +520,34 @@ function startMiniGame1(){
 
   });
 }
-
+   
 /* =====================================================
    DIALOGUES 2
 ===================================================== */
 function startDialogues2(){
 
   const dialoguesMarket = [
-    { text:"Avant de vendre quoi que ce soit, tu dois <strong>comprendre ton marché</strong>.", anchor:pirate5 },
-    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard</strong>.", anchor:pirate5 },
-    { text:"On vient d’arriver… et on ne connaît absolument rien.", anchor:pirate2 },
-    { text:"Parfait. C’est là que commence le travail d’un vrai entrepreneur.", anchor:pirate5 },
-    { text:"Première étape : <strong>l’étude de marché</strong>.", anchor:pirate5 },
-    { text:"Elle permet d’<strong>analyser</strong> les <strong>clients</strong>, la <strong>concurrence</strong>, les <strong>tendances</strong> et les <strong>opportunités</strong>.", anchor:pirate5 },
-    { text:"Donc… il faut deviner ce que veulent les clients ?", anchor:pirate2 },
-    { text:"Non. Tu dois <strong>collecter des informations réelles</strong>.", anchor:pirate5 },
-    { text:"Avec <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>des données déjà existantes</strong>.", anchor:pirate5 },
-    { text:"Tout cela permet de savoir si ton produit <strong>intéresse vraiment</strong> le marché.", anchor:pirate5 },
-    { text:"Un bon produit, c’est un produit qui <strong>répond à un besoin</strong> ou <strong>résout un problème</strong>.", anchor:pirate5 },
-    { text:"Nos pierres sont magnifiques… les clients vont forcément adorer, non ?", anchor:pirate2 },
-    { text:"Peut-être. Mais sans données, ce n’est qu’une <strong>supposition</strong>.", anchor:pirate5 },
-    { text:"Un entrepreneur ne suppose pas… il <strong>valide avec des faits</strong>.", anchor:pirate5 },
-    { text:"Prends des notes. Tu vas devoir prouver que ton idée peut fonctionner.", anchor:pirate5 }
+    { text:"Avant de vendre quoi que ce soit, tu dois <strong>comprendre ton marché</strong>.", anchor: DOM.pirate5 },
+    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au <strong>hasard</strong>.", anchor: DOM.pirate5 },
+    { text:"On vient d’arriver… et on ne connaît absolument rien.", anchor: DOM.pirate2 },
+    { text:"Parfait. C’est là que commence le travail d’un vrai entrepreneur.", anchor: DOM.pirate5 },
+    { text:"Première étape : <strong>l’étude de marché</strong>.", anchor: DOM.pirate5 },
+    { text:"Elle permet d’<strong>analyser</strong> les <strong>clients</strong>, la <strong>concurrence</strong>, les <strong>tendances</strong> et les <strong>opportunités</strong>.", anchor: DOM.pirate5 },
+    { text:"Donc… il faut deviner ce que veulent les clients ?", anchor: DOM.pirate2 },
+    { text:"Non. Tu dois <strong>collecter des informations réelles</strong>.", anchor: DOM.pirate5 },
+    { text:"Avec <strong>des questionnaires</strong>, <strong>des interviews</strong> ou <strong>des données déjà existantes</strong>.", anchor: DOM.pirate5 },
+    { text:"Tout cela permet de savoir si ton produit <strong>intéresse vraiment</strong> le marché.", anchor: DOM.pirate5 },
+    { text:"Un bon produit, c’est un produit qui <strong>répond à un besoin</strong> ou <strong>résout un problème</strong>.", anchor: DOM.pirate5 },
+    { text:"Nos pierres sont magnifiques… les clients vont forcément adorer, non ?", anchor: DOM.pirate2 },
+    { text:"Peut-être. Mais sans données, ce n’est qu’une <strong>supposition</strong>.", anchor: DOM.pirate5 },
+    { text:"Un entrepreneur ne suppose pas… il <strong>valide avec des faits</strong>.", anchor: DOM.pirate5 },
+    { text:"Prends des notes. Tu vas devoir prouver que ton idée peut fonctionner.", anchor: DOM.pirate5 }
   ];
 
   playDialogues(dialoguesMarket, () => {
 
-    // ✅ MAJ progression
-    setStepDone("dialogue2");
+    setDone("dialogue2"); // 🔥 correction nom fonction
 
-    // ➜ Suite logique
     startMiniGame2();
 
   });
@@ -531,134 +558,141 @@ function startDialogues2(){
 ===================================================== */
 function startMiniGame2(){
 
+  if(!DOM.game2 || !DOM.visualChoices){
+    console.error("Mini-jeu 2 cassé : éléments manquants");
+    return;
+  }
+
   showLoader(900, ()=>{
 
-    game2.classList.remove("hidden");
+    DOM.game2.classList.remove("hidden");
 
     const questions = [
+      {
+        question: "À quoi sert un business plan ?",
+        answers: [
+          { t:"Présenter un projet", ok:true },
+          { t:"Convaincre des investisseurs ou partenaires", ok:true },
+          { t:"Décorer une entreprise", ok:false },
+          { t:"Fixer uniquement les prix", ok:false }
+        ]
+      },
+      {
+        question: "Que contient un business plan ?",
+        answers: [
+          { t:"Des prévisions financières", ok:true },
+          { t:"Une étude de marché", ok:true },
+          { t:"Une stratégie commerciale", ok:true },
+          { t:"La couleur du logo", ok:false }
+        ]
+      },
+      {
+        question: "Pourquoi les prévisions financières sont importantes ?",
+        answers: [
+          { t:"Évaluer la rentabilité du projet", ok:true },
+          { t:"Anticiper les dépenses", ok:true },
+          { t:"Convaincre les investisseurs", ok:true },
+          { t:"Choisir un logo", ok:false }
+        ]
+      },
+      {
+        question: "Qu’est-ce qu’une stratégie commerciale ?",
+        answers: [
+          { t:"Une méthode pour vendre un produit ou service", ok:true },
+          { t:"Un plan pour attirer des clients", ok:true },
+          { t:"Une organisation des bureaux", ok:false },
+          { t:"Une règle juridique", ok:false }
+        ]
+      },
+      {
+        question: "Quelles actions font partie d’une stratégie commerciale ?",
+        answers: [
+          { t:"Faire de la publicité", ok:true },
+          { t:"Proposer des promotions", ok:true },
+          { t:"Fidéliser les clients", ok:true },
+          { t:"Ignorer la concurrence", ok:false }
+        ]
+      },
+      {
+        question: "À quoi sert une stratégie commerciale ?",
+        answers: [
+          { t:"Attirer des clients", ok:true },
+          { t:"Augmenter les ventes", ok:true },
+          { t:"Développer son activité", ok:true },
+          { t:"Remplacer le business plan", ok:false }
+        ]
+      }
+    ];
 
-  {
-    question: "À quoi sert un business plan ?",
-    answers: [
-      { t:"Présenter un projet", ok:true },
-      { t:"Convaincre des investisseurs ou partenaires", ok:true },
-      { t:"Décorer une entreprise", ok:false },
-      { t:"Fixer uniquement les prix", ok:false }
-    ]
-  },
+    let current = 0;
 
-  {
-    question: "Que contient un business plan ?",
-    answers: [
-      { t:"Des prévisions financières", ok:true },
-      { t:"Une étude de marché", ok:true },
-      { t:"Une stratégie commerciale", ok:true },
-      { t:"La couleur du logo", ok:false }
-    ]
-  },
+    function renderQuestion(){
 
-  {
-    question: "Pourquoi les prévisions financières sont importantes ?",
-    answers: [
-      { t:"Évaluer la rentabilité du projet", ok:true },
-      { t:"Anticiper les dépenses", ok:true },
-      { t:"Convaincre les investisseurs", ok:true },
-      { t:"Choisir un logo", ok:false }
-    ]
-  },
+      if(!questions[current]) return;
 
-  {
-    question: "Qu’est-ce qu’une stratégie commerciale ?",
-    answers: [
-      { t:"Une méthode pour vendre un produit ou service", ok:true },
-      { t:"Un plan pour attirer des clients", ok:true },
-      { t:"Une organisation des bureaux", ok:false },
-      { t:"Une règle juridique", ok:false }
-    ]
-  },
+      DOM.visualChoices.innerHTML = "";
 
-  {
-    question: "Quelles actions font partie d’une stratégie commerciale ?",
-    answers: [
-      { t:"Faire de la publicité", ok:true },
-      { t:"Proposer des promotions", ok:true },
-      { t:"Fidéliser les clients", ok:true },
-      { t:"Ignorer la concurrence", ok:false }
-    ]
-  },
+      const qBox = document.createElement("div");
+      qBox.className = "gameQuestion";
+      qBox.textContent = questions[current].question;
 
-  {
-    question: "À quoi sert une stratégie commerciale ?",
-    answers: [
-      { t:"Attirer des clients", ok:true },
-      { t:"Augmenter les ventes", ok:true },
-      { t:"Développer son activité", ok:true },
-      { t:"Remplacer le business plan", ok:false }
-    ]
-  }
+      DOM.visualChoices.appendChild(qBox);
 
-];
+      let success = 0;
+      const correctCount = questions[current].answers.filter(a => a.ok).length;
 
-  let current = 0;
+      questions[current].answers.forEach(q => {
 
-  function renderQuestion(){
+        const btn = document.createElement("button");
+        btn.textContent = q.t;
 
-    visualChoices.innerHTML = "";
+        btn.onclick = ()=>{
 
-    const qBox = document.createElement("div");
-    qBox.className = "gameQuestion";
-    qBox.textContent = questions[current].question;
+          if(!q.ok){
+            shake(DOM.game2);
+            return;
+          }
 
-    visualChoices.appendChild(qBox);
+          if(btn.classList.contains("correct-locked")) return;
 
-    let success = 0;
-    const correctCount = questions[current].answers.filter(a => a.ok).length;
+          btn.classList.add("correct-locked");
+          btn.disabled = true;
 
-    questions[current].answers.forEach(q => {
+          success++;
 
-      const b = document.createElement("button");
-      b.textContent = q.t;
+          if(success === correctCount){
 
-      b.onclick = ()=>{
+            setTimeout(()=>{
 
-        if(!q.ok){
-          shake(game2);
-          return;
-        }
+              current++;
 
-        if(b.classList.contains("correct-locked")) return;
+              if(current < questions.length){
 
-        b.classList.add("correct-locked");
-        b.disabled = true;
-        success++;
+                renderQuestion();
 
-        if(success === correctCount){
+              }else{
 
-          setTimeout(()=>{
-            current++;
+                DOM.game2.classList.add("hidden");
 
-            if(current < questions.length){
-              renderQuestion();
-            }else{
-game2.classList.add("hidden");
+                setTimeout(()=>{
+                  setDone("game2"); // 🔥 correction
+                  showBusinessPlanLoader();
+                },600);
+              }
 
-setTimeout(()=>{
-   setStepDone("game2");
-  showBusinessPlanLoader();
-},600);
-            }
+            },800);
+          }
+        };
 
-          },800);
-        }
-      };
+        DOM.visualChoices.appendChild(btn);
+      });
+    }
 
-      visualChoices.appendChild(b);
-    });
-  }
+    renderQuestion();
 
-  renderQuestion();
-  }); 
+  });
 }
+   
 /* =====================================================
    📘 LIVRE
 ===================================================== */
@@ -715,6 +749,11 @@ function showBusinessPlanLoader(){
   const title = overlay.querySelector("#bpTitle");
   const zoomBtn = overlay.querySelector("#zoomPageBtn");
 
+  if(!right || !pagesWrap){
+    console.error("Livre cassé : éléments manquants");
+    return;
+  }
+
   const pages = [
     ["","images/Businessplancov.png"],
     ["images/Businessplan4.jpg","images/Businessplan1.jpg"],
@@ -729,17 +768,17 @@ function showBusinessPlanLoader(){
   =============================== */
   const allImages = pages.flat().filter(Boolean);
   let loaded = 0;
+  let finished = false;
 
   if(allImages.length === 0){
     finishLoading();
   }else{
-    let finished = false;
-
     allImages.forEach(src=>{
       const img = new Image();
 
       img.onload = img.onerror = ()=>{
         if(finished) return;
+
         loaded++;
 
         if(loaded >= allImages.length){
@@ -753,13 +792,16 @@ function showBusinessPlanLoader(){
   }
 
   function finishLoading(){
-    if(loader) loader.classList.add("hidden");
-    if(pagesWrap) pagesWrap.classList.remove("hidden");
-    if(zoomBtn) zoomBtn.classList.remove("hidden");
+
+    loader?.classList.add("hidden");
+    pagesWrap.classList.remove("hidden");
+    zoomBtn?.classList.remove("hidden");
+
     if(title){
       title.classList.remove("hidden");
       title.classList.add("title-appear");
     }
+
     update();
   }
 
@@ -768,7 +810,7 @@ function showBusinessPlanLoader(){
   =============================== */
   function update(){
 
-    if(!pages[step]) return; // 🔥 FIX CRASH
+    if(!pages[step]) return;
 
     const [l, r] = pages[step];
 
@@ -785,9 +827,7 @@ function showBusinessPlanLoader(){
       right.src = r;
     }
 
-    if(cont){
-      cont.classList.toggle("hidden", step !== pages.length - 1);
-    }
+    cont?.classList.toggle("hidden", step !== pages.length - 1);
   }
 
   /* ===============================
@@ -819,86 +859,84 @@ function showBusinessPlanLoader(){
   /* ===============================
      EVENTS
   =============================== */
- if(right){
+
   right.style.cursor = "pointer";
-  right.addEventListener("click", () => turnPage("right"));
-}
+  right.onclick = () => turnPage("right");
 
-if(left){
-  left.style.cursor = "pointer";
-  left.addEventListener("click", () => turnPage("left"));
-}
+  if(left){
+    left.style.cursor = "pointer";
+    left.onclick = () => turnPage("left");
+  }
 
-if(zoomBtn){
-  zoomBtn.onclick = () => {
+  if(zoomBtn){
+    zoomBtn.onclick = () => {
 
-    const currentSrc = pages[step][1];
-    if(!currentSrc) return;
+      const currentSrc = pages[step]?.[1];
+      if(!currentSrc) return;
 
-    const zoom = document.createElement("div");
-    zoom.className = "page-zoom";
+      const zoom = document.createElement("div");
+      zoom.className = "page-zoom";
 
-    const loaderZoom = document.createElement("div");
-    loaderZoom.className = "book-loading";
-    loaderZoom.textContent = "⏳";
+      const loaderZoom = document.createElement("div");
+      loaderZoom.className = "book-loading";
+      loaderZoom.textContent = "⏳";
 
-    const img = document.createElement("img");
-    img.style.display = "none";
+      const img = document.createElement("img");
+      img.style.display = "none";
 
-    zoom.appendChild(loaderZoom);
-    zoom.appendChild(img);
-    document.body.appendChild(zoom);
+      zoom.append(loaderZoom, img);
+      document.body.appendChild(zoom);
 
-    img.onload = () => {
-      loaderZoom.remove();
-      img.style.display = "block";
+      img.onload = ()=>{
+        loaderZoom.remove();
+        img.style.display = "block";
+      };
+
+      img.onerror = ()=>{
+        loaderZoom.textContent = "Erreur de chargement";
+      };
+
+      img.src = currentSrc;
+
+      zoom.onclick = (e)=>{
+        if(e.target === zoom){
+          zoom.remove();
+        }
+      };
     };
+  }
 
-    img.onerror = () => {
-      loaderZoom.textContent = "Erreur de chargement";
+  if(cont){
+    cont.onclick = () => {
+
+      overlay.remove();
+
+      playDialogues([
+        { text:"Ton <strong>business plan</strong> est solide… maintenant, place à la <strong>réalité du terrain</strong>.", anchor: DOM.pirate5 },
+        { text:"La réalité du terrain ?", anchor: DOM.pirate2 },
+        { text:"Les clients ne paient que s’ils perçoivent une <strong>vraie valeur</strong>.", anchor: DOM.pirate5 },
+        { text:"Tu dois donc les convaincre de <strong>l’intérêt de ton produit</strong>.", anchor: DOM.pirate5 },
+        { text:"Mais avant ça… encore faut-il <strong>les faire venir jusqu’à toi</strong>.", anchor: DOM.pirate5 },
+        { text:"Comment attirer des clients ?", anchor: DOM.pirate2 },
+        { text:"Grâce à la <strong>prospection</strong>.", anchor: DOM.pirate5 },
+        { text:"La prospection, c’est <strong>chercher activement de nouveaux clients</strong>.", anchor: DOM.pirate5 },
+        { text:"Tu identifies des personnes <strong>potentiellement intéressées</strong> par ton offre.", anchor: DOM.pirate5 },
+        { text:"Puis tu notes leurs <strong>informations</strong> dans une <strong>base de données</strong>.", anchor: DOM.pirate5 },
+        { text:"Ensuite, tu les contactes : <strong>appels</strong>, <strong>emails</strong>, ou <strong>réseaux sociaux</strong>.", anchor: DOM.pirate5 },
+        { text:"Le but est simple : <strong>attirer leur attention</strong> et <strong>donner envie</strong>.", anchor: DOM.pirate5 },
+        { text:"Un bon entrepreneur n'attend pas… il va <strong>chercher ses clients</strong>.", anchor: DOM.pirate5 },
+        { text:"Prépare-toi. Le marché t’attend.", anchor: DOM.pirate5 }
+      ], () => {
+
+        setDone("dialogue3"); // 🔥 correction
+
+        setTimeout(()=>{
+          startMiniGame3();
+        },300);
+
+      });
     };
-
-    img.src = currentSrc;
-
-    zoom.onclick = (e) => {
-      if(e.target === zoom){
-        zoom.remove();
-      }
-    };
-  };
-}
-
-if(cont){
-  cont.onclick = () => {
-
-    overlay.remove();
-
-    playDialogues([
-      { text:"Ton <strong>business plan</strong> est solide… maintenant, place à la <strong>réalité du terrain</strong>.", anchor:pirate5 },
-      { text:"La réalité du terrain ?", anchor:pirate2 },
-      { text:"Les clients ne paient que s’ils perçoivent une <strong>vraie valeur</strong>.", anchor:pirate5 },
-      { text:"Tu dois donc les convaincre de <strong>l’intérêt de ton produit</strong>.", anchor:pirate5 },
-      { text:"Mais avant ça… encore faut-il <strong>les faire venir jusqu’à toi</strong>.", anchor:pirate5 },
-      { text:"Comment attirer des clients ?", anchor:pirate2 },
-      { text:"Grâce à la <strong>prospection</strong>.", anchor:pirate5 },
-      { text:"La prospection, c’est <strong>chercher activement de nouveaux clients</strong>.", anchor:pirate5 },
-      { text:"Tu identifies des personnes <strong>potentiellement intéressées</strong> par ton offre.", anchor:pirate5 },
-      { text:"Puis tu notes leurs <strong>informations</strong> dans une <strong>base de données</strong>.", anchor:pirate5 },
-      { text:"Ensuite, tu les contactes : <strong>appels</strong>, <strong>emails</strong>, ou <strong>réseaux sociaux</strong>.", anchor:pirate5 },
-      { text:"Le but est simple : <strong>attirer leur attention</strong> et <strong>donner envie</strong>.", anchor:pirate5 },
-      { text:"Un bon entrepreneur n'attend pas… il va <strong>chercher ses clients</strong>.", anchor:pirate5 },
-      { text:"Prépare-toi. Le marché t’attend.", anchor:pirate5 }
-    ], () => {
-
-      setStepDone("dialogue3");
-
-      setTimeout(() => {
-        startMiniGame3();
-      }, 300);
-
-    });
-
-  }; // ✅ IMPORTANT : fermeture du onclick
+  }
 }
    
 /* =====================================================
@@ -906,7 +944,12 @@ if(cont){
 ===================================================== */
 function startMiniGame3(){
 
-  if(game3) game3.classList.remove("hidden");
+  if(!DOM.game3){
+    console.error("Mini-jeu 3 cassé : container manquant");
+    return;
+  }
+
+  DOM.game3.classList.remove("hidden");
 
   const text = document.getElementById("strategyText");
   const choices = document.getElementById("strategyChoices");
@@ -920,105 +963,108 @@ function startMiniGame3(){
 
   let step = 0;
 
-const steps = [
-  {
-    text:`Quelle est la première étape de la prospection ?`,
-    hint:"💡 Avant de contacter, tu dois identifier tes futurs clients.",
-    answers:[
-      { label:"Identifier des prospects potentiels", correct:true },
-      { label:"Créer une base de données clients", correct:true },
-      { label:"Contacter directement sans préparation", correct:false },
-      { label:"Fixer ses prix", correct:false }
-    ]
-  },
-  {
-    text:`Comment constituer une base de données de prospects ?`,
-    hint:"💡 Tu dois collecter des informations utiles.",
-    answers:[
-      { label:"Rechercher des entreprises en ligne", correct:true },
-      { label:"Récupérer des contacts (email, téléphone)", correct:true },
-      { label:"Utiliser LinkedIn ou des annuaires", correct:true },
-      { label:"Attendre que les clients viennent seuls", correct:false }
-    ]
-  },
-  {
-    text:`Quels sont les moyens de contacter des prospects ?`,
-    hint:"💡 Pense aux différents canaux de communication.",
-    answers:[
-      { label:"Email (mailing)", correct:true },
-      { label:"Téléphone (phoning)", correct:true },
-      { label:"Réseaux sociaux", correct:true },
-      { label:"Ne pas les contacter", correct:false }
-    ]
-  },
-  {
-    text:`Que faire si un client refuse à cause du prix ?`,
-    hint:"💡 Il faut adapter ton offre intelligemment.",
-    answers:[
-      { label:"Proposer une promotion", correct:true },
-      { label:"Expliquer la valeur du produit", correct:true },
-      { label:"Augmenter le prix", correct:false },
-      { label:"Ignorer le client", correct:false }
-    ]
-  },
-  {
-    text:`Que faire si un client ne voit pas l’utilité du produit ?`,
-    hint:"💡 Mets en avant les bénéfices.",
-    answers:[
-      { label:"Montrer que le produit répond à un besoin", correct:true },
-      { label:"Expliquer les avantages concrets", correct:true },
-      { label:"Insister sans argument", correct:false },
-      { label:"Changer immédiatement de client", correct:false }
-    ]
-  },
-  {
-    text:`Quel est l’objectif principal de la prospection ?`,
-    hint:"💡 Ce n’est pas juste parler… c’est convertir.",
-    answers:[
-      { label:"Trouver de nouveaux clients", correct:true },
-      { label:"Générer des ventes", correct:true },
-      { label:"Créer une relation avec les prospects", correct:true },
-      { label:"Éviter les clients", correct:false }
-    ],
-    finalText:`<strong>🎉 Bravo.</strong><br>
+  const steps = [
+    {
+      text:`Quelle est la première étape de la prospection ?`,
+      hint:"💡 Avant de contacter, tu dois identifier tes futurs clients.",
+      answers:[
+        { label:"Identifier des prospects potentiels", correct:true },
+        { label:"Créer une base de données clients", correct:true },
+        { label:"Contacter directement sans préparation", correct:false },
+        { label:"Fixer ses prix", correct:false }
+      ]
+    },
+    {
+      text:`Comment constituer une base de données de prospects ?`,
+      hint:"💡 Tu dois collecter des informations utiles.",
+      answers:[
+        { label:"Rechercher des entreprises en ligne", correct:true },
+        { label:"Récupérer des contacts (email, téléphone)", correct:true },
+        { label:"Utiliser LinkedIn ou des annuaires", correct:true },
+        { label:"Attendre que les clients viennent seuls", correct:false }
+      ]
+    },
+    {
+      text:`Quels sont les moyens de contacter des prospects ?`,
+      hint:"💡 Pense aux différents canaux de communication.",
+      answers:[
+        { label:"Email (mailing)", correct:true },
+        { label:"Téléphone (phoning)", correct:true },
+        { label:"Réseaux sociaux", correct:true },
+        { label:"Ne pas les contacter", correct:false }
+      ]
+    },
+    {
+      text:`Que faire si un client refuse à cause du prix ?`,
+      hint:"💡 Il faut adapter ton offre intelligemment.",
+      answers:[
+        { label:"Proposer une promotion", correct:true },
+        { label:"Expliquer la valeur du produit", correct:true },
+        { label:"Augmenter le prix", correct:false },
+        { label:"Ignorer le client", correct:false }
+      ]
+    },
+    {
+      text:`Que faire si un client ne voit pas l’utilité du produit ?`,
+      hint:"💡 Mets en avant les bénéfices.",
+      answers:[
+        { label:"Montrer que le produit répond à un besoin", correct:true },
+        { label:"Expliquer les avantages concrets", correct:true },
+        { label:"Insister sans argument", correct:false },
+        { label:"Changer immédiatement de client", correct:false }
+      ]
+    },
+    {
+      text:`Quel est l’objectif principal de la prospection ?`,
+      hint:"💡 Ce n’est pas juste parler… c’est convertir.",
+      answers:[
+        { label:"Trouver de nouveaux clients", correct:true },
+        { label:"Générer des ventes", correct:true },
+        { label:"Créer une relation avec les prospects", correct:true },
+        { label:"Éviter les clients", correct:false }
+      ],
+      finalText:`<strong>🎉 Bravo.</strong><br>
 Tu sais maintenant comment prospecter efficacement :
 trouver des clients, les contacter et répondre à leurs objections.
 
 Tu es prêt à attirer un maximum de clients vers ton activité.`
-  }
-];
+    }
+  ];
 
   function render(){
+
+    if(!steps[step]) return; // 🔥 sécurité
 
     const s = steps[step];
 
     text.innerHTML = s.text;
     choices.innerHTML = "";
+
     hintBox.classList.add("hidden");
     hintBox.innerHTML = s.hint;
 
     let success = 0;
     const totalCorrect = s.answers.filter(a => a.correct).length;
 
-    s.answers.forEach(a=>{
+    s.answers.forEach(a => {
 
-      const b = document.createElement("button");
-      b.textContent = a.label;
+      const btn = document.createElement("button");
+      btn.textContent = a.label;
 
-      b.onclick = ()=>{
+      btn.onclick = ()=>{
 
         if(!a.correct){
-          shake(game3);
+          shake(DOM.game3); // 🔥 correction
           return;
         }
 
-        if(b.classList.contains("correct-locked")) return;
+        if(btn.classList.contains("correct-locked")) return;
 
-        b.disabled = true;
-        b.classList.add("correct-locked");
+        btn.disabled = true;
+        btn.classList.add("correct-locked");
+
         success++;
 
-        // 👉 attendre toutes les bonnes réponses
         if(success === totalCorrect){
 
           if(s.finalText){
@@ -1026,10 +1072,10 @@ Tu es prêt à attirer un maximum de clients vers ton activité.`
             text.innerHTML = s.finalText;
             choices.innerHTML = "";
 
-            if(hintBtn) hintBtn.classList.add("hidden");
+            hintBtn?.classList.add("hidden");
 
             setTimeout(()=>{
-              game3.classList.add("hidden");
+              DOM.game3.classList.add("hidden");
               showCommerceWin();
             },2000);
 
@@ -1044,7 +1090,7 @@ Tu es prêt à attirer un maximum de clients vers ton activité.`
         }
       };
 
-      choices.appendChild(b);
+      choices.appendChild(btn);
     });
   }
 
@@ -1056,44 +1102,55 @@ Tu es prêt à attirer un maximum de clients vers ton activité.`
 
   render();
 }
-   
+
 /* =====================================================
-   🏆 VICTOIRE COMMUNICATION
+   🏆 VICTOIRE COMMERCE
 ===================================================== */
 function showCommerceWin(){
 
-   setStepDone("game3");
+  setDone("game3"); // 🔥 correction
 
-  // 🔥 Supprime loader pirate s'il est visible
-  if(fadeScreen){
-    fadeScreen.classList.add("hidden");
+  // 🔥 Supprime loader
+  if(DOM.fade){
+    DOM.fade.classList.add("hidden");
   }
 
   const overlay = document.createElement("div");
-  overlay.id="communication-win";
-  overlay.innerHTML=`
+  overlay.id = "communication-win";
+
+  overlay.innerHTML = `
     <div class="win-box">
       <h2>🏴‍☠️ Bravo !</h2>
       <p>Tu as gagné la quête Commerce !</p>
       <div class="gems-container"></div>
-    </div>`;
+    </div>
+  `;
 
   document.body.appendChild(overlay);
 
   const gemsContainer = overlay.querySelector(".gems-container");
+
+  if(!gemsContainer){
+    console.error("Gems container manquant");
+    return;
+  }
 
   requestAnimationFrame(()=>{
     launchGemsExplosion(gemsContainer);
   });
 
   /* 🔓 DÉBLOCAGES */
-  sessionStorage.setItem("unlock_pirate3","true");
-  sessionStorage.setItem("unlock_password_page","true");
-  sessionStorage.setItem("fromCommerce","true");
+  try{
+    sessionStorage.setItem("unlock_pirate3","true");
+    sessionStorage.setItem("unlock_password_page","true");
+    sessionStorage.setItem("fromCommerce","true");
+  }catch(e){
+    console.warn("SessionStorage indisponible");
+  }
 
-  /* ⏳ Redirection après explosion */
+  /* ⏳ Redirection */
   setTimeout(()=>{
-    window.location.href="menu.html";
+    window.location.href = "menu.html";
   },2500);
 }
 
@@ -1101,28 +1158,37 @@ function showCommerceWin(){
    💎 GEMS
 ===================================================== */
 function launchGemsExplosion(container){
-  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
-  for(let i=0;i<50;i++){
-    const g=document.createElement("div");
-    g.className="gem";
-    const size=Math.random()*10+8;
-    g.style.width=size+"px";
-    g.style.height=size+"px";
-    g.style.background=colors[Math.floor(Math.random()*colors.length)];
-    g.style.left="50%";
-    g.style.top="50%";
 
-    const angle=Math.random()*Math.PI*2;
-    const dist=Math.random()*260+80;
-    g.style.setProperty("--x",Math.cos(angle)*dist+"px");
-    g.style.setProperty("--y",Math.sin(angle)*dist+"px");
+  if(!container) return;
+
+  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+
+  for(let i=0;i<50;i++){
+
+    const g = document.createElement("div");
+    g.className = "gem";
+
+    const size = Math.random()*10 + 8;
+
+    g.style.width = size + "px";
+    g.style.height = size + "px";
+    g.style.background = colors[Math.floor(Math.random()*colors.length)];
+
+    g.style.left = "50%";
+    g.style.top = "50%";
+
+    const angle = Math.random()*Math.PI*2;
+    const dist = Math.random()*260 + 80;
+
+    g.style.setProperty("--x", Math.cos(angle)*dist + "px");
+    g.style.setProperty("--y", Math.sin(angle)*dist + "px");
 
     container.appendChild(g);
   }
 }
 
 /* =====================================================
-   PROGRESS BAR
+   📊 PROGRESS BAR
 ===================================================== */
 function createProgressBar(){
 
@@ -1133,6 +1199,11 @@ function createProgressBar(){
 
   const existing = document.getElementById("progressBar");
   if(existing) existing.remove();
+
+  if(!document.body){
+    console.warn("body non disponible");
+    return;
+  }
 
   const bar = document.createElement("div");
   bar.id = "progressBar";
@@ -1150,12 +1221,7 @@ function createProgressBar(){
     bar.appendChild(el);
   });
 
-  if(document.body){
-    document.body.appendChild(bar);
-  }else{
-    console.warn("body non disponible");
-    return;
-  }
+  document.body.appendChild(bar);
 
   Object.assign(bar.style,{
     position:"fixed",
@@ -1177,20 +1243,18 @@ function updateProgressBar(){
     return;
   }
 
-  const p = getProgress() || {};
+  const progress = getProgress() || {};
 
   document.querySelectorAll(".progress-step").forEach(el=>{
 
     const step = el.dataset.step;
-
     if(!step) return;
 
-    if(p[step]){
+    if(progress[step]){
       el.classList.add("done");
     }else{
       el.classList.remove("done");
     }
-
   });
 }
 
