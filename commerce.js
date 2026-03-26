@@ -953,17 +953,6 @@ function showBusinessPlanLoader(){
   }
 }
 
-  playDialogues(dialogues, () => {
-
-    // ✅ MAJ progression (TRÈS IMPORTANT pour la jauge)
-    setStepDone("dialogue3");
-
-    setTimeout(() => {
-      startMiniGame3();
-    }, 300);
-
-  });
-
 };
    
 /* =====================================================
