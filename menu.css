@@ -507,7 +507,7 @@ body.night-mode .pirate.unlocked:hover{
 #pirate2 { left: 825px; top: 647px; width: 180px; }
 #pirate3 { left: 780px; top: 285px; width: 147px; height: 240px; }
 #pirate4 { left: 1020px; top: 10px; width: 154px; height: 223px; }
-#pirate5 { left: 240px; top: 145px; width: 160px; }
+#pirate5 { left: 240px; top: 140px; width: 160px; }
 
 /* ================================================= */
 /* 🌙 POSITIONS + TAILLES PIRATES MODE NUIT */
@@ -522,11 +522,11 @@ body.night-mode #pirate1 {
 
 body.night-mode #pirate2 {
   left: 822px;
-  top: 610px;
+  top: 608px;
 }
 
 body.night-mode #pirate3 {
-  left: 780px;
+  left: 778px;
   top: 275px;
   width: 147px;
   height: 240px;
@@ -541,7 +541,7 @@ body.night-mode #pirate4 {
 
 body.night-mode #pirate5 {
   left: 235px;
-  top: 130px;
+  top: 127px;
   width: 160px;
 }
 
