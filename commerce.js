@@ -1,52 +1,107 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
-   🎬 VIDÉO INTRO
+   🎬 VIDÉO INTRO — VERSION STABLE
 ===================================================== */
 const videoContainer = document.getElementById("videoContainer");
 const introVideo     = document.getElementById("questVideo");
 const toggleSound    = document.getElementById("toggleSound");
 const closeVideo     = document.getElementById("closeVideo");
-const scene          = document.getElementById("scene");
+const scene          = document.getElementById("background"); // ✅ CORRIGÉ
 const fadeScreen     = document.getElementById("fadeScreen");
 
 let videoClosed = false;
 
-if(introVideo){
+/* =====================================================
+   ▶️ LECTURE VIDÉO (iOS SAFE)
+===================================================== */
+function startVideo(){
+  if(!introVideo) return;
+
   introVideo.muted = true;
   introVideo.playsInline = true;
-  introVideo.autoplay = true;
-  introVideo.style.pointerEvents = "none";
-  introVideo.play().catch(()=>{});
+  introVideo.setAttribute("playsinline", "");
+  introVideo.setAttribute("webkit-playsinline", "");
+
+  const playPromise = introVideo.play();
+
+  if(playPromise !== undefined){
+    playPromise.catch(() => {
+      // 👉 fallback iOS : attendre interaction utilisateur
+      document.addEventListener("click", () => {
+        introVideo.play().catch(()=>{});
+      }, { once:true });
+    });
+  }
 }
 
-if(toggleSound){
-  toggleSound.onclick = e => {
+startVideo();
+
+/* =====================================================
+   🔊 SON
+===================================================== */
+if(toggleSound && introVideo){
+  toggleSound.onclick = (e) => {
     e.stopPropagation();
+
     introVideo.muted = !introVideo.muted;
     toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
   };
 }
 
+/* =====================================================
+   ⏭️ SKIP VIDÉO
+===================================================== */
 if(closeVideo){
-  closeVideo.onclick = e => {
+  closeVideo.onclick = (e) => {
     e.stopPropagation();
     closeIntro();
   };
 }
 
+/* =====================================================
+   ⏹️ FIN VIDÉO
+===================================================== */
 if(introVideo){
-  introVideo.onended = closeIntro;
+  introVideo.addEventListener("ended", closeIntro);
 }
 
+/* =====================================================
+   ❌ FERMETURE INTRO
+===================================================== */
 function closeIntro(){
   if(videoClosed) return;
   videoClosed = true;
 
-  if(introVideo) introVideo.pause();
-  if(videoContainer) videoContainer.style.display = "none";
-  if(scene) scene.classList.remove("hidden");
+  // Stop vidéo
+  if(introVideo){
+    introVideo.pause();
+    introVideo.currentTime = 0;
+  }
 
+  // Cache la vidéo
+  if(videoContainer){
+    videoContainer.style.display = "none";
+  }
+
+  // Affiche le background
+  if(scene){
+    scene.classList.remove("hidden");
+  }
+
+  // Affiche les pirates
+  const p2 = document.getElementById("pirate2bis");
+  const p3 = document.getElementById("pirate3bis");
+  const p5 = document.getElementById("pirate5bis");
+
+  if(p2) p2.classList.remove("hidden");
+  if(p3) p3.classList.remove("hidden");
+  if(p5) p5.classList.remove("hidden");
+
+  // Glow interactif
+  if(p3) p3.classList.add("glowStart");
+
+  // Loader puis interaction
   showLoader(800);
 }
 
@@ -65,13 +120,13 @@ function showLoader(duration = 1200, cb){
 /* =====================================================
    🏴‍☠️ PIRATES
 ===================================================== */
-const pirate3 = document.getElementById("pirate3");
-const pirate2 = document.getElementById("pirate2");
+const pirate3 = document.getElementById("pirate3bis");
+const pirate2 = document.getElementById("pirate2bis");
 
 // Sécurité si élément absent
 if (pirate3) {
 
-  pirate3.classList.add("glow");
+  pirate3.classList.add("glowStart");
 
   pirate3.onclick = () => {
 
@@ -130,11 +185,9 @@ function showDialog(){
 
   requestAnimationFrame(() => {
 
-    const p = d.speaker === "pirate2" ? pirate2 : pirate3;
-
 const p = d.speaker === "pirate2" ? pirate2 : pirate3;
 
-const r = (p || pirate3).getBoundingClientRect();
+if(!p) return;
 
 const r = p.getBoundingClientRect();
 
@@ -175,7 +228,7 @@ function endDialogs(){
 /* =====================================================
    🎮 MINI-JEUX BASE
 ===================================================== */
-const miniGame = document.getElementById("miniGameContainer");
+const miniGame = document.getElementById("communicationGame");
 
 function clearMiniGame(){
   miniGame.innerHTML="";
