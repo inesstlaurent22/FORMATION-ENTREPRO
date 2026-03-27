@@ -108,6 +108,7 @@ const skipDialoguesBtn = document.getElementById("skipDialoguesBtn");
 let dialogs=[], dIndex=0, dCallback=null;
 
 function playDialog(list, cb){
+  if(!dialogBox || !dialogText) return;
   dialogs = list;
   dIndex = 0;
   dCallback = cb;
@@ -131,7 +132,9 @@ function showDialog(){
 
     const p = d.speaker === "pirate2" ? pirate2 : pirate3;
 
-if(!p) return;
+const p = d.speaker === "pirate2" ? pirate2 : pirate3;
+
+const r = (p || pirate3).getBoundingClientRect();
 
 const r = p.getBoundingClientRect();
 
