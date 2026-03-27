@@ -64,22 +64,98 @@ if(minStepRequired){
 ===================================================== */
 const stepsUI = document.querySelectorAll(".progress-step");
 
-function setProgress(step){
+function setProgress(stepName){
 
-  if(!stepsUI || stepsUI.length === 0) return;
+  const progress = getProgress();
+  progress[stepName] = true;
 
-  stepsUI.forEach((el,i)=>{
-    if(i < step){
+  saveProgress(progress);
+  updateProgressBar();
+
+  // 🔒 garde ton système anti-retour (numérique)
+  const index = stepsOrder.indexOf(stepName);
+  if(index !== -1){
+    sessionStorage.setItem("quest_progress", index + 1);
+  }
+}
+
+/* =====================================================
+   📊 CONFIG PROGRESS BAR
+===================================================== */
+
+// ordre logique de ta quête
+const stepsOrder = [
+  "video",
+  "dialogue1",
+  "game1",
+  "dialogue2",
+  "game2",
+  "book",
+  "game3",
+  "win"
+];
+
+// récup progression sauvegardée
+function getProgress(){
+  const saved = sessionStorage.getItem("quest_progress_map");
+  return saved ? JSON.parse(saved) : {};
+}
+
+// sauvegarde progression détaillée
+function saveProgress(map){
+  sessionStorage.setItem("quest_progress_map", JSON.stringify(map));
+}
+
+/* =====================================================
+   📊 CREATE + UPDATE BAR
+===================================================== */
+
+function createProgressBar(){
+
+  // évite doublon
+  if(document.getElementById("progressBar")) return;
+
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
+
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+    item.dataset.step = step;
+
+    // icônes intelligentes
+    if(step.includes("dialogue")) item.textContent = "💬";
+    else if(step.includes("game")) item.textContent = "🎮";
+    else if(step === "video") item.textContent = "🎬";
+    else if(step === "book") item.textContent = "📘";
+    else if(step === "win") item.textContent = "🏆";
+
+    bar.appendChild(item);
+  });
+
+  document.body.appendChild(bar);
+
+  updateProgressBar();
+}
+
+function updateProgressBar(){
+
+  const progress = getProgress();
+  const steps = document.querySelectorAll(".progress-step");
+
+  if(!steps.length) return;
+
+  steps.forEach(el=>{
+    const step = el.dataset.step;
+
+    if(progress[step]){
       el.classList.add("done");
     }else{
       el.classList.remove("done");
     }
   });
-
-  // 🔥 Sauvegarde (empêche retour arrière)
-  sessionStorage.setItem("quest_progress", step);
 }
-
+   
 /* =====================================================
    🚫 ANTI RETOUR COMPLET
 ===================================================== */
@@ -145,7 +221,7 @@ function endVideo(){
   }
 
   showLoader(1200, ()=>{
-    setProgress(1);
+    setProgress("video");
     showScene();
   });
 }
@@ -247,6 +323,8 @@ function startDialogues1(){
     {text:"On ne connaît rien.",anchor:pirate2},
     {text:"Je vais t'expliquer.",anchor:pirate5}
   ], startMiniGame1);
+
+   setProgress("dialogue1");
 }
 
 /* =====================================================
@@ -287,7 +365,7 @@ function startMiniGame1(){
             render();
           }else{
             game1.classList.add("hidden");
-            setProgress(2);
+            setProgress("game1");
             startDialogues2();
           }
         };
@@ -307,6 +385,8 @@ function startDialogues2(){
   playDialogues([
     {text:"Parfait. Passons au business plan.",anchor:pirate5}
   ], startMiniGame2);
+
+   setProgress("dialogue2");
 }
 
 /* =====================================================
@@ -349,7 +429,7 @@ function startMiniGame2(){
             render();
           }else{
             game2.classList.add("hidden");
-            setProgress(3);
+            setProgress("game2");
             showBusinessPlanLoader();
           }
         };
@@ -366,6 +446,8 @@ function startMiniGame2(){
    LIVRE → PUIS MG3
 ===================================================== */
 function showBusinessPlanLoader(){
+
+   setProgress("book");
 
   const overlay = document.createElement("div");
   overlay.id = "identity-loader";
@@ -566,6 +648,8 @@ function showBusinessPlanLoader(){
 ===================================================== */
 function startMiniGame3(){
 
+   setProgress("game3");
+
   game3.classList.remove("hidden");
 
   const text = document.getElementById("strategyText");
@@ -615,6 +699,8 @@ function startMiniGame3(){
    🏆 VICTOIRE COMMUNICATION
 ===================================================== */
 function showCommerceWin(){
+
+   setProgress("win");
 
   // 🔥 Supprime loader pirate s'il est visible
   if(fadeScreen){
@@ -673,5 +759,6 @@ function launchGemsExplosion(container){
   }
 }
 
+   createProgressBar();
 
 });
