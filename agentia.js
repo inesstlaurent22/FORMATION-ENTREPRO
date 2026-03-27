@@ -85,7 +85,7 @@ async function sendToAI(text) {
 
   try {
 
-    const res = await fetch("https://eop1ak3sxerl3b3.m.pipedream.net", {
+    const res = await fetch("https://eo5cdibkgxpx6ey.m.pipedream.net", {
       method: "POST",
       mode: "cors",
       headers: {
