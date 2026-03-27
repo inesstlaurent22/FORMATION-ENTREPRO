@@ -50,46 +50,68 @@ function showLoader(duration = 1200, cb){
   }, duration);
 }
 
+
 function shake(el){
+  if(!el) return;
+
+  el.classList.remove("screen-shake");
+  void el.offsetWidth;
   el.classList.add("screen-shake");
+
   setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
 
+   
 /* =====================================================
-   VIDÉO INTRO
+   🎬 VIDÉO INTRO FIX
 ===================================================== */
 
 let videoEnded = false;
 
-if (questVideo) {
+function startVideo(){
+  if(!questVideo) return;
 
   questVideo.muted = true;
+  questVideo.setAttribute("playsinline", "");
+  questVideo.setAttribute("webkit-playsinline", "");
 
-  questVideo.addEventListener("canplay", () => {
-    if (fadeScreen) {
-      fadeScreen.classList.add("hidden");
-    }
+  const p = questVideo.play();
 
-    // Sécurise autoplay (iOS safe)
-    const playPromise = questVideo.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {});
-    }
-  });
+  if(p !== undefined){
+    p.catch(() => {
 
+      // 👉 fallback iOS
+      const unlock = () => {
+        questVideo.play().catch(()=>{});
+        document.removeEventListener("touchstart", unlock);
+        document.removeEventListener("click", unlock);
+      };
+
+      document.addEventListener("touchstart", unlock, { once:true });
+      document.addEventListener("click", unlock, { once:true });
+
+      // 👉 sécurité : skip auto
+      setTimeout(endVideo, 4000);
+    });
+  }
+
+  // sécurité globale
+  setTimeout(()=>{
+    if(!videoEnded) endVideo();
+  }, 8000);
+}
+
+// 🔥 LANCEMENT DIRECT
+startVideo();
+
+if(questVideo){
   questVideo.addEventListener("ended", endVideo);
 }
 
-if (toggleSound && questVideo) {
-  toggleSound.addEventListener("click", () => {
-    questVideo.muted = !questVideo.muted;
-    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  });
+if(closeVideo){
+  closeVideo.onclick = endVideo;
 }
-
-if (closeVideo) {
-  closeVideo.addEventListener("click", endVideo);
-}
+   
 
 function endVideo() {
 
@@ -685,10 +707,12 @@ function showBusinessPlanLoader(){
   /* ===============================
      CONTINUER
   =============================== */
+cont.onclick = () => {
 
-   cont.onclick = ()=>{
-
-  overlay.remove();
+  // 🔒 sécurise suppression overlay
+  if(overlay && overlay.parentNode){
+    overlay.remove();
+  }
 
   playDialogues([
     { text:"Ton Business plan est solide, maintenant passons à la réalité du terrain.", anchor:pirate5 },
@@ -702,23 +726,25 @@ function showBusinessPlanLoader(){
     { text:"Tu notes leurs informations (contact, adresse, entreprise) dans une base de données.", anchor:pirate5 },
     { text:"Puis tu vas les appeler, leur envoyer des mails ou des messages via les réseaux sociaux", anchor:pirate5 },
     { text:"afin d'attiser leur curiosité et de les faire venir jusqu'à toi", anchor:pirate5 },
+
     { 
       text:"Il est temps d'affronter le marché.", 
       anchor:pirate5,
-      onShow: ()=>{
-        console.log("pirate3 déclenché");
-
+      onShow: () => {
         if(pirate3){
           pirate3.classList.remove("hidden");
+          pirate3.classList.add("glowStart");
+          pirate3.style.pointerEvents = "none"; // évite clic parasite
         }
       }
     }
-  ], ()=>{
 
-    // 🔥 SÉCURITÉ : garantit le lancement du mini-jeu
-    setTimeout(()=>{
+  ], () => {
+
+    // 🔥 double sécurité lancement mini-jeu
+    showLoader(600, () => {
       startMiniGame3();
-    }, 300);
+    });
 
   });
 
