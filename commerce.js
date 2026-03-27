@@ -570,19 +570,66 @@ function startMiniGame3(){
 }
 
 /* =====================================================
-   VICTOIRE
+   🏆 VICTOIRE COMMUNICATION
 ===================================================== */
 function showCommerceWin(){
 
-  setProgress(4);
+  // 🔥 Supprime loader pirate s'il est visible
+  if(fadeScreen){
+    fadeScreen.classList.add("hidden");
+  }
 
-  const overlay=document.createElement("div");
-  overlay.innerHTML="<h2>Bravo</h2>";
+  const overlay = document.createElement("div");
+  overlay.id="communication-win";
+  overlay.innerHTML=`
+    <div class="win-box">
+      <h2>🏴‍☠️ Bravo !</h2>
+      <p>Tu as gagné la quête Commerce !</p>
+      <div class="gems-container"></div>
+    </div>`;
+
   document.body.appendChild(overlay);
 
+  const gemsContainer = overlay.querySelector(".gems-container");
+
+  requestAnimationFrame(()=>{
+    launchGemsExplosion(gemsContainer);
+  });
+
+  /* 🔓 DÉBLOCAGES */
+  sessionStorage.setItem("unlock_pirate3","true");
+  sessionStorage.setItem("unlock_password_page","true");
+  sessionStorage.setItem("fromCommerce","true");
+
+  /* ⏳ Redirection après explosion */
   setTimeout(()=>{
     window.location.href="menu.html";
-  },2000);
+  },2500);
 }
+
+/* =====================================================
+   💎 GEMS
+===================================================== */
+function launchGemsExplosion(container){
+  const colors=["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
+  for(let i=0;i<50;i++){
+    const g=document.createElement("div");
+    g.className="gem";
+    const size=Math.random()*10+8;
+    g.style.width=size+"px";
+    g.style.height=size+"px";
+    g.style.background=colors[Math.floor(Math.random()*colors.length)];
+    g.style.left="50%";
+    g.style.top="50%";
+
+    const angle=Math.random()*Math.PI*2;
+    const dist=Math.random()*260+80;
+    g.style.setProperty("--x",Math.cos(angle)*dist+"px");
+    g.style.setProperty("--y",Math.sin(angle)*dist+"px");
+
+    container.appendChild(g);
+  }
+}
+
 
 });
