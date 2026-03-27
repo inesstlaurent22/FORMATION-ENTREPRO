@@ -319,6 +319,10 @@ function startMiniGame1(){
 
   showLoader(900, ()=>{
 
+    if(!game1 || !q1 || !a1) return;
+
+    game1.classList.remove("hidden"); // 🔥 AFFICHAGE
+
     const questions = [
 
       {
@@ -355,10 +359,6 @@ function startMiniGame1(){
           { t:"Analyse de l’environnement", ok:true }
         ]
       }
-       
-   game1.classList.add("hidden");
-setProgress(2); // ✅ ICI
-startDialogues2();
 
     ];
 
@@ -366,13 +366,15 @@ startDialogues2();
 
     function renderQuestion(){
 
-      q1.textContent = questions[current].question;
+      const qData = questions[current];
+
+      q1.textContent = qData.question;
       a1.innerHTML = "";
 
       let success = 0;
-      const correctCount = questions[current].answers.filter(a => a.ok).length;
+      const correctCount = qData.answers.filter(a => a.ok).length;
 
-      questions[current].answers.forEach(q => {
+      qData.answers.forEach(q => {
 
         const b = document.createElement("button");
         b.textContent = q.t;
@@ -384,15 +386,16 @@ startDialogues2();
             return;
           }
 
-          // éviter double clic
           if(b.classList.contains("correct-locked")) return;
 
           b.classList.add("correct-locked");
           b.disabled = true;
           success++;
 
-          // si toutes les bonnes réponses trouvées
           if(success === correctCount){
+
+            // 🔒 bloque tous les boutons
+            Array.from(a1.children).forEach(btn => btn.disabled = true);
 
             setTimeout(()=>{
 
@@ -402,6 +405,9 @@ startDialogues2();
                 renderQuestion();
               }else{
                 game1.classList.add("hidden");
+
+                setProgress(2); // ✅ PROGRESSION
+
                 startDialogues2();
               }
 
@@ -442,117 +448,126 @@ function startDialogues2(){
 ===================================================== */
 function startMiniGame2(){
 
+  showLoader(900, ()=>{
+
+    if(!game2 || !visualChoices) return;
+
+    game2.classList.remove("hidden"); // 🔥 affichage
+
     const questions = [
 
-    {
-      question: "À quoi sert un business plan ?",
-      answers: [
-        { t: "Décorer une entreprise", ok: false },
-        { t: "Présenter un projet et convaincre des partenaires", ok: true },
-        { t: "Fixer uniquement les prix", ok: false },
-        { t: "Recruter des employés", ok: false }
-      ]
-    },
+      {
+        question: "À quoi sert un business plan ?",
+        answers: [
+          { t: "Décorer une entreprise", ok: false },
+          { t: "Présenter un projet et convaincre des partenaires", ok: true },
+          { t: "Fixer uniquement les prix", ok: false },
+          { t: "Recruter des employés", ok: false }
+        ]
+      },
        
-    {
-      question: "Quel élément est indispensable dans un business plan ?",
-      answers: [
-        { t: "Les couleurs du logo", ok: false },
-        { t: "Les prévisions financières", ok: true },
-        { t: "Le nombre d’employés déjà recrutés", ok: false },
-        { t: "Le nom des clients", ok: false }
-      ]
-    },
+      {
+        question: "Quel élément est indispensable dans un business plan ?",
+        answers: [
+          { t: "Les couleurs du logo", ok: false },
+          { t: "Les prévisions financières", ok: true },
+          { t: "Le nombre d’employés déjà recrutés", ok: false },
+          { t: "Le nom des clients", ok: false }
+        ]
+      },
     
-    {
-      question: "Qu’est-ce qu’une stratégie commerciale ?",
-      answers: [
-        { t: "Une manière d’organiser les bureaux", ok: false },
-        { t: "Une méthode pour vendre un produit ou service", ok: true },
-        { t: "Un type de contrat", ok: false },
-        { t: "Une règle juridique", ok: false }
-      ]
-    },
+      {
+        question: "Qu’est-ce qu’une stratégie commerciale ?",
+        answers: [
+          { t: "Une manière d’organiser les bureaux", ok: false },
+          { t: "Une méthode pour vendre un produit ou service", ok: true },
+          { t: "Un type de contrat", ok: false },
+          { t: "Une règle juridique", ok: false }
+        ]
+      },
 
-        {
-      question: "Quelle est une stratégie commerciale ??",
-      answers: [
-        { t: "Baisser les prix pour attirer plus de clients", ok: true },
-        { t: "Faire de la publicité sur les réseaux sociaux", ok: true },
-        { t: "Proposer des promotions ou réductions", ok: true },
-        { t: "Fidéliser les clients avec un programme de récompenses", ok: true }
-      ]
+      {
+        question: "Quelle est une stratégie commerciale ?",
+        answers: [
+          { t: "Baisser les prix pour attirer plus de clients", ok: true },
+          { t: "Faire de la publicité sur les réseaux sociaux", ok: true },
+          { t: "Proposer des promotions ou réductions", ok: true },
+          { t: "Fidéliser les clients avec un programme de récompenses", ok: true }
+        ]
+      }
+
+    ];
+
+    let current = 0;
+
+    function renderQuestion(){
+
+      const qData = questions[current];
+
+      visualChoices.innerHTML = "";
+
+      const qBox = document.createElement("div");
+      qBox.className = "gameQuestion";
+      qBox.textContent = qData.question;
+
+      visualChoices.appendChild(qBox);
+
+      let success = 0;
+      const correctCount = qData.answers.filter(a => a.ok).length;
+
+      qData.answers.forEach(q => {
+
+        const b = document.createElement("button");
+        b.textContent = q.t;
+
+        b.onclick = ()=>{
+
+          if(!q.ok){
+            shake(game2);
+            return;
+          }
+
+          if(b.classList.contains("correct-locked")) return;
+
+          b.classList.add("correct-locked");
+          b.disabled = true;
+          success++;
+
+          // 🔒 bloque tous les boutons
+          if(success === correctCount){
+
+            Array.from(visualChoices.querySelectorAll("button"))
+              .forEach(btn => btn.disabled = true);
+
+            setTimeout(()=>{
+
+              current++;
+
+              if(current < questions.length){
+                renderQuestion();
+              }else{
+                game2.classList.add("hidden");
+
+                setProgress(3); // ✅ progression
+
+                setTimeout(()=>{
+                  showBusinessPlanLoader();
+                },600);
+              }
+
+            },800);
+          }
+        };
+
+        visualChoices.appendChild(b);
+      });
     }
-       
-game2.classList.add("hidden");
 
-setProgress(3); // ✅ ICI
+    renderQuestion();
 
-setTimeout(()=>{
-  showBusinessPlanLoader();
-},600);
-   
-  ];
-
-  let current = 0;
-
-  function renderQuestion(){
-
-    visualChoices.innerHTML = "";
-
-    const qBox = document.createElement("div");
-    qBox.className = "gameQuestion";
-    qBox.textContent = questions[current].question;
-
-    visualChoices.appendChild(qBox);
-
-    let success = 0;
-    const correctCount = questions[current].answers.filter(a => a.ok).length;
-
-    questions[current].answers.forEach(q => {
-
-      const b = document.createElement("button");
-      b.textContent = q.t;
-
-      b.onclick = ()=>{
-
-        if(!q.ok){
-          shake(game2);
-          return;
-        }
-
-        if(b.classList.contains("correct-locked")) return;
-
-        b.classList.add("correct-locked");
-        b.disabled = true;
-        success++;
-
-        if(success === correctCount){
-
-          setTimeout(()=>{
-            current++;
-
-            if(current < questions.length){
-              renderQuestion();
-            }else{
-game2.classList.add("hidden");
-
-setTimeout(()=>{
-  showBusinessPlanLoader();
-},600);
-            }
-
-          },800);
-        }
-      };
-
-      visualChoices.appendChild(b);
-    });
-  }
-
-  renderQuestion();
-  }); 
+  });
 }
+   
 /* =====================================================
    📘 LIVRE
 ===================================================== */
