@@ -78,92 +78,6 @@ function setProgress(stepName){
     sessionStorage.setItem("quest_progress", index + 1);
   }
 }
-
-/* =====================================================
-   📊 CONFIG PROGRESS BAR
-===================================================== */
-
-// ordre logique de ta quête
-const stepsOrder = [
-  "video",
-  "dialogue1",
-  "game1",
-  "dialogue2",
-  "game2",
-  "book",
-  "game3",
-  "win"
-];
-
-// récup progression sauvegardée
-function getProgress(){
-  const saved = sessionStorage.getItem("quest_progress_map");
-  return saved ? JSON.parse(saved) : {};
-}
-
-// sauvegarde progression détaillée
-function saveProgress(map){
-  sessionStorage.setItem("quest_progress_map", JSON.stringify(map));
-}
-
-/* =====================================================
-   📊 CREATE + UPDATE BAR
-===================================================== */
-
-function createProgressBar(){
-
-  if(document.getElementById("progressBar")) return;
-
-  const bar = document.createElement("div");
-  bar.id = "progressBar";
-
-  stepsOrder.forEach(step=>{
-    const item = document.createElement("div");
-    item.className = "progress-step";
-    item.dataset.step = step;
-
-    // 🎯 LOGIQUE ICONES (ULTRA FIABLE)
-    item.textContent = getStepIcon(step);
-
-    bar.appendChild(item);
-  });
-
-  document.body.appendChild(bar);
-
-  updateProgressBar();
-}
-
-   function getStepIcon(step){
-
-  // normalisation sécurité
-  const s = step.toLowerCase();
-
-  if(s.includes("dialogue")) return "💬";
-  if(s.includes("game")) return "🎮";
-  if(s.includes("video")) return "🎬";
-  if(s.includes("book")) return "📘";
-  if(s.includes("win")) return "🏆";
-
-  return "•"; // fallback propre
-}
-
-function updateProgressBar(){
-
-  const progress = getProgress();
-  const steps = document.querySelectorAll(".progress-step");
-
-  if(!steps.length) return;
-
-  steps.forEach(el=>{
-    const step = el.dataset.step;
-
-    if(progress[step]){
-      el.classList.add("done");
-    }else{
-      el.classList.remove("done");
-    }
-  });
-}
    
 /* =====================================================
    🚫 ANTI RETOUR COMPLET
@@ -768,6 +682,41 @@ function launchGemsExplosion(container){
   }
 }
 
+   function createProgressBar(){
+
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
+
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+    item.dataset.step = step;
+    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
+    bar.appendChild(item);
+  });
+
+  document.body.appendChild(bar);
+
+  updateProgressBar();
+}
+
+function updateProgressBar(){
+
+  const progress = getProgress();
+
+  const steps = document.querySelectorAll(".progress-step");
+  if(!steps.length) return; // ✅ sécurité
+
+  steps.forEach(el=>{
+    const step = el.dataset.step;
+
+    progress[step]
+      ? el.classList.add("done")
+      : el.classList.remove("done");
+  });
+}
+
    createProgressBar();
+   
 
 });
