@@ -324,23 +324,198 @@ function startMiniGame2(){
    LIVRE → PUIS MG3
 ===================================================== */
 function showBusinessPlanLoader(){
-  const cont = document.createElement("button");
-  cont.textContent="Continuer";
-  document.body.appendChild(cont);
 
-  cont.onclick=()=>{
-    cont.remove();
+  const overlay = document.createElement("div");
+  overlay.id = "identity-loader";
+
+  overlay.innerHTML = `
+    <div class="identity-center">
+      <div class="book-wrapper">
+
+        <h2 class="bp-title hidden" id="bpTitle">
+          Bravo 🎉 Tu as créé ton business plan
+        </h2>
+
+        <div class="book-container">
+
+          <div class="book-loading" id="bookLoading">⏳</div>
+
+          <div class="book-pages hidden" id="bookPages">
+
+            <div class="left-wrapper">
+              <img id="leftPage" class="hidden">
+            </div>
+
+            <div class="right-wrapper">
+              <img id="rightPage">
+              <button id="zoomPageBtn" class="zoom-btn hidden">🔎</button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <button id="continueQuestBtn" class="hidden">
+        Continuer la quête
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const left = overlay.querySelector("#leftPage");
+  const right = overlay.querySelector("#rightPage");
+  const cont = overlay.querySelector("#continueQuestBtn");
+  const loader = overlay.querySelector("#bookLoading");
+  const pagesWrap = overlay.querySelector("#bookPages");
+  const title = overlay.querySelector("#bpTitle");
+  const zoomBtn = overlay.querySelector("#zoomPageBtn");
+
+  const pages = [
+    ["","images/Businessplancov.png"],
+    ["images/Businessplan4.jpg","images/Businessplan1.jpg"],
+    ["images/Businessplan4.jpg","images/Businessplan2.jpg"],
+    ["images/Businessplan4.jpg","images/Businessplan3.jpg"]
+  ];
+
+  let step = 0;
+
+  /* ===============================
+     PRELOAD
+  =============================== */
+  let loaded = 0;
+  const allImages = pages.flat().filter(Boolean);
+
+  if(allImages.length === 0){
+    finishLoading();
+  }else{
+    allImages.forEach(src=>{
+      const img = new Image();
+      img.onload = img.onerror = ()=>{
+        loaded++;
+        if(loaded >= allImages.length){
+          finishLoading();
+        }
+      };
+      img.src = src;
+    });
+  }
+
+  function finishLoading(){
+    loader.classList.add("hidden");
+    pagesWrap.classList.remove("hidden");
+    zoomBtn.classList.remove("hidden");
+    title.classList.remove("hidden");
+    title.classList.add("title-appear");
+    update();
+  }
+
+  function update(){
+    const [l, r] = pages[step];
+
+    if(l){
+      left.src = l;
+      left.classList.remove("hidden");
+    }else{
+      left.classList.add("hidden");
+    }
+
+    right.src = r;
+
+    cont.classList.toggle("hidden", step !== pages.length - 1);
+  }
+
+  function turnPage(direction){
+
+    if(direction === "right" && step >= pages.length - 1) return;
+    if(direction === "left" && step <= 0) return;
+
+    const page = direction === "right" ? right : left;
+    const anim = direction === "right" ? "turn-right" : "turn-left";
+
+    page.classList.remove("turn-right","turn-left");
+    void page.offsetWidth;
+    page.classList.add(anim);
+
+    page.addEventListener("animationend", () => {
+      step += direction === "right" ? 1 : -1;
+      update();
+      page.classList.remove(anim);
+    }, { once:true });
+  }
+
+  right.onclick = ()=> turnPage("right");
+  left.onclick = ()=> turnPage("left");
+
+  /* ===============================
+     ZOOM
+  =============================== */
+  zoomBtn.onclick = ()=>{
+
+    const src = pages[step][1];
+    if(!src) return;
+
+    const zoom = document.createElement("div");
+    zoom.className = "page-zoom";
+
+    const loaderZoom = document.createElement("div");
+    loaderZoom.className = "book-loading";
+    loaderZoom.textContent = "⏳";
+
+    const img = document.createElement("img");
+    img.style.display = "none";
+
+    zoom.append(loaderZoom, img);
+    document.body.appendChild(zoom);
+
+    img.onload = ()=>{
+      loaderZoom.remove();
+      img.style.display = "block";
+    };
+
+    img.onerror = ()=>{
+      loaderZoom.textContent = "Erreur";
+    };
+
+    img.src = src;
+
+    zoom.onclick = (e)=>{
+      if(e.target === zoom) zoom.remove();
+    };
+  };
+
+  /* ===============================
+     CONTINUER → DIALOGUE 3 + MG3
+  =============================== */
+  cont.onclick = () => {
+
+    overlay.remove();
 
     playDialogues([
-      {text:"Passons à la prospection.",anchor:pirate5},
+      { text:"Ton Business plan est solide, maintenant passons à la réalité du terrain.", anchor:pirate5 },
+      { text:"La prospection consiste à chercher de nouveaux clients.", anchor:pirate5 },
+
       {
-        text:"Il est temps d'agir.",
+        text:"Il est temps d'affronter le marché.",
         anchor:pirate5,
-        onShow:()=>{
-          pirate3?.classList.remove("hidden");
+        onShow: ()=>{
+          if(pirate3){
+            pirate3.classList.remove("hidden");
+            pirate3.classList.add("glowStart");
+          }
         }
       }
-    ], ()=> startMiniGame3());
+
+    ], ()=>{
+
+      showLoader(600, ()=>{
+        startMiniGame3();
+      });
+
+    });
+
   };
 }
 
