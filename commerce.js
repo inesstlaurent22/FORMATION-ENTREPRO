@@ -61,6 +61,38 @@ function shake(el){
   setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
 
+const stepsUI = document.querySelectorAll(".progress-step");
+
+function setProgress(step){
+  stepsUI.forEach((el,i)=>{
+    el.classList.toggle("done", i < step);
+  });
+}
+
+/* =====================================================
+   🚫 ANTI RETOUR
+===================================================== */
+
+// empêche bouton retour
+history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+  history.go(1);
+};
+
+// empêche refresh (optionnel)
+window.addEventListener("beforeunload", function (e) {
+  e.preventDefault();
+  e.returnValue = "";
+});
+
+   const stepsUI = document.querySelectorAll(".progress-step");
+
+function setProgress(step){
+  stepsUI.forEach((el, i) => {
+    el.classList.toggle("done", i < step);
+  });
+}
    
 /* =====================================================
    🎬 VIDÉO INTRO FIX
@@ -130,8 +162,9 @@ function endVideo() {
 
   // 🔥 Affiche le loader pirate AVANT la scène
   showLoader(1200, () => {
-    showScene();
-  });
+  setProgress(1); // ✅ ICI
+  showScene();
+});
 }
 
 /* =====================================================
@@ -286,8 +319,6 @@ function startMiniGame1(){
 
   showLoader(900, ()=>{
 
-    game1.classList.remove("hidden");
-
     const questions = [
 
       {
@@ -324,6 +355,10 @@ function startMiniGame1(){
           { t:"Analyse de l’environnement", ok:true }
         ]
       }
+       
+   game1.classList.add("hidden");
+setProgress(2); // ✅ ICI
+startDialogues2();
 
     ];
 
@@ -407,10 +442,6 @@ function startDialogues2(){
 ===================================================== */
 function startMiniGame2(){
 
-  showLoader(900, ()=>{
-
-    game2.classList.remove("hidden");
-
     const questions = [
 
     {
@@ -452,7 +483,15 @@ function startMiniGame2(){
         { t: "Fidéliser les clients avec un programme de récompenses", ok: true }
       ]
     }
+       
+game2.classList.add("hidden");
 
+setProgress(3); // ✅ ICI
+
+setTimeout(()=>{
+  showBusinessPlanLoader();
+},600);
+   
   ];
 
   let current = 0;
@@ -887,6 +926,8 @@ function startMiniGame3(){
 ===================================================== */
 function showCommerceWin(){
 
+   setProgress(4); // ✅ ICI
+   
   // 🔥 Supprime loader pirate s'il est visible
   if(fadeScreen){
     fadeScreen.classList.add("hidden");
