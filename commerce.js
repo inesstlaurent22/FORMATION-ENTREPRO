@@ -112,7 +112,6 @@ function saveProgress(map){
 
 function createProgressBar(){
 
-  // évite doublon
   if(document.getElementById("progressBar")) return;
 
   const bar = document.createElement("div");
@@ -123,12 +122,8 @@ function createProgressBar(){
     item.className = "progress-step";
     item.dataset.step = step;
 
-    // icônes intelligentes
-    if(step.includes("dialogue")) item.textContent = "💬";
-    else if(step.includes("game")) item.textContent = "🎮";
-    else if(step === "video") item.textContent = "🎬";
-    else if(step === "book") item.textContent = "📘";
-    else if(step === "win") item.textContent = "🏆";
+    // 🎯 LOGIQUE ICONES (ULTRA FIABLE)
+    item.textContent = getStepIcon(step);
 
     bar.appendChild(item);
   });
@@ -136,6 +131,20 @@ function createProgressBar(){
   document.body.appendChild(bar);
 
   updateProgressBar();
+}
+
+   function getStepIcon(step){
+
+  // normalisation sécurité
+  const s = step.toLowerCase();
+
+  if(s.includes("dialogue")) return "💬";
+  if(s.includes("game")) return "🎮";
+  if(s.includes("video")) return "🎬";
+  if(s.includes("book")) return "📘";
+  if(s.includes("win")) return "🏆";
+
+  return "•"; // fallback propre
 }
 
 function updateProgressBar(){
