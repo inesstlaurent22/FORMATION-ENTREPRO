@@ -1,729 +1,107 @@
-document.addEventListener("DOMContentLoaded", () => {
-
-/* =====================================================
-   🎬 VIDÉO INTRO — VERSION STABLE
-===================================================== */
-const videoContainer = document.getElementById("videoContainer");
-const introVideo     = document.getElementById("questVideo");
-const toggleSound    = document.getElementById("toggleSound");
-const closeVideo     = document.getElementById("closeVideo");
-const scene          = document.getElementById("background"); // ✅ CORRIGÉ
-const fadeScreen     = document.getElementById("fadeScreen");
-
-let videoClosed = false;
-
-/* =====================================================
-   ▶️ LECTURE VIDÉO (iOS SAFE)
-===================================================== */
-
-function startVideo(){
-  if(!introVideo) return;
-
-  introVideo.muted = true;
-  introVideo.playsInline = true;
-  introVideo.setAttribute("playsinline", "");
-  introVideo.setAttribute("webkit-playsinline", "");
-
-  const playPromise = introVideo.play();
-
-  if(playPromise !== undefined){
-    playPromise.catch(() => {
-
-      // 👉 iOS : démarre au premier tap
-      const unlock = () => {
-        introVideo.play().catch(()=>{});
-        document.removeEventListener("touchstart", unlock);
-        document.removeEventListener("click", unlock);
-      };
-
-      document.addEventListener("touchstart", unlock, { once:true });
-      document.addEventListener("click", unlock, { once:true });
-
-      // 👉 SÉCURITÉ : si toujours bloqué → on skip automatiquement
-      setTimeout(() => {
-        closeIntro();
-      }, 4000); // 4s
-    });
-  }
-
-  // 👉 SÉCURITÉ GLOBALE (si vidéo bug totalement)
-  setTimeout(() => {
-    if(!videoClosed){
-      closeIntro();
-    }
-  }, 8000);
-}
-
-/* =====================================================
-   🔊 SON
-===================================================== */
-if(toggleSound && introVideo){
-  toggleSound.onclick = (e) => {
-    e.stopPropagation();
-
-    introVideo.muted = !introVideo.muted;
-    toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
-  };
-}
-
-/* =====================================================
-   ⏭️ SKIP VIDÉO
-===================================================== */
-if(closeVideo){
-  closeVideo.onclick = (e) => {
-    e.stopPropagation();
-    closeIntro();
-  };
-}
-
-/* =====================================================
-   ⏹️ FIN VIDÉO
-===================================================== */
-if(introVideo){
-  introVideo.addEventListener("ended", closeIntro);
-}
-
-/* =====================================================
-   ❌ FERMETURE INTRO
-===================================================== */
-function closeIntro(){
-  if(videoClosed) return;
-  videoClosed = true;
-
-  // Stop vidéo
-  if(introVideo){
-    introVideo.pause();
-    introVideo.currentTime = 0;
-  }
-
-  // Cache la vidéo
-  if(videoContainer){
-    videoContainer.style.display = "none";
-  }
-
-  // Affiche le background
-  if(scene){
-    scene.classList.remove("hidden");
-  }
-
-  // Affiche les pirates
-  const p2 = document.getElementById("pirate2bis");
-  const p3 = document.getElementById("pirate3bis");
-  const p5 = document.getElementById("pirate5bis");
-
-  if(p2) p2.classList.remove("hidden");
-  if(p3) p3.classList.remove("hidden");
-  if(p5) p5.classList.remove("hidden");
-
-  // Glow interactif
-  if(p3) p3.classList.add("glowStart");
-
-  // Loader puis interaction
-  showLoader(800);
-}
-
-/* =====================================================
-   🌑 LOADER
-===================================================== */
-function showLoader(duration = 1200, cb){
-  if(!fadeScreen){ cb && cb(); return; }
-  fadeScreen.classList.remove("hidden");
-  setTimeout(() => {
-    fadeScreen.classList.add("hidden");
-    cb && cb();
-  }, duration);
-}
-
-/* =====================================================
-   🏴‍☠️ PIRATES
-===================================================== */
-const pirate3 = document.getElementById("pirate3bis");
-const pirate2 = document.getElementById("pirate2bis");
-
-// Sécurité si élément absent
-if (pirate3) {
-
-  pirate3.classList.add("glowStart");
-
-  pirate3.onclick = () => {
-
-    pirate3.classList.remove("glow");
-
-    playDialog([
-      { speaker:"pirate2", text:"Parfait." },
-      { speaker:"pirate3", text:"Passons à ton identité visuelle." },
-      { speaker:"pirate3", text:"C'est l’image de l’entreprise." },
-      { speaker:"pirate3", text:"Elle regroupe tous les éléments graphiques qui permettent de reconnaître une marque." },
-      { speaker:"pirate3", text:"Elle comprend :" },
-      { speaker:"pirate3", text:"Le logo," },
-      { speaker:"pirate3", text:"les couleurs," },
-      { speaker:"pirate3", text:"la typographie," },
-      { speaker:"pirate3", text:"et parfois des visuels ou un univers graphique." },
-      { speaker:"pirate2", text:"Ça a l'air facile." },
-      { speaker:"pirate3", text:"Non, pas si simple. Une identité visuelle doit être cohérente," },
-      { speaker:"pirate3", text:"reconnaissable et professionnelle," },
-      { speaker:"pirate3", text:"car elle influence la perception des clients et renforce la crédibilité de l’entreprise." },
-      { speaker:"pirate2", text:"Ça a l'air moins facile d'un coup." },
-      { speaker:"pirate3", text:"Ne t'inquiète pas, je vais tout t'expliquer !" }
-    ], startMiniGame1);
-
-  };
-}
-
-/* =====================================================
-   💬 DIALOGUES
-===================================================== */
-const dialogBox  = document.getElementById("dialogBox");
-const dialogText = document.getElementById("dialogText");
-const skipDialoguesBtn = document.getElementById("skipDialoguesBtn");
-
-let dialogs=[], dIndex=0, dCallback=null;
-
-function playDialog(list, cb){
-  if(!dialogBox || !dialogText) return;
-  dialogs = list;
-  dIndex = 0;
-  dCallback = cb;
-
-  dialogBox.classList.remove("hidden");
-  skipDialoguesBtn.classList.remove("hidden"); // ✅ correction
-
-  showDialog();
-}
-
-function showDialog(){
-
-  const d = dialogs[dIndex];
-  dialogText.textContent = d.text;
-
-  // Force le navigateur à recalculer la taille
-  dialogBox.style.visibility = "hidden";
-  dialogBox.classList.remove("hidden");
-
-  requestAnimationFrame(() => {
-
-const p = d.speaker === "pirate2" ? pirate2 : pirate3;
-
-if(!p) return;
-
-const r = p.getBoundingClientRect();
-
-    const boxWidth  = dialogBox.offsetWidth;
-    const boxHeight = dialogBox.offsetHeight;
-
-    let left = r.left + r.width/2 - boxWidth/2;
-    let top  = r.top - boxHeight - 30;
-
-    // Empêche sortie écran
-    left = Math.max(10, Math.min(left, window.innerWidth - boxWidth - 10));
-    top  = Math.max(20, top);
-
-    dialogBox.style.left = left + "px";
-    dialogBox.style.top  = top  + "px";
-
-    dialogBox.style.visibility = "visible";
-  });
-}
-
-dialogBox.onclick = () => {
-  dIndex++;
-  dIndex<dialogs.length ? showDialog() : endDialogs();
-};
-
-skipDialoguesBtn.onclick = e => {
-  e.preventDefault();
-  e.stopPropagation();
-  endDialogs();
-};
-
-function endDialogs(){
-  dialogBox.classList.add("hidden");
-  skipDialoguesBtn.classList.add("hidden");
-  if(dCallback){ const cb=dCallback; dCallback=null; cb(); }
-}
-
-/* =====================================================
-   🎮 MINI-JEUX BASE
-===================================================== */
-const miniGame = document.getElementById("communicationGame");
-
-function clearMiniGame(){
-  miniGame.innerHTML="";
-  miniGame.classList.remove("hidden");
-}
-function hideMiniGame(){ miniGame.classList.add("hidden"); }
-   
-function shake(){
-  const box = document.getElementById("miniGameContainer");
-
-  box.classList.remove("screen-shake"); 
-  void box.offsetWidth;                 // force le redémarrage de l'animation
-  box.classList.add("screen-shake");
-
-  setTimeout(()=>{
-    box.classList.remove("screen-shake");
-  },350);
-}
-
-/* =====================================================
-   🎯 MINI-JEU 1
-===================================================== */
-const quiz=[
- {q:"Quels sont des canaux de communication ?:",ok:[0,1,2,3],a:["Les réseaux sociaux","Le site internet","L’affichage publicitaire","Les emails"]},
- {q:"Qu’est-ce que la communication ?",ok:[1],a:["Parler uniquement avec ses clients"," Transmettre un message pour promouvoir un produit ou une marque","Vendre directement un produit","Créer un logo"]},
- {q:"Qu’est-ce que l’identité visuelle d’une entreprise ?",ok:[1],a:[" Le prix des produits","L’ensemble des éléments graphiques (logo, couleurs, typographie"," Le nombre d’employés"," Les moyens de livraison"]},
- {q:"À quoi servent les canaux de communication ?",ok:[0],a:["À transmettre un message aux clients"," À décorer l’entrepris","À gérer les stocks","À recruter uniquement"]}
-];
-
-let qi=0, found=[];
-
-function startMiniGame1(){ qi=0; stepMG1(); }
-
-function stepMG1(){
-
-  clearMiniGame();
-  found = [];
-
-  const box = document.createElement("div");
-  box.className = "mg1-box";
-
-  box.innerHTML = `
-    <div class="mg1-title"> 📱 À quoi sert la communication ?</div>
-    <div class="comm-info-text">
-      Réponds à ces questions. Certaines ont plusieurs bonnes réponses.
-    </div>
-    <div class="gameQuestion">${quiz[qi].q}</div>
-  `;
-
-  const answers = document.createElement("div");
-  answers.className = "mg1-answers";
-
-  quiz[qi].a.forEach((txt, i)=>{
-
-    const b = document.createElement("button");
-    b.textContent = txt;
-
-    b.onclick = ()=>{
-
-      // ❌ Mauvaise réponse
-      if(!quiz[qi].ok.includes(i)){
-  shake();
-  return;
-}
-
-      // Empêche double validation
-      if(found.includes(i)) return;
-
-      // ✅ Bonne réponse
-      found.push(i);
-      b.classList.add("correct-locked");
-      b.disabled = true;
-
-      // Si toutes les bonnes réponses trouvées
-      if(found.length === quiz[qi].ok.length){
-
-        // Désactive tous les boutons
-        Array.from(answers.children).forEach(btn=>{
-          btn.disabled = true;
-        });
-
-        setTimeout(()=>{
-          qi++;
-          qi < quiz.length ? stepMG1() : afterMG1();
-        }, 800);
-      }
-    };
-
-    answers.appendChild(b);
-  });
-
-  box.appendChild(answers);
-  miniGame.appendChild(box);
-}
-
-function afterMG1(){
-  hideMiniGame();
-  showLoader(1200,()=>playDialog(
-    [
-      {speaker:"pirate2",text:"Parfait."},
-      {speaker:"pirate3",text:"Passons à ton identité visuelle."},
-      {speaker:"pirate3",text:"C'est l’image de l’entreprise."},
-      {speaker:"pirate3",text:"Elle regroupe tous les éléments graphiques qui permettent de reconnaître une marque."},
-      {speaker:"pirate3",text:"Elle comprend :"},
-      {speaker:"pirate3",text:"Le logo,"},
-      {speaker:"pirate3",text:"Les couleurs,"},
-      {speaker:"pirate3",text:"La typographie,"},
-      {speaker:"pirate3",text:"et parfois des visuels ou un univers graphique."},
-      {speaker:"pirate2",text:"Ça a l'air facile."},
-      {speaker:"pirate3",text:"Non, pas si simple. Une identité visuelle doit être cohérente,"},
-      {speaker:"pirate3",text:"reconnaissable et professionnelle,"},
-      {speaker:"pirate3",text:"car elle influence la perception des clients et renforce la crédibilité de l’entreprise."},
-      {speaker:"pirate2",text:"Ça a l'air moins facile d'un coup."},
-      {speaker:"pirate3",text:"Ne t'inquiète pas, je vais tout t'expliquer !"}
-    ],
-    startMiniGame2
-  ));
-}
-   
-/* =====================================================
-   🔎 ZOOM
-===================================================== */
-function openZoom(src){
-  const overlay=document.createElement("div");
-  overlay.id="zoomOverlay";
-
-  const img=document.createElement("img");
-  img.src=src;
-  img.className="zoomed-image";
-
-  const close=document.createElement("button");
-  close.className="zoom-close";
-  close.textContent="✖";
-
-  close.onclick=()=>overlay.remove();
-  overlay.onclick=e=>{ if(e.target===overlay) overlay.remove(); };
-
-  overlay.append(img,close);
-  document.body.appendChild(overlay);
-}
-
-/* =====================================================
-   🎨 MINI-JEU 2 → IDENTITÉ VISUELLE
-===================================================== */
-function startMiniGame2(){
-  clearMiniGame();
-
-  const box=document.createElement("div");
-  box.className="mg2-box identity-box";
-  box.innerHTML=`
-    <div class="mg1-title"> 🎨 Crée ton identité visuelle</div>
-    <p class="identity-text">
-      L’identité visuelle rend ta marque reconnaissable et mémorable.
-    </p>
-  `;
-
-  const btn=document.createElement("button");
-  btn.textContent="Commencer";
-  btn.onclick=()=>showLogoInfo();
-
-  box.appendChild(btn);
-  miniGame.appendChild(box);
-}
-
-/* ================= LOGO → COULEURS → TYPO ================= */
-
-function showLogoInfo(){
-  showInfoStep(
-    "<strong>TIPS1 : La Cohérence </strong> Utiliser toujours les mêmes couleurs, logo et typographie sur tous les supports (site, réseaux, documents).",
-    "C'est un symbole graphique qui représente une marque et permet de l’identifier rapidement.",
-    ()=>showChoiceStep(
-      "Choix du logo - <strong>Choix libre</strong>",
-      ["images/Logo1.PNG","images/Logo2.PNG","images/Logo3.PNG"],
-      showColorInfo
-    )
-  );
-}
-
-function showColorInfo(){
-  showInfoStep(
-    "<strong>TIPS2 : La Simplicité </strong> Un design clair, lisible et mémorable. Trop d’éléments = confusion.",
-    "C'est la palette utilisée par la marque pour transmettre une émotion et être reconnaissable.",
-    ()=>showChoiceStep(
-      "Choix des couleurs",
-      ["images/Couleur1.PNG","images/Couleur2.PNG","images/Couleur3.PNG"],
-      showTypoInfo,
-      "images/Couleur1.PNG"
-    )
-  );
-}
-
-function showTypoInfo(){
-  showInfoStep(
-    "<strong>TIPS3 : Différenciation </strong> Se démarquer des concurrents avec un style unique (couleurs, univers, ton).",
-    "C'est le style d’écriture utilisé (police) qui reflète l’image et la personnalité de la marque.",
-    ()=>showChoiceStep(
-      "Choix de la typographie",
-      ["images/Typo1.PNG","images/Typo2.png","images/Typo3.PNG"],
-      showTips4, 
-      "images/Typo1.PNG"
-    )
-  );
-}
-
-function showTips4(){
-  showInfoStep(
-    "<strong>TIPS 4 : Adaptabilité </strong>",
-    "Une identité qui fonctionne partout : téléphone, ordinateur, print, réseaux sociaux.",
-    showIdentityWin
-  );
-}
-
-function showInfoStep(title,text,next){
-  clearMiniGame();
-  const box=document.createElement("div");
-  box.className="mg2-box";
-  box.innerHTML=`
-<div class="mg1-title">${title}</div>
-<p class="info-text">${text}</p>
-`;
-  const btn=document.createElement("button");
-  btn.textContent="Continuer";
-  btn.onclick=next;
-  box.appendChild(btn);
-  miniGame.appendChild(box);
-}
-
-function showChoiceStep(title,images,next,correct){
-  clearMiniGame();
-  const box=document.createElement("div");
-  box.className="mg2-box";
-  box.innerHTML=`<div class="mg1-title">${title}</div>`;
-  miniGame.appendChild(box);
-
-  const wrap=document.createElement("div");
-  wrap.className="visualChoices big";
-
-  images.forEach(src=>{
-    const w=document.createElement("div");
-    w.className="imgWrap";
-
-    const img=new Image();
-    img.src=src;
-    img.onclick = ()=>{
-  if(correct && src!==correct){
-    shake();
-    return;
-  }
-  next();
-};
-
-    const zoom=document.createElement("button");
-    zoom.textContent="🔎";
-    zoom.onclick=e=>{ e.stopPropagation(); openZoom(src); };
-
-    w.append(img,zoom);
-    wrap.appendChild(w);
-  });
-
-  miniGame.appendChild(wrap);
-}
-
-/* =====================================================
-   🏆 LOADER IDENTITÉ VISUELLE
-===================================================== */
-function showIdentityWin(){
-  hideMiniGame();
-
-  const overlay = document.createElement("div");
-  overlay.id = "identity-loader";
-
-  overlay.innerHTML = `
-    <div class="identity-center">
-      <h2>Bravo 🎉<br>Tu as créé ton identité visuelle</h2>
-
-      <div class="identity-preview-wrap">
-        <img
-          src="images/Identitevisuelle.JPG"
-          class="identity-preview"
-          alt="Identité visuelle"
-        >
-
-        <button id="zoomIdentityBtn" type="button">🔎</button>
-
-        <button
-          id="continueQuestBtn"
-          class="hidden"
-          type="button"
-        >
-          Continuer la quête
-        </button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  const zoomBtn = overlay.querySelector("#zoomIdentityBtn");
-  const continueBtn = overlay.querySelector("#continueQuestBtn");
-
-  /* =====================================================
-     🔎 ZOOM IMAGE
-  ===================================================== */
-zoomBtn.onclick = () => {
-
-  const wrap = overlay.querySelector(".identity-preview-wrap");
-
-  const zoomOverlay = document.createElement("div");
-  zoomOverlay.id = "zoomOverlay";
-
-  const img = document.createElement("img");
-  img.src = "images/Identitevisuelle.JPG";
-  img.className = "zoomed-image";
-
-  const close = document.createElement("button");
-  close.className = "zoom-close";
-  close.textContent = "✖";
-
-  close.onclick = () => {
-    zoomOverlay.remove();
-    continueBtn.classList.remove("hidden");
-  };
-
-  zoomOverlay.append(img, close);
-
-  wrap.prepend(zoomOverlay);
-};
-
-  /* =====================================================
-     ➜ SUITE DE LA QUÊTE
-  ===================================================== */
-
-  continueBtn.onclick = () => {
-    overlay.remove();
-
-    playDialog(
-      [
-        { speaker:"pirate2", text:"Magnifique identité." },
-        { speaker:"pirate3", text:"Passons à la diffusion." }
-      ],
-      startMiniGame3
-    );
-  };
-}
-
-/* =====================================================
-   🔗 MINI-JEU 3
-===================================================== */
-function startMiniGame3(){
-  clearMiniGame();
-
-  const box=document.createElement("div");
-  box.className="mg3-box";
-  box.innerHTML=`
-  <div class="mg1-title">
-    Associe les canaux à leurs objectifs
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title> Le Marché des Trésors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" type="image/png" href="images/Favicons1.PNG?v=2">
+  <link rel="stylesheet" href="commerce.css">
+</head>
+
+<body>
+
+<!-- =====================================================
+     🎬 VIDÉO INTRO
+===================================================== -->
+<div id="videoContainer">
+  <video id="questVideo" autoplay muted playsinline preload="auto">
+    <source src="videos/Commercevideo.MOV" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div id="videoControls">
+    <button id="toggleSound">🔇</button>
+    <button id="closeVideo">Passer la vidéo</button>
   </div>
-  <div class="gameQuestion">
-    Relie chaque réseau à son objectif stratégique.
+</div>
+
+<!-- =====================================================
+     🌑 LOADER GLOBAL
+===================================================== -->
+<div id="fadeScreen" class="hidden">
+  <div class="loaderBox">
+    <span class="loaderEmoji">🏴‍☠️</span>
   </div>
-`;
+</div>
 
-  const c=document.createElement("div");
-  c.className="mg3-container";
+<!-- =====================================================
+     🌅 BACKGROUND
+===================================================== -->
+<div id="background" class="hidden">
+  <img src="images/Commercefond.PNG" class="fondImage" alt="Marché pirate">
+</div>
 
-const l = document.createElement("div");
-l.className = "mg3-column mg3-left";
+<!-- =====================================================
+     🏴‍☠️ PIRATES
+===================================================== -->
+<img src="images/Pirate2.png" id="pirate2bis" class="pirate hidden" alt="Pirate marchand">
+<img src="images/Pirate5.png" id="pirate5bis" class="pirate hidden" alt="Capitaine pirate">
+<img src="images/Pirateclients.png" id="pirate3bis" class="pirate hidden" alt="Clients du marché">
 
-const r = document.createElement("div");
-r.className = "mg3-column mg3-right";
+<!-- =====================================================
+     💬 BULLES DE DIALOGUE
+===================================================== -->
+<div id="bubbleContainer"></div>
 
-  let sel=null, ok=0;
+<button id="skipDialoguesBtn" class="hidden">Passer les dialogues</button>
 
-[
- ["Instagram & TikTok","know"],
- ["Facebook & LinkedIn","btob"],
- ["Sites e-commerce","btoc"]
-].forEach(p=>{
-  const b=document.createElement("button");
-  b.className="mg3-btn mg3-btn-left";
-  b.textContent=p[0];
-  b.onclick=()=>sel={btn:b,key:p[1]};
-  l.appendChild(b);
-});
+<!-- =====================================================
+     🎮 MINI-JEU 1 — ÉTUDE DE MARCHÉ
+===================================================== -->
+<div id="communicationGame" class="hidden">
+  <div class="quizBox">
+    <div class="quizTitle mg1-title"> 📕 Les études de marché </div>
+    <div class="quizIntro">
+      Les études de marché sont constituées de plusieurs éléments clés qui permettent de comprendre un marché avant de lancer ou développer une offre.
+    </div>
+    <div id="commQuestion"></div>
+    <div id="commAnswers" class="mg1-answers"></div>
+  </div>
+</div>
 
-[
- ["Se faire connaître","know"],
- ["Vendre en BtoB","btob"],
- ["Vendre en BtoC","btoc"]
-].forEach(t=>{
+<!-- =====================================================
+     🎮 MINI-JEU 2 — BUSINESS PLAN
+===================================================== -->
+<div id="visualIdentityGame" class="hidden">
+  <div class="quizBox">
+    <div class="quizTitle mg1-title">🧠 Les stratégies de vente </div>
+    <div class="quizIntro">
+      Une stratégie commerciale correspond à la manière dont une entreprise va vendre son offre.
+    </div>
+    <div id="visualFeedback"></div>
+    <div id="visualChoices" class="mg1-answers"></div>
+  </div>
+</div>
 
-  const b=document.createElement("button");
+<!-- =====================================================
+     🎮 MINI-JEU 3 — STRATÉGIES COMMERCIALES
+===================================================== -->
+<div id="merchantGame" class="hidden">
+  <div class="quizBox">
+    <div class="quizTitle">🗣️ La Prospection </div>
 
-  b.className="mg3-btn mg3-btn-right1";
+    <div id="strategyText" class="gameQuestion"></div>
 
-  b.textContent=t[0];
+<button id="strategyHintBtn" class="hint-btn">
+ 💡 Utiliser un indice
+</button>
 
-  b.onclick=()=>{
-    if(!sel){
-      shake();
-      return;
-    }
+<div id="strategyHint" class="quizIntro hidden"></div>
 
-    if(sel.key!==t[1]){
-      shake();
-      sel=null;
-      return;
-    }
+<div id="strategyChoices" class="mg1-answers"></div>
+  </div>
+</div>
 
-    sel.btn.remove();
-    b.remove();
-    sel=null;
-    ok++;
-
-    if(ok===3) showCommunicationWin();
-  };
-
-  r.appendChild(b);
-});
-
-  c.append(l,r);
-  box.appendChild(c);
-  miniGame.appendChild(box);
-}
-
-/* =====================================================
-   🏆 VICTOIRE + EXPLOSION
-===================================================== */
-function showCommunicationWin(){
-  showLoader(1000, ()=>{
-    const overlay = document.createElement("div");
-    overlay.id = "communication-win";
-    overlay.innerHTML = `
-      <div class="win-box">
-        <h2>🏴‍☠️ Bravo !</h2>
-        <p>Tu as terminé la quête Communication</p>
-        <div class="gems-container"></div>
-      </div>
-    `;
-    document.body.appendChild(overlay);
-
-    requestAnimationFrame(()=>{
-      launchGemsExplosion(overlay.querySelector(".gems-container"));
-    });
-
-    /* =====================================================
-       ✅ FLAGS MENU (CRUCIAL)
-    ===================================================== */
-    sessionStorage.setItem("unlock_pirate5", "true");     // ➜ débloque pirate 3
-
-    setTimeout(()=>{
-      window.location.href = "menu.html";
-    },4200);
-  });
-}
-
-/* =====================================================
-   💎 GEMS
-===================================================== */
-function launchGemsExplosion(container){
-  const colors = ["#ffd700","#00f2ff","#ff4fd8","#7cff00","#ff8c00"];
-
-  for(let i=0;i<50;i++){
-    const gem = document.createElement("div");
-    gem.className = "gem";
-    const size = Math.random()*10 + 8;
-    gem.style.width = size+"px";
-    gem.style.height = size+"px";
-    gem.style.background = colors[Math.floor(Math.random()*colors.length)];
-    gem.style.left = "50%";
-    gem.style.top = "50%";
-
-    const angle = Math.random()*Math.PI*2;
-    const distance = Math.random()*260 + 80;
-    gem.style.setProperty("--x", Math.cos(angle)*distance+"px");
-    gem.style.setProperty("--y", Math.sin(angle)*distance+"px");
-
-    container.appendChild(gem);
-  }
-}
-}); 
+<script src="commerce.js"></script>
+</body>
+</html> 
