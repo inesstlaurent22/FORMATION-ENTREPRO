@@ -46,21 +46,63 @@ function shake(el){
 }
 
 /* =====================================================
-   PROGRESSION
+   🔒 BLOQUE RETOUR EN ARRIÈRE DANS LA QUÊTE
+===================================================== */
+const minStepRequired = sessionStorage.getItem("quest_progress");
+
+if(minStepRequired){
+
+  // exemple : empêche retour à la vidéo si déjà passée
+  if(parseInt(minStepRequired) >= 1 && videoContainer){
+    videoContainer.classList.add("hidden");
+    showScene();
+  }
+}
+   
+/* =====================================================
+   PROGRESSION (ROBUSTE)
 ===================================================== */
 const stepsUI = document.querySelectorAll(".progress-step");
 
 function setProgress(step){
+
+  if(!stepsUI || stepsUI.length === 0) return;
+
   stepsUI.forEach((el,i)=>{
-    el.classList.toggle("done", i < step);
+    if(i < step){
+      el.classList.add("done");
+    }else{
+      el.classList.remove("done");
+    }
   });
+
+  // 🔥 Sauvegarde (empêche retour arrière)
+  sessionStorage.setItem("quest_progress", step);
 }
 
 /* =====================================================
-   ANTI RETOUR
+   🚫 ANTI RETOUR COMPLET
 ===================================================== */
-history.pushState(null,null,location.href);
-window.onpopstate = ()=> history.go(1);
+
+// bloque bouton retour navigateur
+history.pushState(null, null, location.href);
+
+window.addEventListener("popstate", () => {
+  history.pushState(null, null, location.href);
+});
+
+// bloque swipe retour iOS / gestures
+document.addEventListener("touchstart", (e) => {
+  if(e.touches.length > 1){
+    e.preventDefault();
+  }
+}, { passive:false });
+
+// bloque refresh (F5 / reload)
+window.addEventListener("beforeunload", function (e) {
+  e.preventDefault();
+  e.returnValue = "";
+});
 
 /* =====================================================
    VIDEO
