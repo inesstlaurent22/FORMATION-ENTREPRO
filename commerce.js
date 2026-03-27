@@ -15,6 +15,7 @@ let videoClosed = false;
 /* =====================================================
    ▶️ LECTURE VIDÉO (iOS SAFE)
 ===================================================== */
+
 function startVideo(){
   if(!introVideo) return;
 
@@ -27,15 +28,31 @@ function startVideo(){
 
   if(playPromise !== undefined){
     playPromise.catch(() => {
-      // 👉 fallback iOS : attendre interaction utilisateur
-      document.addEventListener("click", () => {
+
+      // 👉 iOS : démarre au premier tap
+      const unlock = () => {
         introVideo.play().catch(()=>{});
-      }, { once:true });
+        document.removeEventListener("touchstart", unlock);
+        document.removeEventListener("click", unlock);
+      };
+
+      document.addEventListener("touchstart", unlock, { once:true });
+      document.addEventListener("click", unlock, { once:true });
+
+      // 👉 SÉCURITÉ : si toujours bloqué → on skip automatiquement
+      setTimeout(() => {
+        closeIntro();
+      }, 4000); // 4s
     });
   }
-}
 
-startVideo();
+  // 👉 SÉCURITÉ GLOBALE (si vidéo bug totalement)
+  setTimeout(() => {
+    if(!videoClosed){
+      closeIntro();
+    }
+  }, 8000);
+}
 
 /* =====================================================
    🔊 SON
