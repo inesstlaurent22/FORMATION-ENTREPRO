@@ -38,29 +38,15 @@ const progressSteps = document.querySelectorAll(".progress-step");
 /* =====================================================
    LOADER
 ===================================================== */
-
 function showLoader(duration = 1200, cb){
-
-  if(!fadeScreen){
-    cb && cb();
-    return;
-  }
-
-  // 🔥 reset propre
+  if(!fadeScreen){ cb && cb(); return; }
   fadeScreen.classList.remove("hidden");
-  fadeScreen.style.pointerEvents = "auto";
-
   setTimeout(() => {
-
     fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none"; // 🔥 indispensable
-
-    if(typeof cb === "function"){
-      cb();
-    }
-
+    cb && cb();
   }, duration);
 }
+
    
 /* =====================================================
    🔒 ANTI RETOUR TOTAL (VERSION ROBUSTE)
