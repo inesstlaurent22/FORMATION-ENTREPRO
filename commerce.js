@@ -465,8 +465,12 @@ function startDialogues2(){
 ===================================================== */
 function startMiniGame2(){
 
-  showLoader(900, ()=>{
+  if(!game2 || !visualChoices){
+    console.error("MG2 éléments manquants");
+    return;
+  }
 
+  showLoader(900, ()=>{
     game2.classList.remove("hidden");
 
    const questions = [
@@ -791,6 +795,8 @@ cont.onclick = ()=>{
 ===================================================== */
 function startMiniGame3(){
 
+   game3.classList.remove("hidden");
+
    if(!game3) return;
 
 const text = document.getElementById("strategyText");
@@ -804,7 +810,7 @@ if(!text || !choices || !hintBox || !hintBtn){
   return;
 }
 
-  let step = 0;
+  let currentStep = 0;
 
   const steps = [
 
@@ -858,7 +864,8 @@ if(!text || !choices || !hintBox || !hintBtn){
 
   function render(){
 
-    const s = steps[step];
+    const s = steps[currentStep];
+currentStep++;
 
     text.innerHTML = s.text;
 
@@ -918,9 +925,11 @@ setTimeout(()=>{
     });
   }
 
+  if(hintBtn){
   hintBtn.onclick = ()=>{
     hintBox.classList.remove("hidden");
   };
+}
 
   render();
 }
