@@ -31,8 +31,6 @@ const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
-const progressSteps = document.querySelectorAll(".progress-step");
-
 /* =====================================================
    OUTILS
 ===================================================== */
@@ -57,24 +55,6 @@ function shake(el){
   setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
 
-/* =====================================================
-   🔒 ANTI RETOUR FORT
-===================================================== */
-
-// Bloque bouton retour
-history.pushState(null, null, location.href);
-
-window.onpopstate = function () {
-  location.reload(); // recharge la page au lieu de revenir
-};
-
-// Bloque swipe iOS / gestures
-window.addEventListener("pageshow", function (event) {
-  if (event.persisted) {
-    window.location.reload();
-  }
-});
-   
 /* =====================================================
    VIDÉO INTRO
 ===================================================== */
@@ -136,38 +116,16 @@ function endVideo() {
    SCÈNE INITIALE
 ===================================================== */
 function showScene(){
+  background.classList.remove("hidden");
+  pirate2.classList.remove("hidden");
+  pirate5.classList.remove("hidden");
 
-  if(background){
-    background.classList.remove("hidden");
-  }
-
-  if(pirate2){
-    pirate2.classList.remove("hidden");
-  }
-
-  if(pirate5){
-    pirate5.classList.remove("hidden");
-
-    pirate5.classList.add("glowStart");
-
-    // évite les doubles clics
-    pirate5.onclick = null;
-
-    pirate5.addEventListener("click", ()=>{
-
-      pirate5.classList.remove("glowStart");
-      pirate5.style.pointerEvents = "none";
-
-      // ✅ jauge étape 1
-      if(typeof updateProgress === "function"){
-        updateProgressBar(1);
-      }
-
-      startDialogues1();
-
-    }, { once:true });
-  }
-
+  pirate5.classList.add("glowStart");
+  pirate5.onclick = ()=>{
+    pirate5.classList.remove("glowStart");
+    pirate5.style.pointerEvents = "none";
+    startDialogues1();
+  };
 }
 
 /* =====================================================
@@ -312,8 +270,6 @@ function startMiniGame1(){
 
         setTimeout(()=>{
 
-         updateProgressBar(2);
-
           game1.classList.add("hidden");
 
           startDialogues2();
@@ -421,9 +377,6 @@ function startMiniGame2(){
 game2.classList.add("hidden");
 
 setTimeout(()=>{
-
-   updateProgressBar(3);
-   
   showBusinessPlanLoader();
 },600);
             }
@@ -448,8 +401,7 @@ function showBusinessPlanLoader(){
   overlay.id = "identity-loader";
 
   overlay.innerHTML = `
-  <div class="identity-center">
-
+    <div class="identity-center">
     <div class="book-wrapper">
 
       <h2 class="bp-title hidden" id="bpTitle">
@@ -472,17 +424,16 @@ function showBusinessPlanLoader(){
           </div>
 
         </div>
+        </div>
 
       </div>
 
+      <button id="continueQuestBtn" class="hidden">
+        Continuer la quête
+      </button>
+
     </div>
-
-    <button id="continueQuestBtn" class="hidden">
-      Continuer la quête
-    </button>
-
-  </div>
-`;
+  `;
 
   document.body.appendChild(overlay);
 
@@ -651,16 +602,12 @@ cont.onclick = ()=>{
 ===================================================== */
 function startMiniGame3(){
 
-   if(!game3) return;
-
   game3.classList.remove("hidden");
 
   const text = document.getElementById("strategyText");
   const choices = document.getElementById("strategyChoices");
   const hintBox = document.getElementById("strategyHint");
   const hintBtn = document.getElementById("strategyHintBtn");
-
-   if(!hintBtn) return;
 
   let step = 0;
 
@@ -724,9 +671,6 @@ function startMiniGame3(){
         b.classList.add("flash-success");
 
 setTimeout(()=>{
-
-   updateProgressBar(4);
-   
   b.classList.remove("flash-success");
   b.classList.add("correct-locked");
 },400);
@@ -830,53 +774,4 @@ function launchGemsExplosion(container){
   }
 }
 
-   /* =====================================================
-   📊 PROGRESS BAR
-===================================================== */
-   
-const stepsOrder = [
-  "dialogue1",
-  "mg1",
-  "mg2",
-  "mg3"
-];
-
-function createProgressBar(){
-
-  const bar = document.createElement("div");
-  bar.id = "progressBar";
-
-  stepsOrder.forEach(step=>{
-    const item = document.createElement("div");
-    item.className = "progress-step";
-    item.dataset.step = step;
-
-    // emojis visibles
-    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
-
-    bar.appendChild(item);
-  });
-
-  document.body.appendChild(bar);
-}
-   
-function updateProgressBar(stepIndex){
-
-  const steps = document.querySelectorAll(".progress-step");
-
-  steps.forEach((el, i)=>{
-    if(i < stepIndex){
-      el.classList.add("done");
-      el.style.opacity = "1";
-    }else{
-      el.classList.remove("done");
-      el.style.opacity = "0.4";
-    }
-  });
-}
-
-   createProgressBar();
-updateProgressBar(0);
-   
-
-}); 
+});
