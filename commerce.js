@@ -37,25 +37,14 @@ const progressSteps = document.querySelectorAll(".progress-step");
    OUTILS
 ===================================================== */
 function showLoader(duration = 1200, cb){
-
-  if(!fadeScreen){
-    cb && cb();
-    return;
-  }
-
-  fadeScreen.style.pointerEvents = "auto";
+  if(!fadeScreen){ cb && cb(); return; }
   fadeScreen.classList.remove("hidden");
-
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none";
-
-    if(typeof cb === "function"){
-      cb();
-    }
+    cb && cb();
   }, duration);
 }
-
+   
 /* =====================================================
    🔒 ANTI RETOUR TOTAL (VERSION ROBUSTE)
 ===================================================== */
