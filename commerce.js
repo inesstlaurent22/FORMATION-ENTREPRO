@@ -881,8 +881,6 @@ if(!text || !choices || !hintBox || !hintBtn){
         b.classList.add("flash-success");
 
 setTimeout(()=>{
-
-   updateProgressBar(6);
    
   b.classList.remove("flash-success");
   b.classList.add("correct-locked");
@@ -891,6 +889,8 @@ setTimeout(()=>{
 
         // ===== DERNIÈRE ÉTAPE =====
         if(s.finalText){
+
+           updateProgressBar(6);
 
           text.innerHTML = s.finalText;
           choices.innerHTML = "";
