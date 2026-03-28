@@ -853,9 +853,8 @@ button.correctAnswer:active{
 #miniGame0 .questionBox,
 #financeGame .questionBox,
 #miniGame3 .questionBox{
-
-  display:inline-block;   /* largeur adaptée au texte */
-  max-width:100%;         /* évite dépassement */
+  display:inline-block;   /* adapte la largeur au texte */
+  max-width:100%;         /* évite de dépasser le conteneur */
 
   padding:12px 14px;
   background:#f6e6b8;
@@ -865,6 +864,7 @@ button.correctAnswer:active{
 
   margin-bottom:14px;
   text-align:center;
+}
 }
 
 /* =====================================================
