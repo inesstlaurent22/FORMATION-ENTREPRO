@@ -479,6 +479,7 @@ function startDialogues2(){
   updateProgressBar(3);
   startMiniGame2();
 });
+   }
 
 /* =====================================================
    MINI-JEU 2
