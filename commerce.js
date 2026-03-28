@@ -116,7 +116,8 @@ function endVideo() {
    SCÈNE INITIALE
 ===================================================== */
 function showScene(){
-  background.classList.remove("hidden");
+  if(background) background.classList.remove("hidden");
+
   pirate2.classList.remove("hidden");
   pirate5.classList.remove("hidden");
 
@@ -401,7 +402,8 @@ function showBusinessPlanLoader(){
   overlay.id = "identity-loader";
 
   overlay.innerHTML = `
-    <div class="identity-center">
+  <div class="identity-center">
+
     <div class="book-wrapper">
 
       <h2 class="bp-title hidden" id="bpTitle">
@@ -424,16 +426,17 @@ function showBusinessPlanLoader(){
           </div>
 
         </div>
-        </div>
 
       </div>
 
-      <button id="continueQuestBtn" class="hidden">
-        Continuer la quête
-      </button>
-
     </div>
-  `;
+
+    <button id="continueQuestBtn" class="hidden">
+      Continuer la quête
+    </button>
+
+  </div>
+`;
 
   document.body.appendChild(overlay);
 
@@ -602,12 +605,16 @@ cont.onclick = ()=>{
 ===================================================== */
 function startMiniGame3(){
 
+   if(!game3) return;
+
   game3.classList.remove("hidden");
 
   const text = document.getElementById("strategyText");
   const choices = document.getElementById("strategyChoices");
   const hintBox = document.getElementById("strategyHint");
   const hintBtn = document.getElementById("strategyHintBtn");
+
+   if(!hintBtn) return;
 
   let step = 0;
 
