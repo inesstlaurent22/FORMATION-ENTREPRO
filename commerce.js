@@ -39,26 +39,26 @@ const progressSteps = document.querySelectorAll(".progress-step");
    LOADER
 ===================================================== */
 function showLoader(duration = 1200, cb){
+
+  // ❌ NE JAMAIS afficher pendant la vidéo
+  if(videoPlaying){
+    cb && cb();
+    return;
+  }
+
   if(!fadeScreen){ 
     cb && cb(); 
     return; 
   }
 
-  // 🔥 reset propre
   fadeScreen.classList.remove("hidden");
   fadeScreen.style.pointerEvents = "all";
 
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none"; // 🔥 CRUCIAL
+    fadeScreen.style.pointerEvents = "none";
     cb && cb();
   }, duration);
-}
-
-   if(fadeScreen){
-  fadeScreen.classList.add("hidden");
-  fadeScreen.style.pointerEvents = "none";
-  fadeScreen.style.opacity = "0"; // 🔥 ajoute ça
 }
    
 /* =====================================================
@@ -198,7 +198,7 @@ function endVideo() {
   if (videoEnded) return;
   videoEnded = true;
 
-  videoPlaying = false; // 🔥 débloque le loader
+  videoPlaying = false; // 🔥 TRÈS IMPORTANT
 
   if (questVideo) {
     questVideo.pause();
@@ -210,7 +210,7 @@ function endVideo() {
     videoContainer.classList.add("hidden");
   }
 
-  // ✅ Loader uniquement après la vidéo
+  // ✅ Loader UNIQUEMENT ici après vidéo
   showLoader(1200, () => {
     showScene();
   });
