@@ -905,7 +905,9 @@ setTimeout(()=>{
 
           setTimeout(()=>{
 
-            game3.classList.add("hidden");
+            if(!game3) return;
+
+game3.classList.remove("hidden");
 
             showLoader(1200, ()=>{
               showCommerceWin();
@@ -913,12 +915,10 @@ setTimeout(()=>{
 
           }, 3200);
 
-        }else{
-
-          step++;
-          render();
-
         }
+         else{
+  render(); // OU currentStep est déjà incrémenté plus haut
+}
       };
 
       choices.appendChild(b);
