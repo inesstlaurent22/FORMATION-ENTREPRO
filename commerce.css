@@ -151,10 +151,9 @@ html,body{
 
 .progress-step.done{
   background: gold;
+  opacity: 1;
   transform: scale(1.1);
-  box-shadow: 0 0 10px gold;
 }
-
 
 /* ================================================= */
 /* CHATBOX IA - VERSION PIRATE */
