@@ -595,6 +595,7 @@ cont.onclick = ()=>{
   ], startMiniGame3);
 
 };
+   }
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
