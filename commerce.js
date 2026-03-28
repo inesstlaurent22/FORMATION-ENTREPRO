@@ -93,17 +93,6 @@ window.addEventListener("pagehide", function () {
 /* =====================================================
    📊 PROGRESS BAR
 ===================================================== */
-
-const stepsOrder = [
-  "dialogue1",
-  "mg1",
-  "dialogue2",
-  "mg2",
-  "book",
-  "dialogue3",
-  "mg3"
-];
-
 function createProgressBar(){
 
   if(document.getElementById("progressBar")) return;
@@ -1013,6 +1002,55 @@ function launchGemsExplosion(container){
     g.style.setProperty("--y",Math.sin(angle)*dist+"px");
 
     container.appendChild(g);
+  }
+}
+
+   /* =====================================================
+   💾 PROGRESSION (ANTI-RETOUR)
+===================================================== */
+
+const PROGRESS_KEY = "communication_progress_v1";
+
+const stepsOrder = [
+  "dialogue1",
+  "game1",
+  "dialogue2",
+  "game2",
+  "book",
+  "dialogue3",
+  "game3"
+];
+
+function getProgress(){
+  return JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
+}
+
+function setStepDone(step){
+  const progress = getProgress();
+  progress[step] = true;
+  sessionStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+
+  updateProgressBarFromProgress();
+}
+
+function isStepDone(step){
+  return !!getProgress()[step];
+}
+
+function getNextStep(){
+  const progress = getProgress();
+  return stepsOrder.find(step => !progress[step]);
+}
+
+/* 🔥 Synchronisation avec ta progress bar actuelle */
+function updateProgressBarFromProgress(){
+  const progress = getProgress();
+  const index = stepsOrder.findIndex(step => !progress[step]);
+
+  if(index === -1){
+    updateProgressBar(stepsOrder.length);
+  }else{
+    updateProgressBar(index);
   }
 }
    
