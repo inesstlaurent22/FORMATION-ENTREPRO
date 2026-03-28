@@ -155,8 +155,6 @@ function updateProgressBar(stepIndex){
 createProgressBar();
 updateProgressBar(0);
 
-// 🔥 AJOUT ICI
-resumeProgress();
    
 /* =====================================================
    VIDÉO INTRO
@@ -476,12 +474,11 @@ function startDialogues2(){
     { text:"À partir de là, tu construis ta <strong>stratégie commerciale</strong>.", anchor:pirate5 },
     { text:"Choix des <strong>prix</strong>, des <strong>canaux de vente</strong>, et des <strong>actions marketing</strong>.", anchor:pirate5 },
     { text:"Un business plan solide, c’est ta <strong>boussole</strong> pour développer ton projet.", anchor:pirate5 }
-  ], startMiniGame2);
-
-   setStepDone("dialogue2");
+  ], ()=>{
+  setStepDone("dialogue2");
   updateProgressBar(3);
-
-}
+  startMiniGame2();
+});
 
 /* =====================================================
    MINI-JEU 2
@@ -1126,5 +1123,7 @@ function resumeProgress(){
 
   updateProgressBarFromProgress();
 }
+
+resumeProgress();
    
 }); 
