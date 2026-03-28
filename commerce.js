@@ -74,6 +74,50 @@ window.addEventListener("pageshow", function (event) {
     window.location.reload();
   }
 });
+
+/* =====================================================
+   📊 PROGRESS BAR
+===================================================== */
+
+const stepsOrder = [
+  "dialogue1",
+  "mg1",
+  "mg2",
+  "mg3"
+];
+
+function createProgressBar(){
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
+
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+    item.dataset.step = step;
+    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
+    bar.appendChild(item);
+  });
+
+  document.body.appendChild(bar);
+}
+
+function updateProgressBar(stepIndex){
+  const steps = document.querySelectorAll(".progress-step");
+
+  steps.forEach((el, i)=>{
+    if(i < stepIndex){
+      el.classList.add("done");
+      el.style.opacity = "1";
+    }else{
+      el.classList.remove("done");
+      el.style.opacity = "0.4";
+    }
+  });
+}
+
+/* ✅ INIT */
+createProgressBar();
+updateProgressBar(0);
    
 /* =====================================================
    VIDÉO INTRO
@@ -829,54 +873,5 @@ function launchGemsExplosion(container){
     container.appendChild(g);
   }
 }
-
-   /* =====================================================
-   📊 PROGRESS BAR
-===================================================== */
    
-const stepsOrder = [
-  "dialogue1",
-  "mg1",
-  "mg2",
-  "mg3"
-];
-
-function createProgressBar(){
-
-  const bar = document.createElement("div");
-  bar.id = "progressBar";
-
-  stepsOrder.forEach(step=>{
-    const item = document.createElement("div");
-    item.className = "progress-step";
-    item.dataset.step = step;
-
-    // emojis visibles
-    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
-
-    bar.appendChild(item);
-  });
-
-  document.body.appendChild(bar);
-}
-   
-function updateProgressBar(stepIndex){
-
-  const steps = document.querySelectorAll(".progress-step");
-
-  steps.forEach((el, i)=>{
-    if(i < stepIndex){
-      el.classList.add("done");
-      el.style.opacity = "1";
-    }else{
-      el.classList.remove("done");
-      el.style.opacity = "0.4";
-    }
-  });
-}
-
-   createProgressBar();
-updateProgressBar(0);
-   
-
 }); 
