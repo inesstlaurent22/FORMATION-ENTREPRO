@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+DOMContentLoaded", () => {
 
 /* =====================================================
    DOM
@@ -12,10 +12,8 @@ const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
 const fadeScreen = document.getElementById("fadeScreen");
 
-// 🔥 INITIALISATION PROPRE DU LOADER
 if(fadeScreen){
   fadeScreen.classList.add("hidden");
-  fadeScreen.style.pointerEvents = "none";
 }
 
 const game1 = document.getElementById("communicationGame");
@@ -36,151 +34,72 @@ const closeVideo = document.getElementById("closeVideo");
 const progressSteps = document.querySelectorAll(".progress-step");
 
 /* =====================================================
-   LOADER
+   OUTILS
 ===================================================== */
 function showLoader(duration = 1200, cb){
-
-  // ❌ NE JAMAIS afficher pendant la vidéo
-  if(videoPlaying){
+  if(!fadeScreen){
     cb && cb();
     return;
   }
 
-  if(!fadeScreen){ 
-    cb && cb(); 
-    return; 
-  }
-
   fadeScreen.classList.remove("hidden");
-  fadeScreen.style.pointerEvents = "all";
 
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none";
-    cb && cb();
+    if(typeof cb === "function"){
+      cb();
+    }
   }, duration);
 }
-   
-/* =====================================================
-   🔒 ANTI RETOUR TOTAL (VERSION ROBUSTE)
-===================================================== */
 
-// Empêche retour navigateur classique
-function lockNavigation(){
-
-  // Empile un état fictif
-  history.pushState(null, null, location.href);
-
-  window.addEventListener("popstate", () => {
-    // Re-pousse l'état → impossible de revenir
-    history.pushState(null, null, location.href);
-  });
-
+function shake(el){
+  el.classList.add("screen-shake");
+  setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
 
-// Active au démarrage
-lockNavigation();
+/* =====================================================
+   🔒 ANTI RETOUR FORT
+===================================================== */
 
+// Bloque bouton retour
+history.pushState(null, null, location.href);
 
-// Empêche swipe iOS + cache page
+window.onpopstate = function () {
+  location.reload(); // recharge la page au lieu de revenir
+};
+
+// Bloque swipe iOS / gestures
 window.addEventListener("pageshow", function (event) {
   if (event.persisted) {
-    location.reload();
+    window.location.reload();
   }
 });
-
-// Empêche refresh arrière Android
-window.addEventListener("pagehide", function () {
-  history.pushState(null, null, location.href);
-});
-   
-/* =====================================================
-   📊 PROGRESS BAR
-===================================================== */
-
-   const stepsOrder = [
-  "dialogue1",
-  "game1",
-  "dialogue2",
-  "game2",
-  "book",
-  "dialogue3",
-  "game3"
-];
-
-function createProgressBar(){
-
-  if(document.getElementById("progressBar")) return;
-
-  const bar = document.createElement("div");
-  bar.id = "progressBar";
-
-  stepsOrder.forEach(step=>{
-    const item = document.createElement("div");
-    item.className = "progress-step";
-    item.dataset.step = step;
-
-    // ✅ gestion emojis
-    if(step.includes("dialogue")){
-      item.textContent = "💬";
-    }
-    else if(step === "book"){
-      item.textContent = "📖"; // ← emoji livre (remplace ton caractère vide)
-    }
-    else{
-      item.textContent = "🎮";
-    }
-
-    bar.appendChild(item);
-  });
-
-  document.body.appendChild(bar);
-}
-
-function updateProgressBar(stepIndex){
-
-  const steps = document.querySelectorAll(".progress-step");
-  if(!steps.length) return;
-
-  stepIndex = Math.min(stepIndex, steps.length);
-
-  steps.forEach((el, i)=>{
-    if(i < stepIndex){
-      el.classList.add("done");
-      el.style.opacity = "1";
-    }else{
-      el.classList.remove("done");
-      el.style.opacity = "0.4";
-    }
-  });
-}
-
-/* ✅ INIT */
-createProgressBar();
-updateProgressBar(0);
-
    
 /* =====================================================
    VIDÉO INTRO
 ===================================================== */
+
 let videoEnded = false;
-let videoPlaying = true; // 🔥 bloque le loader pendant la vidéo
 
 if (questVideo) {
 
   questVideo.muted = true;
 
-  // Sécurise autoplay (iOS safe)
-  const playPromise = questVideo.play();
-  if (playPromise !== undefined) {
-    playPromise.catch(() => {});
-  }
+  questVideo.addEventListener("canplay", () => {
+    if (fadeScreen) {
+      fadeScreen.classList.add("hidden");
+    }
 
-  // ✅ FIN VIDÉO
+    // Sécurise autoplay (iOS safe)
+    const playPromise = questVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
+    }
+  });
+
   questVideo.addEventListener("ended", endVideo);
 }
 
-// 🔊 Son
 if (toggleSound && questVideo) {
   toggleSound.addEventListener("click", () => {
     questVideo.muted = !questVideo.muted;
@@ -188,7 +107,6 @@ if (toggleSound && questVideo) {
   });
 }
 
-// ❌ Bouton fermer vidéo
 if (closeVideo) {
   closeVideo.addEventListener("click", endVideo);
 }
@@ -197,8 +115,6 @@ function endVideo() {
 
   if (videoEnded) return;
   videoEnded = true;
-
-  videoPlaying = false; // 🔥 TRÈS IMPORTANT
 
   if (questVideo) {
     questVideo.pause();
@@ -210,7 +126,7 @@ function endVideo() {
     videoContainer.classList.add("hidden");
   }
 
-  // ✅ Loader UNIQUEMENT ici après vidéo
+  // 🔥 Affiche le loader pirate AVANT la scène
   showLoader(1200, () => {
     showScene();
   });
@@ -241,6 +157,11 @@ function showScene(){
 
       pirate5.classList.remove("glowStart");
       pirate5.style.pointerEvents = "none";
+
+      // ✅ jauge étape 1
+      if(typeof updateProgress === "function"){
+        updateProgressBar(1);
+      }
 
       startDialogues1();
 
@@ -353,21 +274,10 @@ if(skipBtn){
    DIALOGUES 1
 ===================================================== */
 function startDialogues1(){
-
-  updateProgressBar(1);
-
   playDialogues([
-    { text:"Avant de vendre quoi que ce soit, il faut comprendre ton <strong>marché</strong>.", anchor:pirate5 },
-    { text:"Une <strong>étude de marché</strong> te permet de savoir à qui tu t’adresses vraiment.", anchor:pirate5 },
-    { text:"Qui sont tes <strong>clients</strong> ? Quels sont leurs <strong>besoins</strong>, leurs <strong>habitudes</strong>, leurs <strong>problèmes</strong> ?", anchor:pirate5 },
-    { text:"Tu dois aussi analyser tes <strong>concurrents</strong> : leurs <strong>prix</strong>, leurs <strong>offres</strong>, leurs <strong>forces</strong>.", anchor:pirate5 },
-    { text:"Sans ça, tu avances à l’aveugle… et tu risques de te tromper de <strong>stratégie</strong>.", anchor:pirate5 },
-    { text:"Une bonne <strong>étude de marché</strong>, c’est ce qui transforme une <strong>idée</strong> en <strong>projet rentable</strong>.", anchor:pirate5 }
-  ], ()=>{
-  setStepDone("dialogue1");
-  startMiniGame1();
-});
-
+    { text:"Avant de vendre quoi que ce soit, il faut comprendre ton marché.", anchor:pirate5 },
+    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au hasard.", anchor:pirate5 }
+  ], startMiniGame1);
 }
 
 /* =====================================================
@@ -377,89 +287,42 @@ function startMiniGame1(){
 
   showLoader(900, ()=>{
 
-    if(!game1 || !q1 || !a1){
-      console.error("MG1 éléments manquants");
-      return;
-    }
-
     game1.classList.remove("hidden");
+    q1.textContent="Pourquoi réaliser une étude de marché ?";
+    a1.innerHTML="";
 
-    const questions = [
-      {
-        q:"Pourquoi réaliser une étude de marché ?",
-        answers:[
-          {t:"Décorer la boutique",ok:false},
-          {t:"Comprendre les clients",ok:true},
-          {t:"Copier les concurrents",ok:false}
-        ]
-      },
-      {
-        q:"Que permet d’identifier une étude de marché ?",
-        answers:[
-          {t:"Les besoins des clients",ok:true},
-          {t:"La couleur du logo",ok:false},
-          {t:"Le nom de l’entreprise",ok:false}
-        ]
-      },
-      {
-        q:"Pourquoi analyser les concurrents ?",
-        answers:[
-          {t:"Pour copier sans réfléchir",ok:false},
-          {t:"Pour se différencier et s’adapter",ok:true},
-          {t:"Pour éviter de vendre",ok:false}
-        ]
-      }
-    ];
+    [
+      {t:"Décorer la boutique",ok:false},
+      {t:"Comprendre les clients",ok:true},
+      {t:"Copier les concurrents",ok:false}
+    ].forEach(q=>{
 
-    let currentQuestion = 0;
+      const b=document.createElement("button");
+      b.textContent=q.t;
 
-    function loadQuestion(){
+      b.onclick=()=>{
 
-      const data = questions[currentQuestion];
+        if(!q.ok){
+          shake(game1);
+          return;
+        }
 
-      q1.textContent = data.q;
-      a1.innerHTML = "";
+        b.classList.add("correct-locked");
+        b.disabled = true;
 
-      data.answers.forEach(ans => {
+        setTimeout(()=>{
 
-        const b = document.createElement("button");
-        b.textContent = ans.t;
+         updateProgressBar(2);
 
-        b.onclick = () => {
+          game1.classList.add("hidden");
 
-          if(!ans.ok){
-            shake(game1);
-            return;
-          }
+          startDialogues2();
 
-          b.classList.add("correct-locked");
-          b.disabled = true;
+        },600);
+      };
 
-          setTimeout(()=>{
-
-            currentQuestion++;
-
-            if(currentQuestion < questions.length){
-              loadQuestion(); // question suivante
-            }else{
-
-              setStepDone("game1");
-              updateProgressBar(2);
-              game1.classList.add("hidden");
-              startDialogues2();
-
-            }
-
-          },600);
-        };
-
-        a1.appendChild(b);
-
-      });
-
-    }
-
-    loadQuestion();
+      a1.appendChild(b);
+    });
 
   });
 }
@@ -468,76 +331,51 @@ function startMiniGame1(){
    DIALOGUES 2
 ===================================================== */
 function startDialogues2(){
-
   playDialogues([
-    { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
-    { text:"Un bon <strong>business plan</strong> évite bien des <strong>naufrages</strong>.", anchor:pirate5 },
-    { text:"Il te permet de définir ton <strong>offre</strong>, ton <strong>positionnement</strong> et tes <strong>objectifs</strong>.", anchor:pirate5 },
-    { text:"Tu dois aussi prévoir tes <strong>ressources</strong>, tes <strong>coûts</strong> et tes <strong>revenus</strong>.", anchor:pirate5 },
-    { text:"À partir de là, tu construis ta <strong>stratégie commerciale</strong>.", anchor:pirate5 },
-    { text:"Choix des <strong>prix</strong>, des <strong>canaux de vente</strong>, et des <strong>actions marketing</strong>.", anchor:pirate5 },
-    { text:"Un business plan solide, c’est ta <strong>boussole</strong> pour développer ton projet.", anchor:pirate5 }
-  ], ()=>{
-  setStepDone("dialogue2");
-  updateProgressBar(3);
-  startMiniGame2();
-});
-   }
+    { text:"Parfait. Maintenant, il faut structurer tout ça.", anchor:pirate5 },
+    { text:"Un bon business plan évite bien des naufrages.", anchor:pirate5 }
+  ], startMiniGame2);
+}
 
 /* =====================================================
    MINI-JEU 2
 ===================================================== */
 function startMiniGame2(){
 
-  if(!game2 || !visualChoices){
-    console.error("MG2 éléments manquants");
-    return;
-  }
-
   showLoader(900, ()=>{
+
     game2.classList.remove("hidden");
 
-   const questions = [
+    const questions = [
 
-  {
-    question: "Étude du produit, qu’est-ce que je dois analyser en premier ?",
-    answers: [
-      { t: "Les besoins du client", ok: true },
-      { t: "La couleur du logo", ok: false },
-      { t: "La valeur apportée par le produit", ok: true },
-      { t: "Le nombre de likes Instagram", ok: false }
-    ]
-  },
+    {
+      question: "Étude du produit, qu’est-ce que je dois analyser en premier ?",
+      answers: [
+        { t: "Les besoins du client", ok: true },
+        { t: "La couleur du logo", ok: false },
+        { t: "La valeur apportée par le produit", ok: true },
+        { t: "Le nombre de likes Instagram", ok: false }
+      ]
+    },
 
-  {
-    question: "Étude du marché, est-ce que je dois analyser seulement les concurrents ?",
-    answers: [
-      { t: "Oui", ok: false },
-      { t: "Non, il faut aussi analyser les clients et les tendances", ok: true }
-    ]
-  },
+    {
+      question: "Étude du marché, est-ce que je dois analyser seulement les concurrents ?",
+      answers: [
+        { t: "Oui", ok: false },
+        { t: "Non, il faut aussi analyser les clients et les tendances", ok: true }
+      ]
+    },
 
-  {
-    question: "Construction du business plan, que dois-tu inclure ?",
-    answers: [
-      { t: "Définir la cible", ok: true },
-      { t: "Choisir la couleur du bateau", ok: false },
-      { t: "Identifier le problème client", ok: true },
-      { t: "Prévoir les coûts et revenus", ok: true }
-    ]
-  },
+    {
+      question: "Construction du business plan",
+      answers: [
+        { t: "Définir la cible", ok: true },
+        { t: "Choisir la couleur du bateau", ok: false },
+        { t: "Identifier le problème client", ok: true }
+      ]
+    }
 
-  {
-    question: "Stratégie commerciale, quel est le bon objectif ?",
-    answers: [
-      { t: "Vendre au hasard", ok: false },
-      { t: "Adapter son offre au marché", ok: true },
-      { t: "Fixer des prix cohérents", ok: true },
-      { t: "Ignorer les concurrents", ok: false }
-    ]
-  }
-
-];
+  ];
 
   let current = 0;
 
@@ -584,8 +422,7 @@ game2.classList.add("hidden");
 
 setTimeout(()=>{
 
-   setStepDone("game2");
-   updateProgressBar(4);
+   updateProgressBar(3);
    
   showBusinessPlanLoader();
 },600);
@@ -606,9 +443,6 @@ setTimeout(()=>{
    📘 LIVRE
 ===================================================== */
 function showBusinessPlanLoader(){
-
-     setStepDone("book");
-      updateProgressBar(5);
 
   const overlay = document.createElement("div");
   overlay.id = "identity-loader";
@@ -805,19 +639,12 @@ cont.onclick = ()=>{
   overlay.remove();
 
   playDialogues([
-  { text:"Ton <strong>plan</strong> est solide.", anchor:pirate5 },
-  { text:"Il est temps d'affronter le <strong>marché</strong>.", anchor:pirate5 },
-  { text:"Pour vendre tes pierres, tu dois adapter ta <strong>stratégie commerciale</strong>.", anchor:pirate5 },
-  { text:"Choisis le bon <strong>prix</strong> : ni trop élevé, ni trop bas.", anchor:pirate5 },
-  { text:"Travaille ton <strong>argumentaire</strong> : mets en avant la <strong>valeur</strong> et les <strong>bénéfices</strong>.", anchor:pirate5 },
-  { text:"Sélectionne les bons <strong>canaux de vente</strong> : marché, en ligne ou négociation directe.", anchor:pirate5 },
-  { text:"Observe les <strong>réactions des clients</strong> et ajuste ta stratégie.", anchor:pirate5 },
-  { text:"Un bon vendeur ne vend pas juste un produit… il vend une <strong>solution</strong>.", anchor:pirate5 }
-], ()=>{
-  setStepDone("dialogue3");
-  updateProgressBar(6);
-  startMiniGame3();
-});
+    { text:"Ton plan est solide.", anchor:pirate5 },
+    { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
+  ], startMiniGame3);
+
+};
+   }
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
@@ -826,76 +653,55 @@ function startMiniGame3(){
 
    if(!game3) return;
 
-game3.classList.remove("hidden");
+  game3.classList.remove("hidden");
 
-const text = document.getElementById("strategyText");
-const choices = document.getElementById("strategyChoices");
-const hintBox = document.getElementById("strategyHint");
-const hintBtn = document.getElementById("strategyHintBtn");
+  const text = document.getElementById("strategyText");
+  const choices = document.getElementById("strategyChoices");
+  const hintBox = document.getElementById("strategyHint");
+  const hintBtn = document.getElementById("strategyHintBtn");
 
-// 🔥 FIX CRASH
-if(!text || !choices || !hintBox || !hintBtn){
-  console.error("MG3 éléments manquants");
-  return;
-}
+   if(!hintBtn) return;
 
-  let currentStep = 0;
+  let step = 0;
 
   const steps = [
-
-  {
-    text:`Les autres vendeurs vendent à <strong>300 PO</strong>, sans pierres rouges.
-    Vous en avez. Quel prix afficher ?`,
-    hint:"💡 Avantage concurrentiel = tu peux augmenter la valeur.",
-    answers:[
-      { label:"350 PO", correct:true },
-      { label:"300 PO", correct:false },
-      { label:"250 PO", correct:false }
-    ]
-  },
-
-  {
-    text:`Vous ajoutez des boîtes en bois (coût : <strong>20 PO</strong>).
-    Comment ajuster le prix ?`,
-    hint:"💡 Tu peux répercuter le coût si la valeur perçue augmente.",
-    answers:[
-      { label:"370 PO", correct:true },
-      { label:"350 PO", correct:false },
-      { label:"320 PO", correct:false }
-    ]
-  },
-
-  {
-    text:`Objectif : acheter un bateau rapidement.
-    Quelle stratégie adopter ?`,
-    hint:"💡 Le volume de vente > à la marge financière dans une logique rapide.",
-    answers:[
-      { label:"400 PO", correct:false },
-      { label:"350 PO", correct:false },
-      { label:"300 PO", correct:true }
-    ]
-  },
-
-  {
-    text:`Les ventes ralentissent. Que faire ?`,
-    hint:"💡 Adapter sa stratégie est essentiel.",
-    answers:[
-      { label:"Baisser légèrement le prix", correct:true },
-      { label:"Ne rien changer", correct:false },
-      { label:"Augmenter fortement le prix", correct:false }
-    ],
-    finalText:`<strong>Excellente stratégie.</strong><br>
-    Un bon vendeur <strong>s’adapte</strong> en permanence :
-    prix, offre et approche évoluent selon le <strong>marché</strong>.`
-  }
-
-];
+    {
+      text:`Les autres vendeurs vendent à <strong>300 PO</strong>, sans pierres rouges.
+      Vous en avez. Quel prix afficher ?`,
+      hint:"💡 Avantage concurrentiel = marge possible.",
+      answers:[
+        { label:"350 PO", correct:true },
+        { label:"300 PO", correct:false },
+        { label:"250 PO", correct:false }
+      ]
+    },
+    {
+      text:`Vous ajoutez des boîtes en bois (20 PO).
+      Comment ajuster le prix ?`,
+      hint:"💡 Le coût est déjà intégré.",
+      answers:[
+        { label:"370 PO", correct:false },
+        { label:"350 PO", correct:true },
+        { label:"330 PO", correct:false }
+      ]
+    },
+    {
+      text:`Objectif : acheter un bateau rapidement.`,
+      hint:"💡 Vendre vite plutôt que luxe.",
+      answers:[
+        { label:"400 PO", correct:false },
+        { label:"350 PO", correct:false },
+        { label:"300 PO", correct:true }
+      ],
+      finalText:`<strong>Bonne stratégie.</strong><br>
+      Les pirates vendent plus vite à 300 PO
+      pour acheter leur bateau sans attendre.`
+    }
+  ];
 
   function render(){
 
-    if(currentStep >= steps.length) return;
-
-const s = steps[currentStep];
+    const s = steps[step];
 
     text.innerHTML = s.text;
 
@@ -918,6 +724,8 @@ const s = steps[currentStep];
         b.classList.add("flash-success");
 
 setTimeout(()=>{
+
+   updateProgressBar(4);
    
   b.classList.remove("flash-success");
   b.classList.add("correct-locked");
@@ -927,18 +735,13 @@ setTimeout(()=>{
         // ===== DERNIÈRE ÉTAPE =====
         if(s.finalText){
 
-           setStepDone("game3");
-           updateProgressBar(7);
-
           text.innerHTML = s.finalText;
           choices.innerHTML = "";
           hintBtn.classList.add("hidden");
 
           setTimeout(()=>{
 
-            if(!game3) return;
-
-game3.classList.add("hidden"); // ✅
+            game3.classList.add("hidden");
 
             showLoader(1200, ()=>{
               showCommerceWin();
@@ -946,24 +749,21 @@ game3.classList.add("hidden"); // ✅
 
           }, 3200);
 
+        }else{
+
+          step++;
+          render();
+
         }
-         else{
-  currentStep++;   // ✅ AJOUT
-  if(currentStep < steps.length){
-    render();
-  }
-}
       };
 
       choices.appendChild(b);
     });
   }
 
-  if(hintBtn){
   hintBtn.onclick = ()=>{
     hintBox.classList.remove("hidden");
   };
-}
 
   render();
 }
@@ -1031,110 +831,52 @@ function launchGemsExplosion(container){
 }
 
    /* =====================================================
-   💾 PROGRESSION (ANTI-RETOUR)
+   📊 PROGRESS BAR
 ===================================================== */
+   
+const stepsOrder = [
+  "dialogue1",
+  "mg1",
+  "mg2",
+  "mg3"
+];
 
-const PROGRESS_KEY = "communication_progress_v1";
+function createProgressBar(){
 
-function getProgress(){
-  return JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
-}
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
 
-function setStepDone(step){
-  const progress = getProgress();
-  progress[step] = true;
-  sessionStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+    item.dataset.step = step;
 
-  updateProgressBarFromProgress();
-}
+    // emojis visibles
+    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
 
-function isStepDone(step){
-  return !!getProgress()[step];
-}
-
-function getNextStep(){
-  const progress = getProgress();
-  return stepsOrder.find(step => !progress[step]);
-}
-
-/* 🔥 Synchronisation avec ta progress bar actuelle */
-function updateProgressBarFromProgress(){
-  const progress = getProgress();
-  const index = stepsOrder.findIndex(step => !progress[step]);
-
-  if(index === -1){
-    updateProgressBar(stepsOrder.length);
-  }else{
-    updateProgressBar(index);
-  }
-}
-
-function resumeProgress(){
-
-  // ❌ si vidéo en cours → on ne fait rien
-  if(videoPlaying) return;
-
-  const next = getNextStep();
-
-  // Si aucune progression → début normal (vidéo)
-  if(!next){
-    showScene();
-    return;
-  }
-
-  // 🔥 Reprise intelligente selon l'étape
-  switch(next){
-
-    case "dialogue1":
-      showScene();
-      break;
-
-    case "game1":
-      showScene();
-      startMiniGame1();
-      break;
-
-    case "dialogue2":
-      showScene();
-      startDialogues2();
-      break;
-
-    case "game2":
-      showScene();
-      startMiniGame2();
-      break;
-
-    case "book":
-      showScene();
-      showBusinessPlanLoader();
-      break;
-
-    case "dialogue3":
-  showScene();
-  playDialogues([
-    { text:"Ton plan est solide.", anchor:pirate5 },
-    { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
-  ], ()=>{
-    setStepDone("dialogue3");
-    startMiniGame3();
+    bar.appendChild(item);
   });
-  break;
 
-    case "game3":
-      showScene();
-      startMiniGame3();
-      break;
-
-    default:
-      showScene();
-  }
-
-  updateProgressBarFromProgress();
-}
-
-// ❌ ne PAS lancer direct
-if(!videoPlaying){
-  resumeProgress();
+  document.body.appendChild(bar);
 }
    
+function updateProgressBar(stepIndex){
+
+  const steps = document.querySelectorAll(".progress-step");
+
+  steps.forEach((el, i)=>{
+    if(i < stepIndex){
+      el.classList.add("done");
+      el.style.opacity = "1";
+    }else{
+      el.classList.remove("done");
+      el.style.opacity = "0.4";
+    }
+  });
+}
+
+   createProgressBar();
+updateProgressBar(0);
+   
+
 }); 
