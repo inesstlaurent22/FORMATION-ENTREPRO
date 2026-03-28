@@ -335,18 +335,17 @@ if(skipBtn){
 ===================================================== */
 function startDialogues1(){
 
-   updateProgressBar(1);
-   
-playDialogues([
-  { text:"Avant de vendre quoi que ce soit, il faut comprendre ton <strong>marché</strong>.", anchor:pirate5 },
-  { text:"Une <strong>étude de marché</strong> te permet de savoir à qui tu t’adresses vraiment.", anchor:pirate5 },
-  { text:"Qui sont tes <strong>clients</strong> ? Quels sont leurs <strong>besoins</strong>, leurs <strong>habitudes</strong>, leurs <strong>problèmes</strong> ?", anchor:pirate5 },
-  { text:"Tu dois aussi analyser tes <strong>concurrents</strong> : leurs <strong>prix</strong>, leurs <strong>offres</strong>, leurs <strong>forces</strong>.", anchor:pirate5 },
-  { text:"Sans ça, tu avances à l’aveugle… et tu risques de te tromper de <strong>stratégie</strong>.", anchor:pirate5 },
-  { text:"Une bonne <strong>étude de marché</strong>, c’est ce qui transforme une <strong>idée</strong> en <strong>projet rentable</strong>.", anchor:pirate5 }
-]);
-   
+  updateProgressBar(1);
+
+  playDialogues([
+    { text:"Avant de vendre quoi que ce soit, il faut comprendre ton <strong>marché</strong>.", anchor:pirate5 },
+    { text:"Une <strong>étude de marché</strong> te permet de savoir à qui tu t’adresses vraiment.", anchor:pirate5 },
+    { text:"Qui sont tes <strong>clients</strong> ? Quels sont leurs <strong>besoins</strong>, leurs <strong>habitudes</strong>, leurs <strong>problèmes</strong> ?", anchor:pirate5 },
+    { text:"Tu dois aussi analyser tes <strong>concurrents</strong> : leurs <strong>prix</strong>, leurs <strong>offres</strong>, leurs <strong>forces</strong>.", anchor:pirate5 },
+    { text:"Sans ça, tu avances à l’aveugle… et tu risques de te tromper de <strong>stratégie</strong>.", anchor:pirate5 },
+    { text:"Une bonne <strong>étude de marché</strong>, c’est ce qui transforme une <strong>idée</strong> en <strong>projet rentable</strong>.", anchor:pirate5 }
   ], startMiniGame1);
+
 }
 
 /* =====================================================
@@ -446,20 +445,19 @@ function startMiniGame1(){
    DIALOGUES 2
 ===================================================== */
 function startDialogues2(){
-   
-    updateProgressBar(3);
-   
-playDialogues([
-  { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
-  { text:"Un bon <strong>business plan</strong> évite bien des <strong>naufrages</strong>.", anchor:pirate5 },
-  { text:"Il te permet de définir ton <strong>offre</strong>, ton <strong>positionnement</strong> et tes <strong>objectifs</strong>.", anchor:pirate5 },
-  { text:"Tu dois aussi prévoir tes <strong>ressources</strong>, tes <strong>coûts</strong> et tes <strong>revenus</strong>.", anchor:pirate5 },
-  { text:"À partir de là, tu construis ta <strong>stratégie commerciale</strong>.", anchor:pirate5 },
-  { text:"Choix des <strong>prix</strong>, des <strong>canaux de vente</strong>, et des <strong>actions marketing</strong>.", anchor:pirate5 },
-  { text:"Un business plan solide, c’est ta <strong>boussole</strong> pour développer ton projet.", anchor:pirate5 }
-]);
-   
+
+  updateProgressBar(3);
+
+  playDialogues([
+    { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
+    { text:"Un bon <strong>business plan</strong> évite bien des <strong>naufrages</strong>.", anchor:pirate5 },
+    { text:"Il te permet de définir ton <strong>offre</strong>, ton <strong>positionnement</strong> et tes <strong>objectifs</strong>.", anchor:pirate5 },
+    { text:"Tu dois aussi prévoir tes <strong>ressources</strong>, tes <strong>coûts</strong> et tes <strong>revenus</strong>.", anchor:pirate5 },
+    { text:"À partir de là, tu construis ta <strong>stratégie commerciale</strong>.", anchor:pirate5 },
+    { text:"Choix des <strong>prix</strong>, des <strong>canaux de vente</strong>, et des <strong>actions marketing</strong>.", anchor:pirate5 },
+    { text:"Un business plan solide, c’est ta <strong>boussole</strong> pour développer ton projet.", anchor:pirate5 }
   ], startMiniGame2);
+
 }
 
 /* =====================================================
@@ -785,11 +783,7 @@ cont.onclick = ()=>{
   { text:"Sélectionne les bons <strong>canaux de vente</strong> : marché, en ligne ou négociation directe.", anchor:pirate5 },
   { text:"Observe les <strong>réactions des clients</strong> et ajuste ta stratégie.", anchor:pirate5 },
   { text:"Un bon vendeur ne vend pas juste un produit… il vend une <strong>solution</strong>.", anchor:pirate5 }
-]);
-   
-  ], startMiniGame3);
-
-};
+], startMiniGame3);
    }
    
 /* =====================================================
