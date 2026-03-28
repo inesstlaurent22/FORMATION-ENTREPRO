@@ -1,4 +1,4 @@
-DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
 
 /* =====================================================
    DOM
@@ -595,28 +595,6 @@ cont.onclick = ()=>{
   ], startMiniGame3);
 
 };
-
-/* ===============================
-   ILLUMINATION PIRATE
-=============================== */
-function illuminatePirate5(){
-
-  pirate5.classList.add("glowStart");
-  pirate5.style.pointerEvents = "auto";
-
-  pirate5.onclick = null;
-
-  pirate5.onclick = ()=>{
-    pirate5.classList.remove("glowStart");
-    pirate5.style.pointerEvents = "none";
-
-    playDialogues([
-      { text:"Ton plan est solide.", anchor:pirate5 },
-      { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
-    ], startMiniGame3);
-  };
-}
-} 
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
