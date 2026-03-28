@@ -1071,6 +1071,9 @@ function updateProgressBarFromProgress(){
 
 function resumeProgress(){
 
+  // ❌ si vidéo en cours → on ne fait rien
+  if(videoPlaying) return;
+
   const next = getNextStep();
 
   // Si aucune progression → début normal (vidéo)
