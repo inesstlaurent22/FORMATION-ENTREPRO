@@ -337,9 +337,14 @@ function startDialogues1(){
 
    updateProgressBar(1);
    
-  playDialogues([
-    { text:"Avant de vendre quoi que ce soit, il faut comprendre ton marché.", anchor:pirate5 },
-    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au hasard.", anchor:pirate5 }
+playDialogues([
+  { text:"Avant de vendre quoi que ce soit, il faut comprendre ton <strong>marché</strong>.", anchor:pirate5 },
+  { text:"Une <strong>étude de marché</strong> te permet de savoir à qui tu t’adresses vraiment.", anchor:pirate5 },
+  { text:"Qui sont tes <strong>clients</strong> ? Quels sont leurs <strong>besoins</strong>, leurs <strong>habitudes</strong>, leurs <strong>problèmes</strong> ?", anchor:pirate5 },
+  { text:"Tu dois aussi analyser tes <strong>concurrents</strong> : leurs <strong>prix</strong>, leurs <strong>offres</strong>, leurs <strong>forces</strong>.", anchor:pirate5 },
+  { text:"Sans ça, tu avances à l’aveugle… et tu risques de te tromper de <strong>stratégie</strong>.", anchor:pirate5 },
+  { text:"Une bonne <strong>étude de marché</strong>, c’est ce qui transforme une <strong>idée</strong> en <strong>projet rentable</strong>.", anchor:pirate5 }
+]);
    
   ], startMiniGame1);
 }
@@ -352,46 +357,87 @@ function startMiniGame1(){
   showLoader(900, ()=>{
 
     if(!game1 || !q1 || !a1){
-  console.error("MG1 éléments manquants");
-  return;
-}
+      console.error("MG1 éléments manquants");
+      return;
+    }
 
-game1.classList.remove("hidden");
-q1.textContent="Pourquoi réaliser une étude de marché ?";
-a1.innerHTML="";
+    game1.classList.remove("hidden");
 
-    [
-      {t:"Décorer la boutique",ok:false},
-      {t:"Comprendre les clients",ok:true},
-      {t:"Copier les concurrents",ok:false}
-    ].forEach(q=>{
+    const questions = [
+      {
+        q:"Pourquoi réaliser une étude de marché ?",
+        answers:[
+          {t:"Décorer la boutique",ok:false},
+          {t:"Comprendre les clients",ok:true},
+          {t:"Copier les concurrents",ok:false}
+        ]
+      },
+      {
+        q:"Que permet d’identifier une étude de marché ?",
+        answers:[
+          {t:"Les besoins des clients",ok:true},
+          {t:"La couleur du logo",ok:false},
+          {t:"Le nom de l’entreprise",ok:false}
+        ]
+      },
+      {
+        q:"Pourquoi analyser les concurrents ?",
+        answers:[
+          {t:"Pour copier sans réfléchir",ok:false},
+          {t:"Pour se différencier et s’adapter",ok:true},
+          {t:"Pour éviter de vendre",ok:false}
+        ]
+      }
+    ];
 
-      const b=document.createElement("button");
-      b.textContent=q.t;
+    let currentQuestion = 0;
 
-      b.onclick=()=>{
+    function loadQuestion(){
 
-        if(!q.ok){
-          shake(game1);
-          return;
-        }
+      const data = questions[currentQuestion];
 
-        b.classList.add("correct-locked");
-        b.disabled = true;
+      q1.textContent = data.q;
+      a1.innerHTML = "";
 
-        setTimeout(()=>{
+      data.answers.forEach(ans => {
 
-         updateProgressBar(2);
+        const b = document.createElement("button");
+        b.textContent = ans.t;
 
-          game1.classList.add("hidden");
+        b.onclick = () => {
 
-          startDialogues2();
+          if(!ans.ok){
+            shake(game1);
+            return;
+          }
 
-        },600);
-      };
+          b.classList.add("correct-locked");
+          b.disabled = true;
 
-      a1.appendChild(b);
-    });
+          setTimeout(()=>{
+
+            currentQuestion++;
+
+            if(currentQuestion < questions.length){
+              loadQuestion(); // question suivante
+            }else{
+
+              updateProgressBar(2);
+              game1.classList.add("hidden");
+              startDialogues2();
+
+            }
+
+          },600);
+        };
+
+        a1.appendChild(b);
+
+      });
+
+    }
+
+    loadQuestion();
 
   });
 }
@@ -403,9 +449,15 @@ function startDialogues2(){
    
     updateProgressBar(3);
    
-  playDialogues([
-    { text:"Parfait. Maintenant, il faut structurer tout ça.", anchor:pirate5 },
-    { text:"Un bon business plan évite bien des naufrages.", anchor:pirate5 }
+playDialogues([
+  { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
+  { text:"Un bon <strong>business plan</strong> évite bien des <strong>naufrages</strong>.", anchor:pirate5 },
+  { text:"Il te permet de définir ton <strong>offre</strong>, ton <strong>positionnement</strong> et tes <strong>objectifs</strong>.", anchor:pirate5 },
+  { text:"Tu dois aussi prévoir tes <strong>ressources</strong>, tes <strong>coûts</strong> et tes <strong>revenus</strong>.", anchor:pirate5 },
+  { text:"À partir de là, tu construis ta <strong>stratégie commerciale</strong>.", anchor:pirate5 },
+  { text:"Choix des <strong>prix</strong>, des <strong>canaux de vente</strong>, et des <strong>actions marketing</strong>.", anchor:pirate5 },
+  { text:"Un business plan solide, c’est ta <strong>boussole</strong> pour développer ton projet.", anchor:pirate5 }
+]);
    
   ], startMiniGame2);
 }
@@ -419,36 +471,47 @@ function startMiniGame2(){
 
     game2.classList.remove("hidden");
 
-    const questions = [
+   const questions = [
 
-    {
-      question: "Étude du produit, qu’est-ce que je dois analyser en premier ?",
-      answers: [
-        { t: "Les besoins du client", ok: true },
-        { t: "La couleur du logo", ok: false },
-        { t: "La valeur apportée par le produit", ok: true },
-        { t: "Le nombre de likes Instagram", ok: false }
-      ]
-    },
+  {
+    question: "Étude du produit, qu’est-ce que je dois analyser en premier ?",
+    answers: [
+      { t: "Les besoins du client", ok: true },
+      { t: "La couleur du logo", ok: false },
+      { t: "La valeur apportée par le produit", ok: true },
+      { t: "Le nombre de likes Instagram", ok: false }
+    ]
+  },
 
-    {
-      question: "Étude du marché, est-ce que je dois analyser seulement les concurrents ?",
-      answers: [
-        { t: "Oui", ok: false },
-        { t: "Non, il faut aussi analyser les clients et les tendances", ok: true }
-      ]
-    },
+  {
+    question: "Étude du marché, est-ce que je dois analyser seulement les concurrents ?",
+    answers: [
+      { t: "Oui", ok: false },
+      { t: "Non, il faut aussi analyser les clients et les tendances", ok: true }
+    ]
+  },
 
-    {
-      question: "Construction du business plan",
-      answers: [
-        { t: "Définir la cible", ok: true },
-        { t: "Choisir la couleur du bateau", ok: false },
-        { t: "Identifier le problème client", ok: true }
-      ]
-    }
+  {
+    question: "Construction du business plan, que dois-tu inclure ?",
+    answers: [
+      { t: "Définir la cible", ok: true },
+      { t: "Choisir la couleur du bateau", ok: false },
+      { t: "Identifier le problème client", ok: true },
+      { t: "Prévoir les coûts et revenus", ok: true }
+    ]
+  },
 
-  ];
+  {
+    question: "Stratégie commerciale, quel est le bon objectif ?",
+    answers: [
+      { t: "Vendre au hasard", ok: false },
+      { t: "Adapter son offre au marché", ok: true },
+      { t: "Fixer des prix cohérents", ok: true },
+      { t: "Ignorer les concurrents", ok: false }
+    ]
+  }
+
+];
 
   let current = 0;
 
@@ -714,8 +777,15 @@ cont.onclick = ()=>{
       updateProgressBar(5);
 
   playDialogues([
-    { text:"Ton plan est solide.", anchor:pirate5 },
-    { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
+  { text:"Ton <strong>plan</strong> est solide.", anchor:pirate5 },
+  { text:"Il est temps d'affronter le <strong>marché</strong>.", anchor:pirate5 },
+  { text:"Pour vendre tes pierres, tu dois adapter ta <strong>stratégie commerciale</strong>.", anchor:pirate5 },
+  { text:"Choisis le bon <strong>prix</strong> : ni trop élevé, ni trop bas.", anchor:pirate5 },
+  { text:"Travaille ton <strong>argumentaire</strong> : mets en avant la <strong>valeur</strong> et les <strong>bénéfices</strong>.", anchor:pirate5 },
+  { text:"Sélectionne les bons <strong>canaux de vente</strong> : marché, en ligne ou négociation directe.", anchor:pirate5 },
+  { text:"Observe les <strong>réactions des clients</strong> et ajuste ta stratégie.", anchor:pirate5 },
+  { text:"Un bon vendeur ne vend pas juste un produit… il vend une <strong>solution</strong>.", anchor:pirate5 }
+]);
    
   ], startMiniGame3);
 
@@ -743,39 +813,54 @@ if(!text || !choices || !hintBox || !hintBtn){
   let step = 0;
 
   const steps = [
-    {
-      text:`Les autres vendeurs vendent à <strong>300 PO</strong>, sans pierres rouges.
-      Vous en avez. Quel prix afficher ?`,
-      hint:"💡 Avantage concurrentiel = marge possible.",
-      answers:[
-        { label:"350 PO", correct:true },
-        { label:"300 PO", correct:false },
-        { label:"250 PO", correct:false }
-      ]
-    },
-    {
-      text:`Vous ajoutez des boîtes en bois (20 PO).
-      Comment ajuster le prix ?`,
-      hint:"💡 Le coût est déjà intégré.",
-      answers:[
-        { label:"370 PO", correct:false },
-        { label:"350 PO", correct:true },
-        { label:"330 PO", correct:false }
-      ]
-    },
-    {
-      text:`Objectif : acheter un bateau rapidement.`,
-      hint:"💡 Vendre vite plutôt que luxe.",
-      answers:[
-        { label:"400 PO", correct:false },
-        { label:"350 PO", correct:false },
-        { label:"300 PO", correct:true }
-      ],
-      finalText:`<strong>Bonne stratégie.</strong><br>
-      Les pirates vendent plus vite à 300 PO
-      pour acheter leur bateau sans attendre.`
-    }
-  ];
+
+  {
+    text:`Les autres vendeurs vendent à <strong>300 PO</strong>, sans pierres rouges.
+    Vous en avez. Quel prix afficher ?`,
+    hint:"💡 Avantage concurrentiel = tu peux augmenter la valeur.",
+    answers:[
+      { label:"350 PO", correct:true },
+      { label:"300 PO", correct:false },
+      { label:"250 PO", correct:false }
+    ]
+  },
+
+  {
+    text:`Vous ajoutez des boîtes en bois (coût : <strong>20 PO</strong>).
+    Comment ajuster le prix ?`,
+    hint:"💡 Tu peux répercuter le coût si la valeur perçue augmente.",
+    answers:[
+      { label:"370 PO", correct:true },
+      { label:"350 PO", correct:false },
+      { label:"320 PO", correct:false }
+    ]
+  },
+
+  {
+    text:`Objectif : acheter un bateau rapidement.
+    Quelle stratégie adopter ?`,
+    hint:"💡 Le volume de vente > à la marge financière dans une logique rapide.",
+    answers:[
+      { label:"400 PO", correct:false },
+      { label:"350 PO", correct:false },
+      { label:"300 PO", correct:true }
+    ]
+  },
+
+  {
+    text:`Les ventes ralentissent. Que faire ?`,
+    hint:"💡 Adapter sa stratégie est essentiel.",
+    answers:[
+      { label:"Baisser légèrement le prix", correct:true },
+      { label:"Ne rien changer", correct:false },
+      { label:"Augmenter fortement le prix", correct:false }
+    ],
+    finalText:`<strong>Excellente stratégie.</strong><br>
+    Un bon vendeur <strong>s’adapte</strong> en permanence :
+    prix, offre et approche évoluent selon le <strong>marché</strong>.`
+  }
+
+];
 
   function render(){
 
