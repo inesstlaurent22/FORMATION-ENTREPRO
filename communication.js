@@ -671,9 +671,9 @@ r.className = "mg3-column mg3-right";
   let sel=null, ok=0;
 
 [
- ["Instagram & TikTok","know"],
- ["Facebook & LinkedIn","btob"],
- ["Sites e-commerce","btoc"]
+ ["Instagram & TikTok","Augmenter la visibilité"],
+ ["Facebook & LinkedIn","Business to Business"],
+ ["Sites e-commerce (Shopify,..","Business to Consumer"]
 ].forEach(p=>{
   const b=document.createElement("button");
   b.className="mg3-btn mg3-btn-left";
@@ -683,9 +683,9 @@ r.className = "mg3-column mg3-right";
 });
 
 [
- ["Se faire connaître","know"],
- ["Vendre en BtoB","btob"],
- ["Vendre en BtoC","btoc"]
+ ["Vendre en BtoB","Business to Business"],
+ ["Se faire connaître","Augmenter la visibilité"],
+ ["Vendre en BtoC","Business to Consumer"]
 ].forEach(t=>{
 
   const b=document.createElement("button");
