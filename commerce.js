@@ -82,7 +82,7 @@ window.addEventListener("pageshow", function (event) {
 const stepsOrder = [
   "dialogue1",
   "mg1",
-  "mg2",
+  "dialogue2",
   "mg3"
 ];
 
