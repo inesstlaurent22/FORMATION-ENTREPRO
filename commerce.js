@@ -154,6 +154,9 @@ function updateProgressBar(stepIndex){
 /* ✅ INIT */
 createProgressBar();
 updateProgressBar(0);
+
+// 🔥 AJOUT ICI
+resumeProgress();
    
 /* =====================================================
    VIDÉO INTRO
@@ -359,7 +362,10 @@ function startDialogues1(){
     { text:"Tu dois aussi analyser tes <strong>concurrents</strong> : leurs <strong>prix</strong>, leurs <strong>offres</strong>, leurs <strong>forces</strong>.", anchor:pirate5 },
     { text:"Sans ça, tu avances à l’aveugle… et tu risques de te tromper de <strong>stratégie</strong>.", anchor:pirate5 },
     { text:"Une bonne <strong>étude de marché</strong>, c’est ce qui transforme une <strong>idée</strong> en <strong>projet rentable</strong>.", anchor:pirate5 }
-  ], startMiniGame1);
+  ], ()=>{
+  setStepDone("dialogue1");
+  startMiniGame1();
+});
 
 }
 
@@ -436,6 +442,7 @@ function startMiniGame1(){
               loadQuestion(); // question suivante
             }else{
 
+              setStepDone("game1");
               updateProgressBar(2);
               game1.classList.add("hidden");
               startDialogues2();
@@ -461,8 +468,6 @@ function startMiniGame1(){
 ===================================================== */
 function startDialogues2(){
 
-  updateProgressBar(3);
-
   playDialogues([
     { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
     { text:"Un bon <strong>business plan</strong> évite bien des <strong>naufrages</strong>.", anchor:pirate5 },
@@ -472,6 +477,9 @@ function startDialogues2(){
     { text:"Choix des <strong>prix</strong>, des <strong>canaux de vente</strong>, et des <strong>actions marketing</strong>.", anchor:pirate5 },
     { text:"Un business plan solide, c’est ta <strong>boussole</strong> pour développer ton projet.", anchor:pirate5 }
   ], startMiniGame2);
+
+   setStepDone("dialogue2");
+  updateProgressBar(3);
 
 }
 
@@ -575,6 +583,7 @@ game2.classList.add("hidden");
 
 setTimeout(()=>{
 
+   setStepDone("game2");
    updateProgressBar(4);
    
   showBusinessPlanLoader();
@@ -596,6 +605,9 @@ setTimeout(()=>{
    📘 LIVRE
 ===================================================== */
 function showBusinessPlanLoader(){
+
+     setStepDone("book");
+      updateProgressBar(5);
 
   const overlay = document.createElement("div");
   overlay.id = "identity-loader";
@@ -791,8 +803,6 @@ cont.onclick = ()=>{
 
   overlay.remove();
 
-      updateProgressBar(5);
-
   playDialogues([
   { text:"Ton <strong>plan</strong> est solide.", anchor:pirate5 },
   { text:"Il est temps d'affronter le <strong>marché</strong>.", anchor:pirate5 },
@@ -803,6 +813,10 @@ cont.onclick = ()=>{
   { text:"Observe les <strong>réactions des clients</strong> et ajuste ta stratégie.", anchor:pirate5 },
   { text:"Un bon vendeur ne vend pas juste un produit… il vend une <strong>solution</strong>.", anchor:pirate5 }
 ], startMiniGame3);
+
+     setStepDone("dialogue3");
+      updateProgressBar(6);
+   
    };
    }
    
@@ -914,7 +928,8 @@ setTimeout(()=>{
         // ===== DERNIÈRE ÉTAPE =====
         if(s.finalText){
 
-           updateProgressBar(6);
+           setStepDone("game3");
+           updateProgressBar(7);
 
           text.innerHTML = s.finalText;
           choices.innerHTML = "";
@@ -1053,6 +1068,63 @@ function updateProgressBarFromProgress(){
   }else{
     updateProgressBar(index);
   }
+}
+
+function resumeProgress(){
+
+  const next = getNextStep();
+
+  // Si aucune progression → début normal (vidéo)
+  if(!next){
+    showScene();
+    return;
+  }
+
+  // 🔥 Reprise intelligente selon l'étape
+  switch(next){
+
+    case "dialogue1":
+      showScene();
+      break;
+
+    case "game1":
+      showScene();
+      startMiniGame1();
+      break;
+
+    case "dialogue2":
+      showScene();
+      startDialogues2();
+      break;
+
+    case "game2":
+      showScene();
+      startMiniGame2();
+      break;
+
+    case "book":
+      showScene();
+      showBusinessPlanLoader();
+      break;
+
+    case "dialogue3":
+      showScene();
+      playDialogues([
+        { text:"Ton <strong>plan</strong> est solide.", anchor:pirate5 },
+        { text:"Il est temps d'affronter le <strong>marché</strong>.", anchor:pirate5 }
+      ], startMiniGame3);
+      break;
+
+    case "game3":
+      showScene();
+      startMiniGame3();
+      break;
+
+    default:
+      showScene();
+  }
+
+  updateProgressBarFromProgress();
 }
    
 }); 
