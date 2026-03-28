@@ -12,8 +12,10 @@ const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
 const fadeScreen = document.getElementById("fadeScreen");
 
+// 🔥 INITIALISATION PROPRE DU LOADER
 if(fadeScreen){
   fadeScreen.classList.add("hidden");
+  fadeScreen.style.pointerEvents = "none";
 }
 
 const game1 = document.getElementById("communicationGame");
@@ -34,7 +36,7 @@ const closeVideo = document.getElementById("closeVideo");
 const progressSteps = document.querySelectorAll(".progress-step");
 
 /* =====================================================
-   OUTILS
+   LOADER
 ===================================================== */
 
 function showLoader(duration = 1200, cb){
@@ -44,16 +46,19 @@ function showLoader(duration = 1200, cb){
     return;
   }
 
-  fadeScreen.style.pointerEvents = "auto";
+  // 🔥 reset propre
   fadeScreen.classList.remove("hidden");
+  fadeScreen.style.pointerEvents = "auto";
 
   setTimeout(() => {
+
     fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none";
+    fadeScreen.style.pointerEvents = "none"; // 🔥 indispensable
 
     if(typeof cb === "function"){
       cb();
     }
+
   }, duration);
 }
    
@@ -167,10 +172,12 @@ if (questVideo) {
   questVideo.muted = true;
 
   questVideo.addEventListener("canplay", () => {
-    if (fadeScreen) {
-      fadeScreen.classList.add("hidden");
-    }
-
+  if (fadeScreen) {
+    fadeScreen.classList.add("hidden");
+    fadeScreen.style.pointerEvents = "none"; // 🔥 fix
+  }
+});
+   
     // Sécurise autoplay (iOS safe)
     const playPromise = questVideo.play();
     if (playPromise !== undefined) {
