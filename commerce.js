@@ -58,23 +58,38 @@ function shake(el){
 }
 
 /* =====================================================
-   🔒 ANTI RETOUR FORT
+   🔒 ANTI RETOUR TOTAL (VERSION ROBUSTE)
 ===================================================== */
 
-// Bloque bouton retour
-history.pushState(null, null, location.href);
+// Empêche retour navigateur classique
+function lockNavigation(){
 
-window.onpopstate = function () {
-  location.reload(); // recharge la page au lieu de revenir
-};
+  // Empile un état fictif
+  history.pushState(null, null, location.href);
 
-// Bloque swipe iOS / gestures
+  window.addEventListener("popstate", () => {
+    // Re-pousse l'état → impossible de revenir
+    history.pushState(null, null, location.href);
+  });
+
+}
+
+// Active au démarrage
+lockNavigation();
+
+
+// Empêche swipe iOS + cache page
 window.addEventListener("pageshow", function (event) {
   if (event.persisted) {
-    window.location.reload();
+    location.reload();
   }
 });
 
+// Empêche refresh arrière Android
+window.addEventListener("pagehide", function () {
+  history.pushState(null, null, location.href);
+});
+   
 /* =====================================================
    📊 PROGRESS BAR
 ===================================================== */
