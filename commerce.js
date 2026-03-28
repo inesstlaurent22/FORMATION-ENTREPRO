@@ -99,7 +99,7 @@ const stepsOrder = [
   "mg1",
   "dialogue2",
   "mg2",
-  "book",   // ✅ ajout livre
+  "book",
   "dialogue3",
   "mg3"
 ];
