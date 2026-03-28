@@ -39,14 +39,27 @@ const progressSteps = document.querySelectorAll(".progress-step");
    LOADER
 ===================================================== */
 function showLoader(duration = 1200, cb){
-  if(!fadeScreen){ cb && cb(); return; }
+  if(!fadeScreen){ 
+    cb && cb(); 
+    return; 
+  }
+
+  // 🔥 reset propre
   fadeScreen.classList.remove("hidden");
+  fadeScreen.style.pointerEvents = "all";
+
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
+    fadeScreen.style.pointerEvents = "none"; // 🔥 CRUCIAL
     cb && cb();
   }, duration);
 }
 
+   if(fadeScreen){
+  fadeScreen.classList.add("hidden");
+  fadeScreen.style.pointerEvents = "none";
+  fadeScreen.style.opacity = "0"; // 🔥 ajoute ça
+}
    
 /* =====================================================
    🔒 ANTI RETOUR TOTAL (VERSION ROBUSTE)
@@ -156,13 +169,6 @@ let videoEnded = false;
 if (questVideo) {
 
   questVideo.muted = true;
-
-  questVideo.addEventListener("canplay", () => {
-  if (fadeScreen) {
-    fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none"; // 🔥 fix
-  }
-});
    
     // Sécurise autoplay (iOS safe)
     const playPromise = questVideo.play();
