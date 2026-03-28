@@ -114,7 +114,7 @@ html, body {
 #progressBar{
   position: fixed;
   right: 15px;
-  top: 70px;
+  top: 95px;
   display: flex;
   flex-direction: column;
   gap: 12px;
