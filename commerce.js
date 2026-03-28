@@ -93,6 +93,17 @@ window.addEventListener("pagehide", function () {
 /* =====================================================
    📊 PROGRESS BAR
 ===================================================== */
+
+   const stepsOrder = [
+  "dialogue1",
+  "game1",
+  "dialogue2",
+  "game2",
+  "book",
+  "dialogue3",
+  "game3"
+];
+
 function createProgressBar(){
 
   if(document.getElementById("progressBar")) return;
@@ -913,7 +924,7 @@ setTimeout(()=>{
 
             if(!game3) return;
 
-game3.classList.remove("hidden");
+game3.classList.add("hidden"); // ✅
 
             showLoader(1200, ()=>{
               showCommerceWin();
@@ -1010,16 +1021,6 @@ function launchGemsExplosion(container){
 ===================================================== */
 
 const PROGRESS_KEY = "communication_progress_v1";
-
-const stepsOrder = [
-  "dialogue1",
-  "game1",
-  "dialogue2",
-  "game2",
-  "book",
-  "dialogue3",
-  "game3"
-];
 
 function getProgress(){
   return JSON.parse(sessionStorage.getItem(PROGRESS_KEY) || "{}");
