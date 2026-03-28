@@ -334,14 +334,12 @@ if(skipBtn){
    DIALOGUES 1
 ===================================================== */
 function startDialogues1(){
+
+   updateProgressBar(1);
+   
   playDialogues([
     { text:"Avant de vendre quoi que ce soit, il faut comprendre ton marché.", anchor:pirate5 },
     { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au hasard.", anchor:pirate5 }
-
-     // ✅ jauge étape 1
-      if(typeof updateProgress === "function"){
-        updateProgressBar(1);
-      }
    
   ], startMiniGame1);
 }
@@ -397,11 +395,12 @@ function startMiniGame1(){
    DIALOGUES 2
 ===================================================== */
 function startDialogues2(){
+   
+    updateProgressBar(3);
+   
   playDialogues([
     { text:"Parfait. Maintenant, il faut structurer tout ça.", anchor:pirate5 },
     { text:"Un bon business plan évite bien des naufrages.", anchor:pirate5 }
-
-     updateProgressBar(3);
    
   ], startMiniGame2);
 }
@@ -705,13 +704,13 @@ function showBusinessPlanLoader(){
   =============================== */
 cont.onclick = ()=>{
 
+   updateProgressBar(5);
+
   overlay.remove();
 
   playDialogues([
     { text:"Ton plan est solide.", anchor:pirate5 },
     { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
-
-     updateProgressBar(5);
    
   ], startMiniGame3);
 
