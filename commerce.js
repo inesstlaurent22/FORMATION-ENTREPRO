@@ -57,12 +57,6 @@ function shake(el){
   setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
 
-function updateProgress(step){
-  progressSteps.forEach((el, i)=>{
-    el.classList.toggle("done", i < step);
-  });
-}
-
 /* =====================================================
    🔒 ANTI RETOUR FORT
 ===================================================== */
@@ -846,6 +840,25 @@ const stepsOrder = [
   "mg2",
   "mg3"
 ];
+
+function createProgressBar(){
+
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
+
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+    item.dataset.step = step;
+
+    // emojis visibles
+    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
+
+    bar.appendChild(item);
+  });
+
+  document.body.appendChild(bar);
+}
    
 function updateProgressBar(stepIndex){
 
@@ -862,23 +875,8 @@ function updateProgressBar(stepIndex){
   });
 }
 
-function updateProgressBar(){
-
-  const progress = getProgress();
-
-  const steps = document.querySelectorAll(".progress-step");
-  if(!steps.length) return; // ✅ sécurité
-
-  steps.forEach(el=>{
-    const step = el.dataset.step;
-
-    progress[step]
-      ? el.classList.add("done")
-      : el.classList.remove("done");
-  });
-}
-
    createProgressBar();
+updateProgressBar(0);
    
 
 }); 
