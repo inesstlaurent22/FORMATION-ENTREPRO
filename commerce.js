@@ -351,9 +351,14 @@ function startMiniGame1(){
 
   showLoader(900, ()=>{
 
-    game1.classList.remove("hidden");
-    q1.textContent="Pourquoi réaliser une étude de marché ?";
-    a1.innerHTML="";
+    if(!game1 || !q1 || !a1){
+  console.error("MG1 éléments manquants");
+  return;
+}
+
+game1.classList.remove("hidden");
+q1.textContent="Pourquoi réaliser une étude de marché ?";
+a1.innerHTML="";
 
     [
       {t:"Décorer la boutique",ok:false},
@@ -724,14 +729,16 @@ function startMiniGame3(){
 
    if(!game3) return;
 
-  game3.classList.remove("hidden");
+const text = document.getElementById("strategyText");
+const choices = document.getElementById("strategyChoices");
+const hintBox = document.getElementById("strategyHint");
+const hintBtn = document.getElementById("strategyHintBtn");
 
-  const text = document.getElementById("strategyText");
-  const choices = document.getElementById("strategyChoices");
-  const hintBox = document.getElementById("strategyHint");
-  const hintBtn = document.getElementById("strategyHintBtn");
-
-   if(!hintBtn) return;
+// 🔥 FIX CRASH
+if(!text || !choices || !hintBox || !hintBtn){
+  console.error("MG3 éléments manquants");
+  return;
+}
 
   let step = 0;
 
