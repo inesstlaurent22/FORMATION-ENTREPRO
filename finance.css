@@ -853,17 +853,12 @@ button.correctAnswer:active{
 #miniGame0 .questionBox,
 #financeGame .questionBox,
 #miniGame3 .questionBox{
-  display:inline-block;   /* adapte la largeur au texte */
-  max-width:100%;         /* évite de dépasser le conteneur */
-
   padding:12px 14px;
   background:#f6e6b8;
   color:#2b1605;
   border-radius:12px;
   font-weight:bold;
-
-  margin-bottom:14px;
-  text-align:center;
+  margin-bottom:16px;
 }
 
 /* =====================================================
