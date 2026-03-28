@@ -31,6 +31,8 @@ const questVideo = document.getElementById("questVideo");
 const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
+const progressSteps = document.querySelectorAll(".progress-step");
+
 /* =====================================================
    OUTILS
 ===================================================== */
@@ -53,6 +55,12 @@ function showLoader(duration = 1200, cb){
 function shake(el){
   el.classList.add("screen-shake");
   setTimeout(()=>el.classList.remove("screen-shake"),400);
+}
+
+function updateProgress(step){
+  progressSteps.forEach((el, i)=>{
+    el.classList.toggle("done", i < step);
+  });
 }
 
 /* =====================================================
@@ -116,17 +124,38 @@ function endVideo() {
    SCÈNE INITIALE
 ===================================================== */
 function showScene(){
-  if(background) background.classList.remove("hidden");
 
-  pirate2.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
+  if(background){
+    background.classList.remove("hidden");
+  }
 
-  pirate5.classList.add("glowStart");
-  pirate5.onclick = ()=>{
-    pirate5.classList.remove("glowStart");
-    pirate5.style.pointerEvents = "none";
-    startDialogues1();
-  };
+  if(pirate2){
+    pirate2.classList.remove("hidden");
+  }
+
+  if(pirate5){
+    pirate5.classList.remove("hidden");
+
+    pirate5.classList.add("glowStart");
+
+    // évite les doubles clics
+    pirate5.onclick = null;
+
+    pirate5.addEventListener("click", ()=>{
+
+      pirate5.classList.remove("glowStart");
+      pirate5.style.pointerEvents = "none";
+
+      // ✅ jauge étape 1
+      if(typeof updateProgress === "function"){
+        updateProgress(1);
+      }
+
+      startDialogues1();
+
+    }, { once:true });
+  }
+
 }
 
 /* =====================================================
@@ -271,6 +300,8 @@ function startMiniGame1(){
 
         setTimeout(()=>{
 
+         updateProgress(2);
+
           game1.classList.add("hidden");
 
           startDialogues2();
@@ -378,6 +409,9 @@ function startMiniGame2(){
 game2.classList.add("hidden");
 
 setTimeout(()=>{
+
+   updateProgress(3);
+   
   showBusinessPlanLoader();
 },600);
             }
@@ -678,6 +712,9 @@ function startMiniGame3(){
         b.classList.add("flash-success");
 
 setTimeout(()=>{
+
+   updateProgress(4);
+   
   b.classList.remove("flash-success");
   b.classList.add("correct-locked");
 },400);
