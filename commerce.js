@@ -809,13 +809,11 @@ cont.onclick = ()=>{
   { text:"Sélectionne les bons <strong>canaux de vente</strong> : marché, en ligne ou négociation directe.", anchor:pirate5 },
   { text:"Observe les <strong>réactions des clients</strong> et ajuste ta stratégie.", anchor:pirate5 },
   { text:"Un bon vendeur ne vend pas juste un produit… il vend une <strong>solution</strong>.", anchor:pirate5 }
-], startMiniGame3);
-
-     setStepDone("dialogue3");
-      updateProgressBar(6);
-   
-   };
-   }
+], ()=>{
+  setStepDone("dialogue3");
+  updateProgressBar(6);
+  startMiniGame3();
+});
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
@@ -1105,12 +1103,15 @@ function resumeProgress(){
       break;
 
     case "dialogue3":
-      showScene();
-      playDialogues([
-        { text:"Ton <strong>plan</strong> est solide.", anchor:pirate5 },
-        { text:"Il est temps d'affronter le <strong>marché</strong>.", anchor:pirate5 }
-      ], startMiniGame3);
-      break;
+  showScene();
+  playDialogues([
+    { text:"Ton plan est solide.", anchor:pirate5 },
+    { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
+  ], ()=>{
+    setStepDone("dialogue3");
+    startMiniGame3();
+  });
+  break;
 
     case "game3":
       showScene();
