@@ -37,24 +37,23 @@ const progressSteps = document.querySelectorAll(".progress-step");
    OUTILS
 ===================================================== */
 function showLoader(duration = 1200, cb){
+
   if(!fadeScreen){
     cb && cb();
     return;
   }
 
+  fadeScreen.style.pointerEvents = "auto";
   fadeScreen.classList.remove("hidden");
 
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
+    fadeScreen.style.pointerEvents = "none";
+
     if(typeof cb === "function"){
       cb();
     }
   }, duration);
-}
-
-function shake(el){
-  el.classList.add("screen-shake");
-  setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
 
 /* =====================================================
