@@ -16,7 +16,9 @@ html,body{
   overflow:hidden;
 }
 
-.hidden{display:none!important;}
+.hidden {
+  display: none;
+}
 
 
 /* =====================================================
