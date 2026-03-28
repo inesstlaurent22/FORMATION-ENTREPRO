@@ -82,8 +82,10 @@ window.addEventListener("pageshow", function (event) {
 const stepsOrder = [
   "dialogue1",
   "mg1",
+  "dialogue2",
   "mg2",
   "book",   // ✅ ajout livre
+  "dialogue3",
   "mg3"
 ];
 
@@ -221,11 +223,6 @@ function showScene(){
       pirate5.classList.remove("glowStart");
       pirate5.style.pointerEvents = "none";
 
-      // ✅ jauge étape 1
-      if(typeof updateProgress === "function"){
-        updateProgressBar(1);
-      }
-
       startDialogues1();
 
     }, { once:true });
@@ -340,6 +337,12 @@ function startDialogues1(){
   playDialogues([
     { text:"Avant de vendre quoi que ce soit, il faut comprendre ton marché.", anchor:pirate5 },
     { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au hasard.", anchor:pirate5 }
+
+     // ✅ jauge étape 1
+      if(typeof updateProgress === "function"){
+        updateProgressBar(1);
+      }
+   
   ], startMiniGame1);
 }
 
@@ -397,6 +400,9 @@ function startDialogues2(){
   playDialogues([
     { text:"Parfait. Maintenant, il faut structurer tout ça.", anchor:pirate5 },
     { text:"Un bon business plan évite bien des naufrages.", anchor:pirate5 }
+
+     updateProgressBar(3);
+   
   ], startMiniGame2);
 }
 
@@ -485,7 +491,7 @@ game2.classList.add("hidden");
 
 setTimeout(()=>{
 
-   updateProgressBar(3);
+   updateProgressBar(4);
    
   showBusinessPlanLoader();
 },600);
@@ -704,6 +710,9 @@ cont.onclick = ()=>{
   playDialogues([
     { text:"Ton plan est solide.", anchor:pirate5 },
     { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
+
+     updateProgressBar(5);
+   
   ], startMiniGame3);
 
 };
@@ -788,7 +797,7 @@ function startMiniGame3(){
 
 setTimeout(()=>{
 
-   updateProgressBar(4);
+   updateProgressBar(6);
    
   b.classList.remove("flash-success");
   b.classList.add("correct-locked");
