@@ -514,12 +514,12 @@ html,body{
   cursor:pointer;
 }
 
-#dialogue-bubble{
+.dialogue-bubble {
   font-size:14px;
   line-height:1.4;
 }
 
-#dialogue-bubble strong{
+.dialogue-bubble strong {
   font-weight: bold;
   color: #ffd700;
 }
