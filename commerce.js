@@ -1132,6 +1132,9 @@ function resumeProgress(){
   updateProgressBarFromProgress();
 }
 
-resumeProgress();
+// ❌ ne PAS lancer direct
+if(!videoPlaying){
+  resumeProgress();
+}
    
 }); 
