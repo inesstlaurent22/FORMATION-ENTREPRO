@@ -788,6 +788,7 @@ cont.onclick = ()=>{
   { text:"Observe les <strong>réactions des clients</strong> et ajuste ta stratégie.", anchor:pirate5 },
   { text:"Un bon vendeur ne vend pas juste un produit… il vend une <strong>solution</strong>.", anchor:pirate5 }
 ], startMiniGame3);
+   };
    }
    
 /* =====================================================
@@ -865,7 +866,6 @@ if(!text || !choices || !hintBox || !hintBtn){
   function render(){
 
     const s = steps[currentStep];
-currentStep++;
 
     text.innerHTML = s.text;
 
