@@ -82,13 +82,13 @@ window.addEventListener("pageshow", function (event) {
 const stepsOrder = [
   "dialogue1",
   "mg1",
-  "dialogue2",
+  "mg2",
+  "book",   // ✅ ajout livre
   "mg3"
 ];
 
 function createProgressBar(){
 
-  // ✅ évite duplication
   if(document.getElementById("progressBar")) return;
 
   const bar = document.createElement("div");
@@ -99,8 +99,16 @@ function createProgressBar(){
     item.className = "progress-step";
     item.dataset.step = step;
 
-    // emojis
-    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
+    // ✅ gestion emojis
+    if(step.includes("dialogue")){
+      item.textContent = "💬";
+    }
+    else if(step === "book"){
+      item.textContent = "📖"; // ← emoji livre (remplace ton caractère vide)
+    }
+    else{
+      item.textContent = "🎮";
+    }
 
     bar.appendChild(item);
   });
@@ -111,11 +119,8 @@ function createProgressBar(){
 function updateProgressBar(stepIndex){
 
   const steps = document.querySelectorAll(".progress-step");
-
-  // ✅ sécurité
   if(!steps.length) return;
 
-  // ✅ clamp
   stepIndex = Math.min(stepIndex, steps.length);
 
   steps.forEach((el, i)=>{
