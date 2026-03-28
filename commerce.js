@@ -163,23 +163,24 @@ updateProgressBar(0);
 /* =====================================================
    VIDÉO INTRO
 ===================================================== */
-
 let videoEnded = false;
+let videoPlaying = true; // 🔥 bloque le loader pendant la vidéo
 
 if (questVideo) {
 
   questVideo.muted = true;
-   
-    // Sécurise autoplay (iOS safe)
-    const playPromise = questVideo.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {});
-    }
-  });
 
+  // Sécurise autoplay (iOS safe)
+  const playPromise = questVideo.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {});
+  }
+
+  // ✅ FIN VIDÉO
   questVideo.addEventListener("ended", endVideo);
 }
 
+// 🔊 Son
 if (toggleSound && questVideo) {
   toggleSound.addEventListener("click", () => {
     questVideo.muted = !questVideo.muted;
@@ -187,6 +188,7 @@ if (toggleSound && questVideo) {
   });
 }
 
+// ❌ Bouton fermer vidéo
 if (closeVideo) {
   closeVideo.addEventListener("click", endVideo);
 }
@@ -195,6 +197,8 @@ function endVideo() {
 
   if (videoEnded) return;
   videoEnded = true;
+
+  videoPlaying = false; // 🔥 débloque le loader
 
   if (questVideo) {
     questVideo.pause();
@@ -206,7 +210,7 @@ function endVideo() {
     videoContainer.classList.add("hidden");
   }
 
-  // 🔥 Affiche le loader pirate AVANT la scène
+  // ✅ Loader uniquement après la vidéo
   showLoader(1200, () => {
     showScene();
   });
