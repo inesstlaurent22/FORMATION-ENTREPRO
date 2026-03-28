@@ -796,9 +796,9 @@ cont.onclick = ()=>{
 ===================================================== */
 function startMiniGame3(){
 
-   game3.classList.remove("hidden");
-
    if(!game3) return;
+
+game3.classList.remove("hidden");
 
 const text = document.getElementById("strategyText");
 const choices = document.getElementById("strategyChoices");
@@ -865,7 +865,9 @@ if(!text || !choices || !hintBox || !hintBtn){
 
   function render(){
 
-    const s = steps[currentStep];
+    if(currentStep >= steps.length) return;
+
+const s = steps[currentStep];
 
     text.innerHTML = s.text;
 
@@ -917,7 +919,10 @@ game3.classList.remove("hidden");
 
         }
          else{
-  render(); // OU currentStep est déjà incrémenté plus haut
+  currentStep++;   // ✅ AJOUT
+  if(currentStep < steps.length){
+    render();
+  }
 }
       };
 
