@@ -166,7 +166,7 @@ function showScene(){
 
       // ✅ jauge étape 1
       if(typeof updateProgress === "function"){
-        updateProgress(1);
+        updateProgressBar(1);
       }
 
       startDialogues1();
@@ -318,7 +318,7 @@ function startMiniGame1(){
 
         setTimeout(()=>{
 
-         updateProgress(2);
+         updateProgressBar(2);
 
           game1.classList.add("hidden");
 
@@ -428,7 +428,7 @@ game2.classList.add("hidden");
 
 setTimeout(()=>{
 
-   updateProgress(3);
+   updateProgressBar(3);
    
   showBusinessPlanLoader();
 },600);
@@ -731,7 +731,7 @@ function startMiniGame3(){
 
 setTimeout(()=>{
 
-   updateProgress(4);
+   updateProgressBar(4);
    
   b.classList.remove("flash-success");
   b.classList.add("correct-locked");
@@ -839,23 +839,27 @@ function launchGemsExplosion(container){
    /* =====================================================
    📊 PROGRESS BAR
 ===================================================== */
+   
+const stepsOrder = [
+  "dialogue1",
+  "mg1",
+  "mg2",
+  "mg3"
+];
+   
+function updateProgressBar(stepIndex){
 
-function createProgressBar(){
+  const steps = document.querySelectorAll(".progress-step");
 
-  const bar = document.createElement("div");
-  bar.id = "progressBar";
-
-  stepsOrder.forEach(step=>{
-    const item = document.createElement("div");
-    item.className = "progress-step";
-    item.dataset.step = step;
-    item.textContent = step.includes("dialogue") ? "💬" : "🎮";
-    bar.appendChild(item);
+  steps.forEach((el, i)=>{
+    if(i < stepIndex){
+      el.classList.add("done");
+      el.style.opacity = "1";
+    }else{
+      el.classList.remove("done");
+      el.style.opacity = "0.4";
+    }
   });
-
-  document.body.appendChild(bar);
-
-  updateProgressBar();
 }
 
 function updateProgressBar(){
