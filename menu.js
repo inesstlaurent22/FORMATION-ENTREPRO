@@ -39,7 +39,7 @@ checkMobileBlock();
 window.addEventListener("resize", checkMobileBlock);
 
 /* ==========================================================
-   🌌 MÉTÉO
+   🌌 MÉTÉO AUTO + MANUEL
 ========================================================== */
 
 const background = document.getElementById("background");
@@ -49,29 +49,47 @@ const timeDropdown = document.getElementById("timeDropdown");
 const DAY_BG = "images/Fondmenu.PNG";
 const NIGHT_BG = "images/Fondmenusoir.PNG";
 
+/* Détection auto heure */
+function getAutoMode() {
+  const hour = new Date().getHours();
+  return (hour >= 19 || hour < 7) ? "night" : "day";
+}
+
+/* Application du fond */
 function setBackground(mode, save = true) {
-  if (!background) {
-    console.log("background introuvable");
-    return;
-  }
 
-  console.log("mode appliqué :", mode);
+  if (!background) return;
 
-background.style.backgroundImage = `url("${mode === "night" ? NIGHT_BG : DAY_BG}")`;
-
+  background.style.backgroundImage = `url("${mode === "night" ? NIGHT_BG : DAY_BG}")`;
   document.body.classList.toggle("night-mode", mode === "night");
 
-  if (save) localStorage.setItem("menu_background", mode);
+  if (save) {
+    localStorage.setItem("menu_background", mode);
+    localStorage.setItem("menu_background_manual", "true"); // 👈 IMPORTANT
+  }
 }
 
-const savedMode = localStorage.getItem("menu_background");
-if (savedMode) {
+/* INIT */
+const isManual = localStorage.getItem("menu_background_manual") === "true";
+
+if (isManual) {
+  // utilisateur a choisi → on respecte
+  const savedMode = localStorage.getItem("menu_background");
   setBackground(savedMode, false);
 } else {
-  const hour = new Date().getHours();
-  setBackground(hour >= 19 || hour < 7 ? "night" : "day", false);
+  // mode auto basé sur heure
+  setBackground(getAutoMode(), false);
 }
 
+/* Vérification toutes les minutes (changement jour/nuit auto) */
+setInterval(() => {
+  const isManual = localStorage.getItem("menu_background_manual") === "true";
+  if (!isManual) {
+    setBackground(getAutoMode(), false);
+  }
+}, 60000);
+
+/* MENU DROPDOWN */
 if (timeToggle && timeDropdown) {
 
   timeToggle.addEventListener("click", (e) => {
@@ -89,6 +107,10 @@ if (timeToggle && timeDropdown) {
 
   timeDropdown.querySelectorAll("button").forEach(btn => {
     btn.addEventListener("click", () => {
+
+      // 👇 active le mode manuel
+      localStorage.setItem("menu_background_manual", "true");
+
       setBackground(btn.dataset.mode);
       timeDropdown.classList.remove("show");
     });
