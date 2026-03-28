@@ -704,9 +704,9 @@ function showBusinessPlanLoader(){
   =============================== */
 cont.onclick = ()=>{
 
-   updateProgressBar(5);
-
   overlay.remove();
+
+      updateProgressBar(5);
 
   playDialogues([
     { text:"Ton plan est solide.", anchor:pirate5 },
