@@ -64,6 +64,24 @@ function updateProgress(step){
 }
 
 /* =====================================================
+   🔒 ANTI RETOUR FORT
+===================================================== */
+
+// Bloque bouton retour
+history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+  location.reload(); // recharge la page au lieu de revenir
+};
+
+// Bloque swipe iOS / gestures
+window.addEventListener("pageshow", function (event) {
+  if (event.persisted) {
+    window.location.reload();
+  }
+});
+   
+/* =====================================================
    VIDÉO INTRO
 ===================================================== */
 
