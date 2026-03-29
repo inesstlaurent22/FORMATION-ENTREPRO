@@ -68,8 +68,9 @@ let videoEnded = false;
 if (questVideo) {
 
   questVideo.muted = true;
+  questVideo.playsInline = true; // 🔥 important iOS
 
-  questVideo.addEventListener("canplay", () => {
+  const tryPlay = () => {
 
     // 🔥 Cache ABSOLU du loader pendant la vidéo
     if (fadeScreen) {
@@ -77,7 +78,6 @@ if (questVideo) {
       fadeScreen.style.pointerEvents = "none";
       fadeScreen.style.display = "none";
 
-      // évite tout flash visuel
       requestAnimationFrame(() => {
         fadeScreen.style.display = "";
       });
@@ -87,9 +87,25 @@ if (questVideo) {
     if (playPromise !== undefined) {
       playPromise.catch(() => {});
     }
-  });
+  };
 
+  // ✅ Multi-events pour éviter blocage
+  questVideo.addEventListener("canplay", tryPlay);
+  questVideo.addEventListener("loadeddata", tryPlay);
+
+  // ✅ Fin normale
   questVideo.addEventListener("ended", endVideo);
+
+  // 🔥 FALLBACK anti-blocage (très important)
+  questVideo.addEventListener("timeupdate", () => {
+    if (
+      !videoEnded &&
+      questVideo.duration > 0 &&
+      questVideo.currentTime >= questVideo.duration - 0.3
+    ) {
+      endVideo();
+    }
+  });
 }
 
 /* 🔊 Toggle son */
@@ -115,7 +131,12 @@ function endVideo() {
 
   if (questVideo) {
     questVideo.pause();
+
+    // 🔥 clean sans casser le player
     questVideo.removeAttribute("src");
+    while (questVideo.firstChild) {
+      questVideo.removeChild(questVideo.firstChild);
+    }
     questVideo.load();
   }
 
@@ -133,7 +154,7 @@ function endVideo() {
     showScene();
   });
 }
-
+                                                     
 /* =====================================================
    SCÈNE INITIALE
 ===================================================== */
