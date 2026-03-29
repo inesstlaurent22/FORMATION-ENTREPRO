@@ -1,4 +1,4 @@
-DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {"
 
 /* =====================================================
    DOM
@@ -69,23 +69,30 @@ if (questVideo) {
 
   questVideo.muted = true;
 
- questVideo.addEventListener("canplay", () => {
+  questVideo.addEventListener("canplay", () => {
 
-  // 🔥 Toujours cacher le loader pendant la vidéo
-  if (fadeScreen) {
-    fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none";
-  }
+    // 🔥 Cache ABSOLU du loader pendant la vidéo
+    if (fadeScreen) {
+      fadeScreen.classList.add("hidden");
+      fadeScreen.style.pointerEvents = "none";
+      fadeScreen.style.display = "none";
 
-  const playPromise = questVideo.play();
-  if (playPromise !== undefined) {
-    playPromise.catch(() => {});
-  }
-});
+      // évite tout flash visuel
+      requestAnimationFrame(() => {
+        fadeScreen.style.display = "";
+      });
+    }
+
+    const playPromise = questVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
+    }
+  });
 
   questVideo.addEventListener("ended", endVideo);
 }
 
+/* 🔊 Toggle son */
 if (toggleSound && questVideo) {
   toggleSound.addEventListener("click", () => {
     questVideo.muted = !questVideo.muted;
@@ -93,10 +100,14 @@ if (toggleSound && questVideo) {
   });
 }
 
+/* ❌ Bouton skip */
 if (closeVideo) {
   closeVideo.addEventListener("click", endVideo);
 }
 
+/* =====================================================
+   FIN VIDÉO
+===================================================== */
 function endVideo() {
 
   if (videoEnded) return;
@@ -112,9 +123,10 @@ function endVideo() {
     videoContainer.classList.add("hidden");
   }
 
-  // 🔥 ACTIVE le loader ici seulement
-  if(fadeScreen){
+  // 🔥 Active le loader UNIQUEMENT ici
+  if (fadeScreen) {
     fadeScreen.style.pointerEvents = "auto";
+    fadeScreen.classList.remove("hidden");
   }
 
   showLoader(1200, () => {
