@@ -85,9 +85,18 @@ html,body{
   inset:0;
   background:rgba(0,0,0,.9);
   z-index:9000;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
+  opacity:0;
+  pointer-events:none;
+}
+
+#fadeScreen.active{
+  opacity:1;
+  pointer-events:auto;
 }
 
 .loaderBox{
@@ -236,8 +245,7 @@ html,body{
   color: #ffd700;
 
   /* 🔥 superposition couleur + image */
-  background:
-    linear-gradient(rgba(59,42,26,0.85), rgba(30,20,13,0.9)),
+  background: linear-gradient(rgba(59,42,26,0.85), rgba(30,20,13,0.9));
 
   background-size: cover;
   background-position: center;
