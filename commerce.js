@@ -68,40 +68,35 @@ let videoEnded = false;
 if (questVideo) {
 
   questVideo.muted = true;
-  questVideo.playsInline = true; // 🔥 important iOS
+  questVideo.playsInline = true;
 
   const tryPlay = () => {
 
-    // 🔥 Cache ABSOLU du loader pendant la vidéo
+    // 🔥 cache loader pendant la vidéo
     if (fadeScreen) {
       fadeScreen.classList.add("hidden");
       fadeScreen.style.pointerEvents = "none";
-      fadeScreen.style.display = "none";
-
-      requestAnimationFrame(() => {
-        fadeScreen.style.display = "";
-      });
     }
 
-    const playPromise = questVideo.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {});
+    const p = questVideo.play();
+    if (p && typeof p.catch === "function") {
+      p.catch(() => {});
     }
   };
 
-  // ✅ Multi-events pour éviter blocage
+  // ✅ events fiables
   questVideo.addEventListener("canplay", tryPlay);
   questVideo.addEventListener("loadeddata", tryPlay);
 
-  // ✅ Fin normale
+  // ✅ fin normale
   questVideo.addEventListener("ended", endVideo);
 
-  // 🔥 FALLBACK anti-blocage (très important)
+  // ✅ fallback solide (iOS / bugs durée)
   questVideo.addEventListener("timeupdate", () => {
     if (
       !videoEnded &&
-      questVideo.duration > 0 &&
-      questVideo.currentTime >= questVideo.duration - 0.3
+      questVideo.duration &&
+      questVideo.currentTime >= questVideo.duration - 0.2
     ) {
       endVideo();
     }
@@ -116,9 +111,11 @@ if (toggleSound && questVideo) {
   });
 }
 
-/* ❌ Bouton skip */
+/* ❌ Bouton skip (sécurisé) */
 if (closeVideo) {
-  closeVideo.addEventListener("click", endVideo);
+  closeVideo.addEventListener("click", () => {
+    endVideo();
+  });
 }
 
 /* =====================================================
@@ -129,32 +126,28 @@ function endVideo() {
   if (videoEnded) return;
   videoEnded = true;
 
+  // 🔥 stop simple (NE PAS supprimer src → bug iOS)
   if (questVideo) {
     questVideo.pause();
-
-    // 🔥 clean sans casser le player
-    questVideo.removeAttribute("src");
-    while (questVideo.firstChild) {
-      questVideo.removeChild(questVideo.firstChild);
-    }
-    questVideo.load();
   }
 
+  // 🔥 cache vidéo
   if (videoContainer) {
     videoContainer.classList.add("hidden");
   }
 
-  // 🔥 Active le loader UNIQUEMENT ici
+  // 🔥 affiche loader proprement
   if (fadeScreen) {
-    fadeScreen.style.pointerEvents = "auto";
     fadeScreen.classList.remove("hidden");
+    fadeScreen.style.pointerEvents = "auto";
   }
 
-  showLoader(1200, () => {
+  // 🔥 transition garantie
+  showLoader(1000, () => {
     showScene();
   });
 }
-                                                     
+   
 /* =====================================================
    SCÈNE INITIALE
 ===================================================== */
