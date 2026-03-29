@@ -114,7 +114,27 @@ if (toggleSound && questVideo) {
 /* ❌ Bouton skip (sécurisé) */
 if (closeVideo) {
   closeVideo.addEventListener("click", () => {
-    endVideo();
+
+    console.log("SKIP VIDEO CLICK");
+
+    // stop vidéo
+    if (questVideo) {
+      questVideo.pause();
+    }
+
+    // cache vidéo
+    if (videoContainer) {
+      videoContainer.classList.add("hidden");
+    }
+
+    // cache loader (très important)
+    if (fadeScreen) {
+      fadeScreen.classList.add("hidden");
+      fadeScreen.style.pointerEvents = "none";
+    }
+
+    // 👉 affiche DIRECTEMENT la scène
+    showScene();
   });
 }
 
@@ -152,18 +172,24 @@ function endVideo() {
    SCÈNE INITIALE
 ===================================================== */
 function showScene(){
-  background.classList.remove("hidden");
-  pirate2.classList.remove("hidden");
-  pirate5.classList.remove("hidden");
 
-  pirate5.classList.add("glowStart");
-  pirate5.onclick = ()=>{
-    pirate5.classList.remove("glowStart");
-    pirate5.style.pointerEvents = "none";
-    startDialogues1();
-  };
+  console.log("SHOW SCENE");
+
+  if(background) background.classList.remove("hidden");
+  if(pirate2) pirate2.classList.remove("hidden");
+  if(pirate5) pirate5.classList.remove("hidden");
+
+  if(pirate5){
+    pirate5.classList.add("glowStart");
+
+    pirate5.onclick = ()=>{
+      pirate5.classList.remove("glowStart");
+      pirate5.style.pointerEvents = "none";
+      startDialogues1();
+    };
+  }
 }
-
+   
 /* =====================================================
    DIALOGUES ENGINE
 ===================================================== */
