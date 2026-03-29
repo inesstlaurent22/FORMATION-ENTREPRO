@@ -35,15 +35,19 @@ const closeVideo = document.getElementById("closeVideo");
    OUTILS
 ===================================================== */
 function showLoader(duration = 1200, cb){
+
   if(!fadeScreen){
     cb && cb();
     return;
   }
 
   fadeScreen.classList.remove("hidden");
+  fadeScreen.style.pointerEvents = "auto"; // actif uniquement ici
 
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
+    fadeScreen.style.pointerEvents = "none";
+
     if(typeof cb === "function"){
       cb();
     }
@@ -65,17 +69,19 @@ if (questVideo) {
 
   questVideo.muted = true;
 
-  questVideo.addEventListener("canplay", () => {
-    if (fadeScreen) {
-      fadeScreen.classList.add("hidden");
-    }
+ questVideo.addEventListener("canplay", () => {
 
-    // Sécurise autoplay (iOS safe)
-    const playPromise = questVideo.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {});
-    }
-  });
+  // 🔥 Toujours cacher le loader pendant la vidéo
+  if (fadeScreen) {
+    fadeScreen.classList.add("hidden");
+    fadeScreen.style.pointerEvents = "none";
+  }
+
+  const playPromise = questVideo.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {});
+  }
+});
 
   questVideo.addEventListener("ended", endVideo);
 }
@@ -106,7 +112,11 @@ function endVideo() {
     videoContainer.classList.add("hidden");
   }
 
-  // 🔥 Affiche le loader pirate AVANT la scène
+  // 🔥 ACTIVE le loader ici seulement
+  if(fadeScreen){
+    fadeScreen.style.pointerEvents = "auto";
+  }
+
   showLoader(1200, () => {
     showScene();
   });
