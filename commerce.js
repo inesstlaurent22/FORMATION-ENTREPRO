@@ -126,26 +126,26 @@ function endVideo() {
   if (videoEnded) return;
   videoEnded = true;
 
-  // 🔥 stop simple (NE PAS supprimer src → bug iOS)
+  console.log("END VIDEO"); // debug
+
   if (questVideo) {
     questVideo.pause();
   }
 
-  // 🔥 cache vidéo
   if (videoContainer) {
     videoContainer.classList.add("hidden");
   }
 
-  // 🔥 affiche loader proprement
+  // 🔥 sécurité absolue
   if (fadeScreen) {
     fadeScreen.classList.remove("hidden");
     fadeScreen.style.pointerEvents = "auto";
   }
 
-  // 🔥 transition garantie
-  showLoader(1000, () => {
+  // 🔥 fallback direct
+  setTimeout(() => {
     showScene();
-  });
+  }, 200);
 }
    
 /* =====================================================
