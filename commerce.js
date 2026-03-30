@@ -62,8 +62,18 @@ function shake(el){
 /* =====================================================
    VIDÉO INTRO
 ===================================================== */
+/* =====================================================
+   VIDÉO INTRO — VERSION STABLE (ANTI-BLOCAGE)
+===================================================== */
 
 let videoEnded = false;
+let safetyTimeout = null;
+
+function forceEndVideo(){
+  if(videoEnded) return;
+  console.log("FORCE END VIDEO");
+  endVideo();
+}
 
 if (questVideo) {
 
@@ -72,7 +82,6 @@ if (questVideo) {
 
   const tryPlay = () => {
 
-    // 🔥 cache loader pendant la vidéo
     if (fadeScreen) {
       fadeScreen.classList.add("hidden");
       fadeScreen.style.pointerEvents = "none";
@@ -84,58 +93,28 @@ if (questVideo) {
     }
   };
 
-  // ✅ events fiables
+  // 🔥 lancement
   questVideo.addEventListener("canplay", tryPlay);
   questVideo.addEventListener("loadeddata", tryPlay);
 
-  // ✅ fin normale
+  // 🔥 fin normale
   questVideo.addEventListener("ended", endVideo);
 
-  // ✅ fallback solide (iOS / bugs durée)
+  // 🔥 fallback temps réel (important iOS)
   questVideo.addEventListener("timeupdate", () => {
     if (
       !videoEnded &&
       questVideo.duration &&
-      questVideo.currentTime >= questVideo.duration - 0.2
+      questVideo.currentTime >= questVideo.duration - 0.3
     ) {
-      endVideo();
+      forceEndVideo();
     }
   });
-}
 
-/* 🔊 Toggle son */
-if (toggleSound && questVideo) {
-  toggleSound.addEventListener("click", () => {
-    questVideo.muted = !questVideo.muted;
-    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  });
-}
-
-/* ❌ Bouton skip (sécurisé) */
-if (closeVideo) {
-  closeVideo.addEventListener("click", () => {
-
-    console.log("SKIP VIDEO CLICK");
-
-    // stop vidéo
-    if (questVideo) {
-      questVideo.pause();
-    }
-
-    // cache vidéo
-    if (videoContainer) {
-      videoContainer.classList.add("hidden");
-    }
-
-    // cache loader (très important)
-    if (fadeScreen) {
-      fadeScreen.classList.add("hidden");
-      fadeScreen.style.pointerEvents = "none";
-    }
-
-    // 👉 affiche DIRECTEMENT la scène
-    showScene();
-  });
+  // 🔥 sécurité ABSOLUE (si vidéo bug complètement)
+  safetyTimeout = setTimeout(() => {
+    forceEndVideo();
+  }, 12000); // durée max (ajuste si besoin)
 }
 
 /* =====================================================
@@ -146,26 +125,31 @@ function endVideo() {
   if (videoEnded) return;
   videoEnded = true;
 
-  console.log("END VIDEO"); // debug
+  console.log("END VIDEO");
+
+  if (safetyTimeout) {
+    clearTimeout(safetyTimeout);
+  }
 
   if (questVideo) {
     questVideo.pause();
+    questVideo.currentTime = 0;
   }
 
   if (videoContainer) {
     videoContainer.classList.add("hidden");
   }
 
-  // 🔥 sécurité absolue
+  // 🔥 IMPORTANT : ne PAS afficher le loader ici
   if (fadeScreen) {
-    fadeScreen.classList.remove("hidden");
-    fadeScreen.style.pointerEvents = "auto";
+    fadeScreen.classList.add("hidden");
+    fadeScreen.style.pointerEvents = "none";
   }
 
-  // 🔥 fallback direct
-  setTimeout(() => {
+  // 👉 transition directe
+  requestAnimationFrame(() => {
     showScene();
-  }, 200);
+  });
 }
    
 /* =====================================================
