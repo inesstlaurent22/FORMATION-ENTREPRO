@@ -45,8 +45,8 @@ html,body{
 #videoControls{
   position:absolute;
   inset:0;
+  z-index:10002; /* 🔥 plus haut que tout */
   pointer-events:none;
-  z-index:10001;
 }
 
 #videoControls button{
@@ -65,6 +65,7 @@ html,body{
     inset 0 0 6px rgba(255,215,0,.6),
     0 4px 0 #3b2208;
   transition:transform .08s ease, box-shadow .08s ease;
+  z-index:10003;
 }
 
 #videoControls button:active{
