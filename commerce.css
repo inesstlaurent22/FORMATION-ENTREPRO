@@ -100,13 +100,19 @@ html,body{
 
   opacity:0;
   pointer-events:none;
+
+  transition:opacity .3s ease;
 }
 
+/* ✅ état visible */
 #fadeScreen.active{
   opacity:1;
   pointer-events:auto;
 }
 
+/* =====================================================
+   LOADER BOX
+===================================================== */
 .loaderBox{
   position:relative;
   width:120px;
@@ -144,6 +150,10 @@ html,body{
   from{transform:rotate(0deg);}
   to{transform:rotate(360deg);}
 }
+
+/* =====================================================
+   Jauge 
+===================================================== */
 
 #progressBar{
   position: fixed;
