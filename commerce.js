@@ -32,25 +32,65 @@ const toggleSound = document.getElementById("toggleSound");
 const closeVideo = document.getElementById("closeVideo");
 
 /* =====================================================
-   OUTILS
+   🎬 VIDÉO INTRO
+===================================================== */
+const videoContainer = document.getElementById("videoContainer");
+const introVideo     = document.getElementById("questVideo");
+const toggleSound    = document.getElementById("toggleSound");
+const closeVideo     = document.getElementById("closeVideo");
+const scene          = document.getElementById("scene");
+const fadeScreen     = document.getElementById("fadeScreen");
+
+let videoClosed = false;
+
+if(introVideo){
+  introVideo.muted = true;
+  introVideo.playsInline = true;
+  introVideo.autoplay = true;
+  introVideo.style.pointerEvents = "none";
+  introVideo.play().catch(()=>{});
+}
+
+if(toggleSound){
+  toggleSound.onclick = e => {
+    e.stopPropagation();
+    introVideo.muted = !introVideo.muted;
+    toggleSound.textContent = introVideo.muted ? "🔇" : "🔊";
+  };
+}
+
+if(closeVideo){
+  closeVideo.onclick = e => {
+    e.stopPropagation();
+    closeIntro();
+  };
+}
+
+introVideo.onended = closeIntro;
+
+function closeIntro(){
+  if(videoClosed) return;
+  videoClosed = true;
+
+  introVideo.pause();
+  videoContainer.style.display = "none";
+
+  // Affiche la scène pendant le loader
+  scene.classList.remove("hidden");
+
+  // Lance la transition
+  showLoader(800);
+}
+
+/* =====================================================
+   🌑 LOADER
 ===================================================== */
 function showLoader(duration = 1200, cb){
-
-  if(!fadeScreen){
-    cb && cb();
-    return;
-  }
-
+  if(!fadeScreen){ cb && cb(); return; }
   fadeScreen.classList.remove("hidden");
-  fadeScreen.style.pointerEvents = "auto"; // actif uniquement ici
-
   setTimeout(() => {
     fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none";
-
-    if(typeof cb === "function"){
-      cb();
-    }
+    cb && cb();
   }, duration);
 }
 
@@ -59,99 +99,6 @@ function shake(el){
   setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
 
-/* =====================================================
-   VIDÉO INTRO
-===================================================== */
-/* =====================================================
-   VIDÉO INTRO — VERSION STABLE (ANTI-BLOCAGE)
-===================================================== */
-
-let videoEnded = false;
-let safetyTimeout = null;
-
-function forceEndVideo(){
-  if(videoEnded) return;
-  console.log("FORCE END VIDEO");
-  endVideo();
-}
-
-if (questVideo) {
-
-  questVideo.muted = true;
-  questVideo.playsInline = true;
-
-  const tryPlay = () => {
-
-    if (fadeScreen) {
-      fadeScreen.classList.add("hidden");
-      fadeScreen.style.pointerEvents = "none";
-    }
-
-    const p = questVideo.play();
-    if (p && typeof p.catch === "function") {
-      p.catch(() => {});
-    }
-  };
-
-  // 🔥 lancement
-  questVideo.addEventListener("canplay", tryPlay);
-  questVideo.addEventListener("loadeddata", tryPlay);
-
-  // 🔥 fin normale
-  questVideo.addEventListener("ended", endVideo);
-
-  // 🔥 fallback temps réel (important iOS)
-  questVideo.addEventListener("timeupdate", () => {
-    if (
-      !videoEnded &&
-      questVideo.duration &&
-      questVideo.currentTime >= questVideo.duration - 0.3
-    ) {
-      forceEndVideo();
-    }
-  });
-
-  // 🔥 sécurité ABSOLUE (si vidéo bug complètement)
-  safetyTimeout = setTimeout(() => {
-    forceEndVideo();
-  }, 12000); // durée max (ajuste si besoin)
-}
-
-/* =====================================================
-   FIN VIDÉO
-===================================================== */
-function endVideo() {
-
-  if (videoEnded) return;
-  videoEnded = true;
-
-  console.log("END VIDEO");
-
-  if (safetyTimeout) {
-    clearTimeout(safetyTimeout);
-  }
-
-  if (questVideo) {
-    questVideo.pause();
-    questVideo.currentTime = 0;
-  }
-
-  if (videoContainer) {
-    videoContainer.classList.add("hidden");
-  }
-
-  // 🔥 IMPORTANT : ne PAS afficher le loader ici
-  if (fadeScreen) {
-    fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none";
-  }
-
-  // 👉 transition directe
-  requestAnimationFrame(() => {
-    showScene();
-  });
-}
-   
 /* =====================================================
    SCÈNE INITIALE
 ===================================================== */
