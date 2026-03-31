@@ -300,7 +300,7 @@ function endDialogues(){
   callback = null;
 
 if(cb){
-  showLoader(800, cb);
+  showLoader(400, cb);
 }
 }
 
@@ -354,7 +354,7 @@ function startMiniGame1(){
 
           startDialogues2();
 
-        },600);
+        },400);
       };
 
       a1.appendChild(b);
@@ -378,7 +378,7 @@ function startDialogues2(){
 ===================================================== */
 function startMiniGame2(){
 
-  showLoader(800, ()=>{
+  showLoader(400, ()=>{
 
     game2.classList.remove("hidden");
 
@@ -458,10 +458,10 @@ game2.classList.add("hidden");
 
 setTimeout(()=>{
   showBusinessPlanLoader();
-},600);
+},400);
             }
 
-          },800);
+          },400);
         }
       };
 
