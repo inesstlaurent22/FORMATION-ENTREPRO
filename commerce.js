@@ -164,20 +164,22 @@ if(toggleSound && questVideo){
 function showLoader(duration = 800, cb){
 
   if(!fadeScreen){
-    cb && cb();
+    if(typeof cb === "function") cb();
     return;
   }
 
-  fadeScreen.classList.remove("hidden");
-  fadeScreen.style.pointerEvents = "auto";
+  // 🔥 affiche le loader
+  fadeScreen.classList.add("active");
 
   setTimeout(()=>{
-    fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none";
+
+    // 🔥 cache le loader
+    fadeScreen.classList.remove("active");
 
     if(typeof cb === "function"){
       cb();
     }
+
   }, duration);
 }
 
@@ -185,7 +187,7 @@ function shake(el){
   el.classList.add("screen-shake");
   setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
-
+   
 /* =====================================================
    SCÈNE INITIALE
 ===================================================== */
