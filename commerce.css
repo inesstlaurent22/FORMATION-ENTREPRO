@@ -889,8 +889,17 @@ html,body{
   font-size:64px;
   z-index:50;
 
-  background:rgba(0,0,0,0.4); /* 🔥 voile sombre */
-  backdrop-filter:blur(4px);  /* 🔥 effet premium */
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(3px);
+
+  opacity:1;
+  transition:opacity .3s ease;
+}
+
+/* 🔥 état caché */
+.book-loading.hidden{
+  opacity:0;
+  pointer-events:none;
 }
 
 @keyframes loaderPulse{
