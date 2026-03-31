@@ -25,12 +25,6 @@ const visualChoices = document.getElementById("visualChoices");
 
 const game3 = document.getElementById("merchantGame");
 
-/* Vidéo */
-const videoContainer = document.getElementById("videoContainer");
-const questVideo = document.getElementById("questVideo");
-const toggleSound = document.getElementById("toggleSound");
-const closeVideo = document.getElementById("closeVideo");
-
 /* =====================================================
    🎬 VIDÉO INTRO — VERSION FIXE
 ===================================================== */
