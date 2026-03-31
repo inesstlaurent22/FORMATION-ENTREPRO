@@ -554,23 +554,19 @@ function showBusinessPlanLoader(){
       img.src = src;
     });
   }
+   
+function finishLoading(){
 
-  function finishLoading(){
-
-  // 🔥 fait disparaître le loader
+  // 🔥 cache immédiatement le loader
   loader.classList.add("hidden");
 
-  // 🔥 petit délai pour transition propre
-  setTimeout(()=>{
+  // 🔥 affiche le livre
+  pagesWrap.classList.remove("hidden");
+  zoomBtn.classList.remove("hidden");
+  title.classList.remove("hidden");
+  title.classList.add("title-appear");
 
-    pagesWrap.classList.remove("hidden");
-    zoomBtn.classList.remove("hidden");
-    title.classList.remove("hidden");
-    title.classList.add("title-appear");
-
-    update();
-
-  }, 300); // correspond au CSS transition
+  update();
 }
 
   /* ===============================
