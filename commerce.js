@@ -164,18 +164,14 @@ function showLoader(duration = 800, cb){
     return;
   }
 
-  // 🔥 affiche le loader
   fadeScreen.classList.add("active");
 
   setTimeout(()=>{
-
-    // 🔥 cache le loader
     fadeScreen.classList.remove("active");
 
     if(typeof cb === "function"){
       cb();
     }
-
   }, duration);
 }
 
