@@ -787,7 +787,7 @@ html,body{
    📘 LIVRE
 ===================================================== */
 .book-container{
-  position:relative;
+  position:relative; /* 🔥 indispensable */
   display:flex;
   align-items:center;
   justify-content:center;
@@ -880,8 +880,17 @@ html,body{
    LOADER LIVRE — STYLE OFFICIEL
 ===================================================== */
 .book-loading{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   font-size:64px;
-  animation:loaderPulse 1.2s infinite ease-in-out;
+  z-index:50;
+
+  background:rgba(0,0,0,0.4); /* 🔥 voile sombre */
+  backdrop-filter:blur(4px);  /* 🔥 effet premium */
 }
 
 @keyframes loaderPulse{
