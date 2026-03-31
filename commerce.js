@@ -34,7 +34,7 @@ if(fadeScreen){
 }
 
 /* =====================================================
-   🎬 VIDÉO INTRO — VERSION STABLE
+   🎬 VIDÉO INTRO — VERSION ROBUSTE (FINAL)
 ===================================================== */
 
 let videoClosed = false;
@@ -52,12 +52,14 @@ function closeIntro(){
   }
 
   if(questVideo){
-    questVideo.pause();
-    questVideo.currentTime = 0;
+    try{
+      questVideo.pause();
+      questVideo.currentTime = 0;
+    }catch(e){}
   }
 
   if(videoContainer){
-    videoContainer.classList.add("hidden");
+    videoContainer.style.display = "none"; // 🔥 plus fiable que class
   }
 
   if(fadeScreen){
@@ -65,69 +67,88 @@ function closeIntro(){
     fadeScreen.style.pointerEvents = "none";
   }
 
-  // 👉 transition vers scène
-  requestAnimationFrame(() => {
-    showScene();
-  });
+  showScene(); // 🔥 direct (pas requestAnimationFrame)
 }
 
+/* =========================
+   INIT VIDEO
+========================= */
 if(questVideo){
 
   questVideo.muted = true;
   questVideo.playsInline = true;
-  questVideo.style.pointerEvents = "none";
+  questVideo.setAttribute("playsinline","");
 
-  const tryPlay = () => {
-    const p = questVideo.play();
-    if(p && p.catch) p.catch(()=>{});
-  };
+  // 🔥 autoplay sécurisé
+  const playPromise = questVideo.play();
 
-  questVideo.addEventListener("canplay", tryPlay);
-  questVideo.addEventListener("loadeddata", tryPlay);
+  if(playPromise !== undefined){
+    playPromise.catch(()=>{
+      console.log("AUTOPLAY BLOQUÉ → fallback");
+    });
+  }
 
+  // 🔥 fin normale
   questVideo.addEventListener("ended", closeIntro);
 
-  // fallback iOS
+  // 🔥 fallback temps
   questVideo.addEventListener("timeupdate", () => {
     if(
       !videoClosed &&
-      questVideo.duration &&
-      questVideo.currentTime >= questVideo.duration - 0.3
+      questVideo.duration > 0 &&
+      questVideo.currentTime >= questVideo.duration - 0.5
     ){
       closeIntro();
     }
   });
 
-  // sécurité absolue
+  // 🔥 fallback si la vidéo ne démarre jamais
+  setTimeout(()=>{
+    if(!videoClosed && questVideo.currentTime === 0){
+      console.log("VIDEO BLOQUÉE → SKIP AUTO");
+      closeIntro();
+    }
+  }, 3000);
+
+  // 🔥 sécurité absolue
   safetyTimeout = setTimeout(()=>{
     if(!videoClosed){
       console.log("FORCE END VIDEO");
       closeIntro();
     }
-  }, 12000);
+  }, 10000);
 }
 
-/* 🔊 SON */
-if(toggleSound && questVideo){
-  toggleSound.addEventListener("click", (e)=>{
-    e.stopPropagation();
-    questVideo.muted = !questVideo.muted;
-    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  });
-}
-
-/* ❌ SKIP */
+/* =========================
+   BOUTON SKIP (ULTRA FIX)
+========================= */
 if(closeVideo){
 
   const skip = (e)=>{
+    e.preventDefault();
     e.stopPropagation();
+
+    console.log("CLICK SKIP");
+
     closeIntro();
   };
 
   closeVideo.addEventListener("click", skip);
-  closeVideo.addEventListener("touchstart", skip); // iOS fix
+  closeVideo.addEventListener("touchstart", skip);
 }
 
+/* =========================
+   SON
+========================= */
+if(toggleSound && questVideo){
+  toggleSound.addEventListener("click",(e)=>{
+    e.stopPropagation();
+
+    questVideo.muted = !questVideo.muted;
+    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  });
+}
+   
 /* =====================================================
    🌑 LOADER
 ===================================================== */
