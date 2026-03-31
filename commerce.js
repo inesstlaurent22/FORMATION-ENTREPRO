@@ -161,7 +161,7 @@ if(toggleSound && questVideo){
 /* =====================================================
    🌑 LOADER
 ===================================================== */
-function showLoader(duration = 1200, cb){
+function showLoader(duration = 800, cb){
 
   if(!fadeScreen){
     cb && cb();
@@ -300,7 +300,7 @@ function endDialogues(){
   callback = null;
 
 if(cb){
-  showLoader(1000, cb);
+  showLoader(800, cb);
 }
 }
 
@@ -323,7 +323,7 @@ function startDialogues1(){
 ===================================================== */
 function startMiniGame1(){
 
-  showLoader(900, ()=>{
+  showLoader(800, ()=>{
 
     game1.classList.remove("hidden");
     q1.textContent="Pourquoi réaliser une étude de marché ?";
@@ -378,7 +378,7 @@ function startDialogues2(){
 ===================================================== */
 function startMiniGame2(){
 
-  showLoader(900, ()=>{
+  showLoader(800, ()=>{
 
     game2.classList.remove("hidden");
 
