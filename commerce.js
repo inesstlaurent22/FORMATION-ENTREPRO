@@ -49,16 +49,14 @@ function closeIntro(){
   if(videoClosed) return;
   videoClosed = true;
 
-  console.log("VIDEO CLOSED");
-
-  // 🔥 nettoyage complet
-  clearTimeout(safetyTimeout);
-  clearTimeout(startCheckTimeout);
+  if(safetyTimeout){
+    clearTimeout(safetyTimeout);
+  }
 
   if(questVideo){
     try{
       questVideo.pause();
-      questVideo.src = ""; // 🔥 libère complètement la vidéo (iOS fix)
+      questVideo.currentTime = 0;
     }catch(e){}
   }
 
@@ -66,12 +64,10 @@ function closeIntro(){
     videoContainer.style.display = "none";
   }
 
-  if(fadeScreen){
-    fadeScreen.classList.add("hidden");
-    fadeScreen.style.pointerEvents = "none";
-  }
-
-  showScene();
+  // 🔥 ICI : afficher loader AVANT la scène
+  showLoader(600, () => {
+    showScene();
+  });
 }
 
 /* =========================
