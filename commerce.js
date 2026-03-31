@@ -79,46 +79,70 @@ if(questVideo){
   questVideo.playsInline = true;
   questVideo.setAttribute("playsinline","");
 
-  // 🔥 autoplay sécurisé
+  /* =========================
+     AUTOPLAY SÉCURISÉ
+  ========================= */
   const playPromise = questVideo.play();
 
-  if(playPromise !== undefined){
+  if(playPromise && typeof playPromise.catch === "function"){
     playPromise.catch(()=>{
-      console.log("AUTOPLAY BLOQUÉ → fallback");
+      console.log("AUTOPLAY BLOQUÉ");
     });
   }
 
-  // 🔥 fin normale
+  /* =========================
+     FIN NORMALE
+  ========================= */
   questVideo.addEventListener("ended", closeIntro);
 
-  // 🔥 fallback temps
-  questVideo.addEventListener("timeupdate", () => {
+  /* =========================
+     FALLBACK TEMPS (PLUS RAPIDE)
+  ========================= */
+  const onTimeUpdate = () => {
+
+    if(videoClosed) return;
+
+    const duration = questVideo.duration;
+
     if(
-      !videoClosed &&
-      questVideo.duration > 0 &&
-      questVideo.currentTime >= questVideo.duration - 0.5
+      duration &&
+      questVideo.currentTime >= duration - 1.2 // 🔥 anticipé
     ){
+      questVideo.removeEventListener("timeupdate", onTimeUpdate);
       closeIntro();
     }
-  });
+  };
 
-  // 🔥 fallback si la vidéo ne démarre jamais
-  setTimeout(()=>{
-    if(!videoClosed && questVideo.currentTime === 0){
+  questVideo.addEventListener("timeupdate", onTimeUpdate);
+
+  /* =========================
+     SI LA VIDÉO NE DÉMARRE PAS
+  ========================= */
+  const startCheck = setTimeout(()=>{
+
+    if(videoClosed) return;
+
+    if(questVideo.currentTime === 0){
       console.log("VIDEO BLOQUÉE → SKIP AUTO");
       closeIntro();
     }
-  }, 3000);
 
-  // 🔥 sécurité absolue
+  }, 2500); // 🔥 plus rapide
+
+  /* =========================
+     SÉCURITÉ ABSOLUE
+  ========================= */
   safetyTimeout = setTimeout(()=>{
-    if(!videoClosed){
-      console.log("FORCE END VIDEO");
-      closeIntro();
-    }
-  }, 10000);
+
+    if(videoClosed) return;
+
+    console.log("FORCE END VIDEO");
+    closeIntro();
+
+  }, 8000); // 🔥 réduit pour UX rapide
 }
 
+   
 /* =========================
    BOUTON SKIP (ULTRA FIX)
 ========================= */
