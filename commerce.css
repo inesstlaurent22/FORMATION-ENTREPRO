@@ -50,6 +50,11 @@ html,body{
   pointer-events:none;
 }
 
+#closeVideo{
+  position:absolute;
+  z-index:999999;
+}
+
 #videoControls button{
   position:absolute;
   top:24px;
