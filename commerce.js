@@ -556,13 +556,22 @@ function showBusinessPlanLoader(){
   }
 
   function finishLoading(){
-    loader.classList.add("hidden");
+
+  // 🔥 fait disparaître le loader
+  loader.classList.add("hidden");
+
+  // 🔥 petit délai pour transition propre
+  setTimeout(()=>{
+
     pagesWrap.classList.remove("hidden");
     zoomBtn.classList.remove("hidden");
     title.classList.remove("hidden");
     title.classList.add("title-appear");
+
     update();
-  }
+
+  }, 300); // correspond au CSS transition
+}
 
   /* ===============================
      UPDATE PAGES
