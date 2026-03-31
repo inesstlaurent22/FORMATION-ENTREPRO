@@ -34,12 +34,16 @@ if(fadeScreen){
 }
 
 /* =====================================================
-   🎬 VIDÉO INTRO — VERSION ROBUSTE (FINAL)
+   🎬 VIDÉO INTRO — VERSION STABLE CLEAN
 ===================================================== */
 
 let videoClosed = false;
 let safetyTimeout = null;
+let startCheckTimeout = null;
 
+/* =========================
+   FERMETURE
+========================= */
 function closeIntro(){
 
   if(videoClosed) return;
@@ -47,19 +51,19 @@ function closeIntro(){
 
   console.log("VIDEO CLOSED");
 
-  if(safetyTimeout){
-    clearTimeout(safetyTimeout);
-  }
+  // 🔥 nettoyage complet
+  clearTimeout(safetyTimeout);
+  clearTimeout(startCheckTimeout);
 
   if(questVideo){
     try{
       questVideo.pause();
-      questVideo.currentTime = 0;
+      questVideo.src = ""; // 🔥 libère complètement la vidéo (iOS fix)
     }catch(e){}
   }
 
   if(videoContainer){
-    videoContainer.style.display = "none"; // 🔥 plus fiable que class
+    videoContainer.style.display = "none";
   }
 
   if(fadeScreen){
@@ -67,7 +71,7 @@ function closeIntro(){
     fadeScreen.style.pointerEvents = "none";
   }
 
-  showScene(); // 🔥 direct (pas requestAnimationFrame)
+  showScene();
 }
 
 /* =========================
@@ -79,34 +83,26 @@ if(questVideo){
   questVideo.playsInline = true;
   questVideo.setAttribute("playsinline","");
 
-  /* =========================
-     AUTOPLAY SÉCURISÉ
-  ========================= */
-  const playPromise = questVideo.play();
+  /* 🔥 IMPORTANT : ne bloque PAS les clics */
+  questVideo.style.pointerEvents = "none";
 
-  if(playPromise && typeof playPromise.catch === "function"){
-    playPromise.catch(()=>{
-      console.log("AUTOPLAY BLOQUÉ");
-    });
+  /* AUTOPLAY */
+  const playPromise = questVideo.play();
+  if(playPromise && playPromise.catch){
+    playPromise.catch(()=>{});
   }
 
-  /* =========================
-     FIN NORMALE
-  ========================= */
+  /* FIN */
   questVideo.addEventListener("ended", closeIntro);
 
-  /* =========================
-     FALLBACK TEMPS (PLUS RAPIDE)
-  ========================= */
+  /* FALLBACK TEMPS */
   const onTimeUpdate = () => {
 
     if(videoClosed) return;
 
-    const duration = questVideo.duration;
-
     if(
-      duration &&
-      questVideo.currentTime >= duration - 1.2 // 🔥 anticipé
+      questVideo.duration &&
+      questVideo.currentTime >= questVideo.duration - 1
     ){
       questVideo.removeEventListener("timeupdate", onTimeUpdate);
       closeIntro();
@@ -115,62 +111,51 @@ if(questVideo){
 
   questVideo.addEventListener("timeupdate", onTimeUpdate);
 
-  /* =========================
-     SI LA VIDÉO NE DÉMARRE PAS
-  ========================= */
-  const startCheck = setTimeout(()=>{
-
-    if(videoClosed) return;
-
-    if(questVideo.currentTime === 0){
-      console.log("VIDEO BLOQUÉE → SKIP AUTO");
+  /* SI VIDÉO BLOQUÉE */
+  startCheckTimeout = setTimeout(()=>{
+    if(!videoClosed && questVideo.currentTime === 0){
       closeIntro();
     }
+  }, 2000);
 
-  }, 2500); // 🔥 plus rapide
-
-  /* =========================
-     SÉCURITÉ ABSOLUE
-  ========================= */
+  /* SÉCURITÉ */
   safetyTimeout = setTimeout(()=>{
-
-    if(videoClosed) return;
-
-    console.log("FORCE END VIDEO");
-    closeIntro();
-
-  }, 8000); // 🔥 réduit pour UX rapide
+    if(!videoClosed){
+      closeIntro();
+    }
+  }, 8000);
 }
 
-   
 /* =========================
-   BOUTON SKIP (ULTRA FIX)
+   BOUTON SKIP — FIX TOTAL
 ========================= */
 if(closeVideo){
 
-  const skip = (e)=>{
+  closeVideo.style.pointerEvents = "auto"; // 🔥 sécurité
+
+  closeVideo.addEventListener("click", (e)=>{
     e.preventDefault();
     e.stopPropagation();
-
-    console.log("CLICK SKIP");
-
     closeIntro();
-  };
+  }, { passive:false });
 
-  closeVideo.addEventListener("click", skip);
-  closeVideo.addEventListener("touchstart", skip);
 }
 
 /* =========================
    SON
 ========================= */
 if(toggleSound && questVideo){
+
+  toggleSound.style.pointerEvents = "auto";
+
   toggleSound.addEventListener("click",(e)=>{
+    e.preventDefault();
     e.stopPropagation();
 
     questVideo.muted = !questVideo.muted;
     toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
   });
+
 }
    
 /* =====================================================
