@@ -12,10 +12,6 @@ const bubbleContainer = document.getElementById("bubbleContainer");
 const skipBtn = document.getElementById("skipDialoguesBtn");
 const fadeScreen = document.getElementById("fadeScreen");
 
-if(fadeScreen){
-  fadeScreen.classList.add("hidden");
-}
-
 const game1 = document.getElementById("communicationGame");
 const q1 = document.getElementById("commQuestion");
 const a1 = document.getElementById("commAnswers");
@@ -25,78 +21,35 @@ const visualChoices = document.getElementById("visualChoices");
 
 const game3 = document.getElementById("merchantGame");
 
+/* 🎬 VIDÉO */
+const videoContainer = document.getElementById("videoContainer");
+const questVideo = document.getElementById("questVideo");
+const toggleSound = document.getElementById("toggleSound");
+const closeVideo = document.getElementById("closeVideo");
+
+/* sécurité loader */
+if(fadeScreen){
+  fadeScreen.classList.add("hidden");
+  fadeScreen.style.pointerEvents = "none";
+}
+
 /* =====================================================
-   🎬 VIDÉO INTRO — VERSION FIXE
+   🎬 VIDÉO INTRO — VERSION STABLE
 ===================================================== */
 
 let videoClosed = false;
+let safetyTimeout = null;
 
-if(questVideo){
-
-  questVideo.muted = true;
-  questVideo.playsInline = true;
-  questVideo.style.pointerEvents = "none";
-
-  const tryPlay = () => {
-    questVideo.play().catch(()=>{});
-  };
-
-  questVideo.addEventListener("canplay", tryPlay);
-  questVideo.addEventListener("loadeddata", tryPlay);
-
-  // fin normale
-  questVideo.addEventListener("ended", closeIntro);
-
-  // fallback sécurité (iOS)
-  questVideo.addEventListener("timeupdate", () => {
-    if(
-      !videoClosed &&
-      questVideo.duration &&
-      questVideo.currentTime >= questVideo.duration - 0.3
-    ){
-      closeIntro();
-    }
-  });
-
-  // sécurité ultime (anti blocage)
-  setTimeout(()=>{
-    if(!videoClosed){
-      console.log("FORCE END VIDEO");
-      closeIntro();
-    }
-  }, 12000);
-}
-
-/* 🔊 SON */
-if(toggleSound){
-  toggleSound.onclick = (e) => {
-    e.stopPropagation();
-    questVideo.muted = !questVideo.muted;
-    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
-  };
-}
-
-/* ❌ SKIP */
-if(closeVideo){
-
-  const skip = (e) => {
-    e.stopPropagation();
-    closeIntro();
-  };
-
-  closeVideo.addEventListener("click", skip);
-  closeVideo.addEventListener("touchstart", skip); // 🔥 iOS fix
-}
-
-/* =====================================================
-   FERMETURE VIDÉO
-===================================================== */
 function closeIntro(){
 
   if(videoClosed) return;
   videoClosed = true;
 
   console.log("VIDEO CLOSED");
+
+  if(safetyTimeout){
+    clearTimeout(safetyTimeout);
+  }
 
   if(questVideo){
     questVideo.pause();
@@ -112,19 +65,89 @@ function closeIntro(){
     fadeScreen.style.pointerEvents = "none";
   }
 
-  // 👉 IMPORTANT
-  showScene();
+  // 👉 transition vers scène
+  requestAnimationFrame(() => {
+    showScene();
+  });
+}
+
+if(questVideo){
+
+  questVideo.muted = true;
+  questVideo.playsInline = true;
+  questVideo.style.pointerEvents = "none";
+
+  const tryPlay = () => {
+    const p = questVideo.play();
+    if(p && p.catch) p.catch(()=>{});
+  };
+
+  questVideo.addEventListener("canplay", tryPlay);
+  questVideo.addEventListener("loadeddata", tryPlay);
+
+  questVideo.addEventListener("ended", closeIntro);
+
+  // fallback iOS
+  questVideo.addEventListener("timeupdate", () => {
+    if(
+      !videoClosed &&
+      questVideo.duration &&
+      questVideo.currentTime >= questVideo.duration - 0.3
+    ){
+      closeIntro();
+    }
+  });
+
+  // sécurité absolue
+  safetyTimeout = setTimeout(()=>{
+    if(!videoClosed){
+      console.log("FORCE END VIDEO");
+      closeIntro();
+    }
+  }, 12000);
+}
+
+/* 🔊 SON */
+if(toggleSound && questVideo){
+  toggleSound.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    questVideo.muted = !questVideo.muted;
+    toggleSound.textContent = questVideo.muted ? "🔇" : "🔊";
+  });
+}
+
+/* ❌ SKIP */
+if(closeVideo){
+
+  const skip = (e)=>{
+    e.stopPropagation();
+    closeIntro();
+  };
+
+  closeVideo.addEventListener("click", skip);
+  closeVideo.addEventListener("touchstart", skip); // iOS fix
 }
 
 /* =====================================================
    🌑 LOADER
 ===================================================== */
 function showLoader(duration = 1200, cb){
-  if(!fadeScreen){ cb && cb(); return; }
-  fadeScreen.classList.remove("hidden");
-  setTimeout(() => {
-    fadeScreen.classList.add("hidden");
+
+  if(!fadeScreen){
     cb && cb();
+    return;
+  }
+
+  fadeScreen.classList.remove("hidden");
+  fadeScreen.style.pointerEvents = "auto";
+
+  setTimeout(()=>{
+    fadeScreen.classList.add("hidden");
+    fadeScreen.style.pointerEvents = "none";
+
+    if(typeof cb === "function"){
+      cb();
+    }
   }, duration);
 }
 
