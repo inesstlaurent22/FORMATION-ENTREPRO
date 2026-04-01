@@ -181,6 +181,45 @@ function shake(el){
 }
 
 /* =====================================================
+   🔒 ANTI RETOUR UTILISATEUR
+===================================================== */
+
+function lockNavigation(){
+
+  // 1. Empêche bouton "retour"
+  history.pushState(null, "", location.href);
+
+  window.addEventListener("popstate", function () {
+    history.pushState(null, "", location.href);
+  });
+
+  // 2. Bloque swipe retour (iOS / mobile)
+  let startX = 0;
+
+  document.addEventListener("touchstart", (e)=>{
+    startX = e.touches[0].clientX;
+  }, { passive:true });
+
+  document.addEventListener("touchmove", (e)=>{
+    const currentX = e.touches[0].clientX;
+
+    // swipe depuis le bord gauche
+    if(startX < 50 && currentX > startX){
+      e.preventDefault();
+    }
+
+  }, { passive:false });
+
+  // 3. Sécurité : re-push régulièrement (empêche hacks historiques)
+  setInterval(()=>{
+    history.pushState(null, "", location.href);
+  }, 1000);
+}
+
+// 🔥 ACTIVE LE VERROU
+lockNavigation();
+
+/* =====================================================
    📊 PROGRESSION
 ===================================================== */
 
