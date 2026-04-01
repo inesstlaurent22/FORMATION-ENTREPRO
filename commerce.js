@@ -333,65 +333,99 @@ function startDialogues1(){
 ===================================================== */
 function startMiniGame1(){
 
+  if(!game1 || !q1 || !a1) return;
+
   showLoader(800, ()=>{
 
     game1.classList.remove("hidden");
-    q1.textContent = "Pourquoi réaliser une étude de marché ?";
-    a1.innerHTML = "";
 
     const questions = [
-      [
-        {t:"Comprendre les clients",ok:true},
-        {t:"Choisir une couleur de logo",ok:false},
-        {t:"Décorer la boutique",ok:false}
-      ],
-      [
-        {t:"Analyser les concurrents",ok:true},
-        {t:"Copier exactement les concurrents",ok:false},
-        {t:"Ignorer les autres entreprises",ok:false}
-      ],
-      [
-        {t:"Fixer le bon prix",ok:true},
-        {t:"Mettre un prix au hasard",ok:false},
-        {t:"Regarder combien les clients peuvent payer",ok:true}
-      ],
-      [
-        {t:"Savoir si ton idée peut marcher",ok:true},
-        {t:"Lancer son projet sans réfléchir",ok:false},
-        {t:"Comprendre les besoins du marché",ok:true}
-      ]
+      {
+        question:"Pourquoi réaliser une étude de marché ?",
+        answers:[
+          {t:"Comprendre les clients",ok:true},
+          {t:"Choisir une couleur de logo",ok:false},
+          {t:"Décorer la boutique",ok:false}
+        ]
+      },
+      {
+        question:"Pourquoi analyser les concurrents ?",
+        answers:[
+          {t:"Analyser les concurrents",ok:true},
+          {t:"Copier exactement les concurrents",ok:false},
+          {t:"Ignorer les autres entreprises",ok:false}
+        ]
+      },
+      {
+        question:"Pourquoi fixer un prix ?",
+        answers:[
+          {t:"Fixer le bon prix",ok:true},
+          {t:"Mettre un prix au hasard",ok:false},
+          {t:"Regarder combien les clients peuvent payer",ok:true}
+        ]
+      },
+      {
+        question:"Pourquoi tester son idée ?",
+        answers:[
+          {t:"Savoir si ton idée peut marcher",ok:true},
+          {t:"Lancer sans réfléchir",ok:false},
+          {t:"Comprendre les besoins du marché",ok:true}
+        ]
+      }
     ];
 
-    questions.forEach(group => {
+    let current = 0;
 
-      group.forEach(q => {
+    function render(){
+
+      const q = questions[current];
+
+      q1.textContent = q.question;
+      a1.innerHTML = "";
+
+      let success = 0;
+      const total = q.answers.filter(a => a.ok).length;
+
+      q.answers.forEach(ans => {
 
         const b = document.createElement("button");
-        b.textContent = q.t;
+        b.textContent = ans.t;
 
-        b.onclick = () => {
+        b.onclick = ()=>{
 
-          if(!q.ok){
+          if(!ans.ok){
             shake(game1);
             return;
           }
 
+          if(b.classList.contains("correct-locked")) return;
+
           b.classList.add("correct-locked");
           b.disabled = true;
+          success++;
 
-          setTimeout(()=>{
-            game1.classList.add("hidden");
-            startDialogues2();
-          }, 400);
+          if(success === total){
+
+            setTimeout(()=>{
+              current++;
+
+              if(current < questions.length){
+                render();
+              }else{
+                game1.classList.add("hidden");
+                startDialogues2();
+              }
+
+            },400);
+          }
         };
 
         a1.appendChild(b);
       });
+    }
 
-    });
-
+    render();
   });
-
 }
    
 /* =====================================================
