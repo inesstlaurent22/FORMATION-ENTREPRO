@@ -710,16 +710,14 @@ function showBusinessPlanLoader(){
   const allImages = pages.flat().filter(Boolean);
 
   /* ===============================
-     PRELOAD
+     PRELOAD (SAFE)
   =============================== */
   Promise.all(
-    allImages.map(src=>{
-      return new Promise(resolve=>{
-        const img = new Image();
-        img.onload = img.onerror = resolve;
-        img.src = src;
-      });
-    })
+    allImages.map(src => new Promise(resolve=>{
+      const img = new Image();
+      img.onload = img.onerror = resolve;
+      img.src = src;
+    }))
   ).then(finishLoading);
 
   function finishLoading(){
@@ -733,7 +731,6 @@ function showBusinessPlanLoader(){
 
     update();
 
-    // ✅ progression
     if(typeof setProgress === "function"){
       setProgress("book");
     }
@@ -744,8 +741,7 @@ function showBusinessPlanLoader(){
   =============================== */
   function update(){
 
-    if(step < 0) step = 0;
-    if(step >= pages.length) step = pages.length - 1;
+    step = Math.max(0, Math.min(step, pages.length - 1));
 
     const [l, r] = pages[step];
 
@@ -783,8 +779,8 @@ function showBusinessPlanLoader(){
     pageToAnimate.addEventListener("animationend", () => {
 
       step += (direction === "right") ? 1 : -1;
-
       update();
+
       pageToAnimate.classList.remove(animClass);
       animating = false;
 
@@ -797,8 +793,8 @@ function showBusinessPlanLoader(){
   right.style.cursor = "pointer";
   left.style.cursor = "pointer";
 
-  right.addEventListener("click", ()=> turnPage("right"));
-  left.addEventListener("click", ()=> turnPage("left"));
+  right.onclick = ()=> turnPage("right");
+  left.onclick = ()=> turnPage("left");
 
   /* ===============================
      ZOOM
@@ -833,11 +829,11 @@ function showBusinessPlanLoader(){
 
     img.src = currentSrc;
 
-    zoom.addEventListener("click",(e)=>{
+    zoom.onclick = (e)=>{
       if(e.target === zoom){
         zoom.remove();
       }
-    });
+    };
   };
 
   /* ===============================
@@ -876,6 +872,7 @@ cont.onclick = ()=>{
   });
 
 };
+   } 
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
