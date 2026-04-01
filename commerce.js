@@ -179,6 +179,70 @@ function shake(el){
   el.classList.add("screen-shake");
   setTimeout(()=>el.classList.remove("screen-shake"),400);
 }
+
+/* =====================================================
+   📊 PROGRESSION
+===================================================== */
+
+const stepsOrder = [
+  "dialogue1",
+  "game1",
+  "dialogue2",
+  "game2",
+  "book",
+  "dialogue3",
+  "game3"
+];
+
+function getProgress(){
+  return JSON.parse(sessionStorage.getItem("commerce_progress") || "{}");
+}
+
+function setProgress(step){
+  const progress = getProgress();
+  progress[step] = true;
+  sessionStorage.setItem("commerce_progress", JSON.stringify(progress));
+  updateProgressBar();
+}
+
+function createProgressBar(){
+
+  const bar = document.createElement("div");
+  bar.id = "progressBar";
+
+  stepsOrder.forEach(step=>{
+    const item = document.createElement("div");
+    item.className = "progress-step";
+    item.dataset.step = step;
+
+    if(step === "book"){
+      item.textContent = "📖";
+    }else{
+      item.textContent = step.includes("dialogue") ? "💬" : "🎮";
+    }
+
+    bar.appendChild(item);
+  });
+
+  document.body.appendChild(bar);
+  updateProgressBar();
+}
+
+function updateProgressBar(){
+
+  const progress = getProgress();
+  const steps = document.querySelectorAll(".progress-step");
+
+  if(!steps.length) return;
+
+  steps.forEach(el=>{
+    const step = el.dataset.step;
+
+    progress[step]
+      ? el.classList.add("done")
+      : el.classList.remove("done");
+  });
+}
    
 /* =====================================================
    SCÈNE INITIALE
@@ -314,6 +378,7 @@ if(skipBtn){
    DIALOGUES 1
 ===================================================== */
 function startDialogues1(){
+  setProgress("dialogue1");
   playDialogues([
   { text:"Avant de lancer ton <strong>activité</strong>, il faut comprendre ton <strong>marché</strong>.", anchor:pirate5 },
   { text:"Une <strong>étude de marché</strong>, c’est comme une <strong>enquête</strong> pour savoir à qui tu vas vendre.", anchor:pirate5 },
@@ -375,10 +440,14 @@ function startMiniGame1(){
     ];
 
     let current = 0;
+    let locked = false;
 
     function render(){
 
+      locked = false;
+
       const q = questions[current];
+      if(!q) return;
 
       q1.textContent = q.question;
       a1.innerHTML = "";
@@ -393,6 +462,8 @@ function startMiniGame1(){
 
         b.onclick = ()=>{
 
+          if(locked) return;
+
           if(!ans.ok){
             shake(game1);
             return;
@@ -402,21 +473,31 @@ function startMiniGame1(){
 
           b.classList.add("correct-locked");
           b.disabled = true;
+
           success++;
 
           if(success === total){
 
+            locked = true;
+
             setTimeout(()=>{
+
               current++;
 
               if(current < questions.length){
                 render();
               }else{
+
+                // ✅ progression (optionnel)
+                if(typeof setProgress === "function"){
+                  setProgress("game1");
+                }
+
                 game1.classList.add("hidden");
                 startDialogues2();
               }
 
-            },400);
+            },500);
           }
         };
 
@@ -567,28 +648,29 @@ function showBusinessPlanLoader(){
 
   overlay.innerHTML = `
     <div class="identity-center">
-    <div class="book-wrapper">
+      <div class="book-wrapper">
 
-      <h2 class="bp-title hidden" id="bpTitle">
-        Bravo 🎉 Tu as créé ton business plan
-      </h2>
+        <h2 class="bp-title hidden" id="bpTitle">
+          Bravo 🎉 Tu as créé ton business plan
+        </h2>
 
-      <div class="book-container">
+        <div class="book-container">
 
-        <div class="book-loading" id="bookLoading">⏳</div>
+          <div class="book-loading" id="bookLoading">⏳</div>
 
-        <div class="book-pages hidden" id="bookPages">
+          <div class="book-pages hidden" id="bookPages">
 
-          <div class="left-wrapper">
-            <img id="leftPage" class="hidden">
+            <div class="left-wrapper">
+              <img id="leftPage" class="hidden">
+            </div>
+
+            <div class="right-wrapper">
+              <img id="rightPage">
+              <button id="zoomPageBtn" class="zoom-btn hidden">🔎</button>
+            </div>
+
           </div>
 
-          <div class="right-wrapper">
-            <img id="rightPage">
-            <button id="zoomPageBtn" class="zoom-btn hidden">🔎</button>
-          </div>
-
-        </div>
         </div>
 
       </div>
@@ -610,6 +692,11 @@ function showBusinessPlanLoader(){
   const title = overlay.querySelector("#bpTitle");
   const zoomBtn = overlay.querySelector("#zoomPageBtn");
 
+  if(!left || !right || !cont || !loader || !pagesWrap || !title || !zoomBtn){
+    console.warn("Book loader elements missing");
+    return;
+  }
+
   const pages = [
     ["","images/Businessplancov.png"],
     ["images/Businessplan4.jpg","images/Businessplan1.jpg"],
@@ -617,53 +704,48 @@ function showBusinessPlanLoader(){
     ["images/Businessplan4.jpg","images/Businessplan3.jpg"]
   ];
 
-  const allImages = pages.flat().filter(Boolean);
-  let loaded = 0;
   let step = 0;
+  let animating = false;
+
+  const allImages = pages.flat().filter(Boolean);
 
   /* ===============================
-     PRELOAD IMAGES
+     PRELOAD
   =============================== */
-  if(allImages.length === 0){
-    finishLoading();
-  }else{
-    let finished = false;
+  Promise.all(
+    allImages.map(src=>{
+      return new Promise(resolve=>{
+        const img = new Image();
+        img.onload = img.onerror = resolve;
+        img.src = src;
+      });
+    })
+  ).then(finishLoading);
 
-    allImages.forEach(src=>{
-      const img = new Image();
+  function finishLoading(){
 
-      img.onload = img.onerror = ()=>{
-        if(finished) return;
-        loaded++;
+    loader.classList.add("hidden");
 
-        if(loaded >= allImages.length){
-          finished = true;
-          finishLoading();
-        }
-      };
+    pagesWrap.classList.remove("hidden");
+    zoomBtn.classList.remove("hidden");
+    title.classList.remove("hidden");
+    title.classList.add("title-appear");
 
-      img.src = src;
-    });
+    update();
+
+    // ✅ progression
+    if(typeof setProgress === "function"){
+      setProgress("book");
+    }
   }
-   
-function finishLoading(){
-
-  // 🔥 cache immédiatement le loader
-  loader.classList.add("hidden");
-
-  // 🔥 affiche le livre
-  pagesWrap.classList.remove("hidden");
-  zoomBtn.classList.remove("hidden");
-  title.classList.remove("hidden");
-  title.classList.add("title-appear");
-
-  update();
-}
 
   /* ===============================
-     UPDATE PAGES
+     UPDATE
   =============================== */
   function update(){
+
+    if(step < 0) step = 0;
+    if(step >= pages.length) step = pages.length - 1;
 
     const [l, r] = pages[step];
 
@@ -684,8 +766,12 @@ function finishLoading(){
   =============================== */
   function turnPage(direction){
 
+    if(animating) return;
+
     if(direction === "right" && step >= pages.length - 1) return;
     if(direction === "left" && step <= 0) return;
+
+    animating = true;
 
     const pageToAnimate = direction === "right" ? right : left;
     const animClass = direction === "right" ? "turn-right" : "turn-left";
@@ -697,14 +783,16 @@ function finishLoading(){
     pageToAnimate.addEventListener("animationend", () => {
 
       step += (direction === "right") ? 1 : -1;
+
       update();
       pageToAnimate.classList.remove(animClass);
+      animating = false;
 
     }, { once:true });
   }
 
   /* ===============================
-     CLIC DIRECT SUR LES PAGES
+     EVENTS
   =============================== */
   right.style.cursor = "pointer";
   left.style.cursor = "pointer";
@@ -713,11 +801,11 @@ function finishLoading(){
   left.addEventListener("click", ()=> turnPage("left"));
 
   /* ===============================
-     ZOOM PAGE DROITE
+     ZOOM
   =============================== */
   zoomBtn.onclick = ()=>{
 
-    const currentSrc = pages[step][1];
+    const currentSrc = pages[step]?.[1];
     if(!currentSrc) return;
 
     const zoom = document.createElement("div");
@@ -745,11 +833,11 @@ function finishLoading(){
 
     img.src = currentSrc;
 
-    zoom.onclick = (e)=>{
+    zoom.addEventListener("click",(e)=>{
       if(e.target === zoom){
         zoom.remove();
       }
-    };
+    });
   };
 
   /* ===============================
@@ -757,86 +845,108 @@ function finishLoading(){
   =============================== */
 cont.onclick = ()=>{
 
+  if(!overlay) return;
+
+  // 🔒 bloque double clic
+  cont.disabled = true;
+
   overlay.remove();
 
-  playDialogues([
-  { text:"Ton <strong>plan</strong> est solide.", anchor:pirate5 },
-  { text:"Maintenant, il faut choisir ta <strong>stratégie</strong>.", anchor:pirate5 },
-  { text:"Ta stratégie, c’est la façon dont tu vas <strong>attirer des clients</strong>.", anchor:pirate5 },
-  { text:"Grâce à ton <strong>étude de marché</strong>, tu sais déjà ce que les gens veulent.", anchor:pirate5 },
-  { text:"Et avec ton <strong>business plan</strong>, tu sais comment t’organiser.", anchor:pirate5 },
-  { text:"Tu peux décider où <strong>vendre</strong>, comment <strong>communiquer</strong> et à quel <strong>prix</strong>.", anchor:pirate5 },
-  { text:"Tu choisis aussi ce qui te rend <strong>différent</strong> des autres.", anchor:pirate5 },
-  { text:"Une bonne stratégie t’aide à faire les <strong>bons choix</strong> au bon moment.", anchor:pirate5 },
-  { text:"Elle te permet d’avancer avec un <strong>objectif clair</strong>.", anchor:pirate5 },
-  { text:"C’est ce qui va transformer ton projet en <strong>succès</strong>.", anchor:pirate5 }
-], startMiniGame3);
+  // ✅ progression
+  if(typeof setProgress === "function"){
+    setProgress("dialogue3");
+  }
+
+  // 🎬 transition propre
+  showLoader(400, ()=>{
+
+    playDialogues([
+      { text:"Ton <strong>plan</strong> est solide.", anchor:pirate5 },
+      { text:"Maintenant, il faut choisir ta <strong>stratégie</strong>.", anchor:pirate5 },
+      { text:"Ta stratégie, c’est la façon dont tu vas <strong>attirer des clients</strong>.", anchor:pirate5 },
+      { text:"Grâce à ton <strong>étude de marché</strong>, tu sais déjà ce que les gens veulent.", anchor:pirate5 },
+      { text:"Et avec ton <strong>business plan</strong>, tu sais comment t’organiser.", anchor:pirate5 },
+      { text:"Tu peux décider où <strong>vendre</strong>, comment <strong>communiquer</strong> et à quel <strong>prix</strong>.", anchor:pirate5 },
+      { text:"Tu choisis aussi ce qui te rend <strong>différent</strong> des autres.", anchor:pirate5 },
+      { text:"Une bonne stratégie t’aide à faire les <strong>bons choix</strong> au bon moment.", anchor:pirate5 },
+      { text:"Elle te permet d’avancer avec un <strong>objectif clair</strong>.", anchor:pirate5 },
+      { text:"C’est ce qui va transformer ton projet en <strong>succès</strong>.", anchor:pirate5 }
+    ], startMiniGame3);
+
+  });
 
 };
-   }
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
 ===================================================== */
 function startMiniGame3(){
 
-  game3.classList.remove("hidden");
+  if(!game3) return;
 
   const text = document.getElementById("strategyText");
   const choices = document.getElementById("strategyChoices");
   const hintBox = document.getElementById("strategyHint");
   const hintBtn = document.getElementById("strategyHintBtn");
 
+  if(!text || !choices || !hintBox || !hintBtn) return;
+
+  game3.classList.remove("hidden");
+
   let step = 0;
+  let locked = false;
 
   const steps = [
-  {
-    text:`Tu veux attirer plus de <strong>clients</strong> que tes concurrents.
-    Quelle stratégie choisis-tu ?`,
-    hint:"💡 Être différent ou plus intéressant.",
-    answers:[
-      { label:"Proposer quelque chose de différent", correct:true },
-      { label:"Faire exactement pareil que les autres", correct:false },
-      { label:"Ignorer les clients", correct:false }
-    ]
-  },
-  {
-    text:`Tu sais que tes clients veulent des prix <strong>accessibles</strong>.
-    Que fais-tu ?`,
-    hint:"💡 Adapter ton offre au marché.",
-    answers:[
-      { label:"Mettre un prix adapté", correct:true },
-      { label:"Mettre un prix très élevé", correct:false },
-      { label:"Choisir un prix au hasard", correct:false }
-    ]
-  },
-  {
-    text:`Tu veux te faire connaître rapidement.
-    Quelle action choisis-tu ?`,
-    hint:"💡 Communication = visibilité.",
-    answers:[
-      { label:"Communiquer sur ton produit", correct:true },
-      { label:"Ne rien dire à personne", correct:false },
-      { label:"Attendre sans rien faire", correct:false }
-    ]
-  },
-  {
-    text:`Ton objectif est de réussir ton projet.`,
-    hint:"💡 Suivre une direction claire.",
-    answers:[
-      { label:"Suivre une stratégie claire", correct:true },
-      { label:"Changer d’idée tous les jours", correct:false },
-      { label:"Décider au hasard", correct:false }
-    ],
-    finalText:`<strong>Bonne stratégie.</strong><br>
-    Tu avances avec des choix réfléchis,
-    basés sur ton marché et ton plan.`
-  }
-];
+    {
+      text:`Tu veux attirer plus de <strong>clients</strong> que tes concurrents.
+      Quelle stratégie choisis-tu ?`,
+      hint:"💡 Être différent ou plus intéressant.",
+      answers:[
+        { label:"Proposer quelque chose de différent", correct:true },
+        { label:"Faire exactement pareil que les autres", correct:false },
+        { label:"Ignorer les clients", correct:false }
+      ]
+    },
+    {
+      text:`Tu sais que tes clients veulent des prix <strong>accessibles</strong>.
+      Que fais-tu ?`,
+      hint:"💡 Adapter ton offre au marché.",
+      answers:[
+        { label:"Mettre un prix adapté", correct:true },
+        { label:"Mettre un prix très élevé", correct:false },
+        { label:"Choisir un prix au hasard", correct:false }
+      ]
+    },
+    {
+      text:`Tu veux te faire connaître rapidement.
+      Quelle action choisis-tu ?`,
+      hint:"💡 Communication = visibilité.",
+      answers:[
+        { label:"Communiquer sur ton produit", correct:true },
+        { label:"Ne rien dire à personne", correct:false },
+        { label:"Attendre sans rien faire", correct:false }
+      ]
+    },
+    {
+      text:`Ton objectif est de réussir ton projet.`,
+      hint:"💡 Suivre une direction claire.",
+      answers:[
+        { label:"Suivre une stratégie claire", correct:true },
+        { label:"Changer d’idée tous les jours", correct:false },
+        { label:"Décider au hasard", correct:false }
+      ],
+      finalText:`<strong>Bonne stratégie.</strong><br>
+      Tu avances avec des choix réfléchis,
+      basés sur ton marché et ton plan.`
+    }
+  ];
 
   function render(){
 
+    locked = false;
+
     const s = steps[step];
+    if(!s) return;
 
     text.innerHTML = s.text;
 
@@ -851,17 +961,22 @@ function startMiniGame3(){
 
       b.onclick = ()=>{
 
+        if(locked) return;
+
         if(!a.correct){
           shake(game3);
           return;
         }
 
+        locked = true;
+
         b.classList.add("flash-success");
 
-setTimeout(()=>{
-  b.classList.remove("flash-success");
-  b.classList.add("correct-locked");
-},400);
+        setTimeout(()=>{
+          b.classList.remove("flash-success");
+          b.classList.add("correct-locked");
+        },300);
+
         b.disabled = true;
 
         // ===== DERNIÈRE ÉTAPE =====
@@ -871,20 +986,27 @@ setTimeout(()=>{
           choices.innerHTML = "";
           hintBtn.classList.add("hidden");
 
+          // ✅ progression
+          if(typeof setProgress === "function"){
+            setProgress("game3");
+          }
+
           setTimeout(()=>{
 
             game3.classList.add("hidden");
 
-            showLoader(1200, ()=>{
+            showLoader(1000, ()=>{
               showCommerceWin();
             });
 
-          }, 3200);
+          }, 2500);
 
         }else{
 
-          step++;
-          render();
+          setTimeout(()=>{
+            step++;
+            render();
+          },400);
 
         }
       };
@@ -961,5 +1083,7 @@ function launchGemsExplosion(container){
     container.appendChild(g);
   }
 }
+
+   createProgressBar();
 
 });
