@@ -513,6 +513,7 @@ function startMiniGame1(){
    DIALOGUES 2
 ===================================================== */
 function startDialogues2(){
+  setProgress("dialogue2");
   playDialogues([
   { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
   { text:"Un <strong>business plan</strong>, c’est le plan de ton projet.", anchor:pirate5 },
@@ -532,112 +533,128 @@ function startDialogues2(){
 ===================================================== */
 function startMiniGame2(){
 
+  if(!game2 || !visualChoices) return;
+
   showLoader(400, ()=>{
 
     game2.classList.remove("hidden");
 
     const questions = [
+      {
+        question: "À quoi sert un business plan ?",
+        answers: [
+          { t: "Organiser son projet", ok: true },
+          { t: "Décorer son site internet", ok: false },
+          { t: "Expliquer son idée", ok: true },
+          { t: "Acheter du matériel au hasard", ok: false }
+        ]
+      },
+      {
+        question: "Que doit contenir un business plan ?",
+        answers: [
+          { t: "Les clients et le marché", ok: true },
+          { t: "Les objectifs du projet", ok: true },
+          { t: "La couleur du logo", ok: false },
+          { t: "Comment gagner de l’argent", ok: true }
+        ]
+      },
+      {
+        question: "Pourquoi faire un business plan ?",
+        answers: [
+          { t: "Éviter les erreurs", ok: true },
+          { t: "Convaincre des partenaires", ok: true },
+          { t: "Aller plus vite sans réfléchir", ok: false },
+          { t: "Avoir un guide pour avancer", ok: true }
+        ]
+      },
+      {
+        question: "Un business plan permet de…",
+        answers: [
+          { t: "Savoir où on va", ok: true },
+          { t: "Suivre des étapes", ok: true },
+          { t: "Faire comme les autres sans réfléchir", ok: false },
+          { t: "Transformer une idée en projet", ok: true }
+        ]
+      }
+    ];
 
-    {
-    question: "À quoi sert un business plan ?",
-    answers: [
-      { t: "Organiser son projet", ok: true },
-      { t: "Décorer son site internet", ok: false },
-      { t: "Expliquer son idée", ok: true },
-      { t: "Acheter du matériel au hasard", ok: false }
-    ]
-  },
+    let current = 0;
+    let locked = false;
 
-  {
-    question: "Que doit contenir un business plan ?",
-    answers: [
-      { t: "Les clients et le marché", ok: true },
-      { t: "Les objectifs du projet", ok: true },
-      { t: "La couleur du logo", ok: false },
-      { t: "Comment gagner de l’argent", ok: true }
-    ]
-  },
+    function renderQuestion(){
 
-  {
-    question: "Pourquoi faire un business plan ?",
-    answers: [
-      { t: "Éviter les erreurs", ok: true },
-      { t: "Convaincre des partenaires", ok: true },
-      { t: "Aller plus vite sans réfléchir", ok: false },
-      { t: "Avoir un guide pour avancer", ok: true }
-    ]
-  },
+      locked = false;
 
-  {
-    question: "Un business plan permet de…",
-    answers: [
-      { t: "Savoir où on va", ok: true },
-      { t: "Suivre des étapes", ok: true },
-      { t: "Faire comme les autres sans réfléchir", ok: false },
-      { t: "Transformer une idée en projet", ok: true }
-    ]
-  }
-];
+      const q = questions[current];
+      if(!q) return;
 
-  let current = 0;
+      visualChoices.innerHTML = "";
 
-  function renderQuestion(){
+      const qBox = document.createElement("div");
+      qBox.className = "gameQuestion";
+      qBox.textContent = q.question;
 
-    visualChoices.innerHTML = "";
+      visualChoices.appendChild(qBox);
 
-    const qBox = document.createElement("div");
-    qBox.className = "gameQuestion";
-    qBox.textContent = questions[current].question;
+      let success = 0;
+      const correctCount = q.answers.filter(a => a.ok).length;
 
-    visualChoices.appendChild(qBox);
+      q.answers.forEach(ans => {
 
-    let success = 0;
-    const correctCount = questions[current].answers.filter(a => a.ok).length;
+        const b = document.createElement("button");
+        b.textContent = ans.t;
 
-    questions[current].answers.forEach(q => {
+        b.onclick = ()=>{
 
-      const b = document.createElement("button");
-      b.textContent = q.t;
+          if(locked) return;
 
-      b.onclick = ()=>{
+          if(!ans.ok){
+            shake(game2);
+            return;
+          }
 
-        if(!q.ok){
-          shake(game2);
-          return;
-        }
+          if(b.classList.contains("correct-locked")) return;
 
-        if(b.classList.contains("correct-locked")) return;
+          b.classList.add("correct-locked");
+          b.disabled = true;
 
-        b.classList.add("correct-locked");
-        b.disabled = true;
-        success++;
+          success++;
 
-        if(success === correctCount){
+          if(success === correctCount){
 
-          setTimeout(()=>{
-            current++;
+            locked = true;
 
-            if(current < questions.length){
-              renderQuestion();
-            }else{
-game2.classList.add("hidden");
+            setTimeout(()=>{
+              current++;
 
-setTimeout(()=>{
-  showBusinessPlanLoader();
-},400);
-            }
+              if(current < questions.length){
+                renderQuestion();
+              }else{
 
-          },400);
-        }
-      };
+                // ✅ progression
+                if(typeof setProgress === "function"){
+                  setProgress("game2");
+                }
 
-      visualChoices.appendChild(b);
-    });
-  }
+                game2.classList.add("hidden");
 
-  renderQuestion();
-  }); 
+                setTimeout(()=>{
+                  showBusinessPlanLoader();
+                },400);
+              }
+
+            },400);
+          }
+        };
+
+        visualChoices.appendChild(b);
+      });
+    }
+
+    renderQuestion();
+  });
 }
+   
 /* =====================================================
    📘 LIVRE
 ===================================================== */
