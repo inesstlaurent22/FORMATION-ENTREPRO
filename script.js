@@ -151,8 +151,8 @@ tresor.onclick = () => {
 
   const rect = tresor.getBoundingClientRect();
 
-const centerX = rect.left + rect.width / 2 + window.scrollX;
-const centerY = rect.top + rect.height / 2 + window.scrollY;
+const centerX = rect.left + rect.width / 2;
+const centerY = rect.top + rect.height / 2;
 
 explodeTreasure(centerX, centerY);
 
