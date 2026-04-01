@@ -482,20 +482,25 @@ if(skipBtn){
 /* =====================================================
    DIALOGUES 1
 ===================================================== */
-function startDialogues1()
+function startDialogues1(){
+
   playDialogues([
-  { text:"Avant de lancer ton <strong>activité</strong>, il faut comprendre ton <strong>marché</strong>.", anchor:pirate5 },
-  { text:"Une <strong>étude de marché</strong>, c’est comme une <strong>enquête</strong> pour savoir à qui tu vas vendre.", anchor:pirate5 },
-  { text:"Elle t’aide à découvrir ce que les <strong>clients</strong> aiment et ce dont ils ont vraiment <strong>besoin</strong>.", anchor:pirate5 },
-  { text:"Comme ça, tu évites de créer quelque chose que <strong>personne ne veut</strong>.", anchor:pirate5 },
-  { text:"Tu peux aussi observer tes <strong>concurrents</strong> et voir ce qu’ils font déjà.", anchor:pirate5 },
-  { text:"Et surtout, tu trouves des idées pour faire <strong>mieux</strong> ou <strong>différent</strong>.", anchor:pirate5 },
-  { text:"Une bonne étude de marché te permet aussi de fixer le <strong>bon prix</strong>.", anchor:pirate5 },
-  { text:"Ni trop <strong>cher</strong>, ni trop <strong>bas</strong>, pour que ton activité fonctionne.", anchor:pirate5 },
-  { text:"En résumé, l’étude de marché t’aide à prendre les <strong>bonnes décisions</strong>.", anchor:pirate5 },
-  { text:"C’est ce qui transforme une <strong>idée</strong> en vrai <strong>projet solide</strong>.", anchor:pirate5 }
-],setProgress("dialogue1");
-  startMiniGame1);
+    { text:"Avant de lancer ton <strong>activité</strong>, il faut comprendre ton <strong>marché</strong>.", anchor:pirate5 },
+    { text:"Une <strong>étude de marché</strong>, c’est comme une <strong>enquête</strong> pour savoir à qui tu vas vendre.", anchor:pirate5 },
+    { text:"Elle t’aide à découvrir ce que les <strong>clients</strong> aiment et ce dont ils ont vraiment <strong>besoin</strong>.", anchor:pirate5 },
+    { text:"Comme ça, tu évites de créer quelque chose que <strong>personne ne veut</strong>.", anchor:pirate5 },
+    { text:"Tu peux aussi observer tes <strong>concurrents</strong> et voir ce qu’ils font déjà.", anchor:pirate5 },
+    { text:"Et surtout, tu trouves des idées pour faire <strong>mieux</strong> ou <strong>différent</strong>.", anchor:pirate5 },
+    { text:"Une bonne étude de marché te permet aussi de fixer le <strong>bon prix</strong>.", anchor:pirate5 },
+    { text:"Ni trop <strong>cher</strong>, ni trop <strong>bas</strong>, pour que ton activité fonctionne.", anchor:pirate5 },
+    { text:"En résumé, l’étude de marché t’aide à prendre les <strong>bonnes décisions</strong>.", anchor:pirate5 },
+    { text:"C’est ce qui transforme une <strong>idée</strong> en vrai <strong>projet solide</strong>.", anchor:pirate5 }
+  ], () => {
+
+    setProgress("dialogue1");
+    startMiniGame1();
+
+  });
 }
 
 /* =====================================================
@@ -618,19 +623,24 @@ function startMiniGame1(){
    DIALOGUES 2
 ===================================================== */
 function startDialogues2(){
+
   playDialogues([
-  { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
-  { text:"Un <strong>business plan</strong>, c’est le plan de ton projet.", anchor:pirate5 },
-  { text:"Il explique ton <strong>idée</strong>, tes <strong>objectifs</strong> et comment tu vas réussir.", anchor:pirate5 },
-  { text:"Tu y décris aussi tes <strong>clients</strong> et ton <strong>marché</strong>.", anchor:pirate5 },
-  { text:"Et tu montres comment tu vas <strong>gagner de l’argent</strong>.", anchor:pirate5 },
-  { text:"Il t’aide à organiser tes <strong>actions</strong> étape par étape.", anchor:pirate5 },
-  { text:"C’est aussi utile pour convaincre des <strong>partenaires</strong> ou des <strong>investisseurs</strong>.", anchor:pirate5 },
-  { text:"Avec un bon business plan, tu sais où tu vas.", anchor:pirate5 },
-  { text:"Et tu évites les <strong>erreurs</strong> dès le départ.", anchor:pirate5 },
-  { text:"C’est ton <strong>guide</strong> pour transformer ton idée en <strong>projet réussi</strong>.", anchor:pirate5 }
-],setProgress("dialogue2");
-   startMiniGame2);
+    { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
+    { text:"Un <strong>business plan</strong>, c’est le plan de ton projet.", anchor:pirate5 },
+    { text:"Il explique ton <strong>idée</strong>, tes <strong>objectifs</strong> et comment tu vas réussir.", anchor:pirate5 },
+    { text:"Tu y décris aussi tes <strong>clients</strong> et ton <strong>marché</strong>.", anchor:pirate5 },
+    { text:"Et tu montres comment tu vas <strong>gagner de l’argent</strong>.", anchor:pirate5 },
+    { text:"Il t’aide à organiser tes <strong>actions</strong> étape par étape.", anchor:pirate5 },
+    { text:"C’est aussi utile pour convaincre des <strong>partenaires</strong> ou des <strong>investisseurs</strong>.", anchor:pirate5 },
+    { text:"Avec un bon business plan, tu sais où tu vas.", anchor:pirate5 },
+    { text:"Et tu évites les <strong>erreurs</strong> dès le départ.", anchor:pirate5 },
+    { text:"C’est ton <strong>guide</strong> pour transformer ton idée en <strong>projet réussi</strong>.", anchor:pirate5 }
+  ], () => {
+
+    setProgress("dialogue2");
+    startMiniGame2();
+
+  });
 }
 
 /* =====================================================
@@ -970,11 +980,6 @@ cont.onclick = ()=>{
 
   overlay.remove();
 
-  // ✅ progression
-  if(typeof setProgress === "function"){
-    setProgress("dialogue3");
-  }
-
   // 🎬 transition propre
   showLoader(400, ()=>{
 
@@ -989,12 +994,19 @@ cont.onclick = ()=>{
       { text:"Une bonne stratégie t’aide à faire les <strong>bons choix</strong> au bon moment.", anchor:pirate5 },
       { text:"Elle te permet d’avancer avec un <strong>objectif clair</strong>.", anchor:pirate5 },
       { text:"C’est ce qui va transformer ton projet en <strong>succès</strong>.", anchor:pirate5 }
-    ],setProgress("dialogue3"); startMiniGame3);
+    ], ()=>{
+
+      // ✅ progression à la FIN du dialogue
+      setProgress("dialogue3");
+
+      // ▶️ étape suivante
+      startMiniGame3();
+
+    });
 
   });
 
 };
-   } 
    
 /* =====================================================
    MINI-JEU 3 — STRATÉGIES COMMERCIALES
