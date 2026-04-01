@@ -307,9 +307,17 @@ if(skipBtn){
 ===================================================== */
 function startDialogues1(){
   playDialogues([
-    { text:"Avant de vendre quoi que ce soit, il faut comprendre ton marché.", anchor:pirate5 },
-    { text:"Clients, concurrence, besoins, prix… rien ne doit être laissé au hasard.", anchor:pirate5 }
-  ], startMiniGame1);
+  { text:"Avant de lancer ton <strong>activité</strong>, il faut comprendre ton <strong>marché</strong>.", anchor:pirate5 },
+  { text:"Une <strong>étude de marché</strong>, c’est comme une <strong>enquête</strong> pour savoir à qui tu vas vendre.", anchor:pirate5 },
+  { text:"Elle t’aide à découvrir ce que les <strong>clients</strong> aiment et ce dont ils ont vraiment <strong>besoin</strong>.", anchor:pirate5 },
+  { text:"Comme ça, tu évites de créer quelque chose que <strong>personne ne veut</strong>.", anchor:pirate5 },
+  { text:"Tu peux aussi observer tes <strong>concurrents</strong> et voir ce qu’ils font déjà.", anchor:pirate5 },
+  { text:"Et surtout, tu trouves des idées pour faire <strong>mieux</strong> ou <strong>différent</strong>.", anchor:pirate5 },
+  { text:"Une bonne étude de marché te permet aussi de fixer le <strong>bon prix</strong>.", anchor:pirate5 },
+  { text:"Ni trop <strong>cher</strong>, ni trop <strong>bas</strong>, pour que ton activité fonctionne.", anchor:pirate5 },
+  { text:"En résumé, l’étude de marché t’aide à prendre les <strong>bonnes décisions</strong>.", anchor:pirate5 },
+  { text:"C’est ce qui transforme une <strong>idée</strong> en vrai <strong>projet solide</strong>.", anchor:pirate5 }
+], startMiniGame1);
 }
 
 /* =====================================================
@@ -324,10 +332,27 @@ function startMiniGame1(){
     a1.innerHTML="";
 
     [
-      {t:"Décorer la boutique",ok:false},
-      {t:"Comprendre les clients",ok:true},
-      {t:"Copier les concurrents",ok:false}
-    ].forEach(q=>{
+  [
+    {t:"Comprendre les clients",ok:true},
+    {t:"Choisir une couleur de logo",ok:false},
+    {t:"Décorer la boutique",ok:false}
+  ],
+  [
+    {t:"Analyser les concurrents",ok:true},
+    {t:"Copier exactement les concurrents",ok:false},
+    {t:"Ignorer les autres entreprises",ok:false}
+  ],
+  [
+    {t:"Fixer le bon prix",ok:true},
+    {t:"Mettre un prix au hasard",ok:false},
+    {t:"Regarder combien les clients peuvent payer",ok:true}
+  ],
+  [
+    {t:"Savoir si ton idée peut marcher",ok:true},
+    {t:"Lancer son projet sans réfléchir",ok:false},
+    {t:"Comprendre les besoins du marché",ok:true}
+  ]
+].forEach(q=>{
 
       const b=document.createElement("button");
       b.textContent=q.t;
@@ -362,9 +387,17 @@ function startMiniGame1(){
 ===================================================== */
 function startDialogues2(){
   playDialogues([
-    { text:"Parfait. Maintenant, il faut structurer tout ça.", anchor:pirate5 },
-    { text:"Un bon business plan évite bien des naufrages.", anchor:pirate5 }
-  ], startMiniGame2);
+  { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
+  { text:"Un <strong>business plan</strong>, c’est le plan de ton projet.", anchor:pirate5 },
+  { text:"Il explique ton <strong>idée</strong>, tes <strong>objectifs</strong> et comment tu vas réussir.", anchor:pirate5 },
+  { text:"Tu y décris aussi tes <strong>clients</strong> et ton <strong>marché</strong>.", anchor:pirate5 },
+  { text:"Et tu montres comment tu vas <strong>gagner de l’argent</strong>.", anchor:pirate5 },
+  { text:"Il t’aide à organiser tes <strong>actions</strong> étape par étape.", anchor:pirate5 },
+  { text:"C’est aussi utile pour convaincre des <strong>partenaires</strong> ou des <strong>investisseurs</strong>.", anchor:pirate5 },
+  { text:"Avec un bon business plan, tu sais où tu vas.", anchor:pirate5 },
+  { text:"Et tu évites les <strong>erreurs</strong> dès le départ.", anchor:pirate5 },
+  { text:"C’est ton <strong>guide</strong> pour transformer ton idée en <strong>projet réussi</strong>.", anchor:pirate5 }
+], startMiniGame2);
 }
 
 /* =====================================================
@@ -381,31 +414,46 @@ function startMiniGame2(){
     {
       question: "Étude du produit, qu’est-ce que je dois analyser en premier ?",
       answers: [
-        { t: "Les besoins du client", ok: true },
-        { t: "La couleur du logo", ok: false },
-        { t: "La valeur apportée par le produit", ok: true },
-        { t: "Le nombre de likes Instagram", ok: false }
-      ]
-    },
+  {
+    question: "À quoi sert un business plan ?",
+    answers: [
+      { t: "Organiser son projet", ok: true },
+      { t: "Décorer son site internet", ok: false },
+      { t: "Expliquer son idée", ok: true },
+      { t: "Acheter du matériel au hasard", ok: false }
+    ]
+  },
 
-    {
-      question: "Étude du marché, est-ce que je dois analyser seulement les concurrents ?",
-      answers: [
-        { t: "Oui", ok: false },
-        { t: "Non, il faut aussi analyser les clients et les tendances", ok: true }
-      ]
-    },
+  {
+    question: "Que doit contenir un business plan ?",
+    answers: [
+      { t: "Les clients et le marché", ok: true },
+      { t: "Les objectifs du projet", ok: true },
+      { t: "La couleur du logo", ok: false },
+      { t: "Comment gagner de l’argent", ok: true }
+    ]
+  },
 
-    {
-      question: "Construction du business plan",
-      answers: [
-        { t: "Définir la cible", ok: true },
-        { t: "Choisir la couleur du bateau", ok: false },
-        { t: "Identifier le problème client", ok: true }
-      ]
-    }
+  {
+    question: "Pourquoi faire un business plan ?",
+    answers: [
+      { t: "Éviter les erreurs", ok: true },
+      { t: "Convaincre des partenaires", ok: true },
+      { t: "Aller plus vite sans réfléchir", ok: false },
+      { t: "Avoir un guide pour avancer", ok: true }
+    ]
+  },
 
-  ];
+  {
+    question: "Un business plan permet de…",
+    answers: [
+      { t: "Savoir où on va", ok: true },
+      { t: "Suivre des étapes", ok: true },
+      { t: "Faire comme les autres sans réfléchir", ok: false },
+      { t: "Transformer une idée en projet", ok: true }
+    ]
+  }
+];
 
   let current = 0;
 
@@ -669,9 +717,17 @@ cont.onclick = ()=>{
   overlay.remove();
 
   playDialogues([
-    { text:"Ton plan est solide.", anchor:pirate5 },
-    { text:"Il est temps d'affronter le marché.", anchor:pirate5 }
-  ], startMiniGame3);
+  { text:"Ton <strong>plan</strong> est solide.", anchor:pirate5 },
+  { text:"Maintenant, il faut choisir ta <strong>stratégie</strong>.", anchor:pirate5 },
+  { text:"Ta stratégie, c’est la façon dont tu vas <strong>attirer des clients</strong>.", anchor:pirate5 },
+  { text:"Grâce à ton <strong>étude de marché</strong>, tu sais déjà ce que les gens veulent.", anchor:pirate5 },
+  { text:"Et avec ton <strong>business plan</strong>, tu sais comment t’organiser.", anchor:pirate5 },
+  { text:"Tu peux décider où <strong>vendre</strong>, comment <strong>communiquer</strong> et à quel <strong>prix</strong>.", anchor:pirate5 },
+  { text:"Tu choisis aussi ce qui te rend <strong>différent</strong> des autres.", anchor:pirate5 },
+  { text:"Une bonne stratégie t’aide à faire les <strong>bons choix</strong> au bon moment.", anchor:pirate5 },
+  { text:"Elle te permet d’avancer avec un <strong>objectif clair</strong>.", anchor:pirate5 },
+  { text:"C’est ce qui va transformer ton projet en <strong>succès</strong>.", anchor:pirate5 }
+], startMiniGame3);
 
 };
    }
@@ -691,39 +747,49 @@ function startMiniGame3(){
   let step = 0;
 
   const steps = [
-    {
-      text:`Les autres vendeurs vendent à <strong>300 PO</strong>, sans pierres rouges.
-      Vous en avez. Quel prix afficher ?`,
-      hint:"💡 Avantage concurrentiel = marge possible.",
-      answers:[
-        { label:"350 PO", correct:true },
-        { label:"300 PO", correct:false },
-        { label:"250 PO", correct:false }
-      ]
-    },
-    {
-      text:`Vous ajoutez des boîtes en bois (20 PO).
-      Comment ajuster le prix ?`,
-      hint:"💡 Le coût est déjà intégré.",
-      answers:[
-        { label:"370 PO", correct:false },
-        { label:"350 PO", correct:true },
-        { label:"330 PO", correct:false }
-      ]
-    },
-    {
-      text:`Objectif : acheter un bateau rapidement.`,
-      hint:"💡 Vendre vite plutôt que luxe.",
-      answers:[
-        { label:"400 PO", correct:false },
-        { label:"350 PO", correct:false },
-        { label:"300 PO", correct:true }
-      ],
-      finalText:`<strong>Bonne stratégie.</strong><br>
-      Les pirates vendent plus vite à 300 PO
-      pour acheter leur bateau sans attendre.`
-    }
-  ];
+  {
+    text:`Tu veux attirer plus de <strong>clients</strong> que tes concurrents.
+    Quelle stratégie choisis-tu ?`,
+    hint:"💡 Être différent ou plus intéressant.",
+    answers:[
+      { label:"Proposer quelque chose de différent", correct:true },
+      { label:"Faire exactement pareil que les autres", correct:false },
+      { label:"Ignorer les clients", correct:false }
+    ]
+  },
+  {
+    text:`Tu sais que tes clients veulent des prix <strong>accessibles</strong>.
+    Que fais-tu ?`,
+    hint:"💡 Adapter ton offre au marché.",
+    answers:[
+      { label:"Mettre un prix adapté", correct:true },
+      { label:"Mettre un prix très élevé", correct:false },
+      { label:"Choisir un prix au hasard", correct:false }
+    ]
+  },
+  {
+    text:`Tu veux te faire connaître rapidement.
+    Quelle action choisis-tu ?`,
+    hint:"💡 Communication = visibilité.",
+    answers:[
+      { label:"Communiquer sur ton produit", correct:true },
+      { label:"Ne rien dire à personne", correct:false },
+      { label:"Attendre sans rien faire", correct:false }
+    ]
+  },
+  {
+    text:`Ton objectif est de réussir ton projet.`,
+    hint:"💡 Suivre une direction claire.",
+    answers:[
+      { label:"Suivre une stratégie claire", correct:true },
+      { label:"Changer d’idée tous les jours", correct:false },
+      { label:"Décider au hasard", correct:false }
+    ],
+    finalText:`<strong>Bonne stratégie.</strong><br>
+    Tu avances avec des choix réfléchis,
+    basés sur ton marché et ton plan.`
+  }
+];
 
   function render(){
 
