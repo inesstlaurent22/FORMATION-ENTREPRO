@@ -245,7 +245,7 @@ function renderDialogue(){
 
   const bubble = document.createElement("div");
   bubble.className = "dialogue-bubble";
-  bubble.innerHTML = d.text;
+  bubble.innerHTML = sanitizeHTML(d.text);
 
   // Positionnement sécurisé
   if(d.anchor && d.anchor.getBoundingClientRect){
@@ -278,6 +278,14 @@ function renderDialogue(){
   });
 
   bubbleContainer.appendChild(bubble);
+}
+
+function sanitizeHTML(str){
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML
+    .replace(/&lt;strong&gt;/g,"<strong>")
+    .replace(/&lt;\/strong&gt;/g,"</strong>");
 }
 
 function endDialogues(){
