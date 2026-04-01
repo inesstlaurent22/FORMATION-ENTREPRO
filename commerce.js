@@ -416,8 +416,7 @@ if(skipBtn){
 /* =====================================================
    DIALOGUES 1
 ===================================================== */
-function startDialogues1(){
-  setProgress("dialogue1");
+function startDialogues1()
   playDialogues([
   { text:"Avant de lancer ton <strong>activité</strong>, il faut comprendre ton <strong>marché</strong>.", anchor:pirate5 },
   { text:"Une <strong>étude de marché</strong>, c’est comme une <strong>enquête</strong> pour savoir à qui tu vas vendre.", anchor:pirate5 },
@@ -429,7 +428,8 @@ function startDialogues1(){
   { text:"Ni trop <strong>cher</strong>, ni trop <strong>bas</strong>, pour que ton activité fonctionne.", anchor:pirate5 },
   { text:"En résumé, l’étude de marché t’aide à prendre les <strong>bonnes décisions</strong>.", anchor:pirate5 },
   { text:"C’est ce qui transforme une <strong>idée</strong> en vrai <strong>projet solide</strong>.", anchor:pirate5 }
-], startMiniGame1);
+],setProgress("dialogue1");
+  startMiniGame1);
 }
 
 /* =====================================================
@@ -552,7 +552,6 @@ function startMiniGame1(){
    DIALOGUES 2
 ===================================================== */
 function startDialogues2(){
-  setProgress("dialogue2");
   playDialogues([
   { text:"Parfait. Maintenant, il faut <strong>structurer</strong> tout ça.", anchor:pirate5 },
   { text:"Un <strong>business plan</strong>, c’est le plan de ton projet.", anchor:pirate5 },
@@ -564,7 +563,8 @@ function startDialogues2(){
   { text:"Avec un bon business plan, tu sais où tu vas.", anchor:pirate5 },
   { text:"Et tu évites les <strong>erreurs</strong> dès le départ.", anchor:pirate5 },
   { text:"C’est ton <strong>guide</strong> pour transformer ton idée en <strong>projet réussi</strong>.", anchor:pirate5 }
-], startMiniGame2);
+],setProgress("dialogue2");
+   startMiniGame2);
 }
 
 /* =====================================================
@@ -923,7 +923,7 @@ cont.onclick = ()=>{
       { text:"Une bonne stratégie t’aide à faire les <strong>bons choix</strong> au bon moment.", anchor:pirate5 },
       { text:"Elle te permet d’avancer avec un <strong>objectif clair</strong>.", anchor:pirate5 },
       { text:"C’est ce qui va transformer ton projet en <strong>succès</strong>.", anchor:pirate5 }
-    ], startMiniGame3);
+    ],setProgress("dialogue3"); startMiniGame3);
 
   });
 
