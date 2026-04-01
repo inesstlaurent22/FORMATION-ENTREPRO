@@ -330,8 +330,7 @@ function startMiniGame1(){
     game1.classList.remove("hidden");
     q1.textContent="Pourquoi réaliser une étude de marché ?";
     a1.innerHTML="";
-
-    [
+[
   [
     {t:"Comprendre les clients",ok:true},
     {t:"Choisir une couleur de logo",ok:false},
@@ -352,35 +351,33 @@ function startMiniGame1(){
     {t:"Lancer son projet sans réfléchir",ok:false},
     {t:"Comprendre les besoins du marché",ok:true}
   ]
-].forEach(q=>{
+].forEach(group => {
 
-      const b=document.createElement("button");
-      b.textContent=q.t;
+  group.forEach(q => {
 
-      b.onclick=()=>{
+    const b = document.createElement("button");
+    b.textContent = q.t;
 
-        if(!q.ok){
-          shake(game1);
-          return;
-        }
+    b.onclick = () => {
 
-        b.classList.add("correct-locked");
-        b.disabled = true;
+      if(!q.ok){
+        shake(game1);
+        return;
+      }
 
-        setTimeout(()=>{
+      b.classList.add("correct-locked");
+      b.disabled = true;
 
-          game1.classList.add("hidden");
+      setTimeout(()=>{
+        game1.classList.add("hidden");
+        startDialogues2();
+      },400);
+    };
 
-          startDialogues2();
-
-        },400);
-      };
-
-      a1.appendChild(b);
-    });
-
+    a1.appendChild(b);
   });
-}
+
+});
 
 /* =====================================================
    DIALOGUES 2
@@ -412,9 +409,6 @@ function startMiniGame2(){
     const questions = [
 
     {
-      question: "Étude du produit, qu’est-ce que je dois analyser en premier ?",
-      answers: [
-  {
     question: "À quoi sert un business plan ?",
     answers: [
       { t: "Organiser son projet", ok: true },
