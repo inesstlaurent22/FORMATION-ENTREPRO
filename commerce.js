@@ -328,58 +328,64 @@ function startMiniGame1(){
   showLoader(800, ()=>{
 
     game1.classList.remove("hidden");
-    q1.textContent="Pourquoi réaliser une étude de marché ?";
-    a1.innerHTML="";
-[
-  [
-    {t:"Comprendre les clients",ok:true},
-    {t:"Choisir une couleur de logo",ok:false},
-    {t:"Décorer la boutique",ok:false}
-  ],
-  [
-    {t:"Analyser les concurrents",ok:true},
-    {t:"Copier exactement les concurrents",ok:false},
-    {t:"Ignorer les autres entreprises",ok:false}
-  ],
-  [
-    {t:"Fixer le bon prix",ok:true},
-    {t:"Mettre un prix au hasard",ok:false},
-    {t:"Regarder combien les clients peuvent payer",ok:true}
-  ],
-  [
-    {t:"Savoir si ton idée peut marcher",ok:true},
-    {t:"Lancer son projet sans réfléchir",ok:false},
-    {t:"Comprendre les besoins du marché",ok:true}
-  ]
-].forEach(group => {
+    q1.textContent = "Pourquoi réaliser une étude de marché ?";
+    a1.innerHTML = "";
 
-  group.forEach(q => {
+    const questions = [
+      [
+        {t:"Comprendre les clients",ok:true},
+        {t:"Choisir une couleur de logo",ok:false},
+        {t:"Décorer la boutique",ok:false}
+      ],
+      [
+        {t:"Analyser les concurrents",ok:true},
+        {t:"Copier exactement les concurrents",ok:false},
+        {t:"Ignorer les autres entreprises",ok:false}
+      ],
+      [
+        {t:"Fixer le bon prix",ok:true},
+        {t:"Mettre un prix au hasard",ok:false},
+        {t:"Regarder combien les clients peuvent payer",ok:true}
+      ],
+      [
+        {t:"Savoir si ton idée peut marcher",ok:true},
+        {t:"Lancer son projet sans réfléchir",ok:false},
+        {t:"Comprendre les besoins du marché",ok:true}
+      ]
+    ];
 
-    const b = document.createElement("button");
-    b.textContent = q.t;
+    questions.forEach(group => {
 
-    b.onclick = () => {
+      group.forEach(q => {
 
-      if(!q.ok){
-        shake(game1);
-        return;
-      }
+        const b = document.createElement("button");
+        b.textContent = q.t;
 
-      b.classList.add("correct-locked");
-      b.disabled = true;
+        b.onclick = () => {
 
-      setTimeout(()=>{
-        game1.classList.add("hidden");
-        startDialogues2();
-      },400);
-    };
+          if(!q.ok){
+            shake(game1);
+            return;
+          }
 
-    a1.appendChild(b);
+          b.classList.add("correct-locked");
+          b.disabled = true;
+
+          setTimeout(()=>{
+            game1.classList.add("hidden");
+            startDialogues2();
+          }, 400);
+        };
+
+        a1.appendChild(b);
+      });
+
+    });
+
   });
 
-});
-  });
-
+}
+   
 /* =====================================================
    DIALOGUES 2
 ===================================================== */
