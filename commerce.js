@@ -240,7 +240,12 @@ function getProgress(){
 function setProgress(step){
   const progress = getProgress();
   progress[step] = true;
+
   sessionStorage.setItem("commerce_progress", JSON.stringify(progress));
+
+  // 🔥 mémorise l’étape actuelle
+  setCurrentStep(step);
+
   updateProgressBar();
 }
 
@@ -282,6 +287,67 @@ function updateProgressBar(){
       : el.classList.remove("done");
   });
 }
+
+/* =====================================================
+   🎯 ÉTAPE ACTUELLE
+===================================================== */
+
+function setCurrentStep(step){
+  sessionStorage.setItem("commerce_current_step", step);
+}
+
+function getCurrentStep(){
+  return sessionStorage.getItem("commerce_current_step");
+}
+
+/* =====================================================
+   🔁 REPRISE AUTOMATIQUE
+===================================================== */
+
+function resumeProgress(){
+
+  const step = getCurrentStep();
+
+  if(!step){
+    showScene();
+    return;
+  }
+
+  switch(step){
+
+    case "dialogue1":
+      showScene();
+      break;
+
+    case "game1":
+      startMiniGame1();
+      break;
+
+    case "dialogue2":
+      startDialogues2();
+      break;
+
+    case "game2":
+      startMiniGame2();
+      break;
+
+    case "book":
+      showBusinessPlanLoader();
+      break;
+
+    case "dialogue3":
+      showBusinessPlanLoader(); // revient au livre puis continue
+      break;
+
+    case "game3":
+      startMiniGame3();
+      break;
+
+    default:
+      showScene();
+  }
+}
+
    
 /* =====================================================
    SCÈNE INITIALE
@@ -1138,5 +1204,6 @@ function launchGemsExplosion(container){
 }
 
    createProgressBar();
+resumeProgress();
 
 });
